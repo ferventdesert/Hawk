@@ -64,9 +64,11 @@ namespace Hawk.Core.Utils
 
         public static void WriteAll(this IFileConnector connector,IEnumerable<IDictionarySerializable>data )
         {
-           var r= connector.WriteData(data).LastOrDefault();
-            
-            Console.WriteLine(r);
+
+           
+
+                var r = connector.WriteData(data).LastOrDefault();
+
         }
 
         public static void LineRead(string filename, Action<string> act,Encoding code= null)

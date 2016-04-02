@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
@@ -56,8 +57,16 @@ namespace Hawk.ETL.Plugins.Transformers
             {
                scope.SetVariable(data.Key,data.Value);
             }
-
-            var d = compiledCode.Execute(scope);
+            dynamic d;
+            try
+            {
+                d = compiledCode.Execute(scope);
+            }
+            catch (Exception ex)
+            {
+                d = ex.Message;
+            }
+         
             if (d != null)
             {
                 var column = Column;

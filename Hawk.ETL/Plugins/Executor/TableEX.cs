@@ -18,29 +18,24 @@ namespace Hawk.ETL.Plugins.Executor
         public TableEX()
         {
             dataManager = MainDescription.MainFrm.PluginDictionary["数据管理"] as IDataManager;
-            TableSelector = new ExtendSelector<DataCollection>();
-            TableSelector.GetItems = () => dataManager.DataCollections.ToList();
         }
 
-        [DisplayName("数据表")]
-        [Description("选择所要连接的数据表")]
-        [PropertyOrder(1)]
-        public ExtendSelector<DataCollection> TableSelector { get; set; }
+       
 
 
         [DisplayName("新建表名")]
         [Description("如果要新建表，则填写此项，否则留空")]
-        public string NewTableName { get; set; }
+        public string Table { get; set; }
 
         private DataCollection collection;
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
-             collection = dataManager.DataCollections.FirstOrDefault(d => d.Name == NewTableName);
+             collection = dataManager.DataCollections.FirstOrDefault(d => d.Name == Table);
             if (collection == null)
 
             {
-                collection = new DataCollection(new List<IDictionarySerializable>()) { Name = NewTableName };
+                collection = new DataCollection(new List<IDictionarySerializable>()) { Name = Table };
                 dataManager.AddDataCollection(collection);
             }
 
@@ -63,22 +58,7 @@ namespace Hawk.ETL.Plugins.Executor
           
         }
 
-    
-        public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
-        {
-            var dict = base.DictSerialize(scenario);
-            if (TableSelector.SelectItem != null)
-                dict.Add("Table", TableSelector.SelectItem.Name);
-
-            return dict;
-        }
-        public override void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
-        {
-            base.DictDeserialize(docu);
-            TableSelector.SelectItem =
-                dataManager.DataCollections.FirstOrDefault(d => d.Name == docu["Table"].ToString());
-            TableSelector.InformPropertyChanged("");
-        }
+   
             
     }
 }

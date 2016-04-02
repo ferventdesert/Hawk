@@ -95,7 +95,7 @@ namespace Hawk.ETL.Managements
             }
             else
             {
-                var result = connector.CheckFilePath(ControlExtended.FileOperate.Save);
+                var result = connector.CheckFilePath(FileOperate.Save);
                 if (result == false) return;
                 SavePath = connector.FileName;
             }
@@ -111,7 +111,7 @@ namespace Hawk.ETL.Managements
             connector.FileName = path;
             if (connector.FileName == null)
             {
-                var result = connector.CheckFilePath(ControlExtended.FileOperate.Read);
+                var result = connector.CheckFilePath(FileOperate.Read);
                 if (result == false)
                     return null;
             }

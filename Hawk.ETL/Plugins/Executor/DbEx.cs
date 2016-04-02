@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 
@@ -20,9 +19,7 @@ namespace Hawk.ETL.Plugins.Executor
         {
             dataManager = MainDescription.MainFrm.PluginDictionary["数据管理"] as IDataManager;
             ConnectorSelector = new ExtendSelector<IDataBaseConnector>();
-            TableSelector = new ExtendSelector<TableInfo>();
-            ConnectorSelector.SelectChanged +=
-                (s, e) => TableSelector.SetSource(ConnectorSelector.SelectItem.RefreshTableNames());
+
 
             ConnectorSelector.SetSource(dataManager.CurrentConnectors);
         }
@@ -37,59 +34,52 @@ namespace Hawk.ETL.Plugins.Executor
         public ExtendSelector<IDataBaseConnector> ConnectorSelector { get; set; }
 
         [DisplayName("表名")]
-        [Description("选择所要连接的表")]
-        [ PropertyOrder(1)]
-        public ExtendSelector<TableInfo> TableSelector { get; set; }
-
-        [DisplayName("新建表名")]
-        [Description("如果要新建表，则填写此项，否则留空，若数据库中已经存在该表，则不执行建表操作")]
-        public string NewTableName { get; set; }
+        [Description("如果要新建表，则填写此项，若数据库中已经存在该表，则不执行建表操作")]
+        public string TableName { get; set; }
 
         public override IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents)
         {
-            var con = NewTableName;
+            var con = TableName;
 
-            if (string.IsNullOrEmpty(NewTableName) == false)
+            if (string.IsNullOrEmpty(TableName) == false)
             {
-                if (ConnectorSelector.SelectItem.RefreshTableNames().FirstOrDefault(d => d.Name == NewTableName) == null)
+                if (ConnectorSelector.SelectItem.RefreshTableNames().FirstOrDefault(d => d.Name == TableName) == null)
 
                 {
                     var data = documents?.FirstOrDefault() ?? new FreeDocument();
-                    if (ConnectorSelector.SelectItem.CreateTable(data, NewTableName))
+                    if (!ConnectorSelector.SelectItem.CreateTable(data, TableName))
                     {
-                        TableSelector.SelectItem =
-                            ConnectorSelector.SelectItem.RefreshTableNames().FirstOrDefault(d => d.Name == NewTableName);
-                    }
-                    else
-                    {
-                        throw new Exception($"创建名字为{NewTableName}的表失败");
+                        throw new Exception($"创建名字为{TableName}的表失败");
                     }
                 }
-
-               
             }
             if (ExecuteType == EntityExecuteType.OnlyInsert)
             {
-                foreach (var document in documents)
+                if (ConnectorSelector.SelectItem is FileManager)
                 {
-                    ConnectorSelector.SelectItem.SaveOrUpdateEntity(document, con, null, ExecuteType);
-                    yield return document;
-                }
-            }
-            else
-            {
-                var select = TableSelector.SelectItem;
+                    var connector = FileConnector.SmartGetExport(con);
 
-
-                foreach (var document in documents)
-                {
-                    var v = document[Column];
-                    if (v == null || @select == null) continue;
-                    ConnectorSelector.SelectItem.SaveOrUpdateEntity(document, con,
-                        new Dictionary<string, object> {{Column, v}}, ExecuteType);
-                    yield return document;
+                    return connector.WriteData(documents.Select(d=>d as IFreeDocument)).Select(d=>d as IFreeDocument);
                 }
+                return
+                    documents.Select(
+                        document =>
+                        {
+                            ConnectorSelector.SelectItem.SaveOrUpdateEntity(document, con, null, ExecuteType);
+                            return document;
+                        });
             }
+            return
+                documents.Select(
+                    document =>
+                    {
+                        var v = document[Column];
+                        if (v == null || TableName == null) return document;
+
+                        ConnectorSelector.SelectItem.SaveOrUpdateEntity(document, con,
+                            new Dictionary<string, object> {{Column, v}}, ExecuteType);
+                        return document;
+                    });
         }
 
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
@@ -98,10 +88,6 @@ namespace Hawk.ETL.Plugins.Executor
             if (ConnectorSelector.SelectItem != null)
             {
                 dict.Add("Connector", ConnectorSelector.SelectItem.Name);
-            }
-            if (TableSelector.SelectItem != null)
-            {
-                dict.Add("TableName", TableSelector.SelectItem.Name);
             }
 
 
@@ -118,12 +104,9 @@ namespace Hawk.ETL.Plugins.Executor
             base.DictDeserialize(docu);
             ConnectorSelector.SelectItem =
                 dataManager.CurrentConnectors.FirstOrDefault(d => d.Name == docu["Connector"].ToString());
-            TableSelector.InformPropertyChanged("");
             var connector = ConnectorSelector.SelectItem;
             if (connector == null)
                 return;
-            TableSelector.SelectItem =
-                TableSelector.Collection.FirstOrDefault(d => d.Name == docu["TableName"].ToString());
         }
     }
 }

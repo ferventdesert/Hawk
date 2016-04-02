@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Core.Connectors
@@ -9,10 +10,7 @@ namespace Hawk.Core.Connectors
     {
         #region Properties
 
-        /// <summary>
-        /// 数据类型
-        /// </summary>
-        Type DataType { get; set; }
+
  
         /// <summary>
         /// 扩展文件名
@@ -23,10 +21,6 @@ namespace Hawk.Core.Connectors
         /// </summary>
         string FileName { get; set; }
 
-        /// <summary>
-        /// 可选的数据属性和名称映射
-        /// </summary>
-        Dictionary<string,string> PropertyNames { get; set; }
 
         #endregion
 

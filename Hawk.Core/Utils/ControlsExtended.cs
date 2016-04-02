@@ -10,6 +10,11 @@ using Microsoft.Win32;
 
 namespace Hawk.Core.Utils
 {
+    public enum FileOperate
+    {
+        Save,
+        Read,
+    }
     //扩展下所有Control类，把线程操作Invoke提出来。 
     public static class ControlExtended
     {
@@ -180,11 +185,7 @@ namespace Hawk.Core.Utils
             return false;
         }
 
-        public enum FileOperate
-        {
-            Save,
-            Read,
-        }
+     
 
         public static bool CheckFilePath(this IFileConnector connector, FileOperate readOrWrite)
         {

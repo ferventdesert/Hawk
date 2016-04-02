@@ -67,14 +67,14 @@ namespace Hawk.Core.Utils.Plugins
 
         #region Public Methods
 
-        public bool CloseProcess()
+        public bool Close()
         {
             this.SaveConfigFile();
             this.ReleaseAllPlugin();
             return true;
         }
 
-        public bool InitProcess(IEnumerable<string> pluginFolders)
+        public bool Init(IEnumerable<string> pluginFolders)
         {
             this.PluginFolders = pluginFolders.ToList();
             XLogSys.Print.Info("插件管理器已加载");

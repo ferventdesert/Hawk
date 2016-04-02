@@ -723,7 +723,6 @@ namespace Hawk.ETL.Managements
                 return;
             }
             IList<IDictionarySerializable> data = dataCollection.ComputeData;
-            exporter.PropertyNames = data[0].DictSerialize(Scenario.Report).Keys.ToDictionary(d => d, d => d);
 
 
             exporter.FileName = path;

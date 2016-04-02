@@ -78,9 +78,9 @@ namespace Hawk
             //    this.myDebugSystemUI.MainFrmUI = this;
             PluginManager.MainFrmUI = this;
 
-            //  this.myDebugSystemUI.InitProcess();
+            //  this.myDebugSystemUI.Init();
 
-            PluginManager.InitProcess(new[] { MainStartUpLocation });
+            PluginManager.Init(new[] { MainStartUpLocation });
             PluginManager.LoadPlugins();
             PluginManager.LoadView();
 
@@ -97,6 +97,7 @@ namespace Hawk
                 if (MessageBox.Show("是否确定离开本软件?", "提示信息", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
 
                 {
+                    PluginManager.Close();
                     PluginManager.SaveConfigFile();
                     Process.GetCurrentProcess().Kill();
                 }

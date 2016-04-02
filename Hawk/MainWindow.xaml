@@ -1,0 +1,88 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Avalondock="http://avalondock.codeplex.com"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        x:Class="Hawk.MainWindow"
+                       Title="MainWindow" Height="640" Width="1000" WindowState="Maximized">
+    <Window.Resources>
+
+
+
+
+        <Style   TargetType="{x:Type MenuItem}"  BasedOn="{StaticResource {x:Type MenuItem}}">
+            <Setter Property="Header" Value="{Binding Text}" />
+            <Setter Property="Command" Value="{Binding}" />
+
+            <Setter Property="ItemsSource" Value="{Binding ChildActions}" />
+            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="Background" Value="{DynamicResource NormalBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+
+        </Style>
+
+
+    </Window.Resources>
+
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo Description="ITTC "/>
+    </Window.TaskbarItemInfo>
+
+    <Grid Margin="0"   >
+
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="0.95*"/>
+            <RowDefinition Height="24"/>
+
+        </Grid.RowDefinitions>
+        <!--Docking Manager-->
+        <!--Docking Manager-->
+        <Border BorderThickness="1" Background="{DynamicResource MainBackBrush}" Margin="0,0,0,0" Grid.RowSpan="3" CornerRadius="10" Grid.ColumnSpan="2">
+            
+        </Border>
+        <Avalondock:DockingManager  x:Name="dockManager" Margin="0,0,1,0" Grid.Row="1" Grid.Column="1" >
+
+            <Avalondock:DockingManager.Theme>
+                <Avalondock:ExpressionDarkTheme/>
+            </Avalondock:DockingManager.Theme>
+            <Avalondock:LayoutRoot >
+                <Avalondock:LayoutPanel Orientation="Horizontal">
+                    <Avalondock:LayoutPanel Orientation="Vertical"  DockWidth="3*" >
+                        <Avalondock:LayoutAnchorablePane DockHeight="8*" x:Name="documentMain"/>
+                        <Avalondock:LayoutAnchorablePane DockHeight="1.2*" x:Name="documentButtom" >
+                            <Avalondock:LayoutAnchorable/>
+                        </Avalondock:LayoutAnchorablePane>
+                    </Avalondock:LayoutPanel>
+                    <Avalondock:LayoutPanel Orientation="Vertical" DockWidth="1*" >
+                        <Avalondock:LayoutAnchorablePane DockHeight="6*" x:Name="dockablePane1">
+                            <Avalondock:LayoutAnchorable/>
+                        </Avalondock:LayoutAnchorablePane>
+                        <Avalondock:LayoutAnchorablePane DockHeight="4*" x:Name="dockablePane2"/>
+                    </Avalondock:LayoutPanel>
+
+                </Avalondock:LayoutPanel>
+            </Avalondock:LayoutRoot>
+        </Avalondock:DockingManager>
+        <Menu    DataContext="{Binding CommandCollection}" ItemsSource="{Binding}" Foreground="{DynamicResource TextBrush}" x:Name="menuCommand" FontSize="13.333" Background="{DynamicResource NormalBrush}" Grid.ColumnSpan="2"  />
+        <StatusBar  x:Name="DebugText"  Grid.Row="2" Margin="8,0" Background="#00F1EDED" MouseDown="DebugText_MouseDown" Grid.ColumnSpan="2">
+            <StatusBarItem/>
+            <StatusBarItem Width="100" HorizontalAlignment="Right" Margin="0,0,20,0">
+                <ProgressBar Width="100" Margin="0" x:Name="ProgressBar" VerticalAlignment="Center" Height="13"/>
+            </StatusBarItem>
+        </StatusBar>
+        <xctk:BusyIndicator x:Name="BusyIndicator"    Margin="293,170.36,342,170.36" Grid.Row="1" Width="300" Height="200" Foreground="Black" Background="{DynamicResource ControlBackgroundBrush}" Grid.Column="1">
+
+
+
+            <xctk:BusyIndicator.OverlayStyle>
+                <Style TargetType="{x:Type Rectangle}">
+                    <Setter Property="Fill" Value="#19000000" />
+                </Style>
+            </xctk:BusyIndicator.OverlayStyle>
+
+
+        </xctk:BusyIndicator>
+    </Grid>
+</Window>
+

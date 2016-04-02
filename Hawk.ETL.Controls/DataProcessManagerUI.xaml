@@ -1,0 +1,124 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mvvm="clr-namespace:Hawk.Core.Utils.MVVM;assembly=Hawk.Core"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+
+
+             xmlns:Connectors="clr-namespace:Hawk.Core.Connectors;assembly=Hawk.Core" x:Class="Hawk.ETL.Controls.DataProcessManagerUI"
+
+
+             mc:Ignorable="d"  d:DesignWidth="972.666" d:DesignHeight="465.502">
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+
+
+
+
+            <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
+            <Style    TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                <Setter Property="Header" Value="{Binding Text}" />
+                <Setter Property="Command" Value="{Binding}" />
+                <Setter Property="ItemsSource" Value="{Binding ChildActions}" />
+                <Setter Property="CommandParameter" Value="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}, Mode=FindAncestor}}"/>
+            </Style>
+            <Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource {x:Type ContextMenu}}">
+                <Setter Property="ItemContainerStyle"  Value="{StaticResource {x:Type MenuItem}}"/>
+                <Setter Property="DataContext"  Value="{Binding Data, Source={StaticResource BindingProxy}}"/>
+            </Style>
+
+            <DataTemplate x:Key="DataTemplateList">
+                <Grid HorizontalAlignment="Stretch" ToolTip="{Binding Description}" Height="65" Width="Auto" d:DesignWidth="210.332" d:DesignHeight="136.471">
+                    <Rectangle Stroke="Black"    RadiusX="13" RadiusY="3" StrokeThickness="0" Width="45" Height="45" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,0,10.334" Opacity="0.5">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.3,0">
+                                <GradientStop Color="#FF3B3B3B" Offset="0.418"/>
+                                <GradientStop Color="#FF818181" Offset="0.125"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Label Content="{Binding Name}" Height="Auto"  mvvm:ListItemDoubleClick.Property="BindingCommands.ChildActions[6].ChildActions[0]" VerticalAlignment="Center" FontSize="21.333" d:LayoutOverrides="GridBoX" HorizontalAlignment="Stretch" Width="Auto" Margin="60,0,0,0"/>
+                </Grid>
+                <DataTemplate.Triggers>
+                    <EventTrigger RoutedEvent="Mouse.MouseEnter"/>
+                    <EventTrigger RoutedEvent="Mouse.MouseLeave"/>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+
+
+
+
+
+            <DataTemplate x:Key="DataTemplate2">
+                <StackPanel   mvvm:ListItemDoubleClick.Property="BindingCommands.ChildActions[1].ChildActions[0]"  HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" Orientation="Horizontal"   >
+                    <Label Content="{Binding Name}" Margin="5,5,0,5" VerticalAlignment="Center"  FontSize="14.667" HorizontalAlignment="Left" Width="Auto" />
+                    <Label Content="{Binding ProcessToDo[Type]}" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Width="Auto" Height="Auto" />
+                </StackPanel>
+            </DataTemplate>
+            <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
+                <WrapPanel/>
+            </ItemsPanelTemplate>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="575*"/>
+            <ColumnDefinition Width="398*"/>
+        </Grid.ColumnDefinitions>
+        <ListBox x:Name="listboxProcessMethodList" ItemsSource="{Binding ProgramNameFilterView}"  x:FieldModifier="public"   Margin="10,46,30,308"     ItemsPanel="{DynamicResource ItemsPanelTemplate1}"  ItemTemplate="{DynamicResource DataTemplateList}"/>
+        <GridSplitter Width="5" Margin="0,0,15,0"/>
+        <ListBox x:Name="listBox"  DataContext="{Binding}"  SelectedItem="{Binding SelectedTask}" ItemsSource="{Binding ProjectTaskList}"  HorizontalContentAlignment="Stretch" Margin="10,205,19,10"    ItemTemplate="{DynamicResource DataTemplate2}"  >
+            <ListBox.Resources>
+                <ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding BindingCommands.ChildActions[1].ChildActions}"/>
+
+                <Style TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                    <Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />
+
+                </Style>
+            </ListBox.Resources>
+
+
+
+        </ListBox>
+        <TextBlock TextWrapping="Wrap" FontSize="21.333" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="23,172,0,0" Width="239"><Run Language="zh-cn" Text="保存的任务" /></TextBlock>
+        <TextBox TextWrapping="Wrap" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="249,181,0,0" Width="76" Height="19"/>
+        <TextBlock TextWrapping="Wrap"  Height="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="198,181,0,0" Width="50"><Run Language="zh-cn" Text="快速检索" /></TextBlock>
+
+        <TextBlock VerticalAlignment="Top" TextWrapping="Wrap" Margin="22,11,0,0" HorizontalAlignment="Left" FontSize="21.333" Grid.Column="1" Height="28" Width="97"><Run Text="数据"/><Run Text="源"/></TextBlock>
+        <TreeView DataContext="{Binding MainFrmUI.PluginDictionary[数据管理]}" Margin="22,46,23,10"  x:Name="treeView"  ItemsSource="{Binding CurrentConnectors}" Grid.Column="1">
+            <TreeView.Resources>
+
+                <HierarchicalDataTemplate DataType="{x:Type Connectors:DBConnectorBase}"
+					ItemsSource="{Binding TableNames.Collection}"  >
+                    <TextBlock Text="{Binding Name}"  AllowDrop="True"   FontSize="16"   ToolTip="{Binding TypeName}" VerticalAlignment="Center">
+						<mvvm:DropHelper.DropSupport>
+							<mvvm:DropSupportData BindingPath="Commands[0]"  />
+						</mvvm:DropHelper.DropSupport>
+                        <TextBlock.ContextMenu>
+                            <ContextMenu ItemsSource="{Binding MainFrmUI.PluginDictionary[数据管理].Commands[0].ChildActions}" />
+                        </TextBlock.ContextMenu>
+                    </TextBlock>
+
+
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type Connectors:TableInfo}"  >
+                    <TextBlock Text="{Binding Name}" AllowDrop="True" ToolTip="{Binding Description}" FontSize="13"  mvvm:TreeViewItemDoubleClick.Property="Commands[1].ChildActions[0]">
+                        <TextBlock.ContextMenu>
+                            <ContextMenu  ItemsSource="{Binding MainFrmUI.PluginDictionary[数据管理].Commands[1].ChildActions}"/>
+                        </TextBlock.ContextMenu>
+                    </TextBlock>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+            <TreeView.ContextMenu>
+                <ContextMenu   ItemsSource="{Binding MainFrmUI.PluginDictionary[数据管理].Commands[4].ChildActions}"/>
+
+            </TreeView.ContextMenu>
+        </TreeView>
+        <TextBlock VerticalAlignment="Top" TextWrapping="Wrap" Margin="23,10,0,0" HorizontalAlignment="Left" FontSize="21.333" Height="28" Width="97"><Run Text="模块列表"/></TextBlock>
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="Hawk.ETL.Controls.SmartCrawlerUI"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            
+             mc:Ignorable="d" 
+             d:DesignHeight="386" d:DesignWidth="637">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="178*"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="请键入URL:" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        <TextBox Text="{Binding URL}" VerticalAlignment="Center" Margin="68,16,268,16"/>
+        <Button Margin="0,10,188,0" DataContext="{Binding Commands3[0]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="50" HorizontalAlignment="Right"/>
+        <ScrollViewer Margin="0,4,5,0" Grid.Row="1" Grid.ColumnSpan="2">
+            <TextBlock Text="{Binding URLHTML}"    ScrollViewer.CanContentScroll="True" />
+        </ScrollViewer>
+
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{995DCD1D-C313-4553-9AC2-0AB0EF6A8B60}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Hawk.ETL</RootNamespace>
+    <AssemblyName>Hawk.ETL</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FiddlerCore4">
+      <HintPath>..\Bin\FiddlerCore4.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\Bin\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="IronPython, Version=2.7.5.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL" />
+    <Reference Include="Jayrock">
+      <HintPath>..\..\..\XFrmWork\XMove\Bin\Jayrock.dll</HintPath>
+    </Reference>
+    <Reference Include="Jayrock.Json">
+      <HintPath>..\..\..\XFrmWork\XMove\Bin\Jayrock.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Controls.WpfPropertyGrid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\System.Windows.Controls.WpfPropertyGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Crawlers\BuffHelper.cs" />
+    <Compile Include="Crawlers\CrawlItem.cs" />
+    <Compile Include="Crawlers\ProxyProvider.cs" />
+    <Compile Include="Crawlers\XPath.cs" />
+    <Compile Include="Crawlers\XPathAnalyzer.cs" />
+    <Compile Include="Crawlers\XPathTF.cs" />
+    <Compile Include="Interfaces\AbstractProcessMethod.cs" />
+    <Compile Include="Interfaces\AppHelper.cs" />
+    <Compile Include="Interfaces\IColumnDataFilter.cs" />
+    <Compile Include="Interfaces\IColumnDataSorter.cs" />
+    <Compile Include="Interfaces\ICollumDataTransformer.cs" />
+    <Compile Include="Interfaces\IDataExecutor.cs" />
+    <Compile Include="Interfaces\IDataManager.cs" />
+    <Compile Include="Interfaces\IDataProcess.cs" />
+    <Compile Include="Interfaces\IProcessManager.cs" />
+    <Compile Include="Managements\DataMiningConfig.cs" />
+    <Compile Include="Managements\DataManager.cs" />
+    <Compile Include="Managements\DataProcessManager.cs" />
+    <Compile Include="Managements\ProcessTask.cs" />
+    <Compile Include="Managements\Project.cs" />
+    <Compile Include="Managements\TaskBase.cs" />
+    <Compile Include="Managements\TemporaryTask.cs" />
+    <Compile Include="Plugins\Executor\DbEx.cs" />
+    <Compile Include="Plugins\Executor\DelayEx.cs" />
+    <Compile Include="Plugins\Executor\SaveFileEX.cs" />
+    <Compile Include="Plugins\Executor\TableEX.cs" />
+    <Compile Include="Plugins\Filters\NullFT.cs" />
+    <Compile Include="Plugins\Filters\RangeFT.cs" />
+    <Compile Include="Plugins\Filters\RegexFT.cs" />
+    <Compile Include="Plugins\Filters\RepeatFT.cs" />
+    <Compile Include="Plugins\Filters\NumRangeFT.cs" />
+    <Compile Include="Plugins\Generators\FileContentGenerator.cs" />
+    <Compile Include="Plugins\Generators\FolderGeneator.cs" />
+    <Compile Include="Plugins\Generators\DbGE.cs" />
+    <Compile Include="Plugins\Generators\RangeGE.cs" />
+    <Compile Include="Plugins\Generators\TableGE.cs" />
+    <Compile Include="Plugins\Generators\TextGE.cs" />
+    <Compile Include="Plugins\Generators\BfsGE.cs" />
+    <Compile Include="Plugins\Sorters\CollumDataSorterBase.cs" />
+    <Compile Include="Plugins\Sorters\NumberCollumDataSorter.cs" />
+    <Compile Include="Plugins\Sorters\StringDataSorter.cs" />
+    <Compile Include="Plugins\Transformers\AddNewCollumTransformer.cs" />
+    <Compile Include="Plugins\Transformers\AutoIndexTF.cs" />
+    <Compile Include="Plugins\Transformers\CollumTransformer.cs" />
+    <Compile Include="Plugins\Transformers\CrawlerTF.cs" />
+    <Compile Include="Plugins\Transformers\JoinDBTF.cs" />
+    <Compile Include="Plugins\Transformers\Time2StrTF.cs" />
+    <Compile Include="Plugins\Generators\EtlGE.cs" />
+    <Compile Include="Plugins\Transformers\HtmlTF.cs" />
+    <Compile Include="Plugins\Transformers\SplitTF.cs" />
+    <Compile Include="Plugins\Transformers\JsonTF.cs" />
+    <Compile Include="Plugins\Transformers\MergeTF.cs" />
+    <Compile Include="Plugins\Transformers\PythonTF.cs" />
+    <Compile Include="Plugins\Transformers\ReReplaceTF.cs" />
+    <Compile Include="Plugins\Transformers\RegexTF.cs" />
+    <Compile Include="Plugins\Transformers\NumberTF.cs" />
+    <Compile Include="Plugins\Transformers\StrExtractTF.cs" />
+    <Compile Include="Plugins\Transformers\ToListTF.cs" />
+    <Compile Include="Plugins\Transformers\TransformerBase.cs" />
+    <Compile Include="Plugins\Transformers\TrimTF.cs" />
+    <Compile Include="Plugins\Web\BaiduLocation.cs" />
+    <Compile Include="Plugins\Web\GetIPLocation.cs" />
+    <Compile Include="Plugins\Web\GetRoute.cs" />
+    <Compile Include="Plugins\Web\IDCardTF.cs" />
+    <Compile Include="Plugins\Web\NearbySearch.cs" />
+    <Compile Include="Plugins\Web\NlpTF.cs" />
+    <Compile Include="Plugins\Web\TransTF.cs" />
+    <Compile Include="Process\SmartCrawler.cs" />
+    <Compile Include="Process\SmartETLTool.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Hawk.Core\Hawk.Core.csproj">
+      <Project>{B5CCA117-8D77-418B-8B18-D3E64682DD83}</Project>
+      <Name>Hawk.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

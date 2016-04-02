@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B5CCA117-8D77-418B-8B18-D3E64682DD83}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Hawk.Core</RootNamespace>
+    <AssemblyName>Hawk.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Jayrock.Json, Version=0.9.12915.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Jayrock.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=2de0a10291821b46, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB, Version=0.90.0.1, Culture=neutral, PublicKeyToken=f61bd00ba2535278, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\XFrmWork\XMove\Bin\MongoDB.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.0.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.0.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.0.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.0.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Controls.WpfPropertyGrid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\System.Windows.Controls.WpfPropertyGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Presentation" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="Xceed.Wpf.DataGrid, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Xceed.Wpf.DataGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Connectors\ConfigFileBase.cs" />
+    <Compile Include="Connectors\DataCollection.cs" />
+    <Compile Include="Connectors\DataTypeConverter.cs" />
+    <Compile Include="Connectors\DBConnectorBase.cs" />
+    <Compile Include="Connectors\FileConnector.cs" />
+    <Compile Include="Connectors\FileConnectorCSV.cs" />
+    <Compile Include="Connectors\FileConnectorExcel.cs" />
+    <Compile Include="Connectors\FileConnectorJson.cs" />
+    <Compile Include="Connectors\FileConnectorTable.cs" />
+    <Compile Include="Connectors\FileConnectorXML.cs" />
+    <Compile Include="Connectors\FileManager.cs" />
+    <Compile Include="Connectors\IConfigFile.cs" />
+    <Compile Include="Connectors\IDataBaseConnector.cs" />
+    <Compile Include="Connectors\IDataViewer.cs" />
+    <Compile Include="Connectors\IFileConnector.cs" />
+    <Compile Include="Connectors\IFreeDocument.cs" />
+    <Compile Include="Connectors\MongoDBConnector.cs" />
+    <Compile Include="Themes\MetroConverter.cs" />
+    <Compile Include="Utils\CustomSerializer.cs" />
+    <Compile Include="Utils\ForceLazy.cs" />
+    <Compile Include="Utils\MVVM\BindingEvaluator.cs" />
+    <Compile Include="Utils\MVVM\BindingProxy.cs" />
+    <Compile Include="Utils\MVVM\DropHelper.cs" />
+    <Compile Include="Utils\MVVM\JumpBindingHelper.cs" />
+    <Compile Include="Utils\MVVM\LeftButtonContextMenu.cs" />
+    <Compile Include="Utils\MVVM\ListExecutor.cs" />
+    <Compile Include="Utils\MVVM\ListItemDoubleClick.cs" />
+    <Compile Include="Utils\MVVM\ListRangeBindingHelper.cs" />
+    <Compile Include="Utils\MVVM\ListScroll.cs" />
+    <Compile Include="Utils\MVVM\ListSelector.cs" />
+    <Compile Include="Utils\MVVM\WPFOperate.cs" />
+    <Compile Include="Utils\Plugins\XPropertyGrid.cs" />
+    <Compile Include="Utils\SafeObservable.cs" />
+    <Compile Include="Connectors\SQLServerConnector.cs" />
+    <Compile Include="Connectors\Vitural\AsyncVirtualizingCollection.cs" />
+    <Compile Include="Connectors\Vitural\DataBaseVirtualCollection.cs" />
+    <Compile Include="Connectors\Vitural\DataBaseVirtualProvider.cs" />
+    <Compile Include="Connectors\Vitural\EnumableVirtualCollection.cs" />
+    <Compile Include="Connectors\Vitural\EnumableVirtualProvider.cs" />
+    <Compile Include="Connectors\Vitural\IItemsProvider.cs" />
+    <Compile Include="Connectors\Vitural\VirtualConnectorBase.cs" />
+    <Compile Include="Connectors\Vitural\VirtualDataCollection.cs" />
+    <Compile Include="Connectors\Vitural\VirtualizingCollection.cs" />
+    <Compile Include="Utils\CMDHelper.cs" />
+    <Compile Include="Utils\FileEx.cs" />
+    <Compile Include="Utils\HttpHelper.cs" />
+    <Compile Include="Utils\HttpItem.cs" />
+    <Compile Include="Utils\Plugins\IDictionarySerializable.cs" />
+    <Compile Include="Utils\Plugins\IProcess.cs" />
+    <Compile Include="Utils\Plugins\FreeDocument.cs" />
+    <Compile Include="Utils\Plugins\ICustomView.cs" />
+    <Compile Include="Utils\Plugins\IView.cs" />
+    <Compile Include="Utils\Plugins\DebugManager.cs" />
+    <Compile Include="Utils\Plugins\PluginManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\AttributeHelper.cs" />
+    <Compile Include="Utils\ControlsExtended.cs" />
+    <Compile Include="Utils\ExtendMethod.cs" />
+    <Compile Include="Utils\ExtenedEnumerable.cs" />
+    <Compile Include="Utils\Logs\RichTextboxAppender.cs" />
+    <Compile Include="Utils\Logs\XLogSys.cs" />
+    <Compile Include="Utils\MVVM\BindingAction.cs" />
+    <Compile Include="Utils\MVVM\CommandBuilder.cs" />
+    <Compile Include="Utils\MVVM\IAction.cs" />
+    <Compile Include="Utils\MVVM\NotificationExtensions.cs" />
+    <Compile Include="Utils\MVVM\PasswordBoxBindingHelper.cs" />
+    <Compile Include="Utils\MVVM\PropertyChangeNotifier.cs" />
+    <Compile Include="Utils\Plugins\AbstractPlugIn.cs" />
+    <Compile Include="Utils\Plugins\IDockableManager.cs" />
+    <Compile Include="Utils\Plugins\IMainFrm.cs" />
+    <Compile Include="Utils\Plugins\IMainFrmMenu.cs" />
+    <Compile Include="Utils\Plugins\InterfaceAttribute.cs" />
+    <Compile Include="Utils\Plugins\IXPlugin.cs" />
+    <Compile Include="Utils\Plugins\MainDescription.cs" />
+    <Compile Include="Utils\Plugins\PluginLoadControllor.cs" />
+    <Compile Include="Utils\Plugins\PluginProvider.cs" />
+    <Compile Include="Utils\Plugins\XFrmWorkAttribute.cs" />
+    <Compile Include="Utils\SerializableDictionary.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Themes\Theme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

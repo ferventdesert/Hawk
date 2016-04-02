@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="Hawk.ETL.Controls.TaskManagerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mvvm="clr-namespace:Hawk.Core.Utils.MVVM;assembly=Hawk.Core">
+	<UserControl.Resources>
+		  <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
+        <Style    TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+        	  <Setter Property="Header" Value="{Binding Text}" />
+            <Setter Property="Command" Value="{Binding}" />
+
+            <Setter Property="ItemsSource" Value="{Binding ChildActions}" />
+            <Setter Property="CommandParameter" Value="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}, Mode=FindAncestor}}"/>
+        </Style>
+		<Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource {x:Type ContextMenu}}">
+			<Setter Property="ItemContainerStyle"  Value="{StaticResource {x:Type MenuItem}}"/>
+				<Setter Property="DataContext"  Value="{Binding Data, Source={StaticResource BindingProxy}}"/>
+		</Style>
+	</UserControl.Resources>
+    <Grid>
+    	<ListView   ItemsSource="{Binding CurrentProcessTasks}">
+    		<ListView.Resources>
+    			<ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding BindingCommands.ChildActions[5].ChildActions}"/>
+
+    			<Style TargetType="{x:Type ListViewItem}"  BasedOn="{StaticResource {x:Type ListViewItem}}">
+    				<Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />
+                                       
+    			</Style>
+    		</ListView.Resources>
+    		<ListView.View>
+    			<GridView>
+    				<GridViewColumn Header="任务名称" DisplayMemberBinding="{Binding Name}" />
+    				<GridViewColumn Header="已启动" DisplayMemberBinding="{Binding IsStart}" />
+    				<GridViewColumn Header="百分比">
+    					<GridViewColumn.CellTemplate>
+    						<DataTemplate>
+    							<StackPanel Orientation="Horizontal">
+    								<ProgressBar Value="{Binding Percent}" Width="100" Margin="0,0,5,0"/>   
+    								<TextBlock Text="{Binding Percent}" Margin="0,0,5,0"/>                     	  
+    							</StackPanel>
+    						</DataTemplate>
+    					</GridViewColumn.CellTemplate>
+    					<!--脑残的xaml-->        
+    				</GridViewColumn>
+    				<GridViewColumn Header="是否暂停">
+    					<GridViewColumn.CellTemplate>
+    						<DataTemplate>
+    							<CheckBox IsChecked="{Binding IsPause}"/>
+                                                	 
+    						</DataTemplate>
+    					</GridViewColumn.CellTemplate>
+    					<!--脑残的xaml-->        
+    				</GridViewColumn>
+    				<GridViewColumn Header="当前位置" DisplayMemberBinding="{Binding CurrentIndex}" />
+    			</GridView>
+    		</ListView.View> 	           	 
+    	</ListView>
+            
+    </Grid>
+</UserControl>

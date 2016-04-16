@@ -93,7 +93,7 @@ namespace Hawk.ETL.Managements
                     catch (Exception ex)
                     {
                         
-                        XLogSys.Print.Error("任务已经出错："+ex.Message);
+                        XLogSys.Print.Error("任务已经出错："+ex);
                         IsStart = false;
                     }
                   

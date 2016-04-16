@@ -134,7 +134,7 @@ namespace Hawk.Core.Connectors
             }
             IFileConnector json = FileConnector.SmartGetExport(path);
 
-            var Datas = new List<IDictionarySerializable> {DictSerialize()};
+            var Datas = new List<IFreeDocument> {DictSerialize()};
             json.WriteAll(Datas);
         }
 

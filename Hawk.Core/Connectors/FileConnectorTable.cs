@@ -126,7 +126,7 @@ namespace Hawk.Core.Connectors
         }
 
 
-        public override IEnumerable<IDictionarySerializable> ReadFile(Action<int> alreadyGetSize = null)
+        public override IEnumerable<IFreeDocument> ReadFile(Action<int> alreadyGetSize = null)
         {
             var titles = new List<string>();
 
@@ -173,7 +173,7 @@ namespace Hawk.Core.Connectors
                         objs[i] = aryline[i].Trim();
                     }
                 }
-                var data = PluginProvider.GetObjectInstance(DataType) as IDictionarySerializable;
+                var data = PluginProvider.GetObjectInstance(DataType) as IFreeDocument;
                 var dict = new Dictionary<string, object>();
                 for (var index = 0; index < Math.Min(titles.Count, objs.Length); index++)
                 {
@@ -199,12 +199,12 @@ namespace Hawk.Core.Connectors
 
         public override bool ShouldConfig => true;
 
-        public override IEnumerable<IDictionarySerializable> WriteData(IEnumerable<IDictionarySerializable> datas)
+        public override IEnumerable<IFreeDocument> WriteData(IEnumerable<IFreeDocument> datas)
         {
             if (datas.Any() == false) yield break;
             using (var dis = new DisposeHelper(Save))
             {
-                if (PropertyNames == null)
+                if (PropertyNames == null||PropertyNames.Count==0)
                 {
                     PropertyNames = datas.GetKeys().ToDictionary(d => d, d => d);
                 }

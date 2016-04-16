@@ -26,7 +26,7 @@ namespace Hawk.ETL.Managements
 {
     public class QueryEntity
     {
-        public Action<List<IDictionarySerializable>> GetQueryFunc;
+        public Action<List<IFreeDocument>> GetQueryFunc;
         public List<ICommand> commands;
 
         public QueryEntity()
@@ -34,7 +34,7 @@ namespace Hawk.ETL.Managements
             commands = new List<ICommand>();
             commands.Add(new Command("执行查询", async obj =>
             {
-                List<IDictionarySerializable> datas = null;
+                List<IFreeDocument> datas = null;
                 try
                 {
                     ControlExtended.SetBusy(true);
@@ -174,23 +174,23 @@ namespace Hawk.ETL.Managements
         {
             if (isVirtual)
             {
-                IItemsProvider<IDictionarySerializable> vir = null;
+                IItemsProvider<IFreeDocument> vir = null;
                 TableInfo tableInfo = connector.RefreshTableNames().FirstOrDefault(d => d.Name == tableName);
 
-                var enumable = connector as IEnumerableProvider<IDictionarySerializable>;
+                var enumable = connector as IEnumerableProvider<IFreeDocument>;
                 if (enumable != null && enumable.CanSkip(tableInfo.Name) == false)
                 {
-                    vir = new EnumableVirtualProvider<IDictionarySerializable>(
+                    vir = new EnumableVirtualProvider<IFreeDocument>(
                         enumable.GetEnumerable(tableInfo.Name), tableInfo.Size);
                 }
                 else
                 {
-                    vir = new DataBaseVirtualProvider<IDictionarySerializable>(tableInfo.Connector, tableInfo.Name);
+                    vir = new DataBaseVirtualProvider<IFreeDocument>(tableInfo.Connector, tableInfo.Name);
                 }
                 int count = 1000;
                 if (connector.TypeName == "网页爬虫连接器")
                     count = 100;
-                var col = new VirtualDataCollection(vir, count)
+                var col = new VirtualDataCollection( vir, count)
                 {
                     Name = tableInfo.Name
                 };
@@ -199,14 +199,14 @@ namespace Hawk.ETL.Managements
             }
             else
             {
-                Task<List<IDictionarySerializable>> datas = GetDataFromDB(connector, tableName, true);
+                Task<List<IFreeDocument>> datas = GetDataFromDB(connector, tableName, true);
                 DataCollection col = AddDataCollection(datas.Result);
                 return col;
             }
         }
 
 
-        public async Task<List<IDictionarySerializable>> GetDataFromDB(IDataBaseConnector db, string dataName,
+        public async Task<List<IFreeDocument>> GetDataFromDB(IDataBaseConnector db, string dataName,
             bool isNewData, int mount = -1)
         {
             if (db == null)
@@ -215,7 +215,7 @@ namespace Hawk.ETL.Managements
             }
 
             var table = db.RefreshTableNames().FirstOrDefault(d => d.Name == dataName);
-            var dataAll = new List<IDictionarySerializable>();
+            var dataAll = new List<IFreeDocument>();
             
                 var  task = TemporaryTask.AddTempTask(dataName + "数据导入",
                     db.GetEntities(dataName, typeof (FreeDocument), mount), dataAll.Add,null,table!=null?table.Size:-1,notifyInterval:1000);
@@ -334,7 +334,7 @@ namespace Hawk.ETL.Managements
                 {
                     var items = obj as TableInfo;
 
-                    List<IDictionarySerializable> dataAll =
+                    List<IFreeDocument> dataAll =
                         await
                             GetDataFromDB(items.Connector, items.Name, true,
                                 items.Connector is FileManager ? -1 : 200);
@@ -353,7 +353,7 @@ namespace Hawk.ETL.Managements
                     var excel = PluginProvider.GetObjectInstance<IDataViewer>("可编辑列表");
                     if (excel == null)
                         return;
-                    object view = excel.SetCurrentView(dataAll);
+                    object view = excel.SetCurrentView(dataAll.Select(d=>d as IFreeDocument).ToList());
 
                     if (ControlExtended.DockableManager != null)
                     {
@@ -367,7 +367,7 @@ namespace Hawk.ETL.Managements
                 async obj =>
                 {
                     var items = obj as TableInfo;
-                    List<IDictionarySerializable> datas = await GetDataFromDB(items.Connector, items.Name, true);
+                    List<IFreeDocument> datas = await GetDataFromDB(items.Connector, items.Name, true);
                     if (datas == null)
                         return;
                     AddDataCollection(datas, items.Name);
@@ -462,11 +462,10 @@ namespace Hawk.ETL.Managements
                     DataCollection collection = GetCollection(obj);
                     if (collection == null) return;
 
-                    var plugin = processManager.GetOneInstance("数据清洗ETL", true, true) as SmartETLTool;
-                    dynamic generator = PluginProvider.GetObjectInstance<IColumnProcess>("从数据表生成");
+                    var plugin = processManager.GetOneInstance("SmartETLTool", true, true) as SmartETLTool;
+                    dynamic generator = PluginProvider.GetObjectByType<IColumnProcess>("TableGE");
                     generator.TableSelector.SelectItem = collection;
-                    dynamic executor = PluginProvider.GetObjectInstance<IColumnProcess>("对数据表操作");
-                    executor.NewTableName = collection.Name + "ETL";
+                    dynamic executor = PluginProvider.GetObjectByType<IColumnProcess>("TableEX");
                     plugin.Name += "_" + collection.Name;
                     plugin.CurrentETLTools.Add(generator);
                     plugin.CurrentETLTools.Add(executor);
@@ -502,7 +501,7 @@ namespace Hawk.ETL.Managements
             dataaction.ChildActions.Add(new Command(
                 "新建",
                 obj =>
-                    DataCollections.Add(new DataCollection(new List<IDictionarySerializable>())
+                    DataCollections.Add(new DataCollection(new List<IFreeDocument>())
                     {
                         Name = GetNewName("新建数据集")
                     }), obj => true, "box"));
@@ -613,7 +612,7 @@ namespace Hawk.ETL.Managements
         private void LoadDataConnections()
         {
             _dbConnections = processManager.CurrentProject.DBConnections;
-            InformPropertyChanged("DBConnections");
+            InformPropertyChanged("CurrentConnectors");
             foreach (var  dataBaseConnector in processManager.CurrentProject.DBConnections.Where(d=>d.AutoConnect==true
 ))
             {
@@ -638,7 +637,7 @@ namespace Hawk.ETL.Managements
         #region IDataManager
 
         public DataCollection AddDataCollection(
-            IEnumerable<IDictionarySerializable> source, string collectionName = null, bool isCover = false)
+            IEnumerable<IFreeDocument> source, string collectionName = null, bool isCover = false)
         {
             if (collectionName == null)
             {
@@ -651,7 +650,7 @@ namespace Hawk.ETL.Managements
             {
                 if (!isCover)
                 {
-                    foreach (IDictionarySerializable computeable in source)
+                    foreach (IFreeDocument computeable in source)
                     {
                         collection.ComputeData.Add(computeable);
                     }
@@ -674,11 +673,11 @@ namespace Hawk.ETL.Managements
             DataCollections.Add(collection);
         }
 
-        public IList<IDictionarySerializable> Get(string name)
+        public IList<IFreeDocument> Get(string name)
         {
             if (DataCollections.Count == 0)
             {
-                return new List<IDictionarySerializable>();
+                return new List<IFreeDocument>();
             }
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -722,7 +721,7 @@ namespace Hawk.ETL.Managements
             {
                 return;
             }
-            IList<IDictionarySerializable> data = dataCollection.ComputeData;
+            IList<IFreeDocument> data = dataCollection.ComputeData;
 
 
             exporter.FileName = path;

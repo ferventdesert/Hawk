@@ -22,8 +22,13 @@ namespace Hawk.ETL.Interfaces
         {
             this.Enabled = true;
         }
+        protected bool IsExecute;
 
-        public virtual FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
+        public void SetExecute(bool value)
+        {
+            IsExecute = value;
+        }
+    public virtual FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
             var dict = this.UnsafeDictSerialize();
 
@@ -43,8 +48,6 @@ namespace Hawk.ETL.Interfaces
         [Category("1.基本选项"), PropertyOrder(1), DisplayName("原列名")]
         public string Column { get; set; }
 
-        [Browsable(false)]
-        public TableInfo TableInfo { get; set; }
 
         [Category("1.基本选项")]
         [DisplayName("模块名")]

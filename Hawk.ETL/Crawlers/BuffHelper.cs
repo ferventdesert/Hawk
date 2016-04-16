@@ -56,12 +56,13 @@ namespace Hawk.ETL.Crawlers
                
             return default(T);
         }
-        public void Set(string key ,T value)
+        public bool Set(string key ,T value)
         {
             if (EnableBuffer == false|| bufferDictionary.Count >= maxBufferCount)
-                return;
+                return false;
             value = GetClone(value);
             bufferDictionary.Set(key, value);
+            return true;
         }
 
        private Dictionary<string,T> bufferDictionary { get; set; }

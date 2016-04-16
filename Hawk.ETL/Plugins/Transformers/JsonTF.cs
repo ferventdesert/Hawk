@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Web.Script.Serialization;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Plugins.Transformers
@@ -17,13 +18,13 @@ namespace Hawk.ETL.Plugins.Transformers
         {
             serialier = new JavaScriptSerializer();
             ScriptWorkMode =ScriptWorkMode.文档列表;
+            OneOutput = false;
         }
 
         [DisplayName("工作模式")]
         public ScriptWorkMode ScriptWorkMode { get; set; }
 
         public override bool IsMultiYield => ScriptWorkMode == ScriptWorkMode.文档列表;
-        public override bool  OneOutput=> ScriptWorkMode != ScriptWorkMode.不进行转换;
 
         public override object TransformData(IFreeDocument datas)
         {
@@ -38,12 +39,22 @@ namespace Hawk.ETL.Plugins.Transformers
             }
             catch (Exception ex)
             {
-                //  XLogSys.Print.Error(ex);
+                
+                SetValue(datas,ex.Message);
+                // XLogSys.Print.Error(ex);
                 return null;
             }
-            var newdoc = ScriptHelper.ToDocument(d) as FreeDocument;
-           
-            newdoc.DictCopyTo(datas);
+            if (ScriptWorkMode == ScriptWorkMode.单文档)
+            {
+                var newdoc = ScriptHelper.ToDocument(d) as FreeDocument;
+
+                newdoc.DictCopyTo(datas);
+            }
+            else
+            {
+                SetValue(datas, d);
+            }
+       
             return null;
 
         }

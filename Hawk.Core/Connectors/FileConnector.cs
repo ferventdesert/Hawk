@@ -52,7 +52,7 @@ namespace Hawk.Core.Connectors
 
         #region Public Methods
 
-        public static string GetCollectionString(IEnumerable<IDictionarySerializable> datas, string format = "xml")
+        public static string GetCollectionString(IEnumerable<IFreeDocument> datas, string format = "xml")
         {
             IFileConnector connector = null;
             switch (format)
@@ -69,9 +69,9 @@ namespace Hawk.Core.Connectors
             ;
         }
 
-        public static string GetItemString(IDictionarySerializable datas, string format = "xml")
+        public static string GetItemString(IFreeDocument datas, string format = "xml")
         {
-            return GetCollectionString(new List<IDictionarySerializable> { datas });
+            return GetCollectionString(new List<IFreeDocument> { datas });
         }
 
         public static string GetDataFilter()
@@ -127,15 +127,15 @@ namespace Hawk.Core.Connectors
         }
 
 
-        public static IDictionarySerializable ReadDataFile(string path)
+        public static IFreeDocument ReadDataFile(string path)
         {
             IFileConnector json = SmartGetExport(path);
             json.FileName = path;
-            IDictionarySerializable r = json.ReadFile().LastOrDefault();
+            IFreeDocument r = json.ReadFile().LastOrDefault();
             return r;
         }
 
-        public static List<IDictionarySerializable> ReadGroupDataFile(string path)
+        public static List<IFreeDocument> ReadGroupDataFile(string path)
         {
             IFileConnector json = SmartGetExport(path);
 
@@ -143,7 +143,7 @@ namespace Hawk.Core.Connectors
             return json.ReadFile().ToList();
         }
 
-        public static void SaveDataFile(string filename, IEnumerable<IDictionarySerializable> items)
+        public static void SaveDataFile(string filename, IEnumerable<IFreeDocument> items)
         {
             IFileConnector json = SmartGetExport(filename);
             json.FileName = filename;
@@ -151,11 +151,11 @@ namespace Hawk.Core.Connectors
             json.WriteAll(items);
         }
 
-        public static void SaveDataFile(string filename, IDictionarySerializable item)
+        public static void SaveDataFile(string filename, IFreeDocument item)
         {
             IFileConnector json = SmartGetExport(filename);
             json.FileName = filename;
-            var datas = new List<IDictionarySerializable> { item };
+            var datas = new List<IFreeDocument> { item };
             json.WriteAll(datas);
         }
 
@@ -171,10 +171,10 @@ namespace Hawk.Core.Connectors
         }
 
 
-        public abstract IEnumerable<IDictionarySerializable> ReadFile(Action<int> alreadyGetSize = null);
+        public abstract IEnumerable<IFreeDocument> ReadFile(Action<int> alreadyGetSize = null);
     
 
-        public virtual string GetString(IEnumerable<IDictionarySerializable> datas)
+        public virtual string GetString(IEnumerable<IFreeDocument> datas)
         {
             return "不支持此功能";
         }
@@ -185,7 +185,7 @@ namespace Hawk.Core.Connectors
 
         #region Methods
 
-        public abstract IEnumerable<IDictionarySerializable> WriteData(IEnumerable<IDictionarySerializable> data);
+        public abstract IEnumerable<IFreeDocument> WriteData(IEnumerable<IFreeDocument> data);
 
     
 

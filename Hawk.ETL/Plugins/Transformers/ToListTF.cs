@@ -16,19 +16,37 @@ namespace Hawk.ETL.Plugins.Transformers
         }
         public string IDColumn { get; set; }
 
+
+        public int Position { get; set; }
         public string MountColumn { get; set; }
 
         public bool DisplayProgress { get; set; }
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {
             IsMultiYield = true;
-        
+       
             return base.Init(docus);
         }
 
         public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
         {
-            return datas;
+            if (IsExecute)
+            {
+                int index = 0;
+                while (index < Position)
+                {
+                    index++;
+                }
+            }
+        
+            foreach (var data in datas)
+            {
+                if (IsExecute)
+                {
+                    Position++;
+                }
+                yield return data;
+            }
         }
 
     }

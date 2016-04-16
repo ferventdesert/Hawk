@@ -17,7 +17,12 @@ namespace Hawk.ETL.Plugins.Transformers
         #endregion
 
         #region Constructors and Destructors
+        protected bool IsExecute;
 
+        public void SetExecute(bool value)
+        {
+            IsExecute = value;
+        }
         protected TransformerBase()
         {
             this.OneOutput = true;
@@ -38,8 +43,6 @@ namespace Hawk.ETL.Plugins.Transformers
         public string Column { get; set; }
 
 
-        [Browsable(false)]
-        public TableInfo TableInfo { get; set; }
 
         [Category("1.基本选项")]
         [DisplayName("模块名")]
@@ -111,6 +114,13 @@ namespace Hawk.ETL.Plugins.Transformers
         public virtual bool IsMultiYield { get; set; }
 
 
+        protected void SetValue(IFreeDocument doc,object item)
+        {
+            if(string.IsNullOrEmpty(NewColumn))
+                doc.SetValue(Column,item);
+            else
+                doc.SetValue(NewColumn,item);
+        }
      
 
         public virtual IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)

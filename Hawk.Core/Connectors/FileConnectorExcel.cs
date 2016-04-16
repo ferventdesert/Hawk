@@ -21,7 +21,7 @@ namespace Hawk.Core.Connectors
 
         #region Methods
 
-        public override IEnumerable<IDictionarySerializable> ReadFile(Action<int> alreadyGetSize = null)
+        public override IEnumerable<IFreeDocument> ReadFile(Action<int> alreadyGetSize = null)
         {
             XSSFWorkbook hssfworkbook;
 
@@ -49,7 +49,7 @@ namespace Hawk.Core.Connectors
             for (int i = 1; i < sheet.LastRowNum; i++)
             {
                 IRow row = sheet.GetRow(i);
-                var data = PluginProvider.GetObjectInstance(DataType) as IDictionarySerializable;
+                var data = PluginProvider.GetObjectInstance(DataType) as IFreeDocument;
                 var dict = new Dictionary<string, object>();
                 for (int index = 0; index < titles.Count; index++)
                 {
@@ -71,7 +71,7 @@ namespace Hawk.Core.Connectors
             }
         }
 
-        public override IEnumerable<IDictionarySerializable> WriteData(IEnumerable<IDictionarySerializable> datas)
+        public override IEnumerable<IFreeDocument> WriteData(IEnumerable<IFreeDocument> datas)
         {
            
             IWorkbook workbook = new XSSFWorkbook();
@@ -85,7 +85,8 @@ namespace Hawk.Core.Connectors
             {
 
                 int rowIndex = 0;
-                foreach (IDictionarySerializable computeable in datas)
+                PropertyNames = datas.GetKeys().ToDictionary(d => d, d => d);
+                foreach (IFreeDocument computeable in datas)
                 {
                     IDictionary<string, object> data = computeable.DictSerialize();
                     int cellIndex;

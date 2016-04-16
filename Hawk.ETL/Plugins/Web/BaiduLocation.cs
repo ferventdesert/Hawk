@@ -11,7 +11,7 @@ namespace Hawk.ETL.Plugins.Web
 {
     public class BaiduSDKBase : TransformerBase
     {
-        protected readonly BuffHelper<FreeDocument> buffHelper = new BuffHelper<FreeDocument>(1000);
+        protected readonly BuffHelper<FreeDocument> buffHelper = new BuffHelper<FreeDocument>(50);
         protected string apikey = "84675e2004a16456ad3ccf23a408439c"; //
         protected string format = "json";
         protected JavaScriptSerializer serialier;

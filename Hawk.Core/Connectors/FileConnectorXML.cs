@@ -72,7 +72,7 @@ namespace Hawk.Core.Connectors
             }
         }
 
-        private IEnumerable<IDictionarySerializable> ReadText(XmlDocument xdoc, Action<int> alreadyGetSize = null)
+        private IEnumerable<IFreeDocument> ReadText(XmlDocument xdoc, Action<int> alreadyGetSize = null)
         {
             XmlNode xTable = xdoc.DocumentElement;
             if (xTable == null)
@@ -82,7 +82,7 @@ namespace Hawk.Core.Connectors
             foreach (XmlNode xnode in xTable)
             {
 
-                var data = PluginProvider.GetObjectInstance(DataType) as IDictionarySerializable;
+                var data = PluginProvider.GetObjectInstance(DataType) as IFreeDocument;
                 var dict = new FreeDocument();
                 dict.Name = xnode.Name;
                 XMLNode2Dict(xnode, dict);
@@ -97,14 +97,14 @@ namespace Hawk.Core.Connectors
             }
         }
 
-        public IEnumerable<IDictionarySerializable> ReadText(string text, Action<int> alreadyGetSize = null)
+        public IEnumerable<IFreeDocument> ReadText(string text, Action<int> alreadyGetSize = null)
         {
             var xdoc = new XmlDocument();
             xdoc.LoadXml(text);
             return ReadText(xdoc, alreadyGetSize);
 
         }
-        public override IEnumerable<IDictionarySerializable> ReadFile(Action<int> alreadyGetSize = null)
+        public override IEnumerable<IFreeDocument> ReadFile(Action<int> alreadyGetSize = null)
         {
 
             var xdoc = new XmlDocument();
@@ -158,7 +158,7 @@ namespace Hawk.Core.Connectors
             }
         }
 
-        public override IEnumerable<IDictionarySerializable> WriteData(IEnumerable<IDictionarySerializable> datas)
+        public override IEnumerable<IFreeDocument> WriteData(IEnumerable<IFreeDocument> datas)
         {
 
             var doc = new XmlDocument(); // 创建dom对象
@@ -169,7 +169,7 @@ namespace Hawk.Core.Connectors
                 doc.Save(FileName);
             }))
             {
-                foreach (IDictionarySerializable dictionarySerializable in datas)
+                foreach (IFreeDocument dictionarySerializable in datas)
                 {
                     var doc2 = dictionarySerializable.DictSerialize();
 
@@ -184,13 +184,13 @@ namespace Hawk.Core.Connectors
 
         }
 
-        public override string GetString(IEnumerable<IDictionarySerializable> datas)
+        public override string GetString(IEnumerable<IFreeDocument> datas)
         {
             var doc = new XmlDocument(); // 创建dom对象
             XmlElement root = doc.CreateElement("root");
             if (datas != null)
             {
-                foreach (IDictionarySerializable dictionarySerializable in datas)
+                foreach (IFreeDocument dictionarySerializable in datas)
                 {
                     var doc2 = dictionarySerializable.DictSerialize();
 

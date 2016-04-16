@@ -28,12 +28,12 @@ namespace Hawk.ETL.Interfaces
 
         #region Public Methods
 
-        DataCollection AddDataCollection(IEnumerable<IDictionarySerializable> source, string collectionName = null,
+        DataCollection AddDataCollection(IEnumerable<IFreeDocument> source, string collectionName = null,
             bool isCover = false);
 
         void AddDataCollection(DataCollection collection);
 
-        IList<IDictionarySerializable> Get(string name);
+        IList<IFreeDocument> Get(string name);
 
         DataCollection GetCollection(string name);
         DataCollection ReadFile(string fileName, string fomrat = null);

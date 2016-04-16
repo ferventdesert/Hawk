@@ -128,7 +128,7 @@ namespace Hawk.ETL.Process
                             var datas = HtmlDoc.GetDataFromXPath(CrawlItems, IsMultiData);
                             var view = PluginProvider.GetObjectInstance<IDataViewer>("可编辑列表");
 
-                            var r = view.SetCurrentView(datas.Select(d => d as IDictionarySerializable).ToList());
+                            var r = view.SetCurrentView(datas);
                             ControlExtended.DockableManager.AddDockAbleContent(
                                 FrmState.Custom, r, "提取数据测试结果");
                         })
@@ -285,8 +285,7 @@ namespace Hawk.ETL.Process
            var   propertyNames = new FreeDocument(datas.GetKeys().ToDictionary(d => d, d => (object) d));
             datas.Insert(0, propertyNames);
             var view = PluginProvider.GetObjectInstance<IDataViewer>("可编辑列表");
-            var datas2 = datas.Select(d => d as IDictionarySerializable).ToList();
-            var r = view.SetCurrentView(datas2);
+            var r = view.SetCurrentView(datas);
 
            
             string name = "手气不错_可修改第一列的属性名称";

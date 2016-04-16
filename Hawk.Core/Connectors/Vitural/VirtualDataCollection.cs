@@ -6,18 +6,18 @@ namespace Hawk.Core.Connectors.Vitural
 {
     public class VirtualDataCollection : DataCollection
     {
-        protected VirtualizingCollection<IDictionarySerializable> VirtualData;
+        protected VirtualizingCollection<IFreeDocument> VirtualData;
 
 
         public VirtualDataCollection()
         {
         }
 
-        public VirtualDataCollection(IItemsProvider<IDictionarySerializable> data,  int pageTimeout = 30000)
+        public VirtualDataCollection(IItemsProvider<IFreeDocument> data,  int pageTimeout = 30000)
             : base()
         {
          
-            VirtualData = new VirtualizingCollection<IDictionarySerializable>(data,pageTimeout);
+            VirtualData = new VirtualizingCollection<IFreeDocument>(data,pageTimeout);
  
             data.AlreadyGetSize += (s, e) => OnPropertyChanged("Count");
         }
@@ -28,10 +28,10 @@ namespace Hawk.Core.Connectors.Vitural
         public override bool IsVirtual => true;
 
 
-        public IItemsProvider<IDictionarySerializable> ItemsProvider => VirtualData.ItemsProvider;
+        public IItemsProvider<IFreeDocument> ItemsProvider => VirtualData.ItemsProvider;
 
         [Browsable(false)]
-        public override IList<IDictionarySerializable> ComputeData => VirtualData;
+        public override IList<IFreeDocument> ComputeData => VirtualData;
     }
 
 

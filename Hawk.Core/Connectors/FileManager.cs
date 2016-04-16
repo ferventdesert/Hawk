@@ -34,7 +34,7 @@ namespace Hawk.Core.Connectors
             }
         }
 
-        public override IEnumerable<IDictionarySerializable> GetEntities(
+        public override IEnumerable<IFreeDocument> GetEntities(
             string tableName, Type type, int mount = -1, int skip = 0)
         {
             return GetEntities2(tableName, type, mount, skip).ToList();
@@ -44,7 +44,7 @@ namespace Hawk.Core.Connectors
         [DisplayName("编码方式")]
         public EncodingType EncodingType { get; set; }
 
-        private IEnumerable<IDictionarySerializable> GetEntities2(
+        private IEnumerable<IFreeDocument> GetEntities2(
             string tableName, Type type, int mount = -1, int skip = 0)
         {
             TableInfo table = null;
@@ -74,7 +74,7 @@ namespace Hawk.Core.Connectors
                     {
                         CurrentTables.Remove(table);
                         TableNames.InformPropertyChanged("Collection");
-                        return new List<IDictionarySerializable>();
+                        return new List<IFreeDocument>();
                     }
                     fileNames.Add(table.Description);
                 }

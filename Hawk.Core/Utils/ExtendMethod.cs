@@ -54,7 +54,12 @@ namespace Hawk.Core.Utils
                 var free = new FreeDocument();
                 foreach (var item in value)
                 {
-                    free.Add(item.Key, item.Value);
+                    if (item is string)
+                    {
+                        free.Add(item, value[item]);
+                    }
+                    else
+                        free.Add(item.Key, item.Value);
                 }
                 documents.Add(free);
             }
@@ -182,14 +187,14 @@ namespace Hawk.Core.Utils
                 connector.CreateTable(collection.ComputeData.First(), tableName);
             }
             int i = 0;
-            var list = new List<IDictionarySerializable>();
+            var list = new List<IFreeDocument>();
             while (i < collection.Count)
             {
                 list.Add(collection.ComputeData[i]);
                 if (list.Count == batchMount)
                 {
                     connector.BatchInsert(list, tableName);
-                    list = new List<IDictionarySerializable>();
+                    list = new List<IFreeDocument>();
                     yield return i;
                 }
                 i++;

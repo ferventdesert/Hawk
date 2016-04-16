@@ -13,6 +13,7 @@ using System.Windows.Controls.WpfPropertyGrid;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
@@ -37,7 +38,7 @@ namespace Hawk.ETL.Process
             Dict = new ObservableCollection<SmartGroup>();
             Documents = new ObservableCollection<IFreeDocument>();
             SampleMount = 20;
-            DelayTime = 0;
+            MaxThreadCount = 20;
             IsUISupport = true;
             AllETLTools.AddRange(
               PluginProvider.GetPluginCollection(typeof(IColumnProcess)));
@@ -265,7 +266,7 @@ namespace Hawk.ETL.Process
         public override void DictDeserialize(IDictionary<string, object> dicts, Scenario scenario = Scenario.Database)
         {
             base.DictDeserialize(dicts, scenario);
-            DelayTime = dicts.Set("DelayTime", DelayTime);
+            MaxThreadCount = dicts.Set("MaxThreadCount", MaxThreadCount);
             GenerateMode = dicts.Set("GenerateMode", GenerateMode);
             var doc = dicts as FreeDocument;
             if (doc != null && doc.Children != null)
@@ -286,13 +287,13 @@ namespace Hawk.ETL.Process
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
             var dict = base.DictSerialize(scenario);
-            dict.Add("DelayTime", DelayTime);
+            dict.Add("MaxThreadCount", MaxThreadCount);
             dict.Add("GenerateMode", GenerateMode);
             dict.Children = new List<FreeDocument>();
             dict.Children.AddRange(CurrentETLTools.Select(d => d.DictSerialize(scenario)));
             return dict;
         }
-
+        
         public override bool Init()
         {
           
@@ -333,15 +334,29 @@ namespace Hawk.ETL.Process
         public bool IsUISupport { get; set; }
 
 
-        private EnumerableFunc FuncAdd(IColumnProcess tool, EnumerableFunc func)
+        public void InitProcess(bool isexecute)
+        {
+            foreach (var item in CurrentETLTools.Where(d=>d.Enabled))
+            {
+                if (isexecute == false && item is IDataExecutor)
+                {
+                    continue;
+                    
+                }
+                item.Init(new List<IFreeDocument>());
+            }
+        }
+
+        private EnumerableFunc FuncAdd(IColumnProcess tool, EnumerableFunc func,bool isexecute)
         {
             try
             {
+                tool.SetExecute(isexecute);
                 tool.Init(new List<IFreeDocument>());
             }
             catch (Exception ex)
             {
-                XLogSys.Print.Error($"位于{tool.Column}列的{tool.TypeName}模块在初始化时出现异常：{ex.Message},请检查任务参数");
+                XLogSys.Print.Error($"位于{tool.Column}列的{tool.TypeName}模块在初始化时出现异常：{ex},请检查任务参数");
                 return func;
             }
             if (tool is IColumnDataTransformer)
@@ -384,7 +399,7 @@ namespace Hawk.ETL.Process
             }
 
 
-            if (tool is IDataExecutor)
+            if (tool is IDataExecutor&& isexecute)
             {
                 var ge = tool as IDataExecutor;
                 var func1 = func;
@@ -411,15 +426,15 @@ namespace Hawk.ETL.Process
         }
 
 
-        private EnumerableFunc Aggregate(EnumerableFunc func, IEnumerable<IColumnProcess> tools)
+        public EnumerableFunc Aggregate(EnumerableFunc func, IEnumerable<IColumnProcess> tools,bool isexecute)
         {
-            return tools.Aggregate(func, (current, tool) => FuncAdd(tool, current));
+            return tools.Aggregate(func, (current, tool) => FuncAdd(tool, current, isexecute));
         }
 
 
         public void ExecuteDatas()
         {
-            var etls = CurrentETLTools.Take(ETLMount).Where(d=>d.Enabled==true).ToList();
+            var etls = CurrentETLTools.Take(ETLMount).Where(d=>d.Enabled).ToList();
             EnumerableFunc func = d => d;
             var index = 0;
 
@@ -429,26 +444,34 @@ namespace Hawk.ETL.Process
                 var generator = etls.FirstOrDefault() as IColumnGenerator;
                 if (generator == null)
                     return;
-                var realfunc3 = Aggregate(func, etls.Skip(1));
-                SysProcessManager.CurrentProcessTasks.Add(TemporaryTask. AddTempTask("串行ETL任务", generator.Generate(),
-                    d => { realfunc3(new List<IFreeDocument>() {d}); }, null, generator.GenerateCount() ?? (-1)));
+                var realfunc3 = Aggregate(func, etls.Skip(1),true);
+                var task = TemporaryTask.AddTempTask("串行ETL任务", generator.Generate(),
+                    d => { realfunc3(new List<IFreeDocument>() {d}).ToList(); }, null, generator.GenerateCount() ?? (-1));
+                SysProcessManager.CurrentProcessTasks.Add(task);
 
             }
             else
             {
+                var timer = new DispatcherTimer();
+                TemporaryTask paratask = null;
                 var tolistTransformer = etls.FirstOrDefault(d => d.TypeName == "列表实例化") as ToListTF;
                
                 if (tolistTransformer != null)
                 {
                     index = etls.IndexOf(tolistTransformer);
 
-                    var beforefunc = Aggregate(func, etls.Take(index));
+                    var beforefunc = Aggregate(func, etls.Take(index),true);
 
-                    SysProcessManager.CurrentProcessTasks.Add(TemporaryTask.AddTempTask("etl任务列表实例化", beforefunc(new List<IFreeDocument>())
-              
-                , 
+                    paratask = TemporaryTask.AddTempTask("etl任务列表实例化", beforefunc(new List<IFreeDocument>())
+
+                        ,
                         d2 =>
                         {
+                            if (paratask.IsPause == false && SysProcessManager.CurrentProcessTasks.Count > MaxThreadCount)
+                            {
+                                iswait = true;
+                                paratask.IsPause = true;
+                            }
                             var countstr = d2.Query(tolistTransformer.MountColumn);
                             var name = d2.Query(tolistTransformer.IDColumn);
                             if (name == null)
@@ -457,33 +480,78 @@ namespace Hawk.ETL.Process
                             int rcount = -1;
                             int.TryParse(countstr, out rcount);
                             var list = new List<IFreeDocument>() {d2};
-                            var afterfunc = Aggregate(func, etls.Skip(index + 1));
+                            var afterfunc = Aggregate(func, etls.Skip(index + 1), true);
                             var task = TemporaryTask.AddTempTask(name, afterfunc(list), d => { },
-                          null,rcount,false);
-                            if(tolistTransformer.DisplayProgress)
-                                ControlExtended.UIInvoke(()=>SysProcessManager.CurrentProcessTasks.Add(task));
+                                null, rcount, false);
+                            if (tolistTransformer.DisplayProgress)
+                                ControlExtended.UIInvoke(() => SysProcessManager.CurrentProcessTasks.Add(task));
                             task.Start();
-                           
-                        }, delayFunc: () => DelayTime));
+
+                        }, d => timer.Stop(),-1,  false);
+                
                 }
                 else
                 {
                     var generator = etls.FirstOrDefault() as IColumnGenerator;
                     if (generator == null)
                         return;
-                    var realfunc3 = Aggregate(func, etls.Skip(index + 1));
-                    SysProcessManager.CurrentProcessTasks.Add(TemporaryTask.AddTempTask("并行ETL任务", generator.Generate(),
+                    var realfunc3 = Aggregate(func, etls.Skip(  1),true);
+                    paratask = TemporaryTask.AddTempTask("并行ETL任务", generator.Generate(),
                         d =>
                         {
-                            Task.Factory.StartNew(() => realfunc3(new List<IFreeDocument> { d }).ToList());
-                            Thread.Sleep(DelayTime);
-                        }, null, generator.GenerateCount() ?? (-1), delayFunc: () => DelayTime));
+                            if (paratask.IsPause == false && SysProcessManager.CurrentProcessTasks.Count > MaxThreadCount)
+                            {
+                                iswait = true;
+                                paratask.IsPause = true;
+
+                            }
+                            var task = TemporaryTask.AddTempTask("子任务", realfunc3(new List <IFreeDocument> { d }),
+                                d2 => { },
+                               null, 1, false);
+                                ControlExtended.UIInvoke(() => SysProcessManager.CurrentProcessTasks.Add(task));
+                            task.Start();
+
+                        },d=>timer.Stop(),  generator.GenerateCount() ?? (-1), false);
+                  
                 }
+                SysProcessManager.CurrentProcessTasks.Add(paratask);
+           
+                timer.Interval = TimeSpan.FromSeconds(3);
+                timer.Tick += (s, e) =>
+                {
+                    if (paratask.IsCanceled)
+                    {
+                        timer.Stop();
+                        return;
+                    }
+
+
+                    if (paratask.IsStart == false)
+                    {
+                        paratask.Start();
+                        return;
+                    }
+
+                    if (iswait == true && SysProcessManager.CurrentProcessTasks.Count < MaxThreadCount)
+                     {
+                         if (IsAutoSave)
+                         {
+                            SysProcessManager.CurrentProject.Save();
+                         }
+                            paratask.IsPause = false;
+                            iswait = false;
+                     }
+                             
+
+
+                };
+            
+                timer.Start();
             }
            
         }
 
-
+        private bool iswait = false;
         private bool DropAction(string sender, object attr)
         {
             if (sender == "Drop")
@@ -523,6 +591,8 @@ namespace Hawk.ETL.Process
             RefreshSamples();
             return true;
         }
+        
+      
 
         private bool FilterMethod(object obj)
         {
@@ -588,22 +658,30 @@ namespace Hawk.ETL.Process
         [DisplayName("工作模式")]
         public GenerateMode GenerateMode { get; set; }
 
-
-
+        [PropertyOrder(4)]
+        [Category("3.执行")]
+        [DisplayName("自动保存任务")]
+        public bool IsAutoSave { get; set; }
 
         [PropertyOrder(2)]
         [Category("3.执行")]
-        [Description("在并行模式工作时，每次启动新线程的间隔时间")]
-        [DisplayName("延时")]
-        public int DelayTime { get; set; }
+        [Description("在并行模式工作时，所承载的最大线程数")]
+        [DisplayName("最大线程数")]
+        public int MaxThreadCount { get; set; }
+
+
+    
 
         private bool generateFloatGrid;
         private int _etlMount = 100;
 
-        public IEnumerable<IFreeDocument> Generate(IEnumerable<IColumnProcess> processes )
+        public IEnumerable<IFreeDocument> Generate(IEnumerable<IColumnProcess> processes, bool isexecute ,IEnumerable<IFreeDocument>source =null )
+
         {
-            var func = Aggregate(d => d, processes);
-            return func(new List<IFreeDocument>());
+            if (source == null)
+                source = new List<IFreeDocument>();
+            var func = Aggregate(d => d, processes,isexecute);
+            return func(source);
 
         } 
         public void RefreshSamples()
@@ -648,36 +726,64 @@ namespace Hawk.ETL.Process
                     }
                 };
             }
-
-            var datas = new List<IFreeDocument>();
-            var alltools = CurrentETLTools.Take(ETLMount).ToList();
-            var func=  Aggregate(d=>d, alltools.Where(d =>!(d is IDataExecutor) &&d.Enabled));
-            SysProcessManager.CurrentProcessTasks.Add(TemporaryTask.AddTempTask("正在转换数据", func(new List<IFreeDocument>()).Take(SampleMount), d => datas.Add((d)),
-                pos =>
+            Documents.Clear();
+           
+                var alltools = CurrentETLTools.Take(ETLMount).ToList();
+            bool hasInit = false;
+            var func=  Aggregate(d=>d, alltools.Where(d=>d.Enabled) ,false);
+            SysProcessManager.CurrentProcessTasks.Add(TemporaryTask.AddTempTask("正在转换数据", func(new List<IFreeDocument>()).Take(SampleMount),
+                data =>
                 {
-                    Documents.Clear();
+                    ControlExtended.UIInvoke(() => {
+                        Documents.Add((data));
+                        if (hasInit == false && Documents.Count > 2)
+                        {
+                            InitUI();
+                            hasInit = true;
+                        }
+                    });
+                  
+
+                }, d =>
+                {
+                    if (!hasInit)
+                    {
+                        InitUI();
+                        hasInit = true;
+                    }
+                       
+                }
+                , SampleMount));
+        }
+
+        private void InitUI()
+
+        {
+            var alltools = CurrentETLTools.Take(ETLMount).ToList();
+           
+                if (generateFloatGrid)
+                {
+                    var gridview = PluginProvider.GetObjectInstance<IDataViewer>("可编辑列表");
+
+                    var r = gridview.SetCurrentView(Documents);
+
+                    if (ControlExtended.DockableManager == null)
+                        return;
+
+                    ControlExtended.DockableManager.AddDockAbleContent(
+                        FrmState.Custom, r, "样例数据");
+                    generateFloatGrid = false;
+                }
+                else
+                {
                     var view = new GridView();
-                    foreach (var data in datas)
-                    {
-                        Documents.Add(data);
-                    }
-                    if (generateFloatGrid)
-                    {
-                        var gridview = PluginProvider.GetObjectInstance<IDataViewer>("可编辑列表");
 
-                        var r = gridview.SetCurrentView(datas.Select(d => d as IDictionarySerializable).ToList());
 
-                        if (ControlExtended.DockableManager == null)
-                            return;
 
-                        ControlExtended.DockableManager.AddDockAbleContent(
-                            FrmState.Custom, r, "样例数据");
-                        generateFloatGrid = false;
-                    }
 
                     Dict.Clear();
-                    var keys = new List<string> {""};
-                    var docKeys = datas.GetKeys(null, SampleMount);
+                    var keys = new List<string> { "" };
+                    var docKeys = Documents.GetKeys(null, SampleMount);
 
                     keys.AddRange(docKeys);
 
@@ -713,7 +819,7 @@ namespace Hawk.ETL.Process
                                     last.NewColumn = group.Name;
                                     last.Column = key;
                                     InsertModule(last);
-                                    ETLMount ++;
+                                    ETLMount++;
                                     OnPropertyChanged("ETLMount");
                                     RefreshSamples();
 
@@ -728,16 +834,16 @@ namespace Hawk.ETL.Process
                     nullgroup?.Value.AddRange(
                         alltools.Where(
                             d =>
-                                datas.GetKeys().Contains(d.Column) == false &&
+                                Documents.GetKeys().Contains(d.Column) == false &&
                                 string.IsNullOrEmpty(d.Column) == false));
                     if (MainDescription.IsUIForm && IsUISupport)
                     {
                         if (dataView != null)
                             dataView.View = view;
                     }
-                }, SampleMount));
+                
+            }
         }
-
         #endregion
     }
 

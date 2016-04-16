@@ -22,7 +22,12 @@ namespace Hawk.ETL.Plugins.Filters
         }
 
         #endregion
+        protected bool IsExecute;
 
+        public void SetExecute(bool value)
+        {
+            IsExecute = value;
+        }
         #region Properties
 
         [Category("1.基本选项")]
@@ -36,8 +41,6 @@ namespace Hawk.ETL.Plugins.Filters
         public string Column { get; set; }
 
 
-        [Browsable(false)]
-        public TableInfo TableInfo { get; set; }
 
         [Category("1.基本选项")]
         [PropertyOrder(5)]

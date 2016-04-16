@@ -23,9 +23,8 @@ namespace Hawk.ETL.Interfaces
 
         string Column { get; set; }
 
-        TableInfo TableInfo { get; set; }
-
-        string Name { get; set; }
+      void SetExecute(bool value);
+      string Name { get; set; }
 
         bool Enabled { get; set; }
 
@@ -106,6 +105,12 @@ namespace Hawk.ETL.Interfaces
             Enabled = true;
         }
 
+        protected bool IsExecute;
+
+        public void SetExecute(bool value)
+        {
+            IsExecute = value;
+        }
 
 
         public virtual FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
@@ -126,8 +131,6 @@ namespace Hawk.ETL.Interfaces
         [DisplayName("列名")]
         public string Column { get; set; }
 
-         [Browsable(false)]
-        public TableInfo TableInfo { get; set; }
 
 
         [Category("1.基本选项")]

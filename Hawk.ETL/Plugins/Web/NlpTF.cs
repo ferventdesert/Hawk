@@ -28,7 +28,7 @@ namespace Hawk.ETL.Plugins.Web
         private readonly string uriBase = "http://ltpapi.voicecloud.cn/analysis/";
         public ContentType ResultType { get; set; }
         public Pattern Pattern { get; set; }
-        private readonly BuffHelper<string> buffHelper = new BuffHelper<string>(1000);
+        private readonly BuffHelper<string> buffHelper = new BuffHelper<string>(50);
 
         public override object TransformData(IFreeDocument datas)
         {

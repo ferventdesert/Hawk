@@ -30,7 +30,7 @@ namespace Hawk.Core.Connectors
 
         #region Public Methods
 
-        public override void BatchInsert(IEnumerable<IDictionarySerializable> insertItems, string tableName)
+        public override void BatchInsert(IEnumerable<IFreeDocument> insertItems, string tableName)
         {
             SqlConnection sqlConn = new SqlConnection(
                ConnectionString);//连接数据库

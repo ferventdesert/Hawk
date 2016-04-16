@@ -29,10 +29,13 @@ namespace Hawk.ETL.Plugins.Sorters
 
             return dict;
         }
-         
-        
-         [Browsable(false)]
-        public TableInfo TableInfo { get; set; }
+
+        protected bool IsExecute; 
+
+        public void SetExecute(bool value)
+        {
+            IsExecute = value;
+        }
 
         [Category("1.基本选项")]
         [DisplayName("模块名")]

@@ -35,7 +35,7 @@ namespace Hawk.ETL.Plugins.Executor
             if (collection == null)
 
             {
-                collection = new DataCollection(new List<IDictionarySerializable>()) { Name = Table };
+                collection = new DataCollection(new List<IFreeDocument>()) { Name = Table };
                 dataManager.AddDataCollection(collection);
             }
 

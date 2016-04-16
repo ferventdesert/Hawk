@@ -101,7 +101,7 @@ namespace Hawk.ETL.Managements
             }
 
             connector.WriteAll(
-                new List<IDictionarySerializable> {DictSerialize()}
+                new List<IFreeDocument> {DictSerialize()}
                 );
         }
 

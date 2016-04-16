@@ -215,7 +215,7 @@ namespace Hawk.Core.Connectors
             AutoConnect = false;
         }
 
-        protected virtual string Insert(IDictionarySerializable data, string dbTableName)
+        protected virtual string Insert(IFreeDocument data, string dbTableName)
         {
             FreeDocument item = data.DictSerialize(Scenario.Database);
             var sb = new StringBuilder();
@@ -245,7 +245,7 @@ namespace Hawk.Core.Connectors
         }
 
 
-        public void SetObjects(IDictionarySerializable item, object[] value, string[] titles = null)
+        public void SetObjects(IFreeDocument item, object[] value, string[] titles = null)
         {
             int index = 0;
             var values = new Dictionary<string, object>();
@@ -328,11 +328,11 @@ namespace Hawk.Core.Connectors
             ExecuteNonQuery(string.Format("CREATE DATABASE {0}", dbname));
         }
 
-        public virtual List<IDictionarySerializable> QueryEntities(string querySQL, out int count,
+        public virtual List<IFreeDocument> QueryEntities(string querySQL, out int count,
             string tablename = null, Type type = null)
         {
             count = 0;
-            return new List<IDictionarySerializable>();
+            return new List<IFreeDocument>();
         }
 
         [Browsable(false)]
@@ -345,7 +345,7 @@ namespace Hawk.Core.Connectors
         public string DBName { get; set; }
 
 
-        public virtual bool CreateTable(IDictionarySerializable example, string name)
+        public virtual bool CreateTable(IFreeDocument example, string name)
         {
             FreeDocument txt = example.DictSerialize(Scenario.Database);
             var sb = new StringBuilder();
@@ -379,11 +379,11 @@ namespace Hawk.Core.Connectors
         }
 
 
-        public virtual List<IDictionarySerializable> TryFindEntities(string tableName, IDictionary<string, object> search
+        public virtual List<IFreeDocument> TryFindEntities(string tableName, IDictionary<string, object> search
            , Type type = null, int count = -1, DBSearchStrategy searchStrategy = DBSearchStrategy.Contains)
         {
          
-            return new List<IDictionarySerializable>();
+            return new List<IFreeDocument>();
         }
 
         [Category("1.连接管理")]
@@ -413,7 +413,7 @@ namespace Hawk.Core.Connectors
         [DisplayName("自动连接")]
         public bool AutoConnect { get; set; }
 
-        public virtual void BatchInsert(IEnumerable<IDictionarySerializable> source, string dbTableName)
+        public virtual void BatchInsert(IEnumerable<IFreeDocument> source, string dbTableName)
         {
             throw new NotImplementedException();
         }
@@ -444,7 +444,7 @@ namespace Hawk.Core.Connectors
         }
 
 
-        public virtual IEnumerable<IDictionarySerializable> GetEntities(string tableName, Type type, int mount = -1,
+        public virtual IEnumerable<IFreeDocument> GetEntities(string tableName, Type type, int mount = -1,
             int skip = 0)
         {
             string sql = null;
@@ -473,7 +473,7 @@ namespace Hawk.Core.Connectors
         }
 
         public virtual void SaveOrUpdateEntity(
-            IDictionarySerializable updateItem, string tableName,  IDictionary<string, object> keys,EntityExecuteType executeType=EntityExecuteType.InsertOrUpdate)
+            IFreeDocument updateItem, string tableName,  IDictionary<string, object> keys,EntityExecuteType executeType=EntityExecuteType.InsertOrUpdate)
         {
             var sb = new StringBuilder();
             FreeDocument data = updateItem.DictSerialize(Scenario.Database);
@@ -524,13 +524,13 @@ namespace Hawk.Core.Connectors
             return sqlConnBuilder.ConnectionString;
         }
 
-        protected List<IDictionarySerializable> Table2Data(DataTable data, Type type)
+        protected List<IFreeDocument> Table2Data(DataTable data, Type type)
         {
-            var result = new List<IDictionarySerializable>();
+            var result = new List<IFreeDocument>();
             string[] titles = (from object column in data.Columns select column.ToString()).ToArray();
             foreach (DataRow dr in data.Rows)
             {
-                var data2 = Activator.CreateInstance(type) as IDictionarySerializable;
+                var data2 = Activator.CreateInstance(type) as IFreeDocument;
 
 
                 SetObjects(data2, dr.ItemArray, titles);

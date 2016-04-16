@@ -5,7 +5,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Core.Connectors.Vitural
 {
-    public class DataBaseVirtualProvider<T> : IItemsProvider<T> where T : class, IDictionarySerializable
+    public class DataBaseVirtualProvider<T> : IItemsProvider<T> where T : class, IFreeDocument
     {
         public IDataBaseConnector Connector { get; private set; }
         private string tableName;

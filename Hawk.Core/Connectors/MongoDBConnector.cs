@@ -15,7 +15,7 @@ namespace Hawk.Core.Connectors
     ///     Mongo数据库服务
     /// </summary>
     [XFrmWork("MongoDB",  "提供MongoDB交互的数据库服务", "")]
-    public class MongoDBConnector : DBConnectorBase, IEnumerableProvider<IDictionarySerializable>
+    public class MongoDBConnector : DBConnectorBase, IEnumerableProvider<IFreeDocument>
     {
         #region Constants and Fields
 
@@ -51,7 +51,7 @@ namespace Hawk.Core.Connectors
         [DisplayName("启用自增主键写入")]
         public bool AutoIndexEnabled { get; set; }
 
-        public IEnumerable<IDictionarySerializable> GetEnumerable(string tableName, Type type)
+        public IEnumerable<IFreeDocument> GetEnumerable(string tableName, Type type)
         {
             if (type == null)
                 type = typeof (FreeDocument);
@@ -59,7 +59,7 @@ namespace Hawk.Core.Connectors
             foreach (Document docuemt in docuemts)
             {
                 object data = Activator.CreateInstance(type);
-                var suck = (IDictionarySerializable) data;
+                var suck = (IFreeDocument) data;
                 suck.DictDeserialize(docuemt);
                 yield return suck;
             }
@@ -72,7 +72,7 @@ namespace Hawk.Core.Connectors
                    firstOrDefault.ColumnInfos.FirstOrDefault(d => d.Name == AutoIndexName) != null;
         }
 
-        public override void BatchInsert(IEnumerable<IDictionarySerializable> source, string dbTableName)
+        public override void BatchInsert(IEnumerable<IFreeDocument> source, string dbTableName)
         {
             if (TableNames.Collection.FirstOrDefault(d => d.Name == dbTableName) == null)
             {
@@ -86,7 +86,7 @@ namespace Hawk.Core.Connectors
 
             int index = 0;
             //  public bool InsertEntity(IDictionarySerializable user, string tableName, string key, out int index)
-            foreach (IDictionarySerializable item in source)
+            foreach (IFreeDocument item in source)
             {
                 try
                 {
@@ -173,7 +173,7 @@ namespace Hawk.Core.Connectors
             idManager.Save(idDoc);
         }
 
-        public override bool CreateTable(IDictionarySerializable example, string name)
+        public override bool CreateTable(IFreeDocument example, string name)
         {
             CreateIndexTable(name);
             return true;
@@ -211,7 +211,7 @@ namespace Hawk.Core.Connectors
             return items;
         }
 
-        public override List<IDictionarySerializable> QueryEntities(string querySQL, out int count, string tablename,
+        public override List<IFreeDocument> QueryEntities(string querySQL, out int count, string tablename,
             Type type)
         {
             if (type == null)
@@ -226,11 +226,11 @@ namespace Hawk.Core.Connectors
                 item = DB.GetCollection<Document>(tablename).Find(querySQL).Documents.ToList();
             }
             count = item.Count;
-            var items = new List<IDictionarySerializable>();
+            var items = new List<IFreeDocument>();
             foreach (Document document in item)
             {
                 object data = Activator.CreateInstance(type);
-                var suck = (IDictionarySerializable) data;
+                var suck = (IFreeDocument) data;
                 suck.DictDeserialize(document);
                 items.Add(suck);
             }
@@ -245,7 +245,7 @@ namespace Hawk.Core.Connectors
         /// <param name="mount"></param>
         /// <param name="skip"></param>
         /// <returns></returns>
-        public override IEnumerable<IDictionarySerializable> GetEntities(
+        public override IEnumerable<IFreeDocument> GetEntities(
             string tableName, Type type, int mount = -1, int skip = 0)
         {
             if (IsUseable == false)
@@ -294,14 +294,14 @@ namespace Hawk.Core.Connectors
 
             foreach (Document document in collection.Documents)
             {
-                IDictionarySerializable data = null;
+                IFreeDocument data = null;
                 if (type == null)
                 {
                     data = new FreeDocument();
                 }
                 else
                 {
-                    data = (IDictionarySerializable) Activator.CreateInstance(type);
+                    data = (IFreeDocument) Activator.CreateInstance(type);
                 }
 
 
@@ -315,7 +315,7 @@ namespace Hawk.Core.Connectors
         /// </summary>
         /// <param name="user"></param>
         /// <param name="tableName"></param>
-        private bool InsertEntity(IDictionarySerializable user, IMongoCollection<Document> collection, string tableName,
+        private bool InsertEntity(IFreeDocument user, IMongoCollection<Document> collection, string tableName,
             int index = -1)
         {
             if (IsUseable == false)
@@ -415,7 +415,7 @@ namespace Hawk.Core.Connectors
         /// <param name="keyName"> </param>
         /// <param name="keyvalue"> </param>
         public override void SaveOrUpdateEntity(
-            IDictionarySerializable entity, string tableName, IDictionary<string, object> keys=null,
+            IFreeDocument entity, string tableName, IDictionary<string, object> keys=null,
             EntityExecuteType executeType = EntityExecuteType.InsertOrUpdate)
         {
             if (IsUseable == false)
@@ -451,14 +451,14 @@ namespace Hawk.Core.Connectors
             }
         }
 
-        public override List<IDictionarySerializable> TryFindEntities(string tableName,
+        public override List<IFreeDocument> TryFindEntities(string tableName,
             IDictionary<string, object> search
             , Type type = null, int count = -1, DBSearchStrategy searchStrategy = DBSearchStrategy.Contains)
         {
             if (type == null)
                 type = typeof (FreeDocument);
             if(IsUseable==false)
-                return new List<IDictionarySerializable>();
+                return new List<IFreeDocument>();
             IMongoCollection<Document> collection = DB.GetCollection<Document>(tableName);
 
             var querydoc = new Document();
@@ -471,9 +471,9 @@ namespace Hawk.Core.Connectors
                 ICursor<Document> document = collection.Find(querydoc);
                 if (document == null)
                 {
-                    return new List<IDictionarySerializable>();
+                    return new List<IFreeDocument>();
                 }
-                var results = new List<IDictionarySerializable>();
+                var results = new List<IFreeDocument>();
                 
                 foreach (Document item in document.Documents)
                 {
@@ -481,7 +481,7 @@ namespace Hawk.Core.Connectors
                         count--;
                     if (count == 0)
                         break;
-                    var result = Activator.CreateInstance(type) as IDictionarySerializable;
+                    var result = Activator.CreateInstance(type) as IFreeDocument;
 
                     result.DictDeserialize(item);
                     results.Add(result);
@@ -496,12 +496,12 @@ namespace Hawk.Core.Connectors
                  var  document = collection.FindOne(querydoc);
                 if (document == null)
                 {
-                    return new List<IDictionarySerializable>();
+                    return new List<IFreeDocument>();
                 }
-                var results = new List<IDictionarySerializable>();
+                var results = new List<IFreeDocument>();
 
               
-                    var result = Activator.CreateInstance(type) as IDictionarySerializable;
+                    var result = Activator.CreateInstance(type) as IFreeDocument;
 
                     result.DictDeserialize(document);
                     results.Add(result);

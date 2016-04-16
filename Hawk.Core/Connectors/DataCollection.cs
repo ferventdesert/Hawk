@@ -11,7 +11,7 @@ namespace Hawk.Core.Connectors
     {
         #region Constants and Fields
 
-        protected List<IDictionarySerializable> RealData;
+        protected List<IFreeDocument> RealData;
 
 
         private string name;
@@ -28,10 +28,10 @@ namespace Hawk.Core.Connectors
 
         #region Constructors and Destructors
 
-        public DataCollection(IEnumerable<IDictionarySerializable> data)
+        public DataCollection(IEnumerable<IFreeDocument> data)
         {
             TableInfo=new TableInfo();
-            RealData = new List<IDictionarySerializable>(data)
+            RealData = new List<IFreeDocument>(data)
                ;
         }
 
@@ -42,14 +42,14 @@ namespace Hawk.Core.Connectors
         public DataCollection()
         {
             TableInfo=new TableInfo();
-            RealData = new List<IDictionarySerializable>();
+            RealData = new List<IFreeDocument>();
         }
 
         [DisplayName("列特性")]
         public TableInfo TableInfo { get; set; }
 
         [Browsable(false)]
-        public virtual IList<IDictionarySerializable> ComputeData
+        public virtual IList<IFreeDocument> ComputeData
         {
             get { return RealData; }
         }

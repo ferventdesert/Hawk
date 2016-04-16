@@ -9,7 +9,7 @@ namespace Hawk.Core.Connectors
     public static class DbExtends
     {
         public static List<T> GetEntityList<T>(this IDataBaseConnector connector,string tableName, int mount = -1, int skip = 0)
-            where T : class, IDictionarySerializable
+            where T : class, IFreeDocument
         {
             var type = typeof (T);
             if (type.IsInterface)
@@ -26,7 +26,7 @@ namespace Hawk.Core.Connectors
            
            
         }
-        public static IItemsProvider<T> GetVirtualProvider<T>(this TableInfo tableInfo) where T : class, IDictionarySerializable
+        public static IItemsProvider<T> GetVirtualProvider<T>(this TableInfo tableInfo) where T : class, IFreeDocument
         {
             var enumable = tableInfo.Connector as IEnumerableProvider<T>;
             IItemsProvider<T> vir = null;
@@ -46,7 +46,7 @@ namespace Hawk.Core.Connectors
         /// 获取数据库中的所有实体，通过传递实例化委托，提升反射性能
         /// </summary>
         /// <returns></returns>
-        public static List<T> GetAllEntities<T>(this IDataBaseConnector connector,  string tableName) where T : class, IDictionarySerializable, new()
+        public static List<T> GetAllEntities<T>(this IDataBaseConnector connector,  string tableName) where T : class, IFreeDocument, new()
         {
             return connector.GetEntityList<T>(tableName);
         }
@@ -76,7 +76,7 @@ namespace Hawk.Core.Connectors
         /// </summary>
         /// <param name="source">要保存的数据</param>
         /// <param name="dbTableName">表名称</param>
-        void BatchInsert(IEnumerable<IDictionarySerializable> source, string dbTableName);
+        void BatchInsert(IEnumerable<IFreeDocument> source, string dbTableName);
         /// <summary>
         /// 获取当前目录下的表名
         /// </summary>
@@ -91,7 +91,7 @@ namespace Hawk.Core.Connectors
         /// <param name="count">检索的数量</param>
         /// <param name="searchStrategy">搜索策略</param>
         /// <returns></returns>
-        List<IDictionarySerializable>    TryFindEntities(string tableName, IDictionary<string, object> search,   
+        List<IFreeDocument>    TryFindEntities(string tableName, IDictionary<string, object> search,   
             Type type = null,int count=-1, DBSearchStrategy searchStrategy = DBSearchStrategy.Contains);
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Hawk.Core.Connectors
         /// <param name="querySQL"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        List<IDictionarySerializable> QueryEntities(string querySQL,out int count,string tableName=null, Type type = null);
+        List<IFreeDocument> QueryEntities(string querySQL,out int count,string tableName=null, Type type = null);
 
         string ConnectionString { get; set; }
 
@@ -144,7 +144,7 @@ namespace Hawk.Core.Connectors
         /// <param name="type">数据类型</param>
         /// <param name="mount"> 数量</param>
         /// <returns></returns>
-        IEnumerable<IDictionarySerializable> GetEntities(string tableName, Type type=null, int mount=-1, int skip = 0);
+        IEnumerable<IFreeDocument> GetEntities(string tableName, Type type=null, int mount=-1, int skip = 0);
 
        
         /// <summary>
@@ -152,7 +152,7 @@ namespace Hawk.Core.Connectors
         /// </summary>
         /// <param name="dataType">数据类型</param>
         /// <param name="createStr">创建字符串</param>
-        bool CreateTable(IDictionarySerializable example, string name);
+        bool CreateTable(IFreeDocument example, string name);
         /// <summary>
         /// 是否可用
         /// <remarks>数据库服务可能处于离线模式</remarks>
@@ -165,7 +165,7 @@ namespace Hawk.Core.Connectors
         /// <param name="tableName"></param>
         /// <param name="updateItem"></param>
         /// <param name="executeType">对数据实体执行的操作</param>
-        void SaveOrUpdateEntity(IDictionarySerializable updateItem, string tableName, IDictionary<string, object> keys,EntityExecuteType executeType=EntityExecuteType.InsertOrUpdate);
+        void SaveOrUpdateEntity(IFreeDocument updateItem, string tableName, IDictionary<string, object> keys,EntityExecuteType executeType=EntityExecuteType.InsertOrUpdate);
         /// <summary>
         /// 删除表数据
         /// </summary>

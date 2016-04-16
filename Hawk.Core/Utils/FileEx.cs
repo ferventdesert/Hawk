@@ -62,7 +62,7 @@ namespace Hawk.Core.Utils
             return location + filename + extension;
         }
 
-        public static void WriteAll(this IFileConnector connector,IEnumerable<IDictionarySerializable>data )
+        public static void WriteAll(this IFileConnector connector,IEnumerable<IFreeDocument> data )
         {
 
            

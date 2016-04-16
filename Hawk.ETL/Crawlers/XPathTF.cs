@@ -20,7 +20,10 @@ namespace Hawk.ETL.Crawlers
         [DisplayName("获取正文")]
         [Description("勾选此项后，会自动提取新闻正文，XPath路径可为空")]
         public bool GetText { get; set; }
-        
+
+        [DisplayName("插入空行")]
+        [Description("勾选此项后，每个页面后会插入一个空行")]
+        public bool IsInsertNull { get; set; }
         public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
         {
             foreach (var data in datas)
@@ -40,6 +43,8 @@ namespace Hawk.ETL.Crawlers
                     doc.Add("OHTML", node.OuterHtml);
                     yield return doc.MergeQuery(data, NewColumn);
                 }
+                if(IsInsertNull)
+                    yield return new FreeDocument();
             }
         }
 
@@ -68,7 +73,7 @@ namespace Hawk.ETL.Crawlers
                     return textnode.GetNodeText();
             }
 
-            return docu.GetDataFromXPath(new XPath(document.Query(XPath)).ToString());
+            return docu.DocumentNode.GetDataFromXPath(new XPath(document.Query(XPath)).ToString());
         }
     }
 

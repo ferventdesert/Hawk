@@ -36,7 +36,7 @@ namespace Hawk.Core.Connectors
             return totals;
         }
 
-        public IEnumerable<IDictionarySerializable> ReadText(string text, Action<int> alreadyGetSize = null)
+        public IEnumerable<IFreeDocument> ReadText(string text, Action<int> alreadyGetSize = null)
         {
             var totals = FormatJsonData(text);
 
@@ -53,7 +53,7 @@ namespace Hawk.Core.Connectors
                 }
                 foreach (object d in array)
                 {
-                    var data = PluginProvider.GetObjectInstance(DataType) as IDictionarySerializable;
+                    var data = PluginProvider.GetObjectInstance(DataType) as IFreeDocument;
                     ItemtoNode(d, data);
                     yield return data;
                 }
@@ -65,19 +65,19 @@ namespace Hawk.Core.Connectors
                 {
                     alreadyGetSize(1);
                 }
-                var data = PluginProvider.GetObjectInstance(DataType) as IDictionarySerializable;
+                var data = PluginProvider.GetObjectInstance(DataType) as IFreeDocument;
                 ItemtoNode(obj, data);
                 yield return data;
             }
         }
 
-        public override IEnumerable<IDictionarySerializable> ReadFile(Action<int> alreadyGetSize = null)
+        public override IEnumerable<IFreeDocument> ReadFile(Action<int> alreadyGetSize = null)
         {
             string str = File.ReadAllText(FileName, Encoding.UTF8);
             return ReadText(str, alreadyGetSize);
         }
 
-        private int ItemtoNode(object d, IDictionarySerializable dict)
+        private int ItemtoNode(object d, IFreeDocument dict)
         {
 
 
@@ -132,9 +132,9 @@ namespace Hawk.Core.Connectors
         private object Node2Item(object dic)
         {
             JsonObject js = new JsonObject();
-            if (dic is IDictionarySerializable)
+            if (dic is IFreeDocument)
             {
-                var res = (dic as IDictionarySerializable).DictSerialize();
+                var res = (dic as IFreeDocument).DictSerialize();
                 js.AddRange(res);
                 var fre = dic as FreeDocument;
                 if (fre != null)
@@ -160,20 +160,20 @@ namespace Hawk.Core.Connectors
             return js;
         }
 
-        protected JsonObject GetJsonObject(IDictionarySerializable data)
+        protected JsonObject GetJsonObject(IFreeDocument data)
         {
             IEnumerable<KeyValuePair<string, object>> dicts =
-                          data.DictSerialize().Where(d => this.PropertyNames.ContainsKey(d.Key));
+                          data.DictSerialize();
             string[] keys = dicts.Select(d => d.Key).ToArray();
             object[] value = dicts.Select(d => Node2Item(d.Value)).ToArray();
             var rc = new JsonObject(keys, value);
             return rc;
         }
-        public override string GetString(IEnumerable<IDictionarySerializable> datas)
+        public override string GetString(IEnumerable<IFreeDocument> datas)
         {
             var nodeGroup = new JsonArray();
 
-            foreach (IDictionarySerializable data in datas)
+            foreach (IFreeDocument data in datas)
             {
 
                 nodeGroup.Add(GetJsonObject(data));
@@ -182,7 +182,7 @@ namespace Hawk.Core.Connectors
         }
 
 
-        public override IEnumerable<IDictionarySerializable> WriteData(IEnumerable<IDictionarySerializable> datas)
+        public override IEnumerable<IFreeDocument> WriteData(IEnumerable<IFreeDocument> datas)
         {
 
 

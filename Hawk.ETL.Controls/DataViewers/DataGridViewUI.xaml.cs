@@ -22,7 +22,7 @@ namespace Hawk.ETL.Controls.DataViewers
     [XFrmWork("可编辑列表", "IDataViewer", "以可编辑列表模式查看数据")]
     public class DataGridViewer : PropertyChangeNotifier, IDataViewer
     {
-        public object SetCurrentView(IList<IDictionarySerializable> datas)
+        public object SetCurrentView(IEnumerable<IFreeDocument> datas)
         {
             if (!datas.Any())
             {

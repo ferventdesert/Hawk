@@ -16,7 +16,7 @@ namespace Hawk.ETL.Plugins.Transformers
     [XFrmWork("从爬虫转换", "将网页采集器的数据进行整合，拖入的列需要为url")]
     public class CrawlerTF : TransformerBase
     {
-        private readonly BuffHelper<HtmlDocument> buffHelper = new BuffHelper<HtmlDocument>(1000);
+        private readonly BuffHelper<HtmlDocument> buffHelper = new BuffHelper<HtmlDocument>(50);
         private readonly IProcessManager processManager;
         private string _crawlerSelector;
         private BfsGE generator;
@@ -61,12 +61,17 @@ namespace Hawk.ETL.Plugins.Transformers
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
-            var mainstream =
-                processManager.CurrentProcessCollections.OfType<SmartETLTool>()
-                    .FirstOrDefault(d => d.CurrentETLTools.Contains(this));
-            generator = mainstream.CurrentETLTools.FirstOrDefault(d => d.Name == GEName) as BfsGE;
+            if (generator == null)
+            {
+                var mainstream =
+            processManager.CurrentProcessCollections.OfType<SmartETLTool>()
+                .FirstOrDefault(d => d.CurrentETLTools.Contains(this));
+                generator = mainstream.CurrentETLTools.FirstOrDefault(d => d.Name == GEName) as BfsGE;
+            }
 
-            crawler =
+            if (crawler == null)
+            {
+                   crawler =
                 processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector) as SmartCrawler;
             if (crawler != null)
             {
@@ -78,14 +83,19 @@ namespace Hawk.ETL.Plugins.Transformers
                 if (task == null)
                     return false;
                 ControlExtended.UIInvoke(() => { task.Load(); });
-                crawler = processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector) as SmartCrawler;
+                crawler =
+                    processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector) as
+                        SmartCrawler;
+            }
             }
 
-           
+         
+
+
             IsMultiYield = crawler?.IsMultiData == ListType.List;
             isfirst = true;
             OneOutput = false;
-         
+
             return crawler != null && base.Init(datas);
         }
 
@@ -102,7 +112,7 @@ namespace Hawk.ETL.Plugins.Transformers
                 bufkey += post;
             }
             var htmldoc = buffHelper.Get(bufkey);
-            List<FreeDocument> docs=new List<FreeDocument>();
+            var docs = new List<FreeDocument>();
             if (htmldoc == null)
             {
                 var delay = data.Query(DelayTime);
@@ -114,10 +124,11 @@ namespace Hawk.ETL.Plugins.Transformers
                 }
                 docs = crawler.CrawData(url, out htmldoc, post);
                 buffHelper.Set(bufkey, htmldoc);
+            
             }
             else
             {
-              docs=  crawler.CrawData(htmldoc);
+                docs = crawler.CrawData(htmldoc);
             }
 
             if (generator != null)
@@ -133,12 +144,6 @@ namespace Hawk.ETL.Plugins.Transformers
                 }
             }
             return docs;
-
-          
-               
-         
-
-
         }
 
         public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)

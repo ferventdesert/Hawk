@@ -5,7 +5,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Core.Connectors.Vitural
 {
-    public class DataBaseVirtualCollection : IItemsProvider<IDictionarySerializable>
+    public class DataBaseVirtualCollection : IItemsProvider<IFreeDocument>
     {
         private IDataBaseConnector connector;
         private string tableName;
@@ -36,9 +36,9 @@ namespace Hawk.Core.Connectors.Vitural
             get { return "数据库虚拟化"; }
         }
 
-        public IList<IDictionarySerializable> FetchRange(int startIndex, int count)
+        public IList<IFreeDocument> FetchRange(int startIndex, int count)
         {
-            return connector.GetEntityList<IDictionarySerializable>(tableName,  count, startIndex);
+            return connector.GetEntityList<IFreeDocument>(tableName,  count, startIndex);
         }
 
         public event EventHandler AlreadyGetSize;

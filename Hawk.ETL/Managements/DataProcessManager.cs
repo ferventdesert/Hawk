@@ -430,6 +430,7 @@ namespace Hawk.ETL.Managements
                 currentProject.SavePath = null;
                 ControlExtended.SafeInvoke(() => currentProject.Save(), LogType.Important, "另存为当前工程");
             }
+            ConfigFile.Config.SaveConfig();
         }
 
         private void CreateNewProject()

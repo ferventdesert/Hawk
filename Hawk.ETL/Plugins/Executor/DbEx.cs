@@ -37,22 +37,11 @@ namespace Hawk.ETL.Plugins.Executor
         [Description("如果要新建表，则填写此项，若数据库中已经存在该表，则不执行建表操作")]
         public string TableName { get; set; }
 
+       
         public override IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents)
         {
             var con = TableName;
 
-            if (string.IsNullOrEmpty(TableName) == false)
-            {
-                if (ConnectorSelector.SelectItem.RefreshTableNames().FirstOrDefault(d => d.Name == TableName) == null)
-
-                {
-                    var data = documents?.FirstOrDefault() ?? new FreeDocument();
-                    if (!ConnectorSelector.SelectItem.CreateTable(data, TableName))
-                    {
-                        throw new Exception($"创建名字为{TableName}的表失败");
-                    }
-                }
-            }
             if (ExecuteType == EntityExecuteType.OnlyInsert)
             {
                 if (ConnectorSelector.SelectItem is FileManager)
@@ -96,6 +85,19 @@ namespace Hawk.ETL.Plugins.Executor
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
+
+            if (string.IsNullOrEmpty(TableName) == false)
+            {
+                if (ConnectorSelector.SelectItem.RefreshTableNames().FirstOrDefault(d => d.Name == TableName) == null)
+
+                {
+                    var data = datas?.FirstOrDefault() ?? new FreeDocument();
+                    if (!ConnectorSelector.SelectItem.CreateTable(data, TableName))
+                    {
+                        throw new Exception($"创建名字为{TableName}的表失败");
+                    }
+                }
+            }
             return true;
         }
 

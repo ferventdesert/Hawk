@@ -38,7 +38,7 @@ namespace Hawk.ETL.Plugins.Web
             {"希腊语", "el"},
         };
 
-        BuffHelper<string> buffHelper=new BuffHelper<string>(1000);
+        BuffHelper<string> buffHelper=new BuffHelper<string>(50);
         public TransTF()
         {
             Source = new ExtendSelector<string>(language.Keys);

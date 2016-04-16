@@ -124,11 +124,13 @@ namespace Hawk.ETL.Managements
         public void Cancel()
         {
             IsStart = false;
-            
+            IsCanceled = true;
             CancellationToken.Cancel();
           
         }
 
+        [Browsable(false)]
+        public bool IsCanceled { get; private set; }
         public bool CheckCancel()
         {
             return CancellationToken.IsCancellationRequested;

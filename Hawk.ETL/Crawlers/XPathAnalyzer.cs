@@ -179,12 +179,22 @@ namespace Hawk.ETL.Crawlers
         /// <param name="path"></param>
         /// <param name="ishtml"></param>
         /// <returns></returns>
-        public static string GetDataFromXPath(this HtmlDocument doc, string path,bool ishtml=false)
+        public static string GetDataFromXPath(this HtmlNode doc, string path,bool ishtml=false)
         {
             if (!string.IsNullOrEmpty(path))
             {
-             
-                HtmlNode p2 = doc.DocumentNode.SelectSingleNode(path);
+
+                HtmlNode p2 = null;
+                try
+                {
+                    p2=doc.SelectSingleNode(path);
+                }
+                catch (Exception ex)
+                {
+
+
+                }
+                
                 if (p2 == null)
                     return null;
 
@@ -674,7 +684,7 @@ namespace Hawk.ETL.Crawlers
         /// <param name="document"></param>
         public static void GetDataFromXPath(this HtmlDocument doc, CrawlItem crawItem, string shortv, IFreeDocument document)
         {
-            string result = doc.GetDataFromXPath(new XPath(crawItem.XPath).TakeOff(shortv).ToString(),crawItem.IsHTML);
+            string result = doc.DocumentNode.GetDataFromXPath(new XPath(crawItem.XPath).TakeOff(shortv).ToString(),crawItem.IsHTML);
 
           
             if (result != null)
@@ -689,7 +699,7 @@ namespace Hawk.ETL.Crawlers
         /// <param name="document"></param>
         public static void GetDataFromXPath(this HtmlDocument doc, CrawlItem crawItem,IFreeDocument document)
         {
-            string result = doc.GetDataFromXPath(crawItem.XPath, crawItem.IsHTML);
+            string result = doc.DocumentNode.GetDataFromXPath(crawItem.XPath, crawItem.IsHTML);
 
 
             if (result != null)
@@ -1004,10 +1014,14 @@ namespace Hawk.ETL.Crawlers
                         var document = new FreeDocument();
                         foreach (CrawlItem r in crawlItems)
                         {
-                            var docm = new HtmlDocument();
-                            docm.LoadHtml(node.InnerHtml);
 
-                            docm.GetDataFromXPath(r, shortv, document);
+                            var path = node.XPath+ new XPath(r.XPath).TakeOff(shortv).ToString();
+
+                            var result = node.GetDataFromXPath(path, r.IsHTML);
+                        
+
+
+                                document.SetValue(r.Name, result);
                         }
                         documents.Add(document);
                     }

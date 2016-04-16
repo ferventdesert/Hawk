@@ -33,20 +33,20 @@ namespace Hawk.Core.Connectors
          /// 迭代式文件操作
          /// </summary>
          /// <param name="path"></param>
-         IEnumerable<IDictionarySerializable> WriteData(IEnumerable<IDictionarySerializable> datas );
+         IEnumerable<IFreeDocument> WriteData(IEnumerable<IFreeDocument> datas );
         /// <summary>
         /// 读文件
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-         IEnumerable<IDictionarySerializable> ReadFile(Action<int> alreadyGetSize=null);
+         IEnumerable<IFreeDocument> ReadFile(Action<int> alreadyGetSize=null);
 
         /// <summary>
         /// 获取得到的文本
         /// </summary>
         /// <param name="datas"></param>
         /// <returns></returns>
-        string GetString(IEnumerable<IDictionarySerializable> datas);
+        string GetString(IEnumerable<IFreeDocument> datas);
 
         #endregion
     }

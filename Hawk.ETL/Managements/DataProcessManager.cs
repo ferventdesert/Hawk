@@ -155,7 +155,8 @@ namespace Hawk.ETL.Managements
                            foreach (var process in CurrentProcessCollections)
                            {
                                SaveTask(process,false);
-                           } 
+                           }
+                           CurrentProject.Save();
                        }
                    }, obj => true,
                    "clear"));

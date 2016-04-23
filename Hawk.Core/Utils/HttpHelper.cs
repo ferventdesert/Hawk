@@ -6,6 +6,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Net.Security;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -16,14 +17,12 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Core.Utils
 {
-    
-
     public enum ContentType
     {
         Text,
         Json,
         XML,
-        Byte,
+        Byte
     }
 
     /// <summary>
@@ -33,7 +32,6 @@ namespace Hawk.Core.Utils
     /// </summary>
     public class HttpHelper
     {
-        #region 预定义方法或者变更
 
         //默认的编码
         private Encoding encoding = Encoding.Default;
@@ -62,10 +60,10 @@ namespace Hawk.Core.Utils
                     _stream = GetMemoryStream(response.GetResponseStream());
 
                     //获取Byte
-                    byte[] RawResponse = _stream.ToArray();
+                    var RawResponse = _stream.ToArray();
                     //是否返回Byte类型数据
                     //得到返回的HTML
-                    string result = Encoding.UTF8.GetString(RawResponse);
+                    var result = Encoding.UTF8.GetString(RawResponse);
                     File.WriteAllBytes(fileName, RawResponse);
                     size = RawResponse.Length;
                     //最后释放流
@@ -89,28 +87,23 @@ namespace Hawk.Core.Utils
         public bool AutoVisit(HttpItem item)
         {
             var res = GetHtml(item);
-            XLogSys.Print.Info(res.Substring(0,Math.Min(res.Length,300)));
-            bool relocate = false;
+            XLogSys.Print.Info(res.Substring(0, Math.Min(res.Length, 300)));
+            var relocate = false;
             item.Method = MethodType.GET;
             while (true)
             {
                 if (item.ResponseHeaders == null)
                     break;
-                    var newpos= item.ResponseHeaders["Location"];
-                    
-                if(newpos==null)
-                    break;
-                else
-                {
-                    XLogSys.Print.Debug("Redirect to " + newpos);
-                    item.URL = newpos;
-                    res = GetHtml(item);
-                    relocate = true;
-                }
+                var newpos = item.ResponseHeaders["Location"];
 
+                if (newpos == null)
+                    break;
+                XLogSys.Print.Debug("Redirect to " + newpos);
+                item.URL = newpos;
+                res = GetHtml(item);
+                relocate = true;
             }
             return relocate;
-
         }
 
         private FreeDocument CookieToDict(string cookie)
@@ -118,8 +111,6 @@ namespace Hawk.Core.Utils
             var dict = new FreeDocument();
             foreach (var p in cookie.Split(','))
             {
-
-
                 foreach (var s in p.Split(';'))
                 {
                     var equalpos = s.IndexOf("=");
@@ -139,7 +130,6 @@ namespace Hawk.Core.Utils
                         var cookieKey = s.Trim();
                         dict.SetValue(cookieKey.Trim(), "");
                     }
-
                 }
             }
             return dict;
@@ -147,15 +137,14 @@ namespace Hawk.Core.Utils
 
         public string MergeCookie(string c1, string c2)
         {
-          
-            var dict1= CookieToDict(c1);
+            var dict1 = CookieToDict(c1);
             var dict2 = CookieToDict(c2);
             dict1.DictCopyTo(dict2);
 
-            var v2= string.Join(";", dict2.Select(d => $"{d.Key}={d.Value}"));
+            var v2 = string.Join(";", dict2.Select(d => $"{d.Key}={d.Value}"));
             return v2;
         }
-        
+
         /// <summary>
         ///     根据相传入的数据，得到相应页面数据
         /// </summary>
@@ -164,110 +153,95 @@ namespace Hawk.Core.Utils
         /// <returns>string类型的响应数据</returns>
         private string GetHttpRequestData(HttpItem objhttpitem, out ContentType ContentType)
         {
-            string result = "";
-            try
+            var result = "";
+
+            #region 得到请求的response
+
+            using (response = (HttpWebResponse) request.GetResponse())
             {
-                #region 得到请求的response
+                var _stream = new MemoryStream();
 
-                using (response = (HttpWebResponse) request.GetResponse())
+                var docu = objhttpitem.GetHeaderParameter();
+                if (response.Headers["set-cookie"] != null)
+                    docu["Cookie"] = MergeCookie(docu["Cookie"].ToString(), response.Headers["set-cookie"]);
+
+                objhttpitem.ResponseHeaders = response.Headers;
+                objhttpitem.Parameters = objhttpitem.HeaderToString(docu);
+                //GZIIP处理
+                if (response.ContentEncoding != null &&
+                    response.ContentEncoding.Equals("gzip", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    var _stream = new MemoryStream();
+                    //开始读取流并设置编码方式
+                    //new GZipStream(response.GetResponseStream(), CompressionMode.Decompress).CopyTo(_stream, 10240);
+                    //.net4.0以下写法
+                    _stream =
+                        GetMemoryStream(new GZipStream(response.GetResponseStream(), CompressionMode.Decompress));
+                }
+                else
+                {
+                    //开始读取流并设置编码方式
+                    //response.GetResponseStream().CopyTo(_stream, 10240);
+                    //.net4.0以下写法
+                    _stream = GetMemoryStream(response.GetResponseStream());
+                }
+                //获取Byte
+                var RawResponse = _stream.ToArray();
+                //是否返回Byte类型数据
 
-                    var docu = objhttpitem.GetHeaderParameter();
-                    if(response.Headers["set-cookie"]!=null)
-                        docu["Cookie"] =MergeCookie( docu["Cookie"].ToString() , response.Headers["set-cookie"]);
-
-                    objhttpitem.ResponseHeaders = response.Headers;
-                    objhttpitem.Parameters = objhttpitem.HeaderToString(docu);
-                    //GZIIP处理
-                    if (response.ContentEncoding != null &&
-                        response.ContentEncoding.Equals("gzip", StringComparison.InvariantCultureIgnoreCase))
+                //从这里开始我们要无视编码了
+                if (objhttpitem.Encoding == EncodingType.Unknown || encoding == null)
+                {
+                    var temp = Encoding.Default.GetString(RawResponse, 0, RawResponse.Length);
+                    //<meta(.*?)charset([\s]?)=[^>](.*?)>
+                    var meta = Regex.Match(temp, "<meta([^<]*)charset=([^<]*)[\"']",
+                        RegexOptions.IgnoreCase | RegexOptions.Multiline);
+                    var charter = (meta.Groups.Count > 2) ? meta.Groups[2].Value : string.Empty;
+                    charter = charter.Replace("\"", string.Empty)
+                        .Replace("'", string.Empty)
+                        .Replace(";", string.Empty);
+                    if (charter.Length > 0)
                     {
-                        //开始读取流并设置编码方式
-                        //new GZipStream(response.GetResponseStream(), CompressionMode.Decompress).CopyTo(_stream, 10240);
-                        //.net4.0以下写法
-                        _stream =
-                            GetMemoryStream(new GZipStream(response.GetResponseStream(), CompressionMode.Decompress));
-                    }
-                    else
-                    {
-                        //开始读取流并设置编码方式
-                        //response.GetResponseStream().CopyTo(_stream, 10240);
-                        //.net4.0以下写法
-                        _stream = GetMemoryStream(response.GetResponseStream());
-                    }
-                    //获取Byte
-                    byte[] RawResponse = _stream.ToArray();
-                    //是否返回Byte类型数据
-                  
-                    //从这里开始我们要无视编码了
-                    if (objhttpitem.Encoding == EncodingType.Unknown||encoding==null)
-                    {
-                        string temp = Encoding.Default.GetString(RawResponse, 0, RawResponse.Length);
-                        //<meta(.*?)charset([\s]?)=[^>](.*?)>
-                        Match meta = Regex.Match(temp, "<meta([^<]*)charset=([^<]*)[\"']",
-                            RegexOptions.IgnoreCase | RegexOptions.Multiline);
-                        string charter = (meta.Groups.Count > 2) ? meta.Groups[2].Value : string.Empty;
-                        charter = charter.Replace("\"", string.Empty)
-                            .Replace("'", string.Empty)
-                            .Replace(";", string.Empty);
-                        if (charter.Length > 0)
+                        charter = charter.ToLower().Replace("iso-8859-1", "gbk");
+                        if (charter.Contains("utf-8") || charter.Contains("UTF-8"))
                         {
-                            charter = charter.ToLower().Replace("iso-8859-1", "gbk");
-                            if (charter.Contains("utf-8") || charter.Contains("UTF-8"))
-                            {
-                                encoding = Encoding.UTF8;
-                            }
-                            else if (charter.Contains("gb"))
-                            {
-                                encoding = Encoding.GetEncoding("GB2312");
-                            }
-                            else
-                            {
-                                encoding = Encoding.GetEncoding(charter);
-                            }
+                            encoding = Encoding.UTF8;
+                        }
+                        else if (charter.Contains("gb"))
+                        {
+                            encoding = Encoding.GetEncoding("GB2312");
                         }
                         else
                         {
-                            if (response.CharacterSet != null && response.CharacterSet.ToLower().Trim() == "iso-8859-1")
-                            {
-                                encoding = Encoding.GetEncoding("gbk");
-                            }
-                           
+                            encoding = Encoding.GetEncoding(charter);
                         }
-                    }
-
-                    if (response.ContentType.Contains("json"))
-                    {
-                        ContentType = ContentType.Json;
-
-                    }
-                    else if (response.ContentType.Contains("xml"))
-                    {
-                        ContentType = ContentType.XML;
-
                     }
                     else
                     {
-                        ContentType = ContentType.Text;
-
+                        if (response.CharacterSet != null && response.CharacterSet.ToLower().Trim() == "iso-8859-1")
+                        {
+                            encoding = Encoding.GetEncoding("gbk");
+                        }
                     }
-                    //得到返回的HTML
-                    result = encoding.GetString(RawResponse);
-                    //最后释放流
-                    _stream.Close();
                 }
 
-                #endregion
+                if (response.ContentType.Contains("json"))
+                {
+                    ContentType = ContentType.Json;
+                }
+                else if (response.ContentType.Contains("xml"))
+                {
+                    ContentType = ContentType.XML;
+                }
+                else
+                {
+                    ContentType = ContentType.Text;
+                }
+                //得到返回的HTML
+                result = encoding.GetString(RawResponse);
+                //最后释放流
+                _stream.Close();
             }
-            catch (WebException ex)
-            {
-                ContentType = ContentType.Text;
-                //这里是在发生异常时返回的错误信息
-                result = ex.Message;
-                response = (HttpWebResponse) ex.Response;
-            }
-           
+
             return result;
         }
 
@@ -278,7 +252,7 @@ namespace Hawk.Core.Utils
         /// <returns></returns>
         public static string GetWebSourceHtml(string url, string strFormat = "gb2312")
         {
-            string str = string.Empty;
+            var str = string.Empty;
             try
             {
                 var request = (HttpWebRequest) WebRequest.Create(url);
@@ -286,9 +260,9 @@ namespace Hawk.Core.Utils
 
                 request.Timeout = 30000;
                 request.Headers.Set("Pragma", "no-cache");
-                WebResponse response = request.GetResponse();
-                Stream streamReceive = response.GetResponseStream();
-                Encoding encoding = Encoding.GetEncoding(strFormat);
+                var response = request.GetResponse();
+                var streamReceive = response.GetResponseStream();
+                var encoding = Encoding.GetEncoding(strFormat);
                 var streamReader = new StreamReader(streamReceive, encoding);
                 str = streamReader.ReadToEnd();
                 streamReader.Close();
@@ -303,9 +277,8 @@ namespace Hawk.Core.Utils
         [DllImport("wininet.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern bool InternetSetCookie(string lpszUrlName, string lbszCookieName, string lpszCookieData);
 
-     
 
-              /// <summary>
+        /// <summary>
         ///     组装普通文本请求参数。
         /// </summary>
         /// <param name="parameters">Key-Value形式请求参数字典。</param>
@@ -313,13 +286,13 @@ namespace Hawk.Core.Utils
         private static string BuildPostData(IDictionary<string, object> parameters)
         {
             var postData = new StringBuilder();
-            bool hasParam = false;
+            var hasParam = false;
 
-            IEnumerator<KeyValuePair<string, object>> dem = parameters.GetEnumerator();
+            var dem = parameters.GetEnumerator();
             while (dem.MoveNext())
             {
-                string name = dem.Current.Key;
-                string value = dem.Current.Value.ToString();
+                var name = dem.Current.Key;
+                var value = dem.Current.Value.ToString();
                 // 忽略参数名或参数值为空的参数
                 if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(value))
                 {
@@ -340,8 +313,8 @@ namespace Hawk.Core.Utils
 
         public static bool SetHeaderValue(WebHeaderCollection header, string name, string value)
         {
-            var property = typeof(WebHeaderCollection).GetProperty("InnerCollection",
-                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            var property = typeof (WebHeaderCollection).GetProperty("InnerCollection",
+                BindingFlags.Instance | BindingFlags.NonPublic);
             var collection = property?.GetValue(header, null) as NameValueCollection;
             if (collection != null)
             {
@@ -350,6 +323,7 @@ namespace Hawk.Core.Utils
             }
             return false;
         }
+
         /// <summary>
         ///     4.0以下.net版本取数据使用
         /// </summary>
@@ -357,9 +331,9 @@ namespace Hawk.Core.Utils
         private static MemoryStream GetMemoryStream(Stream streamResponse)
         {
             var _stream = new MemoryStream();
-            int Length = 256;
-            var buffer = new Byte[Length];
-            int bytesRead = streamResponse.Read(buffer, 0, Length);
+            var Length = 256;
+            var buffer = new byte[Length];
+            var bytesRead = streamResponse.Read(buffer, 0, Length);
             // write the required bytes  
             while (bytesRead > 0)
             {
@@ -369,7 +343,6 @@ namespace Hawk.Core.Utils
             return _stream;
         }
 
-     
 
         /// <summary>
         ///     为请求准备参数
@@ -385,9 +358,10 @@ namespace Hawk.Core.Utils
             }
             // 验证证书
             if (url.Contains("https"))
-                ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+                ServicePointManager.ServerCertificateValidationCallback =
+                    (sender, certificate, chain, sslPolicyErrors) => true;
             //初始化对像，并设置请求的URL地址
-            request = (HttpWebRequest)WebRequest.Create(GetUrl(url));
+            request = (HttpWebRequest) WebRequest.Create(GetUrl(url));
 
             var docu = item.GetHeaderParameter();
             // 设置代理
@@ -397,7 +371,7 @@ namespace Hawk.Core.Utils
             request.Timeout = item.Timeout;
             request.ReadWriteTimeout = item.ReadWriteTimeout;
             //Accept
-       
+
             request.Headers = new WebHeaderCollection();
             if (docu["Headers"].ToString() != "")
             {
@@ -405,16 +379,14 @@ namespace Hawk.Core.Utils
                 foreach (var s in str)
                 {
                     var ms = s.Split(':');
-                    if(ms.Length!=2)
+                    if (ms.Length != 2)
                         continue;
                     var key = ms[0].Trim();
                     var value = ms[1].Trim();
-                    if (SetHeaderValue(request.Headers, key, value)==false)
+                    if (SetHeaderValue(request.Headers, key, value) == false)
                     {
-                        request.Headers.Add(key,value);
+                        request.Headers.Add(key, value);
                     }
-
-
                 }
             }
             request.Accept = docu["Accept"].ToString();
@@ -425,7 +397,7 @@ namespace Hawk.Core.Utils
             request.UserAgent = docu["User-Agent"].ToString();
             var host = docu["Host"].ToString();
             //if (string.IsNullOrEmpty(host) == false)
-               // request.Host = host;
+            // request.Host = host;
             encoding = AttributeHelper.GetEncoding(item.Encoding);
             //设置Cookie
             var cookie = docu["Cookie"].ToString();
@@ -434,7 +406,7 @@ namespace Hawk.Core.Utils
                 request.Headers[HttpRequestHeader.Cookie] = cookie;
             }
 
-            
+
             //来源地址
             request.Referer = docu["Referer"].ToString();
             //是否执行跳转功能
@@ -449,8 +421,6 @@ namespace Hawk.Core.Utils
         }
 
 
-
-
         /// <summary>
         ///     设置Post数据
         /// </summary>
@@ -460,7 +430,7 @@ namespace Hawk.Core.Utils
             //验证在得到结果时是否有传入数据
             if (!string.IsNullOrEmpty(objhttpItem.Postdata) && request.Method.Trim().ToLower().Contains("post"))
             {
-                byte[] buffer = Encoding.Default.GetBytes(objhttpItem.Postdata);
+                var buffer = Encoding.Default.GetBytes(objhttpItem.Postdata);
                 request.ContentLength = buffer.Length;
                 request.GetRequestStream().Write(buffer, 0, buffer.Length);
             }
@@ -481,7 +451,7 @@ namespace Hawk.Core.Utils
         //    {
         //        //设置代理服务器
         //        var myProxy = new WebProxy(objhttpItem.ProxyIp, objhttpItem.ProxyPort);
-             
+
         //        //建议连接
         //        myProxy.Credentials = new NetworkCredential(objhttpItem.ProxyUserName, objhttpItem.ProxyPwd);
         //        //给当前请求对象
@@ -530,7 +500,7 @@ namespace Hawk.Core.Utils
         /// </summary>
         /// <param name="objhttpItem">参数列表</param>
         /// <returns>String类型的数据</returns>
-        public string GetHtml(HttpItem objhttpItem,out ContentType contentType)
+        public string GetHtml(HttpItem objhttpItem, out ContentType contentType)
         {
             //准备参数
             SetRequest(objhttpItem);
@@ -541,14 +511,14 @@ namespace Hawk.Core.Utils
 
         public static string GetRealIp()
         {
-            string ip = "";
+            var ip = "";
             try
             {
-                HttpRequest request = HttpContext.Current.Request;
+                var request = HttpContext.Current.Request;
 
                 if (request.ServerVariables["http_VIA"] != null)
                 {
-                    ip = request.ServerVariables["http_X_FORWARDED_FOR"].ToString().Split(',')[0].Trim();
+                    ip = request.ServerVariables["http_X_FORWARDED_FOR"].Split(',')[0].Trim();
                 }
                 else
                 {
@@ -575,25 +545,22 @@ namespace Hawk.Core.Utils
                 SetRequest(objhttpItem);
                 ContentType content;
                 return GetHttpRequestData(objhttpItem, out content);
-
             }
             catch (Exception ex)
             {
-
                 return ex.ToString();
             }
-           
         }
+
         #endregion
     }
 
     public enum MethodType
     {
         GET,
-        POST,
+        POST
     }
 
-   
 
     /// <summary>
     ///     返回类型

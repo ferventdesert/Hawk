@@ -246,8 +246,8 @@ namespace Hawk.ETL.Plugins.Generators
             var result = new FreeDocument();
             foreach (var data in datas)
             {
-                var key = data[Column].ToString();
-                var value = data[ValueColumn].ToString();
+                var key = data[Column]?.ToString();
+                var value = data[ValueColumn]?.ToString();
                
                 if(string.IsNullOrEmpty(key)&&string.IsNullOrEmpty(value))
                 {

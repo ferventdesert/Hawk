@@ -60,7 +60,7 @@ namespace Hawk.ETL.Plugins.Web
                     //以 Get 形式请求 Api 地址
                     //    var result = HttpHelper.DoGet(apiUrl, param);
                     dynamic info =  serialier.DeserializeObject(result);
-                    if (info["status"].ToInt32() == 0)
+                  //  if (info[0]["status"].ToInt32() == 0)
                     {
                         newlocation = Parse(info);
                     }

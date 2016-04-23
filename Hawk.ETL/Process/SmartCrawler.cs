@@ -7,7 +7,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Input;
 using Fiddler;
@@ -96,8 +95,7 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("刷新网页", obj => VisitURLAsync()),
-                      
+                        new Command("刷新网页", obj => VisitURLAsync())
                     });
             }
         }
@@ -116,16 +114,27 @@ namespace Hawk.ETL.Process
                         new Command("添加字段", obj => AddNewItem(),
                             obj =>
                                 string.IsNullOrEmpty(SelectName) == false && string.IsNullOrEmpty(SelectXPath) == false),
-                                   new Command("搜索XPath", async obj =>await this.GetXPathAsync(SelectText),
+                        new Command("搜索XPath", async obj => await GetXPathAsync(SelectText),
                             obj =>
                                 string.IsNullOrEmpty(SelectText) == false),
-                                     new Command("手气不错",
+                        new Command("手气不错",
                             obj => GreatHand(),
                             obj => IsMultiData == ListType.List
                             ),
                         new Command("提取测试", obj =>
                         {
-                            var datas = HtmlDoc.GetDataFromXPath(CrawlItems, IsMultiData);
+                            if (IsMultiData == ListType.List && string.IsNullOrEmpty(RootXPath))
+                            {
+                                var shortv = HtmlDoc.CompileCrawItems(CrawlItems);
+                                if (!string.IsNullOrEmpty(shortv))
+                                {
+                                    RootXPath = shortv;
+                                    OnPropertyChanged("RootXPath");
+                                }
+                            }
+
+
+                            var datas = HtmlDoc.GetDataFromXPath(CrawlItems, IsMultiData, RootXPath);
                             var view = PluginProvider.GetObjectInstance<IDataViewer>("可编辑列表");
 
                             var r = view.SetCurrentView(datas);
@@ -205,6 +214,11 @@ namespace Hawk.ETL.Process
         [Category("属性提取")]
         public bool IsAttribute { get; set; }
 
+        [Category("属性提取")]
+        [DisplayName("父节点Path")]
+        [PropertyOrder(8)]
+        public string RootXPath { get; set; }
+
         [Browsable(false)]
         public bool IsRunning { get; private set; }
 
@@ -272,30 +286,29 @@ namespace Hawk.ETL.Process
             }
         }
 
-     
         private void GreatHand()
         {
-           var  crawitems = HtmlDoc.SearchPropertiesSmart(CrawlItems, IsAttribute).FirstOrDefault();
+            var crawitems = HtmlDoc.SearchPropertiesSmart(CrawlItems, IsAttribute).FirstOrDefault();
             if ((crawitems != null).SafeCheck("网页属性获取", LogType.Info) == false)
                 return;
 
 
             var datas = HtmlDoc.GetDataFromXPath(crawitems, IsMultiData);
 
-           var   propertyNames = new FreeDocument(datas.GetKeys().ToDictionary(d => d, d => (object) d));
+            var propertyNames = new FreeDocument(datas.GetKeys().ToDictionary(d => d, d => (object) d));
             datas.Insert(0, propertyNames);
             var view = PluginProvider.GetObjectInstance<IDataViewer>("可编辑列表");
             var r = view.SetCurrentView(datas);
 
-           
-            string name = "手气不错_可修改第一列的属性名称";
-            var window = new Window { Title = name };
-            window.Content =r ;
+
+            var name = "手气不错_可修改第一列的属性名称";
+            var window = new Window {Title = name};
+            window.Content = r;
             window.Closing += (s, e) =>
             {
                 if (ControlExtended.UserCheck("是否确认选择当前的数据表") == false)
                     return;
-            
+
                 foreach (var propertyName in propertyNames)
                 {
                     var item = crawitems.FirstOrDefault(d => d.Name == propertyName.Key);
@@ -309,16 +322,11 @@ namespace Hawk.ETL.Process
                 CrawlItems.AddRange(crawitems);
             };
 
-         
-        
+
             window.ShowDialog();
-
-
-
         }
 
-
-               public override bool Close()
+        public override bool Close()
         {
             if (IsRunning)
             {
@@ -331,7 +339,7 @@ namespace Hawk.ETL.Process
         {
             var dict = base.DictSerialize(scenario);
             dict.Add("URL", URL);
-
+            dict.Add("RootXPath", RootXPath);
             dict.Add("IsMultiData", IsMultiData);
             dict.Add("HttpSet", Http.DictSerialize());
             dict.Add("URLFilter", URLFilter);
@@ -425,9 +433,8 @@ namespace Hawk.ETL.Process
         public override void DictDeserialize(IDictionary<string, object> dicts, Scenario scenario = Scenario.Database)
         {
             base.DictDeserialize(dicts, scenario);
-            var url = URL;
-
             URL = dicts.Set("URL", URL);
+            RootXPath = dicts.Set("RootXPath", RootXPath);
             IsMultiData = dicts.Set("IsMultiData", IsMultiData);
             URLFilter = dicts.Set("URLFilter", URLFilter);
             ContentFilter = dicts.Set("ContentFilter", ContentFilter);
@@ -489,29 +496,24 @@ namespace Hawk.ETL.Process
             return SelectXPath;
         }
 
-
-        public List<FreeDocument> CrawData(string url,  string post = null)
+        public List<FreeDocument> CrawData(string url, string post = null)
         {
             HtmlDocument doc;
             return CrawData(url, out doc, post);
         }
 
-        public List<FreeDocument> CrawData( HtmlDocument doc)
+        public List<FreeDocument> CrawData(HtmlDocument doc)
         {
             if (CrawlItems.Count == 0)
             {
-
                 var freedoc = new FreeDocument();
                 freedoc.Add("Content", doc.DocumentNode.OuterHtml);
-                 return  new List<FreeDocument>() { freedoc };
+                return new List<FreeDocument> {freedoc};
             }
-            else
-            {
-               return doc.GetDataFromXPath(CrawlItems, IsMultiData);
-            }
-
+            return doc.GetDataFromXPath(CrawlItems, IsMultiData,RootXPath);
         }
-        public List<FreeDocument> CrawData(string url,out HtmlDocument doc, string post = null)
+
+        public List<FreeDocument> CrawData(string url, out HtmlDocument doc, string post = null)
         {
             var mc = extract.Matches(url);
             Dictionary<string, string> paradict = null;
@@ -533,7 +535,6 @@ namespace Hawk.ETL.Process
             var httpitem = new HttpItem();
             httpitem.DictDeserialize(Http.DictSerialize());
 
-
             var tempUrl = "";
             if (httpitem.Method == MethodType.GET)
             {
@@ -551,8 +552,6 @@ namespace Hawk.ETL.Process
             doc = new HtmlDocument();
             doc.LoadHtml(content);
             return CrawData(doc);
-           
-
         }
 
         private async void VisitURLAsync()

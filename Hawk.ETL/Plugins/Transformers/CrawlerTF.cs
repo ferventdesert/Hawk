@@ -69,8 +69,6 @@ namespace Hawk.ETL.Plugins.Transformers
                 generator = mainstream.CurrentETLTools.FirstOrDefault(d => d.Name == GEName) as BfsGE;
             }
 
-            if (crawler == null)
-            {
                    crawler =
                 processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector) as SmartCrawler;
             if (crawler != null)
@@ -86,7 +84,6 @@ namespace Hawk.ETL.Plugins.Transformers
                 crawler =
                     processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector) as
                         SmartCrawler;
-            }
             }
 
          

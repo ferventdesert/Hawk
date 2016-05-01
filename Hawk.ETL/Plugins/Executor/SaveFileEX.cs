@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Net;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
@@ -18,10 +19,16 @@ namespace Hawk.ETL.Plugins.Executor
 
         public override IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents)
         {
-
+           
             foreach (var document in documents)
             {
+
                 var path = document.Query(SavePath);
+                if (!Directory.Exists(path))
+                {
+                    DirectoryInfo directoryInfo = new DirectoryInfo(path);
+                    directoryInfo.Create();
+                }
                 var url = document[Column].ToString();
                 if(string.IsNullOrEmpty(url))
                     continue;

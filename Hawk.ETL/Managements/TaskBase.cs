@@ -52,8 +52,9 @@ namespace Hawk.ETL.Managements
                 OnPropertyChanged("CurrentIndex");
             }
         }
-
-      
+        [DisplayName("分组")]
+        [PropertyOrder(4)]
+        public string Group { get; set; }
 
         /// <summary>
         ///     该计算任务的介绍

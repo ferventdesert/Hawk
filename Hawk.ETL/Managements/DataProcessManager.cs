@@ -343,8 +343,18 @@ namespace Hawk.ETL.Managements
                 }
                 ProcessCollectionView = new ListCollectionView(ProcessCollection);
                 ProcessCollectionView.GroupDescriptions.Clear();
-                ProcessCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
+                ProcessCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("TypeName"));
 
+
+             
+
+                ProjectTaskList = new ListCollectionView(CurrentProject.Tasks);
+                ProjectTaskList.GroupDescriptions.Clear();
+
+                ProjectTaskList.GroupDescriptions.Add(new PropertyGroupDescription("TypeName"));
+
+
+                OnPropertyChanged("ProjectTaskList");
                 ProjectTaskList = new ListCollectionView(CurrentProject.Tasks);
                 ProjectTaskList.GroupDescriptions.Clear();
 
@@ -385,6 +395,7 @@ namespace Hawk.ETL.Managements
                 task.ProcessToDo = configDocument;
             }
         }
+        public ListCollectionView CurrentProcessView { get; set; }
         public ListCollectionView ProcessCollectionView { get; set; }
         public ListCollectionView ProjectTaskList { get; set; }
 

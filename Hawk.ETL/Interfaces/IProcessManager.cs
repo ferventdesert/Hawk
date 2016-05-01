@@ -34,7 +34,7 @@ namespace Hawk.ETL.Interfaces
         /// 删除一个模块
         /// </summary>
         /// <param name="process"></param>
-        void Remove(IDataProcess process);
+        void RemoveOperation(IDataProcess process);
 
 
         /// <summary>

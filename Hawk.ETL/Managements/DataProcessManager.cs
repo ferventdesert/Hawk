@@ -139,7 +139,7 @@ namespace Hawk.ETL.Managements
                         if (MessageBox.Show("确定清空所有算法模块么？", "提示信息", MessageBoxButton.OKCancel) ==
                             MessageBoxResult.OK)
                         {
-                            ProcessCollection.Clear();
+                            ProcessCollection.RemoveElementsNoReturn(d=>true,RemoveOperation);
                         }
                     }, obj => true,
                     "clear"));
@@ -233,21 +233,23 @@ namespace Hawk.ETL.Managements
                 if (process == null) return;
                 (MainFrmUI as IDockableManager).ActiveModelContent(process);
             }, obj => true, "tv"));
-
             processAction.ChildActions.Add(new Command("拷贝", obj =>
             {
                 var process = GetProcess(obj);
                 if (process == null) return;
-                Remove(obj as IDataProcess);
-                var item = PluginProvider.GetObjectInstance(process.TypeName) as IDataProcess;
+                ProcessCollection.Remove(obj as IDataProcess);
+                var item = GetOneInstance(process.TypeName,true,false) as IDataProcess;
                 (process as IDictionarySerializable).DictCopyTo(item as IDictionarySerializable);
                 ProcessCollection.Add(item);
             }, obj => true, "new"));
+
             processAction.ChildActions.Add(new Command("移除", obj =>
             {
                 var process = GetProcess(obj);
                 if (process == null) return;
-                Remove(obj as IDataProcess);
+                
+                RemoveOperation(process);
+                ProcessCollection.Remove(process);
                 ShowConfigUI(null);
             }, obj => true, "delete"));
 
@@ -285,25 +287,11 @@ namespace Hawk.ETL.Managements
                 if (attr == null)
                     return;
 
-                var process = GetOneInstance(attr.Name, isAddUI: true);
+                var process = GetOneInstance(attr.MyType.Name,newOne:true, isAddUI: true);
               
             }));
             BindingCommands.ChildActions.Add(attributeactions);
-            ProcessCollection.CollectionChanged += (s, e) =>
-            {
-                switch (e.Action)
-                {
-                    
-
-                    case NotifyCollectionChangedAction.Remove:
-
-                        foreach (var view in e.OldItems.OfType<IView>())
-                        {
-                            dockableManager.RemoveDockableContent(view);
-                        }
-                        break;
-                }
-            };
+            
             var config = ConfigFile.GetConfig<DataMiningConfig>();
             if (config.Projects.Any())
             {
@@ -517,10 +505,11 @@ namespace Hawk.ETL.Managements
         }
 
 
-        public void Remove(IDataProcess process)
+        public void RemoveOperation(IDataProcess process)
         {
-
-            ProcessCollection.Remove(process);
+            dockableManager.RemoveDockableContent(process);
+            process.Close();
+          
         }
 
         public IList<TaskBase> CurrentProcessTasks { get; set; }

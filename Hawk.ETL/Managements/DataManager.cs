@@ -465,10 +465,7 @@ namespace Hawk.ETL.Managements
                     var plugin = processManager.GetOneInstance("SmartETLTool", true, true) as SmartETLTool;
                     dynamic generator = PluginProvider.GetObjectByType<IColumnProcess>("TableGE");
                     generator.TableSelector.SelectItem = collection;
-                    dynamic executor = PluginProvider.GetObjectByType<IColumnProcess>("TableEX");
-                    plugin.Name += "_" + collection.Name;
                     plugin.CurrentETLTools.Add(generator);
-                    plugin.CurrentETLTools.Add(executor);
                     plugin.RefreshSamples();
                     ControlExtended.DockableManager.ActiveModelContent(plugin);
                 }, obj => true, "new"));
@@ -611,7 +608,7 @@ namespace Hawk.ETL.Managements
 
         private void LoadDataConnections()
         {
-            _dbConnections = processManager.CurrentProject.DBConnections;
+            _dbConnections = processManager?.CurrentProject?.DBConnections;
             InformPropertyChanged("CurrentConnectors");
             foreach (var  dataBaseConnector in processManager.CurrentProject.DBConnections.Where(d=>d.AutoConnect==true
 ))

@@ -195,8 +195,18 @@
     		<ColumnDefinition Width="0.489*"/>
     	</Grid.ColumnDefinitions>
             <ListBox x:Name="processListBox" SelectedItem="{Binding SelectedProcess}" Margin="8,40.25,8,20" MouseMove="processListBox_MouseMove" DataContext="{Binding PluginDictionary[模块管理]}" ItemsSource="{Binding ProcessCollectionView}"  ItemTemplate="{DynamicResource DataTemplate2}"  >
-
-				 <ListBox.Resources>
+            <ListBox.GroupStyle>
+                <GroupStyle ContainerStyle="{StaticResource GroupContainerStyle}">
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="Black" BorderThickness="1" Height="30">
+                                <TextBlock Text="{Binding Name}"  FontWeight="Bold" />
+                            </Border>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ListBox.GroupStyle>
+            <ListBox.Resources>
             	 	<ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding PluginDictionary[模块管理].BindingCommands.ChildActions[4].ChildActions}"/>
 
             	 	<Style TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource {x:Type ListBoxItem}}">

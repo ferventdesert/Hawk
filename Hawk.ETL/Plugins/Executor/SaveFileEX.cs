@@ -24,10 +24,14 @@ namespace Hawk.ETL.Plugins.Executor
             {
 
                 var path = document.Query(SavePath);
-                if (!Directory.Exists(path))
+                DirectoryInfo directoryInfo = new DirectoryInfo(path);
+                var folder = directoryInfo.Parent;
+                if(folder ==null)
+                    continue;
+                if ( !folder.Exists)
                 {
-                    DirectoryInfo directoryInfo = new DirectoryInfo(path);
-                    directoryInfo.Create();
+
+                    folder.Create();
                 }
                 var url = document[Column].ToString();
                 if(string.IsNullOrEmpty(url))

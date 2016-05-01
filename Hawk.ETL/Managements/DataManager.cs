@@ -279,10 +279,6 @@ namespace Hawk.ETL.Managements
             {
                 DataCollections = new ObservableCollection<DataCollection>();
             }
-            //Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary
-            //{
-            //    Source = new Uri("pack://application:,,,/XFrmWork.DataMining.UI;component/Resources/Generic.xaml")
-            //});
 
             processManager = MainFrmUI.PluginDictionary["模块管理"] as IProcessManager;
 

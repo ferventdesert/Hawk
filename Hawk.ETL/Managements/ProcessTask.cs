@@ -58,7 +58,8 @@ namespace Hawk.ETL.Managements
                     return;
                 var process=ProcessManager.GetOneInstance(processname,newOne:true) as IDictionarySerializable;
                 ProcessToDo.DictCopyTo(process);
-                
+              
+
             }, LogType.Important, $"加载{Name}任务",true);
         }
 

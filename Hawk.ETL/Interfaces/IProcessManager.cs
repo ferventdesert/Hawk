@@ -25,7 +25,7 @@ namespace Hawk.ETL.Interfaces
         /// <param name="name"></param>
         /// <param name="isAddToList">是否添加到列表 </param>
         /// <returns></returns>
-        IDataProcess GetOneInstance(string name, bool isAddToList = true, bool newOne = false);
+        IDataProcess GetOneInstance(string name, bool isAddToList = true, bool newOne = false,bool addUI=false);
 
       
         

@@ -25,6 +25,8 @@ https://github.com/ferventdesert/Hawk-Projects
 
 https://github.com/ferventdesert/Hawk/tree/master/Versions
 
+编译路径在:
+Hawk.Core\Hawk.Core.sln
 
 ![2.gif-3330.9kB][1]
 

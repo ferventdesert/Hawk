@@ -111,17 +111,17 @@ namespace Hawk.Core.Utils.Plugins
                     };
                 pluginCommands.ChildActions.Add(action);
             }
-            pluginCommands.ChildActions.Add(new Command("显示插件列表",obj=>
-                {
-                    var view2 = PluginProvider.GetObjectInstance<ICustomView>("插件管理器");
-                    var frameworkElement = view2 as FrameworkElement;
-                    if (frameworkElement != null)
-                    {
-                        frameworkElement.DataContext = this;
-                    }
-                    var dockableManager = this.MainFrmUI as IDockableManager;
-                    dockableManager?.AddDockAbleContent(view2.FrmState,view2,"系统插件信息");
-                }));
+            //pluginCommands.ChildActions.Add(new Command("显示插件列表",obj=>
+            //    {
+            //        var view2 = PluginProvider.GetObjectInstance<ICustomView>("插件管理器");
+            //        var frameworkElement = view2 as FrameworkElement;
+            //        if (frameworkElement != null)
+            //        {
+            //            frameworkElement.DataContext = this;
+            //        }
+            //        var dockableManager = this.MainFrmUI as IDockableManager;
+            //        dockableManager?.AddDockAbleContent(view2.FrmState,view2,"系统插件信息");
+            //    }));
             this.MainFrmUI.CommandCollection.Add(pluginCommands);
 
             return true;

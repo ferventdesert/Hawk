@@ -239,8 +239,11 @@ namespace Hawk.ETL.Process
         [Browsable(false)]
         protected List<XFrmWorkAttribute> AllETLTools { get; set; }
 
+        [Browsable(false)]
+        public dynamic etls => CurrentETLTools;
+
         [Category("2.清洗流程")]
-        [DisplayName("已加载")]
+        [DisplayName("已加载")] 
         public ObservableCollection<IColumnProcess> CurrentETLTools { get; set; }
 
         [Browsable(false)]
@@ -692,39 +695,39 @@ namespace Hawk.ETL.Process
             {
                 var dock = MainFrm as IDockableManager ?? ControlExtended.DockableManager;
                 var control = dock?.ViewDictionary.FirstOrDefault(d => d.Model == this);
-                if (control == null)
+                if (control != null)
                 {
-                    return;
-                }
-                if (control.View is IRemoteInvoke)
-                {
-                    var invoke = control.View as IRemoteInvoke;
-                    invoke.RemoteFunc = DropAction;
-                }
-                dynamic dy = control.View;
 
-                dataView = dy.DataList;
-                alltoolList = dy.ETLToolList;
-                alltoolList.MouseMove += (s, e) =>
-                {
-                    if (e.LeftButton == MouseButtonState.Pressed)
+                    if (control.View is IRemoteInvoke)
                     {
-                        var attr = alltoolList.SelectedItem as XFrmWorkAttribute;
-                        if (attr == null)
-                        {
-                            return;
-                        }
-
-                        var data = new DataObject(typeof (XFrmWorkAttribute), attr);
-                        try
-                        {
-                            DragDrop.DoDragDrop(control.View as UserControl, data, DragDropEffects.Move);
-                        }
-                        catch (Exception ex)
-                        {
-                        }
+                        var invoke = control.View as IRemoteInvoke;
+                        invoke.RemoteFunc = DropAction;
                     }
-                };
+                    dynamic dy = control.View;
+
+                    dataView = dy.DataList;
+                    alltoolList = dy.ETLToolList;
+                    alltoolList.MouseMove += (s, e) =>
+                    {
+                        if (e.LeftButton == MouseButtonState.Pressed)
+                        {
+                            var attr = alltoolList.SelectedItem as XFrmWorkAttribute;
+                            if (attr == null)
+                            {
+                                return;
+                            }
+
+                            var data = new DataObject(typeof (XFrmWorkAttribute), attr);
+                            try
+                            {
+                                DragDrop.DoDragDrop(control.View as UserControl, data, DragDropEffects.Move);
+                            }
+                            catch (Exception ex)
+                            {
+                            }
+                        }
+                    };
+                }
             }
             Documents.Clear();
            

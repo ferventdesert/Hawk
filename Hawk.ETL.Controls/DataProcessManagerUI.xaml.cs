@@ -19,18 +19,9 @@ namespace Hawk.ETL.Controls
         public DataProcessManagerUI()
         {
             this.InitializeComponent();
-            listboxProcessMethodList.MouseDoubleClick += listboxProcessMethodList_MouseDoubleClick;
 
         }
 
-        void listboxProcessMethodList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                var attr = this.listboxProcessMethodList.SelectedItem as XFrmWorkAttribute;
-                
-            }
-        }
 
         #endregion
 
@@ -49,15 +40,6 @@ namespace Hawk.ETL.Controls
 
         #endregion
 
-        public FrmState FrmState
-        {
-            get
-            {
-                return FrmState.Large;
-
-            }
-        }
-
-        
+        public FrmState FrmState => FrmState.Large;
     }
 }

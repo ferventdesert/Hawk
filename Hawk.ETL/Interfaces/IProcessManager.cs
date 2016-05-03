@@ -25,7 +25,7 @@ namespace Hawk.ETL.Interfaces
         /// <param name="name"></param>
         /// <param name="isAddToList">是否添加到列表 </param>
         /// <returns></returns>
-        IDataProcess GetOneInstance(string name, bool isAddToList = true, bool newOne = false);
+        IDataProcess GetOneInstance(string name, bool isAddToList = true, bool newOne = false,bool addUI=false);
 
       
         
@@ -34,7 +34,7 @@ namespace Hawk.ETL.Interfaces
         /// 删除一个模块
         /// </summary>
         /// <param name="process"></param>
-        void Remove(IDataProcess process);
+        void RemoveOperation(IDataProcess process);
 
 
         /// <summary>

@@ -92,7 +92,7 @@ namespace Hawk.ETL.Managements
                 if (_selectedTask == value) return;
                 _selectedTask = value;
                 OnPropertyChanged("SelectedTask");
-                propertyGridWindow.SetObjectView(value);
+                ShowConfigUI(value);
             }
         }
 
@@ -139,7 +139,7 @@ namespace Hawk.ETL.Managements
                         if (MessageBox.Show("确定清空所有算法模块么？", "提示信息", MessageBoxButton.OKCancel) ==
                             MessageBoxResult.OK)
                         {
-                            ProcessCollection.Clear();
+                            ProcessCollection.RemoveElementsNoReturn(d=>true,RemoveOperation);
                         }
                     }, obj => true,
                     "clear"));
@@ -225,7 +225,7 @@ namespace Hawk.ETL.Managements
             {
                 var process = GetProcess(obj);
                 if (process == null) return;
-                propertyGridWindow.SetObjectView(process);
+                ShowConfigUI(process);
             }, obj => true, "settings"));
             processAction.ChildActions.Add(new Command("查看视图", obj =>
             {
@@ -233,22 +233,24 @@ namespace Hawk.ETL.Managements
                 if (process == null) return;
                 (MainFrmUI as IDockableManager).ActiveModelContent(process);
             }, obj => true, "tv"));
-
             processAction.ChildActions.Add(new Command("拷贝", obj =>
             {
                 var process = GetProcess(obj);
                 if (process == null) return;
                 ProcessCollection.Remove(obj as IDataProcess);
-                var item = PluginProvider.GetObjectInstance(process.TypeName) as IDataProcess;
+                var item = GetOneInstance(process.TypeName,true,false) as IDataProcess;
                 (process as IDictionarySerializable).DictCopyTo(item as IDictionarySerializable);
                 ProcessCollection.Add(item);
             }, obj => true, "new"));
+
             processAction.ChildActions.Add(new Command("移除", obj =>
             {
                 var process = GetProcess(obj);
                 if (process == null) return;
-                ProcessCollection.Remove(obj as IDataProcess);
-                propertyGridWindow?.SetObjectView(null);
+                
+                RemoveOperation(process);
+                ProcessCollection.Remove(process);
+                ShowConfigUI(null);
             }, obj => true, "delete"));
 
             processAction.ChildActions.Add(new Command("保存任务", obj =>
@@ -266,8 +268,13 @@ namespace Hawk.ETL.Managements
             {
                 var process = GetProcess(obj);
                 if (process == null) return;
+                var view = (MainFrmUI as IDockableManager).ViewDictionary.FirstOrDefault(d => d.Model == process);
+                if(view==null)
+                {
+                    LoadProcessView(process);
+                }
                 (MainFrmUI as IDockableManager).ActiveModelContent(process);
-                propertyGridWindow.SetObjectView(process);
+                ShowConfigUI(process);
             }, obj => true, "delete"));
 
 
@@ -279,33 +286,12 @@ namespace Hawk.ETL.Managements
                 var attr = obj as XFrmWorkAttribute;
                 if (attr == null)
                     return;
-                
-                var process = ProcessCollection.Add(attr.MyType);
-                
-                propertyGridWindow.SetObjectView(process);
+
+                var process = GetOneInstance(attr.MyType.Name,newOne:true, isAddUI: true);
+              
             }));
             BindingCommands.ChildActions.Add(attributeactions);
-            ProcessCollection.CollectionChanged += (s, e) =>
-            {
-                switch (e.Action)
-                {
-                    case NotifyCollectionChangedAction.Add:
-                        foreach (
-                            var process in from object items in e.NewItems select items as IDataProcess)
-                        {
-                            OtherAddOperation(process);
-                        }
-                        break;
-
-                    case NotifyCollectionChangedAction.Remove:
-
-                        foreach (var view in e.OldItems.OfType<IView>())
-                        {
-                            dockableManager.RemoveDockableContent(view);
-                        }
-                        break;
-                }
-            };
+            
             var config = ConfigFile.GetConfig<DataMiningConfig>();
             if (config.Projects.Any())
             {
@@ -476,7 +462,7 @@ namespace Hawk.ETL.Managements
 
 
 
-        public IDataProcess GetOneInstance(string name, bool isAddToList = true, bool newOne = false)
+        public IDataProcess GetOneInstance(string name, bool isAddToList = true, bool newOne = false,bool isAddUI=false)
         {
             if (newOne)
             {
@@ -484,7 +470,34 @@ namespace Hawk.ETL.Managements
                 if (process != null)
                 {
                     if (isAddToList)
+                    {
                         ProcessCollection.Add(process);
+                        process.SysDataManager = dataManager;
+
+                        process.SysProcessManager = this;
+                        var rc4 = process as AbstractProcessMethod;
+                        if (rc4 != null)
+                        {
+
+                            rc4.MainPluginLocation = MainFrmUI.MainPluginLocation;
+                            rc4.MainFrm = MainFrmUI;
+                        }
+                        XLogSys.Print.Info("已经成功添加" + process.TypeName + "到当前列表");
+                        process.Init();
+                    }
+                       
+                    if (isAddUI)
+                    {
+                        
+                            ControlExtended.UIInvoke(() =>
+                            {
+                                LoadProcessView(process);
+                                ShowConfigUI(process);
+                            });
+
+                      
+                      
+                    }
                     return process;
                 }
             }
@@ -492,9 +505,11 @@ namespace Hawk.ETL.Managements
         }
 
 
-        public void Remove(IDataProcess process)
+        public void RemoveOperation(IDataProcess process)
         {
-            ProcessCollection.Remove(process);
+            dockableManager.RemoveDockableContent(process);
+            process.Close();
+          
         }
 
         public IList<TaskBase> CurrentProcessTasks { get; set; }
@@ -549,43 +564,18 @@ namespace Hawk.ETL.Managements
             return false;
         }
 
-        private IEnumerable<string> getDataSources()
+     
+        private void LoadProcessView(IDataProcess rc)
         {
-            yield return "(空)";
-            foreach (var item in dataManager.DataNameCollection)
+            var view = PluginManager.AddCusomView(MainFrmUI as IDockableManager, rc.TypeName, rc as IView);
+            var control = view as UserControl;
+            if (control != null)
             {
-                yield return item;
+                control.DataContext = rc;
             }
+        
         }
-
-        private void OtherAddOperation(IDataProcess rc)
-        {
-            rc.SysDataManager = dataManager;
-
-            rc.SysProcessManager = this;
-            var rc4 = rc as AbstractProcessMethod;
-            if (rc4 != null)
-            {
-
-                rc4.MainPluginLocation = MainFrmUI.MainPluginLocation;
-                rc4.MainFrm = MainFrmUI;
-            }
-            ControlExtended.UIInvoke(() =>
-            {
-                var view = PluginManager.AddCusomView(MainFrmUI as IDockableManager, rc.TypeName, rc as IView);
-                var control = view as UserControl;
-                if (control != null)
-                {
-                    control.DataContext = rc;
-                }
-                ShowConfigUI(rc);
-            });
-
-            XLogSys.Print.Info("已经成功添加" + rc.TypeName + "到当前列表");
-            rc.Init();
-
-         
-        }
+    
 
 
         private void SetCurrentTask(ProcessTask task)

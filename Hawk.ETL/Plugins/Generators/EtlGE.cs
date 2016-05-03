@@ -99,7 +99,7 @@ namespace Hawk.ETL.Plugins.Generators
                 processManager.CurrentProcessCollections.OfType<SmartETLTool>()
                     .FirstOrDefault(d => d.CurrentETLTools.Contains(this));
             etl =
-                processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == ETLSelector) as SmartETLTool;
+                processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == ETLSelector ) as SmartETLTool;
             if (etl != null)
             {
                 return true;

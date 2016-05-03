@@ -10,13 +10,19 @@ HAWK是一种数据采集和清洗工具，依据GPL协议开源，能够灵活�
 进行快速地生成， 过滤， 转换和操作。其功能最合适的领域，是爬虫和数据清洗。
 
 HAWK使用C# 编写，其前端界面使用WPF开发，支持插件扩展。通过图形化操作，能够快速建立解决方案。
+
 GitHub地址：https://github.com/ferventdesert/Hawk
+
 其Python等价的实现是etlpy:
+
 http://www.cnblogs.com/buptzym/p/5320552.html
+
 笔者专门为其开发的工程文件已公开在GitHub:
+
 https://github.com/ferventdesert/Hawk-Projects
-使用时，点击文件，加载工程即可加载。
-不想编译的话，可执行文件在：
+
+使用时，点击文件，加载工程即可加载。不想编译的话，可执行文件在：
+
 https://github.com/ferventdesert/Hawk/tree/master/Versions
 
 

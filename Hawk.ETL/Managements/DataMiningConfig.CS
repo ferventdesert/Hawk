@@ -61,14 +61,14 @@ namespace Hawk.ETL.Managements
         public static string GetXMLFileLocation(string fileName)
         {
             //  if (MainDescription.IsUIForm)
-            return MainDescription.MainFrm.MainPluginLocation + "\\XDataMiningDataBase\\" + fileName + ".xml";
+            return MainDescription.MainFrm.MainPluginLocation + "\\" + fileName + ".xml";
         }
 
         public static string GetFileLocation(string fileName)
         {
             // if (MainDescription.IsUIForm)
             {
-                return MainDescription.MainFrm.MainPluginLocation + "\\XDataMiningDataBase\\" + fileName;
+                return MainDescription.MainFrm.MainPluginLocation + "\\" + fileName;
             }
         }
 
@@ -77,7 +77,7 @@ namespace Hawk.ETL.Managements
         {
             // if (MainDescription.IsUIForm)
             {
-                return MainDescription.MainFrm.MainPluginLocation + "\\XDataMiningDataBase\\" + folderName + "\\";
+                return MainDescription.MainFrm.MainPluginLocation + "\\" + folderName + "\\";
             }
         }
 

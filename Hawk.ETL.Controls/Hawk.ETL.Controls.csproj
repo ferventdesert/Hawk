@@ -49,10 +49,10 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Xceed.Wpf.DataGrid">
-      <HintPath>..\Bin\Xceed.Wpf.DataGrid.dll</HintPath>
+      <HintPath>..\Includes\Xceed.Wpf.DataGrid.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.Toolkit">
-      <HintPath>..\Bin\Xceed.Wpf.Toolkit.dll</HintPath>
+      <HintPath>..\Includes\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

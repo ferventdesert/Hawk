@@ -49,21 +49,29 @@ namespace Hawk
             Application.Current.Resources["ThemeDictionary"] = new ResourceDictionary();
             //   this.SetCurrentTheme("ShinyBlue");
         ;
-            if (ConfigurationManager.AppSettings["XFrmWork.PluginLocationRelative"] == "true")
+            if (ConfigurationManager.AppSettings["PluginLocationRelative"] == "true")
             {
                 pluginPosition = MainStartUpLocation
-                                 + ConfigurationManager.AppSettings["XFrmWork.MainPluginLocation"];
+                                 + ConfigurationManager.AppSettings["MainPluginLocation"];
             }
             else
             {
-                pluginPosition = ConfigurationManager.AppSettings["XFrmWork.MainPluginLocation"];
+                pluginPosition = ConfigurationManager.AppSettings["MainPluginLocation"];
             }
 
             XmlConfigurator.Configure(new FileInfo("log4net.config"));
 
 
-            string icon = ConfigurationManager.AppSettings["XFrmWork.Icon"];
-            Icon = new BitmapImage(new Uri(pluginPosition + icon, UriKind.Absolute));
+            string icon = ConfigurationManager.AppSettings["Icon"];
+            try
+            {
+                Icon = new BitmapImage(new Uri(pluginPosition + icon, UriKind.Absolute));
+            }
+            catch (Exception ex)
+            {
+                XLogSys.Print.Error("系统图标文件不存在");
+            }
+          
             PluginManager = new PluginManager();
 //#if !DEBUG
             Dispatcher.UnhandledException += (s, e) =>
@@ -73,7 +81,7 @@ namespace Hawk
             };
 //#endif
             ViewDictionary = new List<ViewItem>();
-            Title = ConfigurationManager.AppSettings["XFrmWork.Title"];
+            Title = ConfigurationManager.AppSettings["Title"];
 
             //    this.myDebugSystemUI.MainFrmUI = this;
             PluginManager.MainFrmUI = this;

@@ -31,17 +31,27 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FiddlerCore4">
-      <HintPath>..\Bin\FiddlerCore4.dll</HintPath>
+      <HintPath>..\Includes\FiddlerCore4.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack">
-      <HintPath>..\Bin\HtmlAgilityPack.dll</HintPath>
+      <HintPath>..\Includes\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="IronPython, Version=2.7.5.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL" />
+    <Reference Include="IronPython, Version=2.7.5.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Includes\IronPython.dll</HintPath>
+    </Reference>
     <Reference Include="Jayrock">
-      <HintPath>..\..\..\XFrmWork\XMove\Bin\Jayrock.dll</HintPath>
+      <HintPath>..\Includes\Jayrock.dll</HintPath>
     </Reference>
     <Reference Include="Jayrock.Json">
-      <HintPath>..\..\..\XFrmWork\XMove\Bin\Jayrock.Json.dll</HintPath>
+      <HintPath>..\Includes\Jayrock.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Jayrock.Sandbox">
+      <HintPath>..\Includes\Jayrock.Sandbox.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Dynamic, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Includes\Microsoft.Dynamic.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Scripting, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
@@ -50,9 +60,8 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Windows.Controls.WpfPropertyGrid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Bin\System.Windows.Controls.WpfPropertyGrid.dll</HintPath>
+    <Reference Include="System.Windows.Controls.WpfPropertyGrid">
+      <HintPath>..\Includes\System.Windows.Controls.WpfPropertyGrid.dll</HintPath>
     </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />

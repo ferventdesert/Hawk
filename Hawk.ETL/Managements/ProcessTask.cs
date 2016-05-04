@@ -59,16 +59,25 @@ namespace Hawk.ETL.Managements
 
         #region Public Methods
 
-        private void EvalScript()
+        public Project Project { get; set; }
+
+        public void EvalScript( )
         {
-            if (!File.Exists(ScriptPath))
+            var script = ScriptPath;
+            var path = Project.SavePath;
+            var folder = new DirectoryInfo(path).Parent?.FullName;
+            if (folder != null)
+                script = folder +"\\"+ script;
+
+            if (!File.Exists(script))
                 return;
+
             var engine = Python.CreateEngine();
             var scope = engine.CreateScope();
 
             try
             {
-                var source = engine.CreateScriptSourceFromFile(ScriptPath);
+                var source = engine.CreateScriptSourceFromFile(script);
                 var compiledCode = source.Compile();
                 foreach (var process in ProcessManager.CurrentProcessCollections)
                 {
@@ -87,7 +96,7 @@ namespace Hawk.ETL.Managements
         public virtual void Load()
         {
             if (
-                (ProcessManager.CurrentProcessTasks.FirstOrDefault(d => d == this) == null).SafeCheck("不能重复加载该任务") ==
+                (ProcessManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == this.Name) == null).SafeCheck("不能重复加载该任务") ==
                 false)
                 return;
             ControlExtended.SafeInvoke(() =>

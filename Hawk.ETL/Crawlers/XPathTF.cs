@@ -21,6 +21,10 @@ namespace Hawk.ETL.Crawlers
         [Description("勾选此项后，会自动提取新闻正文，XPath路径可为空")]
         public bool GetText { get; set; }
 
+
+        [DisplayName("获取节点数量")]
+        public bool GetCount { get; set; }
+
         [DisplayName("插入空行")]
         [Description("勾选此项后，每个页面后会插入一个空行")]
         public bool IsInsertNull { get; set; }
@@ -71,6 +75,11 @@ namespace Hawk.ETL.Crawlers
                 var textnode = docu.DocumentNode.SelectSingleNode(path);
                 if (textnode != null)
                     return textnode.GetNodeText();
+            }
+            if (GetCount)
+            {
+                var textnode = docu.DocumentNode.SelectNodes(XPath);
+                return textnode.Count;
             }
 
             return docu.DocumentNode.GetDataFromXPath(document.Query(XPath));

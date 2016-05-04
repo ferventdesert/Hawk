@@ -51,6 +51,7 @@ namespace Hawk.ETL.Managements
             var xml = new FileConnectorXML {FileName = path};
             var r = xml.ReadFile().FirstOrDefault();
             var project = new Project();
+
             if (r != null)
             {
                 project.DictDeserialize(r.DictSerialize());
@@ -151,9 +152,10 @@ namespace Hawk.ETL.Managements
 
                 foreach (var item in items)
                 {
-                    var proces
-                        = new ProcessTask();
+                    var proces= new ProcessTask();
+                    proces.Project = this;
                     proces.DictDeserialize(item);
+                   
                     Tasks.Add(proces);
                 }
             }

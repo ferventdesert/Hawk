@@ -56,14 +56,16 @@ namespace Hawk.ETL.Plugins.Generators
             if (Mount < 0)
                 mount = int.MaxValue;
             TableInfo table = TableNames.SelectItem;
-            if (table == null)
-                yield break;
-
-            var con=new VirtualDataCollection( table.GetVirtualProvider<IFreeDocument>());
-            foreach (var item in con.ComputeData.Skip(Position).Take(mount).Select(d => d.DictSerialize()))
+            if (table != null)
             {
-                yield return item;
+                var con = new VirtualDataCollection(table.GetVirtualProvider<IFreeDocument>());
+                foreach (var item in con.ComputeData.Skip(Position).Take(mount).Select(d => d.DictSerialize()))
+                {
+                    yield return item;
+                }
             }
+
+      
          
 
         }

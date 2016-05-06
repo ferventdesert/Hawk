@@ -81,11 +81,6 @@ namespace Hawk.ETL.Plugins.Sorters
         {
             return 0;
         }
-        [Category("1.基本选项")]
-        [PropertyOrder(6)]
-        [DisplayName("优先级")]
-        public double Priority { get; set; }
-
 
         public virtual bool Init(IList<IFreeDocument> datas)
         {

@@ -1013,7 +1013,14 @@ namespace Hawk.ETL.Crawlers
                         var document = new FreeDocument();
                         foreach (var r in crawlItems)
                         {
-                            var path = node.XPath + new XPath(r.XPath).TakeOff(takeoff);
+                            string path;
+                            if (string.IsNullOrEmpty(takeoff))
+
+                                path = node.XPath + r.XPath;
+                            else
+                            {
+                                path=node.XPath+new XPath(r.XPath).TakeOff(takeoff);
+                            }
 
                             var result = node.GetDataFromXPath(path, r.IsHTML);
 

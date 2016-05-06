@@ -48,11 +48,6 @@ namespace Hawk.ETL.Plugins.Filters
         public string Name { get; set; }
 
 
-        [Category("1.基本选项")]
-        [PropertyOrder(6)]
-        [DisplayName("优先级")]
-        public double Priority { get; set; }
-
 
 
         private bool _enabled;

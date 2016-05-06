@@ -15,6 +15,13 @@ namespace Hawk.Core.Connectors
     {
         public string LastFileName { get; set; }
 
+        public FileManager()
+        {
+            if (CurrentTables.FirstOrDefault(d => d.Name == "打开新文件") == null)
+            {
+                CurrentTables.Insert(0, new TableInfo("打开新文件", this));
+            }
+        }
         public IEnumerable<IDictionarySerializable> GetEnumerable(string tableName, Type type = null)
         {
             return GetEntities2(tableName, type);
@@ -96,7 +103,7 @@ namespace Hawk.Core.Connectors
                   var tableConnector2 = connector as FileConnectorTable;
                   if (tableConnector2 != null)
                   {
-                      tableConnector2.EncodeType = this.EncodingType;
+                      tableConnector2.EncodingType = this.EncodingType;
                   }
                   if (mount > 0)
 

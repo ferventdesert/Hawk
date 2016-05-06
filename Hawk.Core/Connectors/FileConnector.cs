@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace Hawk.Core.Connectors
 {
@@ -30,14 +32,14 @@ namespace Hawk.Core.Connectors
             DataType = typeof(FreeDocument);
         }
 
+       
+
+
         #endregion
 
         #region Properties
 
-        public virtual bool ShouldConfig
-        {
-            get { return false; }
-        }
+        public virtual bool ShouldConfig => false;
 
         public Type DataType { get; set; }
 
@@ -45,6 +47,7 @@ namespace Hawk.Core.Connectors
         public virtual string ExtentFileName => ".txt";
 
         public string FileName { get; set; }
+        public EncodingType EncodingType { get; set; }
 
         public Dictionary<string, string> PropertyNames { get; set; }
 
@@ -190,5 +193,18 @@ namespace Hawk.Core.Connectors
     
 
         #endregion
+
+        public virtual FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
+        {
+           var dict=new FreeDocument();
+            dict.Add("Type", this.GetType().Name);
+            dict.Add("Encoding", EncodingType);
+            return dict;
+        }
+
+        public virtual  void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
+        {
+            EncodingType = docu.Set("Encoding", EncodingType);
+        }
     }
 }

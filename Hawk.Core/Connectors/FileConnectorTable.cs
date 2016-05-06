@@ -20,17 +20,30 @@ namespace Hawk.Core.Connectors
         private StreamWriter streamWriter;
 
 
+      
         public FileConnectorTable()
         {
-            EncodeType = EncodingType.UTF8;
+            EncodingType = EncodingType.UTF8;
             SplitString = "\t";
 
             ContainHeader = true;
         }
 
-        [DisplayName("编码格式")]
-        [PropertyOrder(3)]
-        public EncodingType EncodeType { get; set; }
+        public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
+
+        {
+            var dict= base.DictSerialize(scenario);
+            dict.Add("ContainHeader", ContainHeader);
+            dict.Add("SplitString", SplitString);
+            return dict;
+        }
+
+        public override void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
+        {
+            base.DictDeserialize(docu, scenario);
+            ContainHeader = docu.Set("ContainHeader", ContainHeader);
+            SplitString = docu.Set("SplitString", SplitString);
+        }
 
         [DisplayName("列分割符")]
         public string SplitString { get; set; }
@@ -54,7 +67,7 @@ namespace Hawk.Core.Connectors
         public void Start(ICollection<string> titles)
         {
             fileStream = new FileStream(FileName, FileMode.OpenOrCreate);
-            streamWriter = new StreamWriter(new BufferedStream(fileStream), AttributeHelper.GetEncoding(EncodeType));
+            streamWriter = new StreamWriter(new BufferedStream(fileStream), AttributeHelper.GetEncoding(EncodingType));
             var title = titles.Aggregate("", (current, title1) => current + (title1 + SplitChar));
 
             title = title.Substring(0, title.Length - 1) + "\n";
@@ -69,6 +82,7 @@ namespace Hawk.Core.Connectors
                 WriteData(rows);
             }
         }
+
 
         /// <summary>
         ///     导出到CSV文件
@@ -133,7 +147,7 @@ namespace Hawk.Core.Connectors
             var intColCount = 0;
             var blnFlag = true;
 
-            foreach (var strline in FileEx.LineRead(FileName, AttributeHelper.GetEncoding(EncodeType)))
+            foreach (var strline in FileEx.LineRead(FileName, AttributeHelper.GetEncoding(EncodingType)))
             {
                 if (string.IsNullOrWhiteSpace(strline))
                     continue;

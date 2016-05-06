@@ -122,7 +122,7 @@ namespace Hawk.ETL.Managements
                 return null;
             var proj2 = new Project();
             proj.DictCopyTo(proj2);
-
+            proj2.SavePath = connector.FileName;
 
             return proj2;
         }

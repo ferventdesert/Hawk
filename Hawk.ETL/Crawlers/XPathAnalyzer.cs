@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using Hawk.Core.Connectors;
@@ -614,8 +615,12 @@ namespace Hawk.ETL.Crawlers
 
             httpitem.Encoding = encoding;
             var helper = new HttpHelper();
-            var result = helper.GetHtml(httpitem);
+            HttpStatusCode code;
+
             var doc = new HtmlDocument();
+            var result = helper.GetHtml(httpitem,out code);
+            if (!HttpHelper.IsSuccess(code))
+                return doc;
             doc.LoadHtml(result);
             return doc;
         }
@@ -920,18 +925,24 @@ namespace Hawk.ETL.Crawlers
             var httpitem = new HttpItem {URL = url};
             var helper = new HttpHelper();
             ContentType content;
-            var doc2 = helper.GetHtml(httpitem, out content);
+            HttpStatusCode statusCode;
+            var doc2 = helper.GetHtml(httpitem, out content,out statusCode);
+            if (statusCode != HttpStatusCode.OK )
+                return null;
             var htmldoc = new HtmlDocument();
             htmldoc.LoadHtml(doc2);
             return htmldoc;
         }
-
+      
         public static IEnumerable<List<FreeDocument>> GetMultiDataFromURL(string url)
         {
             var httpitem = new HttpItem {URL = url};
             var helper = new HttpHelper();
             ContentType content;
-            var doc2 = helper.GetHtml(httpitem, out content);
+            HttpStatusCode statusCode;
+            var doc2 = helper.GetHtml(httpitem, out content, out statusCode);
+            if (statusCode != HttpStatusCode.OK)
+               yield break; 
             switch (content)
             {
                 case ContentType.Json:

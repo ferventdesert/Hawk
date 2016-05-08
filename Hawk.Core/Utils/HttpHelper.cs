@@ -33,6 +33,8 @@ namespace Hawk.Core.Utils
     public class HttpHelper
     {
 
+     
+
         //默认的编码
         private Encoding encoding = Encoding.Default;
         //HttpWebRequest对象用来发起请求
@@ -84,27 +86,27 @@ namespace Hawk.Core.Utils
             return true;
         }
 
-        public bool AutoVisit(HttpItem item)
-        {
-            var res = GetHtml(item);
-            XLogSys.Print.Info(res.Substring(0, Math.Min(res.Length, 300)));
-            var relocate = false;
-            item.Method = MethodType.GET;
-            while (true)
-            {
-                if (item.ResponseHeaders == null)
-                    break;
-                var newpos = item.ResponseHeaders["Location"];
+        //public bool AutoVisit(HttpItem item)
+        //{
+        //    var res = GetHtml(item);
+        //    XLogSys.Print.Info(res.Substring(0, Math.Min(res.Length, 300)));
+        //    var relocate = false;
+        //    item.Method = MethodType.GET;
+        //    while (true)
+        //    {
+        //        if (item.ResponseHeaders == null)
+        //            break;
+        //        var newpos = item.ResponseHeaders["Location"];
 
-                if (newpos == null)
-                    break;
-                XLogSys.Print.Debug("Redirect to " + newpos);
-                item.URL = newpos;
-                res = GetHtml(item);
-                relocate = true;
-            }
-            return relocate;
-        }
+        //        if (newpos == null)
+        //            break;
+        //        XLogSys.Print.Debug("Redirect to " + newpos);
+        //        item.URL = newpos;
+        //        res = GetHtml(item);
+        //        relocate = true;
+        //    }
+        //    return relocate;
+        //}
 
         private FreeDocument CookieToDict(string cookie)
         {
@@ -151,7 +153,7 @@ namespace Hawk.Core.Utils
         /// <param name="strPostdata">传入的数据Post方式,get方式传NUll或者空字符串都可以</param>
         /// <param name="ContentType">返回的响应数据的类型</param>
         /// <returns>string类型的响应数据</returns>
-        private string GetHttpRequestData(HttpItem objhttpitem, out ContentType ContentType)
+        private string GetHttpRequestData(HttpItem objhttpitem, out ContentType ContentType,out HttpStatusCode statusCode)
         {
             var result = "";
 
@@ -165,6 +167,7 @@ namespace Hawk.Core.Utils
                 if (response.Headers["set-cookie"] != null)
                     docu["Cookie"] = MergeCookie(docu["Cookie"].ToString(), response.Headers["set-cookie"]);
 
+                statusCode = response.StatusCode;
                 objhttpitem.ResponseHeaders = response.Headers;
                 objhttpitem.Parameters = objhttpitem.HeaderToString(docu);
                 //GZIIP处理
@@ -500,11 +503,11 @@ namespace Hawk.Core.Utils
         /// </summary>
         /// <param name="objhttpItem">参数列表</param>
         /// <returns>String类型的数据</returns>
-        public string GetHtml(HttpItem objhttpItem, out ContentType contentType)
+        public string GetHtml(HttpItem objhttpItem, out ContentType contentType,out HttpStatusCode statusCode)
         {
             //准备参数
             SetRequest(objhttpItem);
-            return GetHttpRequestData(objhttpItem, out contentType);
+            return GetHttpRequestData(objhttpItem, out contentType,out statusCode);
             //调用专门读取数据的类
         }
 
@@ -532,23 +535,30 @@ namespace Hawk.Core.Utils
 
             return ip;
         }
-
+        public static bool IsSuccess(HttpStatusCode code)
+        {
+            return code == HttpStatusCode.OK;
+        }
         /// <summary>
         ///     采用https协议访问网络,根据传入的URl地址，得到响应的数据字符串。
         /// </summary>
         /// <param name="objhttpItem">参数列表</param>
         /// <returns>String类型的数据</returns>
-        public string GetHtml(HttpItem objhttpItem)
+        public string GetHtml(HttpItem objhttpItem,out HttpStatusCode code)
         {
             try
             {
                 SetRequest(objhttpItem);
                 ContentType content;
-                return GetHttpRequestData(objhttpItem, out content);
+                var r= GetHttpRequestData(objhttpItem, out content,out code);
+                if (!IsSuccess(code))
+                    return "HTTP错误，类型:"+code.ToString();
+                return r;
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                code=HttpStatusCode.NotFound;
+                return ex.Message;
             }
         }
 

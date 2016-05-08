@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -270,21 +271,21 @@ namespace Hawk.ETL.Process
         [Browsable(false)]
         public FrmState FrmState => FrmState.Large;
 
-        public void AutoVisit()
-        {
-            if (Documents.Any())
-            {
-                var item = new HttpItem();
-                Documents[0].DictCopyTo(item);
-                var res = helper != null && helper.AutoVisit(item);
-                XLogSys.Print.Info("成功模拟登录");
-                Http.SetValue("Cookie", item.GetValue("Cookie"));
-                if (res)
-                {
-                    URL = item.URL;
-                }
-            }
-        }
+        //public void AutoVisit()
+        //{
+        //    if (Documents.Any())
+        //    {
+        //        var item = new HttpItem();
+        //        Documents[0].DictCopyTo(item);
+        //        var res = helper != null && helper.AutoVisit(item);
+        //        XLogSys.Print.Info("成功模拟登录");
+        //        Http.SetValue("Cookie", item.GetValue("Cookie"));
+        //        if (res)
+        //        {
+        //            URL = item.URL;
+        //        }
+        //    }
+        //}
 
         private void GreatHand()
         {
@@ -496,12 +497,6 @@ namespace Hawk.ETL.Process
             return SelectXPath;
         }
 
-        public List<FreeDocument> CrawData(string url, string post = null)
-        {
-            HtmlDocument doc;
-            return CrawData(url, out doc, post);
-        }
-
         public List<FreeDocument> CrawData(HtmlDocument doc)
         {
             if (CrawlItems.Count == 0)
@@ -513,7 +508,7 @@ namespace Hawk.ETL.Process
             return doc.GetDataFromXPath(CrawlItems, IsMultiData,RootXPath);
         }
 
-        public List<FreeDocument> CrawData(string url, out HtmlDocument doc, string post = null)
+        public List<FreeDocument> CrawData(string url, out HtmlDocument doc,out HttpStatusCode code, string post = null)
         {
             var mc = extract.Matches(url);
             Dictionary<string, string> paradict = null;
@@ -547,9 +542,15 @@ namespace Hawk.ETL.Process
                 httpitem.Postdata = post;
             }
 
-
-            var content = httphelper.GetHtml(httpitem);
+         
+            var content = httphelper.GetHtml(httpitem,out code);
             doc = new HtmlDocument();
+            if (!HttpHelper.IsSuccess(code))
+            {
+                return new List<FreeDocument>();
+            }
+               
+         
             doc.LoadHtml(content);
             return CrawData(doc);
         }
@@ -558,7 +559,8 @@ namespace Hawk.ETL.Process
         {
             URLHTML = await MainFrm.RunBusyWork(() =>
             {
-                var item2 = helper.GetHtml(Http);
+                HttpStatusCode code;
+                var item2 = helper.GetHtml(Http,out code);
 
 
                 return item2;

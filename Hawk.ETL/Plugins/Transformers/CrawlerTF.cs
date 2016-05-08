@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
@@ -119,8 +120,10 @@ namespace Hawk.ETL.Plugins.Transformers
                     if (delaytime != 0)
                         Thread.Sleep(delaytime);
                 }
-                docs = crawler.CrawData(url, out htmldoc, post);
-                buffHelper.Set(bufkey, htmldoc);
+                HttpStatusCode code;
+                docs = crawler.CrawData(url, out htmldoc, out code,post);
+                if(HttpHelper.IsSuccess(code))
+                    buffHelper.Set(bufkey, htmldoc);
             
             }
             else
@@ -155,28 +158,28 @@ namespace Hawk.ETL.Plugins.Transformers
             }
         }
 
-        private bool checkautoLogIn(List<FreeDocument> docs)
+        //private bool checkautoLogIn(List<FreeDocument> docs)
 
-        {
-            if (docs.Count == 0 && isfirst)
-            {
-                if (crawler.Documents.Any())
-                {
-                    crawler.AutoVisit();
-                    return false;
-                }
-                if (string.IsNullOrEmpty(crawler.URLFilter) == false &&
-                    crawler.IsRunning == false)
-                    crawler.StartVisit();
-                return false;
-            }
-            if (docs.Count > 0 && crawler.IsRunning)
-            {
-                crawler.StopVisit();
-            }
-            isfirst = false;
-            return true;
-        }
+        //{
+        //    if (docs.Count == 0 && isfirst)
+        //    {
+        //        if (crawler.Documents.Any())
+        //        {
+        //            crawler.AutoVisit();
+        //            return false;
+        //        }
+        //        if (string.IsNullOrEmpty(crawler.URLFilter) == false &&
+        //            crawler.IsRunning == false)
+        //            crawler.StartVisit();
+        //        return false;
+        //    }
+        //    if (docs.Count > 0 && crawler.IsRunning)
+        //    {
+        //        crawler.StopVisit();
+        //    }
+        //    isfirst = false;
+        //    return true;
+        //}
 
         public override object TransformData(IFreeDocument datas)
         {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Net;
 using System.Text;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
@@ -72,7 +73,9 @@ namespace Hawk.ETL.Plugins.Web
             string url =
                 $"http://openapi.baidu.com/public/2.0/bmt/translate?client_id={ClientID}&q={item}&from={language[Source.SelectItem]}&to={language[Target.SelectItem]}";
             httpitem.URL = url;
-            string result = helper.GetHtml(httpitem);
+            HttpStatusCode code;
+
+            string result = helper.GetHtml(httpitem,out code);
             var r = JsonConvert.Import(result) as JsonObject;
 
             if (r.Contains("error_code ") == false)

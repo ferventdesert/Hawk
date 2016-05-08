@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Net;
+using System.Web;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
@@ -88,8 +89,11 @@ namespace Hawk.ETL.Plugins.Web
                 item.Method = MethodType.GET;
                 item.Encoding = EncodingType.UTF8;
                 var helper = new HttpHelper();
-                var result = helper.GetHtml(item);
-                buffHelper.Set(param, result);
+                ContentType type;
+                HttpStatusCode code;
+                var result = helper.GetHtml(item,out type,out code);
+                if(code==HttpStatusCode.OK)
+                    buffHelper.Set(param, result);
                 return result;
 
             }

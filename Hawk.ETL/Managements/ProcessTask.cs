@@ -9,6 +9,7 @@ using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using IronPython.Hosting;
+using Microsoft.Scripting;
 
 namespace Hawk.ETL.Managements
 {
@@ -89,6 +90,12 @@ namespace Hawk.ETL.Managements
             }
             catch (Exception ex)
             {
+                var syntax = ex as SyntaxErrorException;
+                if (syntax != null)
+                {
+                    XLogSys.Print.ErrorFormat("编译错误：{0}，位置在{1}行,从{2}到{3}",ex.Message,syntax.Line, syntax.RawSpan.Start,syntax.RawSpan.End);
+                    return;
+                }
                 XLogSys.Print.Error(ex);
             }
         }

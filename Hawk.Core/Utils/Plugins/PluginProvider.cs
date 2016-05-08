@@ -197,7 +197,7 @@ namespace Hawk.Core.Utils.Plugins
             XFrmWorkAttribute type;
             type = string.IsNullOrEmpty(name)
                 ? GetPluginCollection(typeof (T)).FirstOrDefault()
-                : GetPluginCollection(typeof (T)).FirstOrDefault(d => d.Name.Contains(name));
+                : GetPluginCollection(typeof (T)).FirstOrDefault(d => d.Name.ToLower().Contains(name.ToLower()));
 
             if (type == null)
             {

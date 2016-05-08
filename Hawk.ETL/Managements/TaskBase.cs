@@ -25,7 +25,11 @@ namespace Hawk.ETL.Managements
 
            
         }
-
+        /// <summary>
+        /// 任务发布者
+        /// </summary>
+        [Browsable(false)]
+        public object Publisher { get; set; }
         /// <summary>
         /// 当任务结束后，自动取消任务
         /// </summary>

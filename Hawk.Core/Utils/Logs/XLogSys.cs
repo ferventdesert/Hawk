@@ -57,6 +57,10 @@ namespace Hawk.Core.Utils.Logs
         {
             this.thisXLog.Debug(message, exception);
         }
+        public void DebugFormat(string message, params object[] paras)
+        {
+            this.thisXLog.Debug(string.Format(message, paras));
+        }
 
         public void Error(object message)
         {

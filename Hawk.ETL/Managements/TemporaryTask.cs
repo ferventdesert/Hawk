@@ -18,6 +18,8 @@ namespace Hawk.ETL.Managements
 
         private Task CurrentTask;
 
+
+     
         public Action TaskAction { get; set; }
         public static TemporaryTask AddTempTask<T>(string taskName, IEnumerable<T> enumable, Action<T> action,
            Action<int> contineAction = null, int count = -1, bool autoStart = true, int notifyInterval = 1, Func<int>delayFunc=null )

@@ -80,7 +80,7 @@ namespace Hawk.ETL.Plugins.Transformers
                 var task = processManager.CurrentProject.Tasks.FirstOrDefault(d => d.Name == CrawlerSelector);
                 if (task == null)
                     return false;
-                ControlExtended.UIInvoke(() => { task.Load(); });
+                ControlExtended.UIInvoke(() => { task.Load(false); });
                 crawler =
                     processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector) as
                         SmartCrawler;

@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Net.Mime;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.WpfPropertyGrid;
 using System.Windows.Data;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
@@ -15,7 +12,6 @@ using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
-using IDataProcess = Hawk.ETL.Interfaces.IDataProcess;
 
 namespace Hawk.ETL.Managements
 {
@@ -25,7 +21,6 @@ namespace Hawk.ETL.Managements
         private FreeDocument configDocument;
 
         #region Constants and Fields
-
 
         private IDataManager dataManager;
 
@@ -40,10 +35,6 @@ namespace Hawk.ETL.Managements
         #endregion
 
         #region Events
-
-       
-
-
 
         #endregion
 
@@ -139,27 +130,27 @@ namespace Hawk.ETL.Managements
                         if (MessageBox.Show("确定清空所有算法模块么？", "提示信息", MessageBoxButton.OKCancel) ==
                             MessageBoxResult.OK)
                         {
-                            ProcessCollection.RemoveElementsNoReturn(d=>true,RemoveOperation);
+                            ProcessCollection.RemoveElementsNoReturn(d => true, RemoveOperation);
                         }
                     }, obj => true,
                     "clear"));
 
             sysCommand.ChildActions.Add(
-               new Command(
-                   "保存全部模块",
-                   obj =>
-                   {
-                       if (MessageBox.Show("确定保存所有算法模块么？", "提示信息", MessageBoxButton.OKCancel) ==
-                           MessageBoxResult.OK)
-                       {
-                           foreach (var process in CurrentProcessCollections)
-                           {
-                               SaveTask(process,false);
-                           }
-                           CurrentProject.Save();
-                       }
-                   }, obj => true,
-                   "clear"));
+                new Command(
+                    "保存全部模块",
+                    obj =>
+                    {
+                        if (MessageBox.Show("确定保存所有算法模块么？", "提示信息", MessageBoxButton.OKCancel) ==
+                            MessageBoxResult.OK)
+                        {
+                            foreach (var process in CurrentProcessCollections)
+                            {
+                                SaveTask(process, false);
+                            }
+                            CurrentProject.Save();
+                        }
+                    }, obj => true,
+                    "clear"));
 
             BindingCommands.ChildActions.Add(sysCommand);
 
@@ -167,7 +158,7 @@ namespace Hawk.ETL.Managements
 
 
             taskAction1.ChildActions.Add(new Command("加载本任务",
-                obj => (obj as ProcessTask).Load(),
+                obj => (obj as ProcessTask).Load(true),
                 obj => obj is ProcessTask, "download"));
 
             taskAction1.ChildActions.Add(new Command("覆盖本任务",
@@ -175,7 +166,6 @@ namespace Hawk.ETL.Managements
             taskAction1.ChildActions.Add(new Command("删除任务",
                 obj => CurrentProject.Tasks.Remove(obj as ProcessTask),
                 obj => obj is ProcessTask));
-           
 
 
             BindingCommands.ChildActions.Add(taskAction1);
@@ -208,7 +198,6 @@ namespace Hawk.ETL.Managements
                     var task = obj as TaskBase;
                     return task != null;
                 }, "download"));
-        
 
 
             var taskListAction = new BindingAction("任务列表命令");
@@ -238,8 +227,9 @@ namespace Hawk.ETL.Managements
                 var process = GetProcess(obj);
                 if (process == null) return;
                 ProcessCollection.Remove(obj as IDataProcess);
-                var item = GetOneInstance(process.TypeName,true,false) as IDataProcess;
+                var item = GetOneInstance(process.TypeName, true, false);
                 (process as IDictionarySerializable).DictCopyTo(item as IDictionarySerializable);
+                item.Init();
                 ProcessCollection.Add(item);
             }, obj => true, "new"));
 
@@ -247,7 +237,7 @@ namespace Hawk.ETL.Managements
             {
                 var process = GetProcess(obj);
                 if (process == null) return;
-                
+
                 RemoveOperation(process);
                 ProcessCollection.Remove(process);
                 ShowConfigUI(null);
@@ -258,18 +248,14 @@ namespace Hawk.ETL.Managements
                 var process = obj as IDataProcess;
                 if (process == null)
                     return;
-                SaveTask(process,true);
-
-
-
-
+                SaveTask(process, true);
             }, obj => obj is IDictionarySerializable));
             processAction.ChildActions.Add(new Command("显示并配置", obj =>
             {
                 var process = GetProcess(obj);
                 if (process == null) return;
                 var view = (MainFrmUI as IDockableManager).ViewDictionary.FirstOrDefault(d => d.Model == process);
-                if(view==null)
+                if (view == null)
                 {
                     LoadProcessView(process);
                 }
@@ -287,11 +273,11 @@ namespace Hawk.ETL.Managements
                 if (attr == null)
                     return;
 
-                var process = GetOneInstance(attr.MyType.Name,newOne:true, isAddUI: true);
-              
+                var process = GetOneInstance(attr.MyType.Name, newOne: true, isAddUI: true);
+                process.Init();
             }));
             BindingCommands.ChildActions.Add(attributeactions);
-            
+
             var config = ConfigFile.GetConfig<DataMiningConfig>();
             if (config.Projects.Any())
             {
@@ -308,7 +294,6 @@ namespace Hawk.ETL.Managements
 
             if (MainDescription.IsUIForm)
             {
-              
                 ProgramNameFilterView =
                     new ListCollectionView(PluginProvider.GetPluginCollection(typeof (IDataProcess)).ToList());
 
@@ -334,8 +319,6 @@ namespace Hawk.ETL.Managements
                 ProcessCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("TypeName"));
 
 
-             
-
                 ProjectTaskList = new ListCollectionView(CurrentProject.Tasks);
                 ProjectTaskList.GroupDescriptions.Clear();
 
@@ -350,7 +333,6 @@ namespace Hawk.ETL.Managements
                 OnPropertyChanged("ProjectTaskList");
             }
 
-            PluginProvider.LoadOrderedPlugins<IDataProcess>(d => GetOneInstance(d.Name), 2, 100);
             var file = MainFrmUI.CommandCollection.FirstOrDefault(d => d.Text == "文件");
             file.ChildActions.Add(new BindingAction("新建项目", obj => CreateNewProject()));
             file.ChildActions.Add(new BindingAction("加载项目", obj => LoadProject()));
@@ -360,11 +342,11 @@ namespace Hawk.ETL.Managements
             return true;
         }
 
-        private void SaveTask(IDataProcess process,bool haveui)
+        private void SaveTask(IDataProcess process, bool haveui)
         {
             var task = CurrentProject.Tasks.FirstOrDefault(d => d.Name == process.Name);
 
-            if (haveui==false||MessageBox.Show("是否确定保存任务?" + (task == null ? "将新建任务" : "存在同名任务，将覆盖该任务"), "提示信息",
+            if (haveui == false || MessageBox.Show("是否确定保存任务?" + (task == null ? "将新建任务" : "存在同名任务，将覆盖该任务"), "提示信息",
                 MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
                 configDocument = (process as IDictionarySerializable).DictSerialize();
@@ -383,6 +365,7 @@ namespace Hawk.ETL.Managements
                 task.ProcessToDo = configDocument;
             }
         }
+
         public ListCollectionView CurrentProcessView { get; set; }
         public ListCollectionView ProcessCollectionView { get; set; }
         public ListCollectionView ProjectTaskList { get; set; }
@@ -393,6 +376,7 @@ namespace Hawk.ETL.Managements
             if (project != null)
             {
                 var config = ConfigFile.GetConfig<DataMiningConfig>();
+                config.Projects.RemoveElementsNoReturn(d=>string.IsNullOrWhiteSpace(d.SavePath));
                 var first = config.Projects.FirstOrDefault(d => d.SavePath == project.SavePath);
                 if (first != null)
                 {
@@ -460,13 +444,12 @@ namespace Hawk.ETL.Managements
         private TaskBase _selectedTask;
 
 
-
-
-        public IDataProcess GetOneInstance(string name, bool isAddToList = true, bool newOne = false,bool isAddUI=false)
+        public IDataProcess GetOneInstance(string name, bool isAddToList = true, bool newOne = false,
+            bool isAddUI = false)
         {
             if (newOne)
             {
-                var process = PluginProvider.GetObjectByType<IDataProcess>(name) as IDataProcess;
+                var process = PluginProvider.GetObjectByType<IDataProcess>(name);
                 if (process != null)
                 {
                     if (isAddToList)
@@ -478,26 +461,19 @@ namespace Hawk.ETL.Managements
                         var rc4 = process as AbstractProcessMethod;
                         if (rc4 != null)
                         {
-
                             rc4.MainPluginLocation = MainFrmUI.MainPluginLocation;
                             rc4.MainFrm = MainFrmUI;
                         }
                         XLogSys.Print.Info("已经成功添加" + process.TypeName + "到当前列表");
-                        process.Init();
                     }
-                       
+
                     if (isAddUI)
                     {
-                        
-                            ControlExtended.UIInvoke(() =>
-                            {
-                                LoadProcessView(process);
-                                ShowConfigUI(process);
-                            });
-
-                      
-                      
+                        ControlExtended.UIInvoke(() => LoadProcessView(process));
+                  
+                        ControlExtended.UIInvoke(() => ShowConfigUI(process));
                     }
+
                     return process;
                 }
             }
@@ -509,7 +485,6 @@ namespace Hawk.ETL.Managements
         {
             dockableManager.RemoveDockableContent(process);
             process.Close();
-          
         }
 
         public IList<TaskBase> CurrentProcessTasks { get; set; }
@@ -564,7 +539,7 @@ namespace Hawk.ETL.Managements
             return false;
         }
 
-     
+
         private void LoadProcessView(IDataProcess rc)
         {
             var view = PluginManager.AddCusomView(MainFrmUI as IDockableManager, rc.TypeName, rc as IView);
@@ -573,9 +548,7 @@ namespace Hawk.ETL.Managements
             {
                 control.DataContext = rc;
             }
-        
         }
-    
 
 
         private void SetCurrentTask(ProcessTask task)
@@ -595,5 +568,4 @@ namespace Hawk.ETL.Managements
 
         #endregion
     }
-
 }

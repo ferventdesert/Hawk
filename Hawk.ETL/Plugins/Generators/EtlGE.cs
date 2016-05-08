@@ -109,7 +109,7 @@ namespace Hawk.ETL.Plugins.Generators
             if (task == null)
                 return false;
 
-            ControlExtended.UIInvoke(() => { task.Load(); });
+            ControlExtended.UIInvoke(() => { task.Load(false); });
 
             etl =
                 processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == ETLSelector) as SmartETLTool;
@@ -151,7 +151,6 @@ namespace Hawk.ETL.Plugins.Generators
         [DisplayName("生成模式")]
         public MergeType MergeType { get; set; }
 
-        public bool IsExecute { get; set; }
         public IEnumerable<FreeDocument> Generate(IFreeDocument document = null)
         {
             var process = GetProcesses();
@@ -183,8 +182,7 @@ namespace Hawk.ETL.Plugins.Generators
 
         }
 
-        [Browsable(false)]
-        public bool IsExecute { get; set; }
+        [DisplayName("添加到任务")]
         public bool AddTask { get; set; }
 
         public string NewColumn { get; set; }
@@ -282,14 +280,8 @@ namespace Hawk.ETL.Plugins.Generators
             return true;
         }
 
-        protected bool IsExecute;
 
-        public void SetExecute(bool value)
-        {
-            IsExecute = value;
-        }
-
-        public object TransformData(IFreeDocument data)
+               public object TransformData(IFreeDocument data)
         {
             var result = func(new List<IFreeDocument>() {data.Clone()}).FirstOrDefault();
             data.AddRange(result);

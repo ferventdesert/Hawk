@@ -6,7 +6,7 @@ using Hawk.Core.Utils.Plugins;
 namespace Hawk.Core.Connectors
 {
     [Interface( "文件导入导出基本接口" )]
-    public interface IFileConnector
+    public interface IFileConnector:IDictionarySerializable 
     {
         #region Properties
 
@@ -23,17 +23,17 @@ namespace Hawk.Core.Connectors
 
 
         #endregion
+        EncodingType EncodingType { get; set; }
 
-      
 
         #region Public Methods
-      
 
-         /// <summary>
-         /// 迭代式文件操作
-         /// </summary>
-         /// <param name="path"></param>
-         IEnumerable<IFreeDocument> WriteData(IEnumerable<IFreeDocument> datas );
+
+        /// <summary>
+        /// 迭代式文件操作
+        /// </summary>
+        /// <param name="path"></param>
+        IEnumerable<IFreeDocument> WriteData(IEnumerable<IFreeDocument> datas );
         /// <summary>
         /// 读文件
         /// </summary>

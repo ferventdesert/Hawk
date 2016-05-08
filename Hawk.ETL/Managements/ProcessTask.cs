@@ -59,19 +59,27 @@ namespace Hawk.ETL.Managements
         #endregion
 
         #region Public Methods
-
+        [Browsable(false)]
         public Project Project { get; set; }
 
         public void EvalScript( )
         {
+            if(string.IsNullOrWhiteSpace(ScriptPath))
+                return;
             var script = ScriptPath;
+           
             var path = Project.SavePath;
+            XLogSys.Print.DebugFormat("加载工程文件，位置为{0}",Project.SavePath);
             var folder = new DirectoryInfo(path).Parent?.FullName;
             if (folder != null)
                 script = folder +"\\"+ script;
 
             if (!File.Exists(script))
+            {
+                XLogSys.Print.WarnFormat("加载{0}工程时未发现对应的脚本文件{1}",Project.Name,ScriptPath);
                 return;
+            }
+               
 
             var engine = Python.CreateEngine();
             var scope = engine.CreateScope();
@@ -100,7 +108,7 @@ namespace Hawk.ETL.Managements
             }
         }
 
-        public virtual void Load()
+        public virtual void Load(bool addui)
         {
             if (
                 (ProcessManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == this.Name) == null).SafeCheck("不能重复加载该任务") ==
@@ -111,7 +119,7 @@ namespace Hawk.ETL.Managements
                 var processname = ProcessToDo["Type"].ToString();
                 if (string.IsNullOrEmpty(processname))
                     return;
-                var process = ProcessManager.GetOneInstance(processname, newOne: true);
+                var process = ProcessManager.GetOneInstance(processname, newOne: true,addUI: addui);
                 ProcessToDo.DictCopyTo(process as IDictionarySerializable);
                 process.Init();
                 EvalScript();

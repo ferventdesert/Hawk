@@ -74,11 +74,11 @@ namespace Hawk
           
             PluginManager = new PluginManager();
 //#if !DEBUG
-            Dispatcher.UnhandledException += (s, e) =>
-            {
-                MessageBox.Show("系统出现异常" + e.Exception);
-                XLogSys.Print.Fatal(e.Exception);
-            };
+            //Dispatcher.UnhandledException += (s, e) =>
+            //{
+            //    MessageBox.Show("系统出现异常" + e.Exception);
+            //    XLogSys.Print.Fatal(e.Exception);
+            //};
 //#endif
             ViewDictionary = new List<ViewItem>();
             Title = ConfigurationManager.AppSettings["Title"];

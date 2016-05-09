@@ -547,12 +547,19 @@ namespace Hawk.ETL.Process
             doc = new HtmlDocument();
             if (!HttpHelper.IsSuccess(code))
             {
+                XLogSys.Print.WarnFormat("HTML Fail,Code:{0}url:{1}",code, url);
                 return new List<FreeDocument>();
             }
                
          
             doc.LoadHtml(content);
-            return CrawData(doc);
+            var datas= CrawData(doc);
+            if (datas.Count == 0)
+            {
+                XLogSys.Print.WarnFormat("HTML extract Fail,url:{0}",url);
+
+            }
+            return datas;
         }
 
         private async void VisitURLAsync()

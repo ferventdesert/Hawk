@@ -27,10 +27,12 @@ namespace Hawk.ETL.Plugins.Transformers
         {
             processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
             var defaultcraw = processManager.CurrentProcessCollections.FirstOrDefault(d => d is SmartCrawler);
+            MaxTryCount = "1";
             if (defaultcraw != null) CrawlerSelector = defaultcraw.Name;
             PropertyChanged += (s, e) => { buffHelper.Clear(); };
         }
 
+        public string MaxTryCount { get; set; }
         public string DelayTime { get; set; }
         public string PostData { get; set; }
 
@@ -48,6 +50,8 @@ namespace Hawk.ETL.Plugins.Transformers
                 _crawlerSelector = value;
             }
         }
+
+
 
         [Category("请求队列")]
         [DisplayName("队列生成器")]
@@ -97,6 +101,7 @@ namespace Hawk.ETL.Plugins.Transformers
             return crawler != null && base.Init(datas);
         }
 
+        
         private List<FreeDocument> GetDatas(IFreeDocument data)
         {
             var p = data[Column];
@@ -120,10 +125,24 @@ namespace Hawk.ETL.Plugins.Transformers
                     if (delaytime != 0)
                         Thread.Sleep(delaytime);
                 }
+
                 HttpStatusCode code;
-                docs = crawler.CrawData(url, out htmldoc, out code,post);
-                if(HttpHelper.IsSuccess(code))
-                    buffHelper.Set(bufkey, htmldoc);
+                int maxcount = 1;
+                int.TryParse(data.Query(MaxTryCount),out maxcount);
+                  
+                int count = 0;
+                while (count<maxcount)
+                {
+                    docs = crawler.CrawData(url, out htmldoc, out code, post);
+                    if (HttpHelper.IsSuccess(code))
+                    {
+                        buffHelper.Set(bufkey, htmldoc);
+                        break;
+                    }
+                    count++;
+
+                }
+             
             
             }
             else

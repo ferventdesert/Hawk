@@ -304,12 +304,15 @@ namespace Hawk.ETL.Managements
                 if (userControl != null)
                 {
                     userControl.DataContext = this;
-                    (CurrentProcessTasks as INotifyCollectionChanged).CollectionChanged += (s, e) =>
+                    ((INotifyCollectionChanged) CurrentProcessTasks).CollectionChanged += (s, e) =>
                     {
-                        if (e.Action == NotifyCollectionChangedAction.Add)
-                        {
-                            dockableManager.ActiveThisContent("任务管理视图");
-                        }
+                        ControlExtended.UIInvoke(() => {
+                            if (e.Action == NotifyCollectionChangedAction.Add)
+                            {
+                                dockableManager.ActiveThisContent("任务管理视图");
+                            }
+                        });
+                     
                     }
                         ;
                     dockableManager.AddDockAbleContent(taskView.FrmState, this, taskView, "任务管理视图");

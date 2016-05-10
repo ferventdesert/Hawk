@@ -90,7 +90,7 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("刷新结果", obj => { RefreshSamples(); }),
+                        new Command("刷新结果", obj => { RefreshSamples(true); }),
                         new Command("弹出样例", obj =>
                         {
                             generateFloatGrid = true;
@@ -651,7 +651,7 @@ namespace Hawk.ETL.Process
             return func(source);
         }
 
-        public void RefreshSamples()
+        public void RefreshSamples(bool canGetDatas=true)
         {
             if (SysProcessManager == null)
                 return;
@@ -702,7 +702,9 @@ namespace Hawk.ETL.Process
             var alltools = CurrentETLTools.Take(ETLMount).ToList();
             var hasInit = false;
             var func = Aggregate(d => d, alltools.Where(d => d.Enabled), false);
-            var temptask = TemporaryTask.AddTempTask("正在转换数据",
+            if(!canGetDatas)
+                return;
+            var temptask = TemporaryTask.AddTempTask(this.Name+ "_转换",
                 func(new List<IFreeDocument>()).Take(SampleMount),
                 data =>
                 {

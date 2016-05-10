@@ -152,6 +152,7 @@ namespace Hawk.ETL.Plugins.Transformers
 
             if (generator != null)
             {
+
                 var others = htmldoc.DocumentNode.SelectNodes("//@href");
 
                 var r3 = others.Select(d => d.Attributes["href"].Value).ToList();

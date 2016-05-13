@@ -45,7 +45,8 @@ namespace Hawk.ETL.Plugins.Executor
         public override IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents)
         {
           
-     
+            if(collection==null)
+                yield break;
             foreach (IFreeDocument computeable in documents)
             {
                 ControlExtended.UIInvoke(() => {

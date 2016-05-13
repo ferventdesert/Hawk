@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
@@ -17,6 +16,7 @@ namespace Hawk.ETL.Plugins.Generators
     {
         protected readonly IProcessManager processManager;
         private string _etlSelector;
+        protected bool IsExecute;
         private SmartETLTool mainstream;
 
         public ETLBase()
@@ -26,7 +26,7 @@ namespace Hawk.ETL.Plugins.Generators
             if (defaultetl != null) ETLSelector = defaultetl.Name;
         }
 
-        [DisplayName("ETL选择")]
+        [DisplayName("子流-选择")]
         [Description("输入ETL的任务名称")]
         public string ETLSelector
         {
@@ -39,18 +39,13 @@ namespace Hawk.ETL.Plugins.Generators
                 _etlSelector = value;
             }
         }
-        protected bool IsExecute;
+
+        protected SmartETLTool etl { get; set; }
 
         public void SetExecute(bool value)
         {
             IsExecute = value;
         }
-
-        protected SmartETLTool etl { get; set; }
-
-        [DisplayName("插入模块名")]
-        [Description("主stream中，插入到etl的stream之前的模块名")]
-        public string Insert { get; set; }
 
         public virtual FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
@@ -99,7 +94,7 @@ namespace Hawk.ETL.Plugins.Generators
                 processManager.CurrentProcessCollections.OfType<SmartETLTool>()
                     .FirstOrDefault(d => d.CurrentETLTools.Contains(this));
             etl =
-                processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == ETLSelector ) as SmartETLTool;
+                processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == ETLSelector) as SmartETLTool;
             if (etl != null)
             {
                 return true;
@@ -125,16 +120,11 @@ namespace Hawk.ETL.Plugins.Generators
         protected IEnumerable<IColumnProcess> GetProcesses()
         {
             var processes = new List<IColumnProcess>();
-            if (string.IsNullOrWhiteSpace(Insert))
-                return etl.CurrentETLTools.Where(d=>d.Enabled);
-            var index = mainstream.CurrentETLTools.IndexOf(this);
-            foreach (var tool in mainstream.CurrentETLTools.Take(index).Where(d => d.Name == Insert))
-            {
-                processes.Add(tool);
-            }
+
+
             foreach (var tool in etl.CurrentETLTools)
             {
-                if (tool.Enabled && tool.Name != Insert)
+                if (tool.Enabled)
                 {
                     processes.Add(tool);
                 }
@@ -143,9 +133,10 @@ namespace Hawk.ETL.Plugins.Generators
         }
     }
 
-    [XFrmWork("从ETL生成", "从其他数据清洗模块中生成序列，用以组合大模块")]
+    [XFrmWork("子流-生成", "从其他数据清洗模块中生成序列，用以组合大模块")]
     public class EtlGE : ETLBase, IColumnGenerator
     {
+        [Description("当前位置")]
         public int Position { get; set; }
 
         [DisplayName("生成模式")]
@@ -167,72 +158,74 @@ namespace Hawk.ETL.Plugins.Generators
         }
     }
 
-    
-    [XFrmWork("ETL执行", "从其他数据清洗模块中生成序列，用以组合大模块")]
+
+    [XFrmWork("子流-执行", "从其他数据清洗模块中生成序列，用以组合大模块")]
     public class EtlEX : ETLBase, IDataExecutor
     {
         private EnumerableFunc func;
+
+        [DisplayName("添加到任务")]
+        [Description("勾选后，本子任务会添加到任务管理器中")]
+        public bool AddTask { get; set; }
+
+        [DisplayName("新列名")]
+        [Description("从原始数据中传递到子执行流的列，多个列用空格分割")]
+        public string NewColumn { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
             base.Init(datas);
             var process = GetProcesses().ToList();
-             func = etl.Aggregate(d => d, process, true);
+            func = etl.Aggregate(d => d, process, true);
             return true;
-
         }
 
-        [DisplayName("添加到任务")]
-        public bool AddTask { get; set; }
-
-        public string NewColumn { get; set; }
         public IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents)
         {
-          
             foreach (var document in documents)
             {
-               
-               
                 IFreeDocument doc = null;
                 if (string.IsNullOrEmpty(NewColumn))
                 {
-                    doc= document.Clone();
+                    doc = document.Clone();
                 }
                 else
                 {
-                    doc=new FreeDocument();
-                    doc.MergeQuery(document, NewColumn+" "+Column);
+                    doc = new FreeDocument();
+                    doc.MergeQuery(document, NewColumn + " " + Column);
                 }
                 if (AddTask)
                 {
                     var name = doc[Column];
-                    ControlExtended.UIInvoke(() => {
-                        var task = TemporaryTask.AddTempTask("ETL" + name, func(new List<IFreeDocument> { doc }), d => d.ToList());
+                    ControlExtended.UIInvoke(() =>
+                    {
+                        var task = TemporaryTask.AddTempTask("ETL" + name, func(new List<IFreeDocument> {doc}),
+                            d => d.ToList());
                         processManager.CurrentProcessTasks.Add(task);
                     });
-               
                 }
                 else
                 {
-                  var r=  func( new List<IFreeDocument> {doc}).ToList();
+                    var r = func(new List<IFreeDocument> {doc}).ToList();
                 }
-              
+
                 yield return document;
             }
         }
     }
-    [XFrmWork("字典转换")]
+
+    [XFrmWork("字典转换", "将两列数据，转换为一行数据，拖入的列为key")]
     public class DictTF : TransformerBase
     {
+        [DisplayName("值列名")]
+        public string ValueColumn { get; set; }
+
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {
             IsMultiYield = true;
             return base.Init(docus);
         }
 
-        public string ValueColumn { get; set; }
-
-   
         public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
         {
             if (string.IsNullOrEmpty(Column) || string.IsNullOrEmpty(ValueColumn))
@@ -248,8 +241,8 @@ namespace Hawk.ETL.Plugins.Generators
             {
                 var key = data[Column]?.ToString();
                 var value = data[ValueColumn]?.ToString();
-               
-                if(string.IsNullOrEmpty(key)&&string.IsNullOrEmpty(value))
+
+                if (string.IsNullOrEmpty(key) && string.IsNullOrEmpty(value))
                 {
                     yield return result.Clone();
                 }
@@ -258,34 +251,33 @@ namespace Hawk.ETL.Plugins.Generators
                     result.SetValue(key, value);
                 }
             }
-          
-
         }
     }
 
-    [XFrmWork("ETL转换", "从其他数据清洗模块中生成序列，用以组合大模块")]
+    [XFrmWork("子流-转换", "从其他数据清洗模块中生成序列，用以组合大模块")]
     public class EtlTF : ETLBase, IColumnDataTransformer
     {
-        private IEnumerable<IColumnProcess> process;
         private EnumerableFunc func;
+        private IEnumerable<IColumnProcess> process;
 
-        [Browsable(false)]
+        [DisplayName("新列名")]
+        [Description("从原始数据中传递到子执行流的列，多个列用空格分割")]
         public string NewColumn { get; set; }
 
+        [Browsable(false)]
         public bool OneOutput => false;
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
             base.Init(datas);
             process = GetProcesses();
-             func = etl.Aggregate(d => d, process, IsExecute);
+            func = etl.Aggregate(d => d, process, IsExecute);
             return true;
         }
 
-
-               public object TransformData(IFreeDocument data)
+        public object TransformData(IFreeDocument data)
         {
-            var result = func(new List<IFreeDocument>() {data.Clone()}).FirstOrDefault();
+            var result = func(new List<IFreeDocument> {data.Clone()}).FirstOrDefault();
             data.AddRange(result);
             return null;
         }

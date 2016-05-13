@@ -32,19 +32,21 @@ namespace Hawk.ETL.Plugins.Filters
 
         [Category("1.基本选项")]
         [PropertyOrder(6)]
-        [DisplayName("求反操作")]
+        [DisplayName("求反")]
+        [Description("将结果取反后返回")]
         public bool Revert { get; set; }
 
         [Category("1.基本选项")]
         [PropertyOrder(6)]
-        [DisplayName("作用列名")]
+        [DisplayName("列名")]
+        [Description("本模块要处理的列的名称")]
         public string Column { get; set; }
 
 
 
         [Category("1.基本选项")]
         [PropertyOrder(5)]
-        [DisplayName("模块名")]
+        [DisplayName("标签")]
         public string Name { get; set; }
 
 

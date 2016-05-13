@@ -161,12 +161,13 @@ namespace Hawk.ETL.Managements
                 obj => (obj as ProcessTask).Load(true),
                 obj => obj is ProcessTask, "download"));
 
-            taskAction1.ChildActions.Add(new Command("覆盖本任务",
-                obj => SetCurrentTask(obj as ProcessTask), obj => obj is ProcessTask));
+     
             taskAction1.ChildActions.Add(new Command("删除任务",
                 obj => CurrentProject.Tasks.Remove(obj as ProcessTask),
                 obj => obj is ProcessTask));
-
+            taskAction1.ChildActions.Add(new Command("执行任务脚本",
+             (obj=>(obj as ProcessTask).EvalScript()),
+             obj =>(obj is ProcessTask)&& CurrentProcessCollections.FirstOrDefault(d => d.Name == (obj as ProcessTask).Name) != null));
 
             BindingCommands.ChildActions.Add(taskAction1);
             var taskAction2 = new BindingAction("任务列表2");

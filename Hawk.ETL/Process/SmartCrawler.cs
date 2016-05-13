@@ -556,7 +556,7 @@ namespace Hawk.ETL.Process
             var datas= CrawData(doc);
             if (datas.Count == 0)
             {
-                XLogSys.Print.WarnFormat("HTML extract Fail,url:{0}",url);
+                XLogSys.Print.DebugFormat("HTML extract Fail,url:{0}",url);
 
             }
             return datas;

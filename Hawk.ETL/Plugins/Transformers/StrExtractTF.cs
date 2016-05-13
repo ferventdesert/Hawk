@@ -22,6 +22,7 @@ namespace Hawk.ETL.Plugins.Transformers
 
 
         [DisplayName("包含首尾串")]
+        [Description("返回的结果里是否包含首串和尾串")]
         public bool HaveStartEnd { get; set; }
         public override object TransformData(IFreeDocument datas)
         {

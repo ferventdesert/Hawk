@@ -32,6 +32,9 @@ namespace Hawk.ETL.Plugins.Transformers
             PropertyChanged += (s, e) => { buffHelper.Clear(); };
         }
 
+
+
+        [DisplayName("最大重试次数")]
         public string MaxTryCount { get; set; }
         public string DelayTime { get; set; }
         public string PostData { get; set; }

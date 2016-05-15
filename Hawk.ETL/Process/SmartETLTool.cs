@@ -343,6 +343,8 @@ namespace Hawk.ETL.Process
                 XLogSys.Print.Error($"位于{tool.Column}列的{tool.TypeName}模块在初始化时出现异常：{ex},请检查任务参数");
                 return func;
             }
+            if (!tool.Enabled)
+                return func;
             if (tool is IColumnDataTransformer)
             {
                 var ge = tool as IColumnDataTransformer;
@@ -437,7 +439,7 @@ namespace Hawk.ETL.Process
             {
                 var timer = new DispatcherTimer();
                 TemporaryTask paratask = null;
-                var tolistTransformer = etls.FirstOrDefault(d => d.TypeName == "列表实例化") as ToListTF;
+                var tolistTransformer = etls.FirstOrDefault(d => d.TypeName == "流实例化") as ToListTF;
 
                 if (tolistTransformer != null)
                 {
@@ -697,7 +699,7 @@ namespace Hawk.ETL.Process
 
             var alltools = CurrentETLTools.Take(ETLMount).ToList();
             var hasInit = false;
-            var func = Aggregate(d => d, alltools.Where(d => d.Enabled), false);
+            var func = Aggregate(d => d, alltools, false);
             if(!canGetDatas)
                 return;
             var temptask = TemporaryTask.AddTempTask(this.Name+ "_转换",

@@ -106,6 +106,7 @@ namespace Hawk.ETL.Managements
                 }
                 XLogSys.Print.Error(ex);
             }
+            XLogSys.Print.Info("脚本已经成功执行");
         }
 
         public virtual void Load(bool addui)

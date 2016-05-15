@@ -17,9 +17,9 @@ namespace Hawk.Core.Connectors
 
         public FileManager()
         {
-            if (CurrentTables.FirstOrDefault(d => d.Name == "打开新文件") == null)
+            if (CurrentTables.FirstOrDefault(d => d.Name == openfile) == null)
             {
-                CurrentTables.Insert(0, new TableInfo("打开新文件", this));
+                CurrentTables.Insert(0, new TableInfo(openfile, this));
             }
         }
         public IEnumerable<IDictionarySerializable> GetEnumerable(string tableName, Type type = null)
@@ -35,10 +35,7 @@ namespace Hawk.Core.Connectors
         public override void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
         {
             base.DictDeserialize(docu, scenario);
-            if (CurrentTables.FirstOrDefault(d => d.Name == "打开新文件") == null)
-            {
-                CurrentTables.Insert(0, new TableInfo("打开新文件", this));
-            }
+       
         }
 
         public override IEnumerable<IFreeDocument> GetEntities(
@@ -57,7 +54,7 @@ namespace Hawk.Core.Connectors
             TableInfo table = null;
             LastFileName = tableName;
             List<string> fileNames = new List<string>();
-            if (tableName == "打开新文件" && MainDescription.IsUIForm)
+            if (tableName == openfile && MainDescription.IsUIForm)
             {
                 var ofd2 = new OpenFileDialog();
                 ofd2.DefaultExt = "*";
@@ -66,7 +63,6 @@ namespace Hawk.Core.Connectors
                 if (ofd2.ShowDialog() == true)
                 {
                     fileNames.AddRange(ofd2.FileNames);
-
 
                 }
 

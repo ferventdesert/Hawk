@@ -26,6 +26,7 @@ namespace Hawk.ETL.Plugins.Transformers
             ConnectorSelector.GetItems = () => dataManager.CurrentConnectors.ToList();
             ConnectorSelector.SelectChanged +=
                 (s, e) => TableSelector.SetSource(ConnectorSelector.SelectItem.RefreshTableNames());
+           
             TableSelector.SelectChanged += (s, e) =>
             {
                 IDataBaseConnector connector = ConnectorSelector.SelectItem;
@@ -44,7 +45,14 @@ namespace Hawk.ETL.Plugins.Transformers
                 }
             };
         }
-          [DisplayName("查询多数据")]
+
+        public override bool Init(IEnumerable<IFreeDocument> docus)
+        {
+            OneOutput = false;
+            return base.Init(docus);
+        }
+
+        [DisplayName("查询多数据")]
         [Description("启用该项时，会查询多个满足条件的项，同时将同一列保存为数组")]
         public bool IsMutliDatas { get; set; }
 

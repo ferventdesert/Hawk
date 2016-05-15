@@ -8,7 +8,8 @@ namespace Hawk.Core.Connectors
 {
     public static class DbExtends
     {
-        public static List<T> GetEntityList<T>(this IDataBaseConnector connector,string tableName, int mount = -1, int skip = 0)
+        public static List<T> GetEntityList<T>(this IDataBaseConnector connector, string tableName, int mount = -1,
+            int skip = 0)
             where T : class, IFreeDocument
         {
             var type = typeof (T);
@@ -18,14 +19,13 @@ namespace Hawk.Core.Connectors
             return items;
         }
 
-        public static List<T> TryFindEntities<T>(this IDataBaseConnector connector, string tableName, IDictionary<string, object> search) where T : class, IDictionarySerializable
+        public static List<T> TryFindEntities<T>(this IDataBaseConnector connector, string tableName,
+            IDictionary<string, object> search) where T : class, IDictionarySerializable
         {
-           
             var rs = connector.TryFindEntities(tableName, search, typeof (T));
             return rs.Select(d => d as T).ToList();
-           
-           
         }
+
         public static IItemsProvider<T> GetVirtualProvider<T>(this TableInfo tableInfo) where T : class, IFreeDocument
         {
             var enumable = tableInfo.Connector as IEnumerableProvider<T>;
@@ -40,13 +40,14 @@ namespace Hawk.Core.Connectors
                 vir = new DataBaseVirtualProvider<T>(tableInfo.Connector, tableInfo.Name);
             }
             return vir;
-
         }
+
         /// <summary>
-        /// 获取数据库中的所有实体，通过传递实例化委托，提升反射性能
+        ///     获取数据库中的所有实体，通过传递实例化委托，提升反射性能
         /// </summary>
         /// <returns></returns>
-        public static List<T> GetAllEntities<T>(this IDataBaseConnector connector,  string tableName) where T : class, IFreeDocument, new()
+        public static List<T> GetAllEntities<T>(this IDataBaseConnector connector, string tableName)
+            where T : class, IFreeDocument, new()
         {
             return connector.GetEntityList<T>(tableName);
         }
@@ -57,120 +58,121 @@ namespace Hawk.Core.Connectors
         OnlyInsert,
         InsertOrUpdate,
         Delete,
-        OnlyUpdate,
-  
+        OnlyUpdate
     }
+
     /// <summary>
-    /// 基本数据库管理接口
+    ///     基本数据库管理接口
     /// </summary>
     [Interface("数据库连接器接口")]
     public interface IDataBaseConnector
     {
+        /// <summary>
+        ///     数据库类型
+        /// </summary>
+        string TypeName { get; }
 
         /// <summary>
-        /// 数据库类型
+        ///     连接名称
         /// </summary>
-          string TypeName { get;  }
+        string Name { get; set; }
+
+        string ConnectionString { get; set; }
+
         /// <summary>
-        /// 保存数据到数据库
+        ///     自动连接
+        /// </summary>
+        bool AutoConnect { get; set; }
+
+        //数据库名 
+        string DBName { get; set; }
+
+        /// <summary>
+        ///     是否可用
+        ///     <remarks>数据库服务可能处于离线模式</remarks>
+        /// </summary>
+        bool IsUseable { get; }
+
+        /// <summary>
+        ///     保存数据到数据库
         /// </summary>
         /// <param name="source">要保存的数据</param>
         /// <param name="dbTableName">表名称</param>
         void BatchInsert(IEnumerable<IFreeDocument> source, string dbTableName);
+
         /// <summary>
-        /// 获取当前目录下的表名
+        ///     获取当前目录下的表名
         /// </summary>
         /// <returns></returns>
         List<TableInfo> RefreshTableNames();
 
         /// <summary>
-        /// 搜索一个实体
+        ///     搜索一个实体
         /// </summary>
         /// <param name="tableName"></param>
         /// <param name="search"></param>
         /// <param name="count">检索的数量</param>
         /// <param name="searchStrategy">搜索策略</param>
         /// <returns></returns>
-        List<IFreeDocument>    TryFindEntities(string tableName, IDictionary<string, object> search,   
-            Type type = null,int count=-1, DBSearchStrategy searchStrategy = DBSearchStrategy.Contains);
+        List<IFreeDocument> TryFindEntities(string tableName, IDictionary<string, object> search,
+            Type type = null, int count = -1, DBSearchStrategy searchStrategy = DBSearchStrategy.Contains);
 
         /// <summary>
-        /// 连接名称
-        /// </summary>
-        string Name { get; set; }
-
-
-        /// <summary>
-        /// 创建一个数据库
+        ///     创建一个数据库
         /// </summary>
         /// <param name="dbname"></param>
         void CreateDataBase(string dbname);
-        
+
         /// <summary>
-        /// 通过sql查询
+        ///     通过sql查询
         /// </summary>
         /// <param name="querySQL"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        List<IFreeDocument> QueryEntities(string querySQL,out int count,string tableName=null, Type type = null);
-
-        string ConnectionString { get; set; }
+        List<IFreeDocument> QueryEntities(string querySQL, out int count, string tableName = null, Type type = null);
 
         /// <summary>
-        /// 自动连接
-        /// </summary>
-          bool AutoConnect { get; set; }
-
-        //数据库名 
-        string DBName { get; set; }
-
-        /// <summary>
-        /// 连接数据库
+        ///     连接数据库
         /// </summary>
         /// <returns></returns>
         bool ConnectDB();
 
         /// <summary>
-        /// 关闭数据库
+        ///     关闭数据库
         /// </summary>
         /// <returns></returns>
         bool CloseDB();
 
         /// <summary>
-        /// 获取对应表名的数据
+        ///     获取对应表名的数据
         /// </summary>
         /// <param name="tableName"></param>
         /// <param name="skip">跳过 </param>
         /// <param name="type">数据类型</param>
         /// <param name="mount"> 数量</param>
         /// <returns></returns>
-        IEnumerable<IFreeDocument> GetEntities(string tableName, Type type=null, int mount=-1, int skip = 0);
+        IEnumerable<IFreeDocument> GetEntities(string tableName, Type type = null, int mount = -1, int skip = 0);
 
-       
         /// <summary>
-        /// 创建表
+        ///     创建表
         /// </summary>
         /// <param name="dataType">数据类型</param>
         /// <param name="createStr">创建字符串</param>
         bool CreateTable(IFreeDocument example, string name);
-        /// <summary>
-        /// 是否可用
-        /// <remarks>数据库服务可能处于离线模式</remarks>
-        /// </summary>
-        bool IsUseable { get; }
 
         /// <summary>
-        /// 更新到数据库
+        ///     更新到数据库
         /// </summary>
         /// <param name="tableName"></param>
         /// <param name="updateItem"></param>
         /// <param name="executeType">对数据实体执行的操作</param>
-        void SaveOrUpdateEntity(IFreeDocument updateItem, string tableName, IDictionary<string, object> keys,EntityExecuteType executeType=EntityExecuteType.InsertOrUpdate);
+        void SaveOrUpdateEntity(IFreeDocument updateItem, string tableName, IDictionary<string, object> keys,
+            EntityExecuteType executeType = EntityExecuteType.InsertOrUpdate);
+
         /// <summary>
-        /// 删除表数据
+        ///     删除表数据
         /// </summary>
         /// <param name="tableName"></param>
         void DropTable(string tableName);
-
     }
 }

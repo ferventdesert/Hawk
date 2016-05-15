@@ -14,6 +14,7 @@ namespace Hawk.Core.Connectors.Vitural
 
         }
 
+        protected string openfile = "打开新文件";
         public ObservableCollection<TableInfo> CurrentTables { get; set; }
 
         public override List<TableInfo> RefreshTableNames()
@@ -63,7 +64,8 @@ namespace Hawk.Core.Connectors.Vitural
                     var doc = new TableInfo();
                     doc.DictDeserialize(item.DictSerialize());
                     doc.Connector = this;
-                    CurrentTables.Add(doc);
+                    if(doc.Name!= openfile)
+                        CurrentTables.Add(doc);
                 }
             }
         }
@@ -72,7 +74,7 @@ namespace Hawk.Core.Connectors.Vitural
         {
             FreeDocument dict = base.DictSerialize(scenario);
             dict.Children = new List<FreeDocument>();
-            dict.Children.AddRange(CurrentTables.Select(d => d.DictSerialize()));
+            dict.Children.AddRange(CurrentTables.Where(d=>d.Name!= openfile).Select(d => d.DictSerialize()));
             return dict;
         }
 
@@ -80,6 +82,8 @@ namespace Hawk.Core.Connectors.Vitural
 
         public override void DropTable(string tableName)
         {
+            if(tableName==openfile)
+                return;
             TableInfo t = CurrentTables.FirstOrDefault(d => d.Name == tableName);
             CurrentTables.Remove(t);
         }

@@ -124,10 +124,8 @@ namespace Hawk.ETL.Plugins.Generators
 
             foreach (var tool in etl.CurrentETLTools)
             {
-                if (tool.Enabled)
-                {
+                
                     processes.Add(tool);
-                }
             }
             return processes;
         }
@@ -281,7 +279,7 @@ namespace Hawk.ETL.Plugins.Generators
             data.AddRange(result);
             return null;
         }
-
+        [DisplayName("返回多个数据")]
         public bool IsMultiYield { get; set; }
 
         public IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)

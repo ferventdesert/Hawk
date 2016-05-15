@@ -547,7 +547,7 @@ namespace Hawk.ETL.Process
             doc = new HtmlDocument();
             if (!HttpHelper.IsSuccess(code))
             {
-                XLogSys.Print.WarnFormat("HTML Fail,Code:{0}url:{1}",code, url);
+                XLogSys.Print.WarnFormat("HTML Fail,Code:{0}，url:{1}",code, url);
                 return new List<FreeDocument>();
             }
                

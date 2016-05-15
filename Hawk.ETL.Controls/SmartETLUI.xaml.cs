@@ -12,7 +12,7 @@ namespace Hawk.ETL.Controls
     /// <summary>
     /// ETLSmartView.xaml 的交互逻辑
     /// </summary>
-    [XFrmWork("数据清洗ETL" )]
+    [XFrmWork("数据清洗" )]
     public partial class ETLSmartView : UserControl, ICustomView, IRemoteInvoke
     {
         public ETLSmartView()

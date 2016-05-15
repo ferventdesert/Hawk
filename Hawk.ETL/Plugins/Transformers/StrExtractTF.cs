@@ -34,12 +34,12 @@ namespace Hawk.ETL.Plugins.Transformers
                 return item;
             var start = str.IndexOf(Former);
             if (start == -1)
-                return item;
+                return "";
             if (HaveStartEnd==false)
                 start += Former.Length;
             var end = str.IndexOf(End,start);
             if (end == -1)
-                return item;
+                return "";
             if (HaveStartEnd)
                 end += End.Length;
             return str.Substring(start, end - start);

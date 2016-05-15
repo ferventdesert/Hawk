@@ -15,6 +15,7 @@ namespace Hawk.ETL.Crawlers
         public string XPath { get; set; }
 
         [DisplayName("获取多个数据")]
+        [Description("当要获取符合XPath语法的多个结果时，勾选该选项")]
         public bool IsManyData { get; set; }
 
         [DisplayName("获取正文")]
@@ -23,6 +24,7 @@ namespace Hawk.ETL.Crawlers
 
 
         [DisplayName("获取节点数量")]
+        [Description("获取符合XPath语法的节点的数量")]
         public bool GetCount { get; set; }
 
         [DisplayName("插入空行")]

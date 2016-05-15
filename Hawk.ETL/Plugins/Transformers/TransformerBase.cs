@@ -40,18 +40,20 @@ namespace Hawk.ETL.Plugins.Transformers
 
 
         [Category("1.基本选项"), PropertyOrder(1), DisplayName("原列名")]
+        [Description("本模块要处理的列的名称")]
         public string Column { get; set; }
 
 
 
         [Category("1.基本选项")]
-        [DisplayName("模块名")]
+        [DisplayName("标签")]
         public string Name { get; set; }
 
 
         [Category("1.基本选项")]
         [PropertyOrder(2)]
         [DisplayName("新列名")]
+        [Description("结果要输出到的列的名称")]
         public virtual string NewColumn { get; set; }
 
   

@@ -462,7 +462,7 @@ namespace Hawk.ETL.Managements
                     dynamic generator = PluginProvider.GetObjectByType<IColumnProcess>("TableGE");
                     generator.TableSelector.SelectItem = collection;
                     plugin.CurrentETLTools.Add(generator);
-                    plugin.RefreshSamples();
+                    plugin.RefreshSamples(true);
                     ControlExtended.DockableManager.ActiveModelContent(plugin);
                 }, obj => true, "new"));
             dataaction.ChildActions.Add(new Command(

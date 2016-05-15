@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
@@ -14,7 +15,7 @@ using HtmlAgilityPack;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("从爬虫转换", "将网页采集器的数据进行整合，拖入的列需要为url")]
+    [XFrmWork("从爬虫转换", "使用网页采集器获取网页数据，拖入的列需要为超链接")]
     public class CrawlerTF : TransformerBase
     {
         private readonly BuffHelper<HtmlDocument> buffHelper = new BuffHelper<HtmlDocument>(50);
@@ -62,9 +63,14 @@ namespace Hawk.ETL.Plugins.Transformers
         public string GEName { get; set; }
 
         [Category("请求队列")]
-        [DisplayName("过滤前缀")]
+        [DisplayName("过滤规则")]
         public string Prefix { get; set; }
 
+        [Category("请求队列")]
+        [DisplayName("启用正则")]
+        public bool IsRegex { get; set; }
+
+        private Regex regex;
         private SmartCrawler crawler { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
@@ -100,7 +106,8 @@ namespace Hawk.ETL.Plugins.Transformers
             IsMultiYield = crawler?.IsMultiData == ListType.List;
             isfirst = true;
             OneOutput = false;
-
+            if(IsRegex)
+                regex=new Regex(Prefix);
             return crawler != null && base.Init(datas);
         }
 
@@ -155,11 +162,21 @@ namespace Hawk.ETL.Plugins.Transformers
 
             if (generator != null)
             {
+
                 var others = htmldoc.DocumentNode.SelectNodes("//@href");
 
                 var r3 = others.Select(d => d.Attributes["href"].Value).ToList();
-                var r4 =
+                IEnumerable<string> r4;
+
+                if (string.IsNullOrEmpty(Prefix))
+                    r4 = r3;
+              else  if(IsRegex==false)
+                 r4 =
                     r3.Where(d => d.StartsWith(Prefix)).Where(d => true);
+              else
+              {
+                  r4 = r3.Where(d => regex.IsMatch(d));
+              }
                 foreach (var href in r4)
                 {
                     generator.InsertQueue(href);

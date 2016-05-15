@@ -137,7 +137,6 @@
     <Compile Include="Plugins\Web\BaiduLocation.cs" />
     <Compile Include="Plugins\Web\GetIPLocation.cs" />
     <Compile Include="Plugins\Web\GetRoute.cs" />
-    <Compile Include="Plugins\Web\IDCardTF.cs" />
     <Compile Include="Plugins\Web\NearbySearch.cs" />
     <Compile Include="Plugins\Web\NlpTF.cs" />
     <Compile Include="Plugins\Web\TransTF.cs" />

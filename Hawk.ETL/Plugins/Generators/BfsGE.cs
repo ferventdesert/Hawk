@@ -30,7 +30,7 @@ namespace Hawk.ETL.Plugins.Generators
         [DisplayName("BFS起始位置")]
         public string StartURL { get; set; }
 
-
+        [DisplayName("延时时间")]
         public int DelayTime { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> datas)

@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel;
 using Hawk.Core.Connectors;
+using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("添加新列","添加值为固定值的新列")]
+    [XFrmWork("添加新列","为数据集添加新列，值为某固定值")]
     public class AddNewTF : TransformerBase
     {
         public AddNewTF()
@@ -18,7 +19,7 @@ namespace Hawk.ETL.Plugins.Transformers
 
         public override object TransformData(IFreeDocument free)
         {
-            return NewValue;
+            return free.Query(NewValue);
         }
     }
 }

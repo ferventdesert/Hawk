@@ -22,8 +22,8 @@ using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid;
 namespace Hawk.ETL.Process
 {
-    [XFrmWork("数据清洗ETL", "可方便的对表格数据整理，分组，筛选和排序",
-        "/XFrmWork.DataMining.Process;component/Images/hadoop.jpg", "数据采集和处理")]
+   [XFrmWork("数据清洗", "可方便的对表格数据整理，分组，筛选和排序"
+      ,groupName: "数据采集和处理")]
     public class SmartETLTool : AbstractProcessMethod, IView
     {
         #region Constructors and Destructors
@@ -90,7 +90,7 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("刷新结果", obj => { RefreshSamples(); }),
+                        new Command("刷新结果", obj => { RefreshSamples(true); }),
                         new Command("弹出样例", obj =>
                         {
                             generateFloatGrid = true;
@@ -147,6 +147,7 @@ namespace Hawk.ETL.Process
         [Category("4.调试")]
         [PropertyOrder(2)]
         [DisplayName("模块数量")]
+        [Description("只选取工作流中前n个模块，来构造工作流")]
         public int ETLMount
         {
             get { return _etlMount; }
@@ -163,6 +164,7 @@ namespace Hawk.ETL.Process
         [Category("4.调试")]
         [PropertyOrder(1)]
         [DisplayName("采样量")]
+        [Description("只获取数据表的前n行")]
         public int SampleMount
         {
             get { return _SampleMount; }
@@ -193,7 +195,7 @@ namespace Hawk.ETL.Process
                             var t = CurrentETLTools.Where(d => !(d is IDataExecutor) && d.Enabled).ToList();
                             if (ETLMount < t.Count)
                             {
-                                XLogSys.Print.Info("插入ETL选项" + t[ETLMount].ToString());
+                                XLogSys.Print.Info("插入工作模块，名称:" + t[ETLMount].ToString());
                             }
                             RefreshSamples();
                         })
@@ -226,6 +228,7 @@ namespace Hawk.ETL.Process
 
         [Category("2.清洗流程")]
         [DisplayName("已加载")]
+        [Description("当前位于工作流中的的所有工作模块")]
         public ObservableCollection<IColumnProcess> CurrentETLTools { get; set; }
 
         [Browsable(false)]
@@ -510,10 +513,7 @@ namespace Hawk.ETL.Process
 
                     if (iswait && SysProcessManager.CurrentProcessTasks.Count < MaxThreadCount)
                     {
-                        if (IsAutoSave)
-                        {
-                            SysProcessManager.CurrentProject.Save();
-                        }
+                     
                         paratask.IsPause = false;
                         iswait = false;
                     }
@@ -626,14 +626,10 @@ namespace Hawk.ETL.Process
         [DisplayName("工作模式")]
         public GenerateMode GenerateMode { get; set; }
 
-        [PropertyOrder(4)]
-        [Category("3.执行")]
-        [DisplayName("自动保存任务")]
-        public bool IsAutoSave { get; set; }
 
         [PropertyOrder(2)]
         [Category("3.执行")]
-        [Description("在并行模式工作时，所承载的最大线程数")]
+        [Description("在并行模式工作时，线程池所承载的最大线程数")]
         [DisplayName("最大线程数")]
         public int MaxThreadCount { get; set; }
 
@@ -651,7 +647,7 @@ namespace Hawk.ETL.Process
             return func(source);
         }
 
-        public void RefreshSamples()
+        public void RefreshSamples(bool canGetDatas=true)
         {
             if (SysProcessManager == null)
                 return;
@@ -702,7 +698,9 @@ namespace Hawk.ETL.Process
             var alltools = CurrentETLTools.Take(ETLMount).ToList();
             var hasInit = false;
             var func = Aggregate(d => d, alltools.Where(d => d.Enabled), false);
-            var temptask = TemporaryTask.AddTempTask("正在转换数据",
+            if(!canGetDatas)
+                return;
+            var temptask = TemporaryTask.AddTempTask(this.Name+ "_转换",
                 func(new List<IFreeDocument>()).Take(SampleMount),
                 data =>
                 {

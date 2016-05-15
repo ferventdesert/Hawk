@@ -117,8 +117,6 @@ namespace Hawk.ETL.Plugins.Generators
             IsMultiYield = true;
            return base.Init(docus);
         }
-        [DisplayName("编码")]
-        public EncodingType EncodingType { get; set; }
         public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
         {
             if(Connector==null)
@@ -152,7 +150,7 @@ namespace Hawk.ETL.Plugins.Generators
         public EncodingType EncodingType { get; set; }
 
 
-
+        [DisplayName("要写入文件的完整路径")]
         public string Path { get; set; }
 
         public override IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents)

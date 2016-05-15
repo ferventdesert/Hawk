@@ -31,7 +31,7 @@ namespace Hawk.ETL.Plugins.Transformers
         }
         public override bool IsMultiYield => ScriptWorkMode == ScriptWorkMode.文档列表;
         [DisplayName("工作模式")]
-          [Description("是用于指示如何转换结果的枚举")]
+        [Description("文档列表：[{}],转换为多个数据行构成的列表；单文档：{},将结果的键值对附加到本行；不进行转换：直接将值放入到新列")]
         public ScriptWorkMode ScriptWorkMode { get; set; }
 
         [DisplayName("执行脚本")]

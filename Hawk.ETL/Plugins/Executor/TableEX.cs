@@ -32,7 +32,7 @@ namespace Hawk.ETL.Plugins.Executor
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
              collection = dataManager.DataCollections.FirstOrDefault(d => d.Name == Table);
-            if (collection == null)
+            if (collection == null&&string.IsNullOrEmpty(Table)==false)
 
             {
                 collection = new DataCollection(new List<IFreeDocument>()) { Name = Table };
@@ -45,11 +45,15 @@ namespace Hawk.ETL.Plugins.Executor
         public override IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents)
         {
           
-
+            if(collection==null)
+                yield break;
             foreach (IFreeDocument computeable in documents)
             {
-                collection.ComputeData.Add(computeable);
-                collection.OnPropertyChanged("Count");
+                ControlExtended.UIInvoke(() => {
+                    collection.ComputeData.Add(computeable);
+                    collection.OnPropertyChanged("Count");
+                });
+             
                 yield return computeable;
             }
         

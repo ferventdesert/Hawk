@@ -72,15 +72,15 @@ namespace Hawk.ETL.Process
             }
         }
 
+        private string url;
         [Browsable(false)]
         public string URL
         {
-            get { return Http.URL; }
+            get { return url; }
             set
             {
-                if (Http.URL == value) return;
-
-                Http.URL = value;
+                if (url == value) return;
+                url = value;
                 OnPropertyChanged("URL");
                 if (AutoVisitUrl)
                     VisitURLAsync();

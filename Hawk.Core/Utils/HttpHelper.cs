@@ -37,54 +37,8 @@ namespace Hawk.Core.Utils
 
         //默认的编码
         private Encoding encoding = Encoding.Default;
-        //HttpWebRequest对象用来发起请求
-        private HttpWebRequest request;
-        //获取影响流的数据对象
-        private HttpWebResponse response;
 
-        /// <summary>
-        ///     根据相传入的数据，得到相应页面数据
-        /// </summary>
-        /// <param name="strPostdata">传入的数据Post方式,get方式传NUll或者空字符串都可以</param>
-        /// <returns>string类型的响应数据</returns>
-        public bool GetDownloadData(HttpItem objhttpitem, string fileName, out int size)
-        {
-            SetRequest(objhttpitem);
-            try
-            {
-                #region 得到请求的response
-
-                using (response = (HttpWebResponse) request.GetResponse())
-                {
-                    var _stream = new MemoryStream();
-
-
-                    _stream = GetMemoryStream(response.GetResponseStream());
-
-                    //获取Byte
-                    var RawResponse = _stream.ToArray();
-                    //是否返回Byte类型数据
-                    //得到返回的HTML
-                    var result = Encoding.UTF8.GetString(RawResponse);
-                    File.WriteAllBytes(fileName, RawResponse);
-                    size = RawResponse.Length;
-                    //最后释放流
-                    _stream.Close();
-                }
-
-                #endregion
-            }
-            catch (WebException ex)
-            {
-                //这里是在发生异常时返回的错误信息
-
-                response = (HttpWebResponse) ex.Response;
-                size = 0;
-                return false;
-            }
-
-            return true;
-        }
+    
 
         //public bool AutoVisit(HttpItem item)
         //{
@@ -153,13 +107,13 @@ namespace Hawk.Core.Utils
         /// <param name="strPostdata">传入的数据Post方式,get方式传NUll或者空字符串都可以</param>
         /// <param name="ContentType">返回的响应数据的类型</param>
         /// <returns>string类型的响应数据</returns>
-        private string GetHttpRequestData(HttpItem objhttpitem, out ContentType ContentType,out HttpStatusCode statusCode)
+        private string GetHttpRequestData(HttpWebRequest request, HttpItem objhttpitem, out ContentType ContentType,out HttpStatusCode statusCode)
         {
             var result = "";
 
             #region 得到请求的response
 
-            using (response = (HttpWebResponse) request.GetResponse())
+            using (var response = (HttpWebResponse) request.GetResponse())
             {
                 var _stream = new MemoryStream();
 
@@ -352,9 +306,11 @@ namespace Hawk.Core.Utils
         /// </summary>
         /// <param name="item">参数列表</param>
         /// <param name="_Encoding">读取数据时的编码方式</param>
-        private void SetRequest(HttpItem item)
+        private HttpWebRequest SetRequest(HttpItem item,string desturl=null,string post=null)
         {
-            var url = item.URL;
+            var url = desturl ?? item.URL;
+            if(url==null)
+                return null;
             if (url.Contains("http") == false)
             {
                 url = "http://" + url;
@@ -364,7 +320,7 @@ namespace Hawk.Core.Utils
                 ServicePointManager.ServerCertificateValidationCallback =
                     (sender, certificate, chain, sslPolicyErrors) => true;
             //初始化对像，并设置请求的URL地址
-            request = (HttpWebRequest) WebRequest.Create(GetUrl(url));
+           var  request = (HttpWebRequest) WebRequest.Create(GetUrl(url));
 
             var docu = item.GetHeaderParameter();
             // 设置代理
@@ -415,48 +371,51 @@ namespace Hawk.Core.Utils
             //是否执行跳转功能
             request.AllowAutoRedirect = item.Allowautoredirect;
             //设置Post数据
-            SetPostData(item);
+            string postdata = null;
+            if (post == null)
+            {
+                postdata = item.Postdata;
+            }
+            else
+            {
+                postdata = post;
+            }
+            //验证在得到结果时是否有传入数据
+            if (!string.IsNullOrEmpty(postdata) && request.Method.Trim().ToLower().Contains("post"))
+            {
+                var buffer = Encoding.Default.GetBytes(postdata);
+                request.ContentLength = buffer.Length;
+                request.GetRequestStream().Write(buffer, 0, buffer.Length);
+            }
             ////设置最大连接
             //if (item.Connectionlimit > 0)
             //{
             //    request.ServicePoint.ConnectionLimit = item.Connectionlimit;
             //}
+            return request;
         }
 
 
-        /// <summary>
-        ///     设置Post数据
-        /// </summary>
-        /// <param name="objhttpItem">Http参数</param>
-        private void SetPostData(HttpItem objhttpItem)
-        {
-            //验证在得到结果时是否有传入数据
-            if (!string.IsNullOrEmpty(objhttpItem.Postdata) && request.Method.Trim().ToLower().Contains("post"))
-            {
-                var buffer = Encoding.Default.GetBytes(objhttpItem.Postdata);
-                request.ContentLength = buffer.Length;
-                request.GetRequestStream().Write(buffer, 0, buffer.Length);
-            }
-        }
+     
 
         ///// <summary>
         /////     设置代理
         ///// </summary>
-        ///// <param name="objhttpItem">参数对象</param>
-        //private void SetProxy(HttpItem objhttpItem)
+        ///// <param name="requestitem">参数对象</param>
+        //private void SetProxy(HttpItem requestitem)
         //{
-        //    if (string.IsNullOrEmpty(objhttpItem.ProxyUserName) && string.IsNullOrEmpty(objhttpItem.ProxyPwd) &&
-        //        string.IsNullOrEmpty(objhttpItem.ProxyIp))
+        //    if (string.IsNullOrEmpty(requestitem.ProxyUserName) && string.IsNullOrEmpty(requestitem.ProxyPwd) &&
+        //        string.IsNullOrEmpty(requestitem.ProxyIp))
         //    {
         //        //不需要设置
         //    }
         //    else
         //    {
         //        //设置代理服务器
-        //        var myProxy = new WebProxy(objhttpItem.ProxyIp, objhttpItem.ProxyPort);
+        //        var myProxy = new WebProxy(requestitem.ProxyIp, requestitem.ProxyPort);
 
         //        //建议连接
-        //        myProxy.Credentials = new NetworkCredential(objhttpItem.ProxyUserName, objhttpItem.ProxyPwd);
+        //        myProxy.Credentials = new NetworkCredential(requestitem.ProxyUserName, requestitem.ProxyPwd);
         //        //给当前请求对象
         //        request.Proxy = myProxy;
         //        //设置安全凭证
@@ -498,19 +457,7 @@ namespace Hawk.Core.Utils
             return URL;
         }
 
-        /// <summary>
-        ///     采用https协议访问网络,根据传入的URl地址，得到响应的数据字符串。
-        /// </summary>
-        /// <param name="objhttpItem">参数列表</param>
-        /// <returns>String类型的数据</returns>
-        public string GetHtml(HttpItem objhttpItem, out ContentType contentType,out HttpStatusCode statusCode)
-        {
-            //准备参数
-            SetRequest(objhttpItem);
-            return GetHttpRequestData(objhttpItem, out contentType,out statusCode);
-            //调用专门读取数据的类
-        }
-
+   
 
         public static string GetRealIp()
         {
@@ -542,15 +489,15 @@ namespace Hawk.Core.Utils
         /// <summary>
         ///     采用https协议访问网络,根据传入的URl地址，得到响应的数据字符串。
         /// </summary>
-        /// <param name="objhttpItem">参数列表</param>
+        /// <param name="requestitem">参数列表</param>
         /// <returns>String类型的数据</returns>
-        public string GetHtml(HttpItem objhttpItem,out HttpStatusCode code)
+        public string GetHtml(HttpItem requestitem,out HttpStatusCode code, string url = null,string post=null)
         {
             try
             {
-                SetRequest(objhttpItem);
+                var request=   SetRequest(requestitem,url,post);
                 ContentType content;
-                var r= GetHttpRequestData(objhttpItem, out content,out code);
+                var r= GetHttpRequestData(request,requestitem, out content,out code);
                 if (!IsSuccess(code))
                     return "HTTP错误，类型:"+code.ToString();
                 return r;

@@ -6,7 +6,6 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Input;
@@ -35,6 +34,7 @@ namespace Hawk.ETL.Process
         /// </summary>
         public bool AutoVisitUrl = true;
 
+        private IEnumerator<string> currentXPaths;
         public HtmlDocument HtmlDoc = new HtmlDocument();
 
         /// <summary>
@@ -115,9 +115,9 @@ namespace Hawk.ETL.Process
                         new Command("添加字段", obj => AddNewItem(),
                             obj =>
                                 string.IsNullOrEmpty(SelectName) == false && string.IsNullOrEmpty(SelectXPath) == false),
-                        new Command("搜索XPath", async obj => await GetXPathAsync(SelectText),
+                        new Command("搜索XPath", obj => GetXPathAsync(),
                             obj =>
-                                string.IsNullOrEmpty(SelectText) == false),
+                                currentXPaths != null),
                         new Command("手气不错",
                             obj => GreatHand(),
                             obj => IsMultiData == ListType.List
@@ -146,6 +146,9 @@ namespace Hawk.ETL.Process
             }
         }
 
+
+       
+
         [Category("属性提取")]
         [DisplayName("搜索字符")]
         [PropertyOrder(2)]
@@ -156,13 +159,15 @@ namespace Hawk.ETL.Process
             {
                 if (selectText == value) return;
                 selectText = value;
-                GetXPathAsync(SelectText);
+
+                currentXPaths = HtmlDoc.SearchXPath(SelectText,()=> IsAttribute).GetEnumerator();
+                this.GetXPathAsync();
                 OnPropertyChanged("SelectText");
             }
         }
 
         [Category("属性提取")]
-        [PropertyOrder(3)]
+        [PropertyOrder(4)]
         [DisplayName("获取的XPath")]
         public string SelectXPath
         {
@@ -178,7 +183,7 @@ namespace Hawk.ETL.Process
         }
 
         [Category("属性提取")]
-        [PropertyOrder(4)]
+        [PropertyOrder(5)]
         [DisplayName("属性名称")]
         [Description("为当前属性命名")]
         public string SelectName
@@ -211,7 +216,7 @@ namespace Hawk.ETL.Process
         public HttpItem Http { get; set; }
 
         [DisplayName("提取标签")]
-        [PropertyOrder(8)]
+        [PropertyOrder(4)]
         [Category("属性提取")]
         public bool IsAttribute { get; set; }
 
@@ -270,6 +275,20 @@ namespace Hawk.ETL.Process
 
         [Browsable(false)]
         public FrmState FrmState => FrmState.Large;
+
+        private async void GetXPathAsync()
+        {
+            if (currentXPaths == null)
+                return;
+            var r = await MainFrm.RunBusyWork(() => currentXPaths.MoveNext(), "正在查询XPath");
+            if (r)
+                SelectXPath = currentXPaths.Current;
+            else
+            {
+                XLogSys.Print.Warn("找不到其他符合条件的节点，搜索器已经返回开头");
+                currentXPaths = HtmlDoc.SearchXPath(SelectText, () => IsAttribute).GetEnumerator();
+            }
+        }
 
         //public void AutoVisit()
         //{
@@ -368,6 +387,11 @@ namespace Hawk.ETL.Process
         {
             if (IsRunning)
                 return;
+            if (string.IsNullOrEmpty(URLFilter) && string.IsNullOrEmpty(this.ContentFilter))
+            {
+                MessageBox.Show("请填写至少填写URL前缀或关键字中一项过滤规则");
+                return;
+            }
             ControlExtended.SafeInvoke(() =>
             {
                 if (CanSave)
@@ -377,6 +401,7 @@ namespace Hawk.ETL.Process
                 var url = URL;
                 if (url.StartsWith("http") == false)
                     url = "http://" + url;
+              
                 System.Diagnostics.Process.Start(url);
                 FiddlerApplication.BeforeResponse += FiddlerApplicationAfterSessionComplete;
                 FiddlerApplication.Startup(8888, FiddlerCoreStartupFlags.Default);
@@ -488,15 +513,6 @@ namespace Hawk.ETL.Process
             SelectXPath = "";
         }
 
-        public async Task<string> GetXPathAsync(string keywords)
-        {
-            if (URLHTML == null)
-                return null;
-            SelectXPath = await MainFrm.RunBusyWork(() => HtmlDoc.SearchXPath(keywords), message: "正在查询XPath表达式")
-                ;
-            return SelectXPath;
-        }
-
         public List<FreeDocument> CrawData(HtmlDocument doc)
         {
             if (CrawlItems.Count == 0)
@@ -505,10 +521,10 @@ namespace Hawk.ETL.Process
                 freedoc.Add("Content", doc.DocumentNode.OuterHtml);
                 return new List<FreeDocument> {freedoc};
             }
-            return doc.GetDataFromXPath(CrawlItems, IsMultiData,RootXPath);
+            return doc.GetDataFromXPath(CrawlItems, IsMultiData, RootXPath);
         }
 
-        public List<FreeDocument> CrawData(string url, out HtmlDocument doc,out HttpStatusCode code, string post = null)
+        public List<FreeDocument> CrawData(string url, out HtmlDocument doc, out HttpStatusCode code, string post = null)
         {
             var mc = extract.Matches(url);
             Dictionary<string, string> paradict = null;
@@ -525,39 +541,20 @@ namespace Hawk.ETL.Process
                 }
             }
 
-
-            var httphelper = new HttpHelper();
-            var httpitem = new HttpItem();
-            httpitem.DictDeserialize(Http.DictSerialize());
-
-            var tempUrl = "";
-            if (httpitem.Method == MethodType.GET)
-            {
-                tempUrl = string.Format(url);
-                httpitem.URL = tempUrl;
-            }
-            else
-            {
-                httpitem.URL = string.Format(url);
-                httpitem.Postdata = post;
-            }
-
-         
-            var content = httphelper.GetHtml(httpitem,out code);
+            var content = helper.GetHtml(Http, out code, url, post);
             doc = new HtmlDocument();
             if (!HttpHelper.IsSuccess(code))
             {
-                XLogSys.Print.WarnFormat("HTML Fail,Code:{0}，url:{1}",code, url);
+                XLogSys.Print.WarnFormat("HTML Fail,Code:{0}，url:{1}", code, url);
                 return new List<FreeDocument>();
             }
-               
-         
+
+
             doc.LoadHtml(content);
-            var datas= CrawData(doc);
+            var datas = CrawData(doc);
             if (datas.Count == 0)
             {
-                XLogSys.Print.DebugFormat("HTML extract Fail,url:{0}",url);
-
+                XLogSys.Print.DebugFormat("HTML extract Fail,url:{0}", url);
             }
             return datas;
         }
@@ -567,9 +564,7 @@ namespace Hawk.ETL.Process
             URLHTML = await MainFrm.RunBusyWork(() =>
             {
                 HttpStatusCode code;
-                var item2 = helper.GetHtml(Http,out code);
-
-
+                var item2 = helper.GetHtml(Http, out code,URL);
                 return item2;
             });
             HtmlDoc.LoadHtml(URLHTML);

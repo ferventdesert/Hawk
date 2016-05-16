@@ -18,6 +18,7 @@ namespace Hawk.ETL.Plugins.Filters
         {
             this.Enabled = true;
             this.Column = "";
+            IsDebugFilter = true;
 
         }
 
@@ -103,13 +104,24 @@ namespace Hawk.ETL.Plugins.Filters
         #region IColumnDataFilter
         public   bool FilteData(IFreeDocument data)
         {
+            if (IsExecute == false && IsDebugFilter == false)
+            {
+                return true;
+            }
             bool r = true;
             r = data != null && FilteDataBase(data);
        
             return Revert ? !r : r;
         }
+        [Category("1.基本选项")]
+        [PropertyOrder(8)]
+        [DisplayName("调试时启用")]
+        public bool IsDebugFilter { get; set; }
+
         public virtual bool FilteDataBase(IFreeDocument data)
+
         {
+          
             object item = data[this.Column];
             if (item == null)
             {

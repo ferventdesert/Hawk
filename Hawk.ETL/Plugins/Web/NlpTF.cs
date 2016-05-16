@@ -89,9 +89,8 @@ namespace Hawk.ETL.Plugins.Web
                 item.Method = MethodType.GET;
                 item.Encoding = EncodingType.UTF8;
                 var helper = new HttpHelper();
-                ContentType type;
                 HttpStatusCode code;
-                var result = helper.GetHtml(item,out type,out code);
+                var result = helper.GetHtml(item,out code);
                 if(code==HttpStatusCode.OK)
                     buffHelper.Set(param, result);
                 return result;

@@ -269,57 +269,66 @@ namespace Hawk.ETL.Crawlers
             //}
         }
 
+        private static bool ListEqual(List<string> a, List<string> b)
+        {
+            if (a == null || b == null)
+                return false;
+            if (a.Count != b.Count)
+                return false;
+            for (var i = 0; i < a.Count; i++)
+            {
+                if (a[i] != b[i])
+                    return false;
+            }
+            return true;
+        }
+
         /// <summary>
         ///     find different text and return it name and xpath
         /// </summary>
         /// <param name="isAttrEnabled">是否抓取标签中的数据</param>
         /// <returns></returns>
-        private static bool GetDiffNodes(List<HtmlNode> nodes, List<CrawlItem> result, bool isAttrEnabled)
+        private static bool GetDiffNodes(List<HtmlNode> nodes, List<CrawlItem> result, List<List<string>> buffers,
+            bool isAttrEnabled)
         {
             var isChildContainInfo = false;
             var node1 = nodes.First();
             var node2 = nodes[1];
+            if (node1.ChildNodes.Count == 1 && node1.ChildNodes[0].NodeType == HtmlNodeType.Text)
+            {
+                var row = nodes.Select(d => d.SelectSingleNode(d.XPath))
+                    .Where(d => d != null).Select(d => d.InnerText.Trim()).ToList();
+                if (row.Any(d => CompareString(d, node1.InnerText) == false))
+                {
+                    var name = node1.SearchPropertyName(result) ?? "属性" + result.Count;
+                    if (buffers.Any(d => ListEqual(d, row)))
+                        return true;
+                    var crawlItem = new CrawlItem
+                    {
+                        Name = name,
+                        SampleData1 = node1.InnerText,
+                        XPath = result.Count%2 == 0 ? node1.XPath : node2.XPath
+                    };
+                    result.Add(crawlItem);
+                    buffers.Add(row);
+                    return true;
+                }
+                return false;
+            }
             foreach (var nodechild1 in node1.ChildNodes)
             {
                 if (nodechild1.XPath.Contains("#"))
-                {
                     continue;
-                }
+
                 var path = new XPath(nodechild1.XPath).TakeOff(node1.XPath).ToString();
                 var nodechild2 =
                     nodes.Select(d => d.SelectSingleNode(d.XPath + path)).Where(d => d != null).ToList();
                 if (nodechild2.Count == 1)
                     continue;
 
-                isChildContainInfo |= GetDiffNodes(nodechild2, result, isAttrEnabled);
+                isChildContainInfo |= GetDiffNodes(nodechild2, result, buffers, isAttrEnabled);
             }
-            var title = node1.Attributes.FirstOrDefault(d => d.Name == "title");
-            if (title != null)
-            {
-                var craw = new CrawlItem
-                {
-                    Name = "属性" + result.Count,
-                    SampleData1 = title.Value,
-                    XPath = title.XPath
-                };
-                result.Add(craw);
-            }
-            if (isChildContainInfo == false)
-            {
-                if (nodes.Any(d => CompareString(d.InnerText, node1.InnerText) == false))
-                {
-                    var name = node1.SearchPropertyName(result) ?? "属性" + result.Count;
-
-                    var craw = new CrawlItem
-                    {
-                        Name = name,
-                        SampleData1 = node1.InnerText,
-                        XPath = result.Count%2 == 0 ? node1.XPath : node2.XPath
-                    };
-                    result.Add(craw);
-                    isChildContainInfo = true;
-                }
-            }
+      
 
             if (isAttrEnabled == false)
             {
@@ -328,11 +337,13 @@ namespace Hawk.ETL.Crawlers
             foreach (var attribute in node1.Attributes)
             {
                 var attr1 = attribute.Value;
-                if (nodes.Any(d => d.Attributes.Contains(attribute.Name) == false))
-                    continue;
-
-                if (nodes.Any(d => CompareString(d.Attributes[attribute.Name].Value, attr1) == false))
+          ;
+                var row = nodes.Select(d => d.SelectSingleNode(d.XPath))
+                   .Where(d => d != null).Where(d => d.Attributes.Contains(attribute.Name)).Select(d=>d.Attributes[attribute.Name].Value).ToList();
+                if (row.Any(d => CompareString(d, attr1) == false))
                 {
+                    if (buffers.Any(d => ListEqual(d, row)))
+                        return isChildContainInfo;
                     var name = node1.SearchPropertyName(result);
                     if (name != null)
                         name += '_' + attribute.Name;
@@ -386,7 +397,7 @@ namespace Hawk.ETL.Crawlers
                 var doc = item as IDictionary<string, object>;
                 foreach (var r in doc)
                 {
-                    string path = r.Value?.SearchXPathInner(value);
+                    var path = r.Value?.SearchXPathInner(value);
                     if (path != null)
                     {
                         xpath += '/' + r.Key + path;
@@ -400,7 +411,7 @@ namespace Hawk.ETL.Crawlers
                 var list = item as IList;
                 for (var i = 0; i < list.Count; i++)
                 {
-                    string path = (list[i]).SearchXPathInner(value);
+                    var path = (list[i]).SearchXPathInner(value);
                     if (path != null)
                     {
                         if (path != "")
@@ -532,14 +543,14 @@ namespace Hawk.ETL.Crawlers
             var childCount = (double) avanode.Count;
 
             var childCounts = avanode.Select(d => (double) d.ChildNodes.Count).ToArray();
-            double v = childCounts.Variance();
+            var v = childCounts.Variance();
             //TODO: 此处需要一个更好的手段，因为有效节点往往是间隔的
             if (v > 5)
             {
                 return;
             }
 
-            int leafCount = avanode.First().GetLeafNodeCount();
+            var leafCount = avanode.First().GetLeafNodeCount();
             var value = childCount*PM25 + leafCount;
 
 
@@ -618,7 +629,7 @@ namespace Hawk.ETL.Crawlers
             HttpStatusCode code;
 
             var doc = new HtmlDocument();
-            var result = helper.GetHtml(httpitem,out code);
+            var result = helper.GetHtml(httpitem, out code);
             if (!HttpHelper.IsSuccess(code))
                 return doc;
             doc.LoadHtml(result);
@@ -716,50 +727,36 @@ namespace Hawk.ETL.Crawlers
         /// <param name="node">要处理的节点</param>
         /// <param name="keyword">关键词</param>
         /// <param name="hasAttr">是否需要搜索attr标记</param>
-        public static string SearchXPath(this HtmlNode node, string keyword, bool hasAttr)
+        public static IEnumerable<string> SearchXPath(this HtmlNode node, string keyword, Func<bool> hasAttr)
         {
             if (node == null || keyword == null)
-                return null;
+                yield break;
 
 
             foreach (var item in node.ChildNodes)
             {
-                if (item.XPath.Contains("#"))
+                var res = SearchXPath(item, keyword, hasAttr);
+                foreach (var re in res)
                 {
-                    continue;
+                    yield return re;
                 }
-                if (item.ChildNodes.Count > 0)
-                {
-                    var res = SearchXPath(item, keyword, hasAttr);
-                    if (res != null)
-                        return res;
-                }
-                if (item.HasAttributes && hasAttr)
+
+                if (item.HasAttributes && hasAttr.Invoke())
                 {
                     foreach (var attr in item.Attributes)
                     {
                         if (IsContainKeyword(attr.Value, keyword))
                         {
-                            return attr.XPath;
+                            yield return attr.XPath;
                         }
                     }
                 }
-
-
-                if (item.InnerText != null)
-                {
-                    if (IsContainKeyword(item.InnerText, keyword))
-                    {
-                        return item.XPath;
-                    }
-                }
             }
 
-            if (node.XPath.Contains("#") == false && IsContainKeyword(node.InnerText, keyword)) //
+            if (node.NodeType == HtmlNodeType.Text && IsContainKeyword(node.InnerText, keyword)) //
             {
-                return node.XPath;
+                yield return node.ParentNode.XPath;
             }
-            return null;
         }
 
         public static IEnumerable<List<CrawlItem>> SearchPropertiesSmart(this string htmlDoc,
@@ -776,13 +773,17 @@ namespace Hawk.ETL.Crawlers
         /// <param name="doc"></param>
         /// <param name="keyword"></param>
         /// <returns></returns>
-        public static string SearchXPath(this HtmlDocument doc, string keyword)
+        public static IEnumerable<string> SearchXPath(this HtmlDocument doc, string keyword, Func<bool> hasAttr)
         {
             keyword = keyword.Trim();
-            var item = doc.DocumentNode.SearchXPath(keyword, false);
-            if (item != null)
-                return item;
-            return doc.DocumentNode.SearchXPath(keyword, true);
+            if (string.IsNullOrEmpty(keyword))
+                yield break;
+
+            var xpaths = doc.DocumentNode.SearchXPath(keyword, hasAttr);
+            foreach (var xpath in xpaths)
+            {
+                yield return xpath;
+            }
         }
 
         /// <summary>
@@ -792,9 +793,9 @@ namespace Hawk.ETL.Crawlers
         /// <param name="keyword"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static CrawlItem SearchXPath(this HtmlDocument doc, string keyword, string name)
+        public static CrawlItem SearchXPath(this HtmlDocument doc, string keyword, string name, bool hasAttr = true)
         {
-            var xpath = doc.SearchXPath(keyword);
+            var xpath = doc.SearchXPath(keyword, () => hasAttr).FirstOrDefault();
             if (xpath == null)
                 return null;
             var crawitem = new CrawlItem {XPath = xpath, SampleData1 = keyword, Name = name}
@@ -808,15 +809,17 @@ namespace Hawk.ETL.Crawlers
         /// <param name="doc"></param>
         /// <param name="keyword"></param>
         /// <returns></returns>
-        public static string SearchXPath(this string html, string keyword)
+        public static IEnumerable<string> SearchXPath(this string html, string keyword, Func<bool> isAttr)
         {
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
             keyword = keyword.Trim();
-            var item = doc.DocumentNode.SearchXPath(keyword, false);
-            if (item != null)
-                return item;
-            return doc.DocumentNode.SearchXPath(keyword, true);
+            var paths = doc.DocumentNode.SearchXPath(keyword, isAttr);
+
+            foreach (var item in paths)
+            {
+                yield return item;
+            }
         }
 
         private static bool IsSameXPath(string xpath1, string xpath2, string shortv)
@@ -833,10 +836,11 @@ namespace Hawk.ETL.Crawlers
             var nodes = doc2.DocumentNode.SelectNodes(shortv);
             if (nodes == null)
                 return new List<CrawlItem>();
-            var nodes3 = nodes.Where(d => d.Name.Contains("#") == false).ToList();
+            var buffers=new List<List<string>>();
+            var nodes3 = nodes.ToList(); // .Where(d => d.Name.Contains("#") == false).ToList();
             if (nodes3.Count > 1)
             {
-                GetDiffNodes(nodes3, crawlItems, isAttrEnabled);
+                GetDiffNodes(nodes3, crawlItems, buffers, isAttrEnabled);
             }
             if (exists != null)
             {
@@ -924,46 +928,32 @@ namespace Hawk.ETL.Crawlers
         {
             var httpitem = new HttpItem {URL = url};
             var helper = new HttpHelper();
-            ContentType content;
             HttpStatusCode statusCode;
-            var doc2 = helper.GetHtml(httpitem, out content,out statusCode);
-            if (statusCode != HttpStatusCode.OK )
+            var doc2 = helper.GetHtml(httpitem, out statusCode);
+            if (statusCode != HttpStatusCode.OK)
                 return null;
             var htmldoc = new HtmlDocument();
             htmldoc.LoadHtml(doc2);
             return htmldoc;
         }
-      
+
         public static IEnumerable<List<FreeDocument>> GetMultiDataFromURL(string url)
         {
             var httpitem = new HttpItem {URL = url};
             var helper = new HttpHelper();
-            ContentType content;
             HttpStatusCode statusCode;
-            var doc2 = helper.GetHtml(httpitem, out content, out statusCode);
+            var doc2 = helper.GetHtml(httpitem, out statusCode);
             if (statusCode != HttpStatusCode.OK)
-               yield break; 
-            switch (content)
-            {
-                case ContentType.Json:
-                    var connector = new FileConnectorJson();
-                    yield return connector.ReadText(doc2).Select(d => d.DictSerialize()).ToList();
-                    break;
-                case ContentType.XML:
-                    var connectorXML = new FileConnectorXML();
-                    yield return connectorXML.ReadText(doc2).Select(d => d.DictSerialize()).ToList();
-                    break;
-                case ContentType.Text:
-                    if (doc2 == null)
-                        yield return new List<FreeDocument>();
-                    var htmldoc = new HtmlDocument();
-                    htmldoc.LoadHtml(doc2);
+                yield break;
 
-                    foreach (var item in htmldoc.GetDataFromHtml())
-                    {
-                        yield return item;
-                    }
-                    break;
+            if (doc2 == null)
+                yield return new List<FreeDocument>();
+            var htmldoc = new HtmlDocument();
+            htmldoc.LoadHtml(doc2);
+
+            foreach (var item in htmldoc.GetDataFromHtml())
+            {
+                yield return item;
             }
         }
 
@@ -1030,7 +1020,7 @@ namespace Hawk.ETL.Crawlers
                                 path = node.XPath + r.XPath;
                             else
                             {
-                                path=node.XPath+new XPath(r.XPath).TakeOff(takeoff);
+                                path = node.XPath + new XPath(r.XPath).TakeOff(takeoff);
                             }
 
                             var result = node.GetDataFromXPath(path, r.IsHTML);

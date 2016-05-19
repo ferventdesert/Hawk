@@ -18,7 +18,7 @@ namespace Hawk.Core.Utils
             Timeout = 100000;
             ReadWriteTimeout = 30000;
             Encoding = EncodingType.UTF8;
-            Allowautoredirect = false;
+            Allowautoredirect = true;
             Encoding = EncodingType.Unknown;
         }
 

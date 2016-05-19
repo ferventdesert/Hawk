@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Policy;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
@@ -31,6 +32,9 @@ namespace Hawk.ETL.Plugins.Executor
         [Description("填写采集器或模块的名称")]
         public string CrawlerSelector { get; set; }
 
+
+        [DisplayName("是否异步")]
+        public bool IsAsync { get; set; }
         private SmartCrawler crawler { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
@@ -72,10 +76,20 @@ namespace Hawk.ETL.Plugins.Executor
                     continue;
                 try
                 {
-                    HttpStatusCode code;
-                    var bytes = helper.GetFile(crawler.Http, out code, url);
-                    if (bytes != null)
-                        File.WriteAllBytes(path, bytes);
+                    CookieAwareWebClient webClient = new CookieAwareWebClient();
+                    if (!IsAsync)
+                    {
+                       
+                        webClient.DownloadFile(url,path);
+                    }
+                    else
+                    {
+                        webClient.DownloadFileAsync(new Uri( url), path);
+                    }
+                    //HttpStatusCode code;
+                    //var bytes = helper.GetFile(crawler.Http, out code, url);
+                    //if (bytes != null)
+                    //    File.WriteAllBytes(path, bytes);
                 }
                 catch (Exception ex)
                 {

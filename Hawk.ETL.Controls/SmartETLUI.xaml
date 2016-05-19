@@ -7,19 +7,21 @@
              
              xmlns:mvvm="clr-namespace:Hawk.Core.Utils.MVVM;assembly=Hawk.Core"
              xmlns:themes="clr-namespace:Hawk.Core.Themes;assembly=Hawk.Core"
+             xmlns:local="clr-namespace:Hawk.ETL.Controls"
              x:Class="Hawk.ETL.Controls.ETLSmartView"
              mc:Ignorable="d" 
              d:DesignHeight="553.5" d:DesignWidth="799.5">
     <UserControl.Resources>
+        <local:GroupColorConverter x:Key="GroupColorConverter"/>
         <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
         <themes:MetroConverter x:Key="MetroConverter"/>
-        <Style  x:Key="CommandMenuItem" TargetType="MenuItem">
+        <Style  x:Key="CommandMenuItem" TargetType="{x:Type MenuItem}">
             <Setter Property="Header" Value="{Binding Text}"/>
             <Setter Property="Command" Value="{Binding}"/>
-            <Setter Property="CommandParameter" Value="{Binding  RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.DataContext}"/>
+            <Setter Property="CommandParameter" Value="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}, Mode=FindAncestor}}"/>
         </Style>
-        
-      
+
+
         <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
             <WrapPanel/>
         </ItemsPanelTemplate>
@@ -42,41 +44,41 @@
             </DataTemplate.Triggers>
         </DataTemplate>
         <DataTemplate x:Key="DataTemplate1">
-        	<StackPanel Height="Auto" Width="150" d:DesignWidth="42.438" d:DesignHeight="251.312" >
-        		<TextBox Text="{Binding Name, Mode=TwoWay}"    Margin="10,0" VerticalAlignment="Stretch" FontSize="14.667" FontWeight="Bold" HorizontalAlignment="Stretch" TextAlignment="Center"/>
-        		<ListBox AllowDrop="True" ItemTemplate="{DynamicResource DataTemplate2}" DataContext="{Binding}" ItemsSource="{Binding Value}" Drop="ListBox_Drop" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" MinHeight="200" VerticalContentAlignment="Stretch" Margin="1,0" Height="249.312" >
-        			<ListBox.Resources>
-        				<ContextMenu x:Key="resourceContextMenu" DataContext="{Binding Data.Commands, Source={StaticResource BindingProxy}}">
-        					<MenuItem   DataContext="{Binding [0]}"  Style="{StaticResource CommandMenuItem}"/>
-        					<MenuItem   DataContext="{Binding [1]}"  Style="{StaticResource CommandMenuItem}"/>
-        				</ContextMenu>
-        				<Style  TargetType="{x:Type ListBoxItem}">
-                   
-        					<Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />
-                       
-        				</Style>
-                          
-        			</ListBox.Resources>
-        			<ListBox.ContextMenu>
-        				<ContextMenu  DataContext="{Binding Data.Commands, Source={StaticResource BindingProxy}}">
-                                
-        					<MenuItem Style="{StaticResource CommandMenuItem}" DataContext="{Binding [2]}"/>
-                                
-        				</ContextMenu>
-        			</ListBox.ContextMenu>
-                     
-        		</ListBox>
-        	</StackPanel>
+            <StackPanel Height="Auto" Width="150" d:DesignWidth="42.438" d:DesignHeight="251.312" >
+                <TextBox Text="{Binding Name, Mode=TwoWay}" Background="{Binding GroupType, Converter={StaticResource GroupColorConverter}}"  ToolTip="{Binding GroupType}"  Margin="10,0" VerticalAlignment="Stretch" FontSize="14.667" FontWeight="Bold" HorizontalAlignment="Stretch" TextAlignment="Center"/>
+                <ListBox AllowDrop="True" ItemTemplate="{DynamicResource DataTemplate2}" DataContext="{Binding}" ItemsSource="{Binding Value}" Drop="ListBox_Drop" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" MinHeight="200" VerticalContentAlignment="Stretch" Margin="1,0" Height="249.312" >
+                    <ListBox.Resources>
+                        <ContextMenu x:Key="resourceContextMenu" DataContext="{Binding Data.Commands, Source={StaticResource BindingProxy}}">
+                            <MenuItem   DataContext="{Binding [0]}"  Style="{StaticResource CommandMenuItem}"/>
+                            <MenuItem   DataContext="{Binding [1]}"  Style="{StaticResource CommandMenuItem}"/>
+                        </ContextMenu>
+                        <Style  TargetType="{x:Type ListBoxItem}">
+
+                            <Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />
+
+                        </Style>
+
+                    </ListBox.Resources>
+                    <ListBox.ContextMenu>
+                        <ContextMenu  DataContext="{Binding Data.Commands, Source={StaticResource BindingProxy}}">
+
+                            <MenuItem Style="{StaticResource CommandMenuItem}" DataContext="{Binding [2]}"/>
+
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+
+                </ListBox>
+            </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="DataTemplate2">
-        	<StackPanel Height="30" Width="140" d:DesignWidth="126.167" d:DesignHeight="39.987" Orientation="Horizontal">
-                <TextBlock Margin="2,0,8,0"  mvvm:ListBindingDoubleClick.Property="{Binding Data.Commands[0],Source={StaticResource BindingProxy}}"     TextWrapping="Wrap" Text="{Binding TypeName}" ToolTip="{Binding GroupName}" FontSize="14.667" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        		<CheckBox Content="" IsChecked="{Binding Enabled}"  VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="是否激活"/>
-        	</StackPanel>
+            <StackPanel Height="30" Width="140" d:DesignWidth="126.167" d:DesignHeight="39.987" Orientation="Horizontal">
+                <TextBlock Margin="2,0,8,0"  mvvm:ListBindingDoubleClick.Property="{Binding Data.Commands[0], Source={StaticResource BindingProxy}}"     TextWrapping="Wrap" Text="{Binding TypeName}" ToolTip="{Binding GroupName}" FontSize="14.667" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <CheckBox Content="" IsChecked="{Binding Enabled}"  VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="是否激活"/>
+            </StackPanel>
         </DataTemplate>
 
 
- 
+
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -89,17 +91,17 @@
         </Grid.RowDefinitions>
 
         <ScrollViewer Grid.Column="1" Margin="8" Grid.RowSpan="2" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-    		<Grid>
-    			<Grid.RowDefinitions>
-    				<RowDefinition Height="0.256*"/>
-    				<RowDefinition Height="0.744*"/>
-    			</Grid.RowDefinitions>
-    			<ListView x:FieldModifier="public"  ItemsSource="{Binding Documents}" x:Name="DataList" Margin="0,8.624,0,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1"/>
-    			<ListBox  x:FieldModifier="public" x:Name="ToolList" Margin="0,8,0,0" ItemsSource="{Binding Dict}"    ItemsPanel="{DynamicResource ItemsPanelTemplate1}" ItemTemplate="{DynamicResource DataTemplate1}" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Stretch"/>
-    			<GridSplitter HorizontalAlignment="Stretch" Height="5" VerticalAlignment="Bottom" ResizeDirection="Rows" Margin="0" d:LayoutOverrides="VerticalAlignment, GridBox"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.256*"/>
+                    <RowDefinition Height="0.744*"/>
+                </Grid.RowDefinitions>
+                <ListView x:FieldModifier="public"  ItemsSource="{Binding Documents}" x:Name="DataList" Margin="0,8.624,0,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1"/>
+                <ListBox  x:FieldModifier="public" x:Name="ToolList" Margin="0,8,0,0" ItemsSource="{Binding Dict}"    ItemsPanel="{DynamicResource ItemsPanelTemplate1}" ItemTemplate="{DynamicResource DataTemplate1}" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Stretch"/>
+                <GridSplitter HorizontalAlignment="Stretch" Height="5" VerticalAlignment="Bottom" ResizeDirection="Rows" Margin="0" d:LayoutOverrides="VerticalAlignment, GridBox"/>
 
-    		</Grid>
-    	</ScrollViewer>
+            </Grid>
+        </ScrollViewer>
 
         <ListBox x:Name="ETLToolList"   x:FieldModifier="public"  Margin="16.334,35.245,10.417,9.498"  ItemsSource="{Binding ETLToolsView}"    ItemTemplate="{DynamicResource DataTemplateList}"     ItemsPanel="{DynamicResource ItemsPanelTemplate1}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.RowSpan="2" >
             <ListBox.GroupStyle>

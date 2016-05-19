@@ -14,8 +14,7 @@ namespace Hawk.ETL.Plugins.Generators
         public RangeGE()
         {
             Interval = 1.ToString();
-            RepeatCount = 1.ToString();
-            MaxValue = MinValue = Interval = RepeatCount = "1";
+            MaxValue = MinValue = Interval =   "1";
             Column = "id";
         }
 
@@ -29,9 +28,6 @@ namespace Hawk.ETL.Plugins.Generators
         [Description("如1,3,5,7,9，间隔为2")]
         public string Interval { get; set; }
 
-        [DisplayName("重复次数")]
-        [Description("如1,1,2,2,3,3, 重复次数为2")]
-        public string RepeatCount { get; set; }
 
         public override int? GenerateCount()
         {
@@ -57,22 +53,18 @@ namespace Hawk.ETL.Plugins.Generators
 
         public override IEnumerable<FreeDocument> Generate(IFreeDocument document = null)
         {
-            int interval,repeat;
+            int interval;
             double max, min;
-            if (int.TryParse(document.Query( Interval), out interval)&& int.TryParse(document.Query(RepeatCount), out repeat) &&
+            if (int.TryParse(document.Query( Interval), out interval)&& 
                 double.TryParse(document.Query(MinValue), out min) && double.TryParse(document.Query(MaxValue), out max))
             {
                 for (var i = Position * interval + min; i <= max; i += interval)
                 {
-                    var j = repeat;
-                    while (j > 0)
-                    {
+                   
                         var item = new FreeDocument();
 
                         item.Add(Column, Math.Round(i, 5));
                         yield return item;
-                        j--;
-                    }
                 }
             }
               

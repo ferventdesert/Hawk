@@ -50,7 +50,7 @@ namespace Hawk.ETL.Interfaces
 
 
         [Category("1.基本选项")]
-        [DisplayName("模块名")]
+        [DisplayName("标签")]
         public string  Name { get; set; }
 
 

@@ -112,6 +112,9 @@
     <Compile Include="Connectors\IFreeDocument.cs" />
     <Compile Include="Connectors\MongoDBConnector.cs" />
     <Compile Include="Themes\MetroConverter.cs" />
+    <Compile Include="Utils\CookieAwareWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Utils\CustomSerializer.cs" />
     <Compile Include="Utils\ForceLazy.cs" />
     <Compile Include="Utils\MVVM\BindingEvaluator.cs" />

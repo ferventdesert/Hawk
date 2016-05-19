@@ -1,12 +1,28 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Plugins.Transformers;
+using Hawk.ETL.Plugins.Web;
 
 namespace Hawk.ETL.Plugins.Filters
 {
+    [XFrmWork("路径是否存在", "判断某一个文件是否已经在指定路径上")]
+    public class FileExistFT : TransformerBase
+    {
+        public override object TransformData(IFreeDocument data)
+        {
+            var path = data[Column].ToString();
+            if (File.Exists(path))
+                return "True";
+            return "False";
+        }
+
+      
+    }
     [XFrmWork("正则筛选器","编写正则表达式来过滤文本" )]
     public class RegexFT : NullFT
     {

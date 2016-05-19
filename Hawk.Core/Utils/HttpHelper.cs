@@ -349,28 +349,8 @@ namespace Hawk.Core.Utils
             return _stream;
         }
 
-
-        /// <summary>
-        ///     为请求准备参数
-        /// </summary>
-        /// <param name="item">参数列表</param>
-        /// <param name="_Encoding">读取数据时的编码方式</param>
-        private HttpWebRequest SetRequest(HttpItem item,string desturl=null,string post=null)
+        public static void SetRequest(HttpItem item, HttpWebRequest request, string desturl = null, string post = null)
         {
-            var url = desturl ?? item.URL;
-            if(url==null)
-                return null;
-            if (url.Contains("http") == false)
-            {
-                url = "http://" + url;
-            }
-            // 验证证书
-            if (url.Contains("https"))
-                ServicePointManager.ServerCertificateValidationCallback =
-                    (sender, certificate, chain, sslPolicyErrors) => true;
-            //初始化对像，并设置请求的URL地址
-           var  request = (HttpWebRequest) WebRequest.Create(GetUrl(url));
-
             var docu = item.GetHeaderParameter();
             // 设置代理
             //SetProxy(item);
@@ -406,7 +386,7 @@ namespace Hawk.Core.Utils
             var host = docu["Host"].ToString();
             //if (string.IsNullOrEmpty(host) == false)
             // request.Host = host;
-            encoding = AttributeHelper.GetEncoding(item.Encoding);
+        
             //设置Cookie
             var cookie = docu["Cookie"].ToString();
             if (!string.IsNullOrEmpty(cookie))
@@ -441,6 +421,30 @@ namespace Hawk.Core.Utils
             //{
             //    request.ServicePoint.ConnectionLimit = item.Connectionlimit;
             //}
+        }
+
+        /// <summary>
+        ///     为请求准备参数
+        /// </summary>
+        /// <param name="item">参数列表</param>
+        /// <param name="_Encoding">读取数据时的编码方式</param>
+        private HttpWebRequest SetRequest(HttpItem item,string desturl=null,string post=null)
+        {
+            var url = desturl ?? item.URL;
+            if(url==null)
+                return null;
+            if (url.Contains("http") == false)
+            {
+                url = "http://" + url;
+            }
+            // 验证证书
+            if (url.Contains("https"))
+                ServicePointManager.ServerCertificateValidationCallback =
+                    (sender, certificate, chain, sslPolicyErrors) => true;
+            //初始化对像，并设置请求的URL地址
+           var  request = (HttpWebRequest) WebRequest.Create(GetUrl(url));
+            SetRequest(item, request, desturl, post);
+            encoding = AttributeHelper.GetEncoding(item.Encoding);
             return request;
         }
 

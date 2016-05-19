@@ -1,4 +1,7 @@
-﻿using Hawk.Core.Utils.Plugins;
+﻿using System.Globalization;
+using System.Windows.Data;
+using System.Windows.Media;
+using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Controls
 {
@@ -7,7 +10,31 @@ namespace Hawk.ETL.Controls
     using System.Windows.Controls;
     using System.Windows.Input;
 
- 
+
+    public class GroupColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var group = value.ToString();
+            switch (group)
+            {
+              
+           
+                case "Input":
+                    return new SolidColorBrush(new Color() {R=0,G=255,B=0,A=40});
+                case "Output":
+                    return new SolidColorBrush(new Color() { R = 0, G = 0, B = 255, A = 40 });
+                default:
+                    return new SolidColorBrush(new Color() { R = 255, G = 255, B = 255, A = 40 });
+
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 
     /// <summary>
     /// ETLSmartView.xaml 的交互逻辑

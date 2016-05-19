@@ -27,9 +27,9 @@ namespace Hawk.ETL.Plugins.Transformers
         public CrawlerTF()
         {
             processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
-            var defaultcraw = processManager.CurrentProcessCollections.FirstOrDefault(d => d is SmartCrawler);
+          //  var defaultcraw = processManager.CurrentProcessCollections.FirstOrDefault(d => d is SmartCrawler);
             MaxTryCount = "1";
-            if (defaultcraw != null) CrawlerSelector = defaultcraw.Name;
+            //if (defaultcraw != null) CrawlerSelector = defaultcraw.Name;
             PropertyChanged += (s, e) => { buffHelper.Clear(); };
         }
 

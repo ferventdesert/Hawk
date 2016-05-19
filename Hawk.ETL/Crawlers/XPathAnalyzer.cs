@@ -232,7 +232,9 @@ namespace Hawk.ETL.Crawlers
                     var parentattr = node.ParentNode.Attributes[attrkey].Value;
                     value = parentattr + '_' + attr;
                 }
-                return value.Replace(' ', '_');
+                value= value.Replace(' ', '_');
+                if (!string.IsNullOrEmpty(value))
+                    return value;
             }
             return null;
             //if(node.Name == "td") //数据列
@@ -283,6 +285,17 @@ namespace Hawk.ETL.Crawlers
             return true;
         }
 
+        public static bool IsAncestor(this HtmlNode node, HtmlNode root)
+        {
+            while (node!=null)
+            {
+                if (node == root)
+                    return true;
+                node = node.ParentNode;
+            }
+            return false;
+
+        }
         /// <summary>
         ///     find different text and return it name and xpath
         /// </summary>

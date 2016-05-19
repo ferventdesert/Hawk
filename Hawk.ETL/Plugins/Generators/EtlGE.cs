@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
@@ -22,8 +23,6 @@ namespace Hawk.ETL.Plugins.Generators
         public ETLBase()
         {
             processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
-            var defaultetl = processManager.CurrentProcessCollections.FirstOrDefault(d => d is SmartETLTool);
-            if (defaultetl != null) ETLSelector = defaultetl.Name;
         }
 
         [DisplayName("子流-选择")]
@@ -90,11 +89,16 @@ namespace Hawk.ETL.Plugins.Generators
 
         public virtual bool Init(IEnumerable<IFreeDocument> datas)
         {
+
+            if (string.IsNullOrEmpty(ETLSelector))
+                return false;
             mainstream =
                 processManager.CurrentProcessCollections.OfType<SmartETLTool>()
                     .FirstOrDefault(d => d.CurrentETLTools.Contains(this));
             etl =
                 processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == ETLSelector) as SmartETLTool;
+            if (mainstream!=null&&mainstream.Name == this.Name)
+                throw new Exception("子流程不能调用自身，否则会引起循环调用");
             if (etl != null)
             {
                 return true;
@@ -108,6 +112,8 @@ namespace Hawk.ETL.Plugins.Generators
 
             etl =
                 processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == ETLSelector) as SmartETLTool;
+
+         
             etl.InitProcess(true);
             return etl != null;
         }

@@ -159,6 +159,19 @@ namespace Hawk.ETL.Plugins.Generators
             {
                 string item = document[Column].ToString();
                 var mypath = document.Query(Path);
+                var path = document.Query(mypath);
+                DirectoryInfo directoryInfo = new DirectoryInfo(path);
+                var folder = directoryInfo.Parent;
+                if (folder == null)
+                    continue;
+                if (!folder.Exists)
+                {
+
+                    folder.Create();
+                }
+                var url = document[Column].ToString();
+                if (string.IsNullOrEmpty(url))
+                    continue;
                 File.WriteAllText(mypath, item, AttributeHelper.GetEncoding(EncodingType));
                 yield return document;
             }

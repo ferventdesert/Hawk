@@ -126,6 +126,8 @@ namespace Hawk.ETL.Process
                         {
                             if (IsMultiData == ListType.List && string.IsNullOrEmpty(RootXPath))
                             {
+                               if(!(CrawlItems.Count!=0).SafeCheck("属性的数量不能为0",LogType.Important))
+                                    return;
                                 var shortv = HtmlDoc.CompileCrawItems(CrawlItems);
                                 if (!string.IsNullOrEmpty(shortv))
                                 {
@@ -421,10 +423,9 @@ namespace Hawk.ETL.Process
                 }
             }
 
-            var httpitem = new HttpItem();
+            var httpitem = new HttpItem {Parameters = oSession.oRequest.headers.ToString()};
 
 
-            httpitem.Parameters = oSession.oRequest.headers.ToString();
             if ((oSession.BitFlags & SessionFlags.IsHTTPS) != 0)
             {
                 httpitem.URL = "https://" + oSession.url;
@@ -499,7 +500,21 @@ namespace Hawk.ETL.Process
 
         private void AddNewItem(bool isAlert = true)
         {
-            var item = new CrawlItem {XPath = SelectXPath, Name = SelectName, SampleData1 = SelectText};
+            var path = SelectXPath;
+            if (!string.IsNullOrEmpty(RootXPath))
+            {
+                var root = HtmlDoc.DocumentNode.SelectSingleNode(RootXPath).ParentNode;
+                var node = HtmlDoc.DocumentNode.SelectSingleNode(path);
+                if (!node.IsAncestor(root))
+                {
+                    if (isAlert)
+                        MessageBox.Show("当前XPath所在节点不是父节点的后代，请检查对应的XPath");
+                    return;
+                }
+                path= new XPath(node.XPath).TakeOff(root.XPath).ToString();
+            }
+        
+            var item = new CrawlItem {XPath = path, Name = SelectName, SampleData1 = SelectText};
             if (CrawlItems.Any(d => d.Name == SelectName))
             {
                 SelectName = "属性" + CrawlItems.Count;

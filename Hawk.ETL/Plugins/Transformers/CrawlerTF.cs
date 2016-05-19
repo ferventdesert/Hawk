@@ -145,7 +145,7 @@ namespace Hawk.ETL.Plugins.Transformers
                 int count = 0;
                 while (count<maxcount)
                 {
-                    docs = crawler.CrawData(url, out htmldoc, out code, post);
+                    docs = crawler.CrawlData(url, out htmldoc, out code, post);
                     if (HttpHelper.IsSuccess(code))
                     {
                         buffHelper.Set(bufkey, htmldoc);
@@ -159,7 +159,7 @@ namespace Hawk.ETL.Plugins.Transformers
             }
             else
             {
-                docs = crawler.CrawData(htmldoc);
+                docs = crawler.CrawlData(htmldoc);
             }
 
             if (generator != null)

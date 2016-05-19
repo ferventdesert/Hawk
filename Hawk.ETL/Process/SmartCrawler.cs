@@ -528,7 +528,7 @@ namespace Hawk.ETL.Process
             SelectXPath = "";
         }
 
-        public List<FreeDocument> CrawData(HtmlDocument doc)
+        public List<FreeDocument> CrawlData(HtmlDocument doc)
         {
             if (CrawlItems.Count == 0)
             {
@@ -539,7 +539,9 @@ namespace Hawk.ETL.Process
             return doc.GetDataFromXPath(CrawlItems, IsMultiData, RootXPath);
         }
 
-        public List<FreeDocument> CrawData(string url, out HtmlDocument doc, out HttpStatusCode code, string post = null)
+
+
+        public List<FreeDocument> CrawlData(string url, out HtmlDocument doc, out HttpStatusCode code, string post = null)
         {
             var mc = extract.Matches(url);
             Dictionary<string, string> paradict = null;
@@ -566,7 +568,7 @@ namespace Hawk.ETL.Process
 
 
             doc.LoadHtml(content);
-            var datas = CrawData(doc);
+            var datas = CrawlData(doc);
             if (datas.Count == 0)
             {
                 XLogSys.Print.DebugFormat("HTML extract Fail,url:{0}", url);

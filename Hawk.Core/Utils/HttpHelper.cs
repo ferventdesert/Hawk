@@ -100,7 +100,56 @@ namespace Hawk.Core.Utils
             var v2 = string.Join(";", dict2.Select(d => $"{d.Key}={d.Value}"));
             return v2;
         }
+        /// <summary>
+        ///     根据相传入的数据，得到相应页面数据
+        /// </summary>
+        /// <param name="strPostdata">传入的数据Post方式,get方式传NUll或者空字符串都可以</param>
+        /// <param name="ContentType">返回的响应数据的类型</param>
+        /// <returns>string类型的响应数据</returns>
+        private byte[] GetHttpRequestFile(HttpWebRequest request, HttpItem objhttpitem,  out HttpStatusCode statusCode)
+        {
+            byte[] result = null;
 
+
+            using (var response = (HttpWebResponse)request.GetResponse())
+            {
+                var _stream = new MemoryStream();
+
+                var docu = objhttpitem.GetHeaderParameter();
+                if (response.Headers["set-cookie"] != null)
+                    docu["Cookie"] = MergeCookie(docu["Cookie"].ToString(), response.Headers["set-cookie"]);
+
+                statusCode = response.StatusCode;
+                objhttpitem.ResponseHeaders = response.Headers;
+                objhttpitem.Parameters = objhttpitem.HeaderToString(docu);
+                //GZIIP处理
+                if (response.ContentEncoding != null &&
+                    response.ContentEncoding.Equals("gzip", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    //开始读取流并设置编码方式
+                    //new GZipStream(response.GetResponseStream(), CompressionMode.Decompress).CopyTo(_stream, 10240);
+                    //.net4.0以下写法
+                    _stream =
+                        GetMemoryStream(new GZipStream(response.GetResponseStream(), CompressionMode.Decompress));
+                }
+                else
+                {
+                    //开始读取流并设置编码方式
+                    //response.GetResponseStream().CopyTo(_stream, 10240);
+                    //.net4.0以下写法
+                    _stream = GetMemoryStream(response.GetResponseStream());
+                }
+                //获取Byte
+                result = _stream.ToArray();
+                //是否返回Byte类型数据
+
+                
+               
+                _stream.Close();
+            }
+
+            return result;
+        }
         /// <summary>
         ///     根据相传入的数据，得到相应页面数据
         /// </summary>
@@ -508,7 +557,28 @@ namespace Hawk.Core.Utils
                 return ex.Message;
             }
         }
-
+        /// <summary>
+        ///     采用https协议访问网络,根据传入的URl地址，得到响应的数据字符串。
+        /// </summary>
+        /// <param name="requestitem">参数列表</param>
+        /// <returns>String类型的数据</returns>
+        public byte[] GetFile(HttpItem requestitem, out HttpStatusCode code, string url = null, string post = null)
+        {
+            try
+            {
+                var request = SetRequest(requestitem, url, post);
+                ContentType content;
+                var r = GetHttpRequestFile(request, requestitem,  out code);
+                if (!IsSuccess(code))
+                    XLogSys.Print.ErrorFormat("HTTP错误，URL:{0},类型:{1}" ,url, code.ToString());
+                return r;
+            }
+            catch (Exception ex)
+            {
+                code = HttpStatusCode.NotFound;
+              return new byte[0];
+            }
+        }
         #endregion
     }
 

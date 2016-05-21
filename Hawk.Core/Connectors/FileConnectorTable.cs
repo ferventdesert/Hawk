@@ -4,9 +4,11 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using EncodingType = Hawk.Core.Utils.EncodingType;
 
 namespace Hawk.Core.Connectors
 {
@@ -45,11 +47,11 @@ namespace Hawk.Core.Connectors
             SplitString = docu.Set("SplitString", SplitString);
         }
 
-        [DisplayName("列分割符")]
+        [LocalizedDisplayName("列分割符")]
         public string SplitString { get; set; }
 
 
-        [DisplayName("包含头信息")]
+        [LocalizedDisplayName("包含头信息")]
         public bool ContainHeader { get; set; }
 
         protected virtual string SplitChar => SplitString;

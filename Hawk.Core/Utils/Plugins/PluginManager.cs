@@ -95,22 +95,22 @@ namespace Hawk.Core.Utils.Plugins
             PluginProvider.SaveConfigFile();
 
             XLogSys.Print.Info("开始对插件字典中的插件进行初始化");
-            var pluginCommands = new BindingAction("插件");
-            foreach (XFrmWorkAttribute plugin in PluginProvider.GetPluginCollection(typeof(IXPlugin)))
-            {
-                var action = new BindingAction(plugin.Name);
+            //var pluginCommands = new BindingAction("插件");
+            //foreach (XFrmWorkAttribute plugin in PluginProvider.GetPluginCollection(typeof(IXPlugin)))
+            //{
+            //    var action = new BindingAction(plugin.Name);
 
 
-                action.ChildActions = new ObservableCollection<ICommand> {
-                        new Command( "加载",  obj => this.AddNewPlugin(plugin),
-                                    obj => (!this.MainFrmUI.PluginDictionary.ContainsKey(plugin.Name))),
-                                     new Command( "卸载", obj=>this.ReleasePlugin(action.Text),
-                                    obj => this.MainFrmUI.PluginDictionary.ContainsKey(plugin.Name)),
+            //    action.ChildActions = new ObservableCollection<ICommand> {
+            //            new Command( "加载",  obj => this.AddNewPlugin(plugin),
+            //                        obj => (!this.MainFrmUI.PluginDictionary.ContainsKey(plugin.Name))),
+            //                         new Command( "卸载", obj=>this.ReleasePlugin(action.Text),
+            //                        obj => this.MainFrmUI.PluginDictionary.ContainsKey(plugin.Name)),
                             
                        
-                    };
-                pluginCommands.ChildActions.Add(action);
-            }
+            //        };
+            //    pluginCommands.ChildActions.Add(action);
+            //}
             //pluginCommands.ChildActions.Add(new Command("显示插件列表",obj=>
             //    {
             //        var view2 = PluginProvider.GetObjectInstance<ICustomView>("插件管理器");
@@ -122,7 +122,7 @@ namespace Hawk.Core.Utils.Plugins
             //        var dockableManager = this.MainFrmUI as IDockableManager;
             //        dockableManager?.AddDockAbleContent(view2.FrmState,view2,"系统插件信息");
             //    }));
-            this.MainFrmUI.CommandCollection.Add(pluginCommands);
+         //   this.MainFrmUI.CommandCollection.Add(pluginCommands);
 
             return true;
         }

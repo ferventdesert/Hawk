@@ -28,7 +28,7 @@ namespace Hawk
 {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
-    /// </summary>
+    /// </summary
     public partial class MainWindow : Window, IMainFrm, IDockableManager
     {
         public Dictionary<string, IXPlugin> PluginDictionary { get; set; }
@@ -69,7 +69,8 @@ namespace Hawk
             }
             catch (Exception ex)
             {
-                XLogSys.Print.Error("系统图标文件不存在");
+                XLogSys.Print.Error(Core.Properties.Resources.IconNotExist);
+
             }
           
             PluginManager = new PluginManager();
@@ -97,7 +98,7 @@ namespace Hawk
             {
                 SetCommandKeyBinding(action);
             }
-            XLogSys.Print.Info(Title + "已正常启动");
+            XLogSys.Print.Info(Title +Core.Properties.Resources.Start);
 
 
             Closing += (s, e) =>
@@ -155,8 +156,8 @@ namespace Hawk
                     this,
                     new[]
                     {
-                        new Command("数据管理", obj => ActiveThisContent("数据管理")) ,
-                        new Command("算法面板", obj => ActiveThisContent("模块管理")) 
+                        new Command(Core.Properties.Resources.DataMgmt, obj => ActiveThisContent(Core.Properties.Resources.DataMgmt)) ,
+                        new Command(Core.Properties.Resources.ModuleMgmt, obj => ActiveThisContent(Core.Properties.Resources.ModuleMgmt)) 
                     });
             }
         }
@@ -302,14 +303,17 @@ namespace Hawk
             }
             catch (Exception ex)
             {
-                XLogSys.Print.Error("加载控件失败," + ex.Message);
+                XLogSys.Print.ErrorFormat("{0}{1},{2}",Core.Properties.Resources.ControlLoad,Core.Properties.Resources.Error , ex.Message);
             }
         }
 
-        public  void SetBusy(bool isBusyValue, string title = "系统正忙", string message = "正在处理长时间操作",
+        public  void SetBusy(bool isBusyValue, string title = "系统正忙", string message =null,
             int percent = -1)
         {
+            if (message == null)
+                message = Core.Properties.Resources.LongTask;
             BusyIndicator.IsBusy = isBusyValue;
+
             BusyIndicator.BusyContent = message;
 
             ProgressBar.Value = 100;

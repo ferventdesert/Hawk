@@ -52,29 +52,29 @@ namespace Hawk.ETL.Plugins.Transformers
             return base.Init(docus);
         }
 
-        [DisplayName("查询多数据")]
-        [Description("启用该项时，会查询多个满足条件的项，同时将同一列保存为数组")]
+        [LocalizedDisplayName("查询多数据")]
+        [LocalizedDescription("启用该项时，会查询多个满足条件的项，同时将同一列保存为数组")]
         public bool IsMutliDatas { get; set; }
 
-        [DisplayName("匹配方式")]
+        [LocalizedDisplayName("匹配方式")]
         public DBSearchStrategy SearchStrategy { get; set; }
 
-        [DisplayName("连接器")]
-        [Description("选择所要连接的数据库服务")]
+        [LocalizedDisplayName("连接器")]
+        [LocalizedDescription("选择所要连接的数据库服务")]
         [PropertyOrder(1)]
         public ExtendSelector<IDataBaseConnector> ConnectorSelector { get; set; }
 
-        [DisplayName("表名")]
-        [Description("选择所要连接的表")]
+        [LocalizedDisplayName("表名")]
+        [LocalizedDescription("选择所要连接的表")]
         [PropertyOrder(1)]
         public ExtendSelector<TableInfo> TableSelector { get; set; }
 
-        [DisplayName("表主键")]
+        [LocalizedDisplayName("表主键")]
         public string KeyName { get; set; }
 
       
 
-        [DisplayName("导入列")]
+        [LocalizedDisplayName("导入列")]
         public ObservableCollection<string> ImportColumns { get; set; }
 
          
@@ -89,11 +89,12 @@ namespace Hawk.ETL.Plugins.Transformers
             TableInfo table = TableSelector.SelectItem;
             if (table == null)
                 return null;
-         
-            
+
+            var keys = KeyName.Split(' ');
+            var query = keys.ToDictionary(d => d, d => datas[d]); 
             if (IsMutliDatas)
             {
-                var r = con.TryFindEntities(table.Name, new Dictionary<string, object> {{KeyName, item}}, null, -1,
+                var r = con.TryFindEntities(table.Name, query, null, -1,
                     SearchStrategy);
                 if (r.Any() == false)
                     return null;
@@ -116,7 +117,7 @@ namespace Hawk.ETL.Plugins.Transformers
             }
             else
             {
-                var r = con.TryFindEntities(table.Name, new Dictionary<string, object> {{KeyName, item}},null,1,SearchStrategy).FirstOrDefault();
+                var r = con.TryFindEntities(table.Name, query,null,1,SearchStrategy).FirstOrDefault();
                 if (r == null)
                     return null;
                 FreeDocument dict = r.DictSerialize();

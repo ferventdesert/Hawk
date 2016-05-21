@@ -789,8 +789,11 @@ namespace Hawk.Core.Utils
             indexs.Sort();
             for (int i = indexs.Count - 1; i >= 0; i--)
             {
+                if (source.Count > indexs[i])
+                    continue;
                 method?.Invoke(source[indexs[i]]);
-
+                if(source.Count>indexs[i])
+                    continue;
                 source.RemoveAt(indexs[i]);
             }
         }

@@ -4,12 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mvvm="clr-namespace:Hawk.Core.Utils.MVVM;assembly=Hawk.Core"
-             xmlns:themes="clr-namespace:Hawk.Core.Themes;assembly=Hawk.Core"
+         
              x:Class="Hawk.ETL.Controls.SystemStateViewer"
              mc:Ignorable="d" 
              d:DesignHeight="436.667" d:DesignWidth="476">
 	<UserControl.Resources>
-        <themes:MetroConverter x:Key="MetroConverter"/>
+      
         <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
         <Style    TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
         	  <Setter Property="Header" Value="{Binding Text}" />
@@ -76,108 +76,7 @@
  
 
 
-            <Style x:Key="miniButton"
-           TargetType="{x:Type Button}">
-               
-                <Setter Property="Background"
-                Value="Transparent" />
-                <Setter Property="BorderThickness"
-                Value="2" />
-                <Setter Property="HorizontalContentAlignment"
-                Value="Center" />
-            <Setter Property="VerticalContentAlignment"
-                Value="Center" ></Setter>
-                <Setter Property="AllowDrop"
-                Value="True" />
-                <Setter Property="Padding"
-                Value="1" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Grid Width="20" Height="20" Margin="0">
-                                <Ellipse Fill="{TemplateBinding Background}"
-                			Margin="1"
-                			StrokeThickness="0" />
-                                <Ellipse x:Name="ellipsebg"
-                		
-                			Opacity="0"
-                			Margin="1"
-                			StrokeThickness="0" />
-                                <Ellipse x:Name="ellipse"
-                				Margin="1"
-                			Stroke="{TemplateBinding Foreground}"
-                			StrokeThickness="{Binding BorderThickness.Left, RelativeSource={x:Static RelativeSource.TemplatedParent}}" />
-							<Viewbox Width="15" Height="15">
-                                <Rectangle Width="20" Height="20" x:Name="content"  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                			Margin="{TemplateBinding Padding}"
-                                        
-                			SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                			VerticalAlignment="{TemplateBinding VerticalContentAlignment}" >
-                                    <Rectangle.Fill>
-                                        <VisualBrush Stretch="Fill" Visual="{Binding Icon, Converter={StaticResource MetroConverter}}" />
-                                    </Rectangle.Fill>
-                                </Rectangle>
-</Viewbox>
-                            </Grid>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsPressed"
-                                 Value="True">
-                                    <Trigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="ellipsebg"
-                                                         Storyboard.TargetProperty="Opacity"
-                                                         From="0"
-                                                         To="0.3"
-                                                         Duration="0:0:0" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.EnterActions>
-                                    <!-- some out fading -->
-                                    <Trigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="ellipsebg"
-                                                         Storyboard.TargetProperty="Opacity"
-                                                         To="0"
-                                                         Duration="0:0:0.5" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.ExitActions>
-                                </Trigger>
-                                <Trigger Property="IsMouseOver"
-                                 Value="True">
-                                    <Setter TargetName="ellipse"
-                                    Property="Opacity"
-                                    Value="1" />
-                                </Trigger>
-                                <Trigger Property="IsMouseOver"
-                                 Value="False">
-                                    <Setter TargetName="ellipse"
-                                    Property="Opacity"
-                                    Value=".5" />
-                                </Trigger>
-                                <Trigger Property="IsEnabled"
-                                 Value="false">
-                                    <Setter Property="Foreground"
-                                    Value="#ADADAD" />
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            <Setter Property="mvvm:DropHelper.DropSupport" >
-                <Setter.Value>
-                    <mvvm:DropSupportData BindingPath=""/>
-                </Setter.Value>
-            </Setter>
-                <Setter Property="Height" Value="20"/>
-                <Setter Property="Width" Value="20"/>
-
-                <Setter Property="ToolTip" Value="{Binding Text}"/>
-                <Setter Property="Command" Value="{Binding}"/>
-                <Setter Property="Margin" Value="10,0,0,0"/>
-            </Style>
+         
 			<DataTemplate x:Key="DataTemplate2">
 			<StackPanel Orientation="Horizontal">
                 <TextBlock TextWrapping="Wrap" Text="{Binding Name}"  mvvm:ListItemDoubleClick.Property="BindingCommands.ChildActions[4].ChildActions[5]"  VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="30,1,5,1">

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Plugins;
 
@@ -14,10 +15,10 @@ namespace Hawk.ETL.Plugins.Transformers
             ReplaceInnerBlank = true;
         }
 
-        [DisplayName("清除中间空格")]
+        [LocalizedDisplayName("清除中间空格")]
         public bool ReplaceBlank { get; set; }
 
-        [DisplayName("空白符替换为空格")]
+        [LocalizedDisplayName("空白符替换为空格")]
         public bool ReplaceInnerBlank { get; set; }
        
 

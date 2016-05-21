@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
@@ -29,21 +30,25 @@ namespace Hawk.ETL.Plugins.Transformers
             processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
           //  var defaultcraw = processManager.CurrentProcessCollections.FirstOrDefault(d => d is SmartCrawler);
             MaxTryCount = "1";
+            ErrorDelay = 3000;
             //if (defaultcraw != null) CrawlerSelector = defaultcraw.Name;
             PropertyChanged += (s, e) => { buffHelper.Clear(); };
         }
 
-        [DisplayName("最大重复次数")]
+        [LocalizedDisplayName("最大重复次数")]
         public string MaxTryCount { get; set; }
 
-        [DisplayName("延时时间")]
+        [LocalizedDisplayName("延时时间")]
         public string DelayTime { get; set; }
 
-        [DisplayName("Post数据")]
+        [LocalizedDisplayName("错误延时时间")]
+        public int  ErrorDelay { get; set; }
+
+        [LocalizedDisplayName("Post数据")]
         public string PostData { get; set; }
 
-        [DisplayName("爬虫选择")]
-        [Description("填写采集器或模块的名称")]
+        [LocalizedDisplayName("爬虫选择")]
+        [LocalizedDescription("填写采集器或模块的名称")]
         public string CrawlerSelector
         {
             get { return _crawlerSelector; }
@@ -59,17 +64,17 @@ namespace Hawk.ETL.Plugins.Transformers
 
 
 
-        [Category("请求队列")]
-        [DisplayName("队列生成器")]
-        [Description("填写模块的名称")]
+        [LocalizedCategory("请求队列")]
+        [LocalizedDisplayName("队列生成器")]
+        [LocalizedDescription("填写模块的名称")]
         public string GEName { get; set; }
 
-        [Category("请求队列")]
-        [DisplayName("过滤规则")]
+        [LocalizedCategory("请求队列")]
+        [LocalizedDisplayName("过滤规则")]
         public string Prefix { get; set; }
 
-        [Category("请求队列")]
-        [DisplayName("启用正则")]
+        [LocalizedCategory("请求队列")]
+        [LocalizedDisplayName("启用正则")]
         public bool IsRegex { get; set; }
 
         private Regex regex;
@@ -151,6 +156,7 @@ namespace Hawk.ETL.Plugins.Transformers
                         buffHelper.Set(bufkey, htmldoc);
                         break;
                     }
+                    Thread.Sleep(ErrorDelay);
                     count++;
 
                 }

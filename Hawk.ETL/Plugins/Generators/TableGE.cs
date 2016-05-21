@@ -22,8 +22,8 @@ namespace Hawk.ETL.Plugins.Generators
             TableSelector.GetItems = () => dataManager.DataCollections.ToList();
         }
 
-        [DisplayName("数据表")]
-        [Description("选择所要连接的数据表")]
+        [LocalizedDisplayName("数据表")]
+        [LocalizedDescription("选择所要连接的数据表")]
         [PropertyOrder(1)]
         public ExtendSelector<DataCollection> TableSelector { get; set; }
 

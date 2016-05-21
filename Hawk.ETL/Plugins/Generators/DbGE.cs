@@ -31,19 +31,19 @@ namespace Hawk.ETL.Plugins.Generators
             ConnectorSelector.SelectChanged += (s, e) => TableNames.SetSource(ConnectorSelector.SelectItem.RefreshTableNames());
         }
 
-        [DisplayName("连接器")]
-        [Description("选择所要连接的数据库服务")]
+        [LocalizedDisplayName("连接器")]
+        [LocalizedDescription("选择所要连接的数据库服务")]
         [PropertyOrder(1)]
         public ExtendSelector<IDataBaseConnector> ConnectorSelector { get; set; }
 
 
-        [Category("参数设置")]
-        [DisplayName("操作表名")]
+        [LocalizedCategory("参数设置")]
+        [LocalizedDisplayName("操作表名")]
         public ExtendSelector<TableInfo> TableNames { get; set; }
 
 
-        [Category("参数设置")]
-        [DisplayName("数量")]
+        [LocalizedCategory("参数设置")]
+        [LocalizedDisplayName("数量")]
         public int Mount { get; set; }
 
  

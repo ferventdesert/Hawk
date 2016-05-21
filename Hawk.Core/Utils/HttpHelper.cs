@@ -65,9 +65,9 @@ namespace Hawk.Core.Utils
         private FreeDocument CookieToDict(string cookie)
         {
             var dict = new FreeDocument();
-            foreach (var p in cookie.Split(','))
+            foreach (var s in cookie.Split(';'))
             {
-                foreach (var s in p.Split(';'))
+               // foreach (var s in p.Split(';'))
                 {
                     var equalpos = s.IndexOf("=");
 
@@ -121,7 +121,7 @@ namespace Hawk.Core.Utils
 
                 statusCode = response.StatusCode;
                 objhttpitem.ResponseHeaders = response.Headers;
-                objhttpitem.Parameters = objhttpitem.HeaderToString(docu);
+                objhttpitem.Parameters = HttpItem.HeaderToString(docu);
                 //GZIIP处理
                 if (response.ContentEncoding != null &&
                     response.ContentEncoding.Equals("gzip", StringComparison.InvariantCultureIgnoreCase))
@@ -172,7 +172,7 @@ namespace Hawk.Core.Utils
 
                 statusCode = response.StatusCode;
                 objhttpitem.ResponseHeaders = response.Headers;
-                objhttpitem.Parameters = objhttpitem.HeaderToString(docu);
+                objhttpitem.Parameters = HttpItem.HeaderToString(docu);
                 //GZIIP处理
                 if (response.ContentEncoding != null &&
                     response.ContentEncoding.Equals("gzip", StringComparison.InvariantCultureIgnoreCase))

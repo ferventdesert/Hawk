@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Plugins;
 
@@ -18,11 +19,11 @@ namespace Hawk.ETL.Plugins.Transformers
 
         }
 
-        [DisplayName("其他项")]
-        [Description("写入多个列名，中间使用空格分割")]
+        [LocalizedDisplayName("其他项")]
+        [LocalizedDescription("写入多个列名，中间使用空格分割")]
         public string MergeWith { get; set; }
 
-        [Description("形如'http:\\{0}:{1},{2}...'本列的序号为0，之后分别为1,2,3..")]
+        [LocalizedDescription("形如'http:\\{0}:{1},{2}...'本列的序号为0，之后分别为1,2,3..")]
         public string Format { get; set; }
  
         public override object TransformData(IFreeDocument datas)

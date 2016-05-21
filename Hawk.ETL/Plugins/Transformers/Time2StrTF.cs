@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Plugins;
 
@@ -13,7 +14,7 @@ namespace Hawk.ETL.Plugins.Transformers
             Format = "yyyy-MM-dd";
         }
 
-        [DisplayName("转换格式")]
+        [LocalizedDisplayName("转换格式")]
         public string Format { get; set; }
  
         public override object TransformData(IFreeDocument document)

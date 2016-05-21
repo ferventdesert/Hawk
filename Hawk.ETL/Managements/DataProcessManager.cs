@@ -203,6 +203,19 @@ namespace Hawk.ETL.Managements
 
             var taskListAction = new BindingAction("任务列表命令");
 
+            taskListAction.ChildActions.Add(new Command("全选",
+                d => CurrentProcessTasks.Execute(d2 => d2.IsSelected = true), null, "check"));
+
+            taskListAction.ChildActions.Add(new Command("反选",
+                d => CurrentProcessTasks.Execute(d2 => d2.IsSelected =!d2.IsSelected), null, "redo"));
+
+            taskListAction.ChildActions.Add(new Command("暂停",
+                d => CurrentProcessTasks.Where(d2 => d2.IsSelected).Execute(d2 => d2.IsPause = true), null, "pause"));
+            taskListAction.ChildActions.Add(new Command("恢复",
+                d => CurrentProcessTasks.Where(d2 => d2.IsSelected).Execute(d2 => d2.IsPause = false), null, "play"));
+
+            taskListAction.ChildActions.Add(new Command("取消",
+               d => CurrentProcessTasks.RemoveElementsNoReturn(d2=>d2.IsSelected,d2=>d2.Cancel()), null,"delete"));
 
             BindingCommands.ChildActions.Add(taskListAction);
 

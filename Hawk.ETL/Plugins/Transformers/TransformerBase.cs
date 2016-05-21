@@ -39,11 +39,11 @@ namespace Hawk.ETL.Plugins.Transformers
 
 
 
-        [Category("1.基本选项"), PropertyOrder(1), DisplayName("原列名")]
-        [Description("本模块要处理的列的名称")]
+        [LocalizedCategory("1.基本选项"), PropertyOrder(1), DisplayName("原列名")]
+        [LocalizedDescription("本模块要处理的列的名称")]
         public string Column { get; set; }
 
-        [DisplayName("介绍")]
+        [LocalizedDisplayName("介绍")]
         [PropertyOrder(100)]
         public string Description
         {
@@ -56,22 +56,22 @@ namespace Hawk.ETL.Plugins.Transformers
             }
         }
 
-        [Category("1.基本选项")]
-        [DisplayName("标签")]
+        [LocalizedCategory("1.基本选项")]
+        [LocalizedDisplayName("标签")]
         public string Name { get; set; }
 
 
-        [Category("1.基本选项")]
+        [LocalizedCategory("1.基本选项")]
         [PropertyOrder(2)]
-        [DisplayName("新列名")]
-        [Description("结果要输出到的列的名称")]
+        [LocalizedDisplayName("新列名")]
+        [LocalizedDescription("结果要输出到的列的名称")]
         public virtual string NewColumn { get; set; }
 
   
         private bool _enabled;
 
-        [Category("1.基本选项")]
-        [DisplayName("启用")]
+        [LocalizedCategory("1.基本选项")]
+        [LocalizedDisplayName("启用")]
         [PropertyOrder(5)]
         public bool Enabled
         {
@@ -94,8 +94,8 @@ namespace Hawk.ETL.Plugins.Transformers
 
 
 
-        [Category("1.基本选项")]
-        [DisplayName("类型")]
+        [LocalizedCategory("1.基本选项")]
+        [LocalizedDisplayName("类型")]
         [PropertyOrder(0)]
         public string TypeName
         {

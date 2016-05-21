@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Policy;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
@@ -25,15 +26,15 @@ namespace Hawk.ETL.Plugins.Executor
             processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
         }
 
-        [DisplayName("保存位置")]
+        [LocalizedDisplayName("保存位置")]
         public string SavePath { get; set; }
 
-        [DisplayName("爬虫选择")]
-        [Description("填写采集器或模块的名称")]
+        [LocalizedDisplayName("爬虫选择")]
+        [LocalizedDescription("填写采集器或模块的名称")]
         public string CrawlerSelector { get; set; }
 
 
-        [DisplayName("是否异步")]
+        [LocalizedDisplayName("是否异步")]
         public bool IsAsync { get; set; }
         private SmartCrawler crawler { get; set; }
 

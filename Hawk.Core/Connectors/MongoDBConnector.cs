@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
@@ -45,10 +46,10 @@ namespace Hawk.Core.Connectors
 
         #region Public Methods
 
-        [DisplayName("自增主键名称")]
+        [LocalizedDisplayName("自增主键名称")]
         public string AutoIndexName { get; set; }
 
-        [DisplayName("启用自增主键写入")]
+        [LocalizedDisplayName("启用自增主键写入")]
         public bool AutoIndexEnabled { get; set; }
 
         public IEnumerable<IFreeDocument> GetEnumerable(string tableName, Type type)

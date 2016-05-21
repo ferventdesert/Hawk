@@ -36,12 +36,12 @@ namespace Hawk.ETL.Plugins.Filters
         }
 
         
-        [DisplayName("表达式")]
+        [LocalizedDisplayName("表达式")]
         [PropertyEditor("CodeEditor")]
         public string Script { get; set; }
 
-        [DisplayName("最小匹配数")]
-        [Description("只有正则匹配的数量大于等于该值时，才会通过")]
+        [LocalizedDisplayName("最小匹配数")]
+        [LocalizedDescription("只有正则匹配的数量大于等于该值时，才会通过")]
         public int Count { get; set; }
 
       

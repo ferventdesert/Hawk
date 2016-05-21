@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
@@ -19,12 +20,12 @@ namespace Hawk.ETL.Plugins.Executor
             dataManager = MainDescription.MainFrm.PluginDictionary["数据管理"] as IDataManager;
         }
 
-        [DisplayName("克隆副本")]
-        [Description("将当前数据复制后保存到数据表中，可防止后续工作模块对数据的修改")]
+        [LocalizedDisplayName("克隆副本")]
+        [LocalizedDescription("将当前数据复制后保存到数据表中，可防止后续工作模块对数据的修改")]
         public bool IsClone { get; set; }
 
-        [DisplayName("新建表名")]
-        [Description("如果要新建表，则填写此项，否则留空")]
+        [LocalizedDisplayName("新建表名")]
+        [LocalizedDescription("如果要新建表，则填写此项，否则留空")]
         public string Table { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> datas)

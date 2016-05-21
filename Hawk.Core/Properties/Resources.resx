@@ -120,6 +120,33 @@
   <data name="Closing" xml:space="preserve">
     <value>是否确定离开本软件?</value>
   </data>
+  <data name="ConfigNull" xml:space="preserve">
+    <value>不包含任何有关配置文件的任何信息，请检查</value>
+  </data>
+  <data name="ControlLoad" xml:space="preserve">
+    <value>控件加载</value>
+  </data>
+  <data name="DataMgmt" xml:space="preserve">
+    <value>数据管理</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>失败</value>
+  </data>
+  <data name="IconNotExist" xml:space="preserve">
+    <value>系统图标文件不存在</value>
+  </data>
+  <data name="LongTask" xml:space="preserve">
+    <value>正在处理长时间操作</value>
+  </data>
+  <data name="ModuleMgmt" xml:space="preserve">
+    <value>模块管理</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>来源</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>已正常启动</value>
+  </data>
   <data name="Tips" xml:space="preserve">
     <value>提示信息</value>
   </data>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Core.Connectors.Vitural
@@ -24,7 +25,7 @@ namespace Hawk.Core.Connectors.Vitural
 
         public override string Source => VirtualData.ItemsProvider.Name;
 
-        [DisplayName("虚拟化数据集")]
+        [LocalizedDisplayName("虚拟化数据集")]
         public override bool IsVirtual => true;
 
 

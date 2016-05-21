@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
@@ -13,16 +14,16 @@ namespace Hawk.ETL.Managements
 {
     public class ProjectItem : PropertyChangeNotifier, IDictionarySerializable
     {
-        [DisplayName("保存路径")]
+        [LocalizedDisplayName("保存路径")]
         public string SavePath { get; set; }
 
-        [DisplayName("名称")]
+        [LocalizedDisplayName("名称")]
         public string Name { get; set; }
 
-        [DisplayName("描述")]
+        [LocalizedDisplayName("描述")]
         public string Description { get; set; }
 
-        [DisplayName("版本")]
+        [LocalizedDisplayName("版本")]
         public int Version { get; set; }
 
 
@@ -72,17 +73,17 @@ namespace Hawk.ETL.Managements
         }
 
 
-        [DisplayName("创建时间")]
+        [LocalizedDisplayName("创建时间")]
         public DateTime CreateTime { get; set; }
 
-        [DisplayName("数据库连接")]
+        [LocalizedDisplayName("数据库连接")]
         public ObservableCollection<IDataBaseConnector> DBConnections { get; set; }
 
 
         /// <summary>
         ///     在工程中保存的所有任务
         /// </summary>
-        [DisplayName("任务列表")]
+        [LocalizedDisplayName("任务列表")]
         public ObservableCollection<ProcessTask> Tasks { get; set; }
 
         public void Save()

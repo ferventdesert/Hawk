@@ -64,9 +64,9 @@ namespace Hawk.ETL.Process
 
         #region Properties
 
-        [DisplayName("命令")]
+        [LocalizedDisplayName("命令")]
         [PropertyOrder(3)]
-        [Category("4.执行")]
+        [LocalizedCategory("4.执行")]
         public ReadOnlyCollection<ICommand> Commands3
         {
             get
@@ -124,10 +124,10 @@ namespace Hawk.ETL.Process
         [Browsable(false)]
         public ListCollectionView ETLToolsView { get; set; }
 
-        [Category("3.调试")]
+        [LocalizedCategory("3.调试")]
         [PropertyOrder(2)]
-        [DisplayName("模块数量")]
-        [Description("只选取工作流中前n个模块，来构造工作流")]
+        [LocalizedDisplayName("模块数量")]
+        [LocalizedDescription("只选取工作流中前n个模块，来构造工作流")]
         public int ETLMount
         {
             get { return _etlMount; }
@@ -141,10 +141,10 @@ namespace Hawk.ETL.Process
             }
         }
 
-        [Category("3.调试")]
+        [LocalizedCategory("3.调试")]
         [PropertyOrder(1)]
-        [DisplayName("采样量")]
-        [Description("只获取数据表的前n行")]
+        [LocalizedDisplayName("采样量")]
+        [LocalizedDescription("只获取数据表的前n行")]
         public int SampleMount
         {
             get { return _SampleMount; }
@@ -157,13 +157,13 @@ namespace Hawk.ETL.Process
             }
         }
 
-        [Category("3.调试")]
-        [DisplayName("显示调试详情")]
+        [LocalizedCategory("3.调试")]
+        [LocalizedDisplayName("显示调试详情")]
         [PropertyOrder(3)]
         public bool DisplayDetail { get; set; }
 
-        [Category("3.调试")]
-        [DisplayName("命令")]
+        [LocalizedCategory("3.调试")]
+        [LocalizedDisplayName("命令")]
         [PropertyOrder(4)]
         public ReadOnlyCollection<ICommand> Commands5
         {
@@ -280,9 +280,9 @@ namespace Hawk.ETL.Process
         [Browsable(false)]
         public dynamic etls => CurrentETLTools;
 
-        [Category("2.清洗流程")]
-        [DisplayName("已加载")]
-        [Description("当前位于工作流中的的所有工作模块")]
+        [LocalizedCategory("2.清洗流程")]
+        [LocalizedDisplayName("已加载")]
+        [LocalizedDescription("当前位于工作流中的的所有工作模块")]
         public ObservableCollection<IColumnProcess> CurrentETLTools { get; set; }
 
         [Browsable(false)]
@@ -679,15 +679,15 @@ namespace Hawk.ETL.Process
 
 
         [PropertyOrder(1)]
-        [Category("4.执行")]
-        [DisplayName("工作模式")]
+        [LocalizedCategory("4.执行")]
+        [LocalizedDisplayName("工作模式")]
         public GenerateMode GenerateMode { get; set; }
 
 
         [PropertyOrder(2)]
-        [Category("4.执行")]
-        [Description("在并行模式工作时，线程池所承载的最大线程数")]
-        [DisplayName("最大线程数")]
+        [LocalizedCategory("4.执行")]
+        [LocalizedDescription("在并行模式工作时，线程池所承载的最大线程数")]
+        [LocalizedDisplayName("最大线程数")]
         public int MaxThreadCount { get; set; }
 
 

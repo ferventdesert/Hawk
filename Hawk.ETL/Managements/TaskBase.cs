@@ -17,6 +17,7 @@ namespace Hawk.ETL.Managements
         private int currentIndex;
         private string name;
         private int _percent;
+        private bool _isSelected;
 
         protected TaskBase()
         {
@@ -25,6 +26,23 @@ namespace Hawk.ETL.Managements
 
            
         }
+
+        [Browsable(false)]
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                if (_isSelected != value)
+                {
+                    _isSelected = value;
+                    OnPropertyChanged("IsSelected");
+                    
+                }
+                
+            }
+        }
+
         /// <summary>
         /// 任务发布者
         /// </summary>
@@ -36,7 +54,7 @@ namespace Hawk.ETL.Managements
         [Browsable(false)]
         public bool AutoDelete { get; set; }
 
-        [DisplayName("创建时间")]
+        [LocalizedDisplayName("创建时间")]
         public DateTime CreateTime { get; set; }
         public bool CheckWait()
         {
@@ -44,8 +62,8 @@ namespace Hawk.ETL.Managements
             autoReset.WaitOne();
             return true;
         }
-        [Category("遍历状态")]
-        [DisplayName("当前位置")]
+        [LocalizedCategory("遍历状态")]
+        [LocalizedDisplayName("当前位置")]
         public int CurrentIndex
         {
             get { return currentIndex; }
@@ -56,20 +74,20 @@ namespace Hawk.ETL.Managements
                 OnPropertyChanged("CurrentIndex");
             }
         }
-        [DisplayName("分组")]
+        [LocalizedDisplayName("分组")]
         [PropertyOrder(4)]
         public string Group { get; set; }
 
         /// <summary>
         ///     该计算任务的介绍
         /// </summary>
-        [DisplayName("任务描述")]
+        [LocalizedDisplayName("任务描述")]
         [PropertyOrder(3)]
         public string Description { get; set; }
 
       
 
-        [DisplayName("名称")]
+        [LocalizedDisplayName("名称")]
         [PropertyOrder(1)]
         public string Name
         {

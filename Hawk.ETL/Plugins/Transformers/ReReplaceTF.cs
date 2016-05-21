@@ -16,7 +16,7 @@ namespace Hawk.ETL.Plugins.Transformers
 
   
 
-        [DisplayName("替换为")]
+        [LocalizedDisplayName("替换为")]
         [PropertyEditor("CodeEditor")]
         public string ReplaceText { get; set; }
 

@@ -26,10 +26,9 @@ namespace Hawk.Core.Utils
         public string Parameters { get; set; }
 
 
-        [Browsable(false)]
-        public FreeDocument paradict { get; set; }
+      
 
-        public string HeaderToString(FreeDocument docu)
+        public static  string HeaderToString(FreeDocument docu)
         {
             StringBuilder sb=new StringBuilder();
             foreach (var d in docu)

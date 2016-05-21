@@ -90,7 +90,7 @@
             <RowDefinition Height="0.736*"/>
         </Grid.RowDefinitions>
 
-        <ScrollViewer Grid.Column="1" Margin="8" Grid.RowSpan="2" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+        <ScrollViewer  x:FieldModifier="public" x:Name="ScrollViewer" Grid.Column="1" Margin="8" Grid.RowSpan="2" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.256*"/>

@@ -44,7 +44,18 @@ namespace Hawk.ETL.Interfaces
             var doc = docu as FreeDocument;
           
         }
-
+        [DisplayName("介绍")]
+        [PropertyOrder(100)]
+        public string Description
+        {
+            get
+            {
+                var item = AttributeHelper.GetCustomAttribute(GetType());
+                if (item == null)
+                    return GetType().ToString();
+                return item.Description;
+            }
+        }
         [Category("1.基本选项"), PropertyOrder(1), DisplayName("原列名")]
         public string Column { get; set; }
 
@@ -68,7 +79,9 @@ namespace Hawk.ETL.Interfaces
             }
         }
 
-        [Browsable(false)]
+        [Category("1.基本选项")]
+        [DisplayName("类型")]
+        [PropertyOrder(0)]
         public string TypeName
         {
             get

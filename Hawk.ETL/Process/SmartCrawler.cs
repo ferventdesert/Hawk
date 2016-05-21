@@ -248,6 +248,9 @@ namespace Hawk.ETL.Process
         [PropertyOrder(18)]
         public bool CanSave { get; set; }
 
+
+
+
         [Browsable(false)]
         //   [Category("自动嗅探")]
         //  [DisplayName("嗅探信息")]

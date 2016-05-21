@@ -71,7 +71,22 @@ namespace Hawk.ETL.Plugins.Generators
         [PropertyOrder(5)]
         public bool Enabled { get; set; }
 
-        [Browsable(false)]
+
+        [DisplayName("介绍")]
+        [PropertyOrder(100)]
+        public string Description {
+            get
+            {
+                var item = AttributeHelper.GetCustomAttribute(GetType());
+                if (item == null)
+                    return GetType().ToString();
+                return item.Description;
+            }
+        }
+
+        [Category("1.基本选项")]
+        [DisplayName("类型")]
+        [PropertyOrder(0)]
         public string TypeName
         {
             get

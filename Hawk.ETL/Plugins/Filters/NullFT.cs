@@ -51,7 +51,18 @@ namespace Hawk.ETL.Plugins.Filters
         public string Name { get; set; }
 
 
-
+        [DisplayName("介绍")]
+        [PropertyOrder(100)]
+        public string Description
+        {
+            get
+            {
+                var item = AttributeHelper.GetCustomAttribute(GetType());
+                if (item == null)
+                    return GetType().ToString();
+                return item.Description;
+            }
+        }
 
         private bool _enabled;
 
@@ -74,7 +85,10 @@ namespace Hawk.ETL.Plugins.Filters
         }
 
 
-        [Browsable(false)]
+
+        [Category("1.基本选项")]
+        [DisplayName("类型")]
+        [PropertyOrder(0)]
         public string TypeName
         {
             get

@@ -292,10 +292,10 @@ namespace Hawk
 
                         layout = Factory(name, thisControl);
 
-                        documentMain.Children.Add(layout);
+                        dockablePane2.Children.Add(layout);
 
                         layout.Float();
-
+                                    
                         break;
                 }
                 viewitem.Container = layout;

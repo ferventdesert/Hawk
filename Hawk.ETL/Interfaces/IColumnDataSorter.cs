@@ -29,7 +29,8 @@ namespace Hawk.ETL.Interfaces
         bool Enabled { get; set; }
 
 
-        string TypeName { get; }
+      string Description { get; }
+      string TypeName { get; }
 
         #endregion
 
@@ -131,7 +132,18 @@ namespace Hawk.ETL.Interfaces
         [DisplayName("列名")]
         public string Column { get; set; }
 
-
+        [DisplayName("介绍")]
+        [PropertyOrder(100)]
+        public string Description
+        {
+            get
+            {
+                var item = AttributeHelper.GetCustomAttribute(GetType());
+                if (item == null)
+                    return GetType().ToString();
+                return item.Description;
+            }
+        }
 
         [Category("1.基本选项")]
         [PropertyOrder(5)]

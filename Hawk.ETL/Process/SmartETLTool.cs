@@ -57,6 +57,7 @@ namespace Hawk.ETL.Process
 
         private ListView dataView;
 
+        private ScrollViewer scrollViewer;
         private string searchText;
 
         #endregion
@@ -157,8 +158,13 @@ namespace Hawk.ETL.Process
         }
 
         [Category("3.调试")]
-        [DisplayName("命令")]
+        [DisplayName("显示调试详情")]
         [PropertyOrder(3)]
+        public bool DisplayDetail { get; set; }
+
+        [Category("3.调试")]
+        [DisplayName("命令")]
+        [PropertyOrder(4)]
         public ReadOnlyCollection<ICommand> Commands5
         {
             get
@@ -167,7 +173,7 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("刷新结果", obj => { RefreshSamples(true); }),
+                        new Command("刷新", obj => { RefreshSamples(true); }),
                         new Command("弹出样例", obj =>
                         {
                             generateFloatGrid = true;
@@ -195,14 +201,60 @@ namespace Hawk.ETL.Process
             }
         }
 
+        private WPFPropertyGrid debugGrid;
+
         private IColumnProcess CurrentTool
         {
             get
             {
                 var t = CurrentETLTools.Where(d => !(d is IDataExecutor) && d.Enabled).ToList();
-                if (ETLMount <= t.Count && ETLMount >1)
-                    return t[ETLMount-1];
-                return null;
+                IColumnProcess current = null;
+                if (ETLMount <= t.Count && ETLMount > 1)
+                {
+                     current = t[ETLMount - 1];
+
+                }
+                if (DisplayDetail)
+                {
+                    if (debugGrid == null)
+                    {
+                        debugGrid = PropertyGridFactory.GetInstance(current);
+                    }
+                    else
+                    {
+                        debugGrid.SetObjectView(current);
+                    }
+                    dynamic control =
+                        (MainFrm as IDockableManager).ViewDictionary.FirstOrDefault(d => d.View == debugGrid)
+                            ?.Container;
+                    if (control != null)
+                    {
+                        control.Show();
+                    }
+
+                    else
+                    {
+                        (MainFrm as IDockableManager).AddDockAbleContent(FrmState.Float, debugGrid, "调试模块属性");
+
+                    }
+
+
+
+
+                }
+                else
+                {
+                    dynamic control =
+                      (MainFrm as IDockableManager).ViewDictionary.FirstOrDefault(d => d.View == debugGrid)
+                          ?.Container;
+                    if (control != null)
+                        control.Close();
+                    debugGrid = null;
+                }
+
+              
+                
+                return current;
             }
         }
 
@@ -435,7 +487,7 @@ namespace Hawk.ETL.Process
                 if (generator == null)
                     return;
                 var realfunc3 = Aggregate(func, etls.Skip(1), true);
-                var task = TemporaryTask.AddTempTask("串行ETL任务", generator.Generate(),
+                var task = TemporaryTask.AddTempTask("串行清洗任务", generator.Generate(),
                     d => { realfunc3(new List<IFreeDocument> {d}).ToList(); }, null, generator.GenerateCount() ?? (-1));
                 SysProcessManager.CurrentProcessTasks.Add(task);
             }
@@ -443,7 +495,7 @@ namespace Hawk.ETL.Process
             {
                 var timer = new DispatcherTimer();
                 TemporaryTask paratask = null;
-                var tolistTransformer = etls.FirstOrDefault(d => d.TypeName == "流实例化") as ToListTF;
+                var tolistTransformer = etls.FirstOrDefault(d => d.TypeName == "启动并行") as ToListTF;
 
                 if (tolistTransformer != null)
                 {
@@ -451,7 +503,7 @@ namespace Hawk.ETL.Process
 
                     var beforefunc = Aggregate(func, etls.Take(index), true);
 
-                    paratask = TemporaryTask.AddTempTask("etl任务列表实例化", beforefunc(new List<IFreeDocument>())
+                    paratask = TemporaryTask.AddTempTask("清洗任务并行化", beforefunc(new List<IFreeDocument>())
                         ,
                         d2 =>
                         {
@@ -464,7 +516,7 @@ namespace Hawk.ETL.Process
                             var countstr = d2.Query(tolistTransformer.MountColumn);
                             var name = d2.Query(tolistTransformer.IDColumn);
                             if (name == null)
-                                name = "并行ETL任务";
+                                name = "清洗任务";
 
                             var rcount = -1;
                             int.TryParse(countstr, out rcount);
@@ -483,7 +535,7 @@ namespace Hawk.ETL.Process
                     if (generator == null)
                         return;
                     var realfunc3 = Aggregate(func, etls.Skip(1), true);
-                    paratask = TemporaryTask.AddTempTask("并行ETL任务", generator.Generate(),
+                    paratask = TemporaryTask.AddTempTask("并行清洗任务", generator.Generate(),
                         d =>
                         {
                             if (paratask.IsPause == false &&
@@ -675,6 +727,8 @@ namespace Hawk.ETL.Process
                     dynamic dy = control.View;
 
                     dataView = dy.DataList;
+                    scrollViewer = dy.ScrollViewer;
+
                     alltoolList = dy.ETLToolList;
                     alltoolList.MouseMove += (s, e) =>
                     {
@@ -830,7 +884,10 @@ namespace Hawk.ETL.Process
                 if (MainDescription.IsUIForm && IsUISupport)
                 {
                     if (dataView != null)
+                    {
                         dataView.View = view;
+                    }
+                     
                 }
             }
         }

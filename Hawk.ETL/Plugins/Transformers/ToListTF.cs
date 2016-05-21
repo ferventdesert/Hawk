@@ -6,7 +6,7 @@ using Hawk.Core.Utils.Plugins;
 namespace Hawk.ETL.Plugins.Transformers
 {
 
-    [XFrmWork("流实例化", "该模块在执行时，会将本模块之前的流，转换为实际的list，用于提高并行性能")]
+    [XFrmWork("启动并行", "该模块在执行时，会将本模块之前的流实例化，转换为实际的list，用于提高并行性能")]
     public class ToListTF : TransformerBase
     {
 

@@ -98,7 +98,13 @@ namespace Hawk.ETL.Plugins.Sorters
 
         }
 
-        [Browsable(false)]
+        [DisplayName("介绍")]
+        [PropertyOrder(100)]
+        public string Description { get; }
+
+        [Category("1.基本选项")]
+        [DisplayName("类型")]
+        [PropertyOrder(0)]
         public string TypeName
         {
             get

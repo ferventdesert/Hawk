@@ -43,7 +43,18 @@ namespace Hawk.ETL.Plugins.Transformers
         [Description("本模块要处理的列的名称")]
         public string Column { get; set; }
 
-
+        [DisplayName("介绍")]
+        [PropertyOrder(100)]
+        public string Description
+        {
+            get
+            {
+                var item = AttributeHelper.GetCustomAttribute(GetType());
+                if (item == null)
+                    return GetType().ToString();
+                return item.Description;
+            }
+        }
 
         [Category("1.基本选项")]
         [DisplayName("标签")]
@@ -80,9 +91,12 @@ namespace Hawk.ETL.Plugins.Transformers
         [Browsable(false)]
         public virtual bool OneOutput { get;  set; }
 
-   
 
-        [Browsable(false)]
+
+
+        [Category("1.基本选项")]
+        [DisplayName("类型")]
+        [PropertyOrder(0)]
         public string TypeName
         {
             get

@@ -102,7 +102,7 @@ namespace Hawk
 
             Closing += (s, e) =>
             {
-                if (MessageBox.Show("是否确定离开本软件?", "提示信息", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                if (MessageBox.Show(Core.Properties.Resources.Closing, Core.Properties.Resources.Tips, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
 
                 {
                     PluginManager.Close();

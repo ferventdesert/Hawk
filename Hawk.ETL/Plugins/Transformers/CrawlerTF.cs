@@ -17,17 +17,15 @@ using HtmlAgilityPack;
 namespace Hawk.ETL.Plugins.Transformers
 {
     [XFrmWork("从爬虫转换", "使用网页采集器获取网页数据，拖入的列需要为超链接")]
-    public class CrawlerTF : TransformerBase
+    public class CrawlerTF : ResponseTF
     {
-        private readonly BuffHelper<HtmlDocument> buffHelper = new BuffHelper<HtmlDocument>(50);
-        private readonly IProcessManager processManager;
-        private string _crawlerSelector;
+        
+       
         private BfsGE generator;
         private bool isfirst;
 
         public CrawlerTF()
         {
-            processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
           //  var defaultcraw = processManager.CurrentProcessCollections.FirstOrDefault(d => d is SmartCrawler);
             MaxTryCount = "1";
             ErrorDelay = 3000;
@@ -47,22 +45,7 @@ namespace Hawk.ETL.Plugins.Transformers
         [LocalizedDisplayName("Post数据")]
         public string PostData { get; set; }
 
-        [LocalizedDisplayName("爬虫选择")]
-        [LocalizedDescription("填写采集器或模块的名称")]
-        public string CrawlerSelector
-        {
-            get { return _crawlerSelector; }
-            set
-            {
-                if (_crawlerSelector != value)
-                {
-                    buffHelper?.Clear();
-                }
-                _crawlerSelector = value;
-            }
-        }
-
-
+      
 
         [LocalizedCategory("请求队列")]
         [LocalizedDisplayName("队列生成器")]
@@ -78,7 +61,6 @@ namespace Hawk.ETL.Plugins.Transformers
         public bool IsRegex { get; set; }
 
         private Regex regex;
-        private SmartCrawler crawler { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
@@ -90,35 +72,19 @@ namespace Hawk.ETL.Plugins.Transformers
                 generator = mainstream.CurrentETLTools.FirstOrDefault(d => d.Name == GEName) as BfsGE;
             }
 
-                   crawler =
-                processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector) as SmartCrawler;
-            if (crawler != null)
-            {
-                IsMultiYield = crawler?.IsMultiData == ListType.List;
-            }
-            else
-            {
-                var task = processManager.CurrentProject.Tasks.FirstOrDefault(d => d.Name == CrawlerSelector);
-                if (task == null)
-                    return false;
-                ControlExtended.UIInvoke(() => { task.Load(false); });
-                crawler =
-                    processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector) as
-                        SmartCrawler;
-            }
 
-         
-
+            base.Init(datas);
 
             IsMultiYield = crawler?.IsMultiData == ListType.List;
             isfirst = true;
-            OneOutput = false;
+         
             if(IsRegex)
                 regex=new Regex(Prefix);
-            return crawler != null && base.Init(datas);
+            return crawler != null ;
         }
+        [Browsable(false)]
+        public override string HeaderFilter { get; set; }
 
-        
         private List<FreeDocument> GetDatas(IFreeDocument data)
         {
             var p = data[Column];

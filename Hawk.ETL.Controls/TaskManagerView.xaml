@@ -40,7 +40,7 @@
     						<DataTemplate>
     							<StackPanel Orientation="Horizontal">
     								<ProgressBar Value="{Binding Percent}" Width="100" Margin="0,0,5,0"/>   
-    								<TextBlock Text="{Binding Percent}" Margin="0,0,5,0"/>                     	  
+    							 
     							</StackPanel>
     						</DataTemplate>
     					</GridViewColumn.CellTemplate>

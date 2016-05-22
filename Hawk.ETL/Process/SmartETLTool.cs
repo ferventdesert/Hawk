@@ -111,7 +111,7 @@ namespace Hawk.ETL.Process
                 CurrentETLTools.Add(tool);
             else
             {
-                CurrentETLTools.Insert(ETLMount - 1, tool);
+                CurrentETLTools.Insert(ETLMount , tool);
             }
         }
 
@@ -340,6 +340,7 @@ namespace Hawk.ETL.Process
 
         public override bool Init()
         {
+            this.mudoleHasInit = true;
             RefreshSamples();
             CurrentETLTools.CollectionChanged += (s, e) =>
             {
@@ -594,9 +595,11 @@ namespace Hawk.ETL.Process
 
                     var item = PluginProvider.GetObjectInstance(t.MyType) as IColumnProcess;
                     item.Column = p.Name;
-                    ETLMount++;
+             
                     InsertModule(item);
+                    ETLMount++;
                     RefreshSamples();
+                  
                 }
             }
             if (sender == "Click")
@@ -704,9 +707,12 @@ namespace Hawk.ETL.Process
             return func(source);
         }
 
+        private bool mudoleHasInit = false;
         public void RefreshSamples(bool canGetDatas = true)
         {
             if (SysProcessManager == null)
+                return;
+            if(!mudoleHasInit)
                 return;
             if (SysProcessManager.CurrentProcessTasks.Any(d => d.Publisher == this))
             {

@@ -33,6 +33,8 @@ namespace Hawk.ETL.Plugins.Transformers
                 item = "";
             List<object> strs = new List<object>();
             strs.Add(item);
+            if (string.IsNullOrEmpty(Format))
+                return item;
             var Columns = MergeWith.Split(new string[]{" "},StringSplitOptions.RemoveEmptyEntries);
             strs.AddRange(Columns.Select(Column => datas[Column]));
             return string.Format(Format, strs.ToArray());

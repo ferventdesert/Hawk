@@ -279,6 +279,11 @@ namespace Hawk.ETL.Plugins.Generators
         private EnumerableFunc func;
         private IEnumerable<IColumnProcess> process;
 
+        public EtlTF()
+        {
+            NewColumn = "";
+        }
+
         [LocalizedDisplayName("新列名")]
         [LocalizedDescription("从原始数据中传递到子执行流的列，多个列用空格分割")]
         public string NewColumn { get; set; }

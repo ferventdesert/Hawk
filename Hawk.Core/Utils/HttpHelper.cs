@@ -25,21 +25,11 @@ namespace Hawk.Core.Utils
         Byte
     }
 
-    /// <summary>
-    ///     Http连接操作帮助类
-    ///     类说明：HttpHelps类，用来实现Http访问，Post或者Get方式的，直接访问，带Cookie的，带证书的等方式，可以设置代理
-    ///     编码日期：2011-09-20
-    /// </summary>
+    
     public class HttpHelper
     {
-
-     
-
         //默认的编码
         private Encoding encoding = Encoding.Default;
-
-    
-
         //public bool AutoVisit(HttpItem item)
         //{
         //    var res = GetHtml(item);
@@ -67,7 +57,7 @@ namespace Hawk.Core.Utils
             var dict = new FreeDocument();
             foreach (var s in cookie.Split(';'))
             {
-               // foreach (var s in p.Split(';'))
+                // foreach (var s in p.Split(';'))
                 {
                     var equalpos = s.IndexOf("=");
 
@@ -100,18 +90,19 @@ namespace Hawk.Core.Utils
             var v2 = string.Join(";", dict2.Select(d => $"{d.Key}={d.Value}"));
             return v2;
         }
+
         /// <summary>
         ///     根据相传入的数据，得到相应页面数据
         /// </summary>
         /// <param name="strPostdata">传入的数据Post方式,get方式传NUll或者空字符串都可以</param>
         /// <param name="ContentType">返回的响应数据的类型</param>
         /// <returns>string类型的响应数据</returns>
-        private byte[] GetHttpRequestFile(HttpWebRequest request, HttpItem objhttpitem,  out HttpStatusCode statusCode)
+        private byte[] GetHttpRequestFile(HttpWebRequest request, HttpItem objhttpitem, out HttpStatusCode statusCode)
         {
             byte[] result = null;
 
 
-            using (var response = (HttpWebResponse)request.GetResponse())
+            using (var response = (HttpWebResponse) request.GetResponse())
             {
                 var _stream = new MemoryStream();
 
@@ -120,7 +111,6 @@ namespace Hawk.Core.Utils
                     docu["Cookie"] = MergeCookie(docu["Cookie"].ToString(), response.Headers["set-cookie"]);
 
                 statusCode = response.StatusCode;
-                objhttpitem.ResponseHeaders = response.Headers;
                 objhttpitem.Parameters = HttpItem.HeaderToString(docu);
                 //GZIIP处理
                 if (response.ContentEncoding != null &&
@@ -143,20 +133,20 @@ namespace Hawk.Core.Utils
                 result = _stream.ToArray();
                 //是否返回Byte类型数据
 
-                
-               
+
                 _stream.Close();
             }
 
             return result;
         }
+
         /// <summary>
         ///     根据相传入的数据，得到相应页面数据
         /// </summary>
         /// <param name="strPostdata">传入的数据Post方式,get方式传NUll或者空字符串都可以</param>
         /// <param name="ContentType">返回的响应数据的类型</param>
         /// <returns>string类型的响应数据</returns>
-        private string GetHttpRequestData(HttpWebRequest request, HttpItem objhttpitem, out ContentType ContentType,out HttpStatusCode statusCode)
+        private string GetHttpRequestData(HttpWebRequest request, HttpItem objhttpitem,out WebHeaderCollection responseHeaders, out HttpStatusCode statusCode)
         {
             var result = "";
 
@@ -164,40 +154,33 @@ namespace Hawk.Core.Utils
 
             using (var response = (HttpWebResponse) request.GetResponse())
             {
-                var _stream = new MemoryStream();
+                MemoryStream stream;
 
                 var docu = objhttpitem.GetHeaderParameter();
                 if (response.Headers["set-cookie"] != null)
                     docu["Cookie"] = MergeCookie(docu["Cookie"].ToString(), response.Headers["set-cookie"]);
 
+                responseHeaders= response.Headers;
                 statusCode = response.StatusCode;
-                objhttpitem.ResponseHeaders = response.Headers;
                 objhttpitem.Parameters = HttpItem.HeaderToString(docu);
                 //GZIIP处理
                 if (response.ContentEncoding != null &&
                     response.ContentEncoding.Equals("gzip", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    //开始读取流并设置编码方式
-                    //new GZipStream(response.GetResponseStream(), CompressionMode.Decompress).CopyTo(_stream, 10240);
-                    //.net4.0以下写法
-                    _stream =
+                    stream =
                         GetMemoryStream(new GZipStream(response.GetResponseStream(), CompressionMode.Decompress));
                 }
                 else
                 {
-                    //开始读取流并设置编码方式
-                    //response.GetResponseStream().CopyTo(_stream, 10240);
-                    //.net4.0以下写法
-                    _stream = GetMemoryStream(response.GetResponseStream());
+                    stream = GetMemoryStream(response.GetResponseStream());
                 }
                 //获取Byte
-                var RawResponse = _stream.ToArray();
+                var rawResponse = stream.ToArray();
                 //是否返回Byte类型数据
 
-                //从这里开始我们要无视编码了
                 if (objhttpitem.Encoding == EncodingType.Unknown || encoding == null)
                 {
-                    var temp = Encoding.Default.GetString(RawResponse, 0, RawResponse.Length);
+                    var temp = Encoding.Default.GetString(rawResponse, 0, rawResponse.Length);
                     //<meta(.*?)charset([\s]?)=[^>](.*?)>
                     var meta = Regex.Match(temp, "<meta([^<]*)charset=([^<]*)[\"']",
                         RegexOptions.IgnoreCase | RegexOptions.Multiline);
@@ -230,22 +213,11 @@ namespace Hawk.Core.Utils
                     }
                 }
 
-                if (response.ContentType.Contains("json"))
-                {
-                    ContentType = ContentType.Json;
-                }
-                else if (response.ContentType.Contains("xml"))
-                {
-                    ContentType = ContentType.XML;
-                }
-                else
-                {
-                    ContentType = ContentType.Text;
-                }
+
                 //得到返回的HTML
-                result = encoding.GetString(RawResponse);
+                result = encoding.GetString(rawResponse);
                 //最后释放流
-                _stream.Close();
+                stream.Close();
             }
 
             return result;
@@ -386,7 +358,7 @@ namespace Hawk.Core.Utils
             var host = docu["Host"].ToString();
             //if (string.IsNullOrEmpty(host) == false)
             // request.Host = host;
-        
+
             //设置Cookie
             var cookie = docu["Cookie"].ToString();
             if (!string.IsNullOrEmpty(cookie))
@@ -428,10 +400,10 @@ namespace Hawk.Core.Utils
         /// </summary>
         /// <param name="item">参数列表</param>
         /// <param name="_Encoding">读取数据时的编码方式</param>
-        private HttpWebRequest SetRequest(HttpItem item,string desturl=null,string post=null)
+        private HttpWebRequest SetRequest(HttpItem item, string desturl = null, string post = null)
         {
             var url = desturl ?? item.URL;
-            if(url==null)
+            if (url == null)
                 return null;
             if (url.Contains("http") == false)
             {
@@ -442,14 +414,12 @@ namespace Hawk.Core.Utils
                 ServicePointManager.ServerCertificateValidationCallback =
                     (sender, certificate, chain, sslPolicyErrors) => true;
             //初始化对像，并设置请求的URL地址
-           var  request = (HttpWebRequest) WebRequest.Create(GetUrl(url));
+            var request = (HttpWebRequest) WebRequest.Create(GetUrl(url));
             SetRequest(item, request, desturl, post);
             encoding = AttributeHelper.GetEncoding(item.Encoding);
             return request;
         }
 
-
-     
 
         ///// <summary>
         /////     设置代理
@@ -510,7 +480,6 @@ namespace Hawk.Core.Utils
             return URL;
         }
 
-   
 
         public static string GetRealIp()
         {
@@ -535,32 +504,46 @@ namespace Hawk.Core.Utils
 
             return ip;
         }
+
         public static bool IsSuccess(HttpStatusCode code)
         {
             return code == HttpStatusCode.OK;
         }
+
         /// <summary>
         ///     采用https协议访问网络,根据传入的URl地址，得到响应的数据字符串。
         /// </summary>
         /// <param name="requestitem">参数列表</param>
         /// <returns>String类型的数据</returns>
-        public string GetHtml(HttpItem requestitem,out HttpStatusCode code, string url = null,string post=null)
+        public string GetHtml(HttpItem requestitem, out WebHeaderCollection responseHeaders, out HttpStatusCode code, string url = null, string post = null)
         {
             try
             {
-                var request=   SetRequest(requestitem,url,post);
-                ContentType content;
-                var r= GetHttpRequestData(request,requestitem, out content,out code);
+                var request = SetRequest(requestitem, url, post);
+                var r = GetHttpRequestData(request, requestitem,out responseHeaders, out code);
                 if (!IsSuccess(code))
-                    return "HTTP错误，类型:"+code.ToString();
+                    return "HTTP错误，类型:" + code;
                 return r;
             }
             catch (Exception ex)
             {
-                code=HttpStatusCode.NotFound;
+                code = HttpStatusCode.NotFound;
+                responseHeaders = null;
                 return ex.Message;
             }
         }
+
+        /// <summary>
+        ///     采用https协议访问网络,根据传入的URl地址，得到响应的数据字符串。
+        /// </summary>
+        /// <param name="requestitem">参数列表</param>
+        /// <returns>String类型的数据</returns>
+        public string GetHtml(HttpItem requestitem,  out HttpStatusCode code, string url = null, string post = null)
+        {
+            WebHeaderCollection responseHeaders = null;
+            return GetHtml(requestitem, out responseHeaders,out  code, url, post);
+        }
+
         /// <summary>
         ///     采用https协议访问网络,根据传入的URl地址，得到响应的数据字符串。
         /// </summary>
@@ -571,18 +554,18 @@ namespace Hawk.Core.Utils
             try
             {
                 var request = SetRequest(requestitem, url, post);
-                ContentType content;
-                var r = GetHttpRequestFile(request, requestitem,  out code);
+                var r = GetHttpRequestFile(request, requestitem, out code);
                 if (!IsSuccess(code))
-                    XLogSys.Print.ErrorFormat("HTTP错误，URL:{0},类型:{1}" ,url, code.ToString());
+                    XLogSys.Print.ErrorFormat("HTTP错误，URL:{0},类型:{1}", url, code.ToString());
                 return r;
             }
             catch (Exception ex)
             {
                 code = HttpStatusCode.NotFound;
-              return new byte[0];
+                return new byte[0];
             }
         }
+
         #endregion
     }
 

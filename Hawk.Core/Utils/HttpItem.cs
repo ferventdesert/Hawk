@@ -152,7 +152,6 @@ namespace Hawk.Core.Utils
         /// </summary>
         public bool Allowautoredirect { get; set; }
 
-        public WebHeaderCollection ResponseHeaders { get; set; }
 
 
         public override string ToString()

@@ -273,6 +273,9 @@ namespace Hawk.ETL.Process
         [LocalizedDisplayName("共用采集器名")]
         public string Crawler { get; set; }
 
+
+      
+
         [Browsable(false)]
         public object UserControl => null;
 
@@ -537,6 +540,7 @@ namespace Hawk.ETL.Process
             {
                 var freedoc = new FreeDocument();
                 freedoc.Add("Content", doc.DocumentNode.OuterHtml);
+                
                 return new List<FreeDocument> {freedoc};
             }
             return doc.GetDataFromXPath(CrawlItems, IsMultiData, RootXPath);
@@ -586,6 +590,7 @@ namespace Hawk.ETL.Process
                 }
 
             }
+        
             var content = helper.GetHtml(Http, out code, url, post);
             doc = new HtmlDocument();
             if (!HttpHelper.IsSuccess(code))
@@ -599,8 +604,9 @@ namespace Hawk.ETL.Process
             var datas = CrawlData(doc);
             if (datas.Count == 0)
             {
-                XLogSys.Print.DebugFormat("HTML extract Fail,url:{0}", url);
+                XLogSys.Print.DebugFormat("HTML extract Fail，url:{0}", url);
             }
+           
             return datas;
         }
 

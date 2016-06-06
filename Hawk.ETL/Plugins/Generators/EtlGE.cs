@@ -50,9 +50,11 @@ namespace Hawk.ETL.Plugins.Generators
         {
             var dict = this.UnsafeDictSerialize();
             dict.Add("Type", GetType().Name);
-            dict.Add("Group", "Transformer");
+        
             return dict;
         }
+     
+
 
         public virtual void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
         {
@@ -121,7 +123,10 @@ namespace Hawk.ETL.Plugins.Generators
 
             var task = processManager.CurrentProject.Tasks.FirstOrDefault(d => d.Name == ETLSelector);
             if (task == null)
-                return false;
+
+            {
+                throw new NullReferenceException($"can't find a ETL Module named {ETLSelector}");
+            }
 
             ControlExtended.UIInvoke(() => { task.Load(false); });
 
@@ -175,6 +180,13 @@ namespace Hawk.ETL.Plugins.Generators
         {
             return null;
         }
+
+        public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
+        {
+            var data= base.DictSerialize(scenario);
+            data.SetValue("Group", "Generator");
+            return data;
+        }
     }
 
 
@@ -198,7 +210,12 @@ namespace Hawk.ETL.Plugins.Generators
             func = etl.Aggregate(d => d, process, true);
             return true;
         }
-
+        public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
+        {
+            var data = base.DictSerialize(scenario);
+            data.SetValue("Group", "Executor");
+            return data;
+        }
         public IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents)
         {
             foreach (var document in documents)
@@ -313,6 +330,12 @@ namespace Hawk.ETL.Plugins.Generators
                     yield return item.MergeQuery(data, NewColumn);
                 }
             }
+        }
+        public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
+        {
+            var data = base.DictSerialize(scenario);
+            data.SetValue("Group", "Transformer");
+            return data;
         }
     }
 }

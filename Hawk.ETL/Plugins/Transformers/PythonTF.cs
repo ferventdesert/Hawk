@@ -11,10 +11,6 @@ using Microsoft.Scripting.Hosting;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-   
-
-   
-
     [XFrmWork("Python转换器", "执行特定的python代码")]
     public class PythonTF : TransformerBase
     {
@@ -29,8 +25,7 @@ namespace Hawk.ETL.Plugins.Transformers
             Script = "value";
             ScriptWorkMode = ScriptWorkMode.不进行转换;
         }
-        [Browsable(false)]
-        public override bool IsMultiYield => ScriptWorkMode == ScriptWorkMode.文档列表;
+
         [DisplayName("工作模式")]
         [Description("文档列表：[{}],转换为多个数据行构成的列表；单文档：{},将结果的键值对附加到本行；不进行转换：直接将值放入到新列")]
         public ScriptWorkMode ScriptWorkMode { get; set; }
@@ -44,6 +39,7 @@ namespace Hawk.ETL.Plugins.Transformers
             OneOutput = false;
             var source = engine.CreateScriptSourceFromString(Script);
             compiledCode = source.Compile();
+            IsMultiYield = ScriptWorkMode == ScriptWorkMode.文档列表;
             return true;
         }
 
@@ -58,7 +54,6 @@ namespace Hawk.ETL.Plugins.Transformers
                     yield return item3.MergeQuery(data, NewColumn);
                 }
             }
-        
         }
 
         private object eval(IFreeDocument doc)
@@ -86,8 +81,8 @@ namespace Hawk.ETL.Plugins.Transformers
                 d = ex.Message;
             }
             return d;
-
         }
+
         public override object TransformData(IFreeDocument doc)
         {
             var d = eval(doc);
@@ -103,8 +98,5 @@ namespace Hawk.ETL.Plugins.Transformers
             }
             return d;
         }
-
-      
-             
     }
 }

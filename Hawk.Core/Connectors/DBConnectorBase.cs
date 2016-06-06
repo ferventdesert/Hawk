@@ -6,12 +6,12 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using System.Windows.Input;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
-using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace Hawk.Core.Connectors
 {
@@ -38,9 +38,9 @@ namespace Hawk.Core.Connectors
 
         private string dataType;
 
-        [DisplayName("类型")]
-        [PropertyOrder(1)]
-        [Description("该数据的类型")]
+        [LocalizedDisplayName("类型")]
+        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.PropertyOrder(1)]
+        [LocalizedDescription("该数据的类型")]
         public string DataType
         {
             get { return dataType; }
@@ -54,29 +54,29 @@ namespace Hawk.Core.Connectors
             }
         }
 
-        [DisplayName("权重")]
+        [LocalizedDisplayName("权重")]
         [PropertyOrder(3)]
         public double Importance { get; set; }
 
-        [DisplayName("主键")]
+        [LocalizedDisplayName("主键")]
         [PropertyOrder(2)]
         public bool IsKey { get; set; }
 
 
-        [DisplayName("描述")]
+        [LocalizedDisplayName("描述")]
         [PropertyOrder(4)]
         public string Description { get; set; }
 
         /// <summary>
         ///     启用虚拟化，则该值在需要时被动态计算
         /// </summary>
-        [DisplayName("虚拟值")]
+        [LocalizedDisplayName("虚拟值")]
         public bool IsVirtual { get; set; }
 
-        [DisplayName("名称")]
+        [LocalizedDisplayName("名称")]
         [PropertyOrder(0)]
         public string Name { get; set; }
-        [DisplayName("可空")]
+        [LocalizedDisplayName("可空")]
         [PropertyOrder(0)]
         public bool CanNull { get; set; }
 
@@ -132,16 +132,16 @@ namespace Hawk.Core.Connectors
             ColumnInfos=new List<ColumnInfo>();
         }
 
-        [DisplayName("列特性")]
+        [LocalizedDisplayName("列特性")]
         public List<ColumnInfo> ColumnInfos { get; set; }
 
-        [DisplayName("表大小")]
+        [LocalizedDisplayName("表大小")]
         public int Size { get; set; }
 
-        [DisplayName("名称")]
+        [LocalizedDisplayName("名称")]
         public string Name { get; set; }
 
-        [DisplayName("描述")]
+        [LocalizedDisplayName("描述")]
         public string Description { get; set; }
 
         [Browsable(false)]
@@ -288,28 +288,28 @@ namespace Hawk.Core.Connectors
         private bool _IsUseable;
         private string name;
 
-        [Category("参数设置")]
-        [DisplayName("操作表名")]
+        [LocalizedCategory("参数设置")]
+        [LocalizedDisplayName("操作表名")]
         public ExtendSelector<TableInfo> TableNames { get; set; }
 
-        [DisplayName("服务器地址")]
-        [Category("1.连接管理")]
-        [PropertyOrder(2)]
+        [LocalizedDisplayName("服务器地址")]
+        [LocalizedCategory("1.连接管理")]
+        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.PropertyOrder(2)]
         public string Server { get; set; }
 
-        [DisplayName("用户名")]
-        [Category("1.连接管理")]
-        [PropertyOrder(3)]
+        [LocalizedDisplayName("用户名")]
+        [LocalizedCategory("1.连接管理")]
+        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.PropertyOrder(3)]
         public string UserName { get; set; }
 
-        [DisplayName("密码")]
-        [Category("1.连接管理")]
-        [PropertyOrder(4)]
+        [LocalizedDisplayName("密码")]
+        [LocalizedCategory("1.连接管理")]
+        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.PropertyOrder(4)]
       //  [PropertyEditor("PasswordEditor")]
         public string Password { get; set; }
 
-        [Category("参数设置")]
-        [DisplayName("数据库类型")]
+        [LocalizedCategory("参数设置")]
+        [LocalizedDisplayName("数据库类型")]
         public string TypeName
         {
             get
@@ -339,9 +339,9 @@ namespace Hawk.Core.Connectors
         public virtual string ConnectionString { get; set; }
 
 
-        [Category("1.连接管理")]
-        [DisplayName("数据库名称")]
-        [PropertyOrder(5)]
+        [LocalizedCategory("1.连接管理")]
+        [LocalizedDisplayName("数据库名称")]
+        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.PropertyOrder(5)]
         public string DBName { get; set; }
 
 
@@ -362,9 +362,9 @@ namespace Hawk.Core.Connectors
         }
 
 
-        [Category("1.连接管理")]
-        [PropertyOrder(4)]
-        [DisplayName("连接状态")]
+        [LocalizedCategory("1.连接管理")]
+        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.PropertyOrder(4)]
+        [LocalizedDisplayName("连接状态")]
         public bool IsUseable
         {
             get { return _IsUseable; }
@@ -386,9 +386,9 @@ namespace Hawk.Core.Connectors
             return new List<IFreeDocument>();
         }
 
-        [Category("1.连接管理")]
-        [PropertyOrder(1)]
-        [DisplayName("连接名称")]
+        [LocalizedCategory("1.连接管理")]
+        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.PropertyOrder(1)]
+        [LocalizedDisplayName("连接名称")]
         public string Name
         {
             get { return name; }
@@ -408,9 +408,9 @@ namespace Hawk.Core.Connectors
 
         #region IDataBaseConnector
 
-        [Category("1.连接管理")]
-        [PropertyOrder(5)]
-        [DisplayName("自动连接")]
+        [LocalizedCategory("1.连接管理")]
+        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.PropertyOrder(5)]
+        [LocalizedDisplayName("自动连接")]
         public bool AutoConnect { get; set; }
 
         public virtual void BatchInsert(IEnumerable<IFreeDocument> source, string dbTableName)
@@ -558,8 +558,8 @@ namespace Hawk.Core.Connectors
 
         #endregion
 
-        [DisplayName("执行")]
-        [PropertyOrder(20)]
+        [LocalizedDisplayName("执行")]
+        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.PropertyOrder(20)]
         public ReadOnlyCollection<ICommand> Commands
         {
             get

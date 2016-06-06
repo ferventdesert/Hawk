@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Web.Script.Serialization;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
@@ -22,19 +23,19 @@ namespace Hawk.ETL.Plugins.Web
 
         }
 
-        [DisplayName("查询地物")]
-        [Description("如公园，车站等")]
+        [LocalizedDisplayName("查询地物")]
+        [LocalizedDescription("如公园，车站等")]
         public string Query { get; set; }
 
-        [DisplayName("纬度列")]
-        [Description("代表纬度所在的列")]
+        [LocalizedDisplayName("纬度列")]
+        [LocalizedDescription("代表纬度所在的列")]
         public string Lng { get; set; }
 
-        [DisplayName("搜索半径")]
+        [LocalizedDisplayName("搜索半径")]
         public int Radius { get; set; }
 
 
-        [DisplayName("所有结果")]
+        [LocalizedDisplayName("所有结果")]
         public bool AllResult { get; set; }
 
         public override object TransformData(IFreeDocument datas)

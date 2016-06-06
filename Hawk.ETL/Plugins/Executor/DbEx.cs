@@ -24,17 +24,17 @@ namespace Hawk.ETL.Plugins.Executor
             ConnectorSelector.SetSource(dataManager.CurrentConnectors);
         }
 
-        [DisplayName("操作类型")]
-        [Description("选择数据对数据库的操作")]
+        [LocalizedDisplayName("操作类型")]
+        [LocalizedDescription("选择数据对数据库的操作")]
         public EntityExecuteType ExecuteType { get; set; }
 
-        [DisplayName("连接器")]
-        [Description("选择所要连接的数据库服务")]
+        [LocalizedDisplayName("连接器")]
+        [LocalizedDescription("选择所要连接的数据库服务")]
         [PropertyOrder(1)]
         public ExtendSelector<IDataBaseConnector> ConnectorSelector { get; set; }
 
-        [DisplayName("表名")]
-        [Description("如果要新建表，则填写此项，若数据库中已经存在该表，则不执行建表操作")]
+        [LocalizedDisplayName("表名")]
+        [LocalizedDescription("如果要新建表，则填写此项，若数据库中已经存在该表，则不执行建表操作")]
         public string TableName { get; set; }
 
        

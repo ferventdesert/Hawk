@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Web.Script.Serialization;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
@@ -31,8 +32,8 @@ namespace Hawk.ETL.Plugins.Web
             Region = "北京";
         }
 
-        [DisplayName("所属地市")]
-        [Description("通过地市进行信息检索")]
+        [LocalizedDisplayName("所属地市")]
+        [LocalizedDescription("通过地市进行信息检索")]
         public string Region { get; set; }
 
         public override object TransformData(IFreeDocument datas)

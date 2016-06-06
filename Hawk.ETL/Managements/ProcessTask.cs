@@ -127,7 +127,7 @@ namespace Hawk.ETL.Managements
             }, LogType.Important, $"加载{Name}任务", true);
         }
 
-        [DisplayName("脚本路径")]
+        [LocalizedDisplayName("脚本路径")]
         [PropertyOrder(6)]
         public string ScriptPath { get; set; }
 

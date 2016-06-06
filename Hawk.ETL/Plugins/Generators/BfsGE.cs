@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
@@ -27,10 +28,10 @@ namespace Hawk.ETL.Plugins.Generators
 
         private SortedSet<int> URLHash { get; }
 
-        [DisplayName("BFS起始位置")]
+        [LocalizedDisplayName("BFS起始位置")]
         public string StartURL { get; set; }
 
-        [DisplayName("延时时间")]
+        [LocalizedDisplayName("延时时间")]
         public int DelayTime { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> datas)

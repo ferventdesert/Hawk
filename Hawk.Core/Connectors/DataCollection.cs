@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
@@ -16,7 +17,7 @@ namespace Hawk.Core.Connectors
 
         private string name;
 
-        [DisplayName("来源")]
+        [LocalizedDisplayName("来源")]
         public virtual string Source => "默认来源";
 
         public override string ToString()
@@ -45,7 +46,7 @@ namespace Hawk.Core.Connectors
             RealData = new List<IFreeDocument>();
         }
 
-        [DisplayName("列特性")]
+        [LocalizedDisplayName("列特性")]
         public TableInfo TableInfo { get; set; }
 
         [Browsable(false)]
@@ -55,7 +56,7 @@ namespace Hawk.Core.Connectors
         }
 
 
-        [DisplayName("总数据量")]
+        [LocalizedDisplayName("总数据量")]
         public int Count
         {
             get { return ComputeData.Count; }
@@ -63,16 +64,16 @@ namespace Hawk.Core.Connectors
 
         
 
-        [DisplayName("数据描述")]
+        [LocalizedDisplayName("数据描述")]
         public string Description { get; set; }
 
-        [DisplayName("虚拟化数据集")]
+        [LocalizedDisplayName("虚拟化数据集")]
         public virtual bool IsVirtual
         {
             get { return false; }
         }
 
-        [DisplayName("数据集名称")]
+        [LocalizedDisplayName("数据集名称")]
         public string Name
         {
             get { return name; }

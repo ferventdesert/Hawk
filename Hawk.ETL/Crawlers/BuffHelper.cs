@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
@@ -14,7 +15,7 @@ namespace Hawk.ETL.Crawlers
       
         private int maxBufferCount;
 
-        [DisplayName("启动缓存")]
+        [LocalizedDisplayName("启动缓存")]
         public bool EnableBuffer { get; set; }
 
         public BuffHelper (int size)

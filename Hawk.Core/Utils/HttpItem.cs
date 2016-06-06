@@ -26,10 +26,9 @@ namespace Hawk.Core.Utils
         public string Parameters { get; set; }
 
 
-        [Browsable(false)]
-        public FreeDocument paradict { get; set; }
+      
 
-        public string HeaderToString(FreeDocument docu)
+        public static  string HeaderToString(FreeDocument docu)
         {
             StringBuilder sb=new StringBuilder();
             foreach (var d in docu)
@@ -153,7 +152,6 @@ namespace Hawk.Core.Utils
         /// </summary>
         public bool Allowautoredirect { get; set; }
 
-        public WebHeaderCollection ResponseHeaders { get; set; }
 
 
         public override string ToString()

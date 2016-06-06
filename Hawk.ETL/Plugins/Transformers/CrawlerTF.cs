@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
@@ -16,64 +17,50 @@ using HtmlAgilityPack;
 namespace Hawk.ETL.Plugins.Transformers
 {
     [XFrmWork("从爬虫转换", "使用网页采集器获取网页数据，拖入的列需要为超链接")]
-    public class CrawlerTF : TransformerBase
+    public class CrawlerTF : ResponseTF
     {
-        private readonly BuffHelper<HtmlDocument> buffHelper = new BuffHelper<HtmlDocument>(50);
-        private readonly IProcessManager processManager;
-        private string _crawlerSelector;
+        
+       
         private BfsGE generator;
         private bool isfirst;
 
         public CrawlerTF()
         {
-            processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
           //  var defaultcraw = processManager.CurrentProcessCollections.FirstOrDefault(d => d is SmartCrawler);
             MaxTryCount = "1";
+            ErrorDelay = 3000;
             //if (defaultcraw != null) CrawlerSelector = defaultcraw.Name;
             PropertyChanged += (s, e) => { buffHelper.Clear(); };
         }
 
-        [DisplayName("最大重复次数")]
+        [LocalizedDisplayName("最大重复次数")]
         public string MaxTryCount { get; set; }
 
-        [DisplayName("延时时间")]
+        [LocalizedDisplayName("延时时间")]
         public string DelayTime { get; set; }
 
-        [DisplayName("Post数据")]
+        [LocalizedDisplayName("错误延时时间")]
+        public int  ErrorDelay { get; set; }
+
+        [LocalizedDisplayName("Post数据")]
         public string PostData { get; set; }
 
-        [DisplayName("爬虫选择")]
-        [Description("填写采集器或模块的名称")]
-        public string CrawlerSelector
-        {
-            get { return _crawlerSelector; }
-            set
-            {
-                if (_crawlerSelector != value)
-                {
-                    buffHelper?.Clear();
-                }
-                _crawlerSelector = value;
-            }
-        }
+      
 
-
-
-        [Category("请求队列")]
-        [DisplayName("队列生成器")]
-        [Description("填写模块的名称")]
+        [LocalizedCategory("请求队列")]
+        [LocalizedDisplayName("队列生成器")]
+        [LocalizedDescription("填写模块的名称")]
         public string GEName { get; set; }
 
-        [Category("请求队列")]
-        [DisplayName("过滤规则")]
+        [LocalizedCategory("请求队列")]
+        [LocalizedDisplayName("过滤规则")]
         public string Prefix { get; set; }
 
-        [Category("请求队列")]
-        [DisplayName("启用正则")]
+        [LocalizedCategory("请求队列")]
+        [LocalizedDisplayName("启用正则")]
         public bool IsRegex { get; set; }
 
         private Regex regex;
-        private SmartCrawler crawler { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
@@ -85,35 +72,19 @@ namespace Hawk.ETL.Plugins.Transformers
                 generator = mainstream.CurrentETLTools.FirstOrDefault(d => d.Name == GEName) as BfsGE;
             }
 
-                   crawler =
-                processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector) as SmartCrawler;
-            if (crawler != null)
-            {
-                IsMultiYield = crawler?.IsMultiData == ListType.List;
-            }
-            else
-            {
-                var task = processManager.CurrentProject.Tasks.FirstOrDefault(d => d.Name == CrawlerSelector);
-                if (task == null)
-                    return false;
-                ControlExtended.UIInvoke(() => { task.Load(false); });
-                crawler =
-                    processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector) as
-                        SmartCrawler;
-            }
 
-         
-
+            base.Init(datas);
 
             IsMultiYield = crawler?.IsMultiData == ListType.List;
             isfirst = true;
-            OneOutput = false;
+         
             if(IsRegex)
                 regex=new Regex(Prefix);
-            return crawler != null && base.Init(datas);
+            return crawler != null ;
         }
+        [Browsable(false)]
+        public override string HeaderFilter { get; set; }
 
-        
         private List<FreeDocument> GetDatas(IFreeDocument data)
         {
             var p = data[Column];
@@ -151,6 +122,7 @@ namespace Hawk.ETL.Plugins.Transformers
                         buffHelper.Set(bufkey, htmldoc);
                         break;
                     }
+                    Thread.Sleep(ErrorDelay);
                     count++;
 
                 }

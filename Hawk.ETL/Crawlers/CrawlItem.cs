@@ -21,7 +21,7 @@ namespace Hawk.ETL.Crawlers
         /// <summary>
         ///     属性名称
         /// </summary>
-        [DisplayName("属性名称")]
+        [LocalizedDisplayName("属性名称")]
         public string Name
         {
             get { return name; }
@@ -34,10 +34,10 @@ namespace Hawk.ETL.Crawlers
                 }
             }
         }
-        [DisplayName("是否保存HTML")]
+        [LocalizedDisplayName("是否保存HTML")]
         public bool IsHTML { get; set; }
 
-        [DisplayName("XPath")]
+        [LocalizedDisplayName("XPath")]
         [PropertyOrder(1)]
         public string XPath
         {
@@ -58,7 +58,7 @@ namespace Hawk.ETL.Crawlers
         /// <summary>
         ///     样例数据
         /// </summary>
-        [DisplayName("样例1")]
+        [LocalizedDisplayName("样例1")]
         [PropertyOrder(3)]
         public string SampleData1 { get; set; }
 

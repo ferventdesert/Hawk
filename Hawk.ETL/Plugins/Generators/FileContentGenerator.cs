@@ -26,7 +26,7 @@ namespace Hawk.ETL.Plugins.Generators
 
 
 
-        [DisplayName("编码")]
+        [LocalizedDisplayName("编码")]
         public EncodingType EncodingType { get; set; }
 
         public override object TransformData(IFreeDocument datas)
@@ -104,10 +104,10 @@ namespace Hawk.ETL.Plugins.Generators
         }
 
 
-        [DisplayName("文件格式")]
+        [LocalizedDisplayName("文件格式")]
         public ExtendSelector<XFrmWorkAttribute> ConnectorSelector { get; set; }
 
-        [DisplayName(("连接器配置"))]
+        [LocalizedDisplayName(("连接器配置"))]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public IFileConnector Connector { get; set; }
 
@@ -146,11 +146,11 @@ namespace Hawk.ETL.Plugins.Generators
 
 
 
-        [DisplayName("编码")]
+        [LocalizedDisplayName("编码")]
         public EncodingType EncodingType { get; set; }
 
 
-        [DisplayName("要写入文件的完整路径")]
+        [LocalizedDisplayName("要写入文件的完整路径")]
         public string Path { get; set; }
 
         public override IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents)

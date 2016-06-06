@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls.WpfPropertyGrid;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
@@ -57,8 +58,8 @@ namespace Hawk.ETL.Interfaces
         /// <summary>
         ///     模块名称
         /// </summary>
-        [Category("1.基本信息")]
-        [DisplayName("模块名称")]
+        [LocalizedCategory("1.基本信息")]
+        [LocalizedDisplayName("模块名称")]
         public virtual string Name
         {
             get { return _name; }

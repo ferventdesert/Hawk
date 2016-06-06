@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Net;
 using System.Text;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
@@ -52,7 +53,7 @@ namespace Hawk.ETL.Plugins.Web
             Target.SelectChanged += (s, e) => buffHelper.Clear();
         }
 
-        [DisplayName("应用中心账号")]
+        [LocalizedDisplayName("应用中心账号")]
         public string ClientID { get; set; }
 
       

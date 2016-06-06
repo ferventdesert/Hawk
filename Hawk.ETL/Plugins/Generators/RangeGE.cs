@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
@@ -18,14 +19,14 @@ namespace Hawk.ETL.Plugins.Generators
             Column = "id";
         }
 
-        [DisplayName("最小值")]
+        [LocalizedDisplayName("最小值")]
         public string MinValue { get; set; }
 
-        [DisplayName("最大值")]
+        [LocalizedDisplayName("最大值")]
         public string MaxValue { get; set; }
 
-        [DisplayName("间隔")]
-        [Description("如1,3,5,7,9，间隔为2")]
+        [LocalizedDisplayName("间隔")]
+        [LocalizedDescription("如1,3,5,7,9，间隔为2")]
         public string Interval { get; set; }
 
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
@@ -33,7 +34,7 @@ namespace Hawk.ETL.Plugins.Generators
         private string _pattern;
         private SearchOption _searchOption;
 
-        [DisplayName("路径")]
+        [LocalizedDisplayName("路径")]
         public string FolderPath
         {
             get { return _folderPath; }
@@ -47,8 +48,8 @@ namespace Hawk.ETL.Plugins.Generators
             }
         }
 
-        [DisplayName("筛选模式")]
-        [Description("符合windows的文件筛选规范")]
+        [LocalizedDisplayName("筛选模式")]
+        [LocalizedDescription("符合windows的文件筛选规范")]
         public string Pattern
         {
             get { return _pattern; }
@@ -62,7 +63,7 @@ namespace Hawk.ETL.Plugins.Generators
             }
         }
 
-        [DisplayName("是否递归")]
+        [LocalizedDisplayName("是否递归")]
         public SearchOption SearchOption
         {
             get { return _searchOption; }

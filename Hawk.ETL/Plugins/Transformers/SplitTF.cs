@@ -14,8 +14,8 @@ namespace Hawk.ETL.Plugins.Transformers
     [XFrmWork("正则分割", "使用正则表达式分割字符串")]
     public class RegexSplitTF : RegexTF
     {
-        [DisplayName("倒序")]
-        [Description("勾选此项后，选择从后数的第n项")]
+        [LocalizedDisplayName("倒序")]
+        [LocalizedDescription("勾选此项后，选择从后数的第n项")]
         public bool FromBack { get; set; }
 
         public override object TransformData(IFreeDocument dict)
@@ -54,10 +54,10 @@ namespace Hawk.ETL.Plugins.Transformers
     //        TargetType = new ExtendSelector<string>(Encoding.GetEncodings().Select(d => d.Name));
     //    }
 
-    //    [DisplayName("源编码")]
+    //    [LocalizedDisplayName("源编码")]
     //    public ExtendSelector<string> SourceType { get; set; }
 
-    //    [DisplayName("目标编码")]
+    //    [LocalizedDisplayName("目标编码")]
     //    public ExtendSelector<string> TargetType { get; set; }
 
     //    public override bool Init(IEnumerable<IFreeDocument> docus)
@@ -102,28 +102,28 @@ namespace Hawk.ETL.Plugins.Transformers
                 SplitNull = true;
             }
 
-            [DisplayName("倒序")]
+            [LocalizedDisplayName("倒序")]
             public bool FromBack { get; set; }
 
-            [DisplayName("分割字符")]
+            [LocalizedDisplayName("分割字符")]
             public bool ShouldSplitChars { get; set; }
 
-            [DisplayName("空格分割")]
+            [LocalizedDisplayName("空格分割")]
             public bool SplitPause { get; set; }
 
-            [DisplayName("换行分割")]
+            [LocalizedDisplayName("换行分割")]
             public bool SplitNull { get; set; }
 
-            [DisplayName("匹配编号")]
+            [LocalizedDisplayName("匹配编号")]
             public int Index { get; set; }
 
             /// <summary>
             ///     此处如果分割空格怎么办？
             /// </summary>
-            [DisplayName("分割字符")]
+            [LocalizedDisplayName("分割字符")]
             [StringEditor("C#")]
             [PropertyEditor("DynamicScriptEditor")]
-            [Description("每行一个分割符")]
+            [LocalizedDescription("每行一个分割符")]
             public string SplitChar { get; set; }
 
             public override bool Init(IEnumerable<IFreeDocument> docus)

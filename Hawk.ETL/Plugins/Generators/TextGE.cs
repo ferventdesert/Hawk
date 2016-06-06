@@ -16,8 +16,8 @@ namespace Hawk.ETL.Plugins.Generators
          List<string> argsList=new List<string>();
 
       
-         [DisplayName("文本")]
-         [Description("每行一条")]
+         [LocalizedDisplayName("文本")]
+         [LocalizedDescription("每行一条")]
          [PropertyOrder(2)]
          [PropertyEditor("CodeEditor")]
          public string Content { get; set; }

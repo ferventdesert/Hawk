@@ -57,23 +57,23 @@ namespace Hawk.ETL.Managements
             }, obj => string.IsNullOrEmpty(SQL) == false));
         }
 
-        [DisplayName("当前表")]
+        [LocalizedDisplayName("当前表")]
         [PropertyOrder(1)]
         public TableInfo TableInfo { get; set; }
 
-        [DisplayName("当前连接")]
+        [LocalizedDisplayName("当前连接")]
         [PropertyOrder(0)]
         public IDataBaseConnector Connector { get; set; }
 
-        [DisplayName("查询字符串")]
-        [Description("根据数据库的不同，可在此处输入JS（MongoDB）和标准SQL")]
+        [LocalizedDisplayName("查询字符串")]
+        [LocalizedDescription("根据数据库的不同，可在此处输入JS（MongoDB）和标准SQL")]
         [StringEditor("SQL")]
         [PropertyOrder(2)]
         [PropertyEditor("DynamicScriptEditor")]
         public string SQL { get; set; }
 
         [PropertyOrder(3)]
-        [DisplayName("执行")]
+        [LocalizedDisplayName("执行")]
         public ReadOnlyCollection<ICommand> Commands => new ReadOnlyCollection<ICommand>(commands);
     }
 

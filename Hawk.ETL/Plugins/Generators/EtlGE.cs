@@ -25,8 +25,8 @@ namespace Hawk.ETL.Plugins.Generators
             processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
         }
 
-        [DisplayName("子流-选择")]
-        [Description("输入ETL的任务名称")]
+        [LocalizedDisplayName("子流-选择")]
+        [LocalizedDescription("输入ETL的任务名称")]
         public string ETLSelector
         {
             get { return _etlSelector; }
@@ -61,20 +61,20 @@ namespace Hawk.ETL.Plugins.Generators
             this.UnsafeDictDeserialize(docu);
         }
 
-        [Category("1.基本选项"), PropertyOrder(1), DisplayName("原列名")]
+        [LocalizedCategory("1.基本选项"), PropertyOrder(1), DisplayName("原列名")]
         public string Column { get; set; }
 
-        [Category("1.基本选项")]
-        [DisplayName("标签")]
+        [LocalizedCategory("1.基本选项")]
+        [LocalizedDisplayName("标签")]
         public string Name { get; set; }
 
-        [Category("1.基本选项")]
-        [DisplayName("启用")]
+        [LocalizedCategory("1.基本选项")]
+        [LocalizedDisplayName("启用")]
         [PropertyOrder(5)]
         public bool Enabled { get; set; }
 
 
-        [DisplayName("介绍")]
+        [LocalizedDisplayName("介绍")]
         [PropertyOrder(100)]
         public string Description {
             get
@@ -86,8 +86,8 @@ namespace Hawk.ETL.Plugins.Generators
             }
         }
 
-        [Category("1.基本选项")]
-        [DisplayName("类型")]
+        [LocalizedCategory("1.基本选项")]
+        [LocalizedDisplayName("类型")]
         [PropertyOrder(0)]
         public string TypeName
         {
@@ -160,10 +160,10 @@ namespace Hawk.ETL.Plugins.Generators
     [XFrmWork("子流-生成", "从其他数据清洗模块中生成序列，用以组合大模块")]
     public class EtlGE : ETLBase, IColumnGenerator
     {
-        [Description("当前位置")]
+        [LocalizedDescription("当前位置")]
         public int Position { get; set; }
 
-        [DisplayName("生成模式")]
+        [LocalizedDisplayName("生成模式")]
         public MergeType MergeType { get; set; }
 
         public IEnumerable<FreeDocument> Generate(IFreeDocument document = null)
@@ -195,12 +195,12 @@ namespace Hawk.ETL.Plugins.Generators
     {
         private EnumerableFunc func;
 
-        [DisplayName("添加到任务")]
-        [Description("勾选后，本子任务会添加到任务管理器中")]
+        [LocalizedDisplayName("添加到任务")]
+        [LocalizedDescription("勾选后，本子任务会添加到任务管理器中")]
         public bool AddTask { get; set; }
 
-        [DisplayName("新列名")]
-        [Description("从原始数据中传递到子执行流的列，多个列用空格分割")]
+        [LocalizedDisplayName("新列名")]
+        [LocalizedDescription("从原始数据中传递到子执行流的列，多个列用空格分割")]
         public string NewColumn { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
@@ -253,7 +253,7 @@ namespace Hawk.ETL.Plugins.Generators
     [XFrmWork("字典转换", "将两列数据，转换为一行数据，拖入的列为key")]
     public class DictTF : TransformerBase
     {
-        [DisplayName("值列名")]
+        [LocalizedDisplayName("值列名")]
         public string ValueColumn { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> docus)
@@ -296,8 +296,13 @@ namespace Hawk.ETL.Plugins.Generators
         private EnumerableFunc func;
         private IEnumerable<IColumnProcess> process;
 
-        [DisplayName("新列名")]
-        [Description("从原始数据中传递到子执行流的列，多个列用空格分割")]
+        public EtlTF()
+        {
+            NewColumn = "";
+        }
+
+        [LocalizedDisplayName("新列名")]
+        [LocalizedDescription("从原始数据中传递到子执行流的列，多个列用空格分割")]
         public string NewColumn { get; set; }
 
         [Browsable(false)]
@@ -317,7 +322,7 @@ namespace Hawk.ETL.Plugins.Generators
             data.AddRange(result);
             return null;
         }
-        [DisplayName("返回多个数据")]
+        [LocalizedDisplayName("返回多个数据")]
         public bool IsMultiYield { get; set; }
 
         public IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)

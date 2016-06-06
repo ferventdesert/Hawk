@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Plugins;
 
@@ -14,7 +15,7 @@ namespace Hawk.ETL.Plugins.Filters
 
         private int index = 0;
 
-        [DisplayName("跳过")]
+        [LocalizedDisplayName("跳过")]
         public int Skip
         {
             get { return skip; }
@@ -43,7 +44,7 @@ namespace Hawk.ETL.Plugins.Filters
         }
 
 
-        [DisplayName("获取")]
+        [LocalizedDisplayName("获取")]
         public int Take
         {
             get { return take; }

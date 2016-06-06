@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Plugins;
 
@@ -14,15 +15,15 @@ namespace Hawk.ETL.Plugins.Transformers
           
         }
 
-        [DisplayName("首串")]
+        [LocalizedDisplayName("首串")]
         public string Former { get; set; }
 
-        [DisplayName("尾串")]
+        [LocalizedDisplayName("尾串")]
         public string End { get; set; }
 
 
-        [DisplayName("包含首尾串")]
-        [Description("返回的结果里是否包含首串和尾串")]
+        [LocalizedDisplayName("包含首尾串")]
+        [LocalizedDescription("返回的结果里是否包含首串和尾串")]
         public bool HaveStartEnd { get; set; }
         public override object TransformData(IFreeDocument datas)
         {

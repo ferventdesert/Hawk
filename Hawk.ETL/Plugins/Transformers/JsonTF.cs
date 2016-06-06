@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Web.Script.Serialization;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
@@ -21,8 +22,8 @@ namespace Hawk.ETL.Plugins.Transformers
             OneOutput = false;
         }
 
-        [DisplayName("工作模式")]
-        [Description("文档列表：[{}],转换为多个数据行构成的列表；单文档：{},将结果的键值对附加到本行；不进行转换：直接将值放入到新列")]
+        [LocalizedDisplayName("工作模式")]
+        [LocalizedDescription("文档列表：[{}],转换为多个数据行构成的列表；单文档：{},将结果的键值对附加到本行；不进行转换：直接将值放入到新列")]
         public ScriptWorkMode ScriptWorkMode { get; set; }
         [Browsable(false)]
         public override bool IsMultiYield => ScriptWorkMode == ScriptWorkMode.文档列表;

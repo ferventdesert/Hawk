@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
@@ -23,10 +24,10 @@ namespace Hawk.ETL.Plugins.Transformers
             RepeatCount = "1";
         }
 
-        [DisplayName("重复模式")]
+        [LocalizedDisplayName("重复模式")]
         public RepeatType RepeatType { get; set; }
 
-        [DisplayName("重复次数")]
+        [LocalizedDisplayName("重复次数")]
         public string RepeatCount { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> docus)

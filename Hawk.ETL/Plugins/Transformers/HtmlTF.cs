@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Web;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Plugins;
 
@@ -18,7 +19,7 @@ namespace Hawk.ETL.Plugins.Transformers
         {
         }
 
-        [DisplayName("转换选项")]
+        [LocalizedDisplayName("转换选项")]
         public ConvertType ConvertType { get; set; }
 
         public override object TransformData(IFreeDocument document)
@@ -41,7 +42,7 @@ namespace Hawk.ETL.Plugins.Transformers
     public class HtmlTF : TransformerBase
     {
 
-        [DisplayName("转换选项")]
+        [LocalizedDisplayName("转换选项")]
         public ConvertType ConvertType { get; set; }
 
         public override object TransformData(IFreeDocument document)

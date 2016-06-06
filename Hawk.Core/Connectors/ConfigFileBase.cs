@@ -64,7 +64,7 @@ namespace Hawk.Core.Connectors
             {
                 if (instance == null)
                 {
-                    throw new Exception("不包含任何有关配置文件的任何信息，请检查");
+                    throw new Exception();
                 }
                 instance.RebuildConfig();
                 instance.SaveConfig();

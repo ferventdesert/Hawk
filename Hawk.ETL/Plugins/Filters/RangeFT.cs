@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
@@ -16,10 +17,10 @@ namespace Hawk.ETL.Plugins.Filters
 
         #region Properties
 
-        [DisplayName("最大值")]
+        [LocalizedDisplayName("最大值")]
         public string Max { get; set; }
 
-        [DisplayName("最小值")]
+        [LocalizedDisplayName("最小值")]
         public string Min { get; set; }
 
         #endregion

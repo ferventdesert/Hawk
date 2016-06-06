@@ -20,24 +20,24 @@ namespace Hawk.ETL.Plugins.Transformers
             Index = 0;
             Script = "";
         }
-        [DisplayName("返回多个结果")]
+        [LocalizedDisplayName("返回多个结果")]
         public override bool IsMultiYield { get; set; }
 
 
 
-        [DisplayName("匹配编号")]
-        [Description("当值为小于0时，可同时匹配多个值")]
+        [LocalizedDisplayName("匹配编号")]
+        [LocalizedDescription("当值为小于0时，可同时匹配多个值")]
         public int Index { get; set; }
 
         
-        [DisplayName("表达式")]
+        [LocalizedDisplayName("表达式")]
         [PropertyEditor("DynamicScriptEditor")]
         public string Script { get; set; }
 
-        [Category("1.基本选项")]
+        [LocalizedCategory("1.基本选项")]
         [PropertyOrder(2)]
-        [DisplayName("新列名")]
-        [Description("若编号为小于0且匹配出多个新列，列名可用可用空格分割，若该列不需要添加，可用_表示，如'_ 匹配1 _'")]
+        [LocalizedDisplayName("新列名")]
+        [LocalizedDescription("若编号为小于0且匹配出多个新列，列名可用可用空格分割，若该列不需要添加，可用_表示，如'_ 匹配1 _'")]
         public override string NewColumn { get; set; }
 
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
@@ -22,16 +23,16 @@ namespace Hawk.ETL.Plugins.Filters
         }
 
 
-        [DisplayName("延迟输出")]
-         [Description("不勾选此选项使用枚举式迭代，需保证在本模块之后没有其他操作，否则请勾选该选项")]
+        [LocalizedDisplayName("延迟输出")]
+         [LocalizedDescription("不勾选此选项使用枚举式迭代，需保证在本模块之后没有其他操作，否则请勾选该选项")]
         public bool IsLazyLinq { get; set; }
 
-        [DisplayName("集合式合并键")]
-        [Description("空格分割的列名，键相同的写入同一个集合")]
+        [LocalizedDisplayName("集合式合并键")]
+        [LocalizedDescription("空格分割的列名，键相同的写入同一个集合")]
         public string CollectionColumns { get; set; }
 
-        [DisplayName("求和式合并键")]
-        [Description("空格分割的列名，键相同的所有项进行求和")]
+        [LocalizedDisplayName("求和式合并键")]
+        [LocalizedDescription("空格分割的列名，键相同的所有项进行求和")]
         public string SumColumns { get; set; }
 
       

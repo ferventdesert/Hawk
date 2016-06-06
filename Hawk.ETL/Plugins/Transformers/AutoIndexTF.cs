@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Plugins;
 
@@ -17,7 +18,7 @@ namespace Hawk.ETL.Plugins.Transformers
             return base.Init(docus);
             
         }
-         [DisplayName("起始索引")]
+         [LocalizedDisplayName("起始索引")]
         public int StartIndex { get; set; }
         
         public override object TransformData(IFreeDocument document)

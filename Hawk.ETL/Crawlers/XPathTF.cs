@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
@@ -11,24 +12,24 @@ namespace Hawk.ETL.Crawlers
     [XFrmWork("XPath筛选器", "通过XPath选取html中的子节点文档")]
     public class XPathTF : TransformerBase
     {
-        [DisplayName("XPath路径")]
+        [LocalizedDisplayName("XPath路径")]
         public string XPath { get; set; }
 
-        [DisplayName("获取多个数据")]
-        [Description("当要获取符合XPath语法的多个结果时，勾选该选项")]
+        [LocalizedDisplayName("获取多个数据")]
+        [LocalizedDescription("当要获取符合XPath语法的多个结果时，勾选该选项")]
         public bool IsManyData { get; set; }
 
-        [DisplayName("获取正文")]
-        [Description("勾选此项后，会自动提取新闻正文，XPath路径可为空")]
+        [LocalizedDisplayName("获取正文")]
+        [LocalizedDescription("勾选此项后，会自动提取新闻正文，XPath路径可为空")]
         public bool GetText { get; set; }
 
 
-        [DisplayName("获取节点数量")]
-        [Description("获取符合XPath语法的节点的数量")]
+        [LocalizedDisplayName("获取节点数量")]
+        [LocalizedDescription("获取符合XPath语法的节点的数量")]
         public bool GetCount { get; set; }
 
-        [DisplayName("插入空行")]
-        [Description("勾选此项后，每个页面后会插入一个空行")]
+        [LocalizedDisplayName("插入空行")]
+        [LocalizedDescription("勾选此项后，每个页面后会插入一个空行")]
         public bool IsInsertNull { get; set; }
         public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
         {

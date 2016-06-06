@@ -20,22 +20,22 @@ namespace Hawk.ETL.Plugins.Web
             DestCity = "北京";
 
         }
-        [DisplayName("目标位置")]
-        [Description("通过地市进行信息检索")]
+        [LocalizedDisplayName("目标位置")]
+        [LocalizedDescription("通过地市进行信息检索")]
         public string Dest { get; set; }
 
-        [DisplayName("源城市")]
-        [Description("通过地市进行信息检索")]
+        [LocalizedDisplayName("源城市")]
+        [LocalizedDescription("通过地市进行信息检索")]
         public string SourceCity { get; set; }
 
 
-        [DisplayName("目标城市")]
-        [Description("通过地市进行信息检索")]
+        [LocalizedDisplayName("目标城市")]
+        [LocalizedDescription("通过地市进行信息检索")]
         public string DestCity { get; set; }
 
         private Dictionary<string,string> map=new  Dictionary<string, string>() { {"公交","transit"}, {"驾车","driving"}, {"步行","walking"} };
 
-        [DisplayName("运动方案")]
+        [LocalizedDisplayName("运动方案")]
         [PropertyOrder(1)]
         public ExtendSelector<string> ModeSelector { get; set; }
 

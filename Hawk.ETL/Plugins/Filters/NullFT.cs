@@ -31,27 +31,27 @@ namespace Hawk.ETL.Plugins.Filters
         }
         #region Properties
 
-        [Category("1.基本选项")]
+        [LocalizedCategory("1.基本选项")]
         [PropertyOrder(6)]
-        [DisplayName("求反")]
-        [Description("将结果取反后返回")]
+        [LocalizedDisplayName("求反")]
+        [LocalizedDescription("将结果取反后返回")]
         public bool Revert { get; set; }
 
-        [Category("1.基本选项")]
+        [LocalizedCategory("1.基本选项")]
         [PropertyOrder(6)]
-        [DisplayName("列名")]
-        [Description("本模块要处理的列的名称")]
+        [LocalizedDisplayName("列名")]
+        [LocalizedDescription("本模块要处理的列的名称")]
         public string Column { get; set; }
 
 
 
-        [Category("1.基本选项")]
+        [LocalizedCategory("1.基本选项")]
         [PropertyOrder(5)]
-        [DisplayName("标签")]
+        [LocalizedDisplayName("标签")]
         public string Name { get; set; }
 
 
-        [DisplayName("介绍")]
+        [LocalizedDisplayName("介绍")]
         [PropertyOrder(100)]
         public string Description
         {
@@ -66,9 +66,9 @@ namespace Hawk.ETL.Plugins.Filters
 
         private bool _enabled;
 
-        [Category("1.基本选项")]
+        [LocalizedCategory("1.基本选项")]
         [PropertyOrder(1)]
-        [DisplayName("启用")]
+        [LocalizedDisplayName("启用")]
         public bool Enabled
         {
             get { return _enabled; }
@@ -86,8 +86,8 @@ namespace Hawk.ETL.Plugins.Filters
 
 
 
-        [Category("1.基本选项")]
-        [DisplayName("类型")]
+        [LocalizedCategory("1.基本选项")]
+        [LocalizedDisplayName("类型")]
         [PropertyOrder(0)]
         public string TypeName
         {
@@ -127,9 +127,9 @@ namespace Hawk.ETL.Plugins.Filters
        
             return Revert ? !r : r;
         }
-        [Category("1.基本选项")]
+        [LocalizedCategory("1.基本选项")]
         [PropertyOrder(8)]
-        [DisplayName("调试时启用")]
+        [LocalizedDisplayName("调试时启用")]
         public bool IsDebugFilter { get; set; }
 
         public virtual bool FilteDataBase(IFreeDocument data)

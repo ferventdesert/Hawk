@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors.Vitural;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 using Microsoft.Win32;
+using EncodingType = Hawk.Core.Utils.EncodingType;
 
 namespace Hawk.Core.Connectors
 {
@@ -44,8 +45,8 @@ namespace Hawk.Core.Connectors
             return GetEntities2(tableName, type, mount, skip).ToList();
         }
 
-        [Category("参数设置")]
-        [DisplayName("编码方式")]
+        [LocalizedCategory("参数设置")]
+        [LocalizedDisplayName("编码方式")]
         public EncodingType EncodingType { get; set; }
 
         private IEnumerable<IFreeDocument> GetEntities2(

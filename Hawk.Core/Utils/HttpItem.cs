@@ -20,6 +20,7 @@ namespace Hawk.Core.Utils
             Encoding = EncodingType.UTF8;
             Allowautoredirect = true;
             Encoding = EncodingType.Unknown;
+            Parameters = "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36";
         }
 
         [PropertyEditor("CodeEditor")]

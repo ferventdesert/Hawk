@@ -169,11 +169,12 @@ namespace Hawk.ETL.Plugins.Generators
         public IEnumerable<FreeDocument> Generate(IFreeDocument document = null)
         {
             var process = GetProcesses();
-
-            foreach (var item in etl.Generate(process, IsExecute).Select(d => d as FreeDocument))
-            {
-                yield return item;
-            }
+           
+                foreach (var item in etl.Generate(process, IsExecute).Select(d => d as FreeDocument))
+                {
+                    yield return item;
+                }
+         
         }
 
         public int? GenerateCount()
@@ -299,6 +300,7 @@ namespace Hawk.ETL.Plugins.Generators
         public EtlTF()
         {
             NewColumn = "";
+            IsCycle = false;
         }
 
         [LocalizedDisplayName("新列名")]
@@ -308,6 +310,8 @@ namespace Hawk.ETL.Plugins.Generators
         [Browsable(false)]
         public bool OneOutput => false;
 
+        [LocalizedDisplayName("递归到下列")]
+        public bool IsCycle { get; set; }
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
             base.Init(datas);
@@ -327,13 +331,32 @@ namespace Hawk.ETL.Plugins.Generators
 
         public IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
         {
+           
             foreach (var data in datas)
             {
-                var result = etl.Generate(process, IsExecute, new List<IFreeDocument> {data.Clone()});
-                foreach (var item in result)
+                if (IsCycle)
                 {
-                    yield return item.MergeQuery(data, NewColumn);
+                    IFreeDocument newdata = data;
+                    while(string.IsNullOrEmpty(newdata[Column].ToString())==false)
+                    {
+                        var result = etl.Generate(process, IsExecute, new List<IFreeDocument> { newdata.Clone() }).FirstOrDefault();
+                        if (result == null)
+                            break;
+                        yield return result.Clone();
+                        newdata = result;
+                    }
+                  
+
                 }
+                else
+                {
+                    var result = etl.Generate(process, IsExecute, new List<IFreeDocument> { data.Clone() });
+                    foreach (var item in result)
+                    {
+                        yield return item.MergeQuery(data, NewColumn);
+                    }
+                }
+               
             }
         }
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)

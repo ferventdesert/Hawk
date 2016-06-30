@@ -85,7 +85,12 @@ namespace Hawk.ETL.Crawlers
                 return textnode.Count;
             }
 
-            return docu.DocumentNode.GetDataFromXPath(document.Query(XPath));
+            var res= docu.DocumentNode.GetDataFromXPath(document.Query(XPath));
+            if(res==null)
+            {
+
+            }
+            return res;
         }
     }
 

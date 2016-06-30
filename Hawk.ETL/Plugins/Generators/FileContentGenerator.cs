@@ -55,10 +55,10 @@ namespace Hawk.ETL.Plugins.Generators
 
 
     [XFrmWork("读取文件数据", "从文件中读取内容")]
-    public class FileDataTransformer :TransformerBase 
+    public class ReadFileTF :TransformerBase 
     {
 
-        public FileDataTransformer()
+        public ReadFileTF()
         {
             ConnectorSelector = new ExtendSelector<XFrmWorkAttribute>(PluginProvider.GetPluginCollection(typeof(IFileConnector)));
 

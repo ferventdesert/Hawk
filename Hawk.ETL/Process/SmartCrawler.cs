@@ -124,25 +124,37 @@ namespace Hawk.ETL.Process
                             ),
                         new Command("提取测试", obj =>
                         {
-                            if (IsMultiData == ListType.List && string.IsNullOrEmpty(RootXPath))
+                            var hasSearchpath = false;
+                            var shortv = "";
+                            if (IsMultiData == ListType.List)
                             {
-                                if (!(CrawlItems.Count != 0).SafeCheck("属性的数量不能为0", LogType.Important))
-                                    return;
-                                var shortv = HtmlDoc.CompileCrawItems(CrawlItems);
-                                if (!string.IsNullOrEmpty(shortv))
+                                if (string.IsNullOrEmpty(RootXPath))
                                 {
-                                    RootXPath = shortv;
-                                    OnPropertyChanged("RootXPath");
+                                    if (!(CrawlItems.Count != 0).SafeCheck("属性的数量不能为0", LogType.Important))
+                                        return;
+                                    shortv = HtmlDoc.CompileCrawItems(CrawlItems);
+                                    hasSearchpath = true;
+                                }
+                                else
+                                {
+                                    shortv = RootXPath;
                                 }
                             }
 
 
-                            var datas = HtmlDoc.GetDataFromXPath(CrawlItems, IsMultiData, RootXPath);
+                            var datas = HtmlDoc.GetDataFromXPath(CrawlItems, IsMultiData, shortv);
                             var view = PluginProvider.GetObjectInstance<IDataViewer>("可编辑列表");
 
                             var r = view.SetCurrentView(datas);
                             ControlExtended.DockableManager.AddDockAbleContent(
                                 FrmState.Custom, r, "提取数据测试结果");
+                            if (hasSearchpath && !string.IsNullOrEmpty(shortv) &&
+                                MessageBox.Show(string.Format("检测到列表的根节点为:{0}，是否设置根节点路径?", shortv), "提示信息",
+                                    MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                            {
+                                RootXPath = shortv;
+                                OnPropertyChanged("RootXPath");
+                            }
                         })
                     });
             }
@@ -274,8 +286,6 @@ namespace Hawk.ETL.Process
         public string Crawler { get; set; }
 
 
-      
-
         [Browsable(false)]
         public object UserControl => null;
 
@@ -291,6 +301,7 @@ namespace Hawk.ETL.Process
                 SelectXPath = currentXPaths.Current;
             else
             {
+                SelectXPath = "";
                 XLogSys.Print.Warn("找不到其他符合条件的节点，搜索器已经返回开头");
                 currentXPaths = HtmlDoc.SearchXPath(SelectText, () => IsAttribute).GetEnumerator();
             }
@@ -540,7 +551,7 @@ namespace Hawk.ETL.Process
             {
                 var freedoc = new FreeDocument();
                 freedoc.Add("Content", doc.DocumentNode.OuterHtml);
-                
+
                 return new List<FreeDocument> {freedoc};
             }
             return doc.GetDataFromXPath(CrawlItems, IsMultiData, RootXPath);
@@ -576,7 +587,7 @@ namespace Hawk.ETL.Process
 
                     if (header.TryGetValue("Cookie", out value))
                     {
-                        myheader["Cookie"]= value.ToString();
+                        myheader["Cookie"] = value.ToString();
                     }
                     if (header.TryGetValue("Host", out value))
                     {
@@ -588,9 +599,8 @@ namespace Hawk.ETL.Process
                     }
                     Http.Parameters = HttpItem.HeaderToString(myheader);
                 }
-
             }
-        
+
             var content = helper.GetHtml(Http, out code, url, post);
             doc = new HtmlDocument();
             if (!HttpHelper.IsSuccess(code))
@@ -606,7 +616,7 @@ namespace Hawk.ETL.Process
             {
                 XLogSys.Print.DebugFormat("HTML extract Fail，url:{0}", url);
             }
-           
+
             return datas;
         }
 

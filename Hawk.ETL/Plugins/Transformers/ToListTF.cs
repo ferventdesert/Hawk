@@ -13,7 +13,8 @@ namespace Hawk.ETL.Plugins.Transformers
 
         public ToListTF()
         {
-            DisplayProgress = false;
+            DisplayProgress = true;
+            GroupMount = 1;
         }
         [LocalizedDisplayName("子线程名称")]
         [LocalizedDescription("对每个子线程起的名称")]
@@ -23,6 +24,11 @@ namespace Hawk.ETL.Plugins.Transformers
         [LocalizedDisplayName("子线程数量")]
         [LocalizedDescription("每个子线程将要获取的数量，用于显示进度条，可不填")]
         public string MountColumn { get; set; }
+
+
+        [LocalizedDisplayName("分组并行数量")]
+        [LocalizedDescription("将多个种子合并为一个任务执行，这对于小型种子任务可有效提升效率")]
+        public int GroupMount { get; set; }
 
         [LocalizedDisplayName("显示独立任务")]
         [LocalizedDescription("是否将每个子线程插入到任务队列中，从而显示进度")]

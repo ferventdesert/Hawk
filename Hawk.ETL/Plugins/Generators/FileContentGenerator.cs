@@ -64,6 +64,8 @@ namespace Hawk.ETL.Plugins.Generators
 
             ConnectorSelector.SelectChanged += (s, e) =>
             {
+                if(ConnectorSelector.SelectItem==null)
+                    return;
                 Connector = PluginProvider.GetObjectInstance<IFileConnector>(ConnectorSelector.SelectItem.Name);
                 OnPropertyChanged("Connector");
             };
@@ -92,8 +94,9 @@ namespace Hawk.ETL.Plugins.Generators
                 object name = p["Type"];
                 if (name != null)
                 {
-                     ConnectorSelector.SelectItem =
-                        coll.FirstOrDefault(d => d.Name == name.ToString());
+                    var result=
+                        coll.FirstOrDefault(d => d.MyType.Name == name.ToString());
+                    ConnectorSelector.SelectItem = result;
 
                     if (Connector != null)
                     {

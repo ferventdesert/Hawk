@@ -107,6 +107,14 @@ namespace Hawk.ETL.Managements
 
         private IDockableManager dockableManager;
 
+        public void SaveCurrentTasks()
+        {
+            foreach (var process in CurrentProcessCollections)
+            {
+                SaveTask(process, false);
+            }
+            CurrentProject.Save();
+        }
         public override bool Init()
         {
             base.Init();
@@ -143,11 +151,7 @@ namespace Hawk.ETL.Managements
                         if (MessageBox.Show("确定保存所有算法模块么？", "提示信息", MessageBoxButton.OKCancel) ==
                             MessageBoxResult.OK)
                         {
-                            foreach (var process in CurrentProcessCollections)
-                            {
-                                SaveTask(process, false);
-                            }
-                            CurrentProject.Save();
+                            SaveCurrentTasks();
                         }
                     }, obj => true,
                     "clear"));

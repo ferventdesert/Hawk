@@ -531,11 +531,19 @@ namespace Hawk.ETL.Process
                     index = etls.IndexOf(tolistTransformer);
 
                     var beforefunc = Aggregate(func, etls.Take(index), true);
-
-                    paratask = TemporaryTask.AddTempTask("清洗任务并行化", beforefunc(new List<IFreeDocument>())
+                    List<IFreeDocument> taskbuff=new List<IFreeDocument>();
+                        paratask = TemporaryTask.AddTempTask("清洗任务并行化", beforefunc(new List<IFreeDocument>())
                         ,
                         d2 =>
-                        {
+                        {//TODO:这种分组方式可能会丢数据！！
+                            if (taskbuff.Count < tolistTransformer.GroupMount)
+                            {
+                                taskbuff.Add(d2);
+                                return;
+                                
+                            }
+                            var newtaskbuff = taskbuff.ToList();
+                            taskbuff.Clear();
                             if (paratask.IsPause == false &&
                                 SysProcessManager.CurrentProcessTasks.Count > MaxThreadCount)
                             {
@@ -549,9 +557,8 @@ namespace Hawk.ETL.Process
 
                             var rcount = -1;
                             int.TryParse(countstr, out rcount);
-                            var list = new List<IFreeDocument> {d2};
                             var afterfunc = Aggregate(func, etls.Skip(index + 1), true);
-                            var task = TemporaryTask.AddTempTask(name, afterfunc(list), d => { },
+                            var task = TemporaryTask.AddTempTask(name, afterfunc(newtaskbuff), d => { },
                                 null, rcount, false);
                             if (tolistTransformer.DisplayProgress)
                                 ControlExtended.UIInvoke(() => SysProcessManager.CurrentProcessTasks.Add(task));

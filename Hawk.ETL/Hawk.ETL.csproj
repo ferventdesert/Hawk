@@ -133,6 +133,7 @@
     <Compile Include="Plugins\Transformers\RegexTF.cs" />
     <Compile Include="Plugins\Transformers\NumberTF.cs" />
     <Compile Include="Plugins\Transformers\StrExtractTF.cs" />
+    <Compile Include="Plugins\Transformers\TnTF.cs" />
     <Compile Include="Plugins\Transformers\ToListTF.cs" />
     <Compile Include="Plugins\Transformers\TransformerBase.cs" />
     <Compile Include="Plugins\Transformers\TrimTF.cs" />

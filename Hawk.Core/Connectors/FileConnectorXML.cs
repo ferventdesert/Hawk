@@ -72,7 +72,7 @@ namespace Hawk.Core.Connectors
             }
         }
 
-        private IEnumerable<IFreeDocument> ReadText(XmlDocument xdoc, Action<int> alreadyGetSize = null)
+        private IEnumerable<FreeDocument> ReadText(XmlDocument xdoc, Action<int> alreadyGetSize = null)
         {
             XmlNode xTable = xdoc.DocumentElement;
             if (xTable == null)
@@ -82,7 +82,7 @@ namespace Hawk.Core.Connectors
             foreach (XmlNode xnode in xTable)
             {
 
-                var data = PluginProvider.GetObjectInstance(DataType) as IFreeDocument;
+                var data = new FreeDocument(); 
                 var dict = new FreeDocument();
                 dict.Name = xnode.Name;
                 XMLNode2Dict(xnode, dict);
@@ -104,7 +104,7 @@ namespace Hawk.Core.Connectors
             return ReadText(xdoc, alreadyGetSize);
 
         }
-        public override IEnumerable<IFreeDocument> ReadFile(Action<int> alreadyGetSize = null)
+        public override IEnumerable<FreeDocument> ReadFile(Action<int> alreadyGetSize = null)
         {
 
             var xdoc = new XmlDocument();

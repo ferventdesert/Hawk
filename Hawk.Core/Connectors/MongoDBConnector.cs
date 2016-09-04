@@ -15,8 +15,8 @@ namespace Hawk.Core.Connectors
     /// <summary>
     ///     Mongo数据库服务
     /// </summary>
-    [XFrmWork("MongoDB",  "提供MongoDB交互的数据库服务", "")]
-    public class MongoDBConnector : DBConnectorBase, IEnumerableProvider<IFreeDocument>
+    [XFrmWork("MongoDB", "提供MongoDB交互的数据库服务", "")]
+    public class MongoDBConnector : DBConnectorBase, IEnumerableProvider<FreeDocument>
     {
         #region Constants and Fields
 
@@ -52,23 +52,21 @@ namespace Hawk.Core.Connectors
         [LocalizedDisplayName("启用自增主键写入")]
         public bool AutoIndexEnabled { get; set; }
 
-        public IEnumerable<IFreeDocument> GetEnumerable(string tableName, Type type)
+        public IEnumerable<FreeDocument> GetEnumerable(string tableName)
         {
-            if (type == null)
-                type = typeof (FreeDocument);
-            IEnumerable<Document> docuemts = DB.GetCollection<Document>(tableName).FindAll().Documents;
-            foreach (Document docuemt in docuemts)
+            var docuemts = DB.GetCollection<Document>(tableName).FindAll().Documents;
+            foreach (var docuemt in docuemts)
             {
-                object data = Activator.CreateInstance(type);
-                var suck = (IFreeDocument) data;
-                suck.DictDeserialize(docuemt);
-                yield return suck;
+                var data = new FreeDocument();
+
+                data.DictDeserialize(docuemt);
+                yield return data;
             }
         }
 
         public bool CanSkip(string tableName)
         {
-            TableInfo firstOrDefault = TableNames.Collection.FirstOrDefault(d => d.Name == tableName);
+            var firstOrDefault = TableNames.Collection.FirstOrDefault(d => d.Name == tableName);
             return firstOrDefault != null &&
                    firstOrDefault.ColumnInfos.FirstOrDefault(d => d.Name == AutoIndexName) != null;
         }
@@ -80,14 +78,14 @@ namespace Hawk.Core.Connectors
                 CreateIndexTable(dbTableName);
                 RefreshTableNames();
             }
-            IMongoCollection<Document> collection = DB.GetCollection<Document>(dbTableName);
+            var collection = DB.GetCollection<Document>(dbTableName);
             if (collection == null) //需要重建
             {
             }
 
-            int index = 0;
+            var index = 0;
             //  public bool InsertEntity(IDictionarySerializable user, string tableName, string key, out int index)
-            foreach (IFreeDocument item in source)
+            foreach (var item in source)
             {
                 try
                 {
@@ -118,10 +116,10 @@ namespace Hawk.Core.Connectors
                 Server = "127.0.0.1";
                 return;
             }
-               
 
-            string str = ConnectionString.Replace("mongodb://", "");
-            string[] items = str.Split(new[] {'@', ':', '/'});
+
+            var str = ConnectionString.Replace("mongodb://", "");
+            var items = str.Split('@', ':', '/');
             Server = items[0];
             if (items.Length > 1)
                 UserName = items[1];
@@ -134,7 +132,7 @@ namespace Hawk.Core.Connectors
         /// </summary>
         public override bool ConnectDB()
         {
-          ConnectionString = GetConnectString();
+            ConnectionString = GetConnectString();
             var config = new MongoConfigurationBuilder();
             config.ConnectionString(ConnectionString);
             //定义Mongo服务 
@@ -144,8 +142,6 @@ namespace Hawk.Core.Connectors
             update = new Document {["$inc"] = new Document(AutoIndexName, 1)};
             DB = Mongo.GetDatabase(DBName);
             return IsUseable;
-           
-
         }
 
         /// <summary>
@@ -158,8 +154,8 @@ namespace Hawk.Core.Connectors
             {
                 return;
             }
-            IMongoCollection idManager = DB.GetCollection("ids");
-            Document idDoc = idManager.FindOne(new Document("Name", tableName));
+            var idManager = DB.GetCollection("ids");
+            var idDoc = idManager.FindOne(new Document("Name", tableName));
             if (idDoc == null)
             {
                 idDoc = new Document();
@@ -193,30 +189,27 @@ namespace Hawk.Core.Connectors
         /// <param name="tableName"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public List<IDictionarySerializable> GetAllEntities(string tableName, Type type)
+        public List<IDictionarySerializable> GetAllEntities(string tableName)
         {
             if (IsUseable == false)
             {
                 return new List<IDictionarySerializable>();
             }
 
-            List<Document> docuemts = DB.GetCollection<Document>(tableName).FindAll().Documents.ToList();
+            var docuemts = DB.GetCollection<Document>(tableName).FindAll().Documents.ToList();
             var items = new List<IDictionarySerializable>();
-            foreach (Document document in docuemts)
+            foreach (var document in docuemts)
             {
-                object data = Activator.CreateInstance(type);
-                var suck = (IDictionarySerializable) data;
-                suck.DictDeserialize(document);
-                items.Add(suck);
+                var doc = new FreeDocument();
+                doc.DictDeserialize(document);
+                items.Add(doc);
             }
             return items;
         }
 
-        public override List<IFreeDocument> QueryEntities(string querySQL, out int count, string tablename,
-            Type type)
+        public override List<FreeDocument> QueryEntities(string querySQL, out int count, string tablename
+            )
         {
-            if (type == null)
-                type = typeof (FreeDocument);
             List<Document> item = null;
             if (tablename == null)
             {
@@ -227,13 +220,12 @@ namespace Hawk.Core.Connectors
                 item = DB.GetCollection<Document>(tablename).Find(querySQL).Documents.ToList();
             }
             count = item.Count;
-            var items = new List<IFreeDocument>();
-            foreach (Document document in item)
+            var items = new List<FreeDocument>();
+            foreach (var document in item)
             {
-                object data = Activator.CreateInstance(type);
-                var suck = (IFreeDocument) data;
-                suck.DictDeserialize(document);
-                items.Add(suck);
+                var doc = new FreeDocument();
+                doc.DictDeserialize(document);
+                items.Add(doc);
             }
             return items;
         }
@@ -246,8 +238,8 @@ namespace Hawk.Core.Connectors
         /// <param name="mount"></param>
         /// <param name="skip"></param>
         /// <returns></returns>
-        public override IEnumerable<IFreeDocument> GetEntities(
-            string tableName, Type type, int mount = -1, int skip = 0)
+        public override IEnumerable<FreeDocument> GetEntities(
+            string tableName, int mount = -1, int skip = 0)
         {
             if (IsUseable == false)
             {
@@ -258,12 +250,12 @@ namespace Hawk.Core.Connectors
                 IsUseable = false;
                 yield break;
             }
-              if (TableNames == null)
+            if (TableNames == null)
             {
                 IsUseable = false;
                 yield break;
             }
-            TableInfo table = TableNames.Collection.FirstOrDefault(d => d.Name == tableName);
+            var table = TableNames.Collection.FirstOrDefault(d => d.Name == tableName);
             if (table == null)
             {
                 yield break;
@@ -293,17 +285,10 @@ namespace Hawk.Core.Connectors
             }
 
 
-            foreach (Document document in collection.Documents)
+            foreach (var document in collection.Documents)
             {
-                IFreeDocument data = null;
-                if (type == null)
-                {
-                    data = new FreeDocument();
-                }
-                else
-                {
-                    data = (IFreeDocument) Activator.CreateInstance(type);
-                }
+                FreeDocument data = null;
+                data = new FreeDocument();
 
 
                 data.DictDeserialize(document);
@@ -326,16 +311,16 @@ namespace Hawk.Core.Connectors
             Document id = null;
             if (AutoIndexEnabled)
             {
-                IMongoCollection idManager = DB.GetCollection("ids");
+                var idManager = DB.GetCollection("ids");
                 id = idManager.FindAndModify(update, new Document("Name", tableName), true);
 
                 //下面三句存入数据库
             }
 
-            Document doc = GetNewDocument(user);
+            var doc = GetNewDocument(user);
             if (AutoIndexEnabled)
             {
-                int v = (int) id[AutoIndexName] - 1;
+                var v = (int) id[AutoIndexName] - 1;
                 doc[AutoIndexName] = v;
             }
             else if (index >= 0)
@@ -348,10 +333,9 @@ namespace Hawk.Core.Connectors
             }
             catch (Exception ex)
             {
-              XLogSys.Print.Error("插入数据失败"+ex.Message);                
+                XLogSys.Print.Error("插入数据失败" + ex.Message);
             }
 
-          
 
             return true;
         }
@@ -363,7 +347,7 @@ namespace Hawk.Core.Connectors
                 return new List<TableInfo>();
             }
 
-            List<TableInfo> collectionNames = (from d in DB.GetCollectionNames()
+            var collectionNames = (from d in DB.GetCollectionNames()
                 where d != null
                 let m = d.Split('.')
                 where m.Length == 2
@@ -382,7 +366,7 @@ namespace Hawk.Core.Connectors
 
         public void RepairDatabase()
         {
-            bool local = (ConnectionString.Contains("localhost") || ConnectionString.Contains("127.0.0.1"));
+            var local = (ConnectionString.Contains("localhost") || ConnectionString.Contains("127.0.0.1"));
             if (local == false)
             {
                 throw new Exception("MongoDB数据库不在本地，无法启动自动数据库修复");
@@ -393,7 +377,7 @@ namespace Hawk.Core.Connectors
                 throw new Exception("数据库连接失败，请检查数据库配置，或手动设定MongoDB数据库的安装路径以方便自动修复");
             }
             var mydir = new DirectoryInfo(LocalDBLocation);
-            FileInfo file = mydir.GetFiles().FirstOrDefault(d => d.Name == "mongod.lock");
+            var file = mydir.GetFiles().FirstOrDefault(d => d.Name == "mongod.lock");
             if (file == null)
             {
                 throw new Exception("修复失败，您是否没有安装MongoDB数据库");
@@ -401,7 +385,7 @@ namespace Hawk.Core.Connectors
             try
             {
                 File.Delete(file.FullName);
-                string str = CMDHelper.Execute("net start MongoDB");
+                var str = CMDHelper.Execute("net start MongoDB");
             }
             catch (Exception ex)
             {
@@ -416,21 +400,21 @@ namespace Hawk.Core.Connectors
         /// <param name="keyName"> </param>
         /// <param name="keyvalue"> </param>
         public override void SaveOrUpdateEntity(
-            IFreeDocument entity, string tableName, IDictionary<string, object> keys=null,
+            IFreeDocument entity, string tableName, IDictionary<string, object> keys = null,
             EntityExecuteType executeType = EntityExecuteType.InsertOrUpdate)
         {
             if (IsUseable == false)
             {
                 return;
             }
-            IMongoCollection<Document> collection = DB.GetCollection<Document>(tableName);
+            var collection = DB.GetCollection<Document>(tableName);
             if (executeType == EntityExecuteType.OnlyInsert)
             {
                 InsertEntity(entity, collection, tableName);
                 return;
             }
             var query = new Document(keys);
-            Document document = collection.FindOne(query);
+            var document = collection.FindOne(query);
             if (executeType == EntityExecuteType.Delete)
             {
                 collection.Remove(query);
@@ -452,15 +436,16 @@ namespace Hawk.Core.Connectors
             }
         }
 
-        public override List<IFreeDocument> TryFindEntities(string tableName,
-            IDictionary<string, object> search
-            , Type type = null, int count = -1, DBSearchStrategy searchStrategy = DBSearchStrategy.Contains)
+        public override List<FreeDocument> TryFindEntities(string tableName,
+            IDictionary<string, object> search, List<string> keys = null
+            , int count = -1, DBSearchStrategy searchStrategy = DBSearchStrategy.Contains)
         {
-            if (type == null)
-                type = typeof (FreeDocument);
-            if(IsUseable==false)
-                return new List<IFreeDocument>();
-            IMongoCollection<Document> collection = DB.GetCollection<Document>(tableName);
+            if (IsUseable == false)
+                return new List<FreeDocument>();
+            object fieldselector = null;
+            if (keys != null)
+                fieldselector = keys.ToDictionary(d => d, d => 1);
+            var collection = DB.GetCollection<Document>(tableName);
 
             var querydoc = new Document();
             foreach (var r in search)
@@ -469,24 +454,23 @@ namespace Hawk.Core.Connectors
             }
             if (count != 1)
             {
-                ICursor<Document> document = collection.Find(querydoc);
+                var document = collection.Find(querydoc, fieldselector);
                 if (document == null)
                 {
-                    return new List<IFreeDocument>();
+                    return new List<FreeDocument>();
                 }
-                var results = new List<IFreeDocument>();
-                
-                foreach (Document item in document.Documents)
+                var results = new List<FreeDocument>();
+
+                foreach (var item in document.Documents)
                 {
                     if (count > 0)
                         count--;
                     if (count == 0)
                         break;
-                    var result = Activator.CreateInstance(type) as IFreeDocument;
+                    var result = new FreeDocument();
 
                     result.DictDeserialize(item);
                     results.Add(result);
-
                 }
 
 
@@ -494,21 +478,20 @@ namespace Hawk.Core.Connectors
             }
             else
             {
-                 var  document = collection.FindOne(querydoc);
+                var document = collection.FindOne(querydoc);
                 if (document == null)
                 {
-                    return new List<IFreeDocument>();
+                    return new List<FreeDocument>();
                 }
-                var results = new List<IFreeDocument>();
+                var results = new List<FreeDocument>();
 
-              
-                    var result = Activator.CreateInstance(type) as IFreeDocument;
 
-                    result.DictDeserialize(document);
-                    results.Add(result);
+                var result = new FreeDocument();
+
+                result.DictDeserialize(document);
+                results.Add(result);
                 return results;
             }
-          
         }
 
         #endregion
@@ -518,7 +501,7 @@ namespace Hawk.Core.Connectors
         public void UpdateDocument(IDictionarySerializable data, Document document)
         {
             IDictionary<string, object> datas = data.DictSerialize();
-            foreach (string key in datas.Keys)
+            foreach (var key in datas.Keys)
             {
                 if (datas[key] is IDictionary<string, object>)
                 {
@@ -542,7 +525,7 @@ namespace Hawk.Core.Connectors
             IDictionary<string, object> datas = entity.DictSerialize();
 
             var document = new Document();
-            foreach (string key in datas.Keys)
+            foreach (var key in datas.Keys)
             {
                 {
                     if (datas[key] is IDictionary<string, object>)
@@ -565,7 +548,5 @@ namespace Hawk.Core.Connectors
         }
 
         #endregion
-
-        //链接字符串 
     }
 }

@@ -39,7 +39,7 @@ namespace Hawk.Core.Connectors
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-         IEnumerable<IFreeDocument> ReadFile(Action<int> alreadyGetSize=null);
+         IEnumerable<FreeDocument> ReadFile(Action<int> alreadyGetSize=null);
 
         /// <summary>
         /// 获取得到的文本

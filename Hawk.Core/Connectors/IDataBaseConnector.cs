@@ -15,14 +15,14 @@ namespace Hawk.Core.Connectors
             var type = typeof (T);
             if (type.IsInterface)
                 type = typeof (FreeDocument);
-            var items = connector.GetEntities(tableName, type, mount, skip).Select(d => d as T).ToList();
+            var items = connector.GetEntities(tableName,  mount, skip).Select(d => d as T).ToList();
             return items;
         }
 
         public static List<T> TryFindEntities<T>(this IDataBaseConnector connector, string tableName,
             IDictionary<string, object> search) where T : class, IDictionarySerializable
         {
-            var rs = connector.TryFindEntities(tableName, search, typeof (T));
+            var rs = connector.TryFindEntities(tableName, search );
             return rs.Select(d => d as T).ToList();
         }
 
@@ -114,8 +114,8 @@ namespace Hawk.Core.Connectors
         /// <param name="count">检索的数量</param>
         /// <param name="searchStrategy">搜索策略</param>
         /// <returns></returns>
-        List<IFreeDocument> TryFindEntities(string tableName, IDictionary<string, object> search,
-            Type type = null, int count = -1, DBSearchStrategy searchStrategy = DBSearchStrategy.Contains);
+        List<FreeDocument> TryFindEntities(string tableName, IDictionary<string, object> search,List<string> resultKeys=null,
+            int count = -1, DBSearchStrategy searchStrategy = DBSearchStrategy.Contains);
 
         /// <summary>
         ///     创建一个数据库
@@ -129,7 +129,7 @@ namespace Hawk.Core.Connectors
         /// <param name="querySQL"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        List<IFreeDocument> QueryEntities(string querySQL, out int count, string tableName = null, Type type = null);
+        List<FreeDocument> QueryEntities(string querySQL, out int count, string tableName = null);
 
         /// <summary>
         ///     连接数据库
@@ -151,7 +151,7 @@ namespace Hawk.Core.Connectors
         /// <param name="type">数据类型</param>
         /// <param name="mount"> 数量</param>
         /// <returns></returns>
-        IEnumerable<IFreeDocument> GetEntities(string tableName, Type type = null, int mount = -1, int skip = 0);
+        IEnumerable<FreeDocument> GetEntities(string tableName, int mount = -1, int skip = 0);
 
         /// <summary>
         ///     创建表

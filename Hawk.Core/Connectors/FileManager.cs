@@ -23,9 +23,9 @@ namespace Hawk.Core.Connectors
                 CurrentTables.Insert(0, new TableInfo(openfile, this));
             }
         }
-        public IEnumerable<IDictionarySerializable> GetEnumerable(string tableName, Type type = null)
+        public IEnumerable<IDictionarySerializable> GetEnumerable(string tableName)
         {
-            return GetEntities2(tableName, type);
+            return GetEntities2(tableName);
         }
 
         public bool CanSkip(string tableName)
@@ -39,18 +39,18 @@ namespace Hawk.Core.Connectors
        
         }
 
-        public override IEnumerable<IFreeDocument> GetEntities(
-            string tableName, Type type, int mount = -1, int skip = 0)
+        public override IEnumerable<FreeDocument> GetEntities(
+            string tableName,  int mount = -1, int skip = 0)
         {
-            return GetEntities2(tableName, type, mount, skip).ToList();
+            return GetEntities2(tableName,  mount, skip).ToList();
         }
 
         [LocalizedCategory("参数设置")]
         [LocalizedDisplayName("编码方式")]
         public EncodingType EncodingType { get; set; }
 
-        private IEnumerable<IFreeDocument> GetEntities2(
-            string tableName, Type type, int mount = -1, int skip = 0)
+        private IEnumerable<FreeDocument> GetEntities2(
+            string tableName,  int mount = -1, int skip = 0)
         {
             TableInfo table = null;
             LastFileName = tableName;
@@ -78,7 +78,7 @@ namespace Hawk.Core.Connectors
                     {
                         CurrentTables.Remove(table);
                         TableNames.InformPropertyChanged("Collection");
-                        return new List<IFreeDocument>();
+                        return new List<FreeDocument>();
                     }
                     fileNames.Add(table.Description);
                 }
@@ -106,7 +106,7 @@ namespace Hawk.Core.Connectors
 
                       return connector.ReadFile().Skip(skip).Take(mount);
 
-                  return connector.ReadFile().Skip(skip);
+                  return connector.ReadFile().Skip(skip) ;
               });
 
 

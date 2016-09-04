@@ -26,7 +26,7 @@ namespace Hawk.ETL.Managements
 {
     public class QueryEntity
     {
-        public Action<List<IFreeDocument>> GetQueryFunc;
+        public Action<List<FreeDocument>> GetQueryFunc;
         public List<ICommand> commands;
 
         public QueryEntity()
@@ -34,7 +34,7 @@ namespace Hawk.ETL.Managements
             commands = new List<ICommand>();
             commands.Add(new Command("执行查询", async obj =>
             {
-                List<IFreeDocument> datas = null;
+                List<FreeDocument> datas = null;
                 try
                 {
                     ControlExtended.SetBusy(true);
@@ -218,7 +218,7 @@ namespace Hawk.ETL.Managements
             var dataAll = new List<IFreeDocument>();
             
                 var  task = TemporaryTask.AddTempTask(dataName + "数据导入",
-                    db.GetEntities(dataName, typeof (FreeDocument), mount), dataAll.Add,null,table!=null?table.Size:-1,notifyInterval:1000);
+                    db.GetEntities(dataName, mount), dataAll.Add,null,table!=null?table.Size:-1,notifyInterval:1000);
             processManager.CurrentProcessTasks.Add(task);
                 await Task.Run(
                     () => task.Wait());

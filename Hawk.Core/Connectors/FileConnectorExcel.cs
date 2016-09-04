@@ -21,7 +21,7 @@ namespace Hawk.Core.Connectors
 
         #region Methods
 
-        public override IEnumerable<IFreeDocument> ReadFile(Action<int> alreadyGetSize = null)
+        public override IEnumerable<FreeDocument> ReadFile(Action<int> alreadyGetSize = null)
         {
             XSSFWorkbook hssfworkbook;
 
@@ -49,15 +49,15 @@ namespace Hawk.Core.Connectors
             for (int i = 1; i < sheet.LastRowNum; i++)
             {
                 IRow row = sheet.GetRow(i);
-                var data = PluginProvider.GetObjectInstance(DataType) as IFreeDocument;
+                var data =new FreeDocument(); 
                 var dict = new Dictionary<string, object>();
                 for (int index = 0; index < titles.Count; index++)
                 {
                     string title = titles[index];
                     dict.Add(title, row.GetCell(index).ToString());
                 }
-                var freeDocument = data as IFreeDocument;
-                if (freeDocument != null)
+             
+                if (data != null)
                 {
                     if (i == 1)
                     {
@@ -86,7 +86,7 @@ namespace Hawk.Core.Connectors
 
                 int rowIndex = 0;
                 PropertyNames = datas.GetKeys().ToDictionary(d => d, d => d);
-                foreach (IFreeDocument computeable in datas)
+                foreach (FreeDocument computeable in datas)
                 {
                     IDictionary<string, object> data = computeable.DictSerialize();
                     int cellIndex;

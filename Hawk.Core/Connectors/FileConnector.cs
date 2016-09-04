@@ -29,7 +29,6 @@ namespace Hawk.Core.Connectors
         protected FileConnector()
         {
             PropertyNames = new Dictionary<string, string>();
-            DataType = typeof(FreeDocument);
         }
 
        
@@ -41,7 +40,6 @@ namespace Hawk.Core.Connectors
 
         public virtual bool ShouldConfig => false;
 
-        public Type DataType { get; set; }
 
 
         public virtual string ExtentFileName => ".txt";
@@ -130,15 +128,15 @@ namespace Hawk.Core.Connectors
         }
 
 
-        public static IFreeDocument ReadDataFile(string path)
+        public static FreeDocument ReadDataFile(string path)
         {
             IFileConnector json = SmartGetExport(path);
             json.FileName = path;
-            IFreeDocument r = json.ReadFile().LastOrDefault();
+            FreeDocument r = json.ReadFile().LastOrDefault();
             return r;
         }
 
-        public static List<IFreeDocument> ReadGroupDataFile(string path)
+        public static List<FreeDocument> ReadGroupDataFile(string path)
         {
             IFileConnector json = SmartGetExport(path);
 
@@ -174,7 +172,7 @@ namespace Hawk.Core.Connectors
         }
 
 
-        public abstract IEnumerable<IFreeDocument> ReadFile(Action<int> alreadyGetSize = null);
+        public abstract IEnumerable<FreeDocument> ReadFile(Action<int> alreadyGetSize = null);
     
 
         public virtual string GetString(IEnumerable<IFreeDocument> datas)

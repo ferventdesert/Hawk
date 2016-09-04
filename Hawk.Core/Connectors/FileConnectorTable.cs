@@ -142,7 +142,7 @@ namespace Hawk.Core.Connectors
         }
 
 
-        public override IEnumerable<IFreeDocument> ReadFile(Action<int> alreadyGetSize = null)
+        public override IEnumerable<FreeDocument> ReadFile(Action<int> alreadyGetSize = null)
         {
             var titles = new List<string>();
 
@@ -189,11 +189,11 @@ namespace Hawk.Core.Connectors
                         objs[i] = aryline[i].Trim();
                     }
                 }
-                var data = PluginProvider.GetObjectInstance(DataType) as IFreeDocument;
+                var data =new FreeDocument(); 
                 var dict = new Dictionary<string, object>();
                 for (var index = 0; index < Math.Min(titles.Count, objs.Length); index++)
                 {
-                    var freeDocument = data as IFreeDocument;
+                    var freeDocument = data; 
                     if (freeDocument != null)
                     {
                         if (index == 0 && PropertyNames.Any() == false)

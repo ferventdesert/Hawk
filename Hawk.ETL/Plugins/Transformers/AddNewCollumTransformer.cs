@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
@@ -23,4 +24,6 @@ namespace Hawk.ETL.Plugins.Transformers
             return free.Query(NewValue);
         }
     }
+
+
 }

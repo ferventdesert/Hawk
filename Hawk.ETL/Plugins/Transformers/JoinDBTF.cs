@@ -36,7 +36,7 @@ namespace Hawk.ETL.Plugins.Transformers
                 if (table == null)
                     return;
                 IEnumerable<IDictionarySerializable> datas = ConnectorSelector.SelectItem.GetEntities(table.Name,
-                    typeof (FreeDocument), 10, 0);
+                   10, 0);
                 IEnumerable<string> keys = datas.GetKeys();
                 ImportColumns.Clear();
                 foreach (string key in keys)

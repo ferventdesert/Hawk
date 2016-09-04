@@ -186,7 +186,7 @@ namespace Hawk.Core.Connectors
 
     public interface IEnumerableProvider<T>
     {
-        IEnumerable<T> GetEnumerable(string tableName, Type type = null);
+        IEnumerable<T> GetEnumerable(string tableName);
 
         bool CanSkip(string tableName);
     }
@@ -294,17 +294,17 @@ namespace Hawk.Core.Connectors
 
         [LocalizedDisplayName("服务器地址")]
         [LocalizedCategory("1.连接管理")]
-        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.PropertyOrder(2)]
+        [PropertyOrder(2)]
         public string Server { get; set; }
 
         [LocalizedDisplayName("用户名")]
         [LocalizedCategory("1.连接管理")]
-        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.PropertyOrder(3)]
+        [PropertyOrder(3)]
         public string UserName { get; set; }
 
         [LocalizedDisplayName("密码")]
         [LocalizedCategory("1.连接管理")]
-        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.PropertyOrder(4)]
+        [PropertyOrder(4)]
       //  [PropertyEditor("PasswordEditor")]
         public string Password { get; set; }
 
@@ -328,11 +328,11 @@ namespace Hawk.Core.Connectors
             ExecuteNonQuery(string.Format("CREATE DATABASE {0}", dbname));
         }
 
-        public virtual List<IFreeDocument> QueryEntities(string querySQL, out int count,
-            string tablename = null, Type type = null)
+        public virtual List<FreeDocument> QueryEntities(string querySQL, out int count,
+            string tablename = null)
         {
             count = 0;
-            return new List<IFreeDocument>();
+            return new List<FreeDocument>();
         }
 
         [Browsable(false)]
@@ -341,7 +341,7 @@ namespace Hawk.Core.Connectors
 
         [LocalizedCategory("1.连接管理")]
         [LocalizedDisplayName("数据库名称")]
-        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.PropertyOrder(5)]
+        [PropertyOrder(5)]
         public string DBName { get; set; }
 
 
@@ -363,7 +363,7 @@ namespace Hawk.Core.Connectors
 
 
         [LocalizedCategory("1.连接管理")]
-        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.PropertyOrder(4)]
+        [PropertyOrder(4)]
         [LocalizedDisplayName("连接状态")]
         public bool IsUseable
         {
@@ -379,15 +379,15 @@ namespace Hawk.Core.Connectors
         }
 
 
-        public virtual List<IFreeDocument> TryFindEntities(string tableName, IDictionary<string, object> search
-           , Type type = null, int count = -1, DBSearchStrategy searchStrategy = DBSearchStrategy.Contains)
+        public virtual List<FreeDocument> TryFindEntities(string tableName, IDictionary<string, object> search
+           , List<string>keys,  int count = -1, DBSearchStrategy searchStrategy = DBSearchStrategy.Contains)
         {
          
-            return new List<IFreeDocument>();
+            return new List<FreeDocument>();
         }
 
         [LocalizedCategory("1.连接管理")]
-        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.PropertyOrder(1)]
+        [PropertyOrder(1)]
         [LocalizedDisplayName("连接名称")]
         public string Name
         {
@@ -409,7 +409,7 @@ namespace Hawk.Core.Connectors
         #region IDataBaseConnector
 
         [LocalizedCategory("1.连接管理")]
-        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.PropertyOrder(5)]
+        [PropertyOrder(5)]
         [LocalizedDisplayName("自动连接")]
         public bool AutoConnect { get; set; }
 
@@ -444,7 +444,7 @@ namespace Hawk.Core.Connectors
         }
 
 
-        public virtual IEnumerable<IFreeDocument> GetEntities(string tableName, Type type, int mount = -1,
+        public virtual IEnumerable<FreeDocument> GetEntities(string tableName, int mount = -1,
             int skip = 0)
         {
             string sql = null;
@@ -459,7 +459,7 @@ namespace Hawk.Core.Connectors
 
 
             DataTable data = GetDataTable(sql);
-            return Table2Data(data, type);
+            return Table2Data(data);
         }
 
 
@@ -482,7 +482,7 @@ namespace Hawk.Core.Connectors
             {
                 foreach (var val in data)
                 {
-                    sb.Append(String.Format(" {0} = '{1}',", val.Key, val.Value));
+                    sb.Append($" {val.Key} = '{val.Value}',");
                 }
 
                 sb = sb.Remove(sb.Length - 1, 1);
@@ -490,7 +490,7 @@ namespace Hawk.Core.Connectors
 
             try
             {
-                ExecuteNonQuery(String.Format("update {0} set {1} where {2};", GetTableName(tableName), sb, ToString()));
+                ExecuteNonQuery($"update {GetTableName(tableName)} set {sb} where {ToString()};");
             }
 
             catch
@@ -524,13 +524,13 @@ namespace Hawk.Core.Connectors
             return sqlConnBuilder.ConnectionString;
         }
 
-        protected List<IFreeDocument> Table2Data(DataTable data, Type type)
+        protected List<FreeDocument> Table2Data(DataTable data)
         {
-            var result = new List<IFreeDocument>();
+            var result = new List<FreeDocument>();
             string[] titles = (from object column in data.Columns select column.ToString()).ToArray();
             foreach (DataRow dr in data.Rows)
             {
-                var data2 = Activator.CreateInstance(type) as IFreeDocument;
+                var data2  =new FreeDocument();
 
 
                 SetObjects(data2, dr.ItemArray, titles);
@@ -559,7 +559,7 @@ namespace Hawk.Core.Connectors
         #endregion
 
         [LocalizedDisplayName("执行")]
-        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.PropertyOrder(20)]
+        [PropertyOrder(20)]
         public ReadOnlyCollection<ICommand> Commands
         {
             get

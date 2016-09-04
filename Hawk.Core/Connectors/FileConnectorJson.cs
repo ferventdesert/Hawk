@@ -36,7 +36,7 @@ namespace Hawk.Core.Connectors
             return totals;
         }
 
-        public IEnumerable<IFreeDocument> ReadText(string text, Action<int> alreadyGetSize = null)
+        public IEnumerable<FreeDocument> ReadText(string text, Action<int> alreadyGetSize = null)
         {
             var totals = FormatJsonData(text);
 
@@ -53,7 +53,7 @@ namespace Hawk.Core.Connectors
                 }
                 foreach (object d in array)
                 {
-                    var data = PluginProvider.GetObjectInstance(DataType) as IFreeDocument;
+                    var data =  new FreeDocument();
                     ItemtoNode(d, data);
                     yield return data;
                 }
@@ -65,13 +65,13 @@ namespace Hawk.Core.Connectors
                 {
                     alreadyGetSize(1);
                 }
-                var data = PluginProvider.GetObjectInstance(DataType) as IFreeDocument;
+                var data =new FreeDocument(); 
                 ItemtoNode(obj, data);
                 yield return data;
             }
         }
 
-        public override IEnumerable<IFreeDocument> ReadFile(Action<int> alreadyGetSize = null)
+        public override IEnumerable<FreeDocument> ReadFile(Action<int> alreadyGetSize = null)
         {
             string str = File.ReadAllText(FileName, Encoding.UTF8);
             return ReadText(str, alreadyGetSize);

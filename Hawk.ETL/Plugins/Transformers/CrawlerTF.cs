@@ -29,6 +29,7 @@ namespace Hawk.ETL.Plugins.Transformers
           //  var defaultcraw = processManager.CurrentProcessCollections.FirstOrDefault(d => d is SmartCrawler);
             MaxTryCount = "1";
             ErrorDelay = 3000;
+            SetPrefex = "";
             //if (defaultcraw != null) CrawlerSelector = defaultcraw.Name;
             PropertyChanged += (s, e) => { buffHelper.Clear(); };
         }
@@ -59,6 +60,10 @@ namespace Hawk.ETL.Plugins.Transformers
         [LocalizedCategory("请求队列")]
         [LocalizedDisplayName("启用正则")]
         public bool IsRegex { get; set; }
+
+        [LocalizedCategory("请求队列")]
+        [LocalizedDisplayName("添加前缀")]
+        public string SetPrefex { get; set; }
 
         private Regex regex;
 
@@ -153,7 +158,7 @@ namespace Hawk.ETL.Plugins.Transformers
               }
                 foreach (var href in r4)
                 {
-                    generator.InsertQueue(href);
+                    generator.InsertQueue(SetPrefex+href);
                 }
             }
             return docs;
@@ -170,7 +175,7 @@ namespace Hawk.ETL.Plugins.Transformers
                 }
             }
         }
-
+            
         //private bool checkautoLogIn(List<FreeDocument> docs)
 
         //{

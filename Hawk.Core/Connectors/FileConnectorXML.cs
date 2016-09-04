@@ -108,7 +108,10 @@ namespace Hawk.Core.Connectors
         {
 
             var xdoc = new XmlDocument();
-            xdoc.Load(FileName);
+
+            ControlExtended.SafeInvoke(() => xdoc.Load(FileName), Utils.Logs.LogType.Important);
+            
+           
             return ReadText(xdoc, alreadyGetSize);
         }
 

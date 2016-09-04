@@ -14,8 +14,8 @@ namespace Hawk.ETL.Plugins.Transformers
     [XFrmWork("Python转换器", "执行特定的python代码")]
     public class PythonTF : TransformerBase
     {
-        private readonly ScriptEngine engine;
-        private readonly ScriptScope scope;
+        protected readonly ScriptEngine engine;
+        protected readonly ScriptScope scope;
         private CompiledCode compiledCode;
 
         public PythonTF()

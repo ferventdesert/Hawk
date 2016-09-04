@@ -74,13 +74,21 @@ namespace Hawk
             }
           
             PluginManager = new PluginManager();
-//#if !DEBUG
-            //Dispatcher.UnhandledException += (s, e) =>
-            //{
-            //    MessageBox.Show("系统出现异常" + e.Exception);
-            //    XLogSys.Print.Fatal(e.Exception);
-            //};
-//#endif
+#if !DEBUG
+            Dispatcher.UnhandledException += (s, e) =>
+            {
+
+                if (MessageBox.Show("是否保存当前工程的内容？您只有一次机会这样做，", "警告信息", MessageBoxButton.YesNoCancel) ==
+                    MessageBoxResult.Yes)
+                {
+                    dynamic process = PluginDictionary["模块管理"];
+                    process.SaveCurrentTasks();
+                }
+
+                MessageBox.Show("系统出现异常" + e.Exception);
+                XLogSys.Print.Fatal(e.Exception);
+            };
+#endif
             ViewDictionary = new List<ViewItem>();
             Title = ConfigurationManager.AppSettings["Title"];
 

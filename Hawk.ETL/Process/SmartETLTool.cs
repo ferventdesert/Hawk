@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -20,7 +21,7 @@ using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
 using Hawk.ETL.Plugins.Transformers;
-
+using System.Web.Script.Serialization;
 namespace Hawk.ETL.Process
 {
     [XFrmWork("数据清洗", "可方便的对表格数据整理，分组，筛选和排序"
@@ -271,7 +272,7 @@ namespace Hawk.ETL.Process
                     ETLToolsView.Filter = FilterMethod;
                 }
                 OnPropertyChanged("SearchText");
-            }
+                }
         }
 
         [Browsable(false)]
@@ -361,7 +362,34 @@ namespace Hawk.ETL.Process
                     };
                 }
             };
-            return true;
+        //    var dict = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>(); 
+        //   foreach(var tool in AllETLTools)
+        //    {
+        //        var obj = PluginProvider.GetObjectByType<IColumnProcess>(tool.MyType.Name);
+        //        var typedic = new Dictionary<string, Dictionary<string,string>>();
+        //        this.CurrentETLTools.Add(obj);
+        //        var properties= tool.MyType.GetProperties();
+        //        foreach(var prop in properties)
+        //        {
+        //            var propdic = new Dictionary<string, string>(); 
+        //           var name= prop.GetCustomAttributes(typeof(LocalizedDisplayNameAttribute), true).FirstOrDefault() as LocalizedDisplayNameAttribute;
+        //           var desc= prop.GetCustomAttributes(typeof(LocalizedDescriptionAttribute), true).FirstOrDefault() as LocalizedDescriptionAttribute;
+        //           var cate= prop.GetCustomAttributes(typeof(LocalizedCategoryAttribute), true).FirstOrDefault() as LocalizedCategoryAttribute;
+
+        //                propdic.Add("Name", name?.DisplayName);
+        //                propdic.Add("Desc", desc?.Description);
+        //                propdic.Add("Category", cate?.Category);
+        //            typedic.Add(prop.Name, propdic);
+
+        //        }
+
+        //        dict.Add(tool.MyType.Name, typedic);               
+        //    }
+
+        //    JavaScriptSerializer serialier = new JavaScriptSerializer();
+        //var res=    serialier.Serialize(dict);
+        //    File.WriteAllText("D:\\fuck.json",res);
+          return true;
         }
 
         #endregion
@@ -376,7 +404,7 @@ namespace Hawk.ETL.Process
         public bool IsUISupport { get; set; }
 
 
-        public void InitProcess(bool isexecute)
+            public void InitProcess(bool isexecute)
         {
             foreach (var item in CurrentETLTools.Where(d => d.Enabled))
             {
@@ -503,11 +531,19 @@ namespace Hawk.ETL.Process
                     index = etls.IndexOf(tolistTransformer);
 
                     var beforefunc = Aggregate(func, etls.Take(index), true);
-
-                    paratask = TemporaryTask.AddTempTask("清洗任务并行化", beforefunc(new List<IFreeDocument>())
+                    List<IFreeDocument> taskbuff=new List<IFreeDocument>();
+                        paratask = TemporaryTask.AddTempTask("清洗任务并行化", beforefunc(new List<IFreeDocument>())
                         ,
                         d2 =>
-                        {
+                        {//TODO:这种分组方式可能会丢数据！！
+                            if (taskbuff.Count < tolistTransformer.GroupMount)
+                            {
+                                taskbuff.Add(d2);
+                                return;
+                                
+                            }
+                            var newtaskbuff = taskbuff.ToList();
+                            taskbuff.Clear();
                             if (paratask.IsPause == false &&
                                 SysProcessManager.CurrentProcessTasks.Count > MaxThreadCount)
                             {
@@ -521,9 +557,8 @@ namespace Hawk.ETL.Process
 
                             var rcount = -1;
                             int.TryParse(countstr, out rcount);
-                            var list = new List<IFreeDocument> {d2};
                             var afterfunc = Aggregate(func, etls.Skip(index + 1), true);
-                            var task = TemporaryTask.AddTempTask(name, afterfunc(list), d => { },
+                            var task = TemporaryTask.AddTempTask(name, afterfunc(newtaskbuff), d => { },
                                 null, rcount, false);
                             if (tolistTransformer.DisplayProgress)
                                 ControlExtended.UIInvoke(() => SysProcessManager.CurrentProcessTasks.Add(task));

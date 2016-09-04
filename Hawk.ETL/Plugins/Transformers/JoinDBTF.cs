@@ -134,9 +134,9 @@ namespace Hawk.ETL.Plugins.Transformers
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
             FreeDocument dict = base.DictSerialize(scenario);
-            dict.Add("Connector", ConnectorSelector.SelectItem.Name);
-            dict.Add("TableName", TableSelector.SelectItem.Name);
-            dict.Add("Columns", ImportColumns.Aggregate((a, b) => a + ' ' + b));
+            dict.Add("Connector", ConnectorSelector.SelectItem?.Name);
+            dict.Add("TableName", TableSelector.SelectItem?.Name);
+            dict.Add("Columns", ImportColumns.Count==0? "":ImportColumns.Aggregate((a, b) => a + ' ' + b));
             return dict;
         }
 

@@ -24,6 +24,11 @@ namespace Hawk.ETL.Crawlers
         public bool GetText { get; set; }
 
 
+        [LocalizedDisplayName("获取正文HTML")]
+        [LocalizedDescription("勾选此项后，会自动提取新闻正文的HTML，XPath路径可为空")]
+        public bool GetTextHtml { get; set; }
+
+
         [LocalizedDisplayName("获取节点数量")]
         [LocalizedDescription("获取符合XPath语法的节点的数量")]
         public bool GetCount { get; set; }
@@ -79,13 +84,25 @@ namespace Hawk.ETL.Crawlers
                 if (textnode != null)
                     return textnode.GetNodeText();
             }
+            if (GetTextHtml)
+            {
+                var path = docu.DocumentNode.GetTextNode();
+                var textnode = docu.DocumentNode.SelectSingleNode(path);
+                if (textnode != null)
+                    return textnode.InnerHtml;
+            }
             if (GetCount)
             {
                 var textnode = docu.DocumentNode.SelectNodes(XPath);
                 return textnode.Count;
             }
 
-            return docu.DocumentNode.GetDataFromXPath(document.Query(XPath));
+            var res= docu.DocumentNode.GetDataFromXPath(document.Query(XPath));
+            if(res==null)
+            {
+
+            }
+            return res;
         }
     }
 

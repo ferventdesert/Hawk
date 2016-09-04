@@ -93,7 +93,7 @@ namespace Hawk.ETL.Interfaces
         Append,
         Merge,
         Cross,
-        Mix
+        Mix,
     }
 
     public class GeneratorBase : PropertyChangeNotifier, IColumnGenerator

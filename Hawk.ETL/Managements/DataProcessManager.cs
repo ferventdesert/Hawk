@@ -122,7 +122,24 @@ namespace Hawk.ETL.Managements
             dataManager = MainFrmUI.PluginDictionary["数据管理"] as IDataManager;
             propertyGridWindow = MainFrmUI.PluginDictionary["属性配置器"] as XFrmWorkPropertyGrid;
 
-
+            var aboutAuthor=new BindingAction("联系和打赏作者", d =>
+            {
+                var view = PluginProvider.GetObjectInstance<ICustomView>("关于作者");
+                var window = new Window();
+                window.Title = "关于作者";
+                window.Content = view;
+                window.ShowDialog();
+            });
+            var helplink = new BindingAction("使用文档", d =>
+            {
+                var url = "https://github.com/ferventdesert/Hawk/wiki";
+                System.Diagnostics.Process.Start(url);
+            });
+            var pluginCommands = new BindingAction("关于");
+            pluginCommands.ChildActions.Add(helplink);
+            pluginCommands.ChildActions.Add(aboutAuthor);
+              
+            MainFrmUI.CommandCollection.Add(pluginCommands);
             ProcessCollection = new ObservableCollection<IDataProcess>();
 
 

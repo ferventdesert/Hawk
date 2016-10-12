@@ -45,6 +45,7 @@ namespace Hawk.ETL.Plugins.Transformers
 
         [LocalizedDisplayName("介绍")]
         [PropertyOrder(100)]
+        [PropertyEditor("CodeEditor")]
         public string Description
         {
             get

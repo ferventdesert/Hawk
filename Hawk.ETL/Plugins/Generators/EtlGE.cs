@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
@@ -23,6 +24,7 @@ namespace Hawk.ETL.Plugins.Generators
         public ETLBase()
         {
             processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
+            ETLRange = "";
         }
 
         [LocalizedDisplayName("子流-选择")]
@@ -39,6 +41,11 @@ namespace Hawk.ETL.Plugins.Generators
             }
         }
 
+        [LocalizedDisplayName("调用范围")]
+        [LocalizedDescription("设定调用子流的模块范围，例如2:30表示从第2个到第30个子模块将会启用，其他的模块不启用")]
+        public string ETLRange { get; set; }
+
+
         protected SmartETLTool etl { get; set; }
 
         public void SetExecute(bool value)
@@ -50,10 +57,9 @@ namespace Hawk.ETL.Plugins.Generators
         {
             var dict = this.UnsafeDictSerialize();
             dict.Add("Type", GetType().Name);
-        
+
             return dict;
         }
-     
 
 
         public virtual void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
@@ -76,7 +82,9 @@ namespace Hawk.ETL.Plugins.Generators
 
         [LocalizedDisplayName("介绍")]
         [PropertyOrder(100)]
-        public string Description {
+        [PropertyEditor("CodeEditor")]
+        public string Description
+        {
             get
             {
                 var item = AttributeHelper.GetCustomAttribute(GetType());
@@ -106,7 +114,6 @@ namespace Hawk.ETL.Plugins.Generators
 
         public virtual bool Init(IEnumerable<IFreeDocument> datas)
         {
-
             if (string.IsNullOrEmpty(ETLSelector))
                 return false;
             mainstream =
@@ -114,7 +121,7 @@ namespace Hawk.ETL.Plugins.Generators
                     .FirstOrDefault(d => d.CurrentETLTools.Contains(this));
             etl =
                 processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == ETLSelector) as SmartETLTool;
-            if (mainstream!=null&&mainstream.Name == this.Name)
+            if (mainstream != null && mainstream.Name == Name)
                 throw new Exception("子流程不能调用自身，否则会引起循环调用");
             if (etl != null)
             {
@@ -133,7 +140,7 @@ namespace Hawk.ETL.Plugins.Generators
             etl =
                 processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == ETLSelector) as SmartETLTool;
 
-         
+
             etl.InitProcess(true);
             return etl != null;
         }
@@ -147,11 +154,26 @@ namespace Hawk.ETL.Plugins.Generators
         {
             var processes = new List<IColumnProcess>();
 
-
-            foreach (var tool in etl.CurrentETLTools)
+            var range = ETLRange.Split(':');
+            var start = 0;
+            var end = etl.CurrentETLTools.Count;
+            if (range.Length == 2)
             {
-                
-                    processes.Add(tool);
+                try
+                {
+                    start = int.Parse(range[0]);
+                    end = int.Parse(range[1]);
+                    if (end <= start)
+                        throw new Exception("第二个数字应该比第一个数更大");
+                }
+                catch (Exception ex)
+                {
+                    XLogSys.Print.Error("子流范围表达式错误，请检查:" + ex.Message);
+                }
+            }
+            foreach (var tool in etl.CurrentETLTools.Skip(start).Take(end - start))
+            {
+                processes.Add(tool);
             }
             return processes;
         }
@@ -169,12 +191,11 @@ namespace Hawk.ETL.Plugins.Generators
         public IEnumerable<FreeDocument> Generate(IFreeDocument document = null)
         {
             var process = GetProcesses();
-           
-                foreach (var item in etl.Generate(process, IsExecute).Select(d => d as FreeDocument))
-                {
-                    yield return item;
-                }
-         
+
+            foreach (var item in etl.Generate(process, IsExecute).Select(d => d as FreeDocument))
+            {
+                yield return item;
+            }
         }
 
         public int? GenerateCount()
@@ -184,7 +205,7 @@ namespace Hawk.ETL.Plugins.Generators
 
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
-            var data= base.DictSerialize(scenario);
+            var data = base.DictSerialize(scenario);
             data.SetValue("Group", "Generator");
             return data;
         }
@@ -211,12 +232,14 @@ namespace Hawk.ETL.Plugins.Generators
             func = etl.Aggregate(d => d, process, true);
             return true;
         }
+
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
             var data = base.DictSerialize(scenario);
             data.SetValue("Group", "Executor");
             return data;
         }
+
         public IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents)
         {
             foreach (var document in documents)
@@ -303,6 +326,9 @@ namespace Hawk.ETL.Plugins.Generators
             IsCycle = false;
         }
 
+        [LocalizedDisplayName("递归到下列")]
+        public bool IsCycle { get; set; }
+
         [LocalizedDisplayName("新列名")]
         [LocalizedDescription("从原始数据中传递到子执行流的列，多个列用空格分割")]
         public string NewColumn { get; set; }
@@ -310,8 +336,6 @@ namespace Hawk.ETL.Plugins.Generators
         [Browsable(false)]
         public bool OneOutput => false;
 
-        [LocalizedDisplayName("递归到下列")]
-        public bool IsCycle { get; set; }
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
             base.Init(datas);
@@ -326,39 +350,38 @@ namespace Hawk.ETL.Plugins.Generators
             data.AddRange(result);
             return null;
         }
+
         [LocalizedDisplayName("返回多个数据")]
         public bool IsMultiYield { get; set; }
 
         public IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
         {
-           
             foreach (var data in datas)
             {
                 if (IsCycle)
                 {
-                    IFreeDocument newdata = data;
-                    while(string.IsNullOrEmpty(newdata[Column].ToString())==false)
+                    var newdata = data;
+                    while (string.IsNullOrEmpty(newdata[Column].ToString()) == false)
                     {
-                        var result = etl.Generate(process, IsExecute, new List<IFreeDocument> { newdata.Clone() }).FirstOrDefault();
+                        var result =
+                            etl.Generate(process, IsExecute, new List<IFreeDocument> {newdata.Clone()}).FirstOrDefault();
                         if (result == null)
                             break;
                         yield return result.Clone();
                         newdata = result;
                     }
-                  
-
                 }
                 else
                 {
-                    var result = etl.Generate(process, IsExecute, new List<IFreeDocument> { data.Clone() });
+                    var result = etl.Generate(process, IsExecute, new List<IFreeDocument> {data.Clone()});
                     foreach (var item in result)
                     {
                         yield return item.MergeQuery(data, NewColumn);
                     }
                 }
-               
             }
         }
+
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
             var data = base.DictSerialize(scenario);

@@ -77,7 +77,6 @@ namespace Hawk.ETL.Plugins.Transformers
                 generator = mainstream.CurrentETLTools.FirstOrDefault(d => d.Name == GEName) as BfsGE;
             }
 
-
             base.Init(datas);
 
             IsMultiYield = crawler?.IsMultiData == ListType.List;

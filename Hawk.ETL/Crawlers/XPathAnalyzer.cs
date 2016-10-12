@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using HtmlAgilityPack;
 
@@ -232,9 +233,23 @@ namespace Hawk.ETL.Crawlers
                     var parentattr = node.ParentNode.Attributes[attrkey].Value;
                     value = parentattr + '_' + attr;
                 }
-                value= value.Replace(' ', '_');
+
+                value = value.Replace(' ', '_');
                 if (!string.IsNullOrEmpty(value))
                     return value;
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(node.Name) )
+                {
+                    var attr = node.Name; 
+                    if (crawlItems.FirstOrDefault(d => d.Name == attr) == null)
+                    {
+                        value = attr;
+                    }
+                    if (!string.IsNullOrEmpty(value))
+                        return value;
+                }
             }
             return null;
             //if(node.Name == "td") //数据列
@@ -287,15 +302,15 @@ namespace Hawk.ETL.Crawlers
 
         public static bool IsAncestor(this HtmlNode node, HtmlNode root)
         {
-            while (node!=null)
+            while (node != null)
             {
                 if (node == root)
                     return true;
                 node = node.ParentNode;
             }
             return false;
-
         }
+
         /// <summary>
         ///     find different text and return it name and xpath
         /// </summary>
@@ -341,7 +356,7 @@ namespace Hawk.ETL.Crawlers
 
                 isChildContainInfo |= GetDiffNodes(nodechild2, result, buffers, isAttrEnabled);
             }
-      
+
 
             if (isAttrEnabled == false)
             {
@@ -350,9 +365,12 @@ namespace Hawk.ETL.Crawlers
             foreach (var attribute in node1.Attributes)
             {
                 var attr1 = attribute.Value;
-          ;
+                ;
                 var row = nodes.Select(d => d.SelectSingleNode(d.XPath))
-                   .Where(d => d != null).Where(d => d.Attributes.Contains(attribute.Name)).Select(d=>d.Attributes[attribute.Name].Value).ToList();
+                    .Where(d => d != null)
+                    .Where(d => d.Attributes.Contains(attribute.Name))
+                    .Select(d => d.Attributes[attribute.Name].Value)
+                    .ToList();
                 if (row.Any(d => CompareString(d, attr1) == false))
                 {
                     if (buffers.Any(d => ListEqual(d, row)))
@@ -424,7 +442,7 @@ namespace Hawk.ETL.Crawlers
                 var list = item as IList;
                 for (var i = 0; i < list.Count; i++)
                 {
-                    var path = (list[i]).SearchXPathInner(value);
+                    var path = list[i].SearchXPathInner(value);
                     if (path != null)
                     {
                         if (path != "")
@@ -558,7 +576,7 @@ namespace Hawk.ETL.Crawlers
             var childCounts = avanode.Select(d => (double) d.ChildNodes.Count).ToArray();
             var v = childCounts.Variance();
             //TODO: 此处需要一个更好的手段，因为有效节点往往是间隔的
-            if (v > 5)
+            if (v > 10)
             {
                 return;
             }
@@ -588,7 +606,7 @@ namespace Hawk.ETL.Crawlers
             if (node.ChildNodes.Count == 0)
             {
                 var text = node.InnerText.Trim();
-                if ((string.IsNullOrEmpty(text) == false))
+                if (string.IsNullOrEmpty(text) == false)
                 {
                     var textlen = text.Length;
                     if (textlen > paraClass.tLen)
@@ -772,7 +790,7 @@ namespace Hawk.ETL.Crawlers
             }
         }
 
-        public static IEnumerable<List<CrawlItem>> SearchPropertiesSmart(this string htmlDoc,
+        public static IEnumerable<CrawTarget> SearchPropertiesSmart(this string htmlDoc,
             ICollection<CrawlItem> existItems = null)
         {
             var html = new HtmlDocument();
@@ -845,11 +863,27 @@ namespace Hawk.ETL.Crawlers
         private static List<CrawlItem> GetDiffNodes(HtmlDocument doc2, string shortv, bool isAttrEnabled,
             IEnumerable<CrawlItem> exists = null)
         {
-            var crawlItems = new List<CrawlItem>();
-            var nodes = doc2.DocumentNode.SelectNodes(shortv);
-            if (nodes == null)
+            HtmlNodeCollection nodes = null;
+            List<CrawlItem> crawlItems=new List<CrawlItem>();
+            try
+            {
+                nodes = doc2.DocumentNode.SelectNodes(shortv);
+            }
+            catch (Exception ex)
+            {
+                XLogSys.Print.Error(ex.Message + "  可能XPath表达式有误");
                 return new List<CrawlItem>();
-            var buffers=new List<List<string>>();
+            }
+
+            if (nodes == null)
+            {
+                if (!string.IsNullOrEmpty(shortv))
+                    XLogSys.Print.Warn("当前父节点XPath找不到任何节点");
+
+                return new List<CrawlItem>();
+            }
+
+            var buffers = new List<List<string>>();
             var nodes3 = nodes.ToList(); // .Where(d => d.Name.Contains("#") == false).ToList();
             if (nodes3.Count > 1)
             {
@@ -864,66 +898,88 @@ namespace Hawk.ETL.Crawlers
             return crawlItems;
         }
 
-        public static IEnumerable<List<CrawlItem>> SearchPropertiesSmart(this HtmlDocument doc2,
-            ICollection<CrawlItem> existItems = null, bool isAttrEnabled = false)
+        public static IEnumerable<CrawTarget> SearchPropertiesSmart(this HtmlDocument doc2,
+            ICollection<CrawlItem> existItems = null, string rootPath = null, bool isAttrEnabled = false)
         {
             if (existItems == null)
                 existItems = new List<CrawlItem>();
             var shortv = "";
-            if (existItems.Count > 1)
+            var dict = new Dictionary<string, double>();
+            if (string.IsNullOrEmpty(rootPath))
             {
-                shortv =
-                    XPath.GetMaxCompareXPath(existItems.Select(d => new XPath(d.XPath)).ToList()).ToString();
-                yield return GetDiffNodes(doc2, shortv, isAttrEnabled, existItems);
-            }
-            else if (existItems.Count == 1)
-            {
-                var realPath = new XPath(existItems.First().XPath);
-                var array =
-                    realPath.SelectAll(d => true)
-                        .Select(d => new XPath(realPath.Take(d)).ToString()).ToList();
-                var dict = new Dictionary<string, double>();
-                foreach (var item in array)
+                if (existItems.Count > 1)
                 {
-                    GetTableRootProbability(
-                        doc2.DocumentNode.SelectSingleNode(item)
-                            .ChildNodes.Where(d2 => d2.Name.Contains("#") == false)
-                            .ToList(), dict, false);
+                    shortv =
+                        XPath.GetMaxCompareXPath(existItems.Select(d => new XPath(d.XPath)).ToList()).ToString();
+                    var items = GetDiffNodes(doc2, shortv, isAttrEnabled, existItems);
+                    if (items.Count > 1)
+                        yield return new CrawTarget(items);
+                    yield break;
                 }
 
-                foreach (
-                    var  item in
-                        dict.OrderByDescending(d => d.Value))
+                if (existItems.Count == 1)
                 {
-                    shortv = item.Key;
-                    yield return GetDiffNodes(doc2, shortv, isAttrEnabled, existItems);
+                    var realPath = new XPath(existItems.First().XPath);
+                    var array =
+                        realPath.SelectAll(d => true)
+                            .Select(d => new XPath(realPath.Take(d)).ToString()).ToList();
+                    foreach (var item in array)
+                    {
+                        GetTableRootProbability(
+                            doc2.DocumentNode.SelectSingleNode(item)
+                                .ChildNodes.Where(d2 => d2.Name.Contains("#") == false)
+                                .ToList(), dict, false);
+                    }
+                }
+                else
+                {
+                    GetTableRootProbability(
+                        doc2.DocumentNode.ChildNodes.Where(d => d.Name.Contains("#") == false).ToList(), dict, true);
+                }
+                if (existItems.Count < 2)
+                {
+                    IEnumerable<KeyValuePair<string, double>> p = dict.OrderByDescending(d => d.Value);
+
+
+                    foreach (var keyValuePair in p)
+                    {
+                        var items = GetDiffNodes(doc2, keyValuePair.Key, isAttrEnabled, existItems);
+                        if (items.Count > 1)
+                            yield return new CrawTarget(items );
+                    }
                 }
             }
             else
             {
-                var dict = new Dictionary<string, double>();
-                GetTableRootProbability(
-                    doc2.DocumentNode.ChildNodes.Where(d => d.Name.Contains("#") == false).ToList(), dict, true);
-                IEnumerable<KeyValuePair<string, double>> p = dict.OrderByDescending(d => d.Value);
-                foreach (var keyValuePair in p)
+                var items = GetDiffNodes(doc2, rootPath, isAttrEnabled, new List<CrawlItem>());
+                if (items.Count > 1)
                 {
-                    var items = GetDiffNodes(doc2, keyValuePair.Key, isAttrEnabled, existItems);
-                    if (items.Count > 1)
-                        yield return items;
+                    var root = doc2.DocumentNode.SelectSingleNode(rootPath);
+
+                    foreach (var crawlItem in items)
+                    {
+                        crawlItem.XPath =  new XPath(crawlItem.XPath).TakeOff(root.XPath).ToString();  
+                    }
+
+                    yield return new CrawTarget(items, rootPath);
                 }
+                    
             }
         }
 
         public static IEnumerable<List<FreeDocument>> GetDataFromMultiURL(IEnumerable<string> url)
         {
-            List<CrawlItem> properties = null;
+            CrawTarget properties = null;
             foreach (var r in url)
             {
                 var doc2 = GetDocumentFromURL(r);
                 if (properties == null)
 
                     properties = doc2.SearchPropertiesSmart().FirstOrDefault();
-                yield return doc2.GetDataFromXPath(properties);
+                if (properties?.CrawItems != null)
+                {
+                    yield return doc2.GetDataFromXPath(properties.CrawItems);
+                }
             }
         }
 
@@ -978,7 +1034,7 @@ namespace Hawk.ETL.Crawlers
         public static IEnumerable<List<FreeDocument>> GetDataFromHtml(this HtmlDocument doc)
         {
             var properties = doc.SearchPropertiesSmart();
-            return properties.Select(property => doc.GetDataFromXPath(property));
+            return properties.Select(property => doc.GetDataFromXPath(property.CrawItems));
         }
 
         public static string CompileCrawItems(this HtmlDocument doc2, IList<CrawlItem> crawlItem)
@@ -1059,6 +1115,17 @@ namespace Hawk.ETL.Crawlers
                     return new List<FreeDocument> {freeDocument};
             }
             return new List<FreeDocument>();
+        }
+
+        public class CrawTarget
+        {
+            public CrawTarget(List<CrawlItem> items, string rootpath="")
+            {
+                CrawItems = items;
+                RootXPath = rootpath;
+            }
+            public string RootXPath { get; set; }
+            public List<CrawlItem> CrawItems { get; set; }
         }
 
         private class ParaClass

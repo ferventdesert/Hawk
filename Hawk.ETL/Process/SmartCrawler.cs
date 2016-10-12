@@ -1,14 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Web.Script.Serialization;
 using System.Windows;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Input;
+using System.Xml;
 using Fiddler;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
@@ -34,6 +38,24 @@ namespace Hawk.ETL.Process
         /// </summary>
         public bool AutoVisitUrl = true;
 
+        //public void AutoVisit()
+        //{
+        //    if (Documents.Any())
+        //    {
+        //        var item = new HttpItem();
+        //        Documents[0].DictCopyTo(item);
+        //        var res = helper != null && helper.AutoVisit(item);
+        //        XLogSys.Print.Info("成功模拟登录");
+        //        Http.SetValue("Cookie", item.GetValue("Cookie"));
+        //        if (res)
+        //        {
+        //            URL = item.URL;
+        //        }
+        //    }
+        //}
+
+        private XPathAnalyzer.CrawTarget CrawTarget;
+
         private IEnumerator<string> currentXPaths;
         public HtmlDocument HtmlDoc = new HtmlDocument();
 
@@ -45,8 +67,10 @@ namespace Hawk.ETL.Process
         private string selectName = "属性0";
         private string selectText = "";
         private string selectXPath = "";
-        private string url;
-        private string urlHTML;
+        private string url = "";
+        private string urlHTML = "";
+
+        private int xpath_count;
 
         public SmartCrawler()
         {
@@ -56,7 +80,6 @@ namespace Hawk.ETL.Process
 
             helper = new HttpHelper();
             IsMultiData = ListType.List;
-            Documents = new ObservableCollection<HttpItem>();
         }
 
         [Browsable(false)]
@@ -96,13 +119,14 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("刷新网页", obj => VisitURLAsync())
+                        new Command("刷新网页", obj => VisitURLAsync()),
+                        new Command("复制到剪切板", obj => CopytoClipBoard())
                     });
             }
         }
 
         [LocalizedDisplayName("执行")]
-        [LocalizedCategory("属性提取")]
+        [LocalizedCategory("2.属性提取")]
         [PropertyOrder(6)]
         public ReadOnlyCollection<ICommand> Commands2
         {
@@ -124,35 +148,30 @@ namespace Hawk.ETL.Process
                             ),
                         new Command("提取测试", obj =>
                         {
-                            var hasSearchpath = false;
-                            var shortv = "";
-                            if (IsMultiData == ListType.List)
+                            if (!(CrawlItems.Count > 0).SafeCheck("属性数量不能为空"))
+                                return;
+
+                            if (IsMultiData == ListType.List && CrawlItems.Count < 2)
                             {
-                                if (string.IsNullOrEmpty(RootXPath))
-                                {
-                                    if (!(CrawlItems.Count != 0).SafeCheck("属性的数量不能为0", LogType.Important))
-                                        return;
-                                    shortv = HtmlDoc.CompileCrawItems(CrawlItems);
-                                    hasSearchpath = true;
-                                }
-                                else
-                                {
-                                    shortv = RootXPath;
-                                }
+                                MessageBox.Show("列表模式下，属性数量不能少于2个","提示信息");
+                                return;
                             }
-
-
-                            var datas = HtmlDoc.GetDataFromXPath(CrawlItems, IsMultiData, shortv);
+                            var datas = HtmlDoc.GetDataFromXPath(CrawlItems, IsMultiData, RootXPath);
                             var view = PluginProvider.GetObjectInstance<IDataViewer>("可编辑列表");
 
                             var r = view.SetCurrentView(datas);
                             ControlExtended.DockableManager.AddDockAbleContent(
                                 FrmState.Custom, r, "提取数据测试结果");
-                            if (hasSearchpath && !string.IsNullOrEmpty(shortv) &&
-                                MessageBox.Show(string.Format("检测到列表的根节点为:{0}，是否设置根节点路径?", shortv), "提示信息",
+
+                            var rootPath =
+                                XPath.GetMaxCompareXPath(CrawlItems.Select(d => new XPath(d.XPath)).ToList()).ToString();
+                            if (datas.Count > 1 && string.IsNullOrEmpty(RootXPath) && rootPath.Length > 0 &&
+                                IsMultiData == ListType.List &&
+                                MessageBox.Show($"检测到列表的根节点为:{rootPath}，是否设置根节点路径？ 此操作有建议有经验用户使用，小白用户请点【否】", "提示信息",
                                     MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                             {
-                                RootXPath = shortv;
+                                RootXPath = rootPath;
+                                HtmlDoc.CompileCrawItems(CrawlItems);
                                 OnPropertyChanged("RootXPath");
                             }
                         })
@@ -160,7 +179,7 @@ namespace Hawk.ETL.Process
             }
         }
 
-        [LocalizedCategory("属性提取")]
+        [LocalizedCategory("2.属性提取")]
         [LocalizedDisplayName("搜索字符")]
         [PropertyOrder(2)]
         public string SelectText
@@ -170,14 +189,17 @@ namespace Hawk.ETL.Process
             {
                 if (selectText == value) return;
                 selectText = value;
-
-                currentXPaths = HtmlDoc.SearchXPath(SelectText, () => IsAttribute).GetEnumerator();
-                GetXPathAsync();
+                xpath_count = 0;
+                if (string.IsNullOrWhiteSpace(selectText) == false)
+                {
+                    currentXPaths = HtmlDoc.SearchXPath(SelectText, () => IsAttribute).GetEnumerator();
+                    GetXPathAsync();
+                }
                 OnPropertyChanged("SelectText");
             }
         }
 
-        [LocalizedCategory("属性提取")]
+        [LocalizedCategory("2.属性提取")]
         [PropertyOrder(4)]
         [LocalizedDisplayName("获取的XPath")]
         public string SelectXPath
@@ -193,7 +215,7 @@ namespace Hawk.ETL.Process
             }
         }
 
-        [LocalizedCategory("属性提取")]
+        [LocalizedCategory("2.属性提取")]
         [PropertyOrder(5)]
         [LocalizedDisplayName("属性名称")]
         [LocalizedDescription("为当前属性命名")]
@@ -208,18 +230,18 @@ namespace Hawk.ETL.Process
             }
         }
 
-        [LocalizedCategory("属性提取")]
+        [LocalizedCategory("2.属性提取")]
         [LocalizedDisplayName("读取模式")]
         [LocalizedDescription("当需要获取列表时，选择List,否则选择One")]
         [PropertyOrder(1)]
         public ListType IsMultiData { get; set; }
 
         [PropertyOrder(6)]
-        [LocalizedCategory("属性提取")]
+        [LocalizedCategory("2.属性提取")]
         [LocalizedDisplayName("已有属性")]
         public ObservableCollection<CrawlItem> CrawlItems { get; set; }
 
-        [LocalizedCategory("属性提取")]
+        [LocalizedCategory("2.属性提取")]
         [LocalizedDisplayName("请求详情")]
         [PropertyOrder(11)]
         [LocalizedDescription("设置Cookie和其他访问选项")]
@@ -228,10 +250,11 @@ namespace Hawk.ETL.Process
 
         [LocalizedDisplayName("提取标签")]
         [PropertyOrder(4)]
-        [LocalizedCategory("属性提取")]
+        [LocalizedCategory("2.属性提取")]
         public bool IsAttribute { get; set; }
 
-        [LocalizedCategory("属性提取")]
+        [LocalizedCategory("2.属性提取")]
+        [LocalizedDescription("当设置该值后，所有属性Path都应该为父节点的子path，而不能是完整的xpath路径")]
         [LocalizedDisplayName("父节点Path")]
         [PropertyOrder(8)]
         public string RootXPath { get; set; }
@@ -239,17 +262,6 @@ namespace Hawk.ETL.Process
         [Browsable(false)]
         public bool IsRunning { get; private set; }
 
-        [LocalizedCategory("自动嗅探")]
-        [LocalizedDisplayName("URL筛选")]
-        [LocalizedDescription("仅当请求的URL包含该字段时才会收集信息，使用空格分割，可包含多个关键字段")]
-        [PropertyOrder(16)]
-        public string URLFilter { get; set; }
-
-        [LocalizedCategory("自动嗅探")]
-        [LocalizedDisplayName("内容筛选")]
-        [LocalizedDescription("仅当返回的数据包含该字段时才会收集信息，使用空格分割，可包含多个关键字段")]
-        [PropertyOrder(17)]
-        public string ContentFilter { get; set; }
 
         [LocalizedCategory("自动嗅探")]
         [LocalizedDisplayName("保存请求")]
@@ -257,13 +269,8 @@ namespace Hawk.ETL.Process
         [PropertyOrder(18)]
         public bool CanSave { get; set; }
 
-        [Browsable(false)]
-        //   [LocalizedCategory("自动嗅探")]
-        //  [LocalizedDisplayName("嗅探信息")]
-        [PropertyOrder(19)]
-        public ObservableCollection<HttpItem> Documents { get; set; }
 
-        [LocalizedCategory("自动嗅探")]
+        [LocalizedCategory("3.动态请求嗅探")]
         [LocalizedDisplayName("执行")]
         [PropertyOrder(20)]
         public ReadOnlyCollection<ICommand> Commands
@@ -286,52 +293,67 @@ namespace Hawk.ETL.Process
         public string Crawler { get; set; }
 
 
+        [LocalizedCategory("3.动态请求嗅探")]
+        [LocalizedDisplayName("转换动态请求")]
+        [LocalizedDescription("该属性会将Json请求强制转换为Html,从而使用【手气不错】功能，如果你想自己处理Json,则不要勾选该选项")]
+        [PropertyOrder(9)]
+        public bool IsJson2xml { get; set; }
+
         [Browsable(false)]
         public object UserControl => null;
 
+
         [Browsable(false)]
         public FrmState FrmState => FrmState.Large;
+
+
+        private void CopytoClipBoard()
+        {
+            Clipboard.SetDataObject(URLHTML);
+            XLogSys.Print.Info("已经成功复制到剪贴板");
+        }
 
         private async void GetXPathAsync()
         {
             if (currentXPaths == null)
                 return;
+            xpath_count++;
+
             var r = await MainFrm.RunBusyWork(() => currentXPaths.MoveNext(), "正在查询XPath");
             if (r)
                 SelectXPath = currentXPaths.Current;
             else
             {
                 SelectXPath = "";
-                XLogSys.Print.Warn("找不到其他符合条件的节点，搜索器已经返回开头");
-                currentXPaths = HtmlDoc.SearchXPath(SelectText, () => IsAttribute).GetEnumerator();
+                if (xpath_count > 1)
+                {
+                    XLogSys.Print.Warn("找不到其他符合条件的节点，搜索器已经返回开头");
+                    currentXPaths = HtmlDoc.SearchXPath(SelectText, () => IsAttribute).GetEnumerator();
+                }
+                else
+                {
+                    XLogSys.Print.Warn($"在该网页中找不到关键字 {SelectText},可能是动态请求，可以启用【自动嗅探】,勾选【转换动态请求】,并将浏览器页面翻到包含该关键字的位置");
+                }
             }
         }
 
-        //public void AutoVisit()
-        //{
-        //    if (Documents.Any())
-        //    {
-        //        var item = new HttpItem();
-        //        Documents[0].DictCopyTo(item);
-        //        var res = helper != null && helper.AutoVisit(item);
-        //        XLogSys.Print.Info("成功模拟登录");
-        //        Http.SetValue("Cookie", item.GetValue("Cookie"));
-        //        if (res)
-        //        {
-        //            URL = item.URL;
-        //        }
-        //    }
-        //}
-
         private void GreatHand()
         {
-            var crawitems = HtmlDoc.SearchPropertiesSmart(CrawlItems, IsAttribute).FirstOrDefault();
-            if ((crawitems != null).SafeCheck("网页属性获取", LogType.Info) == false)
+            var count = 0;
+            var crawTargets = HtmlDoc.SearchPropertiesSmart(CrawlItems, RootXPath, IsAttribute);
+            var currentCrawTargets = crawTargets.GetEnumerator();
+            var result = currentCrawTargets.MoveNext();
+            if (result)
+                CrawTarget = currentCrawTargets.Current;
+            else
+            {
+                CrawTarget = null;
+                XLogSys.Print.Warn("没有检查到任何可选的列表页面");
                 return;
+            }
 
-
-            var datas = HtmlDoc.GetDataFromXPath(crawitems, IsMultiData);
-
+            var crawitems = CrawTarget.CrawItems;
+            var datas = HtmlDoc.GetDataFromXPath(crawitems, IsMultiData, RootXPath);
             var propertyNames = new FreeDocument(datas.GetKeys().ToDictionary(d => d, d => (object) d));
             datas.Insert(0, propertyNames);
             var view = PluginProvider.GetObjectInstance<IDataViewer>("可编辑列表");
@@ -343,20 +365,59 @@ namespace Hawk.ETL.Process
             window.Content = r;
             window.Closing += (s, e) =>
             {
-                if (ControlExtended.UserCheck("是否确认选择当前的数据表") == false)
-                    return;
-
-                foreach (var propertyName in propertyNames)
+                var check = MessageBox.Show("是否确认选择当前结果？【是】：确认结果，  【否】:检查下个目标，  【取消】:结束当前手气不错", "提示信息",
+                    MessageBoxButton.YesNoCancel);
+                switch (check)
                 {
-                    var item = crawitems.FirstOrDefault(d => d.Name == propertyName.Key);
-                    if (item == null)
-                        continue;
-                    if (propertyName.Value == null)
-                        continue;
-                    item.Name = propertyName.Value.ToString();
+                    case MessageBoxResult.Yes:
+                        foreach (var propertyName in propertyNames)
+                        {
+                            var item = crawitems.FirstOrDefault(d => d.Name == propertyName.Key);
+                            if (item == null)
+                                continue;
+                            if (propertyName.Value == null)
+                                continue;
+                            item.Name = propertyName.Value.ToString();
+                        }
+                        CrawlItems.Clear();
+                        RootXPath = CrawTarget.RootXPath;
+                        CrawlItems.AddRange(crawitems);
+                        currentCrawTargets = null;
+                        break;
+                    case MessageBoxResult.No:
+                        e.Cancel = true;
+                        result = currentCrawTargets.MoveNext();
+                        count++;
+                        if (result)
+                            CrawTarget = currentCrawTargets.Current;
+                        else
+                        {
+                            MessageBox.Show("已经搜索所有可能情况，搜索器已经返回开头");
+                            crawTargets = HtmlDoc.SearchPropertiesSmart(CrawlItems, RootXPath, IsAttribute);
+                            currentCrawTargets = crawTargets.GetEnumerator();
+                            count = 0;
+                            result = currentCrawTargets.MoveNext();
+                            if (!result)
+                            {
+                                e.Cancel = false;
+                            }
+                            else
+                            {
+                                CrawTarget = currentCrawTargets.Current;
+                            }
+                        }
+
+                        crawitems = CrawTarget.CrawItems;
+                        datas = HtmlDoc.GetDataFromXPath(crawitems, IsMultiData);
+                        propertyNames = new FreeDocument(datas.GetKeys().ToDictionary(d => d, d => (object) d));
+                        datas.Insert(0, propertyNames);
+                        r = view.SetCurrentView(datas);
+                        window.Content = r;
+                        window.Title = $"手气不错，第{count}次结果";
+                        break;
+                    case MessageBoxResult.Cancel:
+                        return;
                 }
-                CrawlItems.Clear();
-                CrawlItems.AddRange(crawitems);
             };
 
 
@@ -378,13 +439,10 @@ namespace Hawk.ETL.Process
             dict.Add("URL", URL);
             dict.Add("RootXPath", RootXPath);
             dict.Add("IsMultiData", IsMultiData);
+            dict.Add("IsJson2xml", IsJson2xml);
             dict.Add("HttpSet", Http.DictSerialize());
-            dict.Add("URLFilter", URLFilter);
-            dict.Add("ContentFilter", ContentFilter);
             dict.Add("Crawler", Crawler);
             dict.Children = new List<FreeDocument>();
-            if (Documents.Any())
-                dict.Add("Login", Documents[0].DictSerialize());
             dict.Children.AddRange(CrawlItems.Select(d => d.DictSerialize(scenario)));
             return dict;
         }
@@ -393,10 +451,6 @@ namespace Hawk.ETL.Process
         {
             FiddlerApplication.AfterSessionComplete -= FiddlerApplicationAfterSessionComplete;
             FiddlerApplication.Shutdown();
-            if (CanSave && Documents.Count > 0)
-            {
-                SysDataManager.AddDataCollection(Documents.Select(d => d.DictSerialize(Scenario.Other)), "爬虫记录");
-            }
             IsRunning = FiddlerApplication.IsStarted();
             OnPropertyChanged("IsRunning");
         }
@@ -405,17 +459,14 @@ namespace Hawk.ETL.Process
         {
             if (IsRunning)
                 return;
-            if (string.IsNullOrEmpty(URLFilter) && string.IsNullOrEmpty(ContentFilter))
+            if (string.IsNullOrWhiteSpace(SelectText))
             {
-                MessageBox.Show("请填写至少填写URL前缀或关键字中一项过滤规则");
+                MessageBox.Show("请填写包含在页面中的关键字信息：【2.属性提取】->【搜索字符】");
                 return;
             }
             ControlExtended.SafeInvoke(() =>
             {
-                if (CanSave)
-                {
-                    Documents.Clear();
-                }
+                IsJson2xml = true;
                 var url = URL;
                 if (url.StartsWith("http") == false)
                     url = "http://" + url;
@@ -425,20 +476,11 @@ namespace Hawk.ETL.Process
                 FiddlerApplication.Startup(8888, FiddlerCoreStartupFlags.Default);
                 IsRunning = FiddlerApplication.IsStarted();
                 OnPropertyChanged("IsRunning");
-            }, LogType.Important, "尝试启动服务");
+            }, LogType.Important, "请在关闭软件前关闭嗅探服务。【否则可能无法正常上网】，尝试启动服务");
         }
 
         private void FiddlerApplicationAfterSessionComplete(Session oSession)
         {
-            if (string.IsNullOrEmpty(URLFilter) == false)
-            {
-                URLFilter = URLFilter.Replace("http://", "");
-                if (URLFilter.Split(' ').Any(item => oSession.url.Contains(item) == false))
-                {
-                    return;
-                }
-            }
-
             var httpitem = new HttpItem {Parameters = oSession.oRequest.headers.ToString()};
 
 
@@ -453,24 +495,30 @@ namespace Hawk.ETL.Process
 
 
             httpitem.Postdata = Encoding.Default.GetString(oSession.RequestBody);
-            if (string.IsNullOrEmpty(httpitem.Postdata) == false)
-            {
-                httpitem.Method = MethodType.POST;
-                ControlExtended.UIInvoke(() => Documents.Add(httpitem));
-            }
 
 
-            if (string.IsNullOrEmpty(ContentFilter) == false)
+            if (string.IsNullOrWhiteSpace(SelectText) == false)
             {
-                if (ContentFilter.Split(' ').Any(item => oSession.GetResponseBodyAsString().Contains(item) == false))
+                var content = oSession.GetResponseBodyAsString();
+                content = formatCheck(content, isJson(oSession.oResponse.headers) || isJson(oSession.oRequest.headers));
+                if (content.Contains(SelectText) == false)
                 {
                     return;
                 }
             }
-
-
+            StopVisit();
             httpitem.DictCopyTo(Http);
-            XLogSys.Print.Info("已经成功获取嗅探字段" + oSession.url);
+            var post = "";
+            if (Http.Method == MethodType.POST)
+            {
+                post = "post请求的内容为:\n" + httpitem.Postdata + "\n";
+            }
+            var info = $"已经成功获取嗅探字段！ 真实请求地址:\n{oSession.url}，\n已自动配置了网页采集器，请求类型为{Http.Method}\n {post}已经刷新了网页采集器的内容";
+            MessageBox.Show(info, "已经成功获取嗅探字段");
+            URL = oSession.url;
+
+            VisitURLAsync();
+            XLogSys.Print.Info(info);
         }
 
         public override void DictDeserialize(IDictionary<string, object> dicts, Scenario scenario = Scenario.Database)
@@ -479,9 +527,8 @@ namespace Hawk.ETL.Process
             URL = dicts.Set("URL", URL);
             RootXPath = dicts.Set("RootXPath", RootXPath);
             IsMultiData = dicts.Set("IsMultiData", IsMultiData);
-            URLFilter = dicts.Set("URLFilter", URLFilter);
+            IsJson2xml = dicts.Set("IsJson2xml", IsJson2xml);
             Crawler = dicts.Set("Crawler", Crawler);
-            ContentFilter = dicts.Set("ContentFilter", ContentFilter);
             if (dicts.ContainsKey("HttpSet"))
             {
                 var doc2 = dicts["HttpSet"];
@@ -489,14 +536,6 @@ namespace Hawk.ETL.Process
                 Http.UnsafeDictDeserialize(p);
             }
 
-            if (dicts.ContainsKey("Login"))
-            {
-                var doc2 = dicts["Login"];
-                var p = doc2 as IDictionary<string, object>;
-                var item = new HttpItem();
-                item.DictDeserialize(p);
-                Documents.Add(item);
-            }
 
             if (dicts.ContainsKey("Generator"))
             {
@@ -520,15 +559,28 @@ namespace Hawk.ETL.Process
             var path = SelectXPath;
             if (!string.IsNullOrEmpty(RootXPath))
             {
-                var root = HtmlDoc.DocumentNode.SelectSingleNode(RootXPath).ParentNode;
+                //TODO: 当XPath路径错误时，需要捕获异常
+                var root = HtmlDoc.DocumentNode.SelectSingleNode(RootXPath);
+                if(!(root != null).SafeCheck("使用当前父节点XPath，在文档中找不到任何父节点"))
+                    return;
+                 root = HtmlDoc.DocumentNode.SelectSingleNode(RootXPath)?.ParentNode;
                 var node = HtmlDoc.DocumentNode.SelectSingleNode(path);
+                if (!(node != null).SafeCheck("使用当前子节点XPath，在文档中找不到任何子节点"))
+                    return;
                 if (!node.IsAncestor(root))
                 {
                     if (isAlert)
-                        MessageBox.Show("当前XPath所在节点不是父节点的后代，请检查对应的XPath");
-                    return;
+                        if (
+                            MessageBox.Show("当前XPath所在节点不是父节点的后代，请检查对应的XPath，是否依然要添加?", "提示信息", MessageBoxButton.YesNo) ==
+                            MessageBoxResult.Yes)
+                        {
+                            path = new XPath(node.XPath).TakeOff(root.XPath).ToString();
+                        }
+                        else
+                        {
+                            return;
+                        }
                 }
-                path = new XPath(node.XPath).TakeOff(root.XPath).ToString();
             }
 
             var item = new CrawlItem {XPath = path, Name = SelectName, SampleData1 = SelectText};
@@ -557,7 +609,88 @@ namespace Hawk.ETL.Process
             return doc.GetDataFromXPath(CrawlItems, IsMultiData, RootXPath);
         }
 
-        public List<FreeDocument> CrawlData(string url, out HtmlDocument doc, out HttpStatusCode code,
+        private bool isJson(WebHeaderCollection header)
+        {
+            if (header == null)
+                return false;
+            if (header.AllKeys.Contains("Content-Type"))
+            {
+                var type = header["Content-Type"];
+
+                if (type.ToLower().Contains("json"))
+                    return true;
+            }
+            return false;
+        }
+        private bool isJson(HTTPRequestHeaders header)
+        {
+            if (header == null)
+                return false;
+
+            if (header.Exists("Accept"))
+            {
+                var type = header["Accept"];
+
+                if (type.ToLower().Contains("json"))
+                    return true;
+            }
+            return false;
+        }
+
+        private bool isJson(HttpItem item)
+        {
+            var header =  item.GetHeaderParameter();
+            if (header.Contains("Accept"))
+            {
+                var type = header["Accept"];
+
+                if (type.ToString().ToLower().Contains("json"))
+                    return true;
+            }
+            return false;
+
+        }
+        private bool isJson(HTTPResponseHeaders header)
+        {
+            if (header == null)
+                return false;
+
+            if (header.Exists("Content-Type"))
+            {
+                var type = header["Content-Type"];
+
+                if (type.ToLower().Contains("json"))
+                    return true;
+            }
+            return false;
+        }
+
+
+        private string formatCheck(string content, bool isJson = false)
+        {
+            if (isJson)
+            {
+                try
+                {
+                    var serialier = new JavaScriptSerializer();
+                    var result = serialier.DeserializeObject(content);
+
+                    content = serialier.Serialize(result);
+
+                    var reader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(content),
+                        XmlDictionaryReaderQuotas.Max);
+                    var doc = new XmlDocument();
+                    doc.Load(reader);
+                    return doc.InnerXml;
+                }
+                catch (Exception)
+                {
+                }
+            }
+            return content;
+        }
+
+        public string GetHtml(string url, out HttpStatusCode code,
             string post = null)
         {
             var mc = extract.Matches(url);
@@ -600,8 +733,17 @@ namespace Hawk.ETL.Process
                     Http.Parameters = HttpItem.HeaderToString(myheader);
                 }
             }
+            WebHeaderCollection headerCollection;
+            var content = helper.GetHtml(Http, out headerCollection, out code, url, post);
+            content = formatCheck(content, isJson(headerCollection) || isJson(Http));
+            return content;
 
-            var content = helper.GetHtml(Http, out code, url, post);
+        }
+        public List<FreeDocument> CrawlData(string url, out HtmlDocument doc, out HttpStatusCode code,
+            string post = null)
+        {
+
+            var content = GetHtml(url, out code, post);
             doc = new HtmlDocument();
             if (!HttpHelper.IsSuccess(code))
             {
@@ -609,8 +751,9 @@ namespace Hawk.ETL.Process
                 return new List<FreeDocument>();
             }
 
-
+            ;
             doc.LoadHtml(content);
+
             var datas = CrawlData(doc);
             if (datas.Count == 0)
             {
@@ -625,10 +768,14 @@ namespace Hawk.ETL.Process
             URLHTML = await MainFrm.RunBusyWork(() =>
             {
                 HttpStatusCode code;
-                var item2 = helper.GetHtml(Http, out code, URL);
-                return item2;
+                return GetHtml(URL, out code);
             });
             HtmlDoc.LoadHtml(URLHTML);
+            if (string.IsNullOrWhiteSpace(selectText) == false)
+            {
+                currentXPaths = HtmlDoc.SearchXPath(SelectText, () => IsAttribute).GetEnumerator();
+                GetXPathAsync();
+            }
             OnPropertyChanged("URLHTML");
         }
     }

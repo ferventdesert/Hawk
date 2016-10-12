@@ -106,8 +106,8 @@ namespace Hawk.Core.Utils.Plugins
             //                        obj => (!this.MainFrmUI.PluginDictionary.ContainsKey(plugin.Name))),
             //                         new Command( "卸载", obj=>this.ReleasePlugin(action.Text),
             //                        obj => this.MainFrmUI.PluginDictionary.ContainsKey(plugin.Name)),
-                            
-                       
+
+
             //        };
             //    pluginCommands.ChildActions.Add(action);
             //}
@@ -122,7 +122,7 @@ namespace Hawk.Core.Utils.Plugins
             //        var dockableManager = this.MainFrmUI as IDockableManager;
             //        dockableManager?.AddDockAbleContent(view2.FrmState,view2,"系统插件信息");
             //    }));
-         //   this.MainFrmUI.CommandCollection.Add(pluginCommands);
+            //   this.MainFrmUI.CommandCollection.Add(pluginCommands);
 
             return true;
         }

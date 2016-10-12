@@ -60,6 +60,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="DataViewers\AboutAuthor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DataViewers\DataGridViewUI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -91,6 +95,9 @@
     <Compile Include="Adorners\DataGridSetter.cs" />
     <Compile Include="DataProcessManagerUI.xaml.cs">
       <DependentUpon>DataProcessManagerUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DataViewers\AboutAuthor.xaml.cs">
+      <DependentUpon>AboutAuthor.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataViewers\DataGridViewUI.xaml.cs">
       <DependentUpon>DataGridViewUI.xaml</DependentUpon>

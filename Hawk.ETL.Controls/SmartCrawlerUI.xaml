@@ -15,6 +15,7 @@
         <Label Content="请键入URL:" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left"/>
         <TextBox Text="{Binding URL}" VerticalAlignment="Center" Margin="68,16,268,16"/>
         <Button Margin="0,10,188,0" DataContext="{Binding Commands3[0]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="50" HorizontalAlignment="Right"/>
+        <Button Margin="0,10,99,0" DataContext="{Binding Commands3[1]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="50" HorizontalAlignment="Right"/>
         <ScrollViewer Margin="0,4,5,0" Grid.Row="1" Grid.ColumnSpan="2">
             <TextBlock Text="{Binding URLHTML}"    ScrollViewer.CanContentScroll="True" />
         </ScrollViewer>

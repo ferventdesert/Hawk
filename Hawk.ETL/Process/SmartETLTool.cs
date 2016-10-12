@@ -294,8 +294,12 @@ namespace Hawk.ETL.Process
 
         private void ExecuteAllExecutors()
         {
+            bool has_execute = CurrentETLTools.FirstOrDefault(d => d is IDataExecutor)!=null;
+            string info = "确定启动执行器?";
+            if (has_execute)
+                info =info+ "没有在主流程中发现执行器。";
             if (MainDescription.IsUIForm &&
-                ControlExtended.UserCheck("确定启动执行器？", "警告信息"))
+                ControlExtended.UserCheck(info, "警告信息"))
 
             {
                 ExecuteDatas();

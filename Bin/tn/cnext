@@ -1,0 +1,677 @@
+#中文语言规则系统
+#赵一鸣
+#转写不是主要任务，主要是识别类型，并尽可能地转换为标准形式
+#可以通过拓展规则，找出字符串中的信息树
+#例如：
+#1.  ￥230元 转写为 230 ，同时确认其为价格
+#2.  二零一四年八月  时间  2014/08   Year:2014 Month:08  
+
+#不同的数据类型，可以通过额外的XML配置文件，定义其处理策略。
+#例如: 当五分之三识别为分数之后，可以送入分数处理模块，得到其0.6的数值
+
+
+##%Script% extends
+
+#================#
+#   基础规则转写 #
+#================#
+
+byte_anything2null = (/.*/ : //);
+byte_anything2space = (/.*/ : / /);
+byte_ins_space = ("" : " ");
+null_2_null = ("" : "");
+byte_det_space = (/ */://);
+byte_det_pot = (/ /:/ /);
+byte_det_one_space = (/ ?/://);
+
+byte_cnv_to = (/[ \t]*[-~][ \t]*/ : / to /);
+
+#中文字符
+chs=(/[\u4e00-\u9fbb]/);
+
+chs_multi = (/[\u4e00-\u9fbb]+/);
+
+Punctuations = (/[,.?!\(\)\[\]]/);
+
+head_space = (/\b/) : $1;
+
+back_space =  (/\b|$/) : $1;
+
+#将全角符号转换为半角符号
+
+low_letter = (/[a-z]/);
+
+up_letter =  (/[A-Z]/);
+
+low_to_up_letter =   $(low_letter) : "unicode.upper(m.match)";
+
+en_letter =  $(low_letter) | $(up_letter);
+
+en_letters =  $(en_letter)+;
+
+Ordinal_s_no_replace =("." : ".") | ("th" : "th");
+
+
+int_1 = ("一" : "1") | ("1" : "1");
+int_0 =("零" : "0");
+int_del_0 = $(int_0) |  (// : /0/);
+int_2  = ("二" : "2") | ("两" : "2");
+
+int_2_5 = $(int_2) | ("三" : "3") | ("四" : "4") | ("五" : "5");
+int_0_4= $(int_0) | $(int_1) | $(int_2) | ("三" : "3") | ("四" : "4") ;
+int_2_9 = $(int_2_5) |  ("六" : "6") | ("七" : "7") | ("八" : "8") | ("九" : "9");
+int_1_9 = $(int_1) | $(int_2_9) | (/[1-9]/);
+int_0_9 =  $(int_0) | $(int_1_9)| (/[0-9]/);
+int_0_2= $(int_0) |$(int_1) |$(int_2);
+#可有可无的0-9，用于诸如四十这样的表达
+#%Type% INT
+int_0_9_null = $(int_del_0) |  $(int_1_9) | $(int_0);
+
+int_rep = $(int_0_9)+;
+
+int_rep0 = $(int_0)+;
+
+int_rep0_null = $(null_2_null) | $(int_rep0);
+
+signed_symbol0 = ("正" : "") | ("负" : "-") | ("正负" : "±") | ("\+" : "+") | ("\-" : "-") | ("±" : "±") ;
+
+signed_symbol = $(signed_symbol0) | $(null_2_null);
+
+int_1_decades = (/十/ : /1/) | (/一十/ : /1/) | $(int_1);
+
+int_0_10 =  $(int_0) | $(int_1_9)| $(int_1_decades) | (/[0-9]|(10)/);
+
+int_00_10 =  $(int_0)  $(int_1_9)| $(int_0_10);
+
+int_1_2_decades = $(int_1_decades) | (/二/ : /2/) (/十/ : //);
+
+int_1_5_decades = $(int_1_decades) | $(int_2_5) (/十/ : //);
+
+int_1_9_decades = $(int_1_decades) | $(int_1_9) (/十/ : //);
+
+int_10_99 = $(int_1_9_decades) $(int_0_9_null)  | (/[1-9][0-9]/) ;
+
+int_10_59 = $(int_1_5_decades) $(int_0_9_null) | (/[1-5][0-9]/) ;
+
+int_1_99 = $(int_1_9) | $(int_10_99) ;
+
+int_01_99 =  $(int_1_9) | $(int_10_99) | (/\d{1,2}/);
+
+int_0_99 =  $(int_0) | $(int_01_99) | (/\d{1,2}/) ;
+
+#为了适应24进制
+int_0_23 =  $(int_0)
+	| ("" : "0")  $(int_1_9) 
+	| $(int_1_decades) $(int_1_9) 
+	| (/二/ : /2/) | $(int_0_4);
+
+
+#为了适应12进制
+int_00_12 =  $(int_0)
+	| ("" : "0")  $(int_1_9)
+	| $(int_1_decades) $(int_0_2);
+
+int_01_12 =  $(int_1_9)| $(int_1_decades) $(int_0_2);
+
+#为了适应60进制
+int_0_60 =  $(int_0)
+	| $(int_10_59)
+	| ("" : "0")  $(int_1_9)
+	| (/([0-5][0-9])|(60)/);
+
+int_1_9_hundreds = $(int_1_9) ("百" : "");
+
+int_000_099 = $(int_del_0) $(int_del_0) $(int_0_9) | $(int_del_0) $(int_10_99) | $(int_del_0) $(int_del_0) $(int_del_0);
+
+int_100_999 =   $(int_1_9_hundreds) ("" : "00") |  $(int_1_9_hundreds) $(int_10_99);
+
+int_1_999 = $(int_1_99) | $(int_100_999);
+
+int_0_999 =   $(int_0) | $(int_1_999);
+
+int_1_9_thousands = $(int_1_9) ("千" : "");
+
+int_1000_9999 = $(int_1_9_thousands) $(int_000_099) | $(int_1_9_thousands) $(int_100_999);
+
+int_1_9999  = $(int_1000_9999) | $(int_1_999) | (/\d{1,4}/);
+
+int_0_9999  =   $(int_1000_9999) | $(int_0_999) | (/\d{1,4}/);
+
+int_wan =  ("万" : "");
+
+int_5_8bit = $(int_1_9999) $(int_wan) $(int_0_9999) |  $(int_1_9999) $(int_wan)  (// : /0000/) ;
+
+int_ins_yi =  (/个?亿/ : //);
+
+int_9_12bit=  $(int_1_9999) $(int_ins_yi) $(int_5_8bit) | $(int_1_9999) $(int_ins_yi) (// : /00000000/);
+
+pure_int = (/\d{1,}/);
+
+#%Type% INT
+integer_int = $(int_0)
+	| $(int_1_9999)
+	| $(int_5_8bit)
+	| $(int_9_12bit)
+	| $(pure_int);
+#%Type% INT
+#%Order% 140
+integer_signed = $(signed_symbol) $(integer_int);
+
+
+
+#================#
+#    decimals    #
+#================#
+ 
+ 
+pure_decimal= (/0\.\d+/)
+	| (/(?:\d+,?)*\d+\.\d+/);
+decimal = $(pure_decimal)
+	| $(integer_int) ("点" : ".") $(int_rep);
+
+pure_digit = $(pure_decimal) | $(pure_int);
+
+#%Type% DOUBLE
+decimal_signed = $(signed_symbol) $(decimal) | $(decimal);
+
+
+
+
+
+
+#================#
+#   fractions    #
+integer_int_extend = $(integer_int) | ("百" : "100") | ("千" : "1000") | ("万" : "10000") | ("亿" : "100000000");
+#================#
+fraction_cnv_slash = ("分之" : "/");
+fraction2 = ("/" : "/");
+percent_transform= ("%" : "100") | ("‰" : "1000");
+#%Type% DOUBLE
+#%Property%  Denominator,,Numerator| Numerator ,, Denominator | Denominator ,, Numerator 
+#%Order% 101
+fraction = $(integer_int_extend) $(fraction_cnv_slash) $(integer_int) : $3 $2 $1
+	| $(integer_int) $(fraction2) $(integer_int)
+	| $(pure_decimal) ("" : "/") $(percent_transform);
+
+fraction_signed = $(signed_symbol) $(fraction) | $(fraction);
+
+integer_decimal = $(integer_int) | $(decimal);
+digit = $(integer_int) 
+	| $(decimal)
+	| $(fraction);
+
+digit_signed = $(signed_symbol) $(digit);
+
+digit_final= $(digit_signed)
+            | $(digit_signed) $(int_wan) : "float(m[0].match)*10000"
+            | $(digit_signed) $(int_ins_yi) : "float(m[0].match) *100000000";
+	
+range_keywords = (/到|至|\-|~/ : /~/);
+
+range_larger = ("大于") | (">");
+range_less = ("小于") | ("<");
+range_larger_result= (/.+/:/>/);
+range_less_result= (/.+/ : /</);
+range_back = (/以上/ : />/) | (/以下/ : /</) ;
+ 
+range2= $(range_larger): $(range_larger_result) | $(range_less) : $(range_less_result);
+
+
+
+
+
+#================#
+#       time     #
+#================#
+
+date_from= ("从" : "") | (// : //);
+
+time_kywd_nrml = (/\b(AM|PM|时|秒|凌晨|早晨|早上|上午|中午|下午|傍晚|晚上|深夜|午夜|时间|时区|时差|时钟|闹钟|闹铃|手表|开始|开会|开幕|截至|截止|为止|结束|闭幕|加班到|加班至|首班车|末班车|发车|时刻表|航班|准点|晚点|到点|现在是)\b/);
+time_special = ("半" : "30") | ("一刻" : "15") | ("三刻" : "45"); 
+time_cnv_dian = ("点" : ":") | (":" :":");
+
+
+time_fen =   ("分" : ":") | ("分钟" : ":") | ("min" : ":") | ("Min" : ":") | (":" : ":");
+#下面代表3点05 这种省略分钟的说法
+time_fen2 = $(time_fen) | ("" : "");  
+
+　
+time_mm_r = (/\b(?:00?)\b/ : //) | $(int_0_60) (/:?/ : /分/);
+time_miao = ("秒" : "") | $(null_2_null) ;
+ 
+
+ 
+#%Property%  Hour,,Minute | Hour,,Minute |　Hour,,Minute | Hour,,Minute,,Second | Hour
+#%Order% 30
+time_fix = $(int_0_99) $(time_cnv_dian) $(int_00_10) $(time_fen2)
+	| $(int_0_99) $(time_cnv_dian) $(int_10_59) $(time_fen2)
+	| $(int_0_99) $(time_cnv_dian) $(time_special) 
+	| $(int_0_99) $(time_cnv_dian) $(int_0_60) $(time_fen) $(int_0_60) $(time_miao)
+	| $(int_0_99) $(time_cnv_dian) (// : /00/)
+;
+
+time_span =	 $(int_0_60) $(time_fen) $(int_0_60) $(time_miao) ("" : "00:") : $5 $1 $2 $3 $4
+	| $(int_0_60) $(time_fen2) ("" : "00:") ("" : ":00") : $3 $1 $2 $4
+	| $(int_0_60) ("秒" : "") ("" : "00:") ("" : ":00") : $3 $1 $2 $4;
+
+
+
+#%Property% ,Start,,End
+#%Order% 28
+time_range =  $(date_from) $(time_fix) $(range_keywords) $(time_fix);
+
+#================#
+#       date     #
+#================#
+
+date_ri = ("日" : "") | ("号" : "");
+date_ri_null =  $(date_ri) $(null_2_null);
+date_DD = $(int_01_99) $(date_ri);
+date_DD_null=  $(date_DD) | $(int_01_99);
+date_cnv_yue = (/[-/.]/ : ///);
+date_yue = ("月": "");
+date_yue2 = ("月": "/");
+date_yue3 = $(date_yue2) | $(date_cnv_yue); 
+ 
+date_cnv_nian = (/[-/.]/ : ///);
+date_nian = ("年" : "");
+date_nian2 = ("年" : "/");
+date_nian3 = $(date_nian2) | $(date_cnv_nian);
+
+date_YYYY = (/[12]\d\d\d/) : $(int_0_9999);
+date_YYYY_Restrict = (/\b(?:19\d\d|20\d\d)\b/) : $(int_1000_9999);
+
+
+year_control= (/(上一?|去)年/ :/去年/)
+             |(/大前年/)
+             |(/今年/)
+             |(/(明|下一?)年/ :/明年/)
+             |(/后年/);
+
+month_control= (/上个?|月/ :/上月/)
+               (/这个?|本月/: /本月/)
+             |(/下个?月/ :/下月/);
+
+
+day_control = (/(前|昨|今|眀|后)(日|天)/);
+
+
+date_ri2= $(date_ri) | (/天/:/天/);
+
+
+
+
+date_keywords = ("AD") | ("BC") | ("年") | ("月") | ("前年") | ("去年") | ("昨年") | ("今年") | ("明年") | ("后年") | ("上月") | ("本月") | ("下月") | ("个月") | ("昨日") | ("今日") | ("明日") | ("前天") | ("昨天") | ("今天") | ("明天") | ("后天") | ("日期") | ("日子") | ("星期") | ("周一") | ("周二") | ("周三") | ("周四") | ("周五") | ("周六") | ("周日") | ("周末") | ("节假日") | ("工作日") | ("纪念日") | ("公元") | ("年度") | ("财年") | ("季度") | ("赛季") | ("节日") | ("生日") | ("假日") | ("元旦") | ("情人节") | ("妇女节") | ("愚人节") | ("植树节") | ("消费者权益日") | ("劳动节") | ("青年节") | ("儿童节") | ("建军节") | ("教师节") | ("国庆") | ("圣诞") | ("春节") | ("元宵") | ("清明") | ("端午") | ("七夕") | ("中秋") | ("重阳");
+# YYYY年  YYYY-YYYY年  YYYY年-YYYY年  YYYY年MM月  YYYY年MM-MM月  YYYY年MM月-MM月  YYYY年MM月-YYYY年MM月  YYYY年MM月DD日  YYYY年MM月DD-DD日  YYYY年MM月DD日-DD日  YYYY年MM月DD日-MM月DD日  YYYY年MM月DD日-YYYY年MM月DD日  MM月DD日  MM月DD-DD日  MM月DD日-DD日  MM月DD日-MM月DD日  MM月-MM月  MM-MM月  MM月  DD日-DD日  DD-DD日  DD日 #
+#%Type% DATETIME
+#%Property% Year|Relative_Year | Year,,Month | Year,,Month,,Day | Relative_Year,Month,,Day | Relative_Year,Month| Relative_Month | Relative_Month,Day | Relative_Day
+#%Order% 32
+date_fix = $(date_YYYY) $(date_nian)
+    | $(year_control)
+	| $(date_YYYY) $(date_nian3) $(int_01_99) $(date_yue3)
+	| $(date_YYYY) $(date_nian3) $(int_01_99) $(date_yue3) $(date_DD_null)
+	| $(year_control) $(int_01_12) $(date_yue2) $(date_DD)
+	| $(year_control) $(int_01_12) $(date_yue2)
+	| $(month_control)
+	| $(month_control) $(date_DD)
+	| $(day_control)
+;
+#注意，对于元属性，对空格严格要求，中间只能空一格
+#%Property% ,Start,,End
+#%Order% 26
+date_range = $(date_from) $(date_fix) $(range_keywords) $(date_fix);
+
+#================#
+#    时间长度    #
+#================#
+#时间长度和范围的概念有所不同，比如三个小时和6点到9点，是相似但不同的
+time_unit_trans = (/年|years/ : /Year/) | (/(个?月)|(months)/: /Month/) | (/天|日|days/ : /day/) | (/个?小时|hours/ : /hour/) | (/分钟|minutes|min/ : /minute/) | (/刻钟/: /min15/) | (/秒|sec|seconds/: /second/);
+
+#%Property% Value,Unit
+#%Order% 54
+time_length = $(integer_signed) $(time_unit_trans); 
+
+
+#以下是各种单位
+#数值型单位需要识别其类型，同时将单位和数值提取出来，单位使用英语标准(如nm)输出，之后送入单位处理模块
+
+#基本的量级单位
+#毫,纳,微,分,厘
+
+unit_amount_mini= ("m") |  ("n") | ("μ") | ("d") | ("c");
+
+unit_amount_mini_trans= ("M" : "m")  | ("C" : "c");
+
+unit_amount_mini_chs= ("毫" : "m")  | ("分" : "c")  | ("微" : "m") | ("纳" : "n") ;
+#千,与下方分开，因为千米是常用表达，但没有兆米这样的说法
+unit_amount_large1 = ("K");
+unit_amount_large3 = ("k" : "K") ;
+unit_amount_large1_chs = ("千" : "K");
+#兆，吉，T
+
+unit_amount_large2 =  ("M") | ("G") | ("T");
+unit_amount_large2_trans = ("m" : "M") | ("g" : "G");
+unit_amount_large2_chs =("兆" : "M") | ("吉" : "G") ;
+unit_amount_chs3 = $(unit_amount_mini_chs) | $(unit_amount_large1_chs);
+unit_amount_large_eng = $(unit_amount_large1) | $(unit_amount_large2);
+
+unit_amount_chs4 = $(unit_amount_large1_chs) | $(unit_amount_large2_chs);
+unit_amount_eng_all = $(unit_amount_mini) | $(unit_amount_large_eng) | $(unit_amount_large2_trans) ;
+unit_amount_chs_all = $(unit_amount_mini_chs) | $(unit_amount_large1_chs) | $(unit_amount_large2_chs) ;
+#专用于表现存储量的，在信息系统中，这种表达很常见
+unit_memory = $(unit_amount_large_eng) | $(unit_amount_large2_chs);
+#平方,立方
+unit_keyword_pow = ("平方" : "");
+unit_keyword_cubic = ("立方": "");
+#----------#
+#  Length  #
+#----------#
+
+unit_length_eng=  ("m" : "m")  | ("M" : "m");
+
+unit_length_chs= ("米" : "m") | ("公分" : "cm");
+unit_tabl_length_1 =  $(unit_amount_mini) $(unit_length_eng) 
+	| $(unit_amount_mini_chs) $(unit_length_eng) 
+	| $(unit_amount_large1_chs) $(unit_length_chs)
+	| $(unit_length_eng)  
+	| $(unit_length_chs);
+
+unit_tabl_mile = ("英里" : "mi") | ("海里" : "nmi") | ("公里" : "Km");
+unit_tabl_length = $(unit_tabl_length_1) | $(unit_tabl_mile);
+unit_kywd_length =(/长|宽|高|厚|深|里程|距离|海拔|速度|尺寸|幅|米|寸|尺|码/);
+unit_kywd_mile = (/海里|船|舰|海|空/);
+
+#%Property% Value,Unit
+#%Order% 27
+unit_length = $(digit) $(unit_tabl_length)
+;
+
+#----------#
+#   Area   #
+#----------#
+unit_tabl_area_0 = ("m2" : "m2");
+
+unit_area_speacial=  ("亩" : "acre") | ("公顷" : "ha") | ("平方公里" : "Km2");
+unit_tabl_area = $(unit_keyword_pow) $(unit_amount_chs3)  ("米" : "m2")
+	| $(unit_amount_large_eng) |  $(unit_tabl_area_0)
+	| $(unit_area_speacial);
+
+ 
+unit_kywd_area = ("面积") | ("土地") | ("英亩") | ("公顷");
+#%Property% Value,Unit
+#%Order% 28
+unit_area = $(digit) $(unit_tabl_area)
+;
+
+
+
+
+#----------#
+#  Volume  #
+#----------#
+unit_tabl_volume_0 = ("m3" : "m3");
+unit_volume_specal = ("cc" : "cm3");
+unit_tabl_volum = $(unit_keyword_cubic) $(unit_amount_chs3)  ("米" : "m2")
+	| $(unit_amount_large_eng) | $(unit_tabl_volume_0)
+	| $(unit_volume_specal);
+
+ 
+
+unit_kywd_volume = ("体积") | ("容积");
+#%Property% Value,Unit
+#%Order% 29
+unit_volume = $(digit) $(unit_tabl_volum);
+#	| $(digit) $(unit_tabl_volume) : : "CMP( DIST(A,33,$(unit_kywd_volume)) ≤ 33 )"
+
+
+#----------#
+#  Weight  #
+#----------#
+unit_weight_eng = ("g": "g") | ("G" : "G");
+unit_weight_chs = ("克": "克");
+
+unit_weight_specal = ("t" : "t") | ("吨" : "t") | ("磅" : "pound") | ("公斤" : "Kg");
+unit_tabl_weight = $(unit_amount_mini) $(unit_weight_eng) 
+	| $(unit_amount_mini_chs) $(unit_weight_chs) 
+	| $(unit_amount_large1_chs) $(unit_weight_chs)
+	| $(unit_weight_eng)  
+	| $(unit_weight_specal)
+	| $(unit_weight_chs);
+
+unit_kywd_weight = ("质量") | ("重") | ("克");
+#%Property% Value,Unit
+#%Order% 95
+unit_weight = $(digit) $(unit_tabl_weight);
+#	| $(digit) $(unit_tabl_volume) : : "CMP( DIST(A,33,$(unit_kywd_volume)) ≤ 33 )"
+
+
+#----------#
+# Electri #
+#----------#
+
+
+unit_electric_eng = ("Ω") | ("W") | ("A") | ("V") | ("Hz") | ("F") | ("C") | ("H") | ("J");  
+
+unit_electric_chs=  ("欧姆" : "Ω") | ("欧" : "Ω" ) | ("瓦" : "W") | ("安培" : "A") | ("安" : "A") | ("伏" : "V") | ("伏特" : "V") | ("法" : "F") | ("法拉" : "F") | ("库伦" :"C") | ("亨" : "H") | ("焦" :"J") | ("焦耳": "J") ;
+
+unit_tabl_electric = $(unit_amount_eng_all) $(unit_electric_eng) 
+	| $(unit_amount_chs_all) $(unit_electric_chs) 
+	| $(unit_electric_eng)  
+	| $(unit_electric_chs);
+
+unit_kywd_electric = ("电") | ("交流") | ("直流") | ("导体") | ("功率") | ("负载") | ("阻抗") | ("线圈") | ("磁场") | ("回路") | ("滤波") | ("欧姆") | ("瓦特") | ("伏特") | ("焦耳") | ("毫安") |  ("安培") | ("赫兹");
+#%Property% Value,Unit
+#%Order% 1 
+unit_electric = $(integer_decimal) $(unit_tabl_electric) :: "dist('unit_kywd_electric')<33";
+
+
+
+#----------#
+# Telecom  #
+#----------#
+
+unit_telecom_eng = ("B" : "B") | ("b" : "b") | ("Byte" : "B") | ("bit" : "b") | ("byte" : "B");
+
+unit_telecom_chs = ("比特" :  "B") | ("字节" : "B");
+
+unit_kywd_telecom = ("CDMA") | ("GPRS") | ("GSM") | ("SCDMA") | ("WCDMA") | ("网络") | ("网速") | ("上网") | ("带宽") | ("容量") | ("比特") | ("字节") | ("内存") | ("硬盘") | ("闪存") | ("手机") | ("电脑") | ("平板") | ("套餐") | ("数据") | ("流量") | ("数码") | ("数字") | ("电信") | ("联通") | ("移动") | ("网通");
+
+ 
+unit_telecom_unit =  $(unit_amount_large_eng) $(unit_telecom_eng) 
+	| $(unit_amount_chs4) $(unit_telecom_chs) 
+	| $(unit_telecom_eng) 
+	| $(unit_memory)
+	| $(unit_telecom_chs);
+#%Property% Value,Unit
+#%Order% 32
+unit_telecom =  $(integer_decimal) $(unit_telecom_unit);
+
+#	| $(unit_digit_comb) $(unit_tabl_telecom_1) : : "CMP( DIST(A,33,$(unit_kywd_telecom)) ≤ 33 )";
+
+
+#----------#
+# 布尔型   #
+#----------#
+
+bool_true  = ("真") | ("是") | ("True") | ("true") | ("对") | ("Right") | ("正确");
+bool_true_result = (/.+/ : /true/);
+
+bool_false = ("假") | ("否") | ("False") | ("false") | ("错") | ("Wrong") | ("错误");
+bool_false_result = (/.+/: /false/);
+bool_final =$(bool_true) : $(bool_true_result) |  $(bool_false) : $(bool_false_result);
+ 
+#%Type% BOOL
+#%Order% 71
+bool_check = $(head_space) $(bool_final)  $(back_space);
+
+#----------#
+#  身份证  #
+#----------#
+#%Type% 身份证信息转换
+#%Order% 19
+chsIDCard= (/\d{17}(\d|X|x)/); 
+
+#----------#
+#  Email   #
+#----------#
+#%Order% 20
+#%Property% Accound,,ServiceName
+email_address= (/[a-zA-Z0-9]{3,20}/) (/@/) (/[a-zA-Z0-9]{2,20}/)(/(.com)|(.COM)/); 
+
+#----------#
+#  Signal  #
+#----------#
+unit_signal_chs = ("赫兹" : "Hz") | ("分贝" : "dB") ;
+unit_signal_eng = ( "Hz" ) | ( "dB" );
+
+unit_kywd_signal = ("CPU") | ("信号") | ("能量") | ("分贝") | ("赫兹") | ("中波") | ("周期") | ("频率") | ("声") | ("短波") | ("耳") | ("听觉") | ("长波") | ("电力") | ("电压") | ("电波") | ("电磁波") | ("声波");
+
+unit_signal_unit =  $(unit_amount_large_eng) $(unit_signal_eng) 
+	| $(unit_amount_chs4) $(unit_signal_chs) 
+	| $(unit_signal_chs)  
+	| $(unit_signal_eng);
+#%Property% Value,Unit
+#%Order% 33
+unit_signal =  $(integer_decimal) $(unit_signal_unit) ;
+
+
+#unit_signal = $(unit_digit_comb) $(unit_tabl_signal) : : "CMP( DIST(A,33,$(unit_kywd_signal)) ≤ 33 )";
+
+
+
+#-----------------------#
+#  Atmospheric,Dynamics  #
+#------------------------#
+
+unit_dynamic_chs = ("帕斯卡" : "Pa" ) | ("牛" : "N" ) | ("牛顿" : "N") | ("摄氏度" : "C" ) | ("华氏度" : "F" )  ;
+
+unit_dynamic_eng = ( "Pa" ) | ( "N" ) | ("°F" : "F") | ("°C" : "C")| ("°F") | ("°C");
+
+unit_dynamic_signal =("帕斯卡") | ("压力") | ("应力") | ("气压") | ("天气") | ("气象") | ("牛") | ("力") | ("质量") | ("速度") | ("重力") | ("摄氏度") | ("华氏度") | ("温度") | ("天气") | ("热") | ("凉") | ("冷") | ("寒") | ("融点") | ("沸点") | ("色温度") | ("水") | ("蒸发");
+
+unit_dynamic_unit =  $(unit_amount_large_eng) $(unit_signal_eng) 
+	| $(unit_amount_chs4) $(unit_signal_chs) 
+	| $(unit_signal_chs)  
+	| $(unit_signal_eng);
+
+
+#%Property% Value,Unit
+#%Order% 34
+unit_dynamic =  $(integer_decimal) $(unit_signal_unit);
+
+#--------------#
+# Currency     #
+#--------------#
+#("美元") 
+unit_currency_chs = ("元" : "Yuan") 
+ | ("欧元" : "Euro") 
+ | ("英镑" : "Pound" ) 
+ | ("美元" : "Dollar");
+unit_currency_eng = ("￥" : "Yuan");
+#%Property% Value,Unit|Unit,Value 
+#%Order% 35
+unit_currency =  $(digit_final)  $(unit_currency_chs)
+	| $(unit_currency_eng) $(digit_final) :$2 $1;
+	
+	
+#unit_temperature = $(unit_digit_temperature) ("°" : "度") : : "CMP( DIST(A,33,$(unit_kywd_temperature)) ≤ 33 )"
+#	| $(unit_digit_temperature) $(byte_cnv_to) $(unit_digit_temperature) ("°" : "度") : : "CMP( #DIST(A,33,$(unit_kywd_temperature)) ≤ 33 )"
+#	| $(unit_digit_temperature) $(unit_tabl_temperature)
+#	| $(unit_digit_temperature) $(byte_cnv_to) $(unit_digit_temperature) $(unit_tabl_temperature)
+#;
+
+
+all_unit =$(unit_area) | $(unit_currency) | $(unit_dynamic) | $(unit_electric) | $(unit_length);
+
+all_unit_value = $(all_unit) | $(digit_signed);
+
+
+
+#%Property% Value,Direction | From,,To | Direction,Value
+#%Order% 102
+digit_range = $(all_unit_value) $(range_back) : $2 $1
+	| $(digit_signed) $(range_keywords) $(all_unit_value) 
+	| $(range2) $(all_unit_value);
+	
+#%Type% URL
+#%Order% 123	
+url = (/(http|https|ftp)://[!-~]+/) 
+	| (/(www|www2)\.[!-~]+/) 
+	| (/[!-~]+\.(com|net|edu|gov|org|mil|int|cc|cn|de|eu|fr|jp|hk|kp|ru|tw|uk|us|htm|html|jsp|asp|php)(/[!-~]+)?/);
+
+ 
+
+#================#
+#     address    #
+#================#
+
+addr_province = ("省") | ("自治区") | ("特别行政区") ;
+#市  作为独立存在;
+addr_city = ("市");
+addr_domain = ("县")| ("区");
+addr_country = ("乡") | ("镇");
+
+#村  作为独立存在;
+
+#因为地址没有特别的分割标点符号，所以用纯tn的做法，是一直向前推进，直到发现省或者市这样的关键词。
+#更好的做法，应该是分词模型吧
+except_keywords = $(addr_province) | $(addr_city) | $(addr_domain) | $(addr_country);
+addr_except_keywords= $(chs) - $(except_keywords);
+addr_part_name = $(addr_except_keywords){2,-1};
+
+addr_kywd_nrml = ("地址") | ("小区") | ("大厦") | ("物业") | ("业主") | ("住在") | ("家住") | ("家在") | ("家是") | ("宾馆") | ("酒店") | ("宿舍") | ("公寓") | ("房间") | ("房号") | ("路") | ("楼") | ("座") | ("栋") | ("幢") | ("层") | ("室");
+
+
+
+
+#%Type% 地址
+#%Property% Province,,City,,Domain
+#%##Order% 15
+address = $(addr_part_name) $(addr_province) $(addr_part_name) $(addr_city) $(addr_part_name) $(addr_domain);
+
+
+#================#
+#    telecom     #
+#================#
+
+telecom_kywd_nrml =("动感地带") | ("TEL") | ("℡") | ("FAX") | ("电话") | ("座机") | ("手机") | ("传真") | ("详回") | ("回") | ("回复") | ("询") | ("详询") | ("致电") | ("回电") | ("电询") | ("编辑") | ("编辑短信") | ("发送") | ("发短信") |("发送短信") | ("总机") | ("分机") | ("热线") | ("专线") | ("拨打") | ("拨") | ("加拨") | ("转接") | ("客服") | ("火警") | ("报警") | ("市话") | ("长话") | ("国内长途") | ("国际长途") | ("漫游") | ("查号台") | ("移动") | ("联通") | ("电信");
+#---------------------------#
+#    Mobile Phone Number    #
+# 1Yxxxxxxxxx       Y=[3-9] #
+# 1Yx xxxx xxxx     Y=[3-9] #
+# 1Yxx xxx xxxx     Y=[3-9] #
+# 1Yxx xxxx xxx     Y=[3-9] #
+#---------------------------#
+telecom_dash = (/ ?- ?| / : //);
+#%Type% 移动电话
+telecom_mobile_no =  (/1[3-9]\d/) (/\d{4}/) (/\d{4}\b/)
+	| (/1[3-9]\d\b/) $(telecom_dash) (/\b\d{4}\b/) $(telecom_dash) (/\b\d{4}\b/)
+	| (/1[3-9]\d{2}\b/) $(telecom_dash) (/\b\d{3}\b/) $(telecom_dash) (/\b\d{4}\b/)
+	| (/1[3-9]\d{2}\b/) $(telecom_dash) (/\b\d{4}\b/) $(telecom_dash) (/\b\d{3}\b/)
+;
+#固定电话号码  0350-22222222  [7-9位]
+#%Type% 固定电话
+#%Property% AreaCode,,PhoneCode | AreaCode,,PhoneCode| PhoneCode
+telecom_phone = (/\d{3,4}/) (/ /: / /) (/\d{7,9}/)
+	| (/\d{3,4}/) $(telecom_dash) (/\d{7,9}/)
+	| (/\d{7,9}/);
+#%Type% 电话号码转换
+#%Order% 35
+telecom= $(head_space) $(telecom_phone) | $(head_space) $(telecom_mobile_no);
+
+
+
+
+#%Type% IP地址
+#%Order% 45
+ip_part= (/((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)/);
+
+
+　
+#---------------------------#
+#      Vehicle Related      #
+#---------------------------#
+
+num_kywd_bus = ("乘坐") | ("换乘") | ("车站") | ("车牌") | ("站台") | ("公共交通") | ("公交") | ("公车") | ("巴士") | ("路车") | ("号线") | ("地铁") | ("轻轨") | ("电车") | ("交通") | ("路况") | ("堵车") | ("红灯") | ("绿灯") | ("一卡通") | ("公交卡") | ("无人售票") | ("站点") | ("站牌") | ("到站") | ("下车") | ("上车") | ("下一站") | ("起点站") | ("终点站") | ("首班车") | ("末班车");
+
+num_bus_dflt = (/\b\d{1,4}\b/) ("路") ;

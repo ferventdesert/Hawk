@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
 using Hawk.ETL.Interfaces;
@@ -57,19 +58,25 @@ namespace Hawk.ETL.Plugins.Transformers
             else
             {
                 var task = processManager.CurrentProject.Tasks.FirstOrDefault(d => d.Name == CrawlerSelector);
-                if (task == null)
-                    return false;
-                ControlExtended.UIInvoke(() => { task.Load(false); });
-                crawler =
-                    processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector) as
-                        SmartCrawler;
+                if (task != null)
+                {
+
+                    ControlExtended.UIInvoke(() => { task.Load(false); });
+                    crawler =
+                        processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector) as
+                            SmartCrawler;
+                }
+                if (crawler == null)
+                {
+                    XLogSys.Print.Error($"没有找到名称为'{CrawlerSelector}'的网页采集器，是否没有填写或填写错误?");
+                }
+
             }
-
-
-            return crawler != null && base.Init(datas);
+                return crawler != null && base.Init(datas);
         }
 
-        public override object TransformData(IFreeDocument datas)
+        public override
+            object TransformData(IFreeDocument datas)
         {
             var p = datas[Column];
             if (p == null)

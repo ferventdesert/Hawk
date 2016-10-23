@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
-using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using EncodingType = Hawk.Core.Utils.EncodingType;
 
 namespace Hawk.Core.Connectors
@@ -22,7 +20,6 @@ namespace Hawk.Core.Connectors
         private StreamWriter streamWriter;
 
 
-      
         public FileConnectorTable()
         {
             EncodingType = EncodingType.UTF8;
@@ -34,7 +31,7 @@ namespace Hawk.Core.Connectors
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
 
         {
-            var dict= base.DictSerialize(scenario);
+            var dict = base.DictSerialize(scenario);
             dict.Add("ContainHeader", ContainHeader);
             dict.Add("SplitString", SplitString);
             return dict;
@@ -58,6 +55,26 @@ namespace Hawk.Core.Connectors
 
         public override string ExtentFileName => ".txt";
 
+        public static string ReplaceSplitString(string input, string splitchar)
+        {
+            if (input == null)
+                return "";
+                input = input.Replace("\"", "\"\"");
+                input = input.Replace("\n", "\\n");
+            if (input.Contains(splitchar))
+            {
+                input = "\"" + input + "\"";
+            }
+            return input;
+        }
+
+        public static string ReplaceSplitString2(string input, string splitchar)
+        {
+            if (input == null)
+                return "";
+            input = input.Replace("\"\"", "\"");
+            return input.Trim('"');
+        }
 
         public void Save()
         {
@@ -70,9 +87,9 @@ namespace Hawk.Core.Connectors
         {
             fileStream = new FileStream(FileName, FileMode.OpenOrCreate);
             streamWriter = new StreamWriter(new BufferedStream(fileStream), AttributeHelper.GetEncoding(EncodingType));
-            var title = titles.Aggregate("", (current, title1) => current + (title1 + SplitChar));
-
-            title = title.Substring(0, title.Length - 1) + "\n";
+            //var title =  titles.Aggregate("", (current, title1) => current + (title1 + SplitChar));
+            var title = SplitChar.Join(titles.Select(d => ReplaceSplitString(d, SplitChar))) + "\n";
+            //title = title.Substring(0, title.Length - 1) + "\n";
 
             streamWriter.Write(title);
         }
@@ -134,78 +151,88 @@ namespace Hawk.Core.Connectors
 
         public void WriteData(object[] datas)
         {
-            var line = datas.Aggregate("",
-                (current, row) => current + ((row == null ? " " : row.ToString().Trim()) + SplitChar));
-            line = line.Substring(0, line.Length - 1) + "\n";
-
+            var line = SplitChar.Join(datas.Select(d => ReplaceSplitString(d?.ToString(), SplitChar))) + "\n";
             streamWriter.Write(line);
         }
 
-
+        //这段代码像屎一样又臭又长
+        //English Edition: This code like shit. 
+        //不要怪我，我就是懒
         public override IEnumerable<FreeDocument> ReadFile(Action<int> alreadyGetSize = null)
         {
             var titles = new List<string>();
 
             var intColCount = 0;
             var blnFlag = true;
-
+            var builder = new StringBuilder();
             foreach (var strline in FileEx.LineRead(FileName, AttributeHelper.GetEncoding(EncodingType)))
             {
                 if (string.IsNullOrWhiteSpace(strline))
                     continue;
 
-                var aryline = strline.Split(new[] {SplitChar}, StringSplitOptions.None);
 
-                string[] objs = null;
+                builder.Clear();
+                var comma = false;
+                var array = strline.ToCharArray();
+                var values = new List<string>();
+                var length = array.Length - 1;
+                var index = 0;
+                while (index < length)
+                {
+                    var item = array[index++];
+                    if (item.ToString() == SplitChar)
+                        if (comma)
+                        {
+                            builder.Append(item);
+                        }
+                        else
+                        {
+                            values.Add(builder.ToString());
+                            builder.Clear();
+                        }
+                    else if (item == '"')
+                    {
+                        comma = !comma;
+                    }
+
+                    else
+                    {
+                        builder.Append(item);
+                    }
+                }
+                if (builder.Length > 0)
+                    values.Add(builder.ToString());
+                var count = values.Count;
+                if (count == 0) continue;
 
                 //给datatable加上列名
                 if (blnFlag)
                 {
                     blnFlag = false;
-                    intColCount = aryline.Length;
-                    objs = new string[intColCount];
+                    intColCount = values.Count;
                     if (ContainHeader)
                     {
-                        titles.AddRange(aryline);
+                        titles.AddRange(values);
                         continue;
                     }
                     for (var i = 0; i < intColCount; i++)
                     {
                         titles.Add("属性" + i);
                     }
-
-
-                    for (var i = 0; i < intColCount; i++)
-                    {
-                        objs[i] = aryline[i].Trim();
-                    }
                 }
-                else
-                {
-                    var min = Math.Min(intColCount, aryline.Count());
-                    objs = new string[min];
-                    for (var i = 0; i < min; i++)
-                    {
-                        objs[i] = aryline[i].Trim();
-                    }
-                }
-                var data =new FreeDocument(); 
+                var data = new FreeDocument();
                 var dict = new Dictionary<string, object>();
-                for (var index = 0; index < Math.Min(titles.Count, objs.Length); index++)
+                for (index = 0; index < Math.Min(titles.Count, values.Count); index++)
                 {
-                    var freeDocument = data; 
-                    if (freeDocument != null)
+                    if (index == 0 && PropertyNames.Any() == false)
                     {
-                        if (index == 0 && PropertyNames.Any() == false)
-                        {
-                            PropertyNames = titles.ToDictionary(d => d, d => d);
-                        }
+                        PropertyNames = titles.ToDictionary(d => d, d => d);
                     }
                     var title = titles[index];
                     var key = PropertyNames.FirstOrDefault(d => d.Value == title).Key;
                     if (key != null)
                     {
-                        dict.Add(key, objs[index]);
+                        dict.Add(key, values[index]);
                     }
                 }
                 data.DictDeserialize(dict);
@@ -220,7 +247,7 @@ namespace Hawk.Core.Connectors
             if (datas.Any() == false) yield break;
             using (var dis = new DisposeHelper(Save))
             {
-                if (PropertyNames == null||PropertyNames.Count==0)
+                if (PropertyNames == null || PropertyNames.Count == 0)
                 {
                     PropertyNames = datas.GetKeys().ToDictionary(d => d, d => d);
                 }

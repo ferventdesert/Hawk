@@ -5,10 +5,8 @@ using System.Text.RegularExpressions;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
-using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
-using Hawk.ETL.Interfaces;
 using Hawk.ETL.Process;
 using HtmlAgilityPack;
 
@@ -19,14 +17,8 @@ namespace Hawk.ETL.Plugins.Transformers
     {
         protected readonly BuffHelper<HtmlDocument> buffHelper = new BuffHelper<HtmlDocument>(50);
         private readonly HttpHelper helper = new HttpHelper();
-        protected readonly IProcessManager processManager;
         protected string _crawlerSelector;
         private Regex regex;
-
-        public ResponseTF()
-        {
-            processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
-        }
 
         [LocalizedDisplayName("爬虫选择")]
         [LocalizedDescription("填写采集器或模块的名称")]
@@ -49,30 +41,9 @@ namespace Hawk.ETL.Plugins.Transformers
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
             OneOutput = false;
-            crawler =
-                processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector) as SmartCrawler;
-            if (crawler != null)
-            {
-                IsMultiYield = crawler?.IsMultiData == ListType.List;
-            }
-            else
-            {
-                var task = processManager.CurrentProject.Tasks.FirstOrDefault(d => d.Name == CrawlerSelector);
-                if (task != null)
-                {
+            crawler = GetCrawler(CrawlerSelector);
 
-                    ControlExtended.UIInvoke(() => { task.Load(false); });
-                    crawler =
-                        processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector) as
-                            SmartCrawler;
-                }
-                if (crawler == null)
-                {
-                    XLogSys.Print.Error($"没有找到名称为'{CrawlerSelector}'的网页采集器，是否没有填写或填写错误?");
-                }
-
-            }
-                return crawler != null && base.Init(datas);
+            return crawler != null && base.Init(datas);
         }
 
         public override
@@ -94,14 +65,14 @@ namespace Hawk.ETL.Plugins.Transformers
             foreach (var key in keys)
             {
                 var value = responseHeader.Get(key);
-                if(value != null)
-                  datas.SetValue(key, value);
+                if (value != null)
+                    datas.SetValue(key, value);
             }
             if (keys.Contains("Location") && datas.ContainsKey("Location") == false)
             {
                 datas["Location"] = url;
             }
-                
+
             return null;
         }
     }

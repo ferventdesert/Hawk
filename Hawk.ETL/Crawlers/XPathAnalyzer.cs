@@ -3,8 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web.Script.Serialization;
+using System.Xml;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
@@ -24,6 +27,33 @@ namespace Hawk.ETL.Crawlers
     /// </summary>
     public static class XPathAnalyzer
     {
+        public static string Json2XML(string content, out bool isRealJson, bool isJson = false)
+        {
+            if (isJson)
+            {
+                try
+                {
+                    var serialier = new JavaScriptSerializer();
+                    var result = serialier.DeserializeObject(content);
+
+                    content = serialier.Serialize(result);
+
+                    var reader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(content),
+                        XmlDictionaryReaderQuotas.Max);
+                    var doc = new XmlDocument();
+                    doc.Load(reader);
+                    isRealJson = true;
+                    return doc.InnerXml;
+                }
+                catch (Exception ex)
+                {
+                    XLogSys.Print.Debug("尝试转换为json出错：  " + ex.Message);
+                }
+            }
+            isRealJson = false;
+            return content;
+        }
+
         private static readonly Regex indexRegex = new Regex(@"\w+\[\d+\]");
         public static double PM25 = 2.4;
         private static Regex titleRegex = new Regex(@"h\d");

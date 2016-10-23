@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Core.Connectors.Vitural
@@ -15,6 +16,7 @@ namespace Hawk.Core.Connectors.Vitural
         }
 
         protected string openfile = "打开新文件";
+        [LocalizedCategory("数据表列表")]
         public ObservableCollection<TableInfo> CurrentTables { get; set; }
 
         public override List<TableInfo> RefreshTableNames()

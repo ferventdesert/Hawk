@@ -6,39 +6,15 @@ using Microsoft.Win32;
 
 namespace Hawk.Core.Connectors
 {
-    [XFrmWork("CSV导入导出器",  "输出文本型CSV逗号分隔文件", "")]
+    [XFrmWork("CSV导入导出器", "输出文本型CSV逗号分隔文件", "")]
     public class FileConnectorCSV : FileConnectorTable
     {
-        #region Properties
-
-          public FileConnectorCSV()
-          {
-              SplitString = ",";
-          }
-
-          public override string ExtentFileName
-        {
-            get
-            {
-                return ".csv";
-            }
-        }
-        protected  override  string SplitChar
-        {
-            get
-            {
-                return ",";
-            }
-        }
-        #endregion
-
         public static void CSVToDataTable(List<string> title, List<string[]> datas, string fileName, char split = ',')
         {
+            var strpath = fileName; //csv文件的路径
 
-            string strpath = fileName; //csv文件的路径
-
-            int intColCount = 0;
-            bool blnFlag = true;
+            var intColCount = 0;
+            var blnFlag = true;
 
             string strline;
 
@@ -46,7 +22,7 @@ namespace Hawk.Core.Connectors
 
             while ((strline = mysr.ReadLine()) != null)
             {
-                string[] aryline = strline.Split(new[] { split });
+                var aryline = strline.Split(split);
 
                 //给datatable加上列名
                 if (blnFlag)
@@ -59,7 +35,7 @@ namespace Hawk.Core.Connectors
                 else
                 {
                     var objs = new string[intColCount];
-                    for (int i = 0; i < intColCount; i++)
+                    for (var i = 0; i < intColCount; i++)
                     {
                         objs[i] = aryline[i].Trim();
                     }
@@ -70,7 +46,7 @@ namespace Hawk.Core.Connectors
 
         public static bool DataTableToCSV(ICollection<string> titles, IEnumerable<object[]> datas, char split = ',')
         {
-            var ofd = new SaveFileDialog { DefaultExt = ".csv", Filter = "Excel格式文件(*.csv)|*.csv" };
+            var ofd = new SaveFileDialog {DefaultExt = ".csv", Filter = "Excel格式文件(*.csv)|*.csv"};
 
             string fileName = null;
             if (ofd.ShowDialog() == true)
@@ -82,19 +58,25 @@ namespace Hawk.Core.Connectors
                 return false;
             }
 
-            FileConnectorTable.DataTableToCSV(titles, datas, fileName, split);
+            DataTableToCSV(titles, datas, fileName, split);
             return true;
-
         }
 
+        #region Properties
 
+        public FileConnectorCSV()
+        {
+            SplitString = ",";
+        }
 
+        public override string ExtentFileName => ".csv";
+
+        protected override string SplitChar => ",";
+
+        #endregion
 
         #region Methods
 
-      
-
-       
         #endregion
     }
 }

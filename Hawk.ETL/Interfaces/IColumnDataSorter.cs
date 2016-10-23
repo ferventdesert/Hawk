@@ -24,7 +24,6 @@ namespace Hawk.ETL.Interfaces
         string Column { get; set; }
 
       void SetExecute(bool value);
-      string Name { get; set; }
 
         bool Enabled { get; set; }
 
@@ -144,11 +143,6 @@ namespace Hawk.ETL.Interfaces
                 return item.Description;
             }
         }
-
-        [LocalizedCategory("1.基本选项")]
-        [PropertyOrder(5)]
-        [LocalizedDisplayName("标签")]
-        public string Name { get; set; }
 
 
         [LocalizedCategory("1.基本选项")]

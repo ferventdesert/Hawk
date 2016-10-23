@@ -19,7 +19,7 @@ namespace Hawk.ETL.Plugins.Generators
 {
 
 
-    [XFrmWork("读取文件文本", "获取文件中的文本")]
+    [XFrmWork("读取文件文本", "获取文件中的全部纯文本内容，注意与【读取文件数据】区别")]
     public class ReadFileTextTF : TransformerBase
     {
         private BuffHelper<string> buffHelper = new BuffHelper<string>(50);
@@ -54,7 +54,7 @@ namespace Hawk.ETL.Plugins.Generators
 
 
 
-    [XFrmWork("读取文件数据", "从文件中读取内容")]
+    [XFrmWork("读取文件数据", "从文件中读取数据内容，需要配置连接器属性")]
     public class ReadFileTF :TransformerBase 
     {
 

@@ -35,8 +35,14 @@ namespace Hawk.ETL.Plugins.Transformers
             strs.Add(item);
             if (string.IsNullOrEmpty(Format))
                 return item;
-            var Columns = MergeWith.Split(new string[]{" "},StringSplitOptions.RemoveEmptyEntries);
-            strs.AddRange(Columns.Select(Column => datas[Column]));
+            var columns = MergeWith.Split(new[]{" "},StringSplitOptions.RemoveEmptyEntries);
+            strs.AddRange(columns.Select(key =>
+            {
+                if (datas.ContainsKey(key))
+
+                    return datas[key];
+                return key;
+            }));
             return string.Format(Format, strs.ToArray());
         }
     }

@@ -9,24 +9,20 @@ using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
-using Hawk.ETL.Interfaces;
 using Hawk.ETL.Plugins.Generators;
-using Hawk.ETL.Process;
-using HtmlAgilityPack;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
     [XFrmWork("从爬虫转换", "使用网页采集器获取网页数据，拖入的列需要为超链接")]
     public class CrawlerTF : ResponseTF
     {
-        
-       
         private BfsGE generator;
         private bool isfirst;
+        private Regex regex;
 
         public CrawlerTF()
         {
-          //  var defaultcraw = processManager.CurrentProcessCollections.FirstOrDefault(d => d is SmartCrawler);
+            //  var defaultcraw = processManager.CurrentProcessCollections.FirstOrDefault(d => d is SmartCrawler);
             MaxTryCount = "1";
             ErrorDelay = 3000;
             SetPrefex = "";
@@ -34,60 +30,58 @@ namespace Hawk.ETL.Plugins.Transformers
             PropertyChanged += (s, e) => { buffHelper.Clear(); };
         }
 
+        [LocalizedCategory("高级设置")]
         [LocalizedDisplayName("最大重复次数")]
         public string MaxTryCount { get; set; }
 
+        [LocalizedCategory("高级设置")]
         [LocalizedDisplayName("延时时间")]
         public string DelayTime { get; set; }
 
+        [LocalizedCategory("高级设置")]
         [LocalizedDisplayName("错误延时时间")]
-        public int  ErrorDelay { get; set; }
+        public int ErrorDelay { get; set; }
 
         [LocalizedDisplayName("Post数据")]
         public string PostData { get; set; }
 
-      
-
+        [Browsable(false)]
         [LocalizedCategory("请求队列")]
         [LocalizedDisplayName("队列生成器")]
         [LocalizedDescription("填写模块的名称")]
         public string GEName { get; set; }
 
+        [Browsable(false)]
         [LocalizedCategory("请求队列")]
         [LocalizedDisplayName("过滤规则")]
         public string Prefix { get; set; }
 
+        [Browsable(false)]
         [LocalizedCategory("请求队列")]
         [LocalizedDisplayName("启用正则")]
         public bool IsRegex { get; set; }
 
         [LocalizedCategory("请求队列")]
+        [Browsable(false)]
         [LocalizedDisplayName("添加前缀")]
         public string SetPrefex { get; set; }
 
-        private Regex regex;
+        [Browsable(false)]
+        public override string HeaderFilter { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
-            if (generator == null)
-            {
-                var mainstream =
-            processManager.CurrentProcessCollections.OfType<SmartETLTool>()
-                .FirstOrDefault(d => d.CurrentETLTools.Contains(this));
-                generator = mainstream.CurrentETLTools.FirstOrDefault(d => d.Name == GEName) as BfsGE;
-            }
+            
 
             base.Init(datas);
 
-            IsMultiYield = crawler?.IsMultiData == ListType.List;
+            IsMultiYield = crawler?.IsMultiData == ListType.List && crawler.CrawlItems.Count>0;
             isfirst = true;
-         
-            if(IsRegex)
-                regex=new Regex(Prefix);
-            return crawler != null ;
+
+            if (IsRegex)
+                regex = new Regex(Prefix);
+            return crawler != null;
         }
-        [Browsable(false)]
-        public override string HeaderFilter { get; set; }
 
         private List<FreeDocument> GetDatas(IFreeDocument data)
         {
@@ -114,11 +108,11 @@ namespace Hawk.ETL.Plugins.Transformers
                 }
 
                 HttpStatusCode code;
-                int maxcount = 1;
-                int.TryParse(data.Query(MaxTryCount),out maxcount);
-                  
-                int count = 0;
-                while (count<maxcount)
+                var maxcount = 1;
+                int.TryParse(data.Query(MaxTryCount), out maxcount);
+
+                var count = 0;
+                while (count < maxcount)
                 {
                     docs = crawler.CrawlData(url, out htmldoc, out code, post);
                     if (HttpHelper.IsSuccess(code))
@@ -128,38 +122,14 @@ namespace Hawk.ETL.Plugins.Transformers
                     }
                     Thread.Sleep(ErrorDelay);
                     count++;
-
                 }
-             
-            
             }
             else
             {
                 docs = crawler.CrawlData(htmldoc);
             }
 
-            if (generator != null)
-            {
-
-                var others = htmldoc.DocumentNode.SelectNodes("//@href");
-
-                var r3 = others.Select(d => d.Attributes["href"].Value).ToList();
-                IEnumerable<string> r4;
-
-                if (string.IsNullOrEmpty(Prefix))
-                    r4 = r3;
-              else  if(IsRegex==false)
-                 r4 =
-                    r3.Where(d => d.StartsWith(Prefix)).Where(d => true);
-              else
-              {
-                  r4 = r3.Where(d => regex.IsMatch(d));
-              }
-                foreach (var href in r4)
-                {
-                    generator.InsertQueue(SetPrefex+href);
-                }
-            }
+          
             return docs;
         }
 
@@ -174,29 +144,6 @@ namespace Hawk.ETL.Plugins.Transformers
                 }
             }
         }
-            
-        //private bool checkautoLogIn(List<FreeDocument> docs)
-
-        //{
-        //    if (docs.Count == 0 && isfirst)
-        //    {
-        //        if (crawler.Documents.Any())
-        //        {
-        //            crawler.AutoVisit();
-        //            return false;
-        //        }
-        //        if (string.IsNullOrEmpty(crawler.URLFilter) == false &&
-        //            crawler.IsRunning == false)
-        //            crawler.StartVisit();
-        //        return false;
-        //    }
-        //    if (docs.Count > 0 && crawler.IsRunning)
-        //    {
-        //        crawler.StopVisit();
-        //    }
-        //    isfirst = false;
-        //    return true;
-        //}
 
         public override object TransformData(IFreeDocument datas)
         {

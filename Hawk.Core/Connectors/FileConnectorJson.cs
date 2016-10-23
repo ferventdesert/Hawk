@@ -24,8 +24,6 @@ namespace Hawk.Core.Connectors
         protected object FormatJsonData(string str)
         {
 
-
-
             if (str.Contains("ObjectId"))
             {
                 str = str.Replace("ObjectId(", "");
@@ -47,10 +45,7 @@ namespace Hawk.Core.Connectors
             var array = totals as JsonArray;
             if (array != null)
             {
-                if (alreadyGetSize != null)
-                {
-                    alreadyGetSize(array.Count);
-                }
+                alreadyGetSize?.Invoke(array.Count);
                 foreach (object d in array)
                 {
                     var data =  new FreeDocument();
@@ -202,6 +197,8 @@ namespace Hawk.Core.Connectors
                         {
 
                             writer.WriteString(GetJsonObject(data).ToString());
+                           streamWriter.Write("\n");
+
                             yield return data;
                             i++;
                         }

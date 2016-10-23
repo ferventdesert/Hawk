@@ -434,7 +434,7 @@ namespace Hawk.Core.Connectors
         {
             try
             {
-                string sql = string.Format("DROP TABLE   {0}", GetTableName(tableName));
+                string sql = $"DROP TABLE   {GetTableName(tableName)}";
                 ExecuteNonQuery(sql);
                 RefreshTableNames();
             }
@@ -450,11 +450,11 @@ namespace Hawk.Core.Connectors
             string sql = null;
             if (mount == 0)
             {
-                sql = string.Format("Select * from {0}", GetTableName(tableName));
+                sql = $"Select * from {GetTableName(tableName)}";
             }
             else
             {
-                sql = string.Format("Select * from {0} LIMIT {1} OFFSET {2}", tableName, mount, skip);
+                sql = $"Select * from {tableName} LIMIT {mount} OFFSET {skip}";
             }
 
 

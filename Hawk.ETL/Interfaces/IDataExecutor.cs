@@ -56,13 +56,10 @@ namespace Hawk.ETL.Interfaces
                 return item.Description;
             }
         }
-        [LocalizedCategory("1.基本选项"), PropertyOrder(1), DisplayName("原列名")]
+        [LocalizedCategory("1.基本选项"), PropertyOrder(1), DisplayName("输入列")]
         public string Column { get; set; }
 
 
-        [LocalizedCategory("1.基本选项")]
-        [LocalizedDisplayName("标签")]
-        public string  Name { get; set; }
 
 
         [LocalizedCategory("1.基本选项")]

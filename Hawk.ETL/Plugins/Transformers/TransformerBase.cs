@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Crawlers;
 using Hawk.ETL.Interfaces;
+using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
@@ -23,6 +27,8 @@ namespace Hawk.ETL.Plugins.Transformers
         {
             IsExecute = value;
         }
+
+        protected readonly IProcessManager processManager;
         protected TransformerBase()
         {
             this.OneOutput = true;
@@ -30,16 +36,45 @@ namespace Hawk.ETL.Plugins.Transformers
             this.NewColumn = "";
             this.Enabled = true;
             IsMultiYield = false;
+            processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
 
         }
 
+
+        protected SmartCrawler GetCrawler(string name)
+        {
+          var   crawler =
+             processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == name) as SmartCrawler;
+            if (crawler != null)
+            {
+                IsMultiYield = crawler?.IsMultiData == ListType.List;
+            }
+            else
+            {
+                var task = processManager.CurrentProject.Tasks.FirstOrDefault(d => d.Name == name);
+                if (task != null)
+                {
+
+                    ControlExtended.UIInvoke(() => { task.Load(false); });
+                    crawler =
+                        processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == name) as
+                            SmartCrawler;
+                }
+                if (crawler == null)
+                {
+                    XLogSys.Print.Error($"没有找到名称为'{name}'的网页采集器，是否没有填写或填写错误?");
+                }
+
+            }
+            return crawler;
+        }
         #endregion
 
         #region Properties
 
 
 
-        [LocalizedCategory("1.基本选项"), PropertyOrder(1), DisplayName("原列名")]
+        [LocalizedCategory("1.基本选项"), PropertyOrder(1), DisplayName("输入列")]
         [LocalizedDescription("本模块要处理的列的名称")]
         public string Column { get; set; }
 
@@ -57,14 +92,11 @@ namespace Hawk.ETL.Plugins.Transformers
             }
         }
 
-        [LocalizedCategory("1.基本选项")]
-        [LocalizedDisplayName("标签")]
-        public string Name { get; set; }
 
 
         [LocalizedCategory("1.基本选项")]
         [PropertyOrder(2)]
-        [LocalizedDisplayName("新列名")]
+        [LocalizedDisplayName("输出列")]
         [LocalizedDescription("结果要输出到的列的名称")]
         public virtual string NewColumn { get; set; }
 

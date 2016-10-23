@@ -4,9 +4,11 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using EncodingType = Hawk.Core.Utils.EncodingType;
 
 namespace Hawk.Core.Connectors
 {
@@ -31,22 +33,25 @@ namespace Hawk.Core.Connectors
             PropertyNames = new Dictionary<string, string>();
         }
 
-       
-
-
         #endregion
 
         #region Properties
 
+        [Browsable(false)]
         public virtual bool ShouldConfig => false;
 
 
-
+        [LocalizedDisplayName("后缀名")]
         public virtual string ExtentFileName => ".txt";
 
+        [Browsable(false)]
         public string FileName { get; set; }
+
+        [LocalizedDisplayName("文件编码")]
         public EncodingType EncodingType { get; set; }
 
+
+        [Browsable(false)]
         public Dictionary<string, string> PropertyNames { get; set; }
 
         #endregion
@@ -166,14 +171,12 @@ namespace Hawk.Core.Connectors
 
         #region IFileConnector
 
-        public virtual bool IsVirtual
-        {
-            get { return false; }
-        }
+        public virtual bool IsVirtual => false;
 
 
         public abstract IEnumerable<FreeDocument> ReadFile(Action<int> alreadyGetSize = null);
-    
+
+
 
         public virtual string GetString(IEnumerable<IFreeDocument> datas)
         {

@@ -296,7 +296,7 @@ namespace Hawk.ETL.Process
         {
             bool has_execute = CurrentETLTools.FirstOrDefault(d => d is IDataExecutor)!=null;
             string info = "确定启动执行器?";
-            if (has_execute)
+            if (!has_execute)
                 info =info+ "没有在主流程中发现执行器。";
             if (MainDescription.IsUIForm &&
                 ControlExtended.UserCheck(info, "警告信息"))
@@ -633,7 +633,8 @@ namespace Hawk.ETL.Process
                     var t = objs[1] as XFrmWorkAttribute;
 
                     var item = PluginProvider.GetObjectInstance(t.MyType) as IColumnProcess;
-                    item.Column = p.Name;
+                    if(string.IsNullOrEmpty(p.Name)==false)
+                        item.Column = p.Name;
              
                     InsertModule(item);
                     ETLMount++;

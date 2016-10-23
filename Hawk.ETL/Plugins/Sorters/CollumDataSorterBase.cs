@@ -37,9 +37,6 @@ namespace Hawk.ETL.Plugins.Sorters
             IsExecute = value;
         }
 
-        [LocalizedCategory("1.基本选项")]
-        [LocalizedDisplayName("标签")]
-        public string Name { get; set; }
 
 
         public   void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)

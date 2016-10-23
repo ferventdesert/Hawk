@@ -14,6 +14,7 @@ namespace Hawk.Core.Connectors
     [XFrmWork("文件管理",  "提供与历史文件交互的数据库服务", "")]
     public class FileManager : VirtualConnectorBase, IEnumerableProvider<IDictionarySerializable>
     {
+        [Browsable(false)]
         public string LastFileName { get; set; }
 
         public FileManager()
@@ -22,6 +23,8 @@ namespace Hawk.Core.Connectors
             {
                 CurrentTables.Insert(0, new TableInfo(openfile, this));
             }
+            AutoConnect = true;
+            ConnectDB();
         }
         public IEnumerable<IDictionarySerializable> GetEnumerable(string tableName)
         {
@@ -33,11 +36,6 @@ namespace Hawk.Core.Connectors
             return false;
         }
 
-        public override void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
-        {
-            base.DictDeserialize(docu, scenario);
-       
-        }
 
         public override IEnumerable<FreeDocument> GetEntities(
             string tableName,  int mount = -1, int skip = 0)

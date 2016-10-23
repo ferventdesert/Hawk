@@ -36,9 +36,6 @@ namespace Hawk.ETL.Crawlers
         [LocalizedDescription("获取符合XPath语法的节点的数量")]
         public bool GetCount { get; set; }
 
-        [LocalizedDisplayName("插入空行")]
-        [LocalizedDescription("勾选此项后，每个页面后会插入一个空行")]
-        public bool IsInsertNull { get; set; }
 
         public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
         {
@@ -59,8 +56,6 @@ namespace Hawk.ETL.Crawlers
                     doc.Add("OHTML", node.OuterHtml);
                     yield return doc.MergeQuery(data, NewColumn);
                 }
-                if (IsInsertNull)
-                    yield return new FreeDocument();
             }
         }
 

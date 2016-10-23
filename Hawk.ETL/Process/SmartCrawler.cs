@@ -22,6 +22,7 @@ using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
 using Hawk.ETL.Interfaces;
 using HtmlAgilityPack;
+using IronPython.Modules;
 
 namespace Hawk.ETL.Process
 {
@@ -71,6 +72,7 @@ namespace Hawk.ETL.Process
         private string urlHTML = "";
 
         private int xpath_count;
+        public bool enableRefresh = true;
 
         public SmartCrawler()
         {
@@ -106,7 +108,7 @@ namespace Hawk.ETL.Process
                 url = value;
                 OnPropertyChanged("URL");
                 if (AutoVisitUrl)
-                    VisitURLAsync();
+                    VisitUrlAsync();
             }
         }
 
@@ -119,7 +121,7 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("刷新网页", obj => VisitURLAsync()),
+                        new Command("刷新网页", obj => VisitUrlAsync()),
                         new Command("复制到剪切板", obj => CopytoClipBoard())
                     });
             }
@@ -260,7 +262,7 @@ namespace Hawk.ETL.Process
         public string RootXPath { get; set; }
 
         [Browsable(false)]
-        public bool IsRunning { get; private set; }
+        public bool IsRunning => FiddlerApplication.IsStarted();
 
 
         [LocalizedCategory("自动嗅探")]
@@ -288,13 +290,10 @@ namespace Hawk.ETL.Process
             }
         }
 
-        [LocalizedCategory("高级设置")]
-        [LocalizedDisplayName("共用采集器名")]
-        public string Crawler { get; set; }
 
 
         [LocalizedCategory("3.动态请求嗅探")]
-        [LocalizedDisplayName("转换动态请求")]
+        [LocalizedDisplayName("Json转html")]
         [LocalizedDescription("该属性会将Json请求强制转换为Html,从而使用【手气不错】功能，如果你想自己处理Json,则不要勾选该选项")]
         [PropertyOrder(9)]
         public bool IsJson2xml { get; set; }
@@ -337,7 +336,7 @@ namespace Hawk.ETL.Process
             }
         }
 
-        private void GreatHand()
+        public void GreatHand()
         {
             var count = 0;
             var crawTargets = HtmlDoc.SearchPropertiesSmart(CrawlItems, RootXPath, IsAttribute);
@@ -441,7 +440,6 @@ namespace Hawk.ETL.Process
             dict.Add("IsMultiData", IsMultiData);
             dict.Add("IsJson2xml", IsJson2xml);
             dict.Add("HttpSet", Http.DictSerialize());
-            dict.Add("Crawler", Crawler);
             dict.Children = new List<FreeDocument>();
             dict.Children.AddRange(CrawlItems.Select(d => d.DictSerialize(scenario)));
             return dict;
@@ -451,7 +449,6 @@ namespace Hawk.ETL.Process
         {
             FiddlerApplication.AfterSessionComplete -= FiddlerApplicationAfterSessionComplete;
             FiddlerApplication.Shutdown();
-            IsRunning = FiddlerApplication.IsStarted();
             OnPropertyChanged("IsRunning");
         }
 
@@ -466,7 +463,7 @@ namespace Hawk.ETL.Process
             }
             ControlExtended.SafeInvoke(() =>
             {
-                IsJson2xml = true;
+            
                 var url = URL;
                 if (url.StartsWith("http") == false)
                     url = "http://" + url;
@@ -474,7 +471,6 @@ namespace Hawk.ETL.Process
                 System.Diagnostics.Process.Start(url);
                 FiddlerApplication.BeforeResponse += FiddlerApplicationAfterSessionComplete;
                 FiddlerApplication.Startup(8888, FiddlerCoreStartupFlags.Default);
-                IsRunning = FiddlerApplication.IsStarted();
                 OnPropertyChanged("IsRunning");
             }, LogType.Important, "请在关闭软件前关闭嗅探服务。【否则可能无法正常上网】，尝试启动服务");
         }
@@ -500,7 +496,11 @@ namespace Hawk.ETL.Process
             if (string.IsNullOrWhiteSpace(SelectText) == false)
             {
                 var content = oSession.GetResponseBodyAsString();
-                content = formatCheck(content, isJson(oSession.oResponse.headers) || isJson(oSession.oRequest.headers));
+                bool isRealJson = false;
+                content = XPathAnalyzer.Json2XML(content, out isRealJson,true);
+                if (isRealJson)
+                    IsJson2xml = true;
+
                 if (content.Contains(SelectText) == false)
                 {
                     return;
@@ -513,11 +513,24 @@ namespace Hawk.ETL.Process
             {
                 post = "post请求的内容为:\n" + httpitem.Postdata + "\n";
             }
+            var window = MainFrm as Window;
+            ControlExtended.UIInvoke(() =>
+            {
+
+                if (window != null) window.Topmost = true;
+
+            });
             var info = $"已经成功获取嗅探字段！ 真实请求地址:\n{oSession.url}，\n已自动配置了网页采集器，请求类型为{Http.Method}\n {post}已经刷新了网页采集器的内容";
-            MessageBox.Show(info, "已经成功获取嗅探字段");
+            XLogSys.Print.Info(info);
+            ControlExtended.UIInvoke(() =>
+            {
+
+                if (window != null) window.Topmost = false;
+
+            });
             URL = oSession.url;
 
-            VisitURLAsync();
+            VisitUrlAsync();
             XLogSys.Print.Info(info);
         }
 
@@ -528,7 +541,6 @@ namespace Hawk.ETL.Process
             RootXPath = dicts.Set("RootXPath", RootXPath);
             IsMultiData = dicts.Set("IsMultiData", IsMultiData);
             IsJson2xml = dicts.Set("IsJson2xml", IsJson2xml);
-            Crawler = dicts.Set("Crawler", Crawler);
             if (dicts.ContainsKey("HttpSet"))
             {
                 var doc2 = dicts["HttpSet"];
@@ -560,12 +572,29 @@ namespace Hawk.ETL.Process
             if (!string.IsNullOrEmpty(RootXPath))
             {
                 //TODO: 当XPath路径错误时，需要捕获异常
-                var root = HtmlDoc.DocumentNode.SelectSingleNode(RootXPath);
+                HtmlNode root = null;
+                try
+                {
+
+                    root = HtmlDoc.DocumentNode.SelectSingleNode(RootXPath);
+                }
+                catch (Exception ex)
+                {
+                    XLogSys.Print.Error($"{RootXPath}  不能被识别为正确的XPath表达式，请检查");                    
+                }
                 if(!(root != null).SafeCheck("使用当前父节点XPath，在文档中找不到任何父节点"))
                     return;
                  root = HtmlDoc.DocumentNode.SelectSingleNode(RootXPath)?.ParentNode;
-                var node = HtmlDoc.DocumentNode.SelectSingleNode(path);
-                if (!(node != null).SafeCheck("使用当前子节点XPath，在文档中找不到任何子节点"))
+
+                HtmlNode node = null;
+                if (
+                    !ControlExtended.SafeInvoke(() => HtmlDoc.DocumentNode.SelectSingleNode(path), ref node,
+                        LogType.Info, "检查子节点XPath正确性", true))
+
+                {
+                    return;
+                }
+                    if (!(node != null).SafeCheck("使用当前子节点XPath，在文档中找不到任何子节点"))
                     return;
                 if (!node.IsAncestor(root))
                 {
@@ -609,86 +638,8 @@ namespace Hawk.ETL.Process
             return doc.GetDataFromXPath(CrawlItems, IsMultiData, RootXPath);
         }
 
-        private bool isJson(WebHeaderCollection header)
-        {
-            if (header == null)
-                return false;
-            if (header.AllKeys.Contains("Content-Type"))
-            {
-                var type = header["Content-Type"];
-
-                if (type.ToLower().Contains("json"))
-                    return true;
-            }
-            return false;
-        }
-        private bool isJson(HTTPRequestHeaders header)
-        {
-            if (header == null)
-                return false;
-
-            if (header.Exists("Accept"))
-            {
-                var type = header["Accept"];
-
-                if (type.ToLower().Contains("json"))
-                    return true;
-            }
-            return false;
-        }
-
-        private bool isJson(HttpItem item)
-        {
-            var header =  item.GetHeaderParameter();
-            if (header.Contains("Accept"))
-            {
-                var type = header["Accept"];
-
-                if (type.ToString().ToLower().Contains("json"))
-                    return true;
-            }
-            return false;
-
-        }
-        private bool isJson(HTTPResponseHeaders header)
-        {
-            if (header == null)
-                return false;
-
-            if (header.Exists("Content-Type"))
-            {
-                var type = header["Content-Type"];
-
-                if (type.ToLower().Contains("json"))
-                    return true;
-            }
-            return false;
-        }
 
 
-        private string formatCheck(string content, bool isJson = false)
-        {
-            if (isJson)
-            {
-                try
-                {
-                    var serialier = new JavaScriptSerializer();
-                    var result = serialier.DeserializeObject(content);
-
-                    content = serialier.Serialize(result);
-
-                    var reader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(content),
-                        XmlDictionaryReaderQuotas.Max);
-                    var doc = new XmlDocument();
-                    doc.Load(reader);
-                    return doc.InnerXml;
-                }
-                catch (Exception)
-                {
-                }
-            }
-            return content;
-        }
 
         public string GetHtml(string url, out HttpStatusCode code,
             string post = null)
@@ -707,35 +658,10 @@ namespace Hawk.ETL.Process
                     url = url.Replace(m.Groups[0].Value, paradict[str]);
                 }
             }
-            if (!string.IsNullOrEmpty(Crawler))
-            {
-                var crawler =
-                    SysProcessManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == Crawler) as SmartCrawler;
-                var header = crawler?.Http.GetHeaderParameter();
-
-                if (header != null)
-                {
-                    var myheader = Http.GetHeaderParameter();
-                    object value;
-
-                    if (header.TryGetValue("Cookie", out value))
-                    {
-                        myheader["Cookie"] = value.ToString();
-                    }
-                    if (header.TryGetValue("Host", out value))
-                    {
-                        myheader["Host"] = value.ToString();
-                    }
-                    if (header.TryGetValue("Referer", out value))
-                    {
-                        myheader["Referer"] = value.ToString();
-                    }
-                    Http.Parameters = HttpItem.HeaderToString(myheader);
-                }
-            }
             WebHeaderCollection headerCollection;
             var content = helper.GetHtml(Http, out headerCollection, out code, url, post);
-            content = formatCheck(content, isJson(headerCollection) || isJson(Http));
+            bool isjson;
+            content = XPathAnalyzer.Json2XML(content,out isjson ,IsJson2xml);
             return content;
 
         }
@@ -744,27 +670,40 @@ namespace Hawk.ETL.Process
         {
 
             var content = GetHtml(url, out code, post);
+                          
+       
+
+            return CrawlHtmlData(content,out doc);
+        }
+        public List<FreeDocument> CrawlHtmlData(string html, out HtmlDocument doc
+         )
+        {
+
             doc = new HtmlDocument();
-            if (!HttpHelper.IsSuccess(code))
+
+            doc.LoadHtml(html);
+            List<FreeDocument> datas = new List<FreeDocument>();
+            try
             {
-                XLogSys.Print.WarnFormat("HTML Fail,Code:{0}，url:{1}", code, url);
-                return new List<FreeDocument>();
+                datas = CrawlData(doc);
+                if (datas.Count == 0)
+                {
+                    XLogSys.Print.DebugFormat("HTML extract Fail，url:{0}", url);
+                }
+            }
+            catch (Exception ex)
+            {
+                XLogSys.Print.ErrorFormat("HTML extract Fail，url:{0}, exception is {1}", url, ex.Message);
             }
 
-            ;
-            doc.LoadHtml(content);
 
-            var datas = CrawlData(doc);
-            if (datas.Count == 0)
-            {
-                XLogSys.Print.DebugFormat("HTML extract Fail，url:{0}", url);
-            }
 
             return datas;
         }
-
-        private async void VisitURLAsync()
+        private async void VisitUrlAsync()
         {
+            if(!enableRefresh)
+                return;
             URLHTML = await MainFrm.RunBusyWork(() =>
             {
                 HttpStatusCode code;

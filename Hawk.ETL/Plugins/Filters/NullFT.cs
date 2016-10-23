@@ -45,10 +45,6 @@ namespace Hawk.ETL.Plugins.Filters
 
 
 
-        [LocalizedCategory("1.基本选项")]
-        [PropertyOrder(5)]
-        [LocalizedDisplayName("标签")]
-        public string Name { get; set; }
 
 
         [LocalizedDisplayName("介绍")]

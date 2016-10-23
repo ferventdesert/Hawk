@@ -36,7 +36,7 @@ namespace Hawk.ETL.Plugins.Transformers
 
         [LocalizedCategory("1.基本选项")]
         [PropertyOrder(2)]
-        [LocalizedDisplayName("新列名")]
+        [LocalizedDisplayName("输出列")]
         [LocalizedDescription("若编号为小于0且匹配出多个新列，列名可用可用空格分割，若该列不需要添加，可用_表示，如'_ 匹配1 _'")]
         public override string NewColumn { get; set; }
 
@@ -82,12 +82,10 @@ namespace Hawk.ETL.Plugins.Transformers
             if (Index >= 0)
             {
                
-
                 if (r.Count > Index)
                 {
                     return r[Index].Value; ;
                 }
-            
 
             }
             return null;

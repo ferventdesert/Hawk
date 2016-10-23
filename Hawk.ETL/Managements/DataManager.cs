@@ -166,7 +166,9 @@ namespace Hawk.ETL.Managements
 
 
             fileName = exporter.FileName;
-            AddDataCollection(exporter.ReadFile(), Path.GetFileNameWithoutExtension(fileName));
+
+            ControlExtended.SafeInvoke(
+                () => AddDataCollection(exporter.ReadFile(), Path.GetFileNameWithoutExtension(fileName)),LogType.Important);
             return GetCollection(fileName);
         }
 
@@ -218,7 +220,7 @@ namespace Hawk.ETL.Managements
             var dataAll = new List<IFreeDocument>();
             
                 var  task = TemporaryTask.AddTempTask(dataName + "数据导入",
-                    db.GetEntities(dataName, mount), dataAll.Add,null,table!=null?table.Size:-1,notifyInterval:1000);
+                 db.GetEntities(dataName, mount), dataAll.Add,null,table!=null?table.Size:-1,notifyInterval:1000);
             processManager.CurrentProcessTasks.Add(task);
                 await Task.Run(
                     () => task.Wait());
@@ -329,11 +331,21 @@ namespace Hawk.ETL.Managements
                 async obj =>
                 {
                     var items = obj as TableInfo;
+                    List<IFreeDocument> dataAll = null;
+                    try
+                    {
+                        dataAll= await
+                      GetDataFromDB(items.Connector, items.Name, true,
+                          items.Connector is FileManager ? -1 : 200);
 
-                    List<IFreeDocument> dataAll =
-                        await
-                            GetDataFromDB(items.Connector, items.Name, true,
-                                items.Connector is FileManager ? -1 : 200);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("文件打开失败" + ex.Message);
+                        return;
+                    }
+                  
+                 
                     if (dataAll == null || dataAll.Count == 0)
                     {
                         XLogSys.Print.Warn("没有在表中的发现可用的数据");

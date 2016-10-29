@@ -29,7 +29,7 @@
         <DataTemplate x:Key="DataTemplateList">
             <Grid HorizontalAlignment="Stretch" Height="65.334" Width="100" d:DesignWidth="210.332" d:DesignHeight="136.471">
                 <Label Content="{Binding Name}" Margin="0" Height="Auto" VerticalAlignment="Bottom" FontSize="12" d:LayoutOverrides="GridBoX" HorizontalAlignment="Center" Width="Auto"/>
-                <Rectangle Stroke="Black"  ToolTip="{Binding Description}" RadiusX="13" RadiusY="3" StrokeThickness="0" Width="45" Height="45" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <Rectangle Stroke="Black"  ToolTip="{Binding Description}" RadiusX="13" RadiusY="3" StrokeThickness="0" Width="45" Height="45" HorizontalAlignment="Center" VerticalAlignment="Top" MouseLeftButtonUp="Rectangle_MouseLeftButtonUp">
                     <Rectangle.Fill>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.3,0">
                             <GradientStop Color="#FF3B3B3B" Offset="0.418"/>

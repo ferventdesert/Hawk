@@ -63,10 +63,7 @@ namespace Hawk.ETL.Controls
             }
         }
 
-        public FrmState FrmState
-        {
-            get { return FrmState.Large; }
-        }
+        public FrmState FrmState => FrmState.Large;
 
         private void ListBox_Drop(object sender, System.Windows.DragEventArgs e)
         {
@@ -113,6 +110,14 @@ namespace Hawk.ETL.Controls
                 {
                     this.RemoteFunc("Delete", frameworkElement.DataContext);
                 }
+            }
+        }
+
+        private void Rectangle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 1)
+            {
+                MessageBox.Show("可将图标拖入右侧数据列的上方空白列表处，为该列添加模块","提示信息");
             }
         }
     }

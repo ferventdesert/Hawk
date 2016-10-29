@@ -69,7 +69,7 @@ namespace Hawk.Core.Utils.Plugins
 
         public bool Close()
         {
-            this.SaveConfigFile();
+            //this.SaveConfigFile();
             this.ReleaseAllPlugin();
             return true;
         }

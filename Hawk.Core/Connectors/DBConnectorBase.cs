@@ -10,6 +10,7 @@ using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using System.Windows.Input;
 using Hawk.Core.Utils;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 
@@ -570,7 +571,8 @@ namespace Hawk.Core.Connectors
                     {
                         new Command("连接数据库", obj =>
                         {
-                              ConnectDB();
+
+                            ControlExtended.SafeInvoke(() => ConnectDB(), LogType.Important, "连接数据库");
                             if (IsUseable)
                             {
                                 RefreshTableNames();

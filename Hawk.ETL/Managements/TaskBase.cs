@@ -54,8 +54,6 @@ namespace Hawk.ETL.Managements
         [Browsable(false)]
         public bool AutoDelete { get; set; }
 
-        [LocalizedDisplayName("创建时间")]
-        public DateTime CreateTime { get; set; }
         public bool CheckWait()
         {
             if (!IsPause) return false;

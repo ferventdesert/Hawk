@@ -140,6 +140,7 @@ namespace Hawk.Core.Connectors
             IsUseable = Mongo.TryConnect();
             if (IsUseable != true) return IsUseable;
             update = new Document {["$inc"] = new Document(AutoIndexName, 1)};
+            
             DB = Mongo.GetDatabase(DBName);
             return IsUseable;
         }

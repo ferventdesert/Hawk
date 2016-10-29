@@ -20,12 +20,8 @@ namespace Hawk.ETL.Plugins.Executor
             dataManager = MainDescription.MainFrm.PluginDictionary["数据管理"] as IDataManager;
         }
 
-        [LocalizedDisplayName("克隆副本")]
-        [LocalizedDescription("将当前数据复制后保存到数据表中，可防止后续工作模块对数据的修改")]
-        public bool IsClone { get; set; }
 
-        [LocalizedDisplayName("新建表名")]
-        [LocalizedDescription("如果要新建表，则填写此项，否则留空")]
+        [LocalizedDisplayName("表名")]
         public string Table { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
@@ -43,16 +39,19 @@ namespace Hawk.ETL.Plugins.Executor
 
         public override IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents)
         {
-            if (collection == null)
-                yield break;
             foreach (var computeable in documents)
             {
-                ControlExtended.UIInvoke(() =>
+                if (collection != null)
                 {
-                    var data = IsClone ? computeable.Clone() : computeable;
-                    collection.ComputeData.Add(data);
-                    collection.OnPropertyChanged("Count");
-                });
+                    ControlExtended.UIInvoke(() =>
+                    {
+
+                        var data = computeable.Clone();
+                        collection.ComputeData.Add(data);
+                        collection.OnPropertyChanged("Count");
+                    });
+                }
+               
 
                 yield return computeable;
             }

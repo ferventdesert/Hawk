@@ -107,6 +107,15 @@ namespace Hawk.ETL.Managements
 
         private IDockableManager dockableManager;
 
+        public override bool Close()
+        {
+            foreach (var currentProcessCollection in CurrentProcessCollections)
+            {
+                currentProcessCollection.Close();
+            }
+            return true;
+        }
+
         public void SaveCurrentTasks()
         {
             foreach (var process in CurrentProcessCollections)
@@ -135,10 +144,25 @@ namespace Hawk.ETL.Managements
                 var url = "https://github.com/ferventdesert/Hawk/wiki";
                 System.Diagnostics.Process.Start(url);
             });
-            var pluginCommands = new BindingAction("关于");
+
+            var feedback = new BindingAction("反馈问题", d =>
+            {
+                var url = "https://github.com/ferventdesert/Hawk/issues";
+                System.Diagnostics.Process.Start(url);
+            });
+
+
+            var giveme = new BindingAction("捐赠", d =>
+            {
+                var url = "https://github.com/ferventdesert/Hawk/wiki/8.%E5%85%B3%E4%BA%8E%E4%BD%9C%E8%80%85";
+                System.Diagnostics.Process.Start(url);
+            });
+
+            var pluginCommands = new BindingAction("帮助");
             pluginCommands.ChildActions.Add(helplink);
             pluginCommands.ChildActions.Add(aboutAuthor);
-              
+            pluginCommands.ChildActions.Add(feedback);
+            pluginCommands.ChildActions.Add(giveme);
             MainFrmUI.CommandCollection.Add(pluginCommands);
             ProcessCollection = new ObservableCollection<IDataProcess>();
 
@@ -149,7 +173,7 @@ namespace Hawk.ETL.Managements
 
             sysCommand.ChildActions.Add(
                 new Command(
-                    "清空模块列表",
+                    "清空任务列表",
                     obj =>
                     {
                         if (MessageBox.Show("确定清空所有算法模块么？", "提示信息", MessageBoxButton.OKCancel) ==
@@ -162,7 +186,7 @@ namespace Hawk.ETL.Managements
 
             sysCommand.ChildActions.Add(
                 new Command(
-                    "保存全部模块",
+                    "保存全部任务",
                     obj =>
                     {
                         if (MessageBox.Show("确定保存所有算法模块么？", "提示信息", MessageBoxButton.OKCancel) ==
@@ -394,7 +418,6 @@ namespace Hawk.ETL.Managements
                     {
                         Name = process.Name,
                         Description = "任务描述",
-                        CreateTime = DateTime.Now
                     };
 
                     CurrentProject.Tasks.Add(task);

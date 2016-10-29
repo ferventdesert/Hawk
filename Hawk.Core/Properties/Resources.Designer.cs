@@ -61,7 +61,7 @@ namespace Hawk.Core.Properties {
         }
         
         /// <summary>
-        ///   查找类似 是否确定离开本软件? 的本地化字符串。
+        ///   查找类似 是否确定离开本软件? 请在关闭前保存要保存的工程 的本地化字符串。
         /// </summary>
         public static string Closing {
             get {

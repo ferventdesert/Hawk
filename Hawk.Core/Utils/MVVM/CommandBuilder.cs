@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Hawk.Core.Utils.Logs;
 
 namespace Hawk.Core.Utils.MVVM
 {
@@ -71,7 +72,8 @@ namespace Hawk.Core.Utils.MVVM
 
         void ICommand.Execute(object parameter)
         {
-            Execute?.Invoke(parameter);
+            ControlExtended.SafeInvoke(() => Execute?.Invoke(parameter),LogType.Info,"点击按钮: "+this.Text);
+
         }
 
         bool ICommand.CanExecute(object parameter)

@@ -100,6 +100,7 @@ namespace Hawk.Core.Connectors
 
 
                             row1.CreateCell(cellIndex).SetCellValue(o.Value);
+                            sheet1.AutoSizeColumn(cellIndex,true);
                             cellIndex++;
                         }
 
@@ -107,6 +108,7 @@ namespace Hawk.Core.Connectors
                     }
                     cellIndex = 0;
                     IRow row = sheet1.CreateRow(rowIndex);
+                  
                     foreach (object value in this.PropertyNames.Select(name => data[name.Key]))
                     {
                         if (value is DateTime)
@@ -127,7 +129,7 @@ namespace Hawk.Core.Connectors
                         }
                         else
                         {
-                            row.CreateCell(cellIndex).SetCellValue(value != null ? value.ToString() : "");
+                            row.CreateCell(cellIndex).SetCellValue(value?.ToString() ?? "");
                         }
                         cellIndex++;
                     }

@@ -129,15 +129,9 @@ namespace Hawk.ETL.Managements
         }
 
 
-        public FrmState FrmState
-        {
-            get { return FrmState.Mini; }
-        }
+        public FrmState FrmState => FrmState.Mini;
 
-        public object UserControl
-        {
-            get { return null; }
-        }
+        public object UserControl => null;
 
         #endregion
 

@@ -472,11 +472,12 @@ namespace Hawk.ETL.Process
                 FiddlerApplication.BeforeResponse += FiddlerApplicationAfterSessionComplete;
                 FiddlerApplication.Startup(8888, FiddlerCoreStartupFlags.Default);
                 OnPropertyChanged("IsRunning");
-            }, LogType.Important, "请在关闭软件前关闭嗅探服务。【否则可能无法正常上网】，尝试启动服务");
+            }, LogType.Important, "尝试启动服务,  注意： 请在关闭软件前关闭嗅探服务。【否则可能无法正常上网】");
         }
 
         private void FiddlerApplicationAfterSessionComplete(Session oSession)
         {
+         
             var httpitem = new HttpItem {Parameters = oSession.oRequest.headers.ToString()};
 
 
@@ -688,12 +689,12 @@ namespace Hawk.ETL.Process
                 datas = CrawlData(doc);
                 if (datas.Count == 0)
                 {
-                    XLogSys.Print.DebugFormat("HTML extract Fail，url:{0}", url);
+                    XLogSys.Print.InfoFormat("HTML抽取数据失败，url:{0}", url);
                 }
             }
             catch (Exception ex)
             {
-                XLogSys.Print.ErrorFormat("HTML extract Fail，url:{0}, exception is {1}", url, ex.Message);
+                XLogSys.Print.ErrorFormat("HTML抽取数据失败，url:{0}, 异常为{1}", url, ex.Message);
             }
 
 
@@ -709,7 +710,17 @@ namespace Hawk.ETL.Process
                 HttpStatusCode code;
                 return GetHtml(URL, out code);
             });
-            HtmlDoc.LoadHtml(URLHTML);
+            if (URLHTML.Contains("尝试自动重定向") &&
+                MessageBox.Show("网站提示: " + URLHTML + "\n 通常原因是网站对请求合法性做了检查, 建议填写关键字对网页内容进行自动嗅探", "提示信息", MessageBoxButton.OK)==MessageBoxResult.OK)
+           
+            {
+                return;
+            }
+       
+            
+              ControlExtended.SafeInvoke(()=>HtmlDoc.LoadHtml(URLHTML), name : "解析html文档");
+        
+
             if (string.IsNullOrWhiteSpace(selectText) == false)
             {
                 currentXPaths = HtmlDoc.SearchXPath(SelectText, () => IsAttribute).GetEnumerator();

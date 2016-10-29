@@ -22,11 +22,8 @@ namespace Hawk.ETL.Plugins.Transformers
 
         public CrawlerTF()
         {
-            //  var defaultcraw = processManager.CurrentProcessCollections.FirstOrDefault(d => d is SmartCrawler);
             MaxTryCount = "1";
             ErrorDelay = 3000;
-            SetPrefex = "";
-            //if (defaultcraw != null) CrawlerSelector = defaultcraw.Name;
             PropertyChanged += (s, e) => { buffHelper.Clear(); };
         }
 
@@ -34,9 +31,6 @@ namespace Hawk.ETL.Plugins.Transformers
         [LocalizedDisplayName("最大重复次数")]
         public string MaxTryCount { get; set; }
 
-        [LocalizedCategory("高级设置")]
-        [LocalizedDisplayName("延时时间")]
-        public string DelayTime { get; set; }
 
         [LocalizedCategory("高级设置")]
         [LocalizedDisplayName("错误延时时间")]
@@ -45,29 +39,8 @@ namespace Hawk.ETL.Plugins.Transformers
         [LocalizedDisplayName("Post数据")]
         public string PostData { get; set; }
 
-        [Browsable(false)]
-        [LocalizedCategory("请求队列")]
-        [LocalizedDisplayName("队列生成器")]
-        [LocalizedDescription("填写模块的名称")]
-        public string GEName { get; set; }
 
-        [Browsable(false)]
-        [LocalizedCategory("请求队列")]
-        [LocalizedDisplayName("过滤规则")]
-        public string Prefix { get; set; }
 
-        [Browsable(false)]
-        [LocalizedCategory("请求队列")]
-        [LocalizedDisplayName("启用正则")]
-        public bool IsRegex { get; set; }
-
-        [LocalizedCategory("请求队列")]
-        [Browsable(false)]
-        [LocalizedDisplayName("添加前缀")]
-        public string SetPrefex { get; set; }
-
-        [Browsable(false)]
-        public override string HeaderFilter { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
@@ -78,8 +51,6 @@ namespace Hawk.ETL.Plugins.Transformers
             IsMultiYield = crawler?.IsMultiData == ListType.List && crawler.CrawlItems.Count>0;
             isfirst = true;
 
-            if (IsRegex)
-                regex = new Regex(Prefix);
             return crawler != null;
         }
 
@@ -99,13 +70,6 @@ namespace Hawk.ETL.Plugins.Transformers
             var docs = new List<FreeDocument>();
             if (htmldoc == null)
             {
-                var delay = data.Query(DelayTime);
-                var delaytime = 0;
-                if (delay != null && int.TryParse(delay, out delaytime))
-                {
-                    if (delaytime != 0)
-                        Thread.Sleep(delaytime);
-                }
 
                 HttpStatusCode code;
                 var maxcount = 1;
@@ -115,7 +79,7 @@ namespace Hawk.ETL.Plugins.Transformers
                 while (count < maxcount)
                 {
                     docs = crawler.CrawlData(url, out htmldoc, out code, post);
-                    if (HttpHelper.IsSuccess(code))
+                    if (HttpHelper.IsSuccess(code) && docs.Count>0)
                     {
                         buffHelper.Set(bufkey, htmldoc);
                         break;

@@ -20,6 +20,11 @@ namespace Hawk.ETL.Plugins.Transformers
         protected string _crawlerSelector;
         private Regex regex;
 
+        public ResponseTF()
+        {
+            CrawlerSelector = "网页采集器";
+        }
+
         [LocalizedDisplayName("爬虫选择")]
         [LocalizedDescription("填写采集器或模块的名称")]
         public string CrawlerSelector

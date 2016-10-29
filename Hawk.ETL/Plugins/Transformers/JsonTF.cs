@@ -39,12 +39,11 @@ namespace Hawk.ETL.Plugins.Transformers
 
         [LocalizedCategory("使用采集器协助提取Json")]
         [LocalizedDisplayName("采集器名称")]
-        [LocalizedDescription("填写采集器或模块的名称")]
+        [LocalizedDescription("填写采集器的名称")]
         public string CrawlerSelector { get; set; }
 
         [LocalizedCategory("使用采集器协助提取Json")]
         [LocalizedDisplayName("启用")]
-        [LocalizedDescription("填写采集器或模块的名称")]
         public bool CrawlerEnabled { get; set; }
 
         [LocalizedCategory("使用采集器协助提取Json")]

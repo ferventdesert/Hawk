@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Closing" xml:space="preserve">
-    <value>是否确定离开本软件?</value>
+    <value>是否确定离开本软件? 请在关闭前保存要保存的工程</value>
   </data>
   <data name="ConfigNull" xml:space="preserve">
     <value>不包含任何有关配置文件的任何信息，请检查</value>

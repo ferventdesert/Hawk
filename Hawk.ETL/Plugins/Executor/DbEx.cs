@@ -5,6 +5,8 @@ using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
+using Hawk.Core.Utils;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 
@@ -19,8 +21,6 @@ namespace Hawk.ETL.Plugins.Executor
         {
             dataManager = MainDescription.MainFrm.PluginDictionary["数据管理"] as IDataManager;
             ConnectorSelector = new ExtendSelector<IDataBaseConnector>();
-
-
             ConnectorSelector.SetSource(dataManager.CurrentConnectors);
         }
 
@@ -28,8 +28,8 @@ namespace Hawk.ETL.Plugins.Executor
         [LocalizedDescription("选择数据对数据库的操作")]
         public EntityExecuteType ExecuteType { get; set; }
 
-        [LocalizedDisplayName("连接器")]
-        [LocalizedDescription("选择所要连接的数据库服务")]
+        [LocalizedDisplayName("选择数据库")]
+        [LocalizedDescription("选择所要连接的数据库服务，如果该项无法选择，请配置【模块管理】->【数据源】，并点击右键创建新的数据库连接器")]
         [PropertyOrder(1)]
         public ExtendSelector<IDataBaseConnector> ConnectorSelector { get; set; }
 
@@ -54,7 +54,7 @@ namespace Hawk.ETL.Plugins.Executor
                     documents.Select(
                         document =>
                         {
-                            ConnectorSelector.SelectItem.SaveOrUpdateEntity(document, con, null, ExecuteType);
+                            ConnectorSelector.SelectItem?.SaveOrUpdateEntity(document, con, null, ExecuteType);
                             return document;
                         });
             }
@@ -88,7 +88,11 @@ namespace Hawk.ETL.Plugins.Executor
 
             if (string.IsNullOrEmpty(TableName) == false)
             {
-                if (ConnectorSelector.SelectItem.RefreshTableNames().FirstOrDefault(d => d.Name == TableName) == null)
+                if (!(ConnectorSelector.SelectItem != null).SafeCheck("数据库连接器不能为空"))
+                {
+                    return false;
+                }
+                if (ConnectorSelector.SelectItem?.RefreshTableNames().FirstOrDefault(d => d.Name == TableName) == null)
 
                 {
                     var data = datas?.FirstOrDefault() ?? new FreeDocument();

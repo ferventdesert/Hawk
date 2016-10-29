@@ -70,11 +70,11 @@ namespace Hawk.ETL.Managements
         {
             Tasks = new ObservableCollection<ProcessTask>();
             DBConnections = new ObservableCollection<IDataBaseConnector>();
+          ;
+          
         }
 
 
-        [LocalizedDisplayName("创建时间")]
-        public DateTime CreateTime { get; set; }
 
         [LocalizedDisplayName("数据库连接")]
         public ObservableCollection<IDataBaseConnector> DBConnections { get; set; }
@@ -165,16 +165,24 @@ namespace Hawk.ETL.Managements
             {
                 var items = docu["DBConnections"] as FreeDocument;
 
-                if (items?.Children == null) return;
-                foreach (var item in items.Children)
+                if (items?.Children != null)
                 {
-                    var type = item["TypeName"].ToString();
-                    var conn = PluginProvider.GetObjectByType<IDataBaseConnector>(type) as DBConnectorBase;
-                    if (conn == null) continue;
-                    conn.DictDeserialize(item);
+                    foreach (var item in items.Children)
+                    {
+                        var type = item["TypeName"].ToString();
+                        var conn = PluginProvider.GetObjectByType<IDataBaseConnector>(type) as DBConnectorBase;
+                        if (conn == null) continue;
+                        conn.DictDeserialize(item);
 
-                    DBConnections.Add(conn);
+                        DBConnections.Add(conn);
+                    }
                 }
+               
+            }
+            if (DBConnections.FirstOrDefault(d => d.TypeName == "文件管理")==null)
+            {
+                var filemanager=new FileManager() {Name = "最近打开的文件"};
+                DBConnections.Add(filemanager);
             }
         }
     }

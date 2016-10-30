@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
+using System.Windows.Input;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
+using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using MongoDB;
 using MongoDB.Configuration;
@@ -33,6 +36,8 @@ namespace Hawk.Core.Connectors
         public MongoDBConnector()
         {
             AutoIndexName = "id";
+            DBName = "local";
+            this.Server = "127.0.0.1";
         }
 
 
@@ -45,12 +50,36 @@ namespace Hawk.Core.Connectors
         #endregion
 
         #region Public Methods
-
+        [LocalizedCategory("高级设置")]
         [LocalizedDisplayName("自增主键名称")]
         public string AutoIndexName { get; set; }
 
+        [LocalizedCategory("高级设置")]
         [LocalizedDisplayName("启用自增主键写入")]
         public bool AutoIndexEnabled { get; set; }
+
+
+        [LocalizedCategory("高级设置")]
+        [LocalizedDisplayName("安装使用说明")]
+        [PropertyOrder(20)]
+        public ReadOnlyCollection<ICommand> HelpCommands
+        {
+            get
+            {
+                return CommandBuilder.GetCommands(
+                    this,
+                    new[]
+                    {
+                        new Command("打开帮助链接", obj =>
+                        {
+                            var url =
+                                "https://github.com/ferventdesert/Hawk/wiki/5.-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F";
+                             System.Diagnostics.Process.Start(url);
+
+                        }),
+                    });
+            }
+        }
 
         public IEnumerable<FreeDocument> GetEnumerable(string tableName)
         {

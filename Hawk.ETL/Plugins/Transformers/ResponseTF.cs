@@ -47,7 +47,6 @@ namespace Hawk.ETL.Plugins.Transformers
         {
             OneOutput = false;
             crawler = GetCrawler(CrawlerSelector);
-
             return crawler != null && base.Init(datas);
         }
 

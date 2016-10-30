@@ -234,7 +234,7 @@ namespace Hawk.Core.Connectors
                 sb.Append($"'{value}',");
             }
             sb.Remove(sb.Length - 1, 1);
-            string sql = string.Format("INSERT INTO {0} VALUES({1})", dbTableName, sb);
+            string sql = $"INSERT INTO {dbTableName} VALUES({sb})";
             return sql;
         }
 
@@ -326,7 +326,7 @@ namespace Hawk.Core.Connectors
 
         public virtual void CreateDataBase(string dbname)
         {
-            ExecuteNonQuery(string.Format("CREATE DATABASE {0}", dbname));
+            ExecuteNonQuery($"CREATE DATABASE {dbname}");
         }
 
         public virtual List<FreeDocument> QueryEntities(string querySQL, out int count,
@@ -342,7 +342,7 @@ namespace Hawk.Core.Connectors
 
         [LocalizedCategory("1.连接管理")]
         [LocalizedDisplayName("数据库名称")]
-        [PropertyOrder(5)]
+        [PropertyOrder(2)]
         public string DBName { get; set; }
 
 
@@ -364,7 +364,7 @@ namespace Hawk.Core.Connectors
 
 
         [LocalizedCategory("1.连接管理")]
-        [PropertyOrder(4)]
+        [PropertyOrder(10)]
         [LocalizedDisplayName("连接状态")]
         public bool IsUseable
         {

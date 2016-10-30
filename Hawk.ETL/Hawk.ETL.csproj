@@ -49,6 +49,10 @@
     <Reference Include="Jayrock.Sandbox">
       <HintPath>..\Includes\Jayrock.Sandbox.dll</HintPath>
     </Reference>
+    <Reference Include="Jint, Version=2.9.0.0, Culture=neutral, PublicKeyToken=2e92ba9c8d81157f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Hawk\Includes\Jint.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Dynamic, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Includes\Microsoft.Dynamic.dll</HintPath>
@@ -77,6 +81,7 @@
   <ItemGroup>
     <Compile Include="Crawlers\BuffHelper.cs" />
     <Compile Include="Crawlers\CrawlItem.cs" />
+    <Compile Include="Crawlers\JavaScriptAnalyzer.cs" />
     <Compile Include="Crawlers\NetworkManager.cs" />
     <Compile Include="Crawlers\ProxyProvider.cs" />
     <Compile Include="Crawlers\XPath.cs" />

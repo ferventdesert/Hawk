@@ -70,8 +70,8 @@ namespace Hawk.ETL.Managements
         {
             Tasks = new ObservableCollection<ProcessTask>();
             DBConnections = new ObservableCollection<IDataBaseConnector>();
-          ;
-          
+            ;
+
         }
 
 
@@ -153,10 +153,10 @@ namespace Hawk.ETL.Managements
 
                 foreach (var item in items)
                 {
-                    var proces= new ProcessTask();
+                    var proces = new ProcessTask();
                     proces.Project = this;
                     proces.DictDeserialize(item);
-                   
+
                     Tasks.Add(proces);
                 }
             }
@@ -177,12 +177,19 @@ namespace Hawk.ETL.Managements
                         DBConnections.Add(conn);
                     }
                 }
-               
+
             }
-            if (DBConnections.FirstOrDefault(d => d.TypeName == "文件管理")==null)
+            if (DBConnections.FirstOrDefault(d => d.TypeName == "文件管理") == null)
             {
-                var filemanager=new FileManager() {Name = "最近打开的文件"};
+                var filemanager = new FileManager() {Name = "最近打开的文件"};
                 DBConnections.Add(filemanager);
+            }
+            if (DBConnections.FirstOrDefault(d => d.TypeName == "MongoDB") == null)
+            {
+                var mongo = new MongoDBConnector() {Name = "MongoDB连接器"};
+                mongo.DBName = "hawk";
+                DBConnections.Add(mongo);
+
             }
         }
     }

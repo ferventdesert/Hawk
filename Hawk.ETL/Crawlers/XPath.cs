@@ -5,47 +5,21 @@ using System.Text.RegularExpressions;
 
 namespace Hawk.ETL.Crawlers
 {
-    public class XPath : List<string>
+    public static class XPath 
     {
         private static readonly Regex boxRegex = new Regex(@"\[\d{1,3}\]");
 
-        public XPath()
-        {
-        }
-
-        public XPath(string xpath)
-        {
-            if (string.IsNullOrEmpty(xpath))
-                return;
-            xpath = xpath.Trim();
-            string[] items = xpath.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-            AddRange(items);
-        }
-
-        public XPath(IEnumerable<string> xpath)
-        {
-            AddRange(xpath);
-        }
 
         
-
-        public static XPath Translate(string item)
-        {
-            return new XPath(item);
-        }
-
-        public static XPath Translate(IEnumerable<string> item)
-        {
-            return new XPath(item);
-        }
 
         /// <summary>
         ///     获取从头开始的最大公共子串
         /// </summary>
         /// <returns></returns>
-        public static XPath GetMaxCompareXPath(IList<XPath> items)
+        public static string GetMaxCompareXPath(IEnumerable<string> items2)
         {
-            int minlen = items.Min(d => d.Count);
+            var items = items2.Select(Split).ToList();
+            int minlen = items.Min(d => d.Count());
 
             string c = null;
             int i = 0;
@@ -53,7 +27,7 @@ namespace Hawk.ETL.Crawlers
             {
                 for (int index = 0; index < items.Count; index++)
                 {
-                    XPath path = items[index];
+                    var  path = items[index];
                     if (index == 0)
                     {
                         c = path[i];
@@ -68,52 +42,61 @@ namespace Hawk.ETL.Crawlers
                 }
             }
             OVER:
-            XPath first = items.First().SubXPath(i + 1);
-
-            first.RemoveFinalNum();
+            var  first = SubXPath( items2.First(),i + 1);
+            first=RemoveFinalNum(first);
             return first;
         }
 
-        public override string ToString()
+        public static  string ToString(IEnumerable<string> items )
         {
-            if (!this.Any())
-            {
+            if (!items.Any())
                 return "/";
-            }
-            return "/" + this.Aggregate((a, b) => a + '/' + b);
+            return "/" + items.Aggregate((a, b) => a + '/' + b);
         }
 
+        public static List<string> Split(string path)
+        {
+            return path.Split('/').Select(d=>d.Trim()).Where(d=>d!="").ToList();
+        } 
         public static string GetAttributeName(string path)
         {
             return path.Replace("@", "").Replace("[1]", "");
         }
 
-        public XPath SubXPath(int t)
+        public static string  SubXPath(string path,int t)
         {
-            List<string> items = this.Take(t).ToList();
-            return new XPath(items);
+            var items = Split(path);
+            if (t > 0)
+                return ToString(items.Take(t));
+            else
+            {
+                return ToString(items.Take(items.Count + t));
+            }
         }
 
-        public XPath SubXPath(int start, int end)
+        public static string SubXPath(string path,int start, int end)
         {
-            List<string> items = this.Skip(start).Take(end).ToList();
-            return new XPath(items);
+            return ToString(Split(path).Skip(start).Take(end).ToList());
         }
 
-        public XPath TakeOff(string fullPath)
+        public static string TakeOff(string path,string root)
         {
-            if (string.IsNullOrEmpty(fullPath))
-                return this;
-            var temp = new XPath(fullPath);
-            return SubXPath(temp.Count, Count - temp.Count);
+            if (string.IsNullOrEmpty(root))
+                return path;
+            var start = Split(root).Count;
+            var total = Split(path).Count;
+            return SubXPath(path,start,total-start);
         }
 
-        public XPath RemoveFinalNum()
+        public static string RemoveFinalNum(string path)
         {
-            string v = this.Last();
+            var items = Split(path);
+            if (items.Count == 0)
+                return path;
+            string v = items.Last();
             string v2 = boxRegex.Replace(v, "");
-            this[Count - 1] = v2;
-            return this;
+            items[items.Count - 1] = v2;
+            return ToString(items);
         }
     }
 }

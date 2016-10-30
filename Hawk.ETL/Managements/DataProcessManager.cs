@@ -515,7 +515,7 @@ namespace Hawk.ETL.Managements
                 {
                     if (isAddToList)
                     {
-                        ProcessCollection.Add(process);
+                     ;
                         process.SysDataManager = dataManager;
 
                         process.SysProcessManager = this;
@@ -525,6 +525,10 @@ namespace Hawk.ETL.Managements
                             rc4.MainPluginLocation = MainFrmUI.MainPluginLocation;
                             rc4.MainFrm = MainFrmUI;
                         }
+                        var count = this.CurrentProcessCollections.Count(d => d.Name.Contains( process.TypeName));
+                        if (count > 0)
+                            process.Name = process.TypeName + count;
+                        ProcessCollection.Add(process);
                         XLogSys.Print.Info("已经成功添加" + process.TypeName + "到当前列表");
                     }
 

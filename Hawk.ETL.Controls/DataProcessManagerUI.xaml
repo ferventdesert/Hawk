@@ -69,7 +69,7 @@
             <ColumnDefinition Width="575*"/>
             <ColumnDefinition Width="398*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="listboxProcessMethodList" ItemsSource="{Binding ProgramNameFilterView}"  x:FieldModifier="public"   Margin="10,46,30,308"     ItemsPanel="{DynamicResource ItemsPanelTemplate1}"  ItemTemplate="{DynamicResource DataTemplateList}"/>
+        <ListBox x:Name="listboxProcessMethodList" ItemsSource="{Binding ProgramNameFilterView}"  x:FieldModifier="public"   Margin="10,46,30,0"     ItemsPanel="{DynamicResource ItemsPanelTemplate1}"  ItemTemplate="{DynamicResource DataTemplateList}" Height="112" VerticalAlignment="Top"/>
         <GridSplitter Width="5" Margin="0,0,15,0"/>
         <ListBox x:Name="listBox"  DataContext="{Binding}"  SelectedItem="{Binding SelectedTask}" ItemsSource="{Binding ProjectTaskList}"  HorizontalContentAlignment="Stretch" Margin="10,205,19,10"    ItemTemplate="{DynamicResource DataTemplate2}"  >
             <ListBox.Resources>

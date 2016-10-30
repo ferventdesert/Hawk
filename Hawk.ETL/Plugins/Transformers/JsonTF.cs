@@ -94,7 +94,7 @@ namespace Hawk.ETL.Plugins.Transformers
             var itemstr = item.ToString();
             if (lastData == null)
             {
-                var html = XPathAnalyzer.Json2XML(itemstr, out isrealjson, true);
+                var html = JavaScriptAnalyzer.Json2XML(itemstr, out isrealjson, true);
                 if(isrealjson)
                     lastData = itemstr;
 
@@ -103,7 +103,7 @@ namespace Hawk.ETL.Plugins.Transformers
             if (crawlerEnabled)
             {
              
-                var html = XPathAnalyzer.Json2XML(itemstr, out isrealjson, true);
+                var html = JavaScriptAnalyzer.Json2XML(itemstr, out isrealjson, true);
                 if (isrealjson)
                 {
                     HtmlDocument htmldoc = null;
@@ -141,7 +141,7 @@ namespace Hawk.ETL.Plugins.Transformers
             (!string.IsNullOrWhiteSpace(CrawlerSelector)).SafeCheck("采集器名称不能为空");
 
             var isRealJson = false;
-            var newhtml = XPathAnalyzer.Json2XML(lastData, out isRealJson, true);
+            var newhtml = JavaScriptAnalyzer.Json2XML(lastData, out isRealJson, true);
             if (!(isRealJson).SafeCheck("只有标准json格式才能启用采集器设计"))
                 return;
             var selector = GetCrawler(CrawlerSelector); 
@@ -177,7 +177,7 @@ namespace Hawk.ETL.Plugins.Transformers
                 if (crawlerEnabled)
                 {
                     bool isrealjson;
-                    var html = XPathAnalyzer.Json2XML(itemstr, out isrealjson, true);
+                    var html = JavaScriptAnalyzer.Json2XML(itemstr, out isrealjson, true);
                     if (isrealjson)
                     {
                         HtmlDocument htmldoc = null;

@@ -106,21 +106,19 @@ namespace Hawk.ETL.Crawlers
 
 
     [XFrmWork("门类枚举", "要拖入HTML文本列，输入XPath,该功能可以将页面中的门类，用Cross模式组合起来，适合于爬虫无法抓取全部页面，但可以按分类抓取的情况")]
-    public class XPathTF2 : TransformerBase
+    public class XPathTF2 : ResponseTF
     {
         private List<string> xpaths;
 
 
         public XPathTF2()
         {
-            Script = "";
+            CrawlerSelector = "";
             HasHtml = true;
           
         }
-        [DisplayName("多个XPath路径")]
-        [Description("代表多个门类的XPath路径，一行一条")]
-        [PropertyEditor("CodeEditor")]
-        public string Script { get; set; }
+         
+
 
 
         [DisplayName("获取html")]
@@ -128,9 +126,16 @@ namespace Hawk.ETL.Crawlers
 
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {
-            var datas = Script.Split('\n');
-            IsMultiYield = true;
-            xpaths = datas.Select(d => d.Trim()).Where(d=>!string.IsNullOrEmpty(d)).ToList();
+            base.Init(docus);
+            //if (crawler == null)
+            //    return false;
+            //IsMultiYield = true;
+            //crawler.CrawlItems.GroupBy(d => d.Name).Select(d =>
+            //{
+            //    var column = d.Key;
+            //    XPath.GetMaxCompareXPath(d.Select(d2 => d2.XPath).ToList());
+            //});
+            //xpaths = datas.Select(d => d.Trim()).Where(d=>!string.IsNullOrEmpty(d)).ToList();
             return true;
         }
 

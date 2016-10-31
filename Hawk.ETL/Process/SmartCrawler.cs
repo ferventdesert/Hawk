@@ -58,9 +58,12 @@ namespace Hawk.ETL.Process
             Http = new HttpItem();
             CrawlItems = new ObservableCollection<CrawlItem>();
             helper = new HttpHelper();
-            URL = "https://detail.tmall.com/item.htm?spm=a230r.1.14.3.jJHewQ&id=525379044994&cm_id=140105335569ed55e27b&abbucket=16&skuId=3126989942045";
-            SelectText = "自带投影自带音箱不发音";
+            //  URL = "https://detail.tmall.com/item.htm?spm=a230r.1.14.3.jJHewQ&id=525379044994&cm_id=140105335569ed55e27b&abbucket=16&skuId=3126989942045";
+            // SelectText = "自带投影自带音箱不发音";
+            URL = "http://baijia.baidu.com/";
+            SelectText = "会大大帮助很多沉浸式工作场景的体";
             IsMultiData = ListType.List;
+            IsAttribute = true;
         }
 
         [Browsable(false)]
@@ -229,6 +232,7 @@ namespace Hawk.ETL.Process
         [TypeConverter(typeof (ExpandableObjectConverter))]
         public HttpItem Http { get; set; }
 
+        [Browsable(false)]
         [LocalizedDisplayName("提取标签")]
         [PropertyOrder(4)]
         [LocalizedCategory("2.属性提取")]
@@ -268,10 +272,10 @@ namespace Hawk.ETL.Process
         }
 
         [LocalizedCategory("3.动态请求嗅探")]
-        [LocalizedDisplayName("Json转html")]
-        [LocalizedDescription("该属性会将Json请求强制转换为Html,从而使用【手气不错】功能，如果你想自己处理Json,则不要勾选该选项")]
+        [LocalizedDisplayName("超级模式")]
+        [LocalizedDescription("该模式能够强力解析网页内容，但可能会导致性能下降")]
         [PropertyOrder(9)]
-        public bool IsJson2xml { get; set; }
+        public bool IsSuperMode { get; set; }
 
         [Browsable(false)]
         public object UserControl => null;
@@ -411,7 +415,7 @@ namespace Hawk.ETL.Process
             dict.Add("URL", URL);
             dict.Add("RootXPath", RootXPath);
             dict.Add("IsMultiData", IsMultiData);
-            dict.Add("IsJson2xml", IsJson2xml);
+            dict.Add("IsSuperMode", IsSuperMode);
             dict.Add("HttpSet", Http.DictSerialize());
             dict.Children = new List<FreeDocument>();
             dict.Children.AddRange(CrawlItems.Select(d => d.DictSerialize(scenario)));
@@ -507,6 +511,8 @@ namespace Hawk.ETL.Process
 
         private void FiddlerApplicationAfterSessionComplete(Session oSession)
         {
+            if (oSession.oRequest.headers==null)
+                return;
             var httpitem = new HttpItem {Parameters = oSession.oRequest.headers.ToString()};
 
 
@@ -526,16 +532,14 @@ namespace Hawk.ETL.Process
             if (string.IsNullOrWhiteSpace(SelectText) == false)
             {
                 var content = oSession.GetResponseBodyAsString();
-                var isRealJson = false;
-                content = JavaScriptAnalyzer.Json2XML(content, out isRealJson, true);
-                if (isRealJson)
-                    IsJson2xml = true;
+              
 
                 if (content.Contains(SelectText) == false)
                 {
                     return;
                 }
             }
+            IsSuperMode = true;
             StopVisit();
             httpitem.DictCopyTo(Http);
             var post = "";
@@ -558,7 +562,7 @@ namespace Hawk.ETL.Process
             URL = dicts.Set("URL", URL);
             RootXPath = dicts.Set("RootXPath", RootXPath);
             IsMultiData = dicts.Set("IsMultiData", IsMultiData);
-            IsJson2xml = dicts.Set("IsJson2xml", IsJson2xml);
+            IsSuperMode = dicts.Set("IsSuperMode", IsSuperMode);
             if (dicts.ContainsKey("HttpSet"))
             {
                 var doc2 = dicts["HttpSet"];
@@ -665,7 +669,7 @@ namespace Hawk.ETL.Process
             WebHeaderCollection headerCollection;
             var content = helper.GetHtml(Http, out headerCollection, out code, url, post);
             bool isjson;
-            content = JavaScriptAnalyzer.Json2XML(content, out isjson, IsJson2xml);
+            content = JavaScriptAnalyzer.Json2XML(content, out isjson, IsSuperMode);
             return content;
         }
 
@@ -681,6 +685,10 @@ namespace Hawk.ETL.Process
         public List<FreeDocument> CrawlHtmlData(string html, out HtmlDocument doc
             )
         {
+            if (IsSuperMode)
+            {
+                html = JavaScriptAnalyzer.Parse2XML(html);
+            }
             doc = new HtmlDocument();
 
             doc.LoadHtml(html);

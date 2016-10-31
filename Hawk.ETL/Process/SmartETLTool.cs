@@ -391,7 +391,7 @@ namespace Hawk.ETL.Process
         //    }
 
         //    JavaScriptSerializer serialier = new JavaScriptSerializer();
-        //var res=    serialier.Serialize(dict);
+        //var res=    serialier.JsObjectSerialize(dict);
         //    File.WriteAllText("D:\\fuck.json",res);
           return true;
         }

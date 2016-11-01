@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Json;
@@ -14,11 +15,15 @@ using HtmlAgilityPack;
 using Jint.Native;
 using Jint.Parser;
 using Jint.Parser.Ast;
+using Newtonsoft.Json;
 
 namespace Hawk.ETL.Crawlers
 {
     public class JavaScriptAnalyzer
     {
+        static JavaScriptAnalyzer()
+        {
+        }
         private static readonly List<string> ignores = new List<string>
         {
             "Range",
@@ -33,7 +38,7 @@ namespace Hawk.ETL.Crawlers
 
         public static Dictionary<string, object> HtmlSerialize(string html)
         {
-            var doc=new HtmlDocument();
+            var doc = new HtmlDocument();
             doc.LoadHtml(html);
             return HtmlObjectSerialize(doc.DocumentNode);
         }
@@ -51,13 +56,13 @@ namespace Hawk.ETL.Crawlers
             }
             if (doc.ChildNodes == null || doc.ChildNodes.Count == 0)
                 return result;
-            var childs=new ArrayList();
+            var childs = new ArrayList();
             foreach (var child in doc.ChildNodes)
             {
 
                 var res = HtmlObjectSerialize(child);
-                if(res.Any())
-                childs.Add(res);
+                if (res.Any())
+                    childs.Add(res);
             }
             if (childs.Count > 0)
                 result["chi"] = childs;
@@ -71,10 +76,10 @@ namespace Hawk.ETL.Crawlers
             }
             return false;
         }
-        protected static Regex regex=new Regex(@"(\S*?) [^>]*>.*?</\1>|<.*? /");
+        protected static Regex regex = new Regex(@"<\w+>");
 
 
-        public static Dictionary<string,object> JsSeriaize(string js)
+        public static Dictionary<string, object> JsSeriaize(string js)
         {
             var parser = new JavaScriptParser();
             var program = parser.Parse(js);
@@ -86,7 +91,7 @@ namespace Hawk.ETL.Crawlers
             if (obj is string)
             {
                 var str = obj as string;
-                if (regex.IsMatch(str))
+                if (isHtml(str))
                 {
                     var doc = new HtmlDocument();
                     doc.LoadHtml(str);
@@ -171,49 +176,69 @@ namespace Hawk.ETL.Crawlers
             return result;
         }
 
-        public static Dictionary<string,object> Parse(string code)
+        public static bool isHtml(string code)
+        {
+            if (string.IsNullOrEmpty(code))
+                return false;
+            code = code.Substring(0, Math.Min(200, code.Length));
+            if (regex.IsMatch(code))
+                return true;
+            return false;
+        }
+        public static object Parse(string code)
         {
             code = code.Trim();
-            if (regex.IsMatch(code, 0))
+            if (code.StartsWith("{") || code.StartsWith("["))
+            {
+                return serialier.DeserializeObject(code);
+
+            }
+            else if (isHtml(code))
             {
                 return HtmlSerialize(code);
             }
-            
-          
+
+
             else
             {
                 return JsSeriaize(code);
             }
         }
-
+        static JavaScriptSerializer serialier = new JavaScriptSerializer();
         public static string Parse2XML(string code)
         {
             var root = Parse(code);
-            var serialier = new JavaScriptSerializer();
-           var json= serialier.Serialize(root);
-            var reader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(json),
-                     XmlDictionaryReaderQuotas.Max);
-            var doc = new XmlDocument();
-            doc.Load(reader);
-            return doc.InnerXml;
+
+            var json = serialier.Serialize(root);
+            var  doc = JsonConvert.DeserializeXNode(json,"Root",false);
+            return doc.ToString();
         }
+
+        static Regex reUnicode = new Regex(@"\\u([0-9a-fA-F]{4})", RegexOptions.Compiled);
+        public static string Decode(string s)
+        {
+            return reUnicode.Replace(s, m =>
+            {
+                short c;
+                if (short.TryParse(m.Groups[1].Value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out c))
+                {
+                    return "" + (char)c;
+                }
+                return m.Value;
+            });
+        }
+
         public static string Json2XML(string content, out bool isRealJson, bool isJson = false)
         {
             if (isJson)
             {
                 try
                 {
-                    var serialier = new JavaScriptSerializer();
-                    var result = serialier.DeserializeObject(content);
 
-                    content = serialier.Serialize(result);
 
-                    var reader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(content),
-                        XmlDictionaryReaderQuotas.Max);
-                    var doc = new XmlDocument();
-                    doc.Load(reader);
+                    XmlDocument doc = JsonConvert.DeserializeXmlNode(content);
                     isRealJson = true;
-                    return doc.InnerXml;
+                    return doc.OuterXml;
                 }
                 catch (Exception ex)
                 {

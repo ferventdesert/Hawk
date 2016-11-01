@@ -354,9 +354,27 @@ namespace Hawk.ETL.Crawlers
                     continue;
 
                 var path = XPath.TakeOff(nodechild1.XPath, node1.XPath);
+                bool fail = false;
+                
                 var nodechild2 =
-                    nodes.Select(d => d.SelectSingleNode(d.XPath + path)).Where(d => d != null).ToList();
-                if (nodechild2.Count == 1)
+                    nodes.Select(d =>
+                    {
+                        if (fail)
+                            return null;
+                        try
+                        {
+                            var node = d.SelectSingleNode(d.XPath + path);
+                            return node;
+                        }
+                        catch (Exception)
+                        {
+
+                            fail = true;
+                            return null;
+                        }
+                    
+                    }).Where(d => d != null&&fail==false).ToList();
+                if (nodechild2.Count<2||fail)
                     continue;
 
                 isChildContainInfo |= GetDiffNodes(nodechild2, result, buffers, isAttrEnabled);
@@ -959,8 +977,6 @@ namespace Hawk.ETL.Crawlers
                 if (existItems.Count < 2)
                 {
                     IEnumerable<KeyValuePair<string, double>> p = dict.OrderByDescending(d => d.Value);
-
-
                     foreach (var keyValuePair in p)
                     {
                         var items = GetDiffNodes(doc2, keyValuePair.Key, isAttrEnabled, existItems,4);

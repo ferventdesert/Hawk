@@ -60,8 +60,8 @@ namespace Hawk.ETL.Process
             helper = new HttpHelper();
             //  URL = "https://detail.tmall.com/item.htm?spm=a230r.1.14.3.jJHewQ&id=525379044994&cm_id=140105335569ed55e27b&abbucket=16&skuId=3126989942045";
             // SelectText = "自带投影自带音箱不发音";
-            URL = "http://baijia.baidu.com/";
-            SelectText = "会大大帮助很多沉浸式工作场景的体";
+            URL = "http://list.jd.com/list.html?cat=11729,11730,6907";
+            SelectText = "仅可购买自营红米3s手机商";
             IsMultiData = ListType.List;
             IsAttribute = true;
         }
@@ -229,7 +229,7 @@ namespace Hawk.ETL.Process
         [LocalizedDisplayName("请求详情")]
         [PropertyOrder(11)]
         [LocalizedDescription("设置Cookie和其他访问选项")]
-        [TypeConverter(typeof (ExpandableObjectConverter))]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
         public HttpItem Http { get; set; }
 
         [Browsable(false)]
@@ -330,14 +330,14 @@ namespace Hawk.ETL.Process
 
             var crawitems = CrawTarget.CrawItems;
             var datas = HtmlDoc.GetDataFromXPath(crawitems, IsMultiData, CrawTarget.RootXPath);
-            var propertyNames = new FreeDocument(datas.GetKeys().ToDictionary(d => d, d => (object) d));
+            var propertyNames = new FreeDocument(datas.GetKeys().ToDictionary(d => d, d => (object)d));
             datas.Insert(0, propertyNames);
             var view = PluginProvider.GetObjectInstance<IDataViewer>("可编辑列表");
             var r = view.SetCurrentView(datas);
 
 
             var name = "手气不错_可修改第一列的属性名称";
-            var window = new Window {Title = name};
+            var window = new Window { Title = name };
             window.Content = r;
             window.Closing += (s, e) =>
             {
@@ -385,7 +385,7 @@ namespace Hawk.ETL.Process
 
                         crawitems = CrawTarget.CrawItems;
                         datas = HtmlDoc.GetDataFromXPath(crawitems, IsMultiData, CrawTarget.RootXPath);
-                        propertyNames = new FreeDocument(datas.GetKeys().ToDictionary(d => d, d => (object) d));
+                        propertyNames = new FreeDocument(datas.GetKeys().ToDictionary(d => d, d => (object)d));
                         datas.Insert(0, propertyNames);
                         r = view.SetCurrentView(datas);
                         window.Content = r;
@@ -503,7 +503,7 @@ namespace Hawk.ETL.Process
                 CONFIG.bMITM_HTTPS = true;
                 FiddlerApplication.AfterSessionComplete += FiddlerApplicationAfterSessionComplete;
 
-                FiddlerApplication.Startup(8888,true,true);
+                FiddlerApplication.Startup(8888, true, true);
                 System.Diagnostics.Process.Start(url);
                 OnPropertyChanged("IsRunning");
             }, LogType.Important, "启动嗅探服务");
@@ -511,9 +511,9 @@ namespace Hawk.ETL.Process
 
         private void FiddlerApplicationAfterSessionComplete(Session oSession)
         {
-            if (oSession.oRequest.headers==null)
+            if (oSession.oRequest.headers == null)
                 return;
-            var httpitem = new HttpItem {Parameters = oSession.oRequest.headers.ToString()};
+            var httpitem = new HttpItem { Parameters = oSession.oRequest.headers.ToString() };
 
 
             if ((oSession.BitFlags & SessionFlags.IsHTTPS) != 0)
@@ -532,8 +532,8 @@ namespace Hawk.ETL.Process
             if (string.IsNullOrWhiteSpace(SelectText) == false)
             {
                 var content = oSession.GetResponseBodyAsString();
-              
 
+                content = JavaScriptAnalyzer.Decode(content);
                 if (content.Contains(SelectText) == false)
                 {
                     return;
@@ -633,7 +633,7 @@ namespace Hawk.ETL.Process
                 }
             }
 
-            var item = new CrawlItem {XPath = path, Name = SelectName, SampleData1 = SelectText};
+            var item = new CrawlItem { XPath = path, Name = SelectName, SampleData1 = SelectText };
             CrawlItems.Add(item);
             SelectXPath = "";
         }
@@ -642,9 +642,9 @@ namespace Hawk.ETL.Process
         {
             if (CrawlItems.Count == 0)
             {
-                var freedoc = new FreeDocument {{"Content", doc.DocumentNode.OuterHtml}};
+                var freedoc = new FreeDocument { { "Content", doc.DocumentNode.OuterHtml } };
 
-                return new List<FreeDocument> {freedoc};
+                return new List<FreeDocument> { freedoc };
             }
             return doc.GetDataFromXPath(CrawlItems, IsMultiData, RootXPath);
         }
@@ -668,8 +668,12 @@ namespace Hawk.ETL.Process
             }
             WebHeaderCollection headerCollection;
             var content = helper.GetHtml(Http, out headerCollection, out code, url, post);
-            bool isjson;
-            content = JavaScriptAnalyzer.Json2XML(content, out isjson, IsSuperMode);
+            content = JavaScriptAnalyzer.Decode(content);
+            if (IsSuperMode)
+            {
+                content = JavaScriptAnalyzer.Parse2XML(content);
+            }
+
             return content;
         }
 

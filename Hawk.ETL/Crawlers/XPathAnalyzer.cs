@@ -591,8 +591,8 @@ namespace Hawk.ETL.Crawlers
             var avanode = nodes.ToList();
             if (avanode.Count < 3)
                 return;
-            if (avanode.Count(d => d.Name == avanode[1].Name) < avanode.Count*0.7)
-                return;
+            //if (avanode.Count(d => d.Name == avanode[1].Name) < avanode.Count*0.7)
+            //    return;
 
             var childCount = (double) avanode.Count;
 

@@ -64,6 +64,7 @@ namespace Hawk.ETL.Process
             SelectText = "仅可购买自营红米3s手机商";
             IsMultiData = ListType.List;
             IsAttribute = true;
+            IsSuperMode = true;
         }
 
         [Browsable(false)]
@@ -294,23 +295,30 @@ namespace Hawk.ETL.Process
             if (currentXPaths == null)
                 return;
             xpath_count++;
-
-            var r = await MainFrm.RunBusyWork(() => currentXPaths.MoveNext(), "正在查询XPath");
-            if (r)
-                SelectXPath = currentXPaths.Current;
-            else
+            try
             {
-                SelectXPath = "";
-                if (xpath_count > 1)
-                {
-                    XLogSys.Print.Warn("找不到其他符合条件的节点，搜索器已经返回开头");
-                    currentXPaths = HtmlDoc.SearchXPath(SelectText, () => IsAttribute).GetEnumerator();
-                }
+                var r = await MainFrm.RunBusyWork(() => currentXPaths.MoveNext(), "正在查询XPath");
+                if (r)
+                    SelectXPath = currentXPaths.Current;
                 else
                 {
-                    XLogSys.Print.Warn($"在该网页中找不到关键字 {SelectText},可能是动态请求，可以启用【自动嗅探】,勾选【转换动态请求】,并将浏览器页面翻到包含该关键字的位置");
+                    SelectXPath = "";
+                    if (xpath_count > 1)
+                    {
+                        XLogSys.Print.Warn("找不到其他符合条件的节点，搜索器已经返回开头");
+                        currentXPaths = HtmlDoc.SearchXPath(SelectText, () => IsAttribute).GetEnumerator();
+                    }
+                    else
+                    {
+                        XLogSys.Print.Warn($"在该网页中找不到关键字 {SelectText},可能是动态请求，可以启用【自动嗅探】,勾选【转换动态请求】,并将浏览器页面翻到包含该关键字的位置");
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                XLogSys.Print.Warn($"查询XPath时在内部发生异常:" +ex.Message);
+            }
+          
         }
 
         public void GreatHand()
@@ -384,12 +392,13 @@ namespace Hawk.ETL.Process
                         }
 
                         crawitems = CrawTarget.CrawItems;
+                        var title = $"手气不错，第{count}次结果";
                         datas = HtmlDoc.GetDataFromXPath(crawitems, IsMultiData, CrawTarget.RootXPath);
                         propertyNames = new FreeDocument(datas.GetKeys().ToDictionary(d => d, d => (object)d));
                         datas.Insert(0, propertyNames);
                         r = view.SetCurrentView(datas);
                         window.Content = r;
-                        window.Title = $"手气不错，第{count}次结果";
+                        window.Title = title; 
                         break;
                     case MessageBoxResult.Cancel:
                         return;
@@ -671,6 +680,7 @@ namespace Hawk.ETL.Process
             content = JavaScriptAnalyzer.Decode(content);
             if (IsSuperMode)
             {
+
                 content = JavaScriptAnalyzer.Parse2XML(content);
             }
 

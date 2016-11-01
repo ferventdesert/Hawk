@@ -2,20 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Json;
 using System.Text;
-using System.Text.RegularExpressions;
+ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using System.Xml;
 using Hawk.Core.Utils.Logs;
-using HtmlAgilityPack;
+ using HtmlAgilityPack;
+using Jayrock.Json.Conversion;
 using Jint.Native;
-using Jint.Parser;
+ using Jint.Parser;
 using Jint.Parser.Ast;
-using Newtonsoft.Json;
 
 namespace Hawk.ETL.Crawlers
 {
@@ -46,8 +47,9 @@ namespace Hawk.ETL.Crawlers
         {
             if (doc.Name.ToLower() == "script")
             {
-
-                return JsSeriaize(doc.InnerText);
+                if (doc.GetAttributeValue("type", "javascript").Contains("javascript"))
+                    return JsSeriaize(doc.InnerHtml);
+                return HtmlSerialize(doc.InnerText);
             }
             var result = new Dictionary<string, object>();
             foreach (var attr in doc.Attributes)
@@ -76,7 +78,7 @@ namespace Hawk.ETL.Crawlers
             }
             return false;
         }
-        protected static Regex regex = new Regex(@"<\w+>");
+        protected static Regex regex = new Regex(@"<\w+[>\s]");
 
 
         public static Dictionary<string, object> JsSeriaize(string js)
@@ -159,7 +161,6 @@ namespace Hawk.ETL.Crawlers
                             {
                                 array.Add(res);
                             }
-
                         }
                         value = array;
                     }
@@ -190,7 +191,7 @@ namespace Hawk.ETL.Crawlers
             code = code.Trim();
             if (code.StartsWith("{") || code.StartsWith("["))
             {
-                return serialier.DeserializeObject(code);
+                return JsonConvert.Import(code);
 
             }
             else if (isHtml(code))
@@ -204,14 +205,53 @@ namespace Hawk.ETL.Crawlers
                 return JsSeriaize(code);
             }
         }
-        static JavaScriptSerializer serialier = new JavaScriptSerializer();
+        private static  Regex ignoreRegex=new Regex("type=\"\\w+\"");
+
+        private static string _Parse2XML(string code)
+        {
+
+            var root = Parse(code);
+            var serialier = new JavaScriptSerializer();
+            var json = serialier.Serialize(root);
+            var reader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(json),
+                XmlDictionaryReaderQuotas.Max);
+
+            var doc = new XmlDocument();
+            doc.Load(reader);
+            var result = doc.InnerXml;
+            result = ignoreRegex.Replace(result, "").Replace("<a:", "<").Replace("xmlns:a", "a");
+            return result;
+        }
+
+
+
         public static string Parse2XML(string code)
         {
-            var root = Parse(code);
+            string result = code;
+#if !DEBUG
+            try
+            {
+                result = _Parse2XML(code);
+            }
+            catch (Exception ex)
+            {
+                XLogSys.Print.Error("超级模式解析失败 "+ex.Message);                
+            } 
+            return result;
+#else
+             return  _Parse2XML(code); 
+#endif
+            //StringBuilder sb = new StringBuilder();
+            //StringWriter sw = new StringWriter(sb);
+            //using (var xtw = new XmlTextWriter(sw))
+            //{
+            //    xtw.Formatting = Formatting.Indented;
+            //    xtw.Indentation = 1;
+            //    xtw.IndentChar = '\t';
+            //    doc.WriteTo(xtw);
+            //}
+            //var result= sb.ToString();
 
-            var json = serialier.Serialize(root);
-            var  doc = JsonConvert.DeserializeXNode(json,"Root",false);
-            return doc.ToString();
         }
 
         static Regex reUnicode = new Regex(@"\\u([0-9a-fA-F]{4})", RegexOptions.Compiled);
@@ -236,8 +276,17 @@ namespace Hawk.ETL.Crawlers
                 {
 
 
-                    XmlDocument doc = JsonConvert.DeserializeXmlNode(content);
+                    var serialier = new JavaScriptSerializer();
+                    var result = serialier.DeserializeObject(content);
+
+                    content = serialier.Serialize(result);
+
+                    var reader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(content),
+                        XmlDictionaryReaderQuotas.Max);
+                    var doc = new XmlDocument();
+                    doc.Load(reader);
                     isRealJson = true;
+
                     return doc.OuterXml;
                 }
                 catch (Exception ex)

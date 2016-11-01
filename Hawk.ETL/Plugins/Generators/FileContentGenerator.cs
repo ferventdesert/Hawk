@@ -144,8 +144,6 @@ namespace Hawk.ETL.Plugins.Generators
     [XFrmWork("写入文件文本", "写入文件中的文本")]
     public class WriteFileTextTF : DataExecutorBase
     {
-        private bool shouldUpdate;
-        private string _folderPath;
 
 
 

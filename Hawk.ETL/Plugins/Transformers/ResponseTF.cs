@@ -18,7 +18,6 @@ namespace Hawk.ETL.Plugins.Transformers
         protected readonly BuffHelper<HtmlDocument> buffHelper = new BuffHelper<HtmlDocument>(50);
         private readonly HttpHelper helper = new HttpHelper();
         protected string _crawlerSelector;
-        private Regex regex;
 
         public ResponseTF()
         {

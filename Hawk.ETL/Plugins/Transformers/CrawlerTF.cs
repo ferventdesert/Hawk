@@ -17,8 +17,6 @@ namespace Hawk.ETL.Plugins.Transformers
     public class CrawlerTF : ResponseTF
     {
         private BfsGE generator;
-        private bool isfirst;
-        private Regex regex;
 
         public CrawlerTF()
         {
@@ -49,7 +47,6 @@ namespace Hawk.ETL.Plugins.Transformers
             base.Init(datas);
 
             IsMultiYield = crawler?.IsMultiData == ListType.List && crawler.CrawlItems.Count>0;
-            isfirst = true;
 
             return crawler != null;
         }

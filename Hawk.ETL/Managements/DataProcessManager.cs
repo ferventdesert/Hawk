@@ -157,12 +157,17 @@ namespace Hawk.ETL.Managements
                 var url = "https://github.com/ferventdesert/Hawk/wiki/8.%E5%85%B3%E4%BA%8E%E4%BD%9C%E8%80%85";
                 System.Diagnostics.Process.Start(url);
             });
-
+            var blog = new BindingAction("博客", d =>
+            {
+                var url = "http://www.cnblogs.com/buptzym/";
+                System.Diagnostics.Process.Start(url);
+            });
             var pluginCommands = new BindingAction("帮助");
             pluginCommands.ChildActions.Add(helplink);
             pluginCommands.ChildActions.Add(aboutAuthor);
             pluginCommands.ChildActions.Add(feedback);
             pluginCommands.ChildActions.Add(giveme);
+            pluginCommands.ChildActions.Add(blog);
             MainFrmUI.CommandCollection.Add(pluginCommands);
             ProcessCollection = new ObservableCollection<IDataProcess>();
 
@@ -400,7 +405,6 @@ namespace Hawk.ETL.Managements
             file.ChildActions.Add(new BindingAction("加载项目", obj => LoadProject()));
             file.ChildActions.Add(new BindingAction("保存项目", obj => SaveCurrentProject()));
             file.ChildActions.Add(new BindingAction("项目另存为", obj => SaveCurrentProject(false)));
-
             return true;
         }
 

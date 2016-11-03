@@ -45,16 +45,37 @@ namespace Hawk.ETL.Crawlers
         }
         public static Dictionary<string, object> HtmlObjectSerialize(HtmlNode doc)
         {
+            var result = new Dictionary<string, object>();
             if (doc.Name.ToLower() == "script")
             {
                 if (doc.GetAttributeValue("type", "javascript").Contains("javascript"))
-                    return JsSeriaize(doc.InnerHtml);
-                return HtmlSerialize(doc.InnerText);
+                {
+                    try
+                    {
+                        return JsSeriaize(doc.InnerHtml);
+                    }
+                    catch (Exception ex)
+                    {
+                        result.Add("text", doc.InnerText);
+                        return result;
+                    }
+                }
+                else
+                {
+                    return HtmlSerialize(doc.InnerText);
+                }
             }
-            var result = new Dictionary<string, object>();
+      
+        
             foreach (var attr in doc.Attributes)
             {
-                result[attr.Name] = attr.Value;
+                result[attr.Name.Trim()] = attr.Value;
+            }
+            if (doc.NodeType == HtmlNodeType.Text)
+            {
+                var str = doc.InnerText.Trim();
+                if (str != "")
+                    result["text"] = str;
             }
             if (doc.ChildNodes == null || doc.ChildNodes.Count == 0)
                 return result;
@@ -67,7 +88,7 @@ namespace Hawk.ETL.Crawlers
                     childs.Add(res);
             }
             if (childs.Count > 0)
-                result["chi"] = childs;
+                result["div"] = childs;
             return result;
         }
         private static bool isBasicType(Object obj)
@@ -154,7 +175,7 @@ namespace Hawk.ETL.Crawlers
 
                                 foreach (var o in dict2)
                                 {
-                                    result[o.Key] = o.Value;
+                                    result[o.Key.Trim()] = o.Value;
                                 }
                             }
                             else
@@ -205,7 +226,7 @@ namespace Hawk.ETL.Crawlers
                 return JsSeriaize(code);
             }
         }
-        private static  Regex ignoreRegex=new Regex("type=\"\\w+\"");
+        private static  Regex ignoreRegex=new Regex("\\stype=\"\\w+\"");
 
         private static string _Parse2XML(string code)
         {
@@ -274,8 +295,6 @@ namespace Hawk.ETL.Crawlers
             {
                 try
                 {
-
-
                     var serialier = new JavaScriptSerializer();
                     var result = serialier.DeserializeObject(content);
 

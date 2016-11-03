@@ -315,7 +315,7 @@ namespace Hawk.ETL.Crawlers
             }
             return false;
         }
-
+        public static  Random Random=new Random();
         /// <summary>
         ///     find different text and return it name and xpath
         /// </summary>
@@ -325,8 +325,9 @@ namespace Hawk.ETL.Crawlers
             bool isAttrEnabled)
         {
             var isChildContainInfo = false;
-            var node1 = nodes.First();
-            var node2 = nodes[1];
+            int len = nodes.Count;
+            var node1 =nodes [Random.Next(0, len/2)];
+            var node2 =nodes [Random.Next(len/2, len)];
             if (node1.ChildNodes.Count == 1 && node1.ChildNodes[0].NodeType == HtmlNodeType.Text)
             {
                 var row = nodes.Select(d => d.SelectSingleNode(d.XPath))
@@ -599,7 +600,7 @@ namespace Hawk.ETL.Crawlers
             var childCounts = avanode.Select(d => (double) d.ChildNodes.Count).ToArray();
             var v = childCounts.Variance();
             //TODO: 此处需要一个更好的手段，因为有效节点往往是间隔的
-            if (v > 100)
+            if (v > 1000)
             {
                return;
             }
@@ -924,7 +925,7 @@ namespace Hawk.ETL.Crawlers
         {
             if (items.Count > 1)
                  return new CrawTarget(items);
-            else if (items.Count == 1&&root!=null)
+            else if (items.Count == 1&&string.IsNullOrEmpty(root)==false)
             {
                 var child = XPath.TakeOff(items[0].XPath, root);
                 items[0].XPath = child;
@@ -999,7 +1000,9 @@ namespace Hawk.ETL.Crawlers
                         crawlItem.XPath = XPath.TakeOff(crawlItem.XPath, root.XPath);
                     }
 
-                    yield return new CrawTarget(items, rootPath);
+                    var target = getCrawTarget(items, rootPath);
+                    if (target != null)
+                        yield return target;
                 }
                     
             }
@@ -1099,18 +1102,16 @@ namespace Hawk.ETL.Crawlers
             {
                 case ListType.List:
                     var root = "";
-                    var takeoff = "";
                     if (string.IsNullOrEmpty(rootXPath))
                     {
                         root =
                             XPath.GetMaxCompareXPath(crawlItems.Select(d => d.XPath));
-                        takeoff = root;
+                     
                     }
                     else
                     {
                         root = rootXPath;
                     }
-
 
                     var nodes = doc2.DocumentNode.SelectNodes(root);
 
@@ -1121,14 +1122,18 @@ namespace Hawk.ETL.Crawlers
                         var document = new FreeDocument();
                         foreach (var r in crawlItems)
                         {
-                            string path;
-                            if (string.IsNullOrEmpty(takeoff))
-
-                                path = node.XPath + r.XPath;
+                            string path = null;
+                            
+                            if (string.IsNullOrEmpty(rootXPath))
+                                path = node.XPath + XPath.TakeOff(r.XPath, root);
                             else
                             {
-                                path = node.XPath + XPath.TakeOff(r.XPath, takeoff);
-
+                                if(r.XPath!="/")
+                                    path = node.XPath+ r.XPath;
+                                else
+                                {
+                                    path = node.XPath;
+                                }
                             }
 
                             var result = node.GetDataFromXPath(path, r.IsHTML);

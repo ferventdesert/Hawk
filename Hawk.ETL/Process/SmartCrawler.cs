@@ -28,7 +28,6 @@ namespace Hawk.ETL.Process
     {
         private readonly Regex extract = new Regex(@"\[(\w+)\]");
         private readonly HttpHelper helper;
-        private readonly AutoResetEvent myResetEvent = new AutoResetEvent(false);
 
         /// <summary>
         ///     当URL发生变化时，自动访问之
@@ -52,6 +51,7 @@ namespace Hawk.ETL.Process
         private string url = "";
         private string urlHTML = "";
         private int xpath_count;
+        private bool _isSuperMode;
 
         public SmartCrawler()
         {
@@ -60,8 +60,8 @@ namespace Hawk.ETL.Process
             helper = new HttpHelper();
             //  URL = "https://detail.tmall.com/item.htm?spm=a230r.1.14.3.jJHewQ&id=525379044994&cm_id=140105335569ed55e27b&abbucket=16&skuId=3126989942045";
             // SelectText = "自带投影自带音箱不发音";
-            URL = "http://list.jd.com/list.html?cat=11729,11730,6907";
-            SelectText = "仅可购买自营红米3s手机商";
+            URL = "";
+            SelectText = "";
             IsMultiData = ListType.List;
             IsAttribute = true;
             IsSuperMode = true;
@@ -212,6 +212,10 @@ namespace Hawk.ETL.Process
                 if (selectName == value) return;
                 selectName = value;
                 OnPropertyChanged("SelectName");
+                if (string.IsNullOrEmpty(this.SelectName))
+                {
+                    SelectName = "属性"+CrawlItems.Count;
+                }
             }
         }
 
@@ -274,9 +278,20 @@ namespace Hawk.ETL.Process
 
         [LocalizedCategory("3.动态请求嗅探")]
         [LocalizedDisplayName("超级模式")]
-        [LocalizedDescription("该模式能够强力解析网页内容，但可能会导致性能下降")]
+        [LocalizedDescription("该模式能够强力解析网页内容，但是比较消耗资源，且会修改原始Html内容")]
         [PropertyOrder(9)]
-        public bool IsSuperMode { get; set; }
+        public bool IsSuperMode
+        {
+            get { return _isSuperMode; }
+            set
+            {
+                if (_isSuperMode != value)
+                {
+                    _isSuperMode = value;
+                    OnPropertyChanged("IsSuperMode");
+                }
+            }
+        }
 
         [Browsable(false)]
         public object UserControl => null;
@@ -310,7 +325,7 @@ namespace Hawk.ETL.Process
                     }
                     else
                     {
-                        XLogSys.Print.Warn($"在该网页中找不到关键字 {SelectText},可能是动态请求，可以启用【自动嗅探】,勾选【转换动态请求】,并将浏览器页面翻到包含该关键字的位置");
+                        XLogSys.Print.Warn($"在该网页中找不到关键字 {SelectText},可能是动态请求，可以启用【自动嗅探】,并将浏览器页面翻到包含该关键字的位置");
                     }
                 }
             }
@@ -645,6 +660,7 @@ namespace Hawk.ETL.Process
             var item = new CrawlItem { XPath = path, Name = SelectName, SampleData1 = SelectText };
             CrawlItems.Add(item);
             SelectXPath = "";
+            SelectName = "";
         }
 
         public List<FreeDocument> CrawlData(HtmlDocument doc)

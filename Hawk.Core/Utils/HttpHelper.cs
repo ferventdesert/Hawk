@@ -321,11 +321,28 @@ namespace Hawk.Core.Utils
             return _stream;
         }
 
+
+
         public static void SetRequest(HttpItem item, HttpWebRequest request, string desturl = null, string post = null)
         {
             var docu = item.GetHeaderParameter();
             // 设置代理
-            //SetProxy(item);
+            if (item.ProxyPort == 0 || string.IsNullOrEmpty(item.ProxyIP))
+            {
+                //不需要设置
+            }
+            else
+            {
+                //设置代理服务器
+                var myProxy = new WebProxy(item.ProxyIP, item.ProxyPort);
+
+                //建议连接
+                myProxy.Credentials = new NetworkCredential(item.ProxyUserName, item.ProxyPassword);
+                //给当前请求对象
+                request.Proxy = myProxy;
+                //设置安全凭证
+                request.Credentials = CredentialCache.DefaultNetworkCredentials;
+            }
             //请求方式Get或者Post
             request.Method = item.Method.ToString();
             request.Timeout = item.Timeout;

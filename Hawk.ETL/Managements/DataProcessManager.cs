@@ -131,7 +131,7 @@ namespace Hawk.ETL.Managements
             dataManager = MainFrmUI.PluginDictionary["数据管理"] as IDataManager;
             propertyGridWindow = MainFrmUI.PluginDictionary["属性配置器"] as XFrmWorkPropertyGrid;
 
-            var aboutAuthor=new BindingAction("联系和打赏作者", d =>
+            var aboutAuthor=new BindingAction("关于", d =>
             {
                 var view = PluginProvider.GetObjectInstance<ICustomView>("关于作者");
                 var window = new Window();
@@ -161,6 +161,10 @@ namespace Hawk.ETL.Managements
             {
                 var url = "http://www.cnblogs.com/buptzym/";
                 System.Diagnostics.Process.Start(url);
+            });
+            var wechat = new BindingAction("微信公众号", d =>
+            {
+                MessageBox.Show("欢迎关注微信公众号“沙漠之鹰”，实在没时间给软件做UI了。。。","沙漠君欢迎你");
             });
             var pluginCommands = new BindingAction("帮助");
             pluginCommands.ChildActions.Add(helplink);
@@ -465,7 +469,10 @@ namespace Hawk.ETL.Managements
         {
             if (currentProject == null)
                 return;
-
+            if (CurrentProject.Tasks.Any() == false&& MessageBox.Show("当前工程中没有包含任何任务，请在任务管理页中，将要保存的任务插入到当前工程中","警告信息",MessageBoxButton.OKCancel)==MessageBoxResult.Cancel)
+            {
+                return;
+            }
             if (isDefaultPosition)
             {
                 ControlExtended.SafeInvoke(() => currentProject.Save(), LogType.Important, "保存当前工程");

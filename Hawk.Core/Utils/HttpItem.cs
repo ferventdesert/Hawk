@@ -21,13 +21,34 @@ namespace Hawk.Core.Utils
             Allowautoredirect = true;
             Encoding = EncodingType.Unknown;
             Parameters = "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36";
+            ProxyPort = 18888;
         }
 
         [PropertyEditor("CodeEditor")]
+        [LocalizedCategory("1.请求设置")]
+        [LocalizedDisplayName("Header")]
+        [PropertyOrder(5)]
         public string Parameters { get; set; }
 
+        [LocalizedCategory("2.代理设置")]
+        [LocalizedDisplayName("代理IP")]
+        [PropertyOrder(1)]
+        public string ProxyIP { get; set; }
 
-      
+        [LocalizedCategory("2.代理设置")]
+        [LocalizedDisplayName("端口")]
+        [PropertyOrder(2)]
+        public int ProxyPort { get; set; }
+
+        [LocalizedCategory("2.代理设置")]
+        [LocalizedDisplayName("用户名")]
+        [PropertyOrder(3)]
+        public string ProxyUserName { get; set; }
+
+        [LocalizedCategory("2.代理设置")]
+        [LocalizedDisplayName("密码")]
+        [PropertyOrder(4)]
+        public string ProxyPassword { get; set; }
 
         public static  string HeaderToString(FreeDocument docu)
         {
@@ -106,32 +127,44 @@ namespace Hawk.Core.Utils
         /// <summary>
         ///     请求URL必须填写
         /// </summary>
+        [Browsable(false)]
         public string URL { get; set; }
 
 
         /// <summary>
         ///     请求方式默认为GET方式
         /// </summary>
+        [LocalizedCategory("1.请求设置")]
+        [LocalizedDisplayName("请求方法")]
+        [PropertyOrder(1)]
         public MethodType Method { get; set; }
 
         /// <summary>
         ///     默认请求超时时间
         /// </summary>
+        [LocalizedCategory("1.请求设置")]
+        [LocalizedDisplayName("超时时间")]
+        [PropertyOrder(3)]
         public int Timeout { get; set; }
 
         /// <summary>
         ///     默认写入Post数据超时间
         /// </summary>
+        [Browsable(false)]
         public int ReadWriteTimeout { get; set; }
 
-        
 
 
-     
+
+
 
         /// <summary>
         ///     返回数据编码默认为NUll,可以自动识别
         /// </summary>
+        [LocalizedCategory("1.请求设置")]
+        [LocalizedDisplayName("请求编码")]
+        [LocalizedDescription("当页面出现乱码时，可选择切换UTF-8或GBK")]
+        [PropertyOrder(3)]
         public EncodingType Encoding { get; set; }
 
 
@@ -139,18 +172,26 @@ namespace Hawk.Core.Utils
         /// <summary>
         ///     Post请求时要发送的Post数据
         /// </summary>
+        /// 
+        [LocalizedCategory("1.请求设置")]
+        [LocalizedDisplayName("Post参数")]
+        [PropertyOrder(7)]
         [PropertyEditor("CodeEditor")]
         public string Postdata { get; set; }
 
-    
 
-       
+
+
 
 
 
         /// <summary>
         ///     支持跳转页面，查询结果将是跳转后的页面
         /// </summary>
+        /// 
+        [LocalizedCategory("1.请求设置")]
+        [LocalizedDisplayName("自动重定向")]
+        [PropertyOrder(6)]
         public bool Allowautoredirect { get; set; }
 
 

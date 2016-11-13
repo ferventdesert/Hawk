@@ -62,7 +62,16 @@ namespace Hawk.ETL.Plugins.Transformers
                 }
                 if (crawler == null)
                 {
-                    XLogSys.Print.Error($"没有找到名称为'{name}'的网页采集器，是否没有填写或填写错误?");
+                    if (string.IsNullOrEmpty(name))
+                    {
+                
+                    XLogSys.Print.Error($"您没有填写“从爬虫转换”的“爬虫选择”。需要填写要调用的网页采集器的名称");
+                    }
+                    else
+                    {
+                        
+                    XLogSys.Print.Error($"没有找到名称为'{name}'的网页采集器，请检查“从爬虫转换”的“爬虫选择”是否填写错误");
+                    }
                 }
 
             }

@@ -390,7 +390,19 @@ namespace Hawk.ETL.Crawlers
             {
                 var attr1 = attribute.Value;
                 ;
-                var row = nodes.Select(d => d.SelectSingleNode(d.XPath))
+                var row = nodes.Select(d =>
+                {
+                    try
+                    {
+                        return d.SelectSingleNode(d.XPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        XLogSys.Print.Error("XPath表达式编写错误： " +d.XPath);
+                        return null;
+                    }
+                   
+                })
                     .Where(d => d != null)
                     .Where(d => d.Attributes.Contains(attribute.Name))
                     .Select(d => d.Attributes[attribute.Name].Value)
@@ -600,13 +612,13 @@ namespace Hawk.ETL.Crawlers
             var childCounts = avanode.Select(d => (double) d.ChildNodes.Count).ToArray();
             var v = childCounts.Variance();
             //TODO: 此处需要一个更好的手段，因为有效节点往往是间隔的
-            if (v > 1000)
+            if (v > 100)
             {
                return;
             }
 
-            var leafCount = avanode.First().GetLeafNodeCount();
-            var value = childCount*PM25 + leafCount;
+            var leafCount = avanode.Last().GetLeafNodeCount();
+            var value = (childCount*PM25 + leafCount)* (v==0?2:(Math.Log10((100 - v)/100)));
 
 
             dict.SetValue(xpath, value);

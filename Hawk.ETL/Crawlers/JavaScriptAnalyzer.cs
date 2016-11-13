@@ -249,7 +249,6 @@ namespace Hawk.ETL.Crawlers
         public static string Parse2XML(string code)
         {
             string result = code;
-#if !DEBUG
             try
             {
                 result = _Parse2XML(code);
@@ -259,20 +258,7 @@ namespace Hawk.ETL.Crawlers
                 XLogSys.Print.Error("超级模式解析失败 "+ex.Message);                
             } 
             return result;
-#else
-             return  _Parse2XML(code); 
-#endif
-            //StringBuilder sb = new StringBuilder();
-            //StringWriter sw = new StringWriter(sb);
-            //using (var xtw = new XmlTextWriter(sw))
-            //{
-            //    xtw.Formatting = Formatting.Indented;
-            //    xtw.Indentation = 1;
-            //    xtw.IndentChar = '\t';
-            //    doc.WriteTo(xtw);
-            //}
-            //var result= sb.ToString();
-
+            // return  _Parse2XML(code); 
         }
 
         static Regex reUnicode = new Regex(@"\\u([0-9a-fA-F]{4})", RegexOptions.Compiled);

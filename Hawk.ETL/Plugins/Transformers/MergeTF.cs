@@ -22,7 +22,7 @@ namespace Hawk.ETL.Plugins.Transformers
         [LocalizedDisplayName("其他项")]
         [LocalizedDescription("写入多个列名，中间使用空格分割")]
         public string MergeWith { get; set; }
-
+        [PropertyEditor("CodeEditor")]
         [LocalizedDescription("形如'http:\\{0}:{1},{2}...'本列的序号为0，之后分别为1,2,3..")]
         public string Format { get; set; }
  

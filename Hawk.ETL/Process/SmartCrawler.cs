@@ -32,7 +32,7 @@ namespace Hawk.ETL.Process
         /// <summary>
         ///     当URL发生变化时，自动访问之
         /// </summary>
-        public bool AutoVisitUrl = true;
+        public static bool AutoVisitUrl = true;
 
 
         private XPathAnalyzer.CrawTarget CrawTarget;
@@ -58,13 +58,11 @@ namespace Hawk.ETL.Process
             Http = new HttpItem();
             CrawlItems = new ObservableCollection<CrawlItem>();
             helper = new HttpHelper();
-            //  URL = "https://detail.tmall.com/item.htm?spm=a230r.1.14.3.jJHewQ&id=525379044994&cm_id=140105335569ed55e27b&abbucket=16&skuId=3126989942045";
             // SelectText = "自带投影自带音箱不发音";
             URL = "";
             SelectText = "";
             IsMultiData = ListType.List;
             IsAttribute = true;
-            IsSuperMode = true;
         }
 
         [Browsable(false)]
@@ -94,6 +92,7 @@ namespace Hawk.ETL.Process
                     VisitUrlAsync();
             }
         }
+
 
         [Browsable(false)]
         public ReadOnlyCollection<ICommand> Commands3
@@ -212,10 +211,6 @@ namespace Hawk.ETL.Process
                 if (selectName == value) return;
                 selectName = value;
                 OnPropertyChanged("SelectName");
-                if (string.IsNullOrEmpty(this.SelectName))
-                {
-                    SelectName = "属性"+CrawlItems.Count;
-                }
             }
         }
 
@@ -278,7 +273,7 @@ namespace Hawk.ETL.Process
 
         [LocalizedCategory("3.动态请求嗅探")]
         [LocalizedDisplayName("超级模式")]
-        [LocalizedDescription("该模式能够强力解析网页内容，但是比较消耗资源，且会修改原始Html内容")]
+        [LocalizedDescription("该模式能够强力解析网页内容，但是消耗资源，且会修改原始Html内容")]
         [PropertyOrder(9)]
         public bool IsSuperMode
         {
@@ -288,10 +283,20 @@ namespace Hawk.ETL.Process
                 if (_isSuperMode != value)
                 {
                     _isSuperMode = value;
+                    if (AutoVisitUrl == true)
+                    {
+                        VisitUrlAsync();
+                    }
+             
                     OnPropertyChanged("IsSuperMode");
                 }
             }
         }
+
+        [LocalizedCategory("3.动态请求嗅探")]
+        [LocalizedDisplayName("共享cookie")]
+        [LocalizedDescription("填写拥有正确cookie的采集器名称，为空时不起作用，该功能还会获取代理IP等属性，避免重复设置网页采集器")]
+        public string ShareCookie { get; set; }
 
         [Browsable(false)]
         public object UserControl => null;
@@ -440,6 +445,7 @@ namespace Hawk.ETL.Process
             dict.Add("RootXPath", RootXPath);
             dict.Add("IsMultiData", IsMultiData);
             dict.Add("IsSuperMode", IsSuperMode);
+            dict.Add("ShareCookie", ShareCookie);
             dict.Add("HttpSet", Http.DictSerialize());
             dict.Children = new List<FreeDocument>();
             dict.Children.AddRange(CrawlItems.Select(d => d.DictSerialize(scenario)));
@@ -563,7 +569,6 @@ namespace Hawk.ETL.Process
                     return;
                 }
             }
-            IsSuperMode = true;
             StopVisit();
             httpitem.DictCopyTo(Http);
             var post = "";
@@ -575,16 +580,21 @@ namespace Hawk.ETL.Process
             ControlExtended.UIInvoke(() => { if (window != null) window.Topmost = true; });
             var info = $"已经成功获取嗅探字段！ 真实请求地址:\n{oSession.url}，\n已自动配置了网页采集器，请求类型为{Http.Method}\n {post}已经刷新了网页采集器的内容";
             XLogSys.Print.Info(info);
+
             ControlExtended.UIInvoke(() => { if (window != null) window.Topmost = false; });
+            SniffSucceed?.Invoke(this,new EventArgs());
             URL = oSession.url;
 
         }
+
+        public event EventHandler<EventArgs> SniffSucceed;
 
         public override void DictDeserialize(IDictionary<string, object> dicts, Scenario scenario = Scenario.Database)
         {
             base.DictDeserialize(dicts, scenario);
             URL = dicts.Set("URL", URL);
             RootXPath = dicts.Set("RootXPath", RootXPath);
+            ShareCookie = dicts.Set("ShareCookie", ShareCookie);
             IsMultiData = dicts.Set("IsMultiData", IsMultiData);
             IsSuperMode = dicts.Set("IsSuperMode", IsSuperMode);
             if (dicts.ContainsKey("HttpSet"))
@@ -641,26 +651,29 @@ namespace Hawk.ETL.Process
                 }
                 if (!(node != null).SafeCheck("使用当前子节点XPath，在文档中找不到任何子节点"))
                     return;
-                if (!node.IsAncestor(root))
+
+                if (!node.IsAncestor(root) && isAlert)
                 {
-                    if (isAlert)
                         if (
                             MessageBox.Show("当前XPath所在节点不是父节点的后代，请检查对应的XPath，是否依然要添加?", "提示信息", MessageBoxButton.YesNo) ==
-                            MessageBoxResult.Yes)
+                            MessageBoxResult.No)
                         {
-                            path = XPath.TakeOff(node.XPath, root.XPath);
-                        }
-                        else
-                        {
-                            return;
+                            return; 
                         }
                 }
+                path = XPath.TakeOff(node.XPath, root.XPath);
             }
+            if (CrawlItems.FirstOrDefault(d => d.Name == SelectName) == null ||
+                MessageBox.Show("已经存在同名的属性，是否依然添加?", "提示信息", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+            {
+                var item = new CrawlItem {XPath = path, Name = SelectName, SampleData1 = SelectText};
 
-            var item = new CrawlItem { XPath = path, Name = SelectName, SampleData1 = SelectText };
-            CrawlItems.Add(item);
-            SelectXPath = "";
-            SelectName = "";
+                CrawlItems.Add(item);
+
+                SelectXPath = "";
+                SelectName = "";
+                XLogSys.Print.Info("成功添加属性");
+            }
         }
 
         public List<FreeDocument> CrawlData(HtmlDocument doc)
@@ -678,6 +691,26 @@ namespace Hawk.ETL.Process
             string post = null)
         {
             var mc = extract.Matches(url);
+            var crawler =
+                this.SysProcessManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == ShareCookie) as
+                    SmartCrawler;
+            if (crawler != null)
+            {
+                this.Http.ProxyIP = crawler.Http.ProxyIP;
+                this.Http.ProxyPassword = crawler.Http.ProxyPassword;
+                this.Http.ProxyUserName = crawler.Http.ProxyUserName;
+                this.Http.ProxyPort = crawler.Http.ProxyPort;
+                if (this.Http.Parameters != crawler.Http.Parameters)
+                {
+                    var cookie = crawler.Http.GetHeaderParameter().Get<string>("Cookie");
+                    if (string.IsNullOrWhiteSpace(cookie) == false)
+                    {
+                        
+                    this.Http.SetValue("Cookie",cookie);
+                    }
+                }
+                
+            }
             Dictionary<string, string> paradict = null;
             foreach (Match m in mc)
             {
@@ -715,10 +748,6 @@ namespace Hawk.ETL.Process
         public List<FreeDocument> CrawlHtmlData(string html, out HtmlDocument doc
             )
         {
-            if (IsSuperMode)
-            {
-                html = JavaScriptAnalyzer.Parse2XML(html);
-            }
             doc = new HtmlDocument();
 
             doc.LoadHtml(html);

@@ -7,7 +7,8 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Core.Connectors
 {
-    [XFrmWork("SQLServer数据库",  "提供SQLServer交互的数据库服务", "")]
+   // [XFrmWork("SQLServer数据库",  "提供SQLServer交互的数据库服务", "")]
+   [XFrmWorkIgnore]
     public class SQLServerConnector : DBConnectorBase
     {
         //用于连接sql server

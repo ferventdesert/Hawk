@@ -160,6 +160,7 @@ namespace Hawk.Core.Utils
                     UIInvoke(() => { MessageBox.Show(str, "提示信息"); });
                 }
                 result = res;
+                return true;
             }
             catch (Exception ex)
             {

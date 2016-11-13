@@ -13,7 +13,7 @@
             <TextBlock Text="buptzym@qq.com" Margin="29,108,160,243" FontSize="16" FontWeight="Bold"/>
             <TextBlock Margin="29,143,160,208" FontSize="16"><Run Text="欢迎关注微信公共号：《"/><Run FontWeight="Bold" Text="沙漠之鹰"/><Run Text="》"/></TextBlock>
             <TextBlock Text="如果软件帮到了你，可以为开发者捐赠" Margin="29,193,160,158" FontSize="16"/>
-            <TextBlock Text="版本： 1.50" Margin="268,10,43,335" FontSize="24" FontWeight="Bold"/>
+            <TextBlock Text="版本： 2.0" Margin="268,10,43,335" FontSize="24" FontWeight="Bold"/>
         </Grid>
     </Grid>
 </UserControl>

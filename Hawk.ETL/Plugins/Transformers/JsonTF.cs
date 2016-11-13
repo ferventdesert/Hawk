@@ -37,50 +37,12 @@ namespace Hawk.ETL.Plugins.Transformers
 
 
 
-        [LocalizedCategory("使用采集器协助提取Json")]
-        [LocalizedDisplayName("采集器名称")]
-        [LocalizedDescription("填写采集器的名称")]
-        public string CrawlerSelector { get; set; }
-
-        [LocalizedCategory("使用采集器协助提取Json")]
-        [LocalizedDisplayName("启用")]
-        public bool CrawlerEnabled { get; set; }
-
-        [LocalizedCategory("使用采集器协助提取Json")]
-        [LocalizedDisplayName("执行")]
-        [PropertyOrder(20)]
-        public ReadOnlyCollection<ICommand> Commands
-        {
-            get
-            {
-                return CommandBuilder.GetCommands(
-                    this,
-                    new[]
-                    {
-                        new Command("采集器设计", obj => Design())
-                        //     new Command("模拟登录", obj => { AutoVisit(); })
-                    });
-            }
-        }
 
         private SmartCrawler selector;
         private bool crawlerEnabled = false;
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {
-            crawlerEnabled = false;
-            if (CrawlerEnabled)
-            {
-                selector = GetCrawler(CrawlerSelector);
-                if (selector != null)
-                {
-                    crawlerEnabled = true;
-                    IsMultiYield = selector.IsMultiData == ListType.List;
-                }
-            }
-            else
-            {
                 IsMultiYield = ScriptWorkMode == ScriptWorkMode.文档列表;
-            }
             lastData = null;
             return base.Init(docus);
         }
@@ -90,28 +52,7 @@ namespace Hawk.ETL.Plugins.Transformers
             var item = datas[Column];
             if (item == null || string.IsNullOrWhiteSpace(item.ToString()))
                 return null;
-            bool isrealjson;
-            var itemstr = item.ToString();
-            if (lastData == null)
-            {
-                var html = JavaScriptAnalyzer.Json2XML(itemstr, out isrealjson, true);
-                if(isrealjson)
-                    lastData = itemstr;
-
-            }
             
-            if (crawlerEnabled)
-            {
-             
-                var html = JavaScriptAnalyzer.Json2XML(itemstr, out isrealjson, true);
-                if (isrealjson)
-                {
-                    HtmlDocument htmldoc = null;
-                    var doc = selector.CrawlHtmlData(html, out htmldoc).FirstOrDefault();
-                        doc.DictCopyTo(datas);
-                }
-                return null;
-            }
             dynamic d = null;
             try
             {
@@ -134,35 +75,6 @@ namespace Hawk.ETL.Plugins.Transformers
             }
 
             return null;
-        }
-
-        private void Design()
-        {
-            (!string.IsNullOrWhiteSpace(CrawlerSelector)).SafeCheck("采集器名称不能为空");
-
-            var isRealJson = false;
-            var newhtml = JavaScriptAnalyzer.Json2XML(lastData, out isRealJson, true);
-            if (!(isRealJson).SafeCheck("只有标准json格式才能启用采集器设计"))
-                return;
-            var selector = GetCrawler(CrawlerSelector); 
-            if (selector == null)
-            {
-                if (MessageBox.Show($"是否要创建名为{CrawlerSelector}的网页采集器?", "提示信息", MessageBoxButton.OKCancel) !=
-                    MessageBoxResult.OK)
-                {
-                    return;
-                }
-                var crawler = new SmartCrawler();
-                crawler.Name = CrawlerSelector;
-                processManager.CurrentProcessCollections.Add(crawler);
-                selector = crawler;
-            }
-
-            (MainDescription.MainFrm as IDockableManager).ActiveThisContent(CrawlerSelector);
-            selector.URLHTML = newhtml;
-            selector.HtmlDoc.LoadHtml(newhtml);
-            selector.enableRefresh = false;
-            //selector.GreatHand();
         }
 
         public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)

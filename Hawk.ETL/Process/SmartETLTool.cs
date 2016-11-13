@@ -366,33 +366,6 @@ namespace Hawk.ETL.Process
                     };
                 }
             };
-        //    var dict = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>(); 
-        //   foreach(var tool in AllETLTools)
-        //    {
-        //        var obj = PluginProvider.GetObjectByType<IColumnProcess>(tool.MyType.Name);
-        //        var typedic = new Dictionary<string, Dictionary<string,string>>();
-        //        this.CurrentETLTools.Add(obj);
-        //        var properties= tool.MyType.GetProperties();
-        //        foreach(var prop in properties)
-        //        {
-        //            var propdic = new Dictionary<string, string>(); 
-        //           var name= prop.GetCustomAttributes(typeof(LocalizedDisplayNameAttribute), true).FirstOrDefault() as LocalizedDisplayNameAttribute;
-        //           var desc= prop.GetCustomAttributes(typeof(LocalizedDescriptionAttribute), true).FirstOrDefault() as LocalizedDescriptionAttribute;
-        //           var cate= prop.GetCustomAttributes(typeof(LocalizedCategoryAttribute), true).FirstOrDefault() as LocalizedCategoryAttribute;
-
-        //                propdic.Add("Name", name?.DisplayName);
-        //                propdic.Add("Desc", desc?.Description);
-        //                propdic.Add("Category", cate?.Category);
-        //            typedic.Add(prop.Name, propdic);
-
-        //        }
-
-        //        dict.Add(tool.MyType.Name, typedic);               
-        //    }
-
-        //    JavaScriptSerializer serialier = new JavaScriptSerializer();
-        //var res=    serialier.JsObjectSerialize(dict);
-        //    File.WriteAllText("D:\\fuck.json",res);
           return true;
         }
 
@@ -520,7 +493,7 @@ namespace Hawk.ETL.Process
                 if (generator == null)
                     return;
                 var realfunc3 = Aggregate(func, etls.Skip(1), true);
-                var task = TemporaryTask.AddTempTask("串行清洗任务", generator.Generate(),
+                var task = TemporaryTask.AddTempTask( Name+ "串行任务", generator.Generate(),
                     d => { realfunc3(new List<IFreeDocument> {d}).ToList(); }, null, generator.GenerateCount() ?? (-1));
                 SysProcessManager.CurrentProcessTasks.Add(task);
             }
@@ -944,7 +917,7 @@ namespace Hawk.ETL.Process
     public enum GroupType
     {
         Common,
-    Input,
+        Input,
         Output,
         Edit
     }

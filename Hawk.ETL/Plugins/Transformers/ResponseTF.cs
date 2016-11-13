@@ -39,6 +39,8 @@ namespace Hawk.ETL.Plugins.Transformers
             }
         }
 
+        [LocalizedDisplayName("响应头")]
+        [LocalizedDescription("要获取的响应头的名称，多个之间用空格分割，不区分大小写")]
         public virtual string HeaderFilter { get; set; }
         protected SmartCrawler crawler { get; set; }
 

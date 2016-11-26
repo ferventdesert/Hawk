@@ -9,10 +9,12 @@ using System.Runtime.Serialization.Json;
 using System.Text;
  using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Script.Serialization;
 using System.Xml;
 using Hawk.Core.Utils.Logs;
  using HtmlAgilityPack;
+using Jayrock.Json;
 using Jayrock.Json.Conversion;
 using Jint.Native;
  using Jint.Parser;
@@ -212,7 +214,7 @@ namespace Hawk.ETL.Crawlers
             code = code.Trim();
             if (code.StartsWith("{") || code.StartsWith("["))
             {
-                return JsonConvert.Import(code);
+                return JsonSeriaize(code);
 
             }
             else if (isHtml(code))
@@ -222,10 +224,63 @@ namespace Hawk.ETL.Crawlers
 
 
             else
+
             {
-                return JsSeriaize(code);
+                if (code.Contains(";") || code.Contains("="))
+                {
+                    try
+                    {
+                        return JsSeriaize(code);
+                    }
+                    catch (Exception)
+                    {
+                        return code;
+                    }
+                }
+                return code;
+
+
             }
         }
+
+        private static object JsonSeriaize(string code)
+        {
+           dynamic js= JsonConvert.Import(code);
+            return _JsonSeriaize(js);
+        }
+
+        private static object _JsonSeriaize(object item)
+        {
+            dynamic js = item;
+            if (js is JsonArray)
+            {
+                for (int i = 0; i < js.Count; i++)
+                {
+                    js[i] = _JsonSeriaize(js[i]);
+                }
+                return js;
+
+            }
+            if (js is JsonObject)
+
+            {
+                foreach (var key in js.Names)
+                {
+                    js[key] = _JsonSeriaize(js[key]);
+                }
+                return js;
+            }
+            if (js is string)
+            {
+                return Parse(js);
+            }
+            if (js is JsonNumber || js is JsonBoolean ||js is JsonNull)
+            {
+                return js.ToString();
+            }
+            return js;
+        }
+     
         private static  Regex ignoreRegex=new Regex("\\stype=\"\\w+\"");
 
         private static string _Parse2XML(string code)
@@ -264,7 +319,7 @@ namespace Hawk.ETL.Crawlers
         static Regex reUnicode = new Regex(@"\\u([0-9a-fA-F]{4})", RegexOptions.Compiled);
         public static string Decode(string s)
         {
-            return reUnicode.Replace(s, m =>
+            var str= reUnicode.Replace(s, m =>
             {
                 short c;
                 if (short.TryParse(m.Groups[1].Value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out c))
@@ -273,6 +328,8 @@ namespace Hawk.ETL.Crawlers
                 }
                 return m.Value;
             });
+            str = HttpUtility.HtmlDecode(str);
+            return str;
         }
 
         public static string Json2XML(string content, out bool isRealJson, bool isJson = false)

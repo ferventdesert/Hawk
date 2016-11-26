@@ -71,6 +71,7 @@
         </DataTemplate>
         <DataTemplate x:Key="DataTemplate2">
             <StackPanel Height="30" Width="140" d:DesignWidth="126.167" d:DesignHeight="39.987" Orientation="Horizontal">
+                <TextBlock Margin="2,0,2,0"       TextWrapping="Wrap" Text="{Binding ETLIndex}"  FontSize="14.667" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <TextBlock Margin="2,0,8,0"  mvvm:ListBindingDoubleClick.Property="{Binding Data.Commands[0], Source={StaticResource BindingProxy}}"     TextWrapping="Wrap" Text="{Binding TypeName}"  FontSize="14.667" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <CheckBox Content="" IsChecked="{Binding Enabled}"  VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="是否激活"/>
             </StackPanel>

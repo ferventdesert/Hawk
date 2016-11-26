@@ -19,16 +19,21 @@ namespace Hawk.ETL.Plugins.Generators
         protected readonly IProcessManager processManager;
         private string _etlSelector;
         protected bool IsExecute;
-        private SmartETLTool mainstream;
+        [Browsable(false)]
+        public int ETLIndex { get; set; }
+
 
         public ETLBase()
         {
             processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
             ETLRange = "";
+            Column = "column";
+            Enabled = true;
         }
-
+        [LocalizedCategory("2.调用选项")]
         [LocalizedDisplayName("子流-选择")]
-        [LocalizedDescription("输入ETL的任务名称")]
+        [PropertyOrder(0)]
+        [LocalizedDescription("输入要调用的子流的名称")]
         public string ETLSelector
         {
             get { return _etlSelector; }
@@ -40,9 +45,10 @@ namespace Hawk.ETL.Plugins.Generators
                 _etlSelector = value;
             }
         }
-
+        [LocalizedCategory("2.调用选项")]
         [LocalizedDisplayName("调用范围")]
-        [LocalizedDescription("设定调用子流的模块范围，例如2:30表示从第2个到第30个子模块将会启用，其他的模块不启用")]
+        [PropertyOrder(1)]
+        [LocalizedDescription("设定调用子流的模块范围，例如2:30表示从第2个到第30个子模块将会启用，其他的模块不启用，2:-1表示从第3个到倒数第二个启用，其他不启用，符合python的slice语法")]
         public string ETLRange { get; set; }
 
 
@@ -57,7 +63,7 @@ namespace Hawk.ETL.Plugins.Generators
         {
             var dict = this.UnsafeDictSerialize();
             dict.Add("Type", GetType().Name);
-
+            dict.Remove("ETLIndex");
             return dict;
         }
 
@@ -113,9 +119,6 @@ namespace Hawk.ETL.Plugins.Generators
         {
             if (string.IsNullOrEmpty(ETLSelector))
                 return false;
-            mainstream =
-                processManager.CurrentProcessCollections.OfType<SmartETLTool>()
-                    .FirstOrDefault(d => d.CurrentETLTools.Contains(this));
             etl =
                 processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == ETLSelector) as SmartETLTool;
             if (etl != null)
@@ -132,8 +135,6 @@ namespace Hawk.ETL.Plugins.Generators
 
             ControlExtended.UIInvoke(() => { task.Load(false); });
 
-            etl =
-                processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == ETLSelector) as SmartETLTool;
 
 
             etl.InitProcess(true);
@@ -147,19 +148,23 @@ namespace Hawk.ETL.Plugins.Generators
 
         protected IEnumerable<IColumnProcess> GetProcesses()
         {
-            var processes = new List<IColumnProcess>();
 
             var range = ETLRange.Split(':');
             var start = 0;
+            if(etl==null)
+                yield break;
+            
             var end = etl.CurrentETLTools.Count;
             if (range.Length == 2)
             {
                 try
                 {
                     start = int.Parse(range[0]);
+                    if (start < 0)
+                        start = etl.CurrentETLTools.Count + start;
                     end = int.Parse(range[1]);
-                    if (end <= start)
-                        throw new Exception("第二个数字应该比第一个数更大");
+                    if (end < 0)
+                        end = etl.CurrentETLTools.Count + end;
                 }
                 catch (Exception ex)
                 {
@@ -168,25 +173,26 @@ namespace Hawk.ETL.Plugins.Generators
             }
             foreach (var tool in etl.CurrentETLTools.Skip(start).Take(end - start))
             {
-                processes.Add(tool);
+                yield return tool;
             }
-            return processes;
         }
     }
 
     [XFrmWork("子流-生成", "从其他数据清洗模块中生成序列，用以组合大模块")]
     public class EtlGE : ETLBase, IColumnGenerator
     {
-        [LocalizedDescription("当前位置")]
-        public int Position { get; set; }
+
 
         [LocalizedDisplayName("生成模式")]
         public MergeType MergeType { get; set; }
 
         public IEnumerable<FreeDocument> Generate(IFreeDocument document = null)
         {
-            var process = GetProcesses();
-
+            var process = GetProcesses().ToList();
+            if (process.Any() == false)
+            {
+                yield break;
+            }
             foreach (var item in etl.Generate(process, IsExecute).Select(d => d as FreeDocument))
             {
                 yield return item;

@@ -5,7 +5,6 @@ using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
-using AttributeHelper = Hawk.Core.Utils.AttributeHelper;
 
 namespace Hawk.ETL.Interfaces
 {
@@ -13,28 +12,27 @@ namespace Hawk.ETL.Interfaces
     {
         AscendSort,
 
-        DescendSort,
+        DescendSort
     }
 
-  [Interface("ETL模块接口")]
+    [Interface("ETL模块接口")]
     public interface IColumnProcess : IDictionarySerializable
     {
         #region Properties
 
         string Column { get; set; }
 
-      void SetExecute(bool value);
+        void SetExecute(bool value);
 
         bool Enabled { get; set; }
 
-
-      string Description { get; }
-      string TypeName { get; }
+        int ETLIndex { get; set; }
+        string Description { get; }
+        string TypeName { get; }
 
         #endregion
 
         #region Public Methods
-
 
         void Finish();
 
@@ -45,31 +43,23 @@ namespace Hawk.ETL.Interfaces
 
     public interface IColumnAdviser : IColumnProcess
     {
-
         List<IColumnProcess> ManagedProcess { get; }
     }
+
     public interface IColumnGenerator : IColumnProcess
     {
         /// <summary>
-        ///     当前迭代的位置
-        /// </summary>
-        int Position { get; set; }
-
-
-        /// <summary>
-        /// 声明两个序列的组合模式
+        ///     声明两个序列的组合模式
         /// </summary>
         MergeType MergeType { get; set; }
 
-        IEnumerable<FreeDocument> Generate(IFreeDocument document=null);
+        IEnumerable<FreeDocument> Generate(IFreeDocument document = null);
 
         /// <summary>
         ///     生成器能生成的文档数量
         /// </summary>
         /// <returns></returns>
         int? GenerateCount();
-
-      
     }
 
     public interface IColumnDataSorter : IColumnProcess, IComparer<object>
@@ -79,53 +69,52 @@ namespace Hawk.ETL.Interfaces
 
     public enum GenerateMode
     {
-       串行模式,
-       并行模式,
+        串行模式,
+        并行模式
     }
 
 
-
-    public delegate IEnumerable<IFreeDocument> EnumerableFunc(IEnumerable<IFreeDocument> source=null);
+    public delegate IEnumerable<IFreeDocument> EnumerableFunc(IEnumerable<IFreeDocument> source = null);
 
     public enum MergeType
     {
         Append,
         Merge,
         Cross,
-        Mix,
+        Mix
     }
 
     public class GeneratorBase : PropertyChangeNotifier, IColumnGenerator
     {
         private bool _enabled;
+        protected bool IsExecute;
 
         public GeneratorBase()
         {
             Column = TypeName;
             Enabled = true;
         }
-
-        protected bool IsExecute;
-
+        [Browsable(false)]
+        public int ETLIndex { get; set; }
         public void SetExecute(bool value)
         {
             IsExecute = value;
         }
 
-
         public virtual FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
-            FreeDocument dict = this.UnsafeDictSerialize();
-            dict.Add("Type", this.GetType().Name);
+            var dict = this.UnsafeDictSerialize();
+            dict.Add("Type", GetType().Name);
             dict.Add("Group", "Generator");
+            dict.Remove("ETLIndex");
             return dict;
         }
-       
+
         public virtual void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
         {
             this.UnsafeDictDeserialize(docu);
-
         }
+
         [LocalizedCategory("1.基本选项")]
         [PropertyOrder(1)]
         [LocalizedDisplayName("列名")]
@@ -144,7 +133,6 @@ namespace Hawk.ETL.Interfaces
             }
         }
 
-
         [LocalizedCategory("1.基本选项")]
         [LocalizedDisplayName("启用")]
         [PropertyOrder(5)]
@@ -159,18 +147,15 @@ namespace Hawk.ETL.Interfaces
             }
         }
 
-
         [Browsable(false)]
         public string TypeName
         {
             get
             {
-                XFrmWorkAttribute item = AttributeHelper.GetCustomAttribute(GetType());
+                var item = AttributeHelper.GetCustomAttribute(GetType());
                 return item == null ? GetType().ToString() : item.Name;
             }
         }
-
-    
 
         public virtual void Finish()
         {
@@ -181,18 +166,13 @@ namespace Hawk.ETL.Interfaces
             return true;
         }
 
-        [LocalizedCategory("1.基本选项")]
-        [LocalizedDisplayName("当前遍历位置")]
-        public int Position { get; set; }
 
-        public virtual IEnumerable<FreeDocument> Generate(IFreeDocument document=null)
+        public virtual IEnumerable<FreeDocument> Generate(IFreeDocument document = null)
         {
             yield break;
         }
 
-               
-            
-            [LocalizedDisplayName("生成模式")]
+        [LocalizedDisplayName("生成模式")]
         public MergeType MergeType { get; set; }
 
         public virtual int? GenerateCount()

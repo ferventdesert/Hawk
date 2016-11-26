@@ -47,7 +47,7 @@ namespace Hawk.ETL.Plugins.Generators
             DataCollection table = TableSelector.SelectItem;
             if(table==null)
                 yield break;
-            var me = table.ComputeData.Skip(Position);
+            var me = table.ComputeData;
             foreach (IDictionarySerializable  item in me)
             {
                 yield return item.Clone() as FreeDocument;

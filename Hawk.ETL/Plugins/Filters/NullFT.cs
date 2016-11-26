@@ -14,6 +14,8 @@ namespace Hawk.ETL.Plugins.Filters
     {
         #region Constructors and Destructors
 
+        [Browsable(false)]
+        public int ETLIndex { get; set; }
         public NullFT()
         {
             this.Enabled = true;
@@ -174,7 +176,7 @@ namespace Hawk.ETL.Plugins.Filters
         {
             var dict = this.UnsafeDictSerialize();
             dict.Add("Type", this.GetType().Name);
-
+            dict.Remove("ETLIndex");
             dict.Add("Group", "Filter");
 
             return dict;

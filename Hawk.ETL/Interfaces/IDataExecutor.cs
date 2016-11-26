@@ -17,23 +17,27 @@ namespace Hawk.ETL.Interfaces
     public abstract class DataExecutorBase : PropertyChangeNotifier, IDataExecutor
     {
         private bool _enabled;
+        protected bool IsExecute;
 
         protected DataExecutorBase()
         {
-            this.Enabled = true;
+            Enabled = true;
         }
-        protected bool IsExecute;
+
+        [Browsable(false)]
+        public int ETLIndex { get; set; }
 
         public void SetExecute(bool value)
         {
             IsExecute = value;
         }
-    public virtual FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
+
+        public virtual FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
             var dict = this.UnsafeDictSerialize();
 
-            dict.Add("Type", this.GetType().Name);
-
+            dict.Add("Type", GetType().Name);
+            dict.Remove("ETLIndex");
             dict.Add("Group", "Executor");
             return dict;
         }
@@ -42,8 +46,8 @@ namespace Hawk.ETL.Interfaces
         {
             this.UnsafeDictDeserialize(docu);
             var doc = docu as FreeDocument;
-          
         }
+
         [LocalizedDisplayName("介绍")]
         [PropertyOrder(100)]
         public string Description
@@ -56,11 +60,9 @@ namespace Hawk.ETL.Interfaces
                 return item.Description;
             }
         }
+
         [LocalizedCategory("1.基本选项"), PropertyOrder(1), DisplayName("输入列")]
         public string Column { get; set; }
-
-
-
 
         [LocalizedCategory("1.基本选项")]
         [LocalizedDisplayName("启用")]
@@ -88,8 +90,6 @@ namespace Hawk.ETL.Interfaces
             }
         }
 
-     
-
         public virtual void Finish()
         {
         }
@@ -99,14 +99,11 @@ namespace Hawk.ETL.Interfaces
             return false;
         }
 
-       public   abstract IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents);
-        
-        
+        public abstract IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents);
 
         public override string ToString()
         {
             return TypeName + " " + Column;
         }
-
     }
 }

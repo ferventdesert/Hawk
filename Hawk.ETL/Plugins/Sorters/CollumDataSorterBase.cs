@@ -24,7 +24,7 @@ namespace Hawk.ETL.Plugins.Sorters
         { 
             var dict = this.UnsafeDictSerialize();
             dict.Add("Type",TypeName);
-
+            dict.Remove("ETLIndex"); 
             dict.Add("Group", "排序");
 
             return dict;
@@ -69,6 +69,9 @@ namespace Hawk.ETL.Plugins.Sorters
 
             }
         }
+
+        [Browsable(false)]
+        public int ETLIndex { get; set; }
 
 
         [Browsable(false)]

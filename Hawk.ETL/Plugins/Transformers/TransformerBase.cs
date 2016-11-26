@@ -20,6 +20,8 @@ namespace Hawk.ETL.Plugins.Transformers
 
         #endregion
 
+        [Browsable(false)]
+        public int ETLIndex { get; set; }
         #region Constructors and Destructors
         protected bool IsExecute;
 
@@ -216,6 +218,7 @@ namespace Hawk.ETL.Plugins.Transformers
             var dict = this.UnsafeDictSerialize();
             dict.Add("Type", this.GetType().Name);
             dict.Add("Group","Transformer");
+            dict.Remove("ETLIndex");
             return dict;
         }
 

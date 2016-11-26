@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.WpfPropertyGrid;
@@ -22,6 +23,8 @@ using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
 using Hawk.ETL.Plugins.Transformers;
 using System.Web.Script.Serialization;
+using Hawk.ETL.Plugins.Generators;
+
 namespace Hawk.ETL.Process
 {
     [XFrmWork("数据清洗", "可方便的对表格数据整理，分组，筛选和排序"
@@ -808,7 +811,11 @@ namespace Hawk.ETL.Process
 
         {
             var alltools = CurrentETLTools.Take(ETLMount).ToList();
-
+            int i = 0;
+            foreach (var currentEtlTool in CurrentETLTools)
+            {
+                (currentEtlTool).ETLIndex = i++;
+            }
 
             if (generateFloatGrid)
             {
@@ -924,6 +931,7 @@ namespace Hawk.ETL.Process
 
     public class SmartGroup : PropertyChangeNotifier
     {
+
         private string _name;
 
         #region Properties

@@ -59,7 +59,7 @@ namespace Hawk.ETL.Plugins.Generators
             if (int.TryParse(document.Query( Interval), out interval)&& 
                 double.TryParse(document.Query(MinValue), out min) && double.TryParse(document.Query(MaxValue), out max))
             {
-                for (var i = Position * interval + min; i <= max; i += interval)
+                for (var i = min; i <= max; i += interval)
                 {
                    
                         var item = new FreeDocument();

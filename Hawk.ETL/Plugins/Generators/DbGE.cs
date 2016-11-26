@@ -59,7 +59,7 @@ namespace Hawk.ETL.Plugins.Generators
             if (table != null)
             {
                 var con = new VirtualDataCollection(table.GetVirtualProvider<IFreeDocument>());
-                foreach (var item in con.ComputeData.Skip(Position).Take(mount).Select(d => d.DictSerialize()))
+                foreach (var item in con.ComputeData.Take(mount).Select(d => d.DictSerialize()))
                 {
                     yield return item;
                 }

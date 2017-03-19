@@ -1,0 +1,20 @@
+a.below-subtitle-blue.transparent {
+    background-color: transparent!important;
+    border: 1px solid #fff!important;
+    margin-right: 15px!important;
+}
+.soc-icon > a {
+    width: 33%;
+    display: inline-block;
+    height: 125px;
+    position: relative;
+    text-align: center;
+}
+.soc-icon > a i {
+    font-size: 32px;
+    position: absolute;
+    top: 50%;
+    margin-top: -15px;
+    left: 50%;
+    margin-left: -15px;
+}

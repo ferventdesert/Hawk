@@ -1,0 +1,33 @@
+@charset "utf-8";
+/* Team Page */
+.hs-team-avatar{
+	float:left;
+	padding:0 10px 10px 0;
+}
+.hs-team{
+	display:block;
+	min-height:130px;
+	vertical-align:top;
+        padding-bottom: 30px;
+}
+.hs-description img{
+	float:left;
+	margin:0;
+	padding:0 3px 0 0;
+}
+/* Custom Form styles */
+#hs_custom_form table, #hs_custom_form tr, #hs_custom_form tr td {
+	border:0;
+	padding:0;
+	margin:0;
+	text-align:left;
+	background:none;
+	vertical-align:top;
+}
+#hs_custom_form tr td {
+	padding: 6px 24px;
+}
+#hs_custom_form textarea{
+	width:100%;
+	height:100px;
+}

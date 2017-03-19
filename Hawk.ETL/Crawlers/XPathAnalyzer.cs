@@ -1013,6 +1013,7 @@ namespace Hawk.ETL.Crawlers
                     }
 
                     var target = getCrawTarget(items, rootPath);
+                    target.RootXPath = rootPath;
                     if (target != null)
                         yield return target;
                 }

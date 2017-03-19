@@ -25,6 +25,9 @@ namespace Hawk.ETL.Plugins.Transformers
             PropertyChanged += (s, e) => { buffHelper.Clear(); };
         }
 
+        [Browsable(false)]
+        public override string HeaderFilter { get; set; }
+
         [LocalizedCategory("高级设置")]
         [LocalizedDisplayName("最大重复次数")]
         public string MaxTryCount { get; set; }

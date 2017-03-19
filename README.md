@@ -15,6 +15,8 @@ HAWK使用C# 编写，其前端界面使用WPF开发，支持插件扩展。通�
 
 GitHub地址：https://github.com/ferventdesert/Hawk
 
+发行包地址: https://github.com/ferventdesert/Hawk/releases
+
 其Python等价的实现是etlpy:
 
 http://www.cnblogs.com/buptzym/p/5320552.html

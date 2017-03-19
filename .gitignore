@@ -4,3 +4,4 @@ obj/
 *.pdb
 *.xml
 .suo
+.DS_Store

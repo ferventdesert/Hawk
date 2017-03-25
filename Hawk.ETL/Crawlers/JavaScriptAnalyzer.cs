@@ -211,7 +211,9 @@ namespace Hawk.ETL.Crawlers
         }
         public static object Parse(string code)
         {
-            code = code.Trim();
+                   // code = Regex.Replace(code, "^[\r\n\b]+", "");
+
+            code = code.Replace("\r", "").Replace("\n", "");
             if (code.StartsWith("{") || code.StartsWith("["))
             {
                 return JsonSeriaize(code);
@@ -246,6 +248,8 @@ namespace Hawk.ETL.Crawlers
         private static object JsonSeriaize(string code)
         {
            dynamic js= JsonConvert.Import(code);
+            if (js == "")
+                return code;
             return _JsonSeriaize(js);
         }
 

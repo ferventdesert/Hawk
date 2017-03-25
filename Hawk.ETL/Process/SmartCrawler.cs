@@ -554,7 +554,10 @@ namespace Hawk.ETL.Process
             {
                 httpitem.URL = "http://" + oSession.url;
             }
-
+            if (oSession.RequestMethod.ToLower() == "post")
+            {
+                httpitem.Method = MethodType.POST;
+            }
 
             httpitem.Postdata = Encoding.Default.GetString(oSession.RequestBody);
 

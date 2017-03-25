@@ -426,12 +426,18 @@ namespace Hawk.Core.Utils
             {
                 url = "http://" + url;
             }
-            // 验证证书
-            if (url.Contains("https"))
-                ServicePointManager.ServerCertificateValidationCallback =
-                    (sender, certificate, chain, sslPolicyErrors) => true;
+          
             //初始化对像，并设置请求的URL地址
             var request = (HttpWebRequest) WebRequest.Create(GetUrl(url));
+            // 验证证书
+            if (url.Contains("https"))
+            {
+                ServicePointManager.ServerCertificateValidationCallback =
+                    (sender, certificate, chain, sslPolicyErrors) => true;
+                //ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
+                request.ProtocolVersion = HttpVersion.Version10;
+            }
             SetRequest(item, request, desturl, post);
             encoding = AttributeHelper.GetEncoding(item.Encoding);
             return request;

@@ -40,6 +40,7 @@ namespace Hawk
 
         public MainWindow()
         {
+
 #if !DEBUG
             //     try
             {

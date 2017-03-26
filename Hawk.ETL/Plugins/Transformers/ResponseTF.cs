@@ -21,7 +21,7 @@ namespace Hawk.ETL.Plugins.Transformers
 
         public ResponseTF()
         {
-            CrawlerSelector = "网页采集器";
+         //   CrawlerSelector = "网页采集器";
         }
 
         [LocalizedDisplayName("爬虫选择")]

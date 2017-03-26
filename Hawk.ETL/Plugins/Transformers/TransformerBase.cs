@@ -13,16 +13,26 @@ using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-
     public abstract class TransformerBase : PropertyChangeNotifier, IColumnDataTransformer
     {
+        [Browsable(false)]
+        public int ETLIndex { get; set; }
+
+        #region Public Methods
+
+        public override string ToString()
+        {
+            return TypeName + " " + Column;
+        }
+
+        #endregion
+
         #region Constants and Fields
 
         #endregion
 
-        [Browsable(false)]
-        public int ETLIndex { get; set; }
         #region Constructors and Destructors
+
         protected bool IsExecute;
 
         public void SetExecute(bool value)
@@ -31,22 +41,30 @@ namespace Hawk.ETL.Plugins.Transformers
         }
 
         protected readonly IProcessManager processManager;
+
         protected TransformerBase()
         {
-            this.OneOutput = true;
-            this.Column = "";
-            this.NewColumn = "";
-            this.Enabled = true;
+            OneOutput = true;
+            Column = "";
+            NewColumn = "";
+            Enabled = true;
             IsMultiYield = false;
             processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
-
         }
 
 
         protected SmartCrawler GetCrawler(string name)
         {
-          var   crawler =
-             processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == name) as SmartCrawler;
+            var crawlers = processManager.CurrentProcessCollections.OfType<SmartCrawler>().ToList();
+            if (string.IsNullOrEmpty(name))
+            {
+                if (crawlers.Count() == 1)
+                {
+                    name = crawlers[0].Name;
+                }
+            }
+            var crawler =
+                crawlers.FirstOrDefault(d => d.Name == name);
             if (crawler != null)
             {
                 IsMultiYield = crawler?.IsMultiData == ListType.List;
@@ -56,7 +74,6 @@ namespace Hawk.ETL.Plugins.Transformers
                 var task = processManager.CurrentProject.Tasks.FirstOrDefault(d => d.Name == name);
                 if (task != null)
                 {
-
                     ControlExtended.UIInvoke(() => { task.Load(false); });
                     crawler =
                         processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == name) as
@@ -66,24 +83,20 @@ namespace Hawk.ETL.Plugins.Transformers
                 {
                     if (string.IsNullOrEmpty(name))
                     {
-                
-                    XLogSys.Print.Error($"您没有填写“从爬虫转换”的“爬虫选择”。需要填写要调用的网页采集器的名称");
+                        XLogSys.Print.Error($"您没有填写“从爬虫转换”的“爬虫选择”。需要填写要调用的网页采集器的名称");
                     }
                     else
                     {
-                        
-                    XLogSys.Print.Error($"没有找到名称为'{name}'的网页采集器，请检查“从爬虫转换”的“爬虫选择”是否填写错误");
+                        XLogSys.Print.Error($"没有找到名称为'{name}'的网页采集器，请检查“从爬虫转换”的“爬虫选择”是否填写错误");
                     }
                 }
-
             }
             return crawler;
         }
+
         #endregion
 
         #region Properties
-
-
 
         [LocalizedCategory("1.基本选项"), PropertyOrder(1), DisplayName("输入列")]
         [LocalizedDescription("本模块要处理的列的名称")]
@@ -104,14 +117,13 @@ namespace Hawk.ETL.Plugins.Transformers
         }
 
 
-
         [LocalizedCategory("1.基本选项")]
         [PropertyOrder(2)]
         [LocalizedDisplayName("输出列")]
         [LocalizedDescription("结果要输出到的列的名称")]
         public virtual string NewColumn { get; set; }
 
-  
+
         private bool _enabled;
 
         [LocalizedCategory("1.基本选项")]
@@ -133,9 +145,7 @@ namespace Hawk.ETL.Plugins.Transformers
         ///     是否在数据中必须包含列名
         /// </summary>
         [Browsable(false)]
-        public virtual bool OneOutput { get;  set; }
-
-
+        public virtual bool OneOutput { get; set; }
 
 
         [LocalizedCategory("1.基本选项")]
@@ -145,18 +155,9 @@ namespace Hawk.ETL.Plugins.Transformers
         {
             get
             {
-                XFrmWorkAttribute item = AttributeHelper.GetCustomAttribute(this.GetType());
-                return item == null ? this.GetType().ToString() : item.Name;
+                var item = AttributeHelper.GetCustomAttribute(GetType());
+                return item == null ? GetType().ToString() : item.Name;
             }
-        }
-
-        #endregion
-
-        #region Public Methods
-
-        public override string ToString()
-        {
-            return this.TypeName + " " + this.Column;
         }
 
         #endregion
@@ -174,28 +175,26 @@ namespace Hawk.ETL.Plugins.Transformers
         public virtual bool IsMultiYield { get; set; }
 
 
-        protected void SetValue(IFreeDocument doc,object item)
+        protected void SetValue(IFreeDocument doc, object item)
         {
-            if(string.IsNullOrEmpty(NewColumn))
-                doc.SetValue(Column,item);
+            if (string.IsNullOrEmpty(NewColumn))
+                doc.SetValue(Column, item);
             else
-                doc.SetValue(NewColumn,item);
+                doc.SetValue(NewColumn, item);
         }
-     
+
 
         public virtual IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
         {
             yield break;
         }
 
-       
         #endregion
 
         #region IColumnProcess
 
         public virtual void Finish()
         {
-
         }
 
         public virtual bool Init(IEnumerable<IFreeDocument> docus)
@@ -210,14 +209,13 @@ namespace Hawk.ETL.Plugins.Transformers
         public virtual void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
         {
             this.UnsafeDictDeserialize(docu);
-           
         }
 
         public virtual FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
             var dict = this.UnsafeDictSerialize();
-            dict.Add("Type", this.GetType().Name);
-            dict.Add("Group","Transformer");
+            dict.Add("Type", GetType().Name);
+            dict.Add("Group", "Transformer");
             dict.Remove("ETLIndex");
             return dict;
         }

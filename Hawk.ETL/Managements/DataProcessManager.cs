@@ -139,6 +139,11 @@ namespace Hawk.ETL.Managements
                 window.Content = view;
                 window.ShowDialog();
             });
+            var mainlink = new BindingAction("项目主页", d =>
+            {
+                var url = "https://github.com/ferventdesert/Hawk/wik";
+                System.Diagnostics.Process.Start(url);
+            });
             var helplink = new BindingAction("使用文档", d =>
             {
                 var url = "https://github.com/ferventdesert/Hawk/wiki";
@@ -167,6 +172,7 @@ namespace Hawk.ETL.Managements
                 MessageBox.Show("欢迎关注微信公众号“沙漠之鹰”，实在没时间给软件做UI了。。。","沙漠君欢迎你");
             });
             var pluginCommands = new BindingAction("帮助");
+            pluginCommands.ChildActions.Add(mainlink);
             pluginCommands.ChildActions.Add(helplink);
             pluginCommands.ChildActions.Add(aboutAuthor);
             pluginCommands.ChildActions.Add(feedback);

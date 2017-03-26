@@ -248,7 +248,7 @@ namespace Hawk.ETL.Crawlers
         private static object JsonSeriaize(string code)
         {
            dynamic js= JsonConvert.Import(code);
-            if (js == "")
+            if (js.ToString() == "")
                 return code;
             return _JsonSeriaize(js);
         }

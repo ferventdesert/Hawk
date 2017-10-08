@@ -19,6 +19,8 @@ namespace Hawk.Core.Connectors
     /// <summary>
     ///     列信息
     /// </summary>
+    /// 
+
     public class ColumnInfo : PropertyChangeNotifier, IDictionarySerializable
     {
         #region Constructors and Destructors

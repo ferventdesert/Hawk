@@ -128,10 +128,7 @@ namespace Hawk.ETL.Process
         [Browsable(false)]
         public ListCollectionView ETLToolsView { get; set; }
 
-        [LocalizedCategory("3.调试")]
-        [PropertyOrder(2)]
-        [LocalizedDisplayName("模块数量")]
-        [LocalizedDescription("只选取工作流中前n个模块，来构造工作流")]
+        [Browsable(false)]
         public int ETLMount
         {
             get { return _etlMount; }
@@ -141,9 +138,15 @@ namespace Hawk.ETL.Process
                 {
                     _etlMount = value;
                     OnPropertyChanged("ETLMount");
+                    RefreshSamples();
                 }
             }
         }
+
+
+        [Browsable(false)]
+        public int AllETLMount => CurrentETLTools.Count;
+
 
         [LocalizedCategory("3.调试")]
         [PropertyOrder(1)]
@@ -160,15 +163,10 @@ namespace Hawk.ETL.Process
                 OnPropertyChanged("SampleMount");
             }
         }
-
-        [LocalizedCategory("3.调试")]
-        [LocalizedDisplayName("显示调试详情")]
-        [PropertyOrder(3)]
+        [Browsable(false)]
         public bool DisplayDetail { get; set; }
 
-        [LocalizedCategory("3.调试")]
-        [LocalizedDisplayName("命令")]
-        [PropertyOrder(4)]
+        [Browsable(false)]
         public ReadOnlyCollection<ICommand> Commands5
         {
             get
@@ -177,29 +175,28 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("刷新", obj => { RefreshSamples(true); }),
+                        new Command("刷新", obj => { RefreshSamples(true); },icon:"refresh"),
                         new Command("弹出样例", obj =>
                         {
                             generateFloatGrid = true;
                             RefreshSamples();
-                        }),
+                        },icon:"calendar"),
                         new Command("上一步", obj =>
                         {
                             if (ETLMount > 0)
                                 ETLMount--;
 
 
-                            RefreshSamples();
-                        }, obj => ETLMount > 0),
+                         
+                        }, obj => ETLMount > 0,icon:"arrow_left"),
                         new Command("下一步", obj =>
                         {
                             ETLMount++;
-                            RefreshSamples();
                             if (CurrentTool != null)
                             {
                                 XLogSys.Print.Info("插入工作模块，名称:" + CurrentTool?.ToString());
                             }
-                        })
+                        },icon:"arrow_right")
                     }
                     );
             }
@@ -288,6 +285,8 @@ namespace Hawk.ETL.Process
         [LocalizedDisplayName("已加载")]
         [LocalizedDescription("当前位于工作流中的的所有工作模块")]
         public ObservableCollection<IColumnProcess> CurrentETLTools { get; set; }
+
+
 
         [Browsable(false)]
         public FrmState FrmState => FrmState.Large;
@@ -488,7 +487,7 @@ namespace Hawk.ETL.Process
             var etls = CurrentETLTools.Take(ETLMount).Where(d => d.Enabled).ToList();
             EnumerableFunc func = d => d;
             var index = 0;
-
+          
 
             if (GenerateMode == GenerateMode.串行模式)
             {
@@ -730,6 +729,7 @@ namespace Hawk.ETL.Process
                 return;
             if(!mudoleHasInit)
                 return;
+            OnPropertyChanged("AllETLMount");
             if (SysProcessManager.CurrentProcessTasks.Any(d => d.Publisher == this))
             {
                 XLogSys.Print.WarnFormat("{0}已经有任务在执行，请在执行完毕后再刷新，或取消该任务", Name);

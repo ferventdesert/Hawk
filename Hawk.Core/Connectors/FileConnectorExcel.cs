@@ -46,7 +46,7 @@ namespace Hawk.Core.Connectors
                  throw  new Exception("请填写Excel的表头信息");
             }
           
-            for (int i = 1; i < sheet.LastRowNum; i++)
+            for (int i = 0; i < sheet.LastRowNum; i++)
             {
                 IRow row = sheet.GetRow(i);
                 var data =new FreeDocument(); 

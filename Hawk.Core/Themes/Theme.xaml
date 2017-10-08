@@ -117,6 +117,84 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <ControlTemplate x:Key="CircleButton2ControlTemplate" TargetType="{x:Type Button}">
+        <Grid DataContext="{Binding}">
+            <Grid.Resources>
+                <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
+            </Grid.Resources>
+            <Rectangle x:Name="ellipsebg_Copy"
+        		Fill="{TemplateBinding Background}"
+        		Opacity="1"
+        		Margin="4"
+        		StrokeThickness="0" />
+
+
+            <Rectangle x:Name="ellipsebg"
+        		Opacity="0"
+        		Margin="4"
+        		StrokeThickness="0" Fill="{DynamicResource HoverShineBrush}" />
+            <Rectangle x:Name="ellipse"
+        		Margin="4"
+        		Stroke="{TemplateBinding Foreground}"
+        		StrokeThickness="{Binding BorderThickness.Left, RelativeSource={x:Static RelativeSource.TemplatedParent}}" Fill="#4CFFFFFF" />
+            <Rectangle Width="Auto" Height="Auto" x:Name="content"
+
+        		SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" MaxWidth="40"
+        		MaxHeight="40" HorizontalAlignment="Center" Margin="0,4">
+                <Rectangle.Fill>
+                    <VisualBrush Stretch="Fill"
+        				Visual="{Binding Data.Icon, Converter={StaticResource MetroConverter}, Source={StaticResource BindingProxy}}" />
+                </Rectangle.Fill>
+            </Rectangle>
+
+
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsPressed"
+                     Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="ellipsebg"
+                                             Storyboard.TargetProperty="Opacity"
+                                             From="0"
+                                             To="0.3"
+                                             Duration="0:0:0" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <!-- some out fading -->
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="ellipsebg"
+                                             Storyboard.TargetProperty="Opacity"
+                                             To="0"
+                                             Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter TargetName="ellipse"
+                        Property="Opacity"
+                        Value="1" />
+            </Trigger>
+            <Trigger Property="IsMouseOver"
+                     Value="False">
+                <Setter TargetName="ellipse"
+                        Property="Opacity"
+                        Value=".5" />
+            </Trigger>
+            <Trigger Property="IsEnabled"
+                     Value="false">
+                <Setter Property="Foreground"
+                        Value="#ADADAD" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
     <Style TargetType="{x:Type Button}" BasedOn="{x:Null}">
         <Setter Property="FocusVisualStyle" Value="{DynamicResource NuclearButtonFocusVisual}" />
         <Setter Property="Background" >

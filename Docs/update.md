@@ -142,4 +142,11 @@
 4. www.imax.cn/theatres-gettheatres 自动嗅探找不到    
 
 
+白板式邀请法则
+
+
+//*[@class='jscs-list-left'] | //*[@class='jscs-list-right']
+
+欢迎用户去知乎上回答
+如何评价 Ant Design 这个项目？，说出你的真实开发感受即可。
 

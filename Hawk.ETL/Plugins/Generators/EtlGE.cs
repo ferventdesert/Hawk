@@ -151,9 +151,9 @@ namespace Hawk.ETL.Plugins.Generators
 
             var range = ETLRange.Split(':');
             var start = 0;
-            if(etl==null)
+            if (etl == null)
                 yield break;
-            
+
             var end = etl.CurrentETLTools.Count;
             if (range.Length == 2)
             {
@@ -260,14 +260,14 @@ namespace Hawk.ETL.Plugins.Generators
                     var name = doc[Column];
                     ControlExtended.UIInvoke(() =>
                     {
-                        var task = TemporaryTask.AddTempTask("ETL" + name, func(new List<IFreeDocument> {doc}),
+                        var task = TemporaryTask.AddTempTask("ETL" + name, func(new List<IFreeDocument> { doc }),
                             d => d.ToList());
                         processManager.CurrentProcessTasks.Add(task);
                     });
                 }
                 else
                 {
-                    var r = func(new List<IFreeDocument> {doc}).ToList();
+                    var r = func(new List<IFreeDocument> { doc }).ToList();
                 }
 
                 yield return document;
@@ -297,6 +297,7 @@ namespace Hawk.ETL.Plugins.Generators
                 }
                 yield break;
             }
+            var hasyield = false;
             var result = new FreeDocument();
             foreach (var data in datas)
             {
@@ -306,12 +307,17 @@ namespace Hawk.ETL.Plugins.Generators
                 if (string.IsNullOrEmpty(key) && string.IsNullOrEmpty(value))
                 {
                     yield return result.Clone();
+                    hasyield = true;
                 }
                 else
                 {
                     result.SetValue(key, value);
                 }
             }
+            if (hasyield == false)
+                yield return result.Clone();
+
+
         }
     }
 
@@ -347,7 +353,7 @@ namespace Hawk.ETL.Plugins.Generators
 
         public object TransformData(IFreeDocument data)
         {
-            var result = func(new List<IFreeDocument> {data.Clone()}).FirstOrDefault();
+            var result = func(new List<IFreeDocument> { data.Clone() }).FirstOrDefault();
             data.AddRange(result);
             return null;
         }
@@ -365,7 +371,7 @@ namespace Hawk.ETL.Plugins.Generators
                     while (string.IsNullOrEmpty(newdata[Column].ToString()) == false)
                     {
                         var result =
-                            etl.Generate(process, IsExecute, new List<IFreeDocument> {newdata.Clone()}).FirstOrDefault();
+                            etl.Generate(process, IsExecute, new List<IFreeDocument> { newdata.Clone() }).FirstOrDefault();
                         if (result == null)
                             break;
                         yield return result.Clone();
@@ -374,7 +380,7 @@ namespace Hawk.ETL.Plugins.Generators
                 }
                 else
                 {
-                    var result = etl.Generate(process, IsExecute, new List<IFreeDocument> {data.Clone()});
+                    var result = etl.Generate(process, IsExecute, new List<IFreeDocument> { data.Clone() });
                     foreach (var item in result)
                     {
                         yield return item.MergeQuery(data, NewColumn);

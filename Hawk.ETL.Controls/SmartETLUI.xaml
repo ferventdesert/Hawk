@@ -89,20 +89,46 @@
             <RowDefinition Height="0.264*"/>
             <RowDefinition Height="0.736*"/>
         </Grid.RowDefinitions>
-
-        <ScrollViewer  x:FieldModifier="public" x:Name="ScrollViewer" Grid.Column="1" Margin="8" Grid.RowSpan="2" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0.256*"/>
-                    <RowDefinition Height="0.744*"/>
-                </Grid.RowDefinitions>
-                <ListView x:FieldModifier="public"  ItemsSource="{Binding Documents}" x:Name="DataList" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1"/>
-                <ListBox  x:FieldModifier="public" x:Name="ToolList" Margin="0,8,0,0" ItemsSource="{Binding Dict}"    ItemsPanel="{DynamicResource ItemsPanelTemplate1}" ItemTemplate="{DynamicResource DataTemplate1}" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Stretch"/>
-                <GridSplitter HorizontalAlignment="Stretch" Height="5" VerticalAlignment="Bottom" ResizeDirection="Rows" Margin="0" d:LayoutOverrides="VerticalAlignment, GridBox"/>
-
-            </Grid>
-        </ScrollViewer>
-
+     <Grid Grid.Column="1" Grid.RowSpan="2">
+     	<Grid.RowDefinitions>
+     		<RowDefinition Height="*"/>
+     		<RowDefinition Height="17"/>
+     				<RowDefinition Height="30"/>   	
+		</Grid.RowDefinitions>
+     	<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2">
+     		<Button Style="{DynamicResource miniButton}" DataContext="{Binding Commands5[1]}" Width="30" Height="30" />
+     		<CheckBox Content="调试详情" IsChecked="{Binding DisplayDetail}" VerticalAlignment="Center"  />
+     	</StackPanel>
+     	<Grid Grid.Row="1">
+     		<Border BorderBrush="Black" BorderThickness="1" Background="#FF2D2D2D"/>
+     		<StackPanel HorizontalAlignment="Left" Margin="2.25,-0.24,0,0" Orientation="Horizontal" d:LayoutOverrides="Height">
+     			<TextBlock TextWrapping="Wrap" Text="模块:" d:LayoutOverrides="Width" Margin="5,0,10,0"/>
+     			<TextBlock TextWrapping="Wrap" Text="{Binding ETLMount}" d:LayoutOverrides="Width"/>
+     			<TextBlock TextWrapping="Wrap" Text="/" d:LayoutOverrides="Width"/>
+     			<TextBlock TextWrapping="Wrap" Text="{Binding AllETLMount}" d:LayoutOverrides="Width"/>
+     		</StackPanel>
+     		<ScrollBar SmallChange="1" Value="{Binding ETLMount}" Maximum="{Binding AllETLMount}" Orientation="Horizontal" Margin="100,0,0,0" Background="#FF292929" BorderBrush="White"/>
+     	</Grid>
+     	<StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
+     		<Button Style="{DynamicResource miniButton}" DataContext="{Binding Commands5[2]}" Width="30" Height="30" Margin="15,0,0,0" />
+     		<Button Style="{DynamicResource miniButton}" DataContext="{Binding Commands5[0]}" Width="30" Height="30" Margin="15,0,0,0" />
+     		<Button Style="{DynamicResource miniButton}" DataContext="{Binding Commands5[3]}" Width="30" Height="30" Margin="15,0,0,0" />
+     	</StackPanel>
+     	<ScrollViewer  x:FieldModifier="public" x:Name="ScrollViewer" Margin="8" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+      
+     		<Grid>
+     			<Grid.RowDefinitions>
+     				<RowDefinition Height="0.256*"/>
+     				<RowDefinition Height="0.69*"/>
+     				
+     			</Grid.RowDefinitions>
+			
+     			<ListView x:FieldModifier="public"  ItemsSource="{Binding Documents}" x:Name="DataList" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1" Margin="0,0,0,-0.833"/>
+     			<ListBox  x:FieldModifier="public" x:Name="ToolList" Margin="0,8,0,0" ItemsSource="{Binding Dict}"    ItemsPanel="{DynamicResource ItemsPanelTemplate1}" ItemTemplate="{DynamicResource DataTemplate1}" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Stretch"/>
+     			<GridSplitter HorizontalAlignment="Stretch" Height="5" VerticalAlignment="Bottom" ResizeDirection="Rows" Margin="0" d:LayoutOverrides="VerticalAlignment, GridBox"/>
+     		</Grid>
+     	</ScrollViewer>
+</Grid>
         <ListBox x:Name="ETLToolList"   x:FieldModifier="public"  Margin="16.334,35.245,10.417,9.498"  ItemsSource="{Binding ETLToolsView}"    ItemTemplate="{DynamicResource DataTemplateList}"     ItemsPanel="{DynamicResource ItemsPanelTemplate1}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.RowSpan="2" >
             <ListBox.GroupStyle>
                 <GroupStyle ContainerStyle="{StaticResource GroupContainerStyle}">

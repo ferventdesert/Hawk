@@ -93,7 +93,7 @@
     		<ColumnDefinition Width="0.511*"/>
     		<ColumnDefinition Width="0.489*"/>
     	</Grid.ColumnDefinitions>
-            <ListBox x:Name="processListBox" ToolTip="当前加载的所有算法模块" SelectedItem="{Binding SelectedProcess}" Margin="8,11,8,20" MouseMove="processListBox_MouseMove" DataContext="{Binding PluginDictionary[模块管理]}" ItemsSource="{Binding ProcessCollectionView}"  ItemTemplate="{DynamicResource DataTemplate2}"  >
+            <ListBox x:Name="processListBox" ToolTip="当前加载的所有算法模块" SelectedItem="{Binding SelectedProcess}" Margin="8,11,8,20" MouseMove="processListBox_MouseMove" DataContext="{Binding PluginDictionary[模块管理]}" ItemsSource="{Binding ProcessCollection}"  ItemTemplate="{DynamicResource DataTemplate2}"  >
             <ListBox.GroupStyle>
                 <GroupStyle ContainerStyle="{StaticResource GroupContainerStyle}">
                     <GroupStyle.HeaderTemplate>

@@ -682,7 +682,7 @@ namespace Hawk.ETL.Crawlers
                     sb.Append(" ");
                 sb.Append(childNode.GetNodeText());
             }
-            return sb.ToString();
+            return sb.ToString().Trim();
         }
 
         public static HtmlDocument GetDocumentFromURL(string url, EncodingType encoding = EncodingType.Unknown)

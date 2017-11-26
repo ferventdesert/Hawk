@@ -148,6 +148,10 @@
       <Project>{8DEBC00C-B1B1-4A4A-842E-42567F82E7F7}</Project>
       <Name>Hawk.ETL.Controls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Hawk.ETL\Hawk.ETL.csproj">
+      <Project>{995dcd1d-c313-4553-9ac2-0ab0ef6a8b60}</Project>
+      <Name>Hawk.ETL</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="PluginLogicLog.xml">

@@ -222,6 +222,8 @@ namespace Hawk.ETL.Plugins.Generators
         [LocalizedDescription("勾选后，本子任务会添加到任务管理器中")]
         public bool AddTask { get; set; }
 
+
+          [LocalizedCategory("1.基本选项")]
         [LocalizedDisplayName("输出列")]
         [LocalizedDescription("从原始数据中传递到子执行流的列，多个列用空格分割")]
         public string NewColumn { get; set; }
@@ -336,6 +338,7 @@ namespace Hawk.ETL.Plugins.Generators
         [LocalizedDisplayName("递归到下列")]
         public bool IsCycle { get; set; }
 
+        [LocalizedCategory("1.基本选项")]
         [LocalizedDisplayName("输出列")]
         [LocalizedDescription("从原始数据中传递到子执行流的列，多个列用空格分割")]
         public string NewColumn { get; set; }

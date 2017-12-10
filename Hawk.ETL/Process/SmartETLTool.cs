@@ -670,10 +670,11 @@ namespace Hawk.ETL.Process
                 {
                     res = ge.TransformData(dict);
                 }
-            }
+           } 
             catch (Exception ex)
             {
                 res = ex.Message;
+                XLogSys.Print.Error(ex.ToString());
             }
 
             if (ge.OneOutput)
@@ -730,10 +731,15 @@ namespace Hawk.ETL.Process
             if(!mudoleHasInit)
                 return;
             OnPropertyChanged("AllETLMount");
-            if (SysProcessManager.CurrentProcessTasks.Any(d => d.Publisher == this))
+            var tasks = SysProcessManager.CurrentProcessTasks.Where(d => d.Publisher == this).ToList();
+            if (tasks.Any())
             {
-                XLogSys.Print.WarnFormat("{0}已经有任务在执行，请在执行完毕后再刷新，或取消该任务", Name);
-                return;
+                
+                XLogSys.Print.WarnFormat("{0}已经有任务在执行，由于调整参数，该任务已经被取消", Name);
+                foreach (var item in tasks)
+                {
+                    item.Cancel();
+                }
             }
             if (dataView == null && MainDescription.IsUIForm && IsUISupport)
             {

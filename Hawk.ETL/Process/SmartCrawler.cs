@@ -364,7 +364,7 @@ namespace Hawk.ETL.Process
             var r = view.SetCurrentView(datas);
 
 
-            var name = "手气不错_可修改第一列的属性名称";
+            var name = "手气不错_可修改第一列的属性名称，留空则删除该列";
             var window = new Window { Title = name };
             window.Content = r;
             window.Closing += (s, e) =>
@@ -374,18 +374,27 @@ namespace Hawk.ETL.Process
                 switch (check)
                 {
                     case MessageBoxResult.Yes:
+                        CrawlItems.Clear();
+                        //foreach (var item in crawitems)
+                        //{
+                        //    var property = propertyNames.FirstOrDefault(d => (string)d.Value == item.Name);
+                        //    if (property.Value==null || string.IsNullOrWhiteSpace(property.Value.ToString()))
+                        //        continue;
+                        //    item.Name = property.Value.ToString();
+                        //    CrawlItems.Add
+
+                        //}
                         foreach (var propertyName in propertyNames)
                         {
                             var item = crawitems.FirstOrDefault(d => d.Name == propertyName.Key);
                             if (item == null)
                                 continue;
-                            if (propertyName.Value == null)
+                            if (propertyName.Value==null || string.IsNullOrWhiteSpace(propertyName.Value.ToString()))
                                 continue;
                             item.Name = propertyName.Value.ToString();
+                            CrawlItems.Add(item);
                         }
-                        CrawlItems.Clear();
                         RootXPath = CrawTarget.RootXPath;
-                        CrawlItems.AddRange(crawitems);
                         currentCrawTargets = null;
                         break;
                     case MessageBoxResult.No:
@@ -459,60 +468,6 @@ namespace Hawk.ETL.Process
             OnPropertyChanged("IsRunning");
         }
 
-        public void Class1()
-        {
-            //Fiddler.CONFIG.IgnoreServerCertErrors = false;
-
-            //Fiddlerapplication.Prefs.SetBoolPref("fiddler.network.streaming.abortifclientaborts", true);
-            //FiddlerCoreStartupFlags oFCSF = FiddlerCoreStartupFlags.Default;
-            //int iPort = 8877;
-            //Fiddler.FiddlerApplication.Startup(iPort, oFCSF);
-            //FiddlerApplication.Log.LogFormat("Created endpoint listening on port {0}", iPort);
-            //FiddlerApplication.Log.LogFormat("Starting with settings: [{0}]", oFCSF);
-            //FiddlerApplication.Log.LogFormat("Gateway: {0}", CONFIG.UpstreamGateway.ToString());
-            //oSecureEndpoint = FiddlerApplication.CreateProxyEndpoint(iSecureEndpointPort, true, sSecureEndpointHostname);
-            //Proxies.SetProxy("");
-            //if (Fiddler.CertMaker.trustRootCert() == true)
-            //{
-            //    Join("欢迎使用某某软件[具体操作请看说明]");
-            //    Join(Form1.Logincfg);
-            //}
-            //else
-            //{
-            //    Join("证书安装出错");
-
-            //}
-            //Fiddler.FiddlerApplication.OnNotification += delegate (object sender, NotificationEventArgs oNEA)
-            //{ Console.WriteLine("** NotifyUser: " + oNEA.NotifyString); };
-            ////Fiddler.FiddlerApplication.Log.OnLogString += delegate(object sender, LogEventArgs oLEA)
-            //{ Console.WriteLine("** LogString: " + oLEA.LogString); };//记录步骤           
-            //Fiddler.FiddlerApplication.BeforeRequest += delegate (Fiddler.Session oS)//客户端请求时，此事件触发   
-            //{
-            //    oS.bBufferResponse = true;//内容是否更新           
-            //    Monitor.Enter(oAllSessions);
-            //    oAllSessions.Add(oS);
-            //    Monitor.Exit(oAllSessions);
-            //    oS["X-AutoAuth"] = "(default)";
-            //    if ((oS.oRequest.pipeClient.LocalPort == iSecureEndpointPort) && (oS.hostname == sSecureEndpointHostname))
-            //    {
-            //        oS.utilCreateResponseAndBypassServer();
-            //        oS.oResponse.headers.HTTPResponseStatus = "200 Ok";
-            //        oS.oResponse["Content-Type"] = "text/html; charset=UTF-8"; oS.oResponse["Cache-Control"] = "private, max-age=0"; oS.utilSetResponseBody("<html><body>Request for httpS://" + sSecureEndpointHostname + ":" + iSecureEndpointPort.ToString() + " received. Your request was:<br /><plaintext>" + oS.oRequest.headers.ToString());
-            //    }
-            //}; Fiddler.FiddlerApplication.BeforeResponse += delegate (Fiddler.Session oS) //接受到会话时触发      
-            //{
-            ////这边为主要修改地点 //oS  通过调用oS这个类型来实现  修改任意数据  链接 cookie  body  返回内容等等  只要你想得到  都能实现 }
-            //Fiddler.FiddlerApplication.AfterSessionComplete += delegate(Fiddler.Session oS)
-            ////这在一个会话已完成事件触发          
-            //{
-            //    //清理创建的任何临时文件|M:Fiddler.FiddlerApplication.WipeLeakedFiles   我要中这个函数 可是怎么用都说没引用？？         
-            //    //oS.ResponseBody             
-            //    //Console.WriteLine("输出测试：" + Fiddler.ServerChatter.ParseResponseForHeaders);//返回文本内容   
-            //    //Console.WriteLine("Finished session:\t" + oS.fullUrl); //获取连接URL            
-            //    //Console.Title = ("Session list contains: " + oAllSessions.Count.ToString() + " sessions");         
-            //    //oS.PathAndQuery 获取最后页面路径  /1.htm                   //oS.RequestMethod 获取方法 GET 等等         
-            //};             Console.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
-        }
 
         public void StartVisit()
         {
@@ -664,7 +619,7 @@ namespace Hawk.ETL.Process
                             return; 
                         }
                 }
-                path = XPath.TakeOff(node.XPath, root.XPath);
+                path = XPath.TakeOffPlus(node.XPath, root.XPath);
             }
             if (CrawlItems.FirstOrDefault(d => d.Name == SelectName) == null ||
                 MessageBox.Show("已经存在同名的属性，是否依然添加?", "提示信息", MessageBoxButton.OKCancel) == MessageBoxResult.OK)

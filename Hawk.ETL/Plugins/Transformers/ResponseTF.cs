@@ -9,6 +9,7 @@ using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
 using Hawk.ETL.Process;
 using HtmlAgilityPack;
+using System.ComponentModel;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
@@ -42,12 +43,35 @@ namespace Hawk.ETL.Plugins.Transformers
         [LocalizedDisplayName("响应头")]
         [LocalizedDescription("要获取的响应头的名称，多个之间用空格分割，不区分大小写")]
         public virtual string HeaderFilter { get; set; }
-        protected SmartCrawler crawler { get; set; }
+
+        protected SmartCrawler crawler {
+            get
+            {
+                return _crawler;
+            }
+            set
+            {
+                if (_crawler != value)
+                {
+                    if (_crawler != null)
+                        crawler.PropertyChanged -= CrawlerPropertyChangedHandler;
+                    value.PropertyChanged += CrawlerPropertyChangedHandler;
+                    _crawler = value;
+                }
+            }
+        }
+        private void CrawlerPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
+        {
+            this.buffHelper.Clear();
+        }
+        protected SmartCrawler _crawler;
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
             OneOutput = false;
             crawler = GetCrawler(CrawlerSelector);
+            if (string.IsNullOrEmpty(CrawlerSelector) && crawler != null)
+                CrawlerSelector = crawler.Name;
             return crawler != null && base.Init(datas);
         }
 

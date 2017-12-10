@@ -30,7 +30,7 @@ namespace Hawk.ETL.Crawlers
       
 
         private static readonly Regex indexRegex = new Regex(@"\w+\[\d+\]");
-        public static double PM25 = 2.4;
+        public static double PM25 = 1.4;
         private static Regex titleRegex = new Regex(@"h\d");
         private static readonly string[] ignores = {"style", "script", "comment"};
 

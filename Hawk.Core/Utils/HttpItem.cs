@@ -42,7 +42,7 @@ namespace Hawk.Core.Utils
 
         [LocalizedCategory("2.代理设置")]
         [LocalizedDisplayName("用户名")]
-        [PropertyOrder(3)]
+        [System.Windows.Controls.WpfPropertyGrid.Attributes.PropertyOrder(3)]
         public string ProxyUserName { get; set; }
 
         [LocalizedCategory("2.代理设置")]

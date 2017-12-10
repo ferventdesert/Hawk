@@ -91,92 +91,109 @@ namespace Hawk.ETL.Plugins.Transformers
     //        return target.GetString(targetbytes);
     //    }
 
-        [XFrmWork("字符串分割", "通过字符分割字符串")]
-        public class SplitTF : TransformerBase
+    [XFrmWork("字符串分割", "通过字符分割字符串")]
+    public class SplitTF : TransformerBase
+    {
+        private List<string> splitstrs;
+
+        public SplitTF()
         {
-            private List<string> splitstrs;
-
-            public SplitTF()
-            {
-                SplitChar = "";
-                SplitNull = true;
-            }
-
-            [LocalizedDisplayName("倒序")]
-            public bool FromBack { get; set; }
-
-            [LocalizedDisplayName("分割字符")]
-            public bool ShouldSplitChars { get; set; }
-
-            [LocalizedDisplayName("空格分割")]
-            public bool SplitPause { get; set; }
-
-            [LocalizedDisplayName("换行分割")]
-            public bool SplitNull { get; set; }
-
-            [LocalizedDisplayName("匹配编号")]
-            public int Index { get; set; }
-
-            /// <summary>
-            ///     此处如果分割空格怎么办？
-            /// </summary>
-            [LocalizedDisplayName("分割字符")]
-            [StringEditor("C#")]
-            [PropertyEditor("DynamicScriptEditor")]
-            [LocalizedDescription("每行一个分割符")]
-            public string SplitChar { get; set; }
-
-            public override bool Init(IEnumerable<IFreeDocument> docus)
-            {
-                splitstrs = SplitChar.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries).ToList();
-                if (SplitNull)
-                {
-                    splitstrs.Add("\n");
-                }
-                if (SplitPause || splitstrs.Count == 0)
-                    splitstrs.Add(" ");
-                return base.Init(docus);
-            }
-
-            public override object TransformData(IFreeDocument datas)
-            {
-                object result = null;
-                if (datas.ContainsKey(Column))
-                {
-                    if (datas[Column] == null)
-                        return null;
-                    var data = datas[Column];
-
-
-                    var r = data.ToString();
-
-                    List<string> items = null;
-                    if (ShouldSplitChars == false)
-                    {
-                        items = r.Split(splitstrs.ToArray(), StringSplitOptions.RemoveEmptyEntries)
-                            .Select(d => d.Trim())
-                            .ToList();
-                    }
-                    else
-                    {
-                        items = r.Select(d => d.ToString()).ToList();
-                    }
-
-                    if (items.Count <= Index)
-                        return result;
-                 
-                    if (FromBack == false)
-                        result = items[Index];
-                    else
-                    {
-                        var index = items.Count - Index - 1;
-                        if (index < 0)
-                            result = items[index];
-                    }
-                }
-
-                return result;
-            }
+            SplitChar = "";
+            Index = "0";
+            OneOutput = false;
         }
+
+        [LocalizedDisplayName("按字符分割")]
+        [LocalizedDescription("将原文本每个字符直接分割开")]
+        public bool ShouldSplitChars { get; set; }
+
+        [LocalizedDisplayName("空格分割")]
+        public bool SplitPause { get; set; }
+
+        [LocalizedDisplayName("匹配编号")]
+        [Description("若想获取分割后的第0个元素，则填入0，获取倒数第一个元素，则填入-1 \n可输入多个匹配编号，中间以空格分割，输出列也需要与之一对应")]
+        public string Index { get; set; }
+
+        /// <summary>
+        ///     此处如果分割空格怎么办？
+        /// </summary>
+        [LocalizedDisplayName("分割字符")]
+        [StringEditor("C#")]
+        [PropertyEditor("DynamicScriptEditor")]
+        [LocalizedDescription("每行一个分割符，换行符用\\t，制表符用\\t")]
+        public string SplitChar { get; set; }
+
+        public override bool Init(IEnumerable<IFreeDocument> docus)
+        {
+            SplitChar=SplitChar.Replace("\\\\","\\");
+            splitstrs = SplitChar.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            if (SplitPause || splitstrs.Count == 0)
+                splitstrs.Add(" ");
+            return base.Init(docus);
+        }
+
+        public override object TransformData(IFreeDocument datas)
+        {
+            object result = null;
+            //获取输出列
+            var o_columns = new List<string>();
+            if (string.IsNullOrWhiteSpace(this.NewColumn))
+                o_columns.Add(this.Column);
+            else
+            {
+                o_columns.AddRange(NewColumn.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                             .Select(d => d.Trim())
+                             );
+            }
+            var indexs = Index.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                             .Select(d => int.Parse(d.Trim())).ToList();
+
+            if (datas.ContainsKey(Column))
+            {
+                if (datas[Column] == null)
+                    return null;
+                var data = datas[Column];
+
+
+                var r = data.ToString();
+
+                List<string> items = null;
+                if (ShouldSplitChars == false)
+                {
+                    items = r.Split(splitstrs.ToArray(), StringSplitOptions.None)
+                        .Select(d => d.Trim())
+                        .ToList();
+                }
+                else
+                {
+                    items = r.Select(d => d.ToString()).ToList();
+                }
+
+
+                for (int i = 0; i < Math.Min(indexs.Count, o_columns.Count); i++)
+                {
+                    datas[o_columns[i]] = GetValue(items, indexs[i]);
+                }
+            }
+            return null;
+        }
+        string GetValue(List<string> arr, int index)
+        {
+            if (index >= arr.Count)
+            {
+                return "";
+            }
+            else if (index < 0)
+            {
+                if (index <= -arr.Count)
+                    return "";
+                else
+                    return arr[arr.Count + index];
+            }
+            else
+                return arr[index];
+
+        }
+    }
     
 }

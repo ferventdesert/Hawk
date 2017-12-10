@@ -22,6 +22,11 @@ using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Controls;
 using log4net.Config;
+using ToastNotifications;
+using ToastNotifications.Core;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Messages;
+using ToastNotifications.Position;
 using Path = System.IO.Path;
 
 namespace Hawk
@@ -47,6 +52,21 @@ namespace Hawk
 #endif
             InitializeComponent();
             MainDescription.MainFrm = this;
+            this.notifier = new Notifier(cfg =>
+            {
+                cfg.PositionProvider = new WindowPositionProvider(
+                    parentWindow: Application.Current.MainWindow,
+                    corner: Corner.TopRight,
+                    offsetX: 10,
+                    offsetY: 10);
+
+                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                    notificationLifetime: TimeSpan.FromSeconds(3),
+                    maximumNotificationCount: MaximumNotificationCount.FromCount(5));
+
+                cfg.Dispatcher = Application.Current.Dispatcher;
+            });
+
             Application.Current.Resources["ThemeDictionary"] = new ResourceDictionary();
             //   this.SetCurrentTheme("ShinyBlue");
         ;
@@ -109,7 +129,7 @@ namespace Hawk
             }
             XLogSys.Print.Info(Title +Core.Properties.Resources.Start);
 
-
+  
             Closing += (s, e) =>
             {
                 if (MessageBox.Show(Core.Properties.Resources.Closing, Core.Properties.Resources.Tips, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
@@ -135,6 +155,10 @@ namespace Hawk
             }
 #endif
         }
+
+        private Notifier notifier;
+   
+
         public ObservableCollection<IAction> CommandCollection { get; set; }
         private void SetCommandKeyBinding(ICommand command)
         {
@@ -271,7 +295,7 @@ namespace Hawk
                         var view = thisControl as DebugManagerUI;
                         if (view != null)
                         {
-                            RichTextBoxAppender.SetRichTextBox(view.richtextBox, DebugText);
+                            RichTextBoxAppender.SetRichTextBox(view.richtextBox, DebugText,notifier);
                         }
 
                         documentButtom.Children.Add(layout);

@@ -20,6 +20,7 @@ namespace Hawk.ETL.Plugins.Executor
     {
         private  HttpHelper helper;
         private readonly IProcessManager processManager;
+        private string _crawlerSelector;
 
         public SaveFileEX()
         {
@@ -27,11 +28,16 @@ namespace Hawk.ETL.Plugins.Executor
         }
 
         [LocalizedDisplayName("保存位置")]
+        [LocalizedDescription("路径或文件名，可通过'[]'引用其他列 \n 若为目录名，必须显式以/结束，文件名将会通过url自动解析")]
         public string SavePath { get; set; }
 
         [LocalizedDisplayName("爬虫选择")]
         [LocalizedDescription("填写采集器或模块的名称")]
-        public string CrawlerSelector { get; set; }
+        public string CrawlerSelector
+        {
+            get { return _crawlerSelector; }
+            set { _crawlerSelector = value; }
+        }
 
 
         [LocalizedDisplayName("是否异步")]
@@ -65,16 +71,36 @@ namespace Hawk.ETL.Plugins.Executor
             {
                 var path = document.Query(SavePath);
                 var directoryInfo = new DirectoryInfo(path);
-                var folder = directoryInfo.Parent;
+                 var isdir = IsDir(path);
+                var url = document[Column].ToString();
+                if (string.IsNullOrEmpty(url))
+                    continue;
+                DirectoryInfo folder = null;
+                if(!isdir)
+                {
+                    folder = directoryInfo.Parent;
+                }
+                else
+                {
+                    folder = directoryInfo;
+                }
+              
                 if (folder == null)
                     continue;
                 if (!folder.Exists)
                 {
                     folder.Create();
                 }
-                var url = document[Column].ToString();
-                if (string.IsNullOrEmpty(url))
-                    continue;
+               if(isdir)
+                {
+                    path = folder.ToString();
+                    if (path.EndsWith("/") == false)
+                        path += "/";
+                    path+=getFileName(url);
+                }
+
+            
+
                 try
                 {
                     CookieAwareWebClient webClient = new CookieAwareWebClient();
@@ -100,5 +126,43 @@ namespace Hawk.ETL.Plugins.Executor
                 yield return document;
             }
         }
+        /// <summary>
+        /// 判断目标是文件夹还是目录(目录包括磁盘)
+        /// </summary>
+        /// <param name="filepath">文件名</param>
+        /// <returns></returns>
+        public static bool IsDir(string filepath)
+        {
+            if(filepath.EndsWith("/"))
+            {
+                return true;
+            }
+            FileInfo fi = new FileInfo(filepath);
+            if ((fi.Attributes & FileAttributes.Directory) != 0)
+                return true;
+            else
+            {
+                return false;
+            }
+        }
+
+        public static string getFileName(string path)
+        {
+            string str = string.Empty;
+            int pos1 = path.LastIndexOf('/');
+            int pos2 = path.LastIndexOf('\\');
+            int pos = Math.Max(pos1, pos2);
+            if (pos < 0)
+                str = path;
+            else
+                str = path.Substring(pos + 1);
+            var chars= @"\/:*?""<>|";
+            foreach (var item in chars)
+            {
+                str = str.Replace(item, ' ');
+            }
+            return str;
+        }
     }
+
 }

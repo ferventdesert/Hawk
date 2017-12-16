@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
@@ -11,7 +12,7 @@ using Microsoft.Scripting.Hosting;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("Python转换器", "执行特定的python代码")]
+    [XFrmWork("Python转换器", "执行特定的python代码或脚本，最后一行需要为值类型，作为该列的返回值")]
     public class PythonTF : TransformerBase
     {
         protected readonly ScriptEngine engine;
@@ -34,10 +35,24 @@ namespace Hawk.ETL.Plugins.Transformers
         [PropertyEditor("CodeEditor")]
         public string Script { get; set; }
 
+
+        [DisplayName("Python库路径")]
+        [Description("若需要引用第三方Python库，则可指定库的路径，一行一条")]
+        [PropertyEditor("CodeEditor")]
+        public string LibraryPath { get; set; }
+
+
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {
             OneOutput = false;
-            var source = engine.CreateScriptSourceFromString(Script);
+            var script = Script;
+            if (!string.IsNullOrWhiteSpace(LibraryPath))
+            {
+                var libs = LibraryPath.Split(new []{'\n'}, StringSplitOptions.RemoveEmptyEntries);
+                var head = libs.Aggregate("import sys\n", (current, lib) => current + $"sys.path.append({lib})\n");
+                script = head + "\n" + script;
+            }
+            var source = engine.CreateScriptSourceFromString(script);
             compiledCode = source.Compile();
             IsMultiYield = ScriptWorkMode == ScriptWorkMode.文档列表;
             return true;
@@ -55,6 +70,7 @@ namespace Hawk.ETL.Plugins.Transformers
                 }
             }
         }
+
 
         private object eval(IFreeDocument doc)
         {

@@ -33,8 +33,9 @@
     <Reference Include="FiddlerCore4">
       <HintPath>..\Includes\FiddlerCore4.dll</HintPath>
     </Reference>
-    <Reference Include="HtmlAgilityPack">
-      <HintPath>..\Includes\HtmlAgilityPack.dll</HintPath>
+    <Reference Include="HtmlAgilityPack, Version=1.6.7.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\Hawk.Core\packages\HtmlAgilityPack.1.6.7\lib\Net45\HtmlAgilityPack.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="IronPython, Version=2.7.5.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -115,6 +116,7 @@
     <Compile Include="Plugins\Generators\FileContentGenerator.cs" />
     <Compile Include="Plugins\Generators\FolderGeneator.cs" />
     <Compile Include="Plugins\Generators\DbGE.cs" />
+    <Compile Include="Plugins\Generators\RandomGE.cs" />
     <Compile Include="Plugins\Generators\RangeGE.cs" />
     <Compile Include="Plugins\Generators\TableGE.cs" />
     <Compile Include="Plugins\Generators\TextGE.cs" />
@@ -162,6 +164,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\Visual\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

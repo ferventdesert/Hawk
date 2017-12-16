@@ -9,7 +9,7 @@ using Hawk.ETL.Plugins.Transformers;
 
 namespace Hawk.ETL.Plugins.Executor
 {
-    [XFrmWork("延时","在工作流中插入延时，单位为ms")]
+    [XFrmWork("延时","在工作流中插入延时，可休眠固定长度避免爬虫被封禁，单位为ms")]
     public class DelayTF : TransformerBase
     {
       

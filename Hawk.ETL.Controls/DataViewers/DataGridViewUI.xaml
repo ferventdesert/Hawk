@@ -10,15 +10,10 @@
         <Style x:Key="DataRowStyle1" TargetType="{x:Type xcdg:DataRow}">
             <Setter Property="Background" Value="{DynamicResource NormalBrush}"/>
             <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
-
-
-
         </Style>
     </UserControl.Resources>
     <Grid>
         <xcdg:DataGridControl Name="DataGridControl"  x:FieldModifier="public"  Background="{DynamicResource NormalBrush}"     AllowDrop="True"  ItemsSource="{Binding}"    SelectedItem="{Binding SelectedItem}"  Grid.Column="2" Grid.RowSpan="2"   ItemContainerStyle="{DynamicResource DataRowStyle1}" ScrollViewer.HorizontalScrollBarVisibility="Visible" AutoCreateColumns="False" >
-        
-            
         </xcdg:DataGridControl>
     </Grid>
 </UserControl>

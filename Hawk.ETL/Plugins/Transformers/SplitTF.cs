@@ -103,7 +103,8 @@ namespace Hawk.ETL.Plugins.Transformers
             OneOutput = false;
         }
 
-        [LocalizedDisplayName("按字符分割")]
+        [LocalizedCategory("高级选项")]
+        [LocalizedDisplayName("按字符直接分割")]
         [LocalizedDescription("将原文本每个字符直接分割开")]
         public bool ShouldSplitChars { get; set; }
 

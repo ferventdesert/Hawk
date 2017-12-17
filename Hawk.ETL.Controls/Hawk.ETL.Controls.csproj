@@ -37,6 +37,11 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Controls.WpfPropertyGrid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Includes\System.Windows.Controls.WpfPropertyGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -48,6 +53,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
     <Reference Include="Xceed.Wpf.DataGrid">
       <HintPath>..\Includes\Xceed.Wpf.DataGrid.dll</HintPath>
     </Reference>
@@ -75,6 +81,10 @@
     <Page Include="DebugManagerUI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FeelLuckPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SmartCrawlerUI.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -107,6 +117,9 @@
     </Compile>
     <Compile Include="DebugManagerUI.xaml.cs">
       <DependentUpon>DebugManagerUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FeelLuckPanel.xaml.cs">
+      <DependentUpon>FeelLuckPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="SmartCrawlerUI.xaml.cs">
       <DependentUpon>SmartCrawlerUI.xaml</DependentUpon>

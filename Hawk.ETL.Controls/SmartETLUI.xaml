@@ -105,9 +105,9 @@
      		<Border BorderBrush="Black" BorderThickness="1" Background="#FF2D2D2D"/>
      		<StackPanel HorizontalAlignment="Left" Margin="2.25,0,0,0" Orientation="Horizontal" d:LayoutOverrides="Height">
      			<TextBlock TextWrapping="Wrap" Text="模块:" d:LayoutOverrides="Width" Margin="5,0,10,0" VerticalAlignment="Center"/>
-     			<TextBox Width="50" TextWrapping="Wrap" Text="{Binding ETLMount}" VerticalAlignment="Center"/>
-     			<TextBlock TextWrapping="Wrap" Text="/" d:LayoutOverrides="Width" VerticalAlignment="Center"/>
-     			<TextBlock TextWrapping="Wrap" Text="{Binding AllETLMount}" d:LayoutOverrides="Width" VerticalAlignment="Center"/>
+     			<TextBox Width="50" TextWrapping="Wrap" Text="{Binding ETLMount}" VerticalAlignment="Center" FontSize="16"/>
+     			<TextBlock TextWrapping="Wrap" Text="/" d:LayoutOverrides="Width" VerticalAlignment="Center" FontSize="16"/>
+     			<TextBlock TextWrapping="Wrap" Text="{Binding AllETLMount}" d:LayoutOverrides="Width" VerticalAlignment="Center" FontSize="16"/>
      		</StackPanel>
      		<ScrollBar SmallChange="1" Value="{Binding ETLMount}" Maximum="{Binding AllETLMount}" Orientation="Horizontal" Margin="131.334,4,0,4" Background="#FF292929" BorderBrush="White"/>
      	</Grid>

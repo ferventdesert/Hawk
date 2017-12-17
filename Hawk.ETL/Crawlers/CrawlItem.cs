@@ -16,6 +16,7 @@ namespace Hawk.ETL.Crawlers
         public CrawlItem()
         {
             SampleData1 = "";
+            IsEnabled = true;
         }
 
         /// <summary>
@@ -52,6 +53,9 @@ namespace Hawk.ETL.Crawlers
             }
         }
 
+        [LocalizedDisplayName("可用")]
+        [PropertyOrder(2)]
+        public bool IsEnabled { get; set; }
 
 
 
@@ -66,7 +70,7 @@ namespace Hawk.ETL.Crawlers
 
         public FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
-            var doc = new FreeDocument { { "Name", Name }, { "XPath", XPath },{"IsHtml", IsHTML } };
+            var doc = new FreeDocument { { "Name", Name }, { "XPath", XPath },{"IsHtml", IsHTML}, { "IsEnabled",IsEnabled } };
             return doc;
         }
 
@@ -75,6 +79,7 @@ namespace Hawk.ETL.Crawlers
             Name = docu.Set("Name", Name);
             XPath = docu.Set("XPath", XPath);
             IsHTML = docu.Set("IsHtml", IsHTML);
+            IsEnabled = docu.Set("IsEnabled", IsEnabled);
         }
 
         public override string ToString()

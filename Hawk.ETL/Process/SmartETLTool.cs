@@ -191,8 +191,8 @@ namespace Hawk.ETL.Process
                                 XLogSys.Print.Info("插入工作模块，名称:" + CurrentTool?.ToString());
                             }
                         }, icon: "arrow_right"),
-                        new Command("回退到开头", obj => { ETLMount = 0; }, icon: "arrow_stop"),
-                        new Command("跳到最后", obj => { ETLMount = CurrentETLTools.Count; }, icon: "arrow_stop")
+                        new Command("回退到开头", obj => { ETLMount = 0; }, icon: "align_left"),
+                        new Command("跳到最后", obj => { ETLMount = CurrentETLTools.Count; }, icon: "align_right")
                     }
                     );
             }

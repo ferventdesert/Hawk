@@ -1,0 +1,97 @@
+﻿<UserControl x:Class="Hawk.ETL.Controls.FeelLuckPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hawk.ETL.Controls"
+             xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
+             mc:Ignorable="d" 
+             d:DesignHeight="659" d:DesignWidth="916" Background="{DynamicResource NormalBrush}">
+    <UserControl.Resources>
+        <Style x:Key="DataRowStyle1" TargetType="{x:Type xcdg:DataRow}">
+            <Setter Property="Background" Value="{DynamicResource NormalBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        </Style>
+        <DataTemplate x:Key="DataTemplate1">
+        	<StackPanel Orientation="Horizontal" Width="Auto">
+        		<CheckBox   Margin="0" IsChecked="{Binding IsEnabled}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        		<TextBlock TextWrapping="Wrap" Text="名称" VerticalAlignment="Center" Margin="20,0,0,0"/>
+        		<TextBox ToolTip="名称" Text="{Binding Name}" Margin="5,0,0,0" TextWrapping="Wrap"   Width="120" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        		<TextBlock TextWrapping="Wrap" Text="XPath" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,0,0,0"/>
+        		<TextBox ToolTip="XPath" MinWidth="200" Text="{Binding XPath}" Margin="5,0,0,0" TextWrapping="Wrap"   Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        	</StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+    	<Grid.ColumnDefinitions>
+    		<ColumnDefinition Width="0.576*"/>
+    		<ColumnDefinition Width="0.424*"/>
+    	</Grid.ColumnDefinitions>
+    	<Grid.RowDefinitions>
+    		<RowDefinition Height="0.592*"/>
+    		<RowDefinition Height="0.038*"/>
+    		<RowDefinition Height="0.37*"/>
+    	</Grid.RowDefinitions>
+        <xcdg:DataGridControl Name="DataGridControl"  x:FieldModifier="public"  Background="{DynamicResource NormalBrush}"      AllowDrop="True"  ItemsSource="{Binding}"    SelectedItem="{Binding SelectedItem}"   ItemContainerStyle="{DynamicResource DataRowStyle1}" ScrollViewer.HorizontalScrollBarVisibility="Visible" AutoCreateColumns="False" Margin="8" Grid.ColumnSpan="2" />
+        <Grid Grid.Row="1" Height="25" VerticalAlignment="Top" Grid.ColumnSpan="2">
+        	<Border BorderBrush="Black" BorderThickness="1" Background="#FF2D2D2D"/>
+        	<StackPanel HorizontalAlignment="Left" Margin="2.25,0,0,0" Orientation="Horizontal" d:LayoutOverrides="Height">
+        		<TextBlock TextWrapping="Wrap" Text="位置:" d:LayoutOverrides="Width" Margin="5,0,10,0" VerticalAlignment="Center"/>
+        		<TextBox Width="50" TextWrapping="Wrap" Text="{Binding Position}" VerticalAlignment="Center" FontSize="16"/>
+        		<TextBlock TextWrapping="Wrap" Text="/" d:LayoutOverrides="Width" VerticalAlignment="Center" FontSize="16"/>
+        		<TextBlock TextWrapping="Wrap" Text="{Binding Total}" d:LayoutOverrides="Width" VerticalAlignment="Center" FontSize="16"/>
+        	</StackPanel>
+        	<ScrollBar SmallChange="1" Value="{Binding Position}" Maximum="{Binding Total}" Orientation="Horizontal" Margin="131.334,4,0,4" Background="#FF292929" BorderBrush="White"/>
+        </Grid>
+        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+        	<Grid.ColumnDefinitions>
+        		<ColumnDefinition Width="0.574*"/>
+        		<ColumnDefinition Width="0.426*"/>
+        	</Grid.ColumnDefinitions>
+        	<TabControl  DataContext="{Binding CurrentTarget}" Margin="8">
+        		<TabItem Header="XPath">
+        			<Grid Margin="0,0,6,-5">
+        				<ListBox ItemTemplate="{DynamicResource DataTemplate1}" ItemsSource="{Binding CrawItems}" Margin="8,30,8,8"/>
+        				<TextBlock HorizontalAlignment="Left" Margin="8,8,0,0" TextWrapping="Wrap" Text="根节点XPath" VerticalAlignment="Top"/>
+        				<TextBox Margin="94.999,8,8,0" TextWrapping="Wrap" Text="{Binding RootXPath}" VerticalAlignment="Top"/>
+        			</Grid>
+        		</TabItem>
+        		<TabItem Header="HTML">
+        			 <ScrollViewer VerticalContentAlignment="Stretch">
+        				<TextBlock Text="{Binding Html}" TextWrapping="WrapWithOverflow" />
+        			</ScrollViewer>
+        		</TabItem>
+				<TabItem Header="Text">
+        			 <ScrollViewer VerticalContentAlignment="Stretch">
+						<TextBlock Text="{Binding Text}" TextWrapping="WrapWithOverflow"  />
+					</ScrollViewer>
+        		</TabItem>
+				<TabItem Header="其他信息">
+        			<Grid>
+        					<TextBlock HorizontalAlignment="Left" Margin="8,8,0,0" TextWrapping="Wrap" Text="子节点数量" VerticalAlignment="Top"/>
+        				<TextBlock Margin="94.999,8,8,0" TextWrapping="Wrap" Text="{Binding NodeCount}" VerticalAlignment="Top"/>
+        				<TextBlock HorizontalAlignment="Left" Margin="8,27.24,0,0" TextWrapping="Wrap" Text="评估分数" VerticalAlignment="Top"/>
+        				<TextBlock Margin="94.999,27.24,8,0" TextWrapping="Wrap" Text="{Binding Score}" VerticalAlignment="Top"/>   			
+					</Grid>
+        		</TabItem>
+        	</TabControl>
+        	<StackPanel Grid.Column="1" Orientation="Vertical" d:LayoutOverrides="Height" HorizontalAlignment="Center" VerticalAlignment="Center">
+        		<TextBlock TextWrapping="WrapWithOverflow" Text="左右切换选择所需的数据表格，左方可修改列名，点击“确认结果”即可提交" Height="41.24" HorizontalAlignment="Center" Margin="0,3"/>
+        		<StackPanel Orientation="Horizontal" Margin="0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+        			<TextBlock TextWrapping="Wrap" Text="排序策略"/>
+        			<ComboBox  ItemsSource="{Binding SortMethods}" SelectedItem="{Binding SortMethod}"  Width="120" Margin="10,0,0,0"/>
+        		</StackPanel>
+        		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,3" Height="46.172" VerticalAlignment="Center">
+        			<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands[1]}" Width="35" Height="35" Margin="15,0,0,0" />
+         
+        			<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands[2]}" Width="35" Height="35" Margin="15,0,0,0" />
+        		</StackPanel>
+        		<StackPanel Orientation="Horizontal" Height="46.172" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,3">
+        			<Button  DataContext="{Binding Commands[3]}" Content="{Binding Text}" Command="{Binding}" Margin="15,0,0,0" />
+         
+        			<Button  DataContext="{Binding Commands[4]}" Content="{Binding Text}" Command="{Binding}" Margin="15,0,0,0" />
+        		</StackPanel>
+        	</StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

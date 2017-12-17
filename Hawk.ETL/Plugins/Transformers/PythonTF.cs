@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using IronPython.Hosting;
 using IronPython.Runtime;
@@ -37,6 +38,7 @@ namespace Hawk.ETL.Plugins.Transformers
 
 
         [DisplayName("Python库路径")]
+        [PropertyOrder(100)]
         [Description("若需要引用第三方Python库，则可指定库的路径，一行一条")]
         [PropertyEditor("CodeEditor")]
         public string LibraryPath { get; set; }
@@ -49,8 +51,9 @@ namespace Hawk.ETL.Plugins.Transformers
             if (!string.IsNullOrWhiteSpace(LibraryPath))
             {
                 var libs = LibraryPath.Split(new []{'\n'}, StringSplitOptions.RemoveEmptyEntries);
-                var head = libs.Aggregate("import sys\n", (current, lib) => current + $"sys.path.append({lib})\n");
+                var head = libs.Aggregate("import sys\n", (current, lib) => current + $@"sys.path.append(""{lib}"")");
                 script = head + "\n" + script;
+                XLogSys.Print.Debug(script);
             }
             var source = engine.CreateScriptSourceFromString(script);
             compiledCode = source.Compile();

@@ -79,7 +79,7 @@ namespace Hawk.ETL.Plugins.Transformers
                 while (count < maxcount)
                 {
                     docs = crawler.CrawlData(url, out htmldoc, out code, post);
-                    if (HttpHelper.IsSuccess(code) && docs.Count>0)
+                    if (HttpHelper.IsSuccess(code))
                     {
                         buffHelper.Set(bufkey, htmldoc);
                         break;

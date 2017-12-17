@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Input;
 using Fiddler;
@@ -17,6 +18,7 @@ using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
 using Hawk.ETL.Interfaces;
+using Hawk.ETL.Managements;
 using HtmlAgilityPack;
 
 namespace Hawk.ETL.Process
@@ -33,6 +35,7 @@ namespace Hawk.ETL.Process
         private readonly Regex extract = new Regex(@"\[(\w+)\]");
         private readonly HttpHelper helper;
         private bool _isSuperMode;
+        private string _rootXPath;
         private XPathAnalyzer.CrawTarget CrawTarget;
         private IEnumerator<string> currentXPaths;
         public bool enableRefresh = true;
@@ -60,6 +63,7 @@ namespace Hawk.ETL.Process
             SelectText = "";
             IsMultiData = ListType.List;
             IsAttribute = true;
+            URL = "www.cnblogs.com";
         }
 
         [Browsable(false)]
@@ -123,7 +127,7 @@ namespace Hawk.ETL.Process
                             obj =>
                                 currentXPaths != null),
                         new Command("手气不错",
-                            obj => GreatHand(),
+                            obj => FeelLucky(),
                             obj => IsMultiData == ListType.List
                             ),
                         new Command("提取测试", obj =>
@@ -238,7 +242,18 @@ namespace Hawk.ETL.Process
         [LocalizedDescription("当设置该值后，所有属性Path都应该为父节点的子path，而不能是完整的xpath路径")]
         [LocalizedDisplayName("父节点Path")]
         [PropertyOrder(8)]
-        public string RootXPath { get; set; }
+        public string RootXPath
+        {
+            get { return _rootXPath; }
+            set
+            {
+                if (_rootXPath != value)
+                {
+                    _rootXPath = value;
+                    OnPropertyChanged("RootXPath");
+                }
+            }
+        }
 
         [Browsable(false)]
         public bool IsRunning => FiddlerApplication.IsStarted();
@@ -336,101 +351,46 @@ namespace Hawk.ETL.Process
             }
         }
 
-        public void GreatHand()
+        public void FeelLucky()
         {
-            var count = 0;
-            var crawTargets = HtmlDoc.SearchPropertiesSmart(CrawlItems, RootXPath, IsAttribute);
-            var currentCrawTargets = crawTargets.GetEnumerator();
-            var result = currentCrawTargets.MoveNext();
-            if (result)
-                CrawTarget = currentCrawTargets.Current;
-            else
-            {
-                CrawTarget = null;
-                XLogSys.Print.Warn("没有检查到任何可选的列表页面");
-                return;
-            }
-
-            var crawitems = CrawTarget.CrawItems;
-            var datas = HtmlDoc.GetDataFromXPath(crawitems, IsMultiData, CrawTarget.RootXPath);
-            var propertyNames = new FreeDocument(datas.GetKeys().ToDictionary(d => d, d => (object) d));
-            datas.Insert(0, propertyNames);
-            var view = PluginProvider.GetObjectInstance<IDataViewer>("可编辑列表");
-            var r = view.SetCurrentView(datas);
-
-
-            var name = "手气不错_可修改第一列的属性名称，留空则删除该列";
-            var window = new Window {Title = name};
-            window.Content = r;
-            window.Closing += (s, e) =>
-            {
-                var check = MessageBox.Show("是否确认选择当前结果？【是】：确认结果，  【否】:检查下个目标，  【取消】:结束当前手气不错", "提示信息",
-                    MessageBoxButton.YesNoCancel);
-                switch (check)
+            var crawTargets = new List<XPathAnalyzer.CrawTarget>();
+            var task = TemporaryTask.AddTempTask("网页结构计算中",
+                HtmlDoc.SearchPropertiesSmart(CrawlItems, RootXPath, IsAttribute), crawTarget =>
                 {
-                    case MessageBoxResult.Yes:
-                        CrawlItems.Clear();
-                        //foreach (var item in crawitems)
-                        //{
-                        //    var property = propertyNames.FirstOrDefault(d => (string)d.Value == item.Name);
-                        //    if (property.Value==null || string.IsNullOrWhiteSpace(property.Value.ToString()))
-                        //        continue;
-                        //    item.Name = property.Value.ToString();
-                        //    CrawlItems.Add
-
-                        //}
-                        foreach (var propertyName in propertyNames)
-                        {
-                            var item = crawitems.FirstOrDefault(d => d.Name == propertyName.Key);
-                            if (item == null)
-                                continue;
-                            if (propertyName.Value == null || string.IsNullOrWhiteSpace(propertyName.Value.ToString()))
-                                continue;
-                            item.Name = propertyName.Value.ToString();
-                            CrawlItems.Add(item);
-                        }
-                        RootXPath = CrawTarget.RootXPath;
-                        currentCrawTargets = null;
-                        break;
-                    case MessageBoxResult.No:
-                        e.Cancel = true;
-                        result = currentCrawTargets.MoveNext();
-                        count++;
-                        if (result)
-                            CrawTarget = currentCrawTargets.Current;
-                        else
-                        {
-                            MessageBox.Show("已经搜索所有可能情况，搜索器已经返回开头");
-                            crawTargets = HtmlDoc.SearchPropertiesSmart(CrawlItems, RootXPath, IsAttribute);
-                            currentCrawTargets = crawTargets.GetEnumerator();
-                            count = 0;
-                            result = currentCrawTargets.MoveNext();
-                            if (!result)
-                            {
-                                e.Cancel = false;
-                            }
-                            else
-                            {
-                                CrawTarget = currentCrawTargets.Current;
-                            }
-                        }
-
-                        crawitems = CrawTarget.CrawItems;
-                        var title = $"手气不错，第{count}次结果";
-                        datas = HtmlDoc.GetDataFromXPath(crawitems, IsMultiData, CrawTarget.RootXPath);
-                        propertyNames = new FreeDocument(datas.GetKeys().ToDictionary(d => d, d => (object) d));
-                        datas.Insert(0, propertyNames);
-                        r = view.SetCurrentView(datas);
-                        window.Content = r;
-                        window.Title = title;
-                        break;
-                    case MessageBoxResult.Cancel:
+                    crawTargets.Add(crawTarget);
+                    var datas = HtmlDoc.GetDataFromXPath(crawTarget.CrawItems, IsMultiData, crawTarget.RootXPath);
+                    crawTarget.Datas = datas;
+                }, d =>
+                {
+                    if (crawTargets.Count == 0)
+                    {
+                        CrawTarget = null;
+                        XLogSys.Print.Warn("没有检查到任何可选的列表页面");
                         return;
-                }
-            };
+                    }
 
+                    var luckModel = new FeelLuckyModel(crawTargets);
+                    var view = PluginProvider.GetObjectInstance<ICustomView>("手气不错面板") as UserControl;
+                    view.DataContext = luckModel;
 
-            window.ShowDialog();
+                    var name = "手气不错";
+                    var window = new Window {Title = name};
+                    window.WindowState = WindowState.Maximized;
+                    window.Content = view;
+                    luckModel.SetView(view, window);
+                    window.Activate() ;
+                    window.ShowDialog();
+                    if (window.DialogResult == true)
+
+                    {
+                        var crawTarget = luckModel.CurrentTarget;
+                        RootXPath = crawTarget.RootXPath;
+                        CrawlItems.Clear();
+                        CrawlItems.AddRange(crawTarget.CrawItems.Where(r => r.IsEnabled));
+                    }
+                });
+
+            SysProcessManager.CurrentProcessTasks.Add(task);
         }
 
         public override bool Close()
@@ -642,6 +602,11 @@ namespace Hawk.ETL.Process
             string post = null)
         {
             var mc = extract.Matches(url);
+            if (SysProcessManager == null)
+            {
+                code = HttpStatusCode.NoContent;
+                return "";
+            }
             var crawler =
                 SysProcessManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == ShareCookie) as
                     SmartCrawler;
@@ -691,7 +656,7 @@ namespace Hawk.ETL.Process
             var datas = new List<FreeDocument>();
             try
             {
-                datas = CrawlHtmlData(content,out doc);
+                datas = CrawlHtmlData(content, out doc);
                 if (datas.Count == 0)
                 {
                     XLogSys.Print.InfoFormat("HTML抽取数据失败，url:{0}", url);
@@ -699,7 +664,7 @@ namespace Hawk.ETL.Process
             }
             catch (Exception ex)
             {
-                doc=new HtmlDocument();
+                doc = new HtmlDocument();
                 XLogSys.Print.ErrorFormat("HTML抽取数据失败，url:{0}, 异常为{1}", url, ex.Message);
             }
 
@@ -736,7 +701,21 @@ namespace Hawk.ETL.Process
             }
 
 
-            ControlExtended.SafeInvoke(() => HtmlDoc.LoadHtml(URLHTML), name: "解析html文档");
+            ControlExtended.SafeInvoke(() =>
+            {
+                HtmlDoc.LoadHtml(URLHTML);
+                if (MainDescription.IsUIForm)
+                {
+                    var dock = MainFrm as IDockableManager ?? ControlExtended.DockableManager;
+                    var control = dock?.ViewDictionary.FirstOrDefault(d => d.Model == this);
+                    if (control != null)
+                    {
+                        dynamic invoke = control.View;
+                        invoke.UpdateHtml(URLHTML);
+                    }
+                }
+            },
+                name: "解析html文档");
 
 
             if (string.IsNullOrWhiteSpace(selectText) == false)

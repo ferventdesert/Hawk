@@ -7,6 +7,7 @@
              xmlns:mvvm="clr-namespace:Hawk.Core.Utils.MVVM;assembly=Hawk.Core"
              xmlns:themes="clr-namespace:Hawk.Core.Themes;assembly=Hawk.Core"
              xmlns:local="clr-namespace:Hawk.ETL.Controls"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              x:Class="Hawk.ETL.Controls.ETLSmartView"
              mc:Ignorable="d" 
              d:DesignHeight="553.5" d:DesignWidth="799.5">
@@ -19,6 +20,8 @@
             <Setter Property="Command" Value="{Binding}"/>
             <Setter Property="CommandParameter" Value="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}, Mode=FindAncestor}}"/>
         </Style>
+		  
+
 
 
         <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
@@ -76,6 +79,73 @@
                 <CheckBox Content="" IsChecked="{Binding Enabled}"  VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="是否激活"/>
             </StackPanel>
         </DataTemplate>
+        <SolidColorBrush x:Key="{x:Static DataGrid.FocusBorderBrushKey}" Color="#FF000000"/>
+        <Style  TargetType="{x:Type xctk:MultiLineTextEditor}">
+        	<Setter Property="Background" Value="{DynamicResource NormalBrush}"/>
+        	<Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        	<Setter Property="Template" Value="{DynamicResource MultiLineTextEditorControlTemplate1}"/>
+        	<Setter Property="BorderThickness" Value="0"/>
+        	
+        </Style>
+        <ControlTemplate x:Key="MultiLineTextEditorControlTemplate1" TargetType="{x:Type xctk:MultiLineTextEditor}">
+        	<Grid x:Name="Root">
+        		<ToggleButton x:Name="PART_DropDownButton" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Grid.Column="1" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsTabStop="True" IsChecked="{Binding IsOpen, RelativeSource={RelativeSource TemplatedParent}}" MinHeight="22" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+        			<ToggleButton.IsHitTestVisible>
+        				<Binding Path="IsOpen" RelativeSource="{RelativeSource TemplatedParent}">
+        					<Binding.Converter>
+        						<xctk:InverseBoolConverter/>
+        					</Binding.Converter>
+        				</Binding>
+        			</ToggleButton.IsHitTestVisible>
+        			<ToggleButton.Style>
+        				<Style TargetType="{x:Type ToggleButton}">
+        					<Setter Property="Template">
+        						<Setter.Value>
+        							<ControlTemplate TargetType="{x:Type ToggleButton}">
+        								<Grid SnapsToDevicePixels="True">
+        									<Grid>
+        										<Grid.ColumnDefinitions>
+        											<ColumnDefinition Width="*"/>
+        											<ColumnDefinition Width="Auto"/>
+        										</Grid.ColumnDefinitions>
+        										<Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+        											<ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+        										</Border>
+        										<xctk:ButtonChrome x:Name="ToggleButtonChrome" Grid.Column="1" CornerRadius="0" RenderMouseOver="{TemplateBinding IsMouseOver}" RenderPressed="{TemplateBinding IsPressed}" RenderChecked="{Binding IsOpen, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type xctk:MultiLineTextEditor}}}" RenderEnabled="{Binding IsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type xctk:MultiLineTextEditor}}}" Visibility="Collapsed">
+        											
+        										</xctk:ButtonChrome>
+        									</Grid>
+        								</Grid>
+        								<ControlTemplate.Triggers>
+        									<Trigger Property="IsEnabled" Value="False">
+        										<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+        									</Trigger>
+        								</ControlTemplate.Triggers>
+        							</ControlTemplate>
+        						</Setter.Value>
+        					</Setter>
+        				</Style>
+        			</ToggleButton.Style>
+        		</ToggleButton>
+        		<Popup AllowsTransparency="True" Focusable="False" Height="{TemplateBinding DropDownHeight}" IsOpen="{Binding IsChecked, ElementName=PART_DropDownButton}" PopupAnimation="Slide" Placement="Bottom" SnapsToDevicePixels="True" StaysOpen="False" Width="{TemplateBinding DropDownWidth}">
+        			<Border BorderBrush="#FFABADB3" BorderThickness="1" Background="White">
+        				<Grid>
+        					<TextBox x:Name="PART_TextBox" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" IsReadOnly="{TemplateBinding IsReadOnly}" SpellCheck.IsEnabled="{TemplateBinding IsSpellCheckEnabled}" Margin="3" Padding="{TemplateBinding Padding}" TextAlignment="{TemplateBinding TextAlignment}" Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}" VerticalScrollBarVisibility="Auto" TextWrapping="WrapWithOverflow" Background="{TemplateBinding Background}"/>
+        					<Thumb x:Name="PART_ResizeThumb" Cursor="SizeNWSE" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+        						<Thumb.Template>
+        							<ControlTemplate TargetType="{x:Type Thumb}">
+        								<Grid Background="Transparent">
+        									<Path Data="M0.5,6.5L6.5,0.5 M6.5,3.5L3.5,6.5" Stroke="Black" StrokeThickness="1"/>
+        								</Grid>
+        							</ControlTemplate>
+        						</Thumb.Template>
+        					</Thumb>
+        				</Grid>
+        			</Border>
+        		</Popup>
+        	</Grid>
+        </ControlTemplate>
+      
 
 
 
@@ -125,13 +195,24 @@
      				
      			</Grid.RowDefinitions>
 			
-     			<ListView x:FieldModifier="public"  ItemsSource="{Binding Documents}" x:Name="DataList" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1" Margin="0,0,0,-0.833"/>
-     			<ListBox  x:FieldModifier="public" x:Name="ToolList" Margin="0,8,0,0" ItemsSource="{Binding Dict}"    ItemsPanel="{DynamicResource ItemsPanelTemplate1}" ItemTemplate="{DynamicResource DataTemplate1}" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Stretch"/>
-     			<GridSplitter HorizontalAlignment="Stretch" Height="5" VerticalAlignment="Bottom" ResizeDirection="Rows" Margin="0" d:LayoutOverrides="VerticalAlignment, GridBox"/>
+     			<DataGrid x:FieldModifier="public"  ItemsSource="{Binding Documents}" Background="{DynamicResource NormalBrush}" RowBackground="{DynamicResource NormalBrush}" Foreground="{DynamicResource TextBrush}" x:Name="DataList" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1" Margin="8" CellStyle="{DynamicResource DataGridCellStyle1}" AutoGenerateColumns="False">
+     				<DataGrid.ColumnHeaderStyle>  
+                    <Style TargetType="DataGridColumnHeader">  
+                        <Setter Property="HorizontalContentAlignment" Value="Center">  
+                        </Setter>  
+                        <Setter Property="Background" Value="{DynamicResource NormalBrush}"></Setter>  
+                        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"></Setter>  
+                        <Setter Property="BorderThickness" Value="1" />  
+                        <Setter Property="BorderBrush" Value="#17acae" />  
+                    </Style>  
+                </DataGrid.ColumnHeaderStyle>   			
+				</DataGrid>
+     			<ListBox  x:FieldModifier="public" x:Name="ToolList" Margin="8" ItemsSource="{Binding Dict}"    ItemsPanel="{DynamicResource ItemsPanelTemplate1}" ItemTemplate="{DynamicResource DataTemplate1}" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Stretch"/>
+     			<GridSplitter HorizontalAlignment="Stretch" Height="5" VerticalAlignment="Bottom" ResizeDirection="Rows" Margin="0,0,0,-2.333" d:LayoutOverrides="VerticalAlignment, GridBox"/>
      		</Grid>
      	</ScrollViewer>
 </Grid>
-        <ListBox x:Name="ETLToolList"   x:FieldModifier="public"  Margin="16.334,35.245,10.417,9.498"  ItemsSource="{Binding ETLToolsView}"    ItemTemplate="{DynamicResource DataTemplateList}"     ItemsPanel="{DynamicResource ItemsPanelTemplate1}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.RowSpan="2" >
+        <ListBox x:Name="ETLToolList"   x:FieldModifier="public"  Margin="20,44.667,20,20"  ItemsSource="{Binding ETLToolsView}"    ItemTemplate="{DynamicResource DataTemplateList}"     ItemsPanel="{DynamicResource ItemsPanelTemplate1}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.RowSpan="2" >
             <ListBox.GroupStyle>
                 <GroupStyle ContainerStyle="{StaticResource GroupContainerStyle}">
                     <GroupStyle.HeaderTemplate>
@@ -144,8 +225,8 @@
                 </GroupStyle>
             </ListBox.GroupStyle>
         </ListBox>
-        <TextBox x:Name="SearchBox" Margin="91.098,10,14.544,0" TextWrapping="Wrap"  VerticalAlignment="Top" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBlock HorizontalAlignment="Left" Margin="22.888,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="13.742" Width="53.149"><Run Language="zh-cn" Text="快速检索:"/></TextBlock>
+        <TextBox x:Name="SearchBox" Margin="91.098,16.333,20,0" TextWrapping="Wrap"  VerticalAlignment="Top" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBlock HorizontalAlignment="Left" Margin="20,16.333,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="13.742" Width="53.149"><Run Language="zh-cn" Text="快速检索:"/></TextBlock>
         <GridSplitter Margin="0,0,-2.438,0" Width="5" Grid.RowSpan="2"/>
 
     </Grid>

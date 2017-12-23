@@ -40,6 +40,7 @@ namespace Hawk.ETL.Process
         private IEnumerator<string> currentXPaths;
         public bool enableRefresh = true;
         public HtmlDocument HtmlDoc = new HtmlDocument();
+        private bool isBusy;
 
         /// <summary>
         ///     上一次采集到的数据条目数
@@ -128,7 +129,7 @@ namespace Hawk.ETL.Process
                                 currentXPaths != null),
                         new Command("手气不错",
                             obj => FeelLucky(),
-                            obj => IsMultiData == ListType.List
+                            obj => IsMultiData == ListType.List && isBusy == false
                             ),
                         new Command("提取测试", obj =>
                         {
@@ -353,6 +354,7 @@ namespace Hawk.ETL.Process
 
         public void FeelLucky()
         {
+            isBusy = true;
             var crawTargets = new List<XPathAnalyzer.CrawTarget>();
             var task = TemporaryTask.AddTempTask("网页结构计算中",
                 HtmlDoc.SearchPropertiesSmart(CrawlItems, RootXPath, IsAttribute), crawTarget =>
@@ -362,6 +364,7 @@ namespace Hawk.ETL.Process
                     crawTarget.Datas = datas;
                 }, d =>
                 {
+                    isBusy = false;
                     if (crawTargets.Count == 0)
                     {
                         CrawTarget = null;
@@ -378,7 +381,7 @@ namespace Hawk.ETL.Process
                     window.WindowState = WindowState.Maximized;
                     window.Content = view;
                     luckModel.SetView(view, window);
-                    window.Activate() ;
+                    window.Activate();
                     window.ShowDialog();
                     if (window.DialogResult == true)
 
@@ -607,8 +610,10 @@ namespace Hawk.ETL.Process
                 code = HttpStatusCode.NoContent;
                 return "";
             }
+            var list =
+                SysProcessManager.CurrentProcessCollections.ToArray();
             var crawler =
-                SysProcessManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == ShareCookie) as
+               list.FirstOrDefault(d => d.Name == ShareCookie) as
                     SmartCrawler;
             if (crawler != null)
             {

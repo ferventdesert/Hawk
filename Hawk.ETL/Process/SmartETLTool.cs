@@ -20,6 +20,8 @@ using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
 using Hawk.ETL.Plugins.Transformers;
+using Xceed.Wpf.Toolkit;
+using MessageBox = System.Windows.MessageBox;
 
 namespace Hawk.ETL.Process
 {
@@ -55,7 +57,7 @@ namespace Hawk.ETL.Process
 
         private ListBox alltoolList;
 
-        private ListView dataView;
+        private DataGrid dataView;
 
         private ScrollViewer scrollViewer;
         private string searchText;
@@ -826,9 +828,6 @@ namespace Hawk.ETL.Process
             }
             else
             {
-                var view = new GridView();
-
-
                 Dict.Clear();
                 var keys = new List<string> {""};
                 var docKeys = Documents.GetKeys(null, SampleMount);
@@ -836,16 +835,29 @@ namespace Hawk.ETL.Process
                 keys.AddRange(docKeys);
                 var tool = CurrentTool;
 
-
+                dataView.Columns.Clear();
                 foreach (var key in keys)
                 {
-                    var col = new GridViewColumn
+                    var col = new DataGridTemplateColumn
                     {
                         Header = key,
-                        DisplayMemberBinding = new Binding($"[{key}]"),
                         Width = 155
                     };
-                    view.Columns.Add(col);
+                    var dt = new DataTemplate();
+                    col.CellTemplate = dt;
+                    var fef = new FrameworkElementFactory(typeof (MultiLineTextEditor));
+                    var binding = new Binding();
+
+                    binding.Path = new PropertyPath(($"[{key}]"));
+                    fef.SetBinding(MultiLineTextEditor.ContentProperty, binding);
+                    fef.SetBinding(MultiLineTextEditor.TextProperty, binding);
+                    dt.VisualTree = fef;
+                    col.CellTemplate = dt;
+                    //if (key != "")
+                    //{
+                    //    col.Binding = new Binding($"[{key}]");
+                    //}
+                    dataView.Columns.Add(col);
 
                     var group = new SmartGroup
                     {
@@ -902,13 +914,13 @@ namespace Hawk.ETL.Process
                         d =>
                             Documents.GetKeys().Contains(d.Column) == false &&
                             string.IsNullOrEmpty(d.Column) == false));
-                if (MainDescription.IsUIForm && IsUISupport)
-                {
-                    if (dataView != null)
-                    {
-                        dataView.View = view;
-                    }
-                }
+                //if (MainDescription.IsUIForm && IsUISupport)
+                //{
+                //    if (dataView != null)
+                //    {
+                //        dataView.View = view;
+                //    }
+                //}
             }
         }
 

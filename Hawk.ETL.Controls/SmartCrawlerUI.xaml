@@ -24,9 +24,9 @@
         		<ColumnDefinition Width="0.5*"/>
         	</Grid.ColumnDefinitions>
         	<ScrollViewer>
-        		<TextBlock Text="{Binding URLHTML}"    ScrollViewer.CanContentScroll="True" TextWrapping="WrapWithOverflow" />
+        		<TextBlock Text="{Binding URLHTML}"    ScrollViewer.CanContentScroll="True" TextWrapping="WrapWithOverflow" Margin="20" />
         	</ScrollViewer>
-            <WindowsFormsHost  Name="windowsFormsHost"   Grid.Column="1" >
+            <WindowsFormsHost  Name="windowsFormsHost"   Grid.Column="1" Margin="20" >
                 
             </WindowsFormsHost>
 

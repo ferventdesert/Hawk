@@ -7,6 +7,7 @@ using System.Threading;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
 using Hawk.ETL.Plugins.Generators;
@@ -54,6 +55,7 @@ namespace Hawk.ETL.Plugins.Transformers
             return crawler != null;
         }
 
+        private int emptyCounter = 0;
         private List<FreeDocument> GetDatas(IFreeDocument data)
         {
             var p = data[Column];
@@ -68,6 +70,7 @@ namespace Hawk.ETL.Plugins.Transformers
             }
             var htmldoc = buffHelper.Get(bufkey);
             var docs = new List<FreeDocument>();
+
             if (htmldoc == null)
             {
 
@@ -92,21 +95,25 @@ namespace Hawk.ETL.Plugins.Transformers
             {
                 docs = crawler.CrawlData(htmldoc);
             }
-
+            if (docs.Count == 0)
+            {
+                emptyCounter++;
+            }
+            else
+            {
+                emptyCounter = 0;
+            }
+            if (emptyCounter%10 == 0 && emptyCounter > 0)
+            {
+                XLogSys.Print.Error($"网页采集器 {this.CrawlerSelector} 已经连续10次获取数据失败");
+            }
           
             return docs;
         }
 
         public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
         {
-            foreach (var data in datas)
-            {
-                var docs = GetDatas(data);
-                foreach (var doc in docs)
-                {
-                    yield return doc.MergeQuery(data, NewColumn);
-                }
-            }
+            return from data in datas let docs = GetDatas(data) from doc in docs select doc.MergeQuery(data, NewColumn);
         }
 
         public override object TransformData(IFreeDocument datas)

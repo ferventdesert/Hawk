@@ -32,7 +32,7 @@
     		<RowDefinition Height="0.038*"/>
     		<RowDefinition Height="0.37*"/>
     	</Grid.RowDefinitions>
-        <xcdg:DataGridControl Name="DataGridControl"  x:FieldModifier="public"  Background="{DynamicResource NormalBrush}"      AllowDrop="True"  ItemsSource="{Binding}"    SelectedItem="{Binding SelectedItem}"   ItemContainerStyle="{DynamicResource DataRowStyle1}" ScrollViewer.HorizontalScrollBarVisibility="Visible" AutoCreateColumns="False" Margin="8" Grid.ColumnSpan="2" />
+        <xcdg:DataGridControl Name="DataGridControl"  x:FieldModifier="public"  Background="{DynamicResource NormalBrush}"      AllowDrop="True"  ItemsSource="{Binding}"    SelectedItem="{Binding SelectedItem}"   ItemContainerStyle="{DynamicResource DataRowStyle1}" ScrollViewer.HorizontalScrollBarVisibility="Visible" AutoCreateColumns="False" Margin="20" Grid.ColumnSpan="2" />
         <Grid Grid.Row="1" Height="25" VerticalAlignment="Top" Grid.ColumnSpan="2">
         	<Border BorderBrush="Black" BorderThickness="1" Background="#FF2D2D2D"/>
         	<StackPanel HorizontalAlignment="Left" Margin="2.25,0,0,0" Orientation="Horizontal" d:LayoutOverrides="Height">
@@ -48,10 +48,10 @@
         		<ColumnDefinition Width="0.574*"/>
         		<ColumnDefinition Width="0.426*"/>
         	</Grid.ColumnDefinitions>
-        	<TabControl  DataContext="{Binding CurrentTarget}" Margin="8">
+        	<TabControl  DataContext="{Binding CurrentTarget}" Margin="20">
         		<TabItem Header="XPath">
         			<Grid Margin="0,0,6,-5">
-        				<ListBox ItemTemplate="{DynamicResource DataTemplate1}" ItemsSource="{Binding CrawItems}" Margin="8,30,8,8"/>
+        				<ListBox ItemTemplate="{DynamicResource DataTemplate1}" ItemsSource="{Binding CrawItems}" Margin="8,49.5,8,8"/>
         				<TextBlock HorizontalAlignment="Left" Margin="8,8,0,0" TextWrapping="Wrap" Text="根节点XPath" VerticalAlignment="Top"/>
         				<TextBox Margin="94.999,8,8,0" TextWrapping="Wrap" Text="{Binding RootXPath}" VerticalAlignment="Top"/>
         			</Grid>

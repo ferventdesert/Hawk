@@ -69,9 +69,9 @@
             <ColumnDefinition Width="575*"/>
             <ColumnDefinition Width="398*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="listboxProcessMethodList" ItemsSource="{Binding ProgramNameFilterView}"  x:FieldModifier="public"   Margin="10,46,30,0"     ItemsPanel="{DynamicResource ItemsPanelTemplate1}"  ItemTemplate="{DynamicResource DataTemplateList}" Height="112" VerticalAlignment="Top"/>
-        <GridSplitter Width="5" Margin="0,0,15,0"/>
-        <ListBox x:Name="listBox"  DataContext="{Binding}"  SelectedItem="{Binding SelectedTask}" ItemsSource="{Binding ProjectTaskList}"  HorizontalContentAlignment="Stretch" Margin="10,205,19,10"    ItemTemplate="{DynamicResource DataTemplate2}"  >
+        <ListBox x:Name="listboxProcessMethodList" ToolTip="双击图标以新建任务" ItemsSource="{Binding ProgramNameFilterView}"  x:FieldModifier="public"   Margin="20,46,20,0"     ItemsPanel="{DynamicResource ItemsPanelTemplate1}"  ItemTemplate="{DynamicResource DataTemplateList}" Height="112" VerticalAlignment="Top"/>
+        <GridSplitter Width="5" Grid.Column="1" HorizontalAlignment="Left"/>
+        <ListBox x:Name="listBox"  DataContext="{Binding}" ToolTip="双击可加载任务，右键可对任务进行删除等操作"  SelectedItem="{Binding SelectedTask}" ItemsSource="{Binding ProjectTaskList}"  HorizontalContentAlignment="Stretch" Margin="20,205,20,20"    ItemTemplate="{DynamicResource DataTemplate2}"  >
             <ListBox.Resources>
                 <ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding BindingCommands.ChildActions[1].ChildActions}"/>
 
@@ -85,11 +85,11 @@
 
         </ListBox>
         <TextBlock TextWrapping="Wrap" FontSize="21.333" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="23,172,0,0" Width="239"><Run Language="zh-cn" Text="保存的任务" /></TextBlock>
-        <TextBox TextWrapping="Wrap" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="249,181,0,0" Width="76" Height="19"/>
-        <TextBlock TextWrapping="Wrap"  Height="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="198,181,0,0" Width="50"><Run Language="zh-cn" Text="快速检索" /></TextBlock>
+        <TextBox TextWrapping="Wrap" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="186,182,0,0" Width="76" Height="19" d:LayoutOverrides="HorizontalAlignment"/>
+        <TextBlock TextWrapping="Wrap"  Height="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="135,182,0,0" Width="50"><Run Language="zh-cn" Text="快速检索" /></TextBlock>
 
         <TextBlock VerticalAlignment="Top" TextWrapping="Wrap" Margin="22,11,0,0" HorizontalAlignment="Left" FontSize="21.333" Grid.Column="1" Height="28" Width="97"><Run Text="数据"/><Run Text="源"/></TextBlock>
-        <TreeView DataContext="{Binding MainFrmUI.PluginDictionary[数据管理]}" Margin="22,46,23,10"  x:Name="treeView"  ItemsSource="{Binding CurrentConnectors}" Grid.Column="1">
+        <TreeView DataContext="{Binding MainFrmUI.PluginDictionary[数据管理]}" ToolTip="右键可新建数据源"  Margin="20,48,20,20"  x:Name="treeView"  ItemsSource="{Binding CurrentConnectors}" Grid.Column="1">
             <TreeView.Resources>
 
                 <HierarchicalDataTemplate DataType="{x:Type Connectors:DBConnectorBase}"
@@ -118,7 +118,7 @@
 
             </TreeView.ContextMenu>
         </TreeView>
-        <TextBlock VerticalAlignment="Top" TextWrapping="Wrap" Margin="23,10,0,0" HorizontalAlignment="Left" FontSize="21.333" Height="28" Width="97"><Run Text="模块列表"/></TextBlock>
+        <TextBlock VerticalAlignment="Top" TextWrapping="Wrap" Margin="23,10,0,0" HorizontalAlignment="Left" FontSize="21.333" Height="28" Width="97"><Run Text="新建任务"/></TextBlock>
 
     </Grid>
 </UserControl>

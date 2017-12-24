@@ -161,10 +161,10 @@ namespace Hawk.ETL.Plugins.Executor
                 str = path;
             else
                 str = path.Substring(pos + 1);
-            var chars= @"\/:*?""<>|";
+            var chars= @"\/:*?""< >|";
             foreach (var item in chars)
             {
-                str = str.Replace(item, ' ');
+                str = str.Replace(item.ToString(), "");
             }
             return str;
         }

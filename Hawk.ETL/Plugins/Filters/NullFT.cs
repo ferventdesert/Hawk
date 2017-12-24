@@ -169,12 +169,12 @@ namespace Hawk.ETL.Plugins.Filters
 
         public void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
         {
-            this.UnsafeDictDeserialize(docu);
+            this.UnsafeDictDeserializePlus(docu);
         }
 
         public FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
-            var dict = this.UnsafeDictSerialize();
+            var dict = this.UnsafeDictSerializePlus();
             dict.Add("Type", this.GetType().Name);
             dict.Remove("ETLIndex");
             dict.Add("Group", "Filter");

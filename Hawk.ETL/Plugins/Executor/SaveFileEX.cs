@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Security.Policy;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
+using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
@@ -19,12 +20,20 @@ namespace Hawk.ETL.Plugins.Executor
     public class SaveFileEX : DataExecutorBase
     {
         private  HttpHelper helper;
-        private readonly IProcessManager processManager;
+     
         private string _crawlerSelector;
 
         public SaveFileEX()
         {
-            processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
+            CrawlerSelector=new TextEditSelector();
+            CrawlerSelector.GetItems =
+                () =>
+                {
+                    return
+                        processManager.CurrentProcessCollections.Where(d => d is SmartCrawler)
+                            .Select(d => d.Name)
+                            .ToList();
+                };
         }
 
         [LocalizedDisplayName("保存位置")]
@@ -33,11 +42,7 @@ namespace Hawk.ETL.Plugins.Executor
 
         [LocalizedDisplayName("爬虫选择")]
         [LocalizedDescription("填写采集器或模块的名称")]
-        public string CrawlerSelector
-        {
-            get { return _crawlerSelector; }
-            set { _crawlerSelector = value; }
-        }
+        public TextEditSelector CrawlerSelector { get; set; }
 
 
         [LocalizedDisplayName("是否异步")]
@@ -47,18 +52,18 @@ namespace Hawk.ETL.Plugins.Executor
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
             crawler =
-                processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector) as SmartCrawler;
+                processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector.SelectItem) as SmartCrawler;
             if (crawler != null)
             {
             }
             else
             {
-                var task = processManager.CurrentProject.Tasks.FirstOrDefault(d => d.Name == CrawlerSelector);
+                var task = processManager.CurrentProject.Tasks.FirstOrDefault(d => d.Name == CrawlerSelector.SelectItem);
                 if (task == null)
                     return false;
                 ControlExtended.UIInvoke(() => { task.Load(false); });
                 crawler =
-                    processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector) as
+                    processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector.SelectItem) as
                         SmartCrawler;
             }
             helper = new HttpHelper();

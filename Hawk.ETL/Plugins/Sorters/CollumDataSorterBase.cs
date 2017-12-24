@@ -22,7 +22,7 @@ namespace Hawk.ETL.Plugins.Sorters
 
         public   FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         { 
-            var dict = this.UnsafeDictSerialize();
+            var dict = this.UnsafeDictSerializePlus();
             dict.Add("Type",TypeName);
             dict.Remove("ETLIndex"); 
             dict.Add("Group", "排序");

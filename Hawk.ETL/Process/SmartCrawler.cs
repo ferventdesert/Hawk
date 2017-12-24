@@ -372,7 +372,7 @@ namespace Hawk.ETL.Process
                         return;
                     }
 
-                    var luckModel = new FeelLuckyModel(crawTargets);
+                    var luckModel = new FeelLuckyModel(crawTargets,HtmlDoc);
                     var view = PluginProvider.GetObjectInstance<ICustomView>("手气不错面板") as UserControl;
                     view.DataContext = luckModel;
 
@@ -502,6 +502,13 @@ namespace Hawk.ETL.Process
         }
 
         public event EventHandler<EventArgs> SniffSucceed;
+        private bool hasInit = false;
+        public override bool Init()
+        {
+            var r= base.Init();
+            hasInit = true;
+            return r;
+        }
 
         public override void DictDeserialize(IDictionary<string, object> dicts, Scenario scenario = Scenario.Database)
         {
@@ -692,6 +699,9 @@ namespace Hawk.ETL.Process
         {
             if (!enableRefresh)
                 return;
+            if (hasInit==false)
+                return;
+
             URLHTML = await MainFrm.RunBusyWork(() =>
             {
                 HttpStatusCode code;

@@ -86,10 +86,6 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Windows.Controls.WpfPropertyGrid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Includes\System.Windows.Controls.WpfPropertyGrid.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -182,6 +178,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\WPFPropertyGrid\System.Windows.Controls.WPFPropertyGrid\System.Windows.Controls.WPFPropertyGrid.csproj">
+      <Project>{384bd3e5-bcc4-4582-9cdc-c927e5e8297b}</Project>
+      <Name>System.Windows.Controls.WPFPropertyGrid</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Hawk.Core\Hawk.Core.csproj">
       <Project>{B5CCA117-8D77-418B-8B18-D3E64682DD83}</Project>
       <Name>Hawk.Core</Name>

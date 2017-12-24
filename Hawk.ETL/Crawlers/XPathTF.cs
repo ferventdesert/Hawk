@@ -109,7 +109,6 @@ namespace Hawk.ETL.Crawlers
 
         public XPathTF2()
         {
-            CrawlerSelector = "";
         }
 
         [Browsable(false)]

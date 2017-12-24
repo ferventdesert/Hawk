@@ -59,11 +59,12 @@ namespace Hawk.ETL.Plugins.Transformers
         private List<FreeDocument> GetDatas(IFreeDocument data)
         {
             var p = data[Column];
-            if (p == null)
+            if (p == null||crawler==null)
                 return new List<FreeDocument>();
             var url = p.ToString();
             var bufkey = url;
             var post = data.Query(PostData);
+          
             if (crawler.Http.Method == MethodType.POST)
             {
                 bufkey += post;

@@ -122,7 +122,7 @@ namespace Hawk.ETL.Managements
                 ProcessToDo.DictCopyTo(process as IDictionarySerializable);
                 process.Init();
                 EvalScript();
-            }, LogType.Important, $"加载{Name}任务", true);
+            }, LogType.Important, $"加载{Name}任务", MainDescription.IsUIForm);
         }
 
         [LocalizedDisplayName("脚本路径")]

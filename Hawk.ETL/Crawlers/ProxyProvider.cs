@@ -123,10 +123,7 @@ namespace Hawk.ETL.Crawlers
                     ParaGeneratorSelector.SelectItem =
                         coll.FirstOrDefault(d => d.Name == name.ToString());
 
-                    if (ParaGenerator != null)
-                    {
-                        ParaGenerator.DictDeserialize(p);
-                    }
+                    ParaGenerator?.DictDeserialize(p);
                 }
             }
         }

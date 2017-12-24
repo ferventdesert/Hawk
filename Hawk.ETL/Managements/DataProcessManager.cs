@@ -249,7 +249,7 @@ namespace Hawk.ETL.Managements
                     var task = obj as TaskBase;
                     if (task.IsStart)
                     {
-                        task.Cancel();
+                        task.Remove();
                     }
 
                     task.Remove();
@@ -275,7 +275,7 @@ namespace Hawk.ETL.Managements
                 d => CurrentProcessTasks.Where(d2 => d2.IsSelected).Execute(d2 => d2.IsPause = false), null, "play"));
 
             taskListAction.ChildActions.Add(new Command("取消",
-               d => CurrentProcessTasks.RemoveElementsNoReturn(d2=>d2.IsSelected,d2=>d2.Cancel()), null,"delete"));
+               d => CurrentProcessTasks.RemoveElementsNoReturn(d2=>d2.IsSelected,d2=>d2.Remove()), null,"delete"));
 
             BindingCommands.ChildActions.Add(taskListAction);
 
@@ -579,6 +579,7 @@ namespace Hawk.ETL.Managements
                     currentProject = new Project();
                 return currentProject;
             }
+            set { currentProject = value; }
         }
 
         private void NotifyCurrentProjectChanged()

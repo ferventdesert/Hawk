@@ -166,9 +166,6 @@
      				<RowDefinition Height="45"/>   	
 		</Grid.RowDefinitions>
      	<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2">
-     		<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[4]}" Width="35" Height="35" Margin="0,5,10,5" />
-			<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[5]}" Width="35" Height="35" Margin="0,5,10,5" />
-     		<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[1]}" Width="35" Height="35" />
      		<CheckBox Content="调试详情" IsChecked="{Binding DisplayDetail}" VerticalAlignment="Center"  />
      	</StackPanel>
      	<Grid Grid.Row="1">
@@ -182,9 +179,52 @@
      		<ScrollBar SmallChange="1" Value="{Binding ETLMount}" Maximum="{Binding AllETLMount}" Orientation="Horizontal" Margin="131.334,4,0,4" Background="#FF292929" BorderBrush="White"/>
      	</Grid>
      	<StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
+     		<Button Style="{DynamicResource middleButton2}" DataContext="{Binding Commands5[4]}" Width="35" Height="35" Margin="0,5,10,5" >
+     			<Viewbox Width="20" Height="20">
+     				<Canvas   RenderTransformOrigin="0.5,0.5" Width="50" Height="50">
+					 
+     					<Path Stretch="Fill" StrokeLineJoin="Round" Stroke="Black" Fill="White" Data="F1 M -66.7518,-348.017L 183.248,-168.017L -60.7518,3.98303L -66.7518,-348.017 Z " Height="50.08" Width="42.519" RenderTransformOrigin="0.5,0.5" Canvas.Left="-5.331" Canvas.Top="-0.021">
+     						<Path.RenderTransform>
+     							<TransformGroup>
+     								<ScaleTransform ScaleX="-1"/>
+     								<SkewTransform/>
+     								<RotateTransform/>
+     								<TranslateTransform/>
+     							</TransformGroup>
+     						</Path.RenderTransform>
+     					</Path>
+     					<Rectangle Fill="White" Height="51.333" Canvas.Left="42.056" Stroke="Black" StrokeLineJoin="Round" Canvas.Top="-0.135" Width="14"/>
+     				</Canvas>  		
+     			</Viewbox>
+     		</Button>
      		<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[2]}" Width="35" Height="35" Margin="15,0,0,0" />
      		<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[0]}" Width="35" Height="35" Margin="15,0,0,0" />
      		<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[3]}" Width="35" Height="35" Margin="15,0,0,0" />
+     		<Button Style="{DynamicResource middleButton2}" DataContext="{Binding Commands5[5]}" Width="35" Height="35" Margin="25,5,0,5" >
+     			<Viewbox Width="20" Height="20">
+     				<Canvas   RenderTransformOrigin="0.5,0.5" Width="50" Height="50">
+     					<Canvas.RenderTransform>
+     						<TransformGroup>
+     							<ScaleTransform ScaleX="-1"/>
+     							<SkewTransform/>
+     							<RotateTransform/>
+     							<TranslateTransform/>
+     						</TransformGroup>
+     					</Canvas.RenderTransform>
+     					<Path Stretch="Fill" StrokeLineJoin="Round" Stroke="Black" Fill="White" Data="F1 M -66.7518,-348.017L 183.248,-168.017L -60.7518,3.98303L -66.7518,-348.017 Z " Height="50.08" Width="42.519" RenderTransformOrigin="0.5,0.5" Canvas.Left="-5.331" Canvas.Top="-0.021">
+     						<Path.RenderTransform>
+     							<TransformGroup>
+     								<ScaleTransform ScaleX="-1"/>
+     								<SkewTransform/>
+     								<RotateTransform/>
+     								<TranslateTransform/>
+     							</TransformGroup>
+     						</Path.RenderTransform>
+     					</Path>
+     					<Rectangle Fill="White" Height="51.333" Canvas.Left="42.056" Stroke="Black" StrokeLineJoin="Round" Canvas.Top="-0.135" Width="14"/>
+     				</Canvas>  		
+     			</Viewbox>
+     		</Button>
      	</StackPanel>
      	<ScrollViewer  x:FieldModifier="public" x:Name="ScrollViewer" Margin="8" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled">
       
@@ -202,12 +242,12 @@
                         </Setter>  
                         <Setter Property="Background" Value="{DynamicResource NormalBrush}"></Setter>  
                         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"></Setter>  
-                        <Setter Property="BorderThickness" Value="1" />  
-                        <Setter Property="BorderBrush" Value="#17acae" />  
+                          <Setter Property="BorderThickness" Value="1" />  
+                        <Setter Property="BorderBrush" Value="{DynamicResource TextBrush}" />  
                     </Style>  
                 </DataGrid.ColumnHeaderStyle>   			
 				</DataGrid>
-     			<ListBox  x:FieldModifier="public" x:Name="ToolList" Margin="8" ItemsSource="{Binding Dict}"    ItemsPanel="{DynamicResource ItemsPanelTemplate1}" ItemTemplate="{DynamicResource DataTemplate1}" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Stretch"/>
+     			<ListBox  x:FieldModifier="public" x:Name="ToolList" Margin="8" ItemsSource="{Binding SmartGroupCollection}"    ItemsPanel="{DynamicResource ItemsPanelTemplate1}" ItemTemplate="{DynamicResource DataTemplate1}" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Stretch"/>
      			<GridSplitter HorizontalAlignment="Stretch" Height="5" VerticalAlignment="Bottom" ResizeDirection="Rows" Margin="0,0,0,-2.333" d:LayoutOverrides="VerticalAlignment, GridBox"/>
      		</Grid>
      	</ScrollViewer>

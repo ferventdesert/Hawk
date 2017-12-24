@@ -1,4 +1,4 @@
-﻿<UserControl x:Name="userControl" x:Class="Hawk.ETL.Controls.DBConnectorUI"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -6,111 +6,12 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:mvvm="clr-namespace:Hawk.Core.Utils.MVVM;assembly=Hawk.Core"
              xmlns:connectors="clr-namespace:Hawk.Core.Connectors;assembly=Hawk.Core"
+             xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" x:Name="userControl" x:Class="Hawk.ETL.Controls.DBConnectorUI"
              mc:Ignorable="d" d:DesignHeight="473"
              d:DesignWidth="766">
-    <UserControl.Resources>
+    
 
-
-     <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
-        <Style    TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
-        	  <Setter Property="Header" Value="{Binding Text}" />
-            <Setter Property="Command" Value="{Binding}" />
-
-            <Setter Property="ItemsSource" Value="{Binding ChildActions}" />
-            <Setter Property="CommandParameter" Value="{Binding  RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.DataContext}"/>
-        </Style>
-		<Style TargetType="ContextMenu" BasedOn="{StaticResource {x:Type ContextMenu}}">
-			<Setter Property="ItemContainerStyle"  Value="{StaticResource {x:Type MenuItem}}"></Setter>
-				<Setter Property="DataContext"  Value="{Binding Data.Commands,Source={StaticResource BindingProxy}}"></Setter>
-		</Style>
-       
-        <DataTemplate x:Key="DataTemplate1">
-            <Button Content="{Binding Text}" DataContext="{Binding}" Command="{Binding}" />
-        </DataTemplate>
-
-      
-    </UserControl.Resources>
-    <Grid>
-        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.221*" />
-            <ColumnDefinition Width="0.245*" />
-           
-
-        </Grid.ColumnDefinitions>
-        <TextBlock HorizontalAlignment="Left" Margin="20,26.019,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="21.333">
-            <Run Language="zh-cn" Text="可用的数据源" />
-        </TextBlock>
-        <TreeView Margin="20,60,20,20"  Name="treeView"  ItemsSource="{Binding CurrentConnectors}" Grid.RowSpan="2">
-            <TreeView.ContextMenu>
-                <ContextMenu   ItemsSource="{Binding [4].ChildActions}"/>
-
-            </TreeView.ContextMenu>
-            <TreeView.Resources>
-               
-                <HierarchicalDataTemplate DataType="{x:Type connectors:DBConnectorBase}"
-                                          ItemsSource="{Binding Path=TableNames.Collection}"  >
-                    <TextBlock Text="{Binding Name}"  AllowDrop="True"   FontSize="16"   ToolTip="{Binding   TypeName}" VerticalAlignment="Center">
-                            <mvvm:DropHelper.DropSupport>
-                <mvvm:DropSupportData BindingPath="Commands[0]"  />
-            </mvvm:DropHelper.DropSupport>
-                        <TextBlock.ContextMenu>
-                            <ContextMenu ItemsSource="{Binding [0].ChildActions}" >
-                            </ContextMenu>
-                        </TextBlock.ContextMenu>
-                    </TextBlock>
-
-
-                </HierarchicalDataTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type connectors:TableInfo}"  >
-                    <TextBlock Text="{Binding Name}" AllowDrop="True" ToolTip="{Binding Description}" FontSize="13"  mvvm:TreeViewItemDoubleClick.Property="Commands[1].ChildActions[0]">
-                        <TextBlock.ContextMenu>
-                            <ContextMenu  ItemsSource="{Binding [1].ChildActions}">
-                                 
-                            </ContextMenu>
-                        </TextBlock.ContextMenu>
-                    </TextBlock>
-                </HierarchicalDataTemplate>
-            </TreeView.Resources>
-        </TreeView>
-        <ListView  AllowDrop="True"  Margin="20,60,20,20"      ItemsSource="{Binding DataCollections}" SelectedItem="{Binding SelectedItem}"  DataContext="{Binding}"  x:Name="listBoxDataCollection"  Grid.RowSpan="2" Grid.Column="1"  >
-
-            <mvvm:DropHelper.DropSupport>
-                <mvvm:DropSupportData BindingPath="Commands[0]" DataFormat="{x:Static DataFormats.FileDrop}"/>
-            </mvvm:DropHelper.DropSupport>
-            <ListView.View>
-
-                <GridView>
-                    <GridViewColumn Header="名称"   >
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                            	
-                                <TextBlock   mvvm:ListBindingDoubleClick.Property="{Binding Data.Commands[2].ChildActions[3],Source={StaticResource BindingProxy}}"   Text="{Binding Name}" Margin="5,5,5,5" FontSize="14"> </TextBlock>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    
-                    <GridViewColumn Header="数据量"  DisplayMemberBinding="{Binding Count}"/>
-                    <GridViewColumn Header="类型"  DisplayMemberBinding="{Binding DataAttribute.Name}"/>
-                    <GridViewColumn Header="虚拟化"  DisplayMemberBinding="{Binding IsVirtual}"/>
-                    <GridViewColumn Header="来源"  DisplayMemberBinding="{Binding Source}"/>
-                </GridView>
-            </ListView.View>
-            <ListView.Resources>
-                <ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding  [2].ChildActions}"/>
-        
-                <Style TargetType="ListViewItem"  BasedOn="{StaticResource {x:Type ListViewItem}}">
-                    <Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />
-                 
-                </Style>
-            </ListView.Resources>
-            <ListView.ContextMenu>
-                <ContextMenu   ItemsSource="{Binding [3].ChildActions}"/>
-                     
-            </ListView.ContextMenu>
-        </ListView>
-        <GridSplitter Margin="0,0,-2.125,0" Width="5" Grid.RowSpan="2"/>
-        <TextBlock HorizontalAlignment="Left" Margin="19.999,26.019,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" FontSize="21.333"><Run Language="zh-cn" Text="已加载的数据集"/></TextBlock>
-
+<Grid>
+     
     </Grid>
 </UserControl>

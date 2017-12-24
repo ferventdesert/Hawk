@@ -21,21 +21,7 @@ namespace Hawk.ETL.Controls
         public DBConnectorUI()
         {
             this.InitializeComponent();
-            listBoxDataCollection.MouseMove += (s, e) =>
-            {
-                if (e.LeftButton == MouseButtonState.Pressed)
-                {
-                    var attr = this.listBoxDataCollection.SelectedItem;
-
-                    if (attr == null)
-                    {
-                        return;
-                    }
-
-                    var data = new DataObject(typeof(IDictionarySerializable), attr);
-                    DragDrop.DoDragDrop(this, data, DragDropEffects.Move);
-                }
-            };
+         
 
 
         }

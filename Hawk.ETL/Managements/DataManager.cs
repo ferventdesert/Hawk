@@ -593,10 +593,12 @@ namespace Hawk.ETL.Managements
             }
             processManager.OnCurrentProjectChanged += (s, e) => LoadDataConnections();
 
-            ConfigUI = PropertyGridFactory.GetInstance(_dbConnections.FirstOrDefault());
-
-
-            propertyGridWindow = MainFrmUI.PluginDictionary["属性配置器"] as XFrmWorkPropertyGrid;
+            if (MainDescription.IsUIForm)
+            {
+                ConfigUI = PropertyGridFactory.GetInstance(_dbConnections.FirstOrDefault());
+                propertyGridWindow = MainFrmUI.PluginDictionary["属性配置器"] as XFrmWorkPropertyGrid;
+            }
+         
             var changed = DataCollections as INotifyCollectionChanged;
 
             changed.CollectionChanged += (s, e) => OnDataSourceChanged(new EventArgs());

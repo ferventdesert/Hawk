@@ -76,7 +76,7 @@
         		</TabItem>
         	</TabControl>
         	<StackPanel Grid.Column="1" Orientation="Vertical" d:LayoutOverrides="Height" HorizontalAlignment="Center" VerticalAlignment="Center">
-        		<TextBlock TextWrapping="WrapWithOverflow" Text="左右切换选择所需的数据表格，左方可修改列名，点击“确认结果”即可提交" Height="41.24" HorizontalAlignment="Center" Margin="0,3"/>
+        		<TextBlock TextWrapping="WrapWithOverflow" Height="41.24" HorizontalAlignment="Center" Margin="0,3"><Run Text="左右切换选择所需的数据，左方可修改列名，"/><Run Language="zh-cn" Text="点击“刷新“可刷新结果"/><LineBreak/><Run Text="点击“确认结果”即可提交"/></TextBlock>
         		<StackPanel Orientation="Horizontal" Margin="0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
         			<TextBlock TextWrapping="Wrap" Text="排序策略"/>
         			<ComboBox  ItemsSource="{Binding SortMethods}" SelectedItem="{Binding SortMethod}"  Width="120" Margin="10,0,0,0"/>
@@ -84,7 +84,8 @@
         		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,3" Height="46.172" VerticalAlignment="Center">
         			<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands[1]}" Width="35" Height="35" Margin="15,0,0,0" />
          
-        			<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands[2]}" Width="35" Height="35" Margin="15,0,0,0" />
+        			<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands[0]}" Width="35" Height="35" Margin="15,0,0,0" />
+        			<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands[2]}" Width="35" Height="35" Margin="15,5.586,0,5.586" />
         		</StackPanel>
         		<StackPanel Orientation="Horizontal" Height="46.172" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,3">
         			<Button  DataContext="{Binding Commands[3]}" Content="{Binding Text}" Command="{Binding}" Margin="15,0,0,0" />

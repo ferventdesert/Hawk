@@ -45,7 +45,7 @@ namespace Hawk.ETL.Interfaces
         /// <summary>
         /// 当前的工程
         /// </summary>
-        Project CurrentProject { get;  }
+        Project CurrentProject { get; set; }
 
 
         /// <summary>

@@ -5,31 +5,33 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using Hawk.Core.Utils.MVVM;
+using HtmlAgilityPack;
 
 namespace Hawk.ETL.Crawlers
 {
     public enum SortMethod
     {
-        ByColumnCount,
-        ByItemCount,
-        ByScore
+        按列数排序,
+        按行数排序,
+        按分数排序
     }
 
     public class FeelLuckyModel : PropertyChangeNotifier
     {
+        private readonly HtmlDocument HtmlDoc;
         private Window parent;
         private int position;
         private string sortMethod;
         private dynamic View;
 
-        public FeelLuckyModel(List<XPathAnalyzer.CrawTarget> crawTargets)
+        public FeelLuckyModel(List<XPathAnalyzer.CrawTarget> crawTargets, HtmlDocument htmlDoc)
         {
             CrawTargets = crawTargets;
             CrawTargetView = new ListCollectionView(CrawTargets);
             Position = 0;
-
-            SortMethods = new List<string> {"ByColumnCount", "ByItemCount", "ByScore"};
-            SortMethod = "ByScore";
+            HtmlDoc = htmlDoc;
+            SortMethods = new List<string> {"按列数排序", "按行数排序", "按分数排序", "按面积排序"};
+            SortMethod = "按分数排序";
         }
 
         public List<string> SortMethods { get; set; }
@@ -60,18 +62,20 @@ namespace Hawk.ETL.Crawlers
                 if (sortMethod != value)
                 {
                     sortMethod = value;
-
-
                     CrawTargetView = new ListCollectionView(CrawTargets.OrderByDescending(d =>
                     {
                         var item = d.Score;
-                        if (value == "ByItemCount")
+                        if (value == "按行数排序")
                         {
                             return d.NodeCount;
                         }
-                        if (value == "ByColumnCount")
+                        if (value == "按列数排序")
                         {
                             return d.ColumnCount;
+                        }
+                        if (value == "按面积排序")
+                        {
+                            return d.ColumnCount*d.NodeCount;
                         }
                         return item;
                     }).ToList());
@@ -125,6 +129,10 @@ namespace Hawk.ETL.Crawlers
 
         private void Refresh()
         {
+            CurrentTarget.Datas = HtmlDoc.GetDataFromXPath(CurrentTarget.CrawItems.Where(d=>d.IsEnabled).ToList(), ListType.List,
+                CurrentTarget.RootXPath);
+            if (View != null)
+                View.SetContent(CurrentTarget.Datas);
         }
     }
 }

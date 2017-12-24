@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
+using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
@@ -26,25 +27,18 @@ namespace Hawk.ETL.Plugins.Generators
         public ETLBase()
         {
             processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
+            ETLSelector.GetItems = this.GetAllETLNames();
             ETLRange = "";
             Column = "column";
             Enabled = true;
         }
+
         [LocalizedCategory("2.调用选项")]
         [LocalizedDisplayName("子流-选择")]
         [PropertyOrder(0)]
         [LocalizedDescription("输入要调用的子流的名称")]
-        public string ETLSelector
-        {
-            get { return _etlSelector; }
-            set
-            {
-                if (_etlSelector != value)
-                {
-                }
-                _etlSelector = value;
-            }
-        }
+        public TextEditSelector ETLSelector { get; set; }
+
         [LocalizedCategory("2.调用选项")]
         [LocalizedDisplayName("调用范围")]
         [PropertyOrder(1)]
@@ -61,7 +55,7 @@ namespace Hawk.ETL.Plugins.Generators
 
         public virtual FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
-            var dict = this.UnsafeDictSerialize();
+            var dict = this.UnsafeDictSerializePlus();
             dict.Add("Type", GetType().Name);
             dict.Remove("ETLIndex");
             return dict;
@@ -117,16 +111,16 @@ namespace Hawk.ETL.Plugins.Generators
 
         public virtual bool Init(IEnumerable<IFreeDocument> datas)
         {
-            if (string.IsNullOrEmpty(ETLSelector))
+            if (string.IsNullOrEmpty(ETLSelector.SelectItem))
                 return false;
             etl =
-                processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == ETLSelector) as SmartETLTool;
+                processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == ETLSelector.SelectItem) as SmartETLTool;
             if (etl != null)
             {
                 return true;
             }
 
-            var task = processManager.CurrentProject.Tasks.FirstOrDefault(d => d.Name == ETLSelector);
+            var task = processManager.CurrentProject.Tasks.FirstOrDefault(d => d.Name == ETLSelector.SelectItem);
             if (task == null)
 
             {

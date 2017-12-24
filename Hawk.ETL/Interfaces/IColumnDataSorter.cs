@@ -103,7 +103,7 @@ namespace Hawk.ETL.Interfaces
 
         public virtual FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
-            var dict = this.UnsafeDictSerialize();
+            var dict = this.UnsafeDictSerializePlus();
             dict.Add("Type", GetType().Name);
             dict.Add("Group", "Generator");
             dict.Remove("ETLIndex");

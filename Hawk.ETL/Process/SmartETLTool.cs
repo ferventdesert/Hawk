@@ -35,7 +35,7 @@ namespace Hawk.ETL.Process
         {
             AllETLTools = new List<XFrmWorkAttribute>();
             CurrentETLTools = new ObservableCollection<IColumnProcess>();
-            Dict = new ObservableCollection<SmartGroup>();
+            SmartGroupCollection = new ObservableCollection<SmartGroup>();
             Documents = new ObservableCollection<IFreeDocument>();
             SampleMount = 20;
             MaxThreadCount = 20;
@@ -118,7 +118,7 @@ namespace Hawk.ETL.Process
         }
 
         [Browsable(false)]
-        public ObservableCollection<SmartGroup> Dict { get; set; }
+        public ObservableCollection<SmartGroup> SmartGroupCollection { get; set; }
 
         [Browsable(false)]
         public ObservableCollection<IFreeDocument> Documents { get; set; }
@@ -175,11 +175,7 @@ namespace Hawk.ETL.Process
                     new[]
                     {
                         new Command("刷新", obj => { RefreshSamples(true); }, icon: "refresh"),
-                        new Command("弹出样例", obj =>
-                        {
-                            generateFloatGrid = true;
-                            RefreshSamples();
-                        }, icon: "calendar"),
+                        new Command("弹出样例", obj => { RefreshSamples(); }, icon: "calendar"),
                         new Command("上一步", obj =>
                         {
                             if (ETLMount > 0)
@@ -638,7 +634,19 @@ namespace Hawk.ETL.Process
                 return false;
             }
             var text = SearchText.ToLower();
-            return process.Name.ToLower().Contains(text) || process.Description.ToLower().Contains(text);
+            if (string.IsNullOrWhiteSpace(text))
+                return true;
+            var texts = new List<string> {process.Name, process.Description};
+
+            foreach (var text1 in texts.ToList())
+            {
+                List<string>result= text1.Select(FileEx.GetCharSpellCode).Select(spell => spell.ToString()).ToList();
+                texts.Add("".Join(result));
+            }
+            texts.AddRange(texts.Select(d => d.ToLower()).ToList());
+            texts.AddRange(texts.Select(d => d.ToUpper()).ToList());
+            texts = texts.Distinct().ToList();
+            return texts.FirstOrDefault(d=>d.Contains(text))!=null;
         }
 
 
@@ -700,7 +708,6 @@ namespace Hawk.ETL.Process
         public int MaxThreadCount { get; set; }
 
 
-        private bool generateFloatGrid;
         private int _etlMount = 100;
 
         public IEnumerable<IFreeDocument> Generate(IEnumerable<IColumnProcess> processes, bool isexecute,
@@ -728,7 +735,7 @@ namespace Hawk.ETL.Process
                 XLogSys.Print.WarnFormat("{0}已经有任务在执行，由于调整参数，该任务已经被取消", Name);
                 foreach (var item in tasks)
                 {
-                    item.Cancel();
+                    item.Remove();
                 }
             }
             if (dataView == null && MainDescription.IsUIForm && IsUISupport)
@@ -770,158 +777,130 @@ namespace Hawk.ETL.Process
                     };
                 }
             }
-            Documents.Clear();
+
 
             var alltools = CurrentETLTools.Take(ETLMount).ToList();
-            var hasInit = false;
             var func = Aggregate(d => d, alltools, false);
             if (!canGetDatas)
                 return;
+            SmartGroupCollection.Clear();
+            Documents.Clear();
+        
+            var i = 0;
+            foreach (var currentEtlTool in CurrentETLTools)
+            {
+                (currentEtlTool).ETLIndex = i++;
+            }
+            if(!MainDescription.IsUIForm)
+                return;
+            dataView.Columns.Clear();
+            var all_keys = new List<string>();
+            AddColumn("", alltools);
             var temptask = TemporaryTask.AddTempTask(Name + "_转换",
                 func(new List<IFreeDocument>()).Take(SampleMount),
                 data =>
                 {
                     ControlExtended.UIInvoke(() =>
                     {
-                        Documents.Add((data));
-                        if (hasInit == false && Documents.Count > 2)
+                        foreach (var key in data.GetKeys().Where(d => all_keys.Contains(d) == false))
                         {
-                            InitUI();
-                            hasInit = true;
+                            AddColumn(key, alltools);
+                            all_keys.Add(key);
                         }
-                    });
-                }, d =>
-                {
-                    if (!hasInit)
-                    {
+
+                        Documents.Add((data));
                         InitUI();
-                        hasInit = true;
+                    });
+                }, r =>
+                {
+                    var tool = CurrentTool;
+
+
+                    if (tool != null)
+                    {
+                        SmartGroupCollection.Where(d => d.Name == tool.Column)
+                            .Execute(d => d.GroupType = GroupType.Input);
+                        var transformer = tool as IColumnDataTransformer;
+                        if (transformer != null)
+                        {
+                            var newcol = transformer.NewColumn.Split(' ');
+                            if (transformer.IsMultiYield)
+                            {
+                                SmartGroupCollection.Execute(
+                                    d => d.GroupType = newcol.Contains(d.Name) ? GroupType.Input : GroupType.Output);
+                            }
+                            else
+                            {
+                                SmartGroupCollection.Where(d => d.Name == transformer.NewColumn)
+                                    .Execute(d => d.GroupType = GroupType.Output);
+                                ;
+                            }
+                        }
                     }
+                    var nullgroup = SmartGroupCollection.FirstOrDefault(d => string.IsNullOrEmpty(d.Name));
+                    nullgroup?.Value.AddRange(
+                        alltools.Where(
+                            d =>
+                                Documents.GetKeys().Contains(d.Column) == false &&
+                                string.IsNullOrEmpty(d.Column) == false));
                 }
                 , SampleMount);
             temptask.Publisher = this;
             SysProcessManager.CurrentProcessTasks.Add(temptask);
         }
 
+        private void AddColumn(string key, IEnumerable<IColumnProcess> alltools)
+        {
+            var col = new DataGridTemplateColumn
+            {
+                Header = key,
+                Width = 155
+            };
+            var dt = new DataTemplate();
+            col.CellTemplate = dt;
+            var fef = new FrameworkElementFactory(typeof (MultiLineTextEditor));
+            var binding = new Binding();
+
+            binding.Path = new PropertyPath(($"[{key}]"));
+            fef.SetBinding(ContentControl.ContentProperty, binding);
+            fef.SetBinding(MultiLineTextEditor.TextProperty, binding);
+            dt.VisualTree = fef;
+            col.CellTemplate = dt;
+            dataView.Columns.Add(col);
+
+            var group = new SmartGroup
+            {
+                Name = key,
+                Value = alltools.Where(d => d.Column == key).ToList()
+            };
+            group.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == "Name")
+                {
+                    var last = alltools.LastOrDefault() as IColumnDataTransformer;
+                    if (last != null && last.TypeName == "列名修改器" && last.NewColumn == key)
+                    {
+                        last.NewColumn = group.Name;
+                    }
+                    else
+                    {
+                        last = PluginProvider.GetObjectInstance("列名修改器") as IColumnDataTransformer;
+                        last.NewColumn = group.Name;
+                        last.Column = key;
+                        InsertModule(last);
+                        ETLMount++;
+                        OnPropertyChanged("ETLMount");
+                        RefreshSamples();
+                    }
+                }
+            };
+            SmartGroupCollection.Add(group
+                );
+        }
+
         private void InitUI()
 
         {
-            var alltools = CurrentETLTools.Take(ETLMount).ToList();
-            var i = 0;
-            foreach (var currentEtlTool in CurrentETLTools)
-            {
-                (currentEtlTool).ETLIndex = i++;
-            }
-
-            if (generateFloatGrid)
-            {
-                var gridview = PluginProvider.GetObjectInstance<IDataViewer>("可编辑列表");
-
-                var r = gridview.SetCurrentView(Documents);
-
-                if (ControlExtended.DockableManager == null)
-                    return;
-
-                ControlExtended.DockableManager.AddDockAbleContent(
-                    FrmState.Custom, r, "样例数据");
-                generateFloatGrid = false;
-            }
-            else
-            {
-                Dict.Clear();
-                var keys = new List<string> {""};
-                var docKeys = Documents.GetKeys(null, SampleMount);
-
-                keys.AddRange(docKeys);
-                var tool = CurrentTool;
-
-                dataView.Columns.Clear();
-                foreach (var key in keys)
-                {
-                    var col = new DataGridTemplateColumn
-                    {
-                        Header = key,
-                        Width = 155
-                    };
-                    var dt = new DataTemplate();
-                    col.CellTemplate = dt;
-                    var fef = new FrameworkElementFactory(typeof (MultiLineTextEditor));
-                    var binding = new Binding();
-
-                    binding.Path = new PropertyPath(($"[{key}]"));
-                    fef.SetBinding(MultiLineTextEditor.ContentProperty, binding);
-                    fef.SetBinding(MultiLineTextEditor.TextProperty, binding);
-                    dt.VisualTree = fef;
-                    col.CellTemplate = dt;
-                    //if (key != "")
-                    //{
-                    //    col.Binding = new Binding($"[{key}]");
-                    //}
-                    dataView.Columns.Add(col);
-
-                    var group = new SmartGroup
-                    {
-                        Name = key,
-                        Value = alltools.Where(d => d.Column == key).ToList()
-                    };
-
-                    group.PropertyChanged += (s, e) =>
-                    {
-                        if (e.PropertyName == "Name")
-                        {
-                            var last = alltools.LastOrDefault() as IColumnDataTransformer;
-                            if (last != null && last.TypeName == "列名修改器" && last.NewColumn == key)
-                            {
-                                last.NewColumn = group.Name;
-                            }
-                            else
-                            {
-                                last = PluginProvider.GetObjectInstance("列名修改器") as IColumnDataTransformer;
-                                last.NewColumn = group.Name;
-                                last.Column = key;
-                                InsertModule(last);
-                                ETLMount++;
-                                OnPropertyChanged("ETLMount");
-                                RefreshSamples();
-                            }
-                        }
-                    };
-                    Dict.Add(group
-                        );
-                }
-                if (tool != null)
-                {
-                    Dict.Where(d => d.Name == tool.Column).Execute(d => d.GroupType = GroupType.Input);
-                    var transformer = tool as IColumnDataTransformer;
-                    if (transformer != null)
-                    {
-                        var newcol = transformer.NewColumn.Split(' ');
-                        if (transformer.IsMultiYield)
-                        {
-                            Dict.Execute(d => d.GroupType = newcol.Contains(d.Name) ? GroupType.Input : GroupType.Output);
-                        }
-                        else
-                        {
-                            Dict.Where(d => d.Name == transformer.NewColumn)
-                                .Execute(d => d.GroupType = GroupType.Output);
-                            ;
-                        }
-                    }
-                }
-                var nullgroup = Dict.FirstOrDefault(d => string.IsNullOrEmpty(d.Name));
-                nullgroup?.Value.AddRange(
-                    alltools.Where(
-                        d =>
-                            Documents.GetKeys().Contains(d.Column) == false &&
-                            string.IsNullOrEmpty(d.Column) == false));
-                //if (MainDescription.IsUIForm && IsUISupport)
-                //{
-                //    if (dataView != null)
-                //    {
-                //        dataView.View = view;
-                //    }
-                //}
-            }
         }
 
         #endregion

@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
+using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
+using Hawk.ETL.Interfaces;
 using Hawk.ETL.Process;
 using HtmlAgilityPack;
-using System.ComponentModel;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
@@ -18,37 +19,25 @@ namespace Hawk.ETL.Plugins.Transformers
     {
         protected readonly BuffHelper<HtmlDocument> buffHelper = new BuffHelper<HtmlDocument>(50);
         private readonly HttpHelper helper = new HttpHelper();
-        protected string _crawlerSelector;
+        protected SmartCrawler _crawler;
 
         public ResponseTF()
         {
-         //   CrawlerSelector = "网页采集器";
+            CrawlerSelector = new TextEditSelector();
+            CrawlerSelector.GetItems = this.GetAllCrawlerNames();
         }
 
         [LocalizedDisplayName("爬虫选择")]
         [LocalizedDescription("填写采集器或模块的名称")]
-        public string CrawlerSelector
-        {
-            get { return _crawlerSelector; }
-            set
-            {
-                if (_crawlerSelector != value)
-                {
-                    buffHelper?.Clear();
-                }
-                _crawlerSelector = value;
-            }
-        }
+        public TextEditSelector CrawlerSelector { get; set; }
 
         [LocalizedDisplayName("响应头")]
         [LocalizedDescription("要获取的响应头的名称，多个之间用空格分割，不区分大小写")]
         public virtual string HeaderFilter { get; set; }
 
-        protected SmartCrawler crawler {
-            get
-            {
-                return _crawler;
-            }
+        protected SmartCrawler crawler
+        {
+            get { return _crawler; }
             set
             {
                 if (_crawler != value)
@@ -60,18 +49,18 @@ namespace Hawk.ETL.Plugins.Transformers
                 }
             }
         }
+
         private void CrawlerPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
         {
-            this.buffHelper.Clear();
+            buffHelper.Clear();
         }
-        protected SmartCrawler _crawler;
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
             OneOutput = false;
-            crawler = GetCrawler(CrawlerSelector);
-            if (string.IsNullOrEmpty(CrawlerSelector) && crawler != null)
-                CrawlerSelector = crawler.Name;
+            crawler = GetCrawler(CrawlerSelector.SelectItem);
+            if (string.IsNullOrEmpty(CrawlerSelector.SelectItem) && crawler != null)
+                CrawlerSelector.SelectItem = crawler.Name;
             return crawler != null && base.Init(datas);
         }
 

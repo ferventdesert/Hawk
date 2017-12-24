@@ -63,33 +63,11 @@ namespace Hawk.ETL.Plugins.Transformers
                     name = crawlers[0].Name;
                 }
             }
-            var crawler =
-                crawlers.FirstOrDefault(d => d.Name == name);
+
+            var crawler = this.GetModule<SmartCrawler>(name);
             if (crawler != null)
             {
                 IsMultiYield = crawler?.IsMultiData == ListType.List;
-            }
-            else
-            {
-                var task = processManager.CurrentProject.Tasks.FirstOrDefault(d => d.Name == name);
-                if (task != null)
-                {
-                    ControlExtended.UIInvoke(() => { task.Load(false); });
-                    crawler =
-                        processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == name) as
-                            SmartCrawler;
-                }
-                if (crawler == null)
-                {
-                    if (string.IsNullOrEmpty(name))
-                    {
-                        XLogSys.Print.Error($"您没有填写“从爬虫转换”的“爬虫选择”。需要填写要调用的网页采集器的名称");
-                    }
-                    else
-                    {
-                        XLogSys.Print.Error($"没有找到名称为'{name}'的网页采集器，请检查“从爬虫转换”的“爬虫选择”是否填写错误");
-                    }
-                }
             }
             return crawler;
         }
@@ -208,12 +186,12 @@ namespace Hawk.ETL.Plugins.Transformers
 
         public virtual void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
         {
-            this.UnsafeDictDeserialize(docu);
+            this.UnsafeDictDeserializePlus(docu);
         }
 
         public virtual FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
-            var dict = this.UnsafeDictSerialize();
+            var dict = this.UnsafeDictSerializePlus();
             dict.Add("Type", GetType().Name);
             dict.Add("Group", "Transformer");
             dict.Remove("ETLIndex");

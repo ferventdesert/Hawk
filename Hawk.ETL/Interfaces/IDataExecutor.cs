@@ -16,11 +16,13 @@ namespace Hawk.ETL.Interfaces
 
     public abstract class DataExecutorBase : PropertyChangeNotifier, IDataExecutor
     {
+       protected readonly IProcessManager processManager;
         private bool _enabled;
         protected bool IsExecute;
 
         protected DataExecutorBase()
         {
+            processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
             Enabled = true;
         }
 
@@ -34,7 +36,7 @@ namespace Hawk.ETL.Interfaces
 
         public virtual FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
-            var dict = this.UnsafeDictSerialize();
+            var dict = this.UnsafeDictSerializePlus();
 
             dict.Add("Type", GetType().Name);
             dict.Remove("ETLIndex");
@@ -44,7 +46,7 @@ namespace Hawk.ETL.Interfaces
 
         public virtual void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
         {
-            this.UnsafeDictDeserialize(docu);
+            this.UnsafeDictDeserializePlus(docu);
             var doc = docu as FreeDocument;
         }
 

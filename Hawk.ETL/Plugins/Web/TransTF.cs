@@ -96,20 +96,8 @@ namespace Hawk.ETL.Plugins.Web
             return "Error";
         }
 
-        public override void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
-        {
-            base.DictDeserialize(docu, scenario);
-            Source.SelectItem = docu.Set("Source", Source.SelectItem);
-            Target.SelectItem = docu.Set("Target", Target.SelectItem);
-        }
-
-        public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
-        {
-            var dict= base.DictSerialize(scenario);
-            dict.Add("Source",Source.SelectItem);
-            dict.Add("Target",Target.SelectItem);
-            return dict;
-        }
+      
+        
 
         public override object TransformData(IFreeDocument datas)
         {

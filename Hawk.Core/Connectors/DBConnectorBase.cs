@@ -231,8 +231,16 @@ namespace Hawk.Core.Connectors
                 }
                 else
                 {
-                    value = o.Value.ToString();
+                    if (o.Value == null)
+                    {
+                        value = "null";
+                    }
+                    else
+                    {
+                        value = o.Value.ToString();
+                    }
                 }
+                value = value.Replace("'", "''");
                 sb.Append($"'{value}',");
             }
             sb.Remove(sb.Length - 1, 1);
@@ -345,7 +353,7 @@ namespace Hawk.Core.Connectors
         [LocalizedCategory("1.连接管理")]
         [LocalizedDisplayName("数据库名称")]
         [PropertyOrder(2)]
-        public string DBName { get; set; }
+        public  virtual string DBName { get; set; }
 
 
         public virtual bool CreateTable(IFreeDocument example, string name)
@@ -355,7 +363,7 @@ namespace Hawk.Core.Connectors
             foreach (var o in txt)
             {
                 sb.Append(o.Key);
-                sb.AppendFormat(" {0},", DataTypeConverter.ToType(o.Value));
+                sb.AppendFormat(" {0}, ", DataTypeConverter.ToType(o.Value));
             }
             sb.Remove(sb.Length - 1, 1);
             string sql = $"CREATE TABLE {GetTableName(name)} ({sb})";
@@ -443,6 +451,7 @@ namespace Hawk.Core.Connectors
             }
             catch (Exception ex)
             {
+                XLogSys.Print.Error($"数据库删除失败: {ex}" );
             }
         }
 
@@ -496,8 +505,9 @@ namespace Hawk.Core.Connectors
                 ExecuteNonQuery($"update {GetTableName(tableName)} set {sb} where {ToString()};");
             }
 
-            catch
+            catch (Exception e)
             {
+                XLogSys.Print.Debug($"insert database error {e.Message}");
             }
         }
 

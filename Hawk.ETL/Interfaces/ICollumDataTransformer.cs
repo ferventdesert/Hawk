@@ -22,6 +22,6 @@ namespace Hawk.ETL.Interfaces
         IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas);
 
 
-       
+
     }
 }

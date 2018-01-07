@@ -12,7 +12,6 @@ namespace Hawk.ETL.Plugins.Transformers
     [XFrmWork("合并多列", "将多个列组合成同一列")]
     public class MergeTF : TransformerBase
     {
-        private string _format;
 
         public MergeTF()
         {
@@ -31,18 +30,7 @@ namespace Hawk.ETL.Plugins.Transformers
         [PropertyEditor("CodeEditor")]
         [LocalizedDisplayName("格式")]
         [LocalizedDescription("形如'http:\\{0}:{1},{2}...'本列的序号为0，之后1,2分别为其他项的第0，第1个值")]
-        public string Format
-        {
-            get { return _format; }
-            set
-            {
-                if (_format != value)
-                {
-                    _format = value;
-                    OnPropertyChanged("Format");
-                }
-            }
-        }
+        public string Format { get; set; }
 
         [LocalizedDisplayName("参考格式")]
         public ExtendSelector<string> ReferFormat { get; set; }

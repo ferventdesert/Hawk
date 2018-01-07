@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.Threading;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
@@ -9,32 +8,28 @@ using Hawk.ETL.Plugins.Transformers;
 
 namespace Hawk.ETL.Plugins.Executor
 {
-    [XFrmWork("延时","在工作流中插入延时，可休眠固定长度避免爬虫被封禁，单位为ms")]
+    [XFrmWork("延时", "在工作流中插入延时，可休眠固定长度避免爬虫被封禁，单位为ms")]
     public class DelayTF : TransformerBase
     {
-      
+        [LocalizedDisplayName("延时值")]
+        [LocalizedDescription("单位为毫秒")]
+        public string DelayTime { get; set; }
+
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {
             IsMultiYield = true;
             return base.Init(docus);
         }
-        [LocalizedDisplayName("延时值")]
-        [LocalizedDescription("单位为毫秒")]
-        public string DelayTime { get; set; }
 
-        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        protected override IEnumerable<IFreeDocument> InternalTransformManyData(IFreeDocument data)
         {
-            foreach (var data in datas)
+            var r = data.Query(DelayTime);
+            var result = 100;
+            if (int.TryParse(r, out result))
             {
-                var r = data.Query(DelayTime);
-                int result = 100;
-                if(int.TryParse(r,out result))
-                { 
-                    Thread.Sleep(result);
-                }
-
-                yield return data;
+                Thread.Sleep(result);
             }
+            return new List<IFreeDocument>() {r};
         }
     }
 }

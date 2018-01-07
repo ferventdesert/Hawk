@@ -6,6 +6,7 @@ using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
+using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Plugins.Sorters
 {
@@ -69,6 +70,8 @@ namespace Hawk.ETL.Plugins.Sorters
 
             }
         }
+        [Browsable(false)]
+        public SmartETLTool Father { get; set; }
 
         [Browsable(false)]
         public int ETLIndex { get; set; }

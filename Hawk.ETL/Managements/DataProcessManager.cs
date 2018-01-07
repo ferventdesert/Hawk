@@ -314,6 +314,16 @@ namespace Hawk.ETL.Managements
 
                 RemoveOperation(process);
                 ProcessCollection.Remove(process);
+                var tasks = this.CurrentProcessTasks.Where(d => d.Publisher == process).ToList();
+                if (tasks.Any())
+                {
+                        foreach (var item in tasks)
+                        {
+                            item.Remove();
+                        XLogSys.Print.Warn($"由于任务{process.Name} 已经被删除， 相关任务${item.Name} 也已经被强行取消");
+                        }
+
+                }
                 ShowConfigUI(null);
             }, obj => true, "delete"));
 

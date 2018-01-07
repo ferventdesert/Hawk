@@ -73,7 +73,7 @@ namespace Hawk.Core.Utils
         {
             if (type.IsEnum)
                 return true;
-            return type == typeof(int) || type == typeof(bool) || type == typeof(double) ||   type == typeof(Single) || type == typeof(string) || type == typeof(short) ||
+            return type == typeof(int) || type == typeof(bool) || type == typeof(DateTime) || type == typeof(TimeSpan) || type == typeof(double) ||   type == typeof(Single) || type == typeof(string) || type == typeof(short) ||
                    type == typeof(byte);
         }
 

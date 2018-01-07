@@ -20,6 +20,8 @@ namespace Hawk.ETL.Plugins.Generators
         protected readonly IProcessManager processManager;
         private string _etlSelector;
         protected bool IsExecute;
+        public SmartETLTool Father { get; set; }
+
         [Browsable(false)]
         public int ETLIndex { get; set; }
 
@@ -27,7 +29,7 @@ namespace Hawk.ETL.Plugins.Generators
         public ETLBase()
         {
             processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
-            ETLSelector.GetItems = this.GetAllETLNames();
+            ETLSelector = new TextEditSelector {GetItems = this.GetAllETLNames()};
             ETLRange = "";
             Column = "column";
             Enabled = true;
@@ -271,7 +273,7 @@ namespace Hawk.ETL.Plugins.Generators
         }
     }
 
-    [XFrmWork("字典转换", "将两列数据，转换为一行数据，拖入的列为key")]
+    [XFrmWork("矩阵转置", "将列数据转换为行数据，拖入的列为key")]
     public class DictTF : TransformerBase
     {
         [LocalizedDisplayName("值列名")]
@@ -285,35 +287,41 @@ namespace Hawk.ETL.Plugins.Generators
 
         public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
         {
-            if (string.IsNullOrEmpty(Column) || string.IsNullOrEmpty(ValueColumn))
+
+            if (string.IsNullOrEmpty(Column))
             {
+
                 foreach (var data in datas)
                 {
                     yield return data;
                 }
                 yield break;
+
             }
             var hasyield = false;
-            var result = new FreeDocument();
-            foreach (var data in datas)
+            var results = datas.ToList();
+            var columns = results.Select(d => d[Column].ToString()).ToList();
+            var all_keys = results.GetKeys(count: 100).ToList();
+            var docs = new List<FreeDocument>();
+            for (int i = 0; i < all_keys.Count(); i++)
             {
-                var key = data[Column]?.ToString();
-                var value = data[ValueColumn]?.ToString();
-
-                if (string.IsNullOrEmpty(key) && string.IsNullOrEmpty(value))
-                {
-                    yield return result.Clone();
-                    hasyield = true;
-                }
-                else
-                {
-                    result.SetValue(key, value);
-                }
+                docs.Add(new FreeDocument());
             }
-            if (hasyield == false)
-                yield return result.Clone();
-
-
+            int pos = 0;
+            foreach (var column in columns)
+            {
+                int pos2 = 0;
+                foreach (var doc in docs)
+                {
+                    doc[column] = results[pos][all_keys[pos2++]];
+                }
+                pos += 1;
+            }
+            foreach (var doc in docs)
+            {
+                yield return doc;
+            }
+            //数字列可能会有不显示的问题
         }
     }
 

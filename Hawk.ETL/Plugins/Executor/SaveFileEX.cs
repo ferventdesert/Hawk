@@ -25,15 +25,16 @@ namespace Hawk.ETL.Plugins.Executor
 
         public SaveFileEX()
         {
-            CrawlerSelector=new TextEditSelector();
-            CrawlerSelector.GetItems =
-                () =>
+            CrawlerSelector = new TextEditSelector
+            {
+                GetItems = () =>
                 {
                     return
                         processManager.CurrentProcessCollections.Where(d => d is SmartCrawler)
                             .Select(d => d.Name)
                             .ToList();
-                };
+                }
+            };
         }
 
         [LocalizedDisplayName("保存位置")]

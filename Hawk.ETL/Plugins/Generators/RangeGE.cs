@@ -29,6 +29,7 @@ namespace Hawk.ETL.Plugins.Generators
         [LocalizedDescription("如1,3,5,7,9，间隔为2")]
         public string Interval { get; set; }
 
+    
 
         public override int? GenerateCount()
         {

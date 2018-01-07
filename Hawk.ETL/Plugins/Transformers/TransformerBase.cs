@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
+using System.Windows.Controls.WpfPropertyGrid;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
-using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
@@ -15,6 +17,9 @@ namespace Hawk.ETL.Plugins.Transformers
 {
     public abstract class TransformerBase : PropertyChangeNotifier, IColumnDataTransformer
     {
+        [Browsable(false)]
+        public SmartETLTool Father { get; set; }
+
         [Browsable(false)]
         public int ETLIndex { get; set; }
 
@@ -163,6 +168,63 @@ namespace Hawk.ETL.Plugins.Transformers
 
 
         public virtual IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+
+        {
+            var olddatas = datas;
+            var errorCounter = 0;
+            foreach (var data in datas)
+            {
+                var newdatas = InternalTransformManyData(data);
+                if (MainDescription.IsUIForm)
+                {
+                    if (((olddatas is IList) == false || !olddatas.Any()) && newdatas is IList &&
+                        (!newdatas.Any()))
+                    {
+                        errorCounter++;
+                        if (errorCounter == 5)
+                        {
+                            //连续三次无值输出，表示为异常现象
+                            if (ControlExtended.UIInvoke(() =>
+                            {
+                                if (
+                                    MessageBox.Show($"作用在列名`{Column}`的 模块`{TypeName}` 已经连续 {5} 次没有成功获取数据，可能需要重新修改参数，是否进入【调试模式】?",
+                                        "参数设置可能有误",
+                                        MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                                {
+                                    var window = PropertyGridFactory.GetPropertyWindow(this);
+
+                                    var list = processManager.CurrentProcessTasks.Where(
+                                        task => task.Publisher == Father && task.IsPause == false).ToList();
+                                    list.Execute(task => task.Remove());
+
+                                    window.Closed += (s, e) => Father.ETLMount++;
+                                    Father.ETLMount = Father.CurrentETLTools.IndexOf(this);
+                                    window.ShowDialog();
+                                    window.Topmost = true; 
+
+
+                                    return true;
+                                }
+                                return false;
+                            }) == false)
+                                yield break;
+                        }
+                    }
+                    else
+                    {
+                        errorCounter = 0;
+                    }
+                }
+                if (newdatas == null)
+                    yield break;
+                foreach (var newdata in newdatas)
+                {
+                    yield return newdata;
+                }
+            }
+        }
+
+        protected virtual IEnumerable<IFreeDocument> InternalTransformManyData(IFreeDocument datas)
         {
             yield break;
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -126,6 +127,8 @@ namespace Hawk.ETL.Process
         [Browsable(false)]
         public ListCollectionView ETLToolsView { get; set; }
 
+        internal bool isRemainCloseTask;
+
         [Browsable(false)]
         public int ETLMount
         {
@@ -136,7 +139,7 @@ namespace Hawk.ETL.Process
                 {
                     _etlMount = value;
                     OnPropertyChanged("ETLMount");
-                    RefreshSamples();
+                           RefreshSamples();
                 }
             }
         }
@@ -315,6 +318,7 @@ namespace Hawk.ETL.Process
                     {
                         process.DictDeserialize(child);
                         CurrentETLTools.Add(process);
+                        process.Father = this;
                     }
                 }
             }
@@ -380,6 +384,7 @@ namespace Hawk.ETL.Process
                 item.Init(new List<IFreeDocument>());
             }
         }
+
 
         private EnumerableFunc FuncAdd(IColumnProcess tool, EnumerableFunc func, bool isexecute)
         {
@@ -596,7 +601,7 @@ namespace Hawk.ETL.Process
                     var item = PluginProvider.GetObjectInstance(t.MyType) as IColumnProcess;
                     if (string.IsNullOrEmpty(p.Name) == false)
                         item.Column = p.Name;
-
+                    item.Father = this;
                     InsertModule(item);
                     ETLMount++;
                     //etlmount修改一定会引发RefreshSamples，因此注释掉下面代码
@@ -640,13 +645,13 @@ namespace Hawk.ETL.Process
 
             foreach (var text1 in texts.ToList())
             {
-                List<string>result= text1.Select(FileEx.GetCharSpellCode).Select(spell => spell.ToString()).ToList();
+                var result = text1.Select(FileEx.GetCharSpellCode).Select(spell => spell.ToString()).ToList();
                 texts.Add("".Join(result));
             }
             texts.AddRange(texts.Select(d => d.ToLower()).ToList());
             texts.AddRange(texts.Select(d => d.ToUpper()).ToList());
             texts = texts.Distinct().ToList();
-            return texts.FirstOrDefault(d=>d.Contains(text))!=null;
+            return texts.FirstOrDefault(d => d.Contains(text)) != null;
         }
 
 
@@ -732,10 +737,15 @@ namespace Hawk.ETL.Process
             var tasks = SysProcessManager.CurrentProcessTasks.Where(d => d.Publisher == this).ToList();
             if (tasks.Any())
             {
-                XLogSys.Print.WarnFormat("{0}已经有任务在执行，由于调整参数，该任务已经被取消", Name);
-                foreach (var item in tasks)
+                var str = $"{Name}已经有任务在执行，由于调整参数，是否要取消当前任务重新执行？";
+                if (MainDescription.IsUIForm == false  ||
+                    MessageBox.Show(str, "提示信息", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
-                    item.Remove();
+                    foreach (var item in tasks)
+                    {
+                        item.Remove();
+                    }
+                    XLogSys.Print.Warn(str + "  已经取消");
                 }
             }
             if (dataView == null && MainDescription.IsUIForm && IsUISupport)
@@ -785,13 +795,13 @@ namespace Hawk.ETL.Process
                 return;
             SmartGroupCollection.Clear();
             Documents.Clear();
-        
+
             var i = 0;
             foreach (var currentEtlTool in CurrentETLTools)
             {
                 (currentEtlTool).ETLIndex = i++;
             }
-            if(!MainDescription.IsUIForm)
+            if (!MainDescription.IsUIForm)
                 return;
             dataView.Columns.Clear();
             var all_keys = new List<string>();
@@ -843,6 +853,7 @@ namespace Hawk.ETL.Process
                             d =>
                                 Documents.GetKeys().Contains(d.Column) == false &&
                                 string.IsNullOrEmpty(d.Column) == false));
+                    nullgroup.OnPropertyChanged("Value");
                 }
                 , SampleMount);
             temptask.Publisher = this;
@@ -871,7 +882,7 @@ namespace Hawk.ETL.Process
             var group = new SmartGroup
             {
                 Name = key,
-                Value = alltools.Where(d => d.Column == key).ToList()
+                Value = new ObservableCollection<IColumnProcess>(alltools.Where(d => d.Column == key))
             };
             group.PropertyChanged += (s, e) =>
             {
@@ -941,7 +952,7 @@ namespace Hawk.ETL.Process
             }
         }
 
-        public List<IColumnProcess> Value { get; set; }
+        public ObservableCollection<IColumnProcess> Value { get; set; }
 
         #endregion
     }

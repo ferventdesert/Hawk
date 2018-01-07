@@ -5,6 +5,7 @@ using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Interfaces
 {
@@ -26,6 +27,7 @@ namespace Hawk.ETL.Interfaces
 
         bool Enabled { get; set; }
 
+        SmartETLTool Father { get; set; }
         int ETLIndex { get; set; }
         string Description { get; }
         string TypeName { get; }
@@ -88,6 +90,8 @@ namespace Hawk.ETL.Interfaces
     {
         private bool _enabled;
         protected bool IsExecute;
+        [Browsable(false)]
+        public SmartETLTool Father { get; set; }
 
         public GeneratorBase()
         {

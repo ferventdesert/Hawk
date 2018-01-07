@@ -5,6 +5,7 @@ using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Interfaces
 {
@@ -19,7 +20,8 @@ namespace Hawk.ETL.Interfaces
        protected readonly IProcessManager processManager;
         private bool _enabled;
         protected bool IsExecute;
-
+        [Browsable(false)]
+        public SmartETLTool Father { get; set; }
         protected DataExecutorBase()
         {
             processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;

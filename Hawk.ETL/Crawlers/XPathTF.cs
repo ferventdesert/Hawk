@@ -34,26 +34,23 @@ namespace Hawk.ETL.Crawlers
         [LocalizedDescription("获取符合XPath语法的节点的数量")]
         public bool GetCount { get; set; }
 
-        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        protected override IEnumerable<IFreeDocument> InternalTransformManyData(IFreeDocument data)
         {
-            foreach (var data in datas)
-            {
-                var item = data[Column];
-                var docu = new HtmlDocument();
+            var item = data[Column];
+            var docu = new HtmlDocument();
 
-                docu.LoadHtml(item.ToString());
-                var p2 = docu.DocumentNode.SelectNodes(XPath);
-                if (p2 == null)
-                    continue;
-                foreach (var node in p2)
-                {
-                    var doc = new FreeDocument();
-                    doc.Add("Text", node.GetNodeText());
-                    doc.Add("HTML", node.InnerHtml);
-                    doc.Add("OHTML", node.OuterHtml);
-                    yield return doc.MergeQuery(data, NewColumn);
-                }
-            }
+            docu.LoadHtml(item.ToString());
+            var p2 = docu.DocumentNode.SelectNodes(XPath);
+            if (p2 == null)
+                return new List<IFreeDocument>();
+            return p2.Select(node =>
+            {
+                var doc = new FreeDocument();
+                doc.Add("Text", node.GetNodeText());
+                doc.Add("HTML", node.InnerHtml);
+                doc.Add("OHTML", node.OuterHtml);
+                return doc.MergeQuery(data, NewColumn);
+            });
         }
 
         public override bool Init(IEnumerable<IFreeDocument> docus)
@@ -107,10 +104,6 @@ namespace Hawk.ETL.Crawlers
     {
         private Dictionary<string, string> xpaths;
 
-        public XPathTF2()
-        {
-        }
-
         [Browsable(false)]
         public override string HeaderFilter { get; set; }
 
@@ -157,9 +150,8 @@ namespace Hawk.ETL.Crawlers
             return new_docs.Cross(source);
         }
 
-        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        protected override IEnumerable<IFreeDocument> InternalTransformManyData(IFreeDocument data)
         {
-            foreach (var data in datas)
             {
                 var item = data[Column];
                 var docu = new HtmlDocument();
@@ -168,14 +160,8 @@ namespace Hawk.ETL.Crawlers
                 var d = new FreeDocument();
                 d.MergeQuery(data, NewColumn);
                 IEnumerable<IFreeDocument> source = new List<IFreeDocument> {d};
-                foreach (var xpath in xpaths)
-                {
-                    source = Get(docu, source, xpath.Key, xpath.Value);
-                }
-                foreach (var r in source)
-                {
-                    yield return r;
-                }
+                source = xpaths.Aggregate(source, (current, xpath) => Get(docu, current, xpath.Key, xpath.Value));
+                return source.ToList();
             }
         }
     }

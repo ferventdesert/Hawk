@@ -6,6 +6,7 @@ using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
+using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Plugins.Filters
 {
@@ -23,7 +24,8 @@ namespace Hawk.ETL.Plugins.Filters
             IsDebugFilter = true;
 
         }
-
+        [Browsable(false)]
+        public SmartETLTool Father { get; set; }
         #endregion
         protected bool IsExecute;
 

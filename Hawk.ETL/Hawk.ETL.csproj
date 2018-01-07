@@ -138,6 +138,7 @@
     <Compile Include="Plugins\Filters\RegexFT.cs" />
     <Compile Include="Plugins\Filters\RepeatFT.cs" />
     <Compile Include="Plugins\Filters\NumRangeFT.cs" />
+    <Compile Include="Plugins\Generators\DateRangeGE.cs" />
     <Compile Include="Plugins\Generators\FileContentGenerator.cs" />
     <Compile Include="Plugins\Generators\FolderGeneator.cs" />
     <Compile Include="Plugins\Generators\DbGE.cs" />

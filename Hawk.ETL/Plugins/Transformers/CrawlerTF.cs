@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
@@ -17,6 +16,7 @@ namespace Hawk.ETL.Plugins.Transformers
     [XFrmWork("从爬虫转换", "使用网页采集器获取网页数据，拖入的列需要为超链接")]
     public class CrawlerTF : ResponseTF
     {
+        private int emptyCounter;
         private BfsGE generator;
 
         public CrawlerTF()
@@ -33,7 +33,6 @@ namespace Hawk.ETL.Plugins.Transformers
         [LocalizedDisplayName("最大重复次数")]
         public string MaxTryCount { get; set; }
 
-
         [LocalizedCategory("高级设置")]
         [LocalizedDisplayName("错误延时时间")]
         public int ErrorDelay { get; set; }
@@ -41,30 +40,24 @@ namespace Hawk.ETL.Plugins.Transformers
         [LocalizedDisplayName("Post数据")]
         public string PostData { get; set; }
 
-
-
-
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
-            
-
             base.Init(datas);
 
-            IsMultiYield = crawler?.IsMultiData == ListType.List && crawler.CrawlItems.Count>0;
+            IsMultiYield = crawler?.IsMultiData == ListType.List && crawler.CrawlItems.Count > 0;
 
             return crawler != null;
         }
 
-        private int emptyCounter = 0;
         private List<FreeDocument> GetDatas(IFreeDocument data)
         {
             var p = data[Column];
-            if (p == null||crawler==null)
+            if (p == null || crawler == null)
                 return new List<FreeDocument>();
             var url = p.ToString();
             var bufkey = url;
             var post = data.Query(PostData);
-          
+
             if (crawler.Http.Method == MethodType.POST)
             {
                 bufkey += post;
@@ -74,7 +67,6 @@ namespace Hawk.ETL.Plugins.Transformers
 
             if (htmldoc == null)
             {
-
                 HttpStatusCode code;
                 var maxcount = 1;
                 int.TryParse(data.Query(MaxTryCount), out maxcount);
@@ -106,15 +98,18 @@ namespace Hawk.ETL.Plugins.Transformers
             }
             if (emptyCounter%10 == 0 && emptyCounter > 0)
             {
-                XLogSys.Print.Error($"网页采集器 {this.CrawlerSelector} 已经连续10次获取数据失败");
+                XLogSys.Print.Error($"网页采集器 {CrawlerSelector.SelectItem} 已经连续10次获取数据失败");
             }
-          
+
             return docs;
         }
 
-        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        protected override IEnumerable<IFreeDocument> InternalTransformManyData(IFreeDocument data)
         {
-            return from data in datas let docs = GetDatas(data) from doc in docs select doc.MergeQuery(data, NewColumn);
+            var docs = GetDatas(data);
+            if (docs.Count == 0)
+                return docs;
+            return docs.Select(d => d.MergeQuery(data, NewColumn));
         }
 
         public override object TransformData(IFreeDocument datas)

@@ -685,6 +685,29 @@ namespace Hawk.Core.Utils
             }
         }
 
+        public static bool IsEqual(this IFreeDocument value, IFreeDocument content)
+        {
+            var dic1 = value;
+            var dic2 = content;
+            foreach (var o in dic1)
+            {
+                object res;
+                if (dic2.TryGetValue(o.Key, out res))
+                {
+                    if (!res.Equals(  o.Value))
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
         public static bool IsEqual(this IDictionarySerializable value, IDictionarySerializable content)
         {
             IDictionary<string, object> dic1 = value.DictSerialize();

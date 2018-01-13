@@ -5,6 +5,7 @@ using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Plugins.Transformers;
 using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Interfaces
@@ -31,6 +32,8 @@ namespace Hawk.ETL.Interfaces
         int ETLIndex { get; set; }
         string Description { get; }
         string TypeName { get; }
+
+        XFrmWorkAttribute Attribute { get; }
 
         #endregion
 
@@ -86,90 +89,26 @@ namespace Hawk.ETL.Interfaces
         Mix
     }
 
-    public class GeneratorBase : PropertyChangeNotifier, IColumnGenerator
+    public class GeneratorBase : ToolBase, IColumnGenerator
     {
-        private bool _enabled;
-        protected bool IsExecute;
-        [Browsable(false)]
-        public SmartETLTool Father { get; set; }
+       
 
         public GeneratorBase()
         {
             Column = TypeName;
             Enabled = true;
         }
-        [Browsable(false)]
-        public int ETLIndex { get; set; }
-        public void SetExecute(bool value)
-        {
-            IsExecute = value;
-        }
+       
+        public  override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
 
-        public virtual FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
-            var dict = this.UnsafeDictSerializePlus();
-            dict.Add("Type", GetType().Name);
+            var dict = base.DictSerialize();
             dict.Add("Group", "Generator");
-            dict.Remove("ETLIndex");
             return dict;
         }
 
-        public virtual void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
-        {
-            this.UnsafeDictDeserialize(docu);
-        }
 
-        [LocalizedCategory("1.基本选项")]
-        [PropertyOrder(1)]
-        [LocalizedDisplayName("列名")]
-        public string Column { get; set; }
-
-        [LocalizedDisplayName("介绍")]
-        [PropertyOrder(100)]
-        public string Description
-        {
-            get
-            {
-                var item = AttributeHelper.GetCustomAttribute(GetType());
-                if (item == null)
-                    return GetType().ToString();
-                return item.Description;
-            }
-        }
-
-        [LocalizedCategory("1.基本选项")]
-        [LocalizedDisplayName("启用")]
-        [PropertyOrder(5)]
-        public bool Enabled
-        {
-            get { return _enabled; }
-            set
-            {
-                if (_enabled == value) return;
-                _enabled = value;
-                OnPropertyChanged("Enabled");
-            }
-        }
-
-        [Browsable(false)]
-        public string TypeName
-        {
-            get
-            {
-                var item = AttributeHelper.GetCustomAttribute(GetType());
-                return item == null ? GetType().ToString() : item.Name;
-            }
-        }
-
-        public virtual void Finish()
-        {
-        }
-
-        public virtual bool Init(IEnumerable<IFreeDocument> datas)
-        {
-            return true;
-        }
-
+       
 
         public virtual IEnumerable<FreeDocument> Generate(IFreeDocument document = null)
         {
@@ -184,9 +123,6 @@ namespace Hawk.ETL.Interfaces
             return null;
         }
 
-        public override string ToString()
-        {
-            return TypeName + " " + Column;
-        }
+      
     }
 }

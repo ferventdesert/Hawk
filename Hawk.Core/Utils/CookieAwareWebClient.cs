@@ -1,45 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
 
 namespace Hawk.Core.Utils
 {
-   public class CookieAwareWebClient : WebClient
+    public class CookieAwareWebClient : WebClient
 
     {
+        private readonly CookieContainer cookie = new CookieContainer();
+        public string Method;
 
-            public string Method;
-            public HttpItem  HttpItem { get; set; }
-            public Uri Uri { get; set; }
+        public CookieAwareWebClient()
 
+        {
+        }
 
-            public CookieAwareWebClient()
-              
+        public CookieAwareWebClient(HttpItem item)
+        {
+            Encoding = Encoding.UTF8;
+            HttpItem = item;
+        }
+
+        public HttpItem HttpItem { get; set; }
+        public Uri Uri { get; set; }
+
+        protected override WebRequest GetWebRequest(Uri address)
+        {
+            var request = base.GetWebRequest(address);
+            if (request is HttpWebRequest)
             {
+                if (HttpItem != null)
+                    HttpHelper.SetRequest(HttpItem, request as HttpWebRequest);
+                (request as HttpWebRequest).CookieContainer = cookie;
             }
-
-            public CookieAwareWebClient(HttpItem item)
-            {
-                this.Encoding = Encoding.UTF8;
-                HttpItem = item;
-            }
-
-            protected override WebRequest GetWebRequest(Uri address)
-            {
-                WebRequest request = base.GetWebRequest(address);
-                if (request is HttpWebRequest)
-                {
-                   if(HttpItem!=null)
-                     HttpHelper.SetRequest(HttpItem,request as HttpWebRequest);
-
-                }
-                HttpWebRequest httpRequest = (HttpWebRequest)request;
-                httpRequest.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-                return httpRequest;
-            }
-
-          
+            //HttpWebRequest httpRequest = (HttpWebRequest)request;
+            //httpRequest.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            return request;
+        }
     }
 }

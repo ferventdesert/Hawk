@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -60,6 +58,7 @@ namespace Hawk.ETL.Process
 
         private DataGrid dataView;
 
+        private ListView currentToolList;
         private ScrollViewer scrollViewer;
         private string searchText;
 
@@ -139,7 +138,8 @@ namespace Hawk.ETL.Process
                 {
                     _etlMount = value;
                     OnPropertyChanged("ETLMount");
-                           RefreshSamples();
+                    OnPropertyChanged("CurrentTool");
+                    RefreshSamples();
                 }
             }
         }
@@ -149,6 +149,7 @@ namespace Hawk.ETL.Process
         public int AllETLMount => CurrentETLTools.Count;
 
 
+        [Browsable(false)]
         [LocalizedCategory("3.调试")]
         [PropertyOrder(1)]
         [LocalizedDisplayName("采样量")]
@@ -191,7 +192,7 @@ namespace Hawk.ETL.Process
                             {
                                 XLogSys.Print.Info("插入工作模块，名称:" + CurrentTool?.ToString());
                             }
-                        }, icon: "arrow_right"),
+                        }, obj =>  ETLMount < CurrentETLTools.Count , icon: "arrow_right"),
                         new Command("回退到开头", obj => { ETLMount = 0; }, icon: "align_left"),
                         new Command("跳到最后", obj => { ETLMount = CurrentETLTools.Count; }, icon: "align_right")
                     }
@@ -201,7 +202,8 @@ namespace Hawk.ETL.Process
 
         private WPFPropertyGrid debugGrid;
 
-        private IColumnProcess CurrentTool
+        [Browsable(false)]
+        public IColumnProcess CurrentTool
         {
             get
             {
@@ -247,6 +249,11 @@ namespace Hawk.ETL.Process
 
                 return current;
             }
+            set
+            {
+                var t = CurrentETLTools.Where(d => !(d is IDataExecutor) && d.Enabled).ToList();
+                ETLMount = CurrentETLTools.IndexOf(value) + 1;
+            }
         }
 
         [Browsable(false)]
@@ -271,6 +278,7 @@ namespace Hawk.ETL.Process
         [Browsable(false)]
         public dynamic etls => CurrentETLTools;
 
+        [Browsable(false)]
         [LocalizedCategory("2.清洗流程")]
         [LocalizedDisplayName("已加载")]
         [LocalizedDescription("当前位于工作流中的的所有工作模块")]
@@ -288,7 +296,7 @@ namespace Hawk.ETL.Process
             var has_execute = CurrentETLTools.FirstOrDefault(d => d is IDataExecutor) != null;
             var info = "确定启动执行器?";
             if (!has_execute)
-                info = info + "没有在主流程中发现执行器。";
+                info = info + "没有在本任务中发现任何执行器。";
             if (MainDescription.IsUIForm &&
                 ControlExtended.UserCheck(info, "警告信息"))
 
@@ -303,6 +311,7 @@ namespace Hawk.ETL.Process
 
         public override void DictDeserialize(IDictionary<string, object> dicts, Scenario scenario = Scenario.Database)
         {
+            shouldUpdate = false;
             base.DictDeserialize(dicts, scenario);
             MaxThreadCount = dicts.Set("MaxThreadCount", MaxThreadCount);
             GenerateMode = dicts.Set("GenerateMode", GenerateMode);
@@ -319,9 +328,14 @@ namespace Hawk.ETL.Process
                         process.DictDeserialize(child);
                         CurrentETLTools.Add(process);
                         process.Father = this;
+                        var tool = process as ToolBase;
+                        if (tool != null)
+                            tool.ColumnSelector.GetItems = () => all_columns;
                     }
                 }
             }
+            ETLMount = CurrentETLTools.Count;
+            shouldUpdate = true;
         }
 
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
@@ -344,6 +358,9 @@ namespace Hawk.ETL.Process
                 if (e.Action != NotifyCollectionChangedAction.Add) return;
                 foreach (var item in e.NewItems.OfType<INotifyPropertyChanged>())
                 {
+                    var tool = item as ToolBase;
+                    if (tool != null)
+                        tool.ColumnSelector.GetItems = () => all_columns;
                     item.PropertyChanged += (s2, e2) =>
                     {
                         if (shouldUpdate == false)
@@ -366,7 +383,7 @@ namespace Hawk.ETL.Process
         #region Methods
 
         private int _SampleMount;
-        private readonly bool shouldUpdate = true;
+        private  bool shouldUpdate = true;
 
 
         [Browsable(false)]
@@ -599,6 +616,7 @@ namespace Hawk.ETL.Process
                     var t = objs[1] as XFrmWorkAttribute;
 
                     var item = PluginProvider.GetObjectInstance(t.MyType) as IColumnProcess;
+
                     if (string.IsNullOrEmpty(p.Name) == false)
                         item.Column = p.Name;
                     item.Father = this;
@@ -616,9 +634,13 @@ namespace Hawk.ETL.Process
                     attr = smart.ColumnInfo;
                 }
                 var window = PropertyGridFactory.GetPropertyWindow(attr);
+                var oldProp = attr.UnsafeDictSerializePlus();
 
-
-                window.Closed += (s, e) => RefreshSamples();
+                window.Closed += (s, e) =>
+                {
+                    if (oldProp.IsEqual(attr.UnsafeDictSerializePlus()) == false)
+                        RefreshSamples();
+                };
                 window.ShowDialog();
             }
             if (sender != "Delete") return true;
@@ -703,17 +725,46 @@ namespace Hawk.ETL.Process
         [PropertyOrder(1)]
         [LocalizedCategory("4.执行")]
         [LocalizedDisplayName("工作模式")]
-        public GenerateMode GenerateMode { get; set; }
+        public GenerateMode GenerateMode
+        {
+            get { return _generateMode; }
+            set
+            {
+                if (_generateMode == value)
+                    return;
+                _generateMode = value;
+                OnPropertyChanged("GenerateMode");
+            }
+        }
 
 
         [PropertyOrder(2)]
         [LocalizedCategory("4.执行")]
         [LocalizedDescription("在并行模式工作时，线程池所承载的最大线程数")]
         [LocalizedDisplayName("最大线程数")]
-        public int MaxThreadCount { get; set; }
+        [NumberRange(1, 20, 1)]
+        public int MaxThreadCount
+        {
+            get { return _maxThreadCount; }
+            set
+            {
+                if (_maxThreadCount != value)
+                {
+                    if (value > 30)
+                    {
+                        value = 30;
+                        XLogSys.Print.Warn("最大线程数的数值范围为0-30");
+                    }
+                    if (value <= 0)
+                        value = 1;
+                    _maxThreadCount = value;
+                    OnPropertyChanged("MaxThreadCount");
+                }
+            }
+        }
 
 
-        private int _etlMount = 100;
+        private int _etlMount = 0;
 
         public IEnumerable<IFreeDocument> Generate(IEnumerable<IColumnProcess> processes, bool isexecute,
             IEnumerable<IFreeDocument> source = null)
@@ -726,9 +777,15 @@ namespace Hawk.ETL.Process
         }
 
         private bool mudoleHasInit;
-
+        private int _maxThreadCount;
+        private GenerateMode _generateMode;
+        private ListViewDragDropManager<IColumnProcess> dragMgr;
+        private bool isErrorRemind = true;
+        List<string> all_columns = new List<string>();
         public void RefreshSamples(bool canGetDatas = true)
         {
+            if (shouldUpdate == false)
+                return;
             if (SysProcessManager == null)
                 return;
             if (!mudoleHasInit)
@@ -737,16 +794,32 @@ namespace Hawk.ETL.Process
             var tasks = SysProcessManager.CurrentProcessTasks.Where(d => d.Publisher == this).ToList();
             if (tasks.Any())
             {
-                var str = $"{Name}已经有任务在执行，由于调整参数，是否要取消当前任务重新执行？";
-                if (MainDescription.IsUIForm == false  ||
-                    MessageBox.Show(str, "提示信息", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                var str = $"{Name}已经有任务在执行，由于调整参数，是否要取消当前任务重新执行？\n【取消】:【不再提醒】";
+                if (isErrorRemind == false)
                 {
-                    foreach (var item in tasks)
-                    {
-                        item.Remove();
-                    }
-                    XLogSys.Print.Warn(str + "  已经取消");
+                    XLogSys.Print.Warn("${Name}已经有任务在执行，请在任务管理器中取消该任务后再刷新");
+                    return;
                 }
+                if (!MainDescription.IsUIForm)
+                    return;
+                    var result =
+                        MessageBox.Show(str, "提示信息", MessageBoxButton.YesNoCancel);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        foreach (var item in tasks)
+                        {
+                            item.Remove();
+                        }
+                        XLogSys.Print.Warn(str + "  已经取消");
+                    }
+                    else if (result == MessageBoxResult.Cancel)
+                    {
+                        isErrorRemind = false;
+                    }
+                    else
+                    {
+                        return;
+                    }
             }
             if (dataView == null && MainDescription.IsUIForm && IsUISupport)
             {
@@ -765,6 +838,30 @@ namespace Hawk.ETL.Process
                     scrollViewer = dy.ScrollViewer;
 
                     alltoolList = dy.ETLToolList;
+                    currentToolList = dy.CurrentETLToolList;
+                    currentToolList.MouseDoubleClick += (s, e) =>
+                    {
+                        if (e.ChangedButton != MouseButton.Left)
+                        {
+                            return;
+                        }
+                        var process = currentToolList.SelectedItem as IColumnProcess;
+                        if (process == null)
+                        {
+                            return;
+                        }
+                        var oldProp = process.UnsafeDictSerializePlus();
+                        var window = PropertyGridFactory.GetPropertyWindow(process);
+                        window.Closed += (s2, e2) =>
+                        {
+                            if (oldProp.IsEqual(process.UnsafeDictSerializePlus()) == false)
+                                RefreshSamples();
+                        };
+                        window.ShowDialog();
+                    };
+                    dragMgr = new ListViewDragDropManager<IColumnProcess>(currentToolList);
+                    dragMgr.ShowDragAdorner = true;
+
                     alltoolList.MouseMove += (s, e) =>
                     {
                         if (e.LeftButton == MouseButtonState.Pressed)
@@ -803,8 +900,9 @@ namespace Hawk.ETL.Process
             }
             if (!MainDescription.IsUIForm)
                 return;
+            all_columns.Clear();
             dataView.Columns.Clear();
-            var all_keys = new List<string>();
+         
             AddColumn("", alltools);
             var temptask = TemporaryTask.AddTempTask(Name + "_转换",
                 func(new List<IFreeDocument>()).Take(SampleMount),
@@ -812,10 +910,10 @@ namespace Hawk.ETL.Process
                 {
                     ControlExtended.UIInvoke(() =>
                     {
-                        foreach (var key in data.GetKeys().Where(d => all_keys.Contains(d) == false))
+                        foreach (var key in data.GetKeys().Where(d => all_columns.Contains(d) == false))
                         {
                             AddColumn(key, alltools);
-                            all_keys.Add(key);
+                            all_columns.Add(key);
                         }
 
                         Documents.Add((data));
@@ -955,38 +1053,5 @@ namespace Hawk.ETL.Process
         public ObservableCollection<IColumnProcess> Value { get; set; }
 
         #endregion
-    }
-
-    public class GroupConverter : IValueConverter
-    {
-        public static Dictionary<string, string> map = new Dictionary<string, string>
-        {
-            {"IColumnDataSorter", "排序"},
-            {"IColumnAdviser", "顾问"},
-            {"IColumnGenerator", "生成"},
-            {"IColumnDataFilter", "过滤"},
-            {"IColumnDataTransformer", "转换"},
-            {"IDataExecutor", "执行"}
-        };
-
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            var s = value as XFrmWorkAttribute;
-
-            if (s == null)
-                return "未知";
-            var p = s.MyType;
-            foreach (var item in map)
-            {
-                if (p.GetInterface(item.Key) != null)
-                    return item.Value;
-            }
-            return "未知";
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

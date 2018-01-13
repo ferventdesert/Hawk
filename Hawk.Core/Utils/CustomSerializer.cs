@@ -1,19 +1,16 @@
-﻿using Hawk.Core.Utils.Logs;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Sockets;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml;
+using System.Xml.Serialization;
+using Hawk.Core.Utils.Logs;
 
-namespace XFrmWork.Data.Serialize
+namespace Hawk.Core.Utils
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Net.Sockets;
-    using System.Runtime.Serialization;
-    using System.Runtime.Serialization.Formatters.Binary;
-    using System.Security.AccessControl;
-    using System.Xml;
-    using System.Xml.Serialization;
-
-
     /// <summary>
     /// 系统序列化器
     /// </summary>

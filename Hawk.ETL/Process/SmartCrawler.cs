@@ -342,7 +342,7 @@ namespace Hawk.ETL.Process
                     }
                     else
                     {
-                        XLogSys.Print.Warn($"在该网页中找不到关键字 {SelectText},可能是动态请求，可以启用【自动嗅探】,并将浏览器页面翻到包含该关键字的位置");
+                        XLogSys.Print.Info($"在该网页中找不到关键字 {SelectText},可能是动态请求，可以启用【自动嗅探】,并将浏览器页面翻到包含该关键字的位置");
                     }
                 }
             }

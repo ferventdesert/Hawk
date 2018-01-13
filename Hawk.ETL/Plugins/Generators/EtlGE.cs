@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Windows.Controls.WpfPropertyGrid.Annotations;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
@@ -15,16 +17,11 @@ using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Plugins.Generators
 {
-    public class ETLBase : IColumnProcess
+    public class ETLBase : ToolBase, INotifyPropertyChanged
     {
         protected readonly IProcessManager processManager;
         private string _etlSelector;
-        protected bool IsExecute;
-        public SmartETLTool Father { get; set; }
-
-        [Browsable(false)]
-        public int ETLIndex { get; set; }
-
+      
 
         public ETLBase()
         {
@@ -34,7 +31,7 @@ namespace Hawk.ETL.Plugins.Generators
             Column = "column";
             Enabled = true;
         }
-
+   
         [LocalizedCategory("2.调用选项")]
         [LocalizedDisplayName("子流-选择")]
         [PropertyOrder(0)]
@@ -50,68 +47,11 @@ namespace Hawk.ETL.Plugins.Generators
 
         protected SmartETLTool etl { get; set; }
 
-        public void SetExecute(bool value)
-        {
-            IsExecute = value;
-        }
-
-        public virtual FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
-        {
-            var dict = this.UnsafeDictSerializePlus();
-            dict.Add("Type", GetType().Name);
-            dict.Remove("ETLIndex");
-            return dict;
-        }
+    
+     
 
 
-        public virtual void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
-        {
-            this.UnsafeDictDeserialize(docu);
-        }
-
-        [LocalizedCategory("1.基本选项"), PropertyOrder(1), DisplayName("输入列")]
-        public string Column { get; set; }
-
-
-        [LocalizedCategory("1.基本选项")]
-        [LocalizedDisplayName("启用")]
-        [PropertyOrder(5)]
-        public bool Enabled { get; set; }
-
-
-        [LocalizedDisplayName("介绍")]
-        [PropertyOrder(100)]
-        [PropertyEditor("CodeEditor")]
-        public string Description
-        {
-            get
-            {
-                var item = AttributeHelper.GetCustomAttribute(GetType());
-                if (item == null)
-                    return GetType().ToString();
-                return item.Description;
-            }
-        }
-
-        [LocalizedCategory("1.基本选项")]
-        [LocalizedDisplayName("类型")]
-        [PropertyOrder(0)]
-        public string TypeName
-        {
-            get
-            {
-                var item = AttributeHelper.GetCustomAttribute(GetType());
-                if (item == null)
-                    return GetType().ToString();
-                return item.Name;
-            }
-        }
-
-        public void Finish()
-        {
-        }
-
-        public virtual bool Init(IEnumerable<IFreeDocument> datas)
+        public override bool Init(IEnumerable<IFreeDocument> datas)
         {
             if (string.IsNullOrEmpty(ETLSelector.SelectItem))
                 return false;
@@ -137,10 +77,7 @@ namespace Hawk.ETL.Plugins.Generators
             return etl != null;
         }
 
-        public override string ToString()
-        {
-            return TypeName + " " + Column;
-        }
+    
 
         protected IEnumerable<IColumnProcess> GetProcesses()
         {
@@ -172,6 +109,8 @@ namespace Hawk.ETL.Plugins.Generators
                 yield return tool;
             }
         }
+
+ 
     }
 
     [XFrmWork("子流-生成", "从其他数据清洗模块中生成序列，用以组合大模块")]
@@ -194,7 +133,6 @@ namespace Hawk.ETL.Plugins.Generators
                 yield return item;
             }
         }
-
         public int? GenerateCount()
         {
             return null;
@@ -336,7 +274,6 @@ namespace Hawk.ETL.Plugins.Generators
             NewColumn = "";
             IsCycle = false;
         }
-
         [LocalizedDisplayName("递归到下列")]
         public bool IsCycle { get; set; }
 

@@ -135,6 +135,7 @@ namespace Hawk.Core.Utils
                 var xFrmWorkAttribute = attribute as XFrmWorkAttribute;
                 if (xFrmWorkAttribute != null)
                 {
+                    xFrmWorkAttribute.MyType = source;
                     return xFrmWorkAttribute;
                 }
             }

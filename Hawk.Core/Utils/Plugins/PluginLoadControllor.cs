@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Hawk.Core.Utils.Logs;
-using XFrmWork.Data.Serialize;
 
 namespace Hawk.Core.Utils.Plugins
 {

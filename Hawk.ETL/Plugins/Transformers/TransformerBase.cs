@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls.WpfPropertyGrid;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
+using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
@@ -15,20 +16,128 @@ using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    public abstract class TransformerBase : PropertyChangeNotifier, IColumnDataTransformer
+
+    public abstract class ToolBase: PropertyChangeNotifier,IColumnProcess
     {
+        protected ToolBase()
+        {
+            ColumnSelector=new TextEditSelector();
+            ColumnSelector.SelectChanged += (s, e) => Column = ColumnSelector.SelectItem;
+        }
+
+        public virtual void Finish()
+        {
+        }
+
+        public virtual bool Init(IEnumerable<IFreeDocument> docus)
+        {
+            return true;
+        }
+
+        protected bool IsExecute = true;
+
+        public virtual void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
+        {
+            this.UnsafeDictDeserializePlus(docu);
+        }
+
+        public virtual FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
+        {
+            var dict = this.UnsafeDictSerializePlus();
+            dict.Add("Type", GetType().Name);
+            dict.Remove("ETLIndex");
+            dict.Remove("ColumnSelector");
+            return dict;
+        }
+
+        [Browsable(false)]
+        public string Column {
+            get { return ColumnSelector.SelectItem; }
+            set { ColumnSelector.SelectItem = value; }
+        }
+        [LocalizedCategory("1.基本选项"), PropertyOrder(1), DisplayName("输入列")]
+        [LocalizedDescription("本模块要处理的列的名称")]
+        public TextEditSelector ColumnSelector { get; set; }
+
+        [LocalizedDisplayName("介绍")]
+        [PropertyOrder(100)]
+        [PropertyEditor("CodeEditor")]
+        public string Description
+        {
+            get
+            {
+                var item = AttributeHelper.GetCustomAttribute(GetType());
+                if (item == null)
+                    return GetType().ToString();
+                return item.Description;
+            }
+        }
+        public void SetExecute(bool value)
+        {
+            IsExecute = value;
+        }
+
+     
+        private int _etlIndex;
+        private bool _enabled;
+
+        [LocalizedCategory("1.基本选项")]
+        [LocalizedDisplayName("启用")]
+        [PropertyOrder(5)]
+        public bool Enabled
+        {
+            get { return _enabled; }
+            set
+            {
+                if (_enabled == value) return;
+                _enabled = value;
+                OnPropertyChanged("Enabled");
+            }
+        }
         [Browsable(false)]
         public SmartETLTool Father { get; set; }
-
         [Browsable(false)]
-        public int ETLIndex { get; set; }
+        public int ETLIndex
+        {
+            get { return _etlIndex; }
+            set
+            {
+                if (_etlIndex != value)
+                {
+                    _etlIndex = value;
+                    OnPropertyChanged("ETLIndex");
+                }
+            }
+        }
 
-        #region Public Methods
 
+        [LocalizedCategory("1.基本选项")]
+        [LocalizedDisplayName("类型")]
+        [PropertyOrder(0)]
+        public string TypeName
+        {
+            get
+            {
+                var item = AttributeHelper.GetCustomAttribute(GetType());
+                return item == null ? GetType().ToString() : item.Name;
+            }
+        }
+        [Browsable(false)]
+        public XFrmWorkAttribute Attribute => AttributeHelper.GetCustomAttribute(GetType());
         public override string ToString()
         {
             return TypeName + " " + Column;
         }
+    }
+
+    public abstract class TransformerBase : ToolBase, IColumnDataTransformer
+    {
+       
+
+       
+        #region Public Methods
+
+     
 
         #endregion
 
@@ -40,11 +149,8 @@ namespace Hawk.ETL.Plugins.Transformers
 
         protected bool IsExecute;
 
-        public void SetExecute(bool value)
-        {
-            IsExecute = value;
-        }
-
+     
+        [Browsable(false)]
         protected readonly IProcessManager processManager;
 
         protected TransformerBase()
@@ -81,23 +187,7 @@ namespace Hawk.ETL.Plugins.Transformers
 
         #region Properties
 
-        [LocalizedCategory("1.基本选项"), PropertyOrder(1), DisplayName("输入列")]
-        [LocalizedDescription("本模块要处理的列的名称")]
-        public string Column { get; set; }
-
-        [LocalizedDisplayName("介绍")]
-        [PropertyOrder(100)]
-        [PropertyEditor("CodeEditor")]
-        public string Description
-        {
-            get
-            {
-                var item = AttributeHelper.GetCustomAttribute(GetType());
-                if (item == null)
-                    return GetType().ToString();
-                return item.Description;
-            }
-        }
+      
 
 
         [LocalizedCategory("1.基本选项")]
@@ -107,21 +197,6 @@ namespace Hawk.ETL.Plugins.Transformers
         public virtual string NewColumn { get; set; }
 
 
-        private bool _enabled;
-
-        [LocalizedCategory("1.基本选项")]
-        [LocalizedDisplayName("启用")]
-        [PropertyOrder(5)]
-        public bool Enabled
-        {
-            get { return _enabled; }
-            set
-            {
-                if (_enabled == value) return;
-                _enabled = value;
-                OnPropertyChanged("Enabled");
-            }
-        }
 
 
         /// <summary>
@@ -130,18 +205,6 @@ namespace Hawk.ETL.Plugins.Transformers
         [Browsable(false)]
         public virtual bool OneOutput { get; set; }
 
-
-        [LocalizedCategory("1.基本选项")]
-        [LocalizedDisplayName("类型")]
-        [PropertyOrder(0)]
-        public string TypeName
-        {
-            get
-            {
-                var item = AttributeHelper.GetCustomAttribute(GetType());
-                return item == null ? GetType().ToString() : item.Name;
-            }
-        }
 
         #endregion
 
@@ -166,6 +229,7 @@ namespace Hawk.ETL.Plugins.Transformers
                 doc.SetValue(NewColumn, item);
         }
 
+        private bool isErrorRemind = true;
 
         public virtual IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
 
@@ -181,15 +245,17 @@ namespace Hawk.ETL.Plugins.Transformers
                         (!newdatas.Any()))
                     {
                         errorCounter++;
-                        if (errorCounter == 5)
+                        if (errorCounter == 5&& isErrorRemind)
                         {
                             //连续三次无值输出，表示为异常现象
                             if (ControlExtended.UIInvoke(() =>
                             {
-                                if (
-                                    MessageBox.Show($"作用在列名`{Column}`的 模块`{TypeName}` 已经连续 {5} 次没有成功获取数据，可能需要重新修改参数，是否进入【调试模式】?",
+                                var result =
+                                    MessageBox.Show(
+                                        $"作用在列名`{Column}`的 模块`{TypeName}` 已经连续 {5} 次没有成功获取数据，可能需要重新修改参数 \n【是】：进入【调试模式】 \n【否】：【取消当前任务】 \n【取消】：【不再提示】?",
                                         "参数设置可能有误",
-                                        MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                                        MessageBoxButton.YesNoCancel);
+                                if(result==MessageBoxResult.Yes) 
                                 {
                                     var window = PropertyGridFactory.GetPropertyWindow(this);
 
@@ -201,8 +267,11 @@ namespace Hawk.ETL.Plugins.Transformers
                                     Father.ETLMount = Father.CurrentETLTools.IndexOf(this);
                                     window.ShowDialog();
                                     window.Topmost = true; 
-
-
+                                    return true;
+                                }
+                                else if (result == MessageBoxResult.Cancel)
+                                {
+                                    isErrorRemind = false;
                                     return true;
                                 }
                                 return false;
@@ -233,30 +302,18 @@ namespace Hawk.ETL.Plugins.Transformers
 
         #region IColumnProcess
 
-        public virtual void Finish()
-        {
-        }
-
-        public virtual bool Init(IEnumerable<IFreeDocument> docus)
-        {
-            return true;
-        }
+     
 
         #endregion
 
         #region IDictionarySerializable
 
-        public virtual void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
-        {
-            this.UnsafeDictDeserializePlus(docu);
-        }
+      
 
-        public virtual FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
+        public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
-            var dict = this.UnsafeDictSerializePlus();
-            dict.Add("Type", GetType().Name);
+            var dict = base.DictSerialize();
             dict.Add("Group", "Transformer");
-            dict.Remove("ETLIndex");
             return dict;
         }
 

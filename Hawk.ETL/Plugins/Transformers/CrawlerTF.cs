@@ -16,7 +16,6 @@ namespace Hawk.ETL.Plugins.Transformers
     [XFrmWork("从爬虫转换", "使用网页采集器获取网页数据，拖入的列需要为超链接")]
     public class CrawlerTF : ResponseTF
     {
-        private int emptyCounter;
         private BfsGE generator;
 
         public CrawlerTF()
@@ -87,18 +86,6 @@ namespace Hawk.ETL.Plugins.Transformers
             else
             {
                 docs = crawler.CrawlData(htmldoc);
-            }
-            if (docs.Count == 0)
-            {
-                emptyCounter++;
-            }
-            else
-            {
-                emptyCounter = 0;
-            }
-            if (emptyCounter%10 == 0 && emptyCounter > 0)
-            {
-                XLogSys.Print.Error($"网页采集器 {CrawlerSelector.SelectItem} 已经连续10次获取数据失败");
             }
 
             return docs;

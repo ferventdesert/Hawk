@@ -1,60 +1,203 @@
 ﻿<UserControl
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             
-             xmlns:mvvm="clr-namespace:Hawk.Core.Utils.MVVM;assembly=Hawk.Core"
-             xmlns:themes="clr-namespace:Hawk.Core.Themes;assembly=Hawk.Core"
-             xmlns:local="clr-namespace:Hawk.ETL.Controls"
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             x:Class="Hawk.ETL.Controls.ETLSmartView"
-             mc:Ignorable="d" 
-             d:DesignHeight="553.5" d:DesignWidth="799.5">
-    <UserControl.Resources>
-        <local:GroupColorConverter x:Key="GroupColorConverter"/>
-        <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
-        <themes:MetroConverter x:Key="MetroConverter"/>
-        <Style  x:Key="CommandMenuItem" TargetType="{x:Type MenuItem}">
-            <Setter Property="Header" Value="{Binding Text}"/>
-            <Setter Property="Command" Value="{Binding}"/>
-            <Setter Property="CommandParameter" Value="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}, Mode=FindAncestor}}"/>
-        </Style>
-		  
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 
+    xmlns:mvvm="clr-namespace:Hawk.Core.Utils.MVVM;assembly=Hawk.Core"
+    xmlns:themes="clr-namespace:Hawk.Core.Themes;assembly=Hawk.Core"
+    xmlns:local="clr-namespace:Hawk.ETL.Controls"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:adorners="clr-namespace:Hawk.ETL.Controls.Adorners"
+    xmlns:Utils="clr-namespace:Hawk.Core.Utils;assembly=Hawk.Core"
+    x:Class="Hawk.ETL.Controls.ETLSmartView"
+    mc:Ignorable="d"
+    d:DesignHeight="553.5" d:DesignWidth="799.5">
+    <UserControl.Resources>
+        <Utils:GroupConverter x:Key="GroupConverter"/>
+        <local:GroupColorConverter x:Key="GroupColorConverter" />
+        <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
+        <themes:MetroConverter x:Key="MetroConverter" />
+        <Style x:Key="CommandMenuItem" TargetType="{x:Type MenuItem}">
+            <Setter Property="Header" Value="{Binding Text}" />
+            <Setter Property="Command" Value="{Binding}" />
+            <Setter Property="CommandParameter"
+        		Value="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}, Mode=FindAncestor}}" />
+        </Style>
+
+         <ContextMenu x:Key="resourceContextMenu"
+        					DataContext="{Binding Data.Commands, Source={StaticResource BindingProxy}}">
+                            <MenuItem DataContext="{Binding [0]}" Style="{StaticResource CommandMenuItem}" />
+                            <MenuItem DataContext="{Binding [1]}" Style="{StaticResource CommandMenuItem}" />
+                        </ContextMenu>
+        <Style TargetType="{x:Type ListViewItem}">
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+            <Setter Property="FocusVisualStyle" Value="{StaticResource ListViewItemFocusVisual}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Margin" Value="0,0,0,1" />
+            <Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />
+            <Setter Property="Padding" Value="5,2,5,2" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <ControlTemplate.Resources>
+                            <Storyboard x:Key="HoverOn">
+
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="HoverRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0.2"/>
+                                </DoubleAnimationUsingKeyFrames>
+
+                            </Storyboard>
+                            <Storyboard x:Key="HoverOff">
+
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="HoverRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0"/>
+                                </DoubleAnimationUsingKeyFrames>
+
+                            </Storyboard>
+                            <Storyboard x:Key="SelectedOn">
+
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="SelectedRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0.2"/>
+                                </DoubleAnimationUsingKeyFrames>
+
+                            </Storyboard>
+                            <Storyboard x:Key="SelectedOff">
+
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="SelectedRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0"/>
+                                </DoubleAnimationUsingKeyFrames>
+
+                            </Storyboard>
+                            <Storyboard x:Key="FocussedOn">
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0.2"/>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                            <Storyboard x:Key="FocussedOff">
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0"/>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </ControlTemplate.Resources>
+                        <Border SnapsToDevicePixels="true"  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2" x:Name="border">
+
+                            <Grid Margin="2,0,2,0">
+                                <Rectangle x:Name="Background" IsHitTestVisible="False" Opacity="0.25" Fill="{StaticResource NormalBrush}" RadiusX="1" RadiusY="1"/>
+                                <Rectangle x:Name="HoverRectangle" IsHitTestVisible="False" Opacity="0" Fill="{StaticResource NormalBrush}" RadiusX="1" RadiusY="1"/>
+                                <Rectangle x:Name="SelectedRectangle" IsHitTestVisible="False" Opacity="0" Fill="{StaticResource SelectedBackgroundBrush}" RadiusX="1" RadiusY="1"/>
+                                <GridViewRowPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Margin="0,2,0,2" VerticalAlignment="Stretch" />
+                            </Grid>
+
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource SelectedOff}" x:Name="SelectedOff_BeginStoryboard"/>
+                                </Trigger.ExitActions>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource SelectedOn}" x:Name="SelectedOn_BeginStoryboard"/>
+                                </Trigger.EnterActions>
+
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource HoverOff}" x:Name="HoverOff_BeginStoryboard"/>
+                                </MultiTrigger.ExitActions>
+                                <MultiTrigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource HoverOn}"/>
+                                </MultiTrigger.EnterActions>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True" />
+                                    <Condition Property="Selector.IsSelected" Value="False" />
+                                </MultiTrigger.Conditions>
+
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Selector.IsSelected" Value="True" />
+                                    <Condition Property="IsMouseOver" Value="True" />
+                                </MultiTrigger.Conditions>
+
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}" />
+                                <Setter Property="Fill" TargetName="Background" Value="{DynamicResource DisabledBackgroundBrush}"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="true" />
+                                    <Condition Property="Selector.IsSelectionActive" Value="false" />
+                                </MultiTrigger.Conditions>
+
+
+                            </MultiTrigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Selector.IsSelected" Value="True">
+                    <Setter Property="Foreground">
+                        <Setter.Value>
+                            <SolidColorBrush Color="{DynamicResource BlackColor}" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="Utils:ListViewItemDragState.IsBeingDragged" Value="True">
+                    <Setter Property="FontWeight" Value="DemiBold" />
+                </Trigger>
+                <Trigger Property="Utils:ListViewItemDragState.IsUnderDragCursor" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource SelectedBackgroundBrush}" />
+                </Trigger>
+
+            </Style.Triggers>
+        </Style>
 
 
         <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
-            <WrapPanel/>
+            <WrapPanel />
         </ItemsPanelTemplate>
 
         <DataTemplate x:Key="DataTemplateList">
-            <Grid HorizontalAlignment="Stretch" Height="65.334" Width="100" d:DesignWidth="210.332" d:DesignHeight="136.471">
-                <Label Content="{Binding Name}" Margin="0" Height="Auto" VerticalAlignment="Bottom" FontSize="12" d:LayoutOverrides="GridBoX" HorizontalAlignment="Center" Width="Auto"/>
-                <Rectangle Stroke="Black"  ToolTip="{Binding Description}" RadiusX="13" RadiusY="3" StrokeThickness="0" Width="45" Height="45" HorizontalAlignment="Center" VerticalAlignment="Top" MouseLeftButtonUp="Rectangle_MouseLeftButtonUp">
+            <Grid HorizontalAlignment="Stretch" Height="65.334" Width="100" d:DesignWidth="210.332"
+        		d:DesignHeight="136.471">
+                <Label Content="{Binding Name}" Margin="0" Height="Auto" VerticalAlignment="Bottom" FontSize="12"
+        			d:LayoutOverrides="GridBoX" HorizontalAlignment="Center" Width="Auto" />
+                <Rectangle Stroke="Black" ToolTip="{Binding Description}" RadiusX="13" RadiusY="3" StrokeThickness="0"
+        			Width="45" Height="45" HorizontalAlignment="Center" VerticalAlignment="Top"
+        			MouseLeftButtonUp="Rectangle_MouseLeftButtonUp">
                     <Rectangle.Fill>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.3,0">
-                            <GradientStop Color="#FF3B3B3B" Offset="0.418"/>
-                            <GradientStop Color="#FF818181" Offset="0.125"/>
+                            <GradientStop Color="#FF3B3B3B" Offset="0.418" />
+                            <GradientStop Color="#FF818181" Offset="0.125" />
                         </LinearGradientBrush>
                     </Rectangle.Fill>
                 </Rectangle>
             </Grid>
             <DataTemplate.Triggers>
-                <EventTrigger RoutedEvent="Mouse.MouseEnter"/>
-                <EventTrigger RoutedEvent="Mouse.MouseLeave"/>
+                <EventTrigger RoutedEvent="Mouse.MouseEnter" />
+                <EventTrigger RoutedEvent="Mouse.MouseLeave" />
             </DataTemplate.Triggers>
         </DataTemplate>
         <DataTemplate x:Key="DataTemplate1">
-            <StackPanel Height="Auto" Width="150" d:DesignWidth="42.438" d:DesignHeight="251.312" >
-                <TextBox Text="{Binding Name, Mode=TwoWay}" Background="{Binding GroupType, Converter={StaticResource GroupColorConverter}}"  ToolTip="{Binding GroupType}"  Margin="10,0" VerticalAlignment="Stretch" FontSize="14.667" FontWeight="Bold" HorizontalAlignment="Stretch" TextAlignment="Center"/>
-                <ListBox AllowDrop="True" ItemTemplate="{DynamicResource DataTemplate2}" DataContext="{Binding}" ItemsSource="{Binding Value}" Drop="ListBox_Drop" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" MinHeight="200" VerticalContentAlignment="Stretch" Margin="1,0" Height="249.312" >
+            <StackPanel Height="Auto" Width="150" d:DesignWidth="42.438" d:DesignHeight="251.312">
+                <TextBox Text="{Binding Name, Mode=TwoWay}"
+        			Background="{Binding GroupType, Converter={StaticResource GroupColorConverter}}"
+        			ToolTip="{Binding GroupType}" Margin="10,0" VerticalAlignment="Stretch" FontSize="14.667"
+        			FontWeight="Bold" HorizontalAlignment="Stretch" TextAlignment="Center" />
+                <ListBox AllowDrop="True" ItemTemplate="{DynamicResource DataTemplate2}" DataContext="{Binding}"
+        			ItemsSource="{Binding Value}" Drop="ListBox_Drop" HorizontalContentAlignment="Stretch"
+        			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+        			ScrollViewer.VerticalScrollBarVisibility="Auto" MinHeight="200"
+        			VerticalContentAlignment="Stretch" Margin="1,0" Height="249.312">
                     <ListBox.Resources>
-                        <ContextMenu x:Key="resourceContextMenu" DataContext="{Binding Data.Commands, Source={StaticResource BindingProxy}}">
-                            <MenuItem   DataContext="{Binding [0]}"  Style="{StaticResource CommandMenuItem}"/>
-                            <MenuItem   DataContext="{Binding [1]}"  Style="{StaticResource CommandMenuItem}"/>
-                        </ContextMenu>
-                        <Style  TargetType="{x:Type ListBoxItem}">
+                     
+                        <Style TargetType="{x:Type ListBoxItem}">
 
                             <Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />
 
@@ -62,9 +205,9 @@
 
                     </ListBox.Resources>
                     <ListBox.ContextMenu>
-                        <ContextMenu  DataContext="{Binding Data.Commands, Source={StaticResource BindingProxy}}">
+                        <ContextMenu DataContext="{Binding Data.Commands, Source={StaticResource BindingProxy}}">
 
-                            <MenuItem Style="{StaticResource CommandMenuItem}" DataContext="{Binding [2]}"/>
+                            <MenuItem Style="{StaticResource CommandMenuItem}" DataContext="{Binding [2]}" />
 
                         </ContextMenu>
                     </ListBox.ContextMenu>
@@ -73,201 +216,306 @@
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="DataTemplate2">
-            <StackPanel Height="30" Width="140" d:DesignWidth="126.167" d:DesignHeight="39.987" Orientation="Horizontal">
-                <TextBlock Margin="2,0,2,0"       TextWrapping="Wrap" Text="{Binding ETLIndex}"  FontSize="14.667" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <TextBlock Margin="2,0,8,0"  mvvm:ListBindingDoubleClick.Property="{Binding Data.Commands[0], Source={StaticResource BindingProxy}}"     TextWrapping="Wrap" Text="{Binding TypeName}"  FontSize="14.667" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <CheckBox Content="" IsChecked="{Binding Enabled}"  VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="是否激活"/>
+            <StackPanel Height="30" Width="140" d:DesignWidth="126.167" d:DesignHeight="39.987"
+        		Orientation="Horizontal">
+                <TextBlock Margin="2,0,2,0" TextWrapping="Wrap" Text="{Binding ETLIndex}" FontSize="14.667"
+        			Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                <TextBlock Margin="2,0,8,0"
+        			mvvm:ListBindingDoubleClick.Property="{Binding Data.Commands[0], Source={StaticResource BindingProxy}}"
+        			TextWrapping="Wrap" Text="{Binding TypeName}" FontSize="14.667" Width="Auto"
+        			HorizontalAlignment="Left" VerticalAlignment="Center" />
+                <CheckBox Content="" IsChecked="{Binding Enabled}" VerticalAlignment="Center"
+        			HorizontalAlignment="Center" ToolTip="是否激活" />
             </StackPanel>
         </DataTemplate>
-        <SolidColorBrush x:Key="{x:Static DataGrid.FocusBorderBrushKey}" Color="#FF000000"/>
-        <Style  TargetType="{x:Type xctk:MultiLineTextEditor}">
-        	<Setter Property="Background" Value="{DynamicResource NormalBrush}"/>
-        	<Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
-        	<Setter Property="Template" Value="{DynamicResource MultiLineTextEditorControlTemplate1}"/>
-        	<Setter Property="BorderThickness" Value="0"/>
-        	
+        <SolidColorBrush x:Key="{x:Static DataGrid.FocusBorderBrushKey}" Color="#FF000000" />
+        <Style TargetType="{x:Type xctk:MultiLineTextEditor}">
+            <Setter Property="Background" Value="{DynamicResource NormalBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+            <Setter Property="Template" Value="{DynamicResource MultiLineTextEditorControlTemplate1}" />
+            <Setter Property="BorderThickness" Value="0" />
+
         </Style>
         <ControlTemplate x:Key="MultiLineTextEditorControlTemplate1" TargetType="{x:Type xctk:MultiLineTextEditor}">
-        	<Grid x:Name="Root">
-        		<ToggleButton x:Name="PART_DropDownButton" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Grid.Column="1" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsTabStop="True" IsChecked="{Binding IsOpen, RelativeSource={RelativeSource TemplatedParent}}" MinHeight="22" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
-        			<ToggleButton.IsHitTestVisible>
-        				<Binding Path="IsOpen" RelativeSource="{RelativeSource TemplatedParent}">
-        					<Binding.Converter>
-        						<xctk:InverseBoolConverter/>
-        					</Binding.Converter>
-        				</Binding>
-        			</ToggleButton.IsHitTestVisible>
-        			<ToggleButton.Style>
-        				<Style TargetType="{x:Type ToggleButton}">
-        					<Setter Property="Template">
-        						<Setter.Value>
-        							<ControlTemplate TargetType="{x:Type ToggleButton}">
-        								<Grid SnapsToDevicePixels="True">
-        									<Grid>
-        										<Grid.ColumnDefinitions>
-        											<ColumnDefinition Width="*"/>
-        											<ColumnDefinition Width="Auto"/>
-        										</Grid.ColumnDefinitions>
-        										<Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
-        											<ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-        										</Border>
-        										<xctk:ButtonChrome x:Name="ToggleButtonChrome" Grid.Column="1" CornerRadius="0" RenderMouseOver="{TemplateBinding IsMouseOver}" RenderPressed="{TemplateBinding IsPressed}" RenderChecked="{Binding IsOpen, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type xctk:MultiLineTextEditor}}}" RenderEnabled="{Binding IsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type xctk:MultiLineTextEditor}}}" Visibility="Collapsed">
-        											
-        										</xctk:ButtonChrome>
-        									</Grid>
-        								</Grid>
-        								<ControlTemplate.Triggers>
-        									<Trigger Property="IsEnabled" Value="False">
-        										<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-        									</Trigger>
-        								</ControlTemplate.Triggers>
-        							</ControlTemplate>
-        						</Setter.Value>
-        					</Setter>
-        				</Style>
-        			</ToggleButton.Style>
-        		</ToggleButton>
-        		<Popup AllowsTransparency="True" Focusable="False" Height="{TemplateBinding DropDownHeight}" IsOpen="{Binding IsChecked, ElementName=PART_DropDownButton}" PopupAnimation="Slide" Placement="Bottom" SnapsToDevicePixels="True" StaysOpen="False" Width="{TemplateBinding DropDownWidth}">
-        			<Border BorderBrush="#FFABADB3" BorderThickness="1" Background="White">
-        				<Grid>
-        					<TextBox x:Name="PART_TextBox" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" IsReadOnly="{TemplateBinding IsReadOnly}" SpellCheck.IsEnabled="{TemplateBinding IsSpellCheckEnabled}" Margin="3" Padding="{TemplateBinding Padding}" TextAlignment="{TemplateBinding TextAlignment}" Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}" VerticalScrollBarVisibility="Auto" TextWrapping="WrapWithOverflow" Background="{TemplateBinding Background}"/>
-        					<Thumb x:Name="PART_ResizeThumb" Cursor="SizeNWSE" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-        						<Thumb.Template>
-        							<ControlTemplate TargetType="{x:Type Thumb}">
-        								<Grid Background="Transparent">
-        									<Path Data="M0.5,6.5L6.5,0.5 M6.5,3.5L3.5,6.5" Stroke="Black" StrokeThickness="1"/>
-        								</Grid>
-        							</ControlTemplate>
-        						</Thumb.Template>
-        					</Thumb>
-        				</Grid>
-        			</Border>
-        		</Popup>
-        	</Grid>
+            <Grid x:Name="Root">
+                <ToggleButton x:Name="PART_DropDownButton" BorderBrush="{TemplateBinding BorderBrush}"
+        			BorderThickness="{TemplateBinding BorderThickness}"
+        			Background="{TemplateBinding Background}"
+        			ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}"
+        			Grid.Column="1" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+        			IsTabStop="True"
+        			IsChecked="{Binding IsOpen, RelativeSource={RelativeSource TemplatedParent}}"
+        			MinHeight="22" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True"
+        			VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                    <ToggleButton.IsHitTestVisible>
+                        <Binding Path="IsOpen" RelativeSource="{RelativeSource TemplatedParent}">
+                            <Binding.Converter>
+                                <xctk:InverseBoolConverter />
+                            </Binding.Converter>
+                        </Binding>
+                    </ToggleButton.IsHitTestVisible>
+                    <ToggleButton.Style>
+                        <Style TargetType="{x:Type ToggleButton}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <Grid SnapsToDevicePixels="True">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border BorderBrush="{TemplateBinding BorderBrush}"
+        											BorderThickness="{TemplateBinding BorderThickness}"
+        											Background="{TemplateBinding Background}"
+        											Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                                                    <ContentPresenter
+        												ContentTemplate="{TemplateBinding ContentTemplate}"
+        												Content="{TemplateBinding Content}"
+        												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+        												VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                                </Border>
+                                                <xctk:ButtonChrome x:Name="ToggleButtonChrome" Grid.Column="1"
+        											CornerRadius="0"
+        											RenderMouseOver="{TemplateBinding IsMouseOver}"
+        											RenderPressed="{TemplateBinding IsPressed}"
+        											RenderChecked="{Binding IsOpen, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type xctk:MultiLineTextEditor}}}"
+        											RenderEnabled="{Binding IsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type xctk:MultiLineTextEditor}}}"
+        											Visibility="Collapsed" />
+                                            </Grid>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter Property="Foreground"
+        											Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+                <Popup AllowsTransparency="True" Focusable="False" Height="{TemplateBinding DropDownHeight}"
+        			IsOpen="{Binding IsChecked, ElementName=PART_DropDownButton}" PopupAnimation="Slide"
+        			Placement="Bottom" SnapsToDevicePixels="True" StaysOpen="False"
+        			Width="{TemplateBinding DropDownWidth}">
+                    <Border BorderBrush="#FFABADB3" BorderThickness="1" Background="White">
+                        <Grid>
+                            <TextBox x:Name="PART_TextBox" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto"
+        						IsReadOnly="{TemplateBinding IsReadOnly}"
+        						SpellCheck.IsEnabled="{TemplateBinding IsSpellCheckEnabled}" Margin="3"
+        						Padding="{TemplateBinding Padding}"
+        						TextAlignment="{TemplateBinding TextAlignment}"
+        						Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}"
+        						VerticalScrollBarVisibility="Auto" TextWrapping="WrapWithOverflow"
+        						Background="{TemplateBinding Background}" />
+                            <Thumb x:Name="PART_ResizeThumb" Cursor="SizeNWSE" HorizontalAlignment="Right"
+        						VerticalAlignment="Bottom">
+                                <Thumb.Template>
+                                    <ControlTemplate TargetType="{x:Type Thumb}">
+                                        <Grid Background="Transparent">
+                                            <Path Data="M0.5,6.5L6.5,0.5 M6.5,3.5L3.5,6.5" Stroke="Black"
+        										StrokeThickness="1" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Thumb.Template>
+                            </Thumb>
+                        </Grid>
+                    </Border>
+                </Popup>
+            </Grid>
         </ControlTemplate>
-      
-
 
 
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.316*"/>
-            <ColumnDefinition Width="0.684*"/>
+            <ColumnDefinition Width="0.316*" />
+            <ColumnDefinition Width="0.684*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.264*"/>
-            <RowDefinition Height="0.736*"/>
+            <RowDefinition Height="0.264*" />
+            <RowDefinition Height="0.736*" />
         </Grid.RowDefinitions>
-     <Grid Grid.Column="1" Grid.RowSpan="2">
-     	<Grid.RowDefinitions>
-     		<RowDefinition Height="*"/>
-     		<RowDefinition Height="25"/>
-     				<RowDefinition Height="45"/>   	
-		</Grid.RowDefinitions>
-     	<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2">
-     		<CheckBox Content="调试详情" IsChecked="{Binding DisplayDetail}" VerticalAlignment="Center"  />
-     	</StackPanel>
-     	<Grid Grid.Row="1">
-     		<Border BorderBrush="Black" BorderThickness="1" Background="#FF2D2D2D"/>
-     		<StackPanel HorizontalAlignment="Left" Margin="2.25,0,0,0" Orientation="Horizontal" d:LayoutOverrides="Height">
-     			<TextBlock TextWrapping="Wrap" Text="模块:" d:LayoutOverrides="Width" Margin="5,0,10,0" VerticalAlignment="Center"/>
-     			<TextBox Width="50" TextWrapping="Wrap" Text="{Binding ETLMount}" VerticalAlignment="Center" FontSize="16"/>
-     			<TextBlock TextWrapping="Wrap" Text="/" d:LayoutOverrides="Width" VerticalAlignment="Center" FontSize="16"/>
-     			<TextBlock TextWrapping="Wrap" Text="{Binding AllETLMount}" d:LayoutOverrides="Width" VerticalAlignment="Center" FontSize="16"/>
-     		</StackPanel>
-     		<ScrollBar SmallChange="1" Value="{Binding ETLMount}" Maximum="{Binding AllETLMount}" Orientation="Horizontal" Margin="131.334,4,0,4" Background="#FF292929" BorderBrush="White"/>
-     	</Grid>
-     	<StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
-     		<Button Style="{DynamicResource middleButton2}" DataContext="{Binding Commands5[4]}" Width="35" Height="35" Margin="0,5,10,5" >
-     			<Viewbox Width="20" Height="20">
-     				<Canvas   RenderTransformOrigin="0.5,0.5" Width="50" Height="50">
-					 
-     					<Path Stretch="Fill" StrokeLineJoin="Round" Stroke="Black" Fill="White" Data="F1 M -66.7518,-348.017L 183.248,-168.017L -60.7518,3.98303L -66.7518,-348.017 Z " Height="50.08" Width="42.519" RenderTransformOrigin="0.5,0.5" Canvas.Left="-5.331" Canvas.Top="-0.021">
-     						<Path.RenderTransform>
-     							<TransformGroup>
-     								<ScaleTransform ScaleX="-1"/>
-     								<SkewTransform/>
-     								<RotateTransform/>
-     								<TranslateTransform/>
-     							</TransformGroup>
-     						</Path.RenderTransform>
-     					</Path>
-     					<Rectangle Fill="White" Height="51.333" Canvas.Left="42.056" Stroke="Black" StrokeLineJoin="Round" Canvas.Top="-0.135" Width="14"/>
-     				</Canvas>  		
-     			</Viewbox>
-     		</Button>
-     		<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[2]}" Width="35" Height="35" Margin="15,0,0,0" />
-     		<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[0]}" Width="35" Height="35" Margin="15,0,0,0" />
-     		<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[3]}" Width="35" Height="35" Margin="15,0,0,0" />
-     		<Button Style="{DynamicResource middleButton2}" DataContext="{Binding Commands5[5]}" Width="35" Height="35" Margin="25,5,0,5" >
-     			<Viewbox Width="20" Height="20">
-     				<Canvas   RenderTransformOrigin="0.5,0.5" Width="50" Height="50">
-     					<Canvas.RenderTransform>
-     						<TransformGroup>
-     							<ScaleTransform ScaleX="-1"/>
-     							<SkewTransform/>
-     							<RotateTransform/>
-     							<TranslateTransform/>
-     						</TransformGroup>
-     					</Canvas.RenderTransform>
-     					<Path Stretch="Fill" StrokeLineJoin="Round" Stroke="Black" Fill="White" Data="F1 M -66.7518,-348.017L 183.248,-168.017L -60.7518,3.98303L -66.7518,-348.017 Z " Height="50.08" Width="42.519" RenderTransformOrigin="0.5,0.5" Canvas.Left="-5.331" Canvas.Top="-0.021">
-     						<Path.RenderTransform>
-     							<TransformGroup>
-     								<ScaleTransform ScaleX="-1"/>
-     								<SkewTransform/>
-     								<RotateTransform/>
-     								<TranslateTransform/>
-     							</TransformGroup>
-     						</Path.RenderTransform>
-     					</Path>
-     					<Rectangle Fill="White" Height="51.333" Canvas.Left="42.056" Stroke="Black" StrokeLineJoin="Round" Canvas.Top="-0.135" Width="14"/>
-     				</Canvas>  		
-     			</Viewbox>
-     		</Button>
-     	</StackPanel>
-     	<ScrollViewer  x:FieldModifier="public" x:Name="ScrollViewer" Margin="8" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-      
-     		<Grid>
-     			<Grid.RowDefinitions>
-     				<RowDefinition Height="0.256*"/>
-     				<RowDefinition Height="0.69*"/>
-     				
-     			</Grid.RowDefinitions>
-			
-     			<DataGrid x:FieldModifier="public"  ItemsSource="{Binding Documents}" Background="{DynamicResource NormalBrush}" RowBackground="{DynamicResource NormalBrush}" Foreground="{DynamicResource TextBrush}" x:Name="DataList" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1" Margin="8" CellStyle="{DynamicResource DataGridCellStyle1}" AutoGenerateColumns="False">
-     				<DataGrid.ColumnHeaderStyle>  
-                    <Style TargetType="DataGridColumnHeader">  
-                        <Setter Property="HorizontalContentAlignment" Value="Center">  
-                        </Setter>  
-                        <Setter Property="Background" Value="{DynamicResource NormalBrush}"></Setter>  
-                        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"></Setter>  
-                          <Setter Property="BorderThickness" Value="1" />  
-                        <Setter Property="BorderBrush" Value="{DynamicResource TextBrush}" />  
-                    </Style>  
-                </DataGrid.ColumnHeaderStyle>   			
-				</DataGrid>
-     			<ListBox  x:FieldModifier="public" x:Name="ToolList" Margin="8" ItemsSource="{Binding SmartGroupCollection}"    ItemsPanel="{DynamicResource ItemsPanelTemplate1}" ItemTemplate="{DynamicResource DataTemplate1}" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Stretch"/>
-     			<GridSplitter HorizontalAlignment="Stretch" Height="5" VerticalAlignment="Bottom" ResizeDirection="Rows" Margin="0,0,0,-2.333" d:LayoutOverrides="VerticalAlignment, GridBox"/>
-     		</Grid>
-     	</ScrollViewer>
-</Grid>
-        <ListBox x:Name="ETLToolList"   x:FieldModifier="public"  Margin="20,44.667,20,20"  ItemsSource="{Binding ETLToolsView}"    ItemTemplate="{DynamicResource DataTemplateList}"     ItemsPanel="{DynamicResource ItemsPanelTemplate1}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.RowSpan="2" >
-            <ListBox.GroupStyle>
-                <GroupStyle ContainerStyle="{StaticResource GroupContainerStyle}">
-                    <GroupStyle.HeaderTemplate>
-                        <DataTemplate>
-                            <Border BorderBrush="Black" BorderThickness="1" Height="30">
-                                <TextBlock Text="{Binding Name}" FontSize="30" FontWeight="Bold" />
-                            </Border>
-                        </DataTemplate>
-                    </GroupStyle.HeaderTemplate>
-                </GroupStyle>
-            </ListBox.GroupStyle>
-        </ListBox>
-        <TextBox x:Name="SearchBox" Margin="91.098,16.333,20,0" TextWrapping="Wrap"  VerticalAlignment="Top" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBlock HorizontalAlignment="Left" Margin="20,16.333,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="13.742" Width="53.149"><Run Language="zh-cn" Text="快速检索:"/></TextBlock>
-        <GridSplitter Margin="0,0,-2.438,0" Width="5" Grid.RowSpan="2"/>
+        <Grid Grid.Column="1" Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="45" />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2">
+                <CheckBox Content="调试详情" IsChecked="{Binding DisplayDetail}" VerticalAlignment="Center" />
+            </StackPanel>
+            <Grid Grid.Row="1">
+                <Border BorderBrush="Black" BorderThickness="1" Background="#FF2D2D2D" />
+                <StackPanel HorizontalAlignment="Left" Margin="2.25,0,0,0" Orientation="Horizontal"
+					d:LayoutOverrides="Height">
+                    <TextBlock TextWrapping="Wrap" Text="模块" d:LayoutOverrides="Width" Margin="5,0,10,0"
+						VerticalAlignment="Center" />
+                    <TextBox Width="50" TextWrapping="Wrap" Text="{Binding ETLMount}" VerticalAlignment="Center"
+						FontSize="16" />
+                    <TextBlock TextWrapping="Wrap" Text="/" d:LayoutOverrides="Width" VerticalAlignment="Center"
+						FontSize="16" />
+                    <TextBlock TextWrapping="Wrap" Text="{Binding AllETLMount}" d:LayoutOverrides="Width"
+						VerticalAlignment="Center" FontSize="16" />
+                    <TextBlock TextWrapping="Wrap" Margin="15,0,10,0"
+                    	VerticalAlignment="Center" ><Run Language="zh-cn" Text="采样量"/></TextBlock>
+                    <TextBox Width="50" TextWrapping="Wrap" Text="{Binding SampleMount}" ToolTip="设置获取数据表的前n行" VerticalAlignment="Center"
+                    	FontSize="16" />
+                </StackPanel>
+                <ScrollBar SmallChange="1" Value="{Binding ETLMount}" Maximum="{Binding AllETLMount}"
+					Orientation="Horizontal" Margin="214.084,4,0,4" Background="#FF292929" BorderBrush="White" />
+            </Grid>
+            <StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal">
+                <Button Style="{DynamicResource middleButton2}" DataContext="{Binding Commands5[4]}" Width="35"
+					Height="35" Margin="0,5,10,5">
+                    <Viewbox Width="20" Height="20">
+                        <Canvas RenderTransformOrigin="0.5,0.5" Width="50" Height="50">
+
+                            <Path Stretch="Fill" StrokeLineJoin="Round" Stroke="Black" Fill="White"
+								Data="F1 M -66.7518,-348.017L 183.248,-168.017L -60.7518,3.98303L -66.7518,-348.017 Z "
+								Height="50.08" Width="42.519" RenderTransformOrigin="0.5,0.5" Canvas.Left="-5.331"
+								Canvas.Top="-0.021">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="-1" />
+                                        <SkewTransform />
+                                        <RotateTransform />
+                                        <TranslateTransform />
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                            <Rectangle Fill="White" Height="51.333" Canvas.Left="42.056" Stroke="Black"
+								StrokeLineJoin="Round" Canvas.Top="-0.135" Width="14" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>
+                <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[2]}" Width="35"
+					Height="35" Margin="15,0,0,0" />
+                <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[0]}" Width="35"
+					Height="35" Margin="15,0,0,0" />
+                <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[3]}" Width="35"
+					Height="35" Margin="15,0,0,0" />
+                <Button Style="{DynamicResource middleButton2}" DataContext="{Binding Commands5[5]}" Width="35"
+					Height="35" Margin="25,5,0,5">
+                    <Viewbox Width="20" Height="20">
+                        <Canvas RenderTransformOrigin="0.5,0.5" Width="50" Height="50">
+                            <Canvas.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="-1" />
+                                    <SkewTransform />
+                                    <RotateTransform />
+                                    <TranslateTransform />
+                                </TransformGroup>
+                            </Canvas.RenderTransform>
+                            <Path Stretch="Fill" StrokeLineJoin="Round" Stroke="Black" Fill="White"
+								Data="F1 M -66.7518,-348.017L 183.248,-168.017L -60.7518,3.98303L -66.7518,-348.017 Z "
+								Height="50.08" Width="42.519" RenderTransformOrigin="0.5,0.5" Canvas.Left="-5.331"
+								Canvas.Top="-0.021">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="-1" />
+                                        <SkewTransform />
+                                        <RotateTransform />
+                                        <TranslateTransform />
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                            <Rectangle Fill="White" Height="51.333" Canvas.Left="42.056" Stroke="Black"
+								StrokeLineJoin="Round" Canvas.Top="-0.135" Width="14" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>
+            </StackPanel>
+            <ScrollViewer x:FieldModifier="public" x:Name="ScrollViewer" Margin="8"
+				ScrollViewer.HorizontalScrollBarVisibility="Auto"
+				ScrollViewer.VerticalScrollBarVisibility="Disabled">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.256*" />
+                        <RowDefinition Height="0.69*" />
+
+                    </Grid.RowDefinitions>
+
+                    <DataGrid x:FieldModifier="public" ItemsSource="{Binding Documents}"
+						Background="{DynamicResource NormalBrush}" RowBackground="{DynamicResource NormalBrush}"
+						Foreground="{DynamicResource TextBrush}" x:Name="DataList"
+						ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1" Margin="8"
+						CellStyle="{DynamicResource DataGridCellStyle1}" AutoGenerateColumns="False">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="Background" Value="{DynamicResource NormalBrush}" />
+                                <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+                                <Setter Property="BorderThickness" Value="1" />
+                                <Setter Property="BorderBrush" Value="{DynamicResource TextBrush}" />
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                    </DataGrid>
+                    <ListBox x:FieldModifier="public" x:Name="ToolList" Margin="8"
+						ItemsSource="{Binding SmartGroupCollection}"
+						ItemsPanel="{DynamicResource ItemsPanelTemplate1}"
+						ItemTemplate="{DynamicResource DataTemplate1}"
+						ScrollViewer.VerticalScrollBarVisibility="Disabled"
+						ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Stretch" />
+                    <GridSplitter HorizontalAlignment="Stretch" Height="5" VerticalAlignment="Bottom"
+						ResizeDirection="Rows" Margin="0,0,0,-2.333"
+						d:LayoutOverrides="VerticalAlignment, GridBox" />
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+        <TextBox x:Name="SearchBox" Margin="81.348,12.835,29.75,0" TextWrapping="Wrap" VerticalAlignment="Top"
+        	Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Grid Margin="20" Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.537*" />
+                <RowDefinition Height="0.463*" />
+            </Grid.RowDefinitions>
+            <ListBox x:Name="ETLToolList" x:FieldModifier="public" Margin="0,22,0,8"
+				ItemsSource="{Binding ETLToolsView}" ItemTemplate="{DynamicResource DataTemplateList}"
+				ItemsPanel="{DynamicResource ItemsPanelTemplate1}"
+				ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.GroupStyle>
+                    <GroupStyle ContainerStyle="{StaticResource GroupContainerStyle}">
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="Black" BorderThickness="1" Height="30">
+                                    <TextBlock Text="{Binding Name}" FontSize="30" FontWeight="Bold" />
+                                </Border>
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </ListBox.GroupStyle>
+            </ListBox>
+            <GridSplitter HorizontalAlignment="Stretch" Height="3" VerticalAlignment="Bottom" Margin="0,0,0,-1.25" d:LayoutOverrides="VerticalAlignment, GridBox" />
+            <ListView  x:FieldModifier="public" x:Name="CurrentETLToolList"  SelectedItem="{Binding CurrentTool, Mode=OneWay}"  Grid.Row="1" Margin="0,8" SelectionMode="Single" DataContext="{Binding}"
+				ItemsSource="{Binding CurrentETLTools}" >
+
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="启用">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Enabled}" HorizontalAlignment="Center" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+						   <GridViewColumn Header="位置" DisplayMemberBinding="{Binding ETLIndex}" />
+                        <GridViewColumn Header="类型" DisplayMemberBinding="{Binding Attribute, Converter={StaticResource GroupConverter}}" />
+                        <GridViewColumn Header="名称" DisplayMemberBinding="{Binding TypeName}" />
+                        <GridViewColumn Header="输入" DisplayMemberBinding="{Binding Column}" />
+                        <GridViewColumn Header="输出" DisplayMemberBinding="{Binding NewColumn}" />
+                    </GridView>
+
+                </ListView.View>
+				  
+            </ListView>
+        </Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="20,16.333,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
+			Height="13.742" Width="53.149"><Run Language="zh-cn" Text="快速检索:" /></TextBlock>
+        <GridSplitter Margin="0,0,-2.438,0" Width="5" Grid.RowSpan="2" />
 
     </Grid>
 </UserControl>

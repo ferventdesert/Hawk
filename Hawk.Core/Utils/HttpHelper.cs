@@ -545,7 +545,12 @@ namespace Hawk.Core.Utils
                 var request = SetRequest(requestitem, url, post);
                 var r = GetHttpRequestData(request, requestitem,out responseHeaders, out code);
                 if (!IsSuccess(code))
+                {
+                    XLogSys.Print.Warn($"HTTP Request Failed {code} | {requestitem.URL} ");
                     return "HTTP错误，类型:" + code;
+
+                }
+                XLogSys.Print.Debug($"HTTP Request Success {code} | {requestitem.URL} ");
                 return r;
             }
             catch (Exception ex)

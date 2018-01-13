@@ -331,9 +331,19 @@ namespace Hawk.ETL.Managements
             {
                 var process = obj as IDataProcess;
                 if (process == null)
-                    return;
-                SaveTask(process, true);
-            }, obj => obj is IDictionarySerializable));
+                {
+                    foreach (var target in CurrentProcessCollections)
+                    {
+                        SaveTask(target, false);
+                        XLogSys.Print.Warn($"任务 {target.Name} 已经成功保存");
+                    }
+                }
+                else
+                {
+                    SaveTask(process, true);
+                }
+              
+            }, obj => true,"save"));
             processAction.ChildActions.Add(new Command("显示并配置", obj =>
             {
                 var process = GetProcess(obj);

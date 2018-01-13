@@ -124,6 +124,7 @@
 			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [1]}" />
 				<Button Style="{DynamicResource miniButton}" DataContext="{Binding [2]}" />
 					<Button Style="{DynamicResource miniButton}" DataContext="{Binding [3]}" />  	
+								<Button Style="{DynamicResource miniButton}" DataContext="{Binding [4]}" />  
 		</StackPanel>
         <ListBox x:Name="dataListBox" Margin="20" ToolTip="当前加载的所有数据，可在此进行管理" SelectedItem="{Binding SelectedDataCollection}" MouseMove="ListBox_MouseMove_1" DataContext="{Binding PluginDictionary[数据管理]}" ItemsSource="{Binding DataCollections}" ItemTemplate="{DynamicResource DataTemplate1}" Grid.Column="1">
     		<ListBox.Resources>

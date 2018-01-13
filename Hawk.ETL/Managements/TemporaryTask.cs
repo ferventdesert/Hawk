@@ -70,7 +70,10 @@ namespace Hawk.ETL.Managements
                     tempTask.CheckWait();
                 }
                 if (!tempTask.WasCanceled)
+                {
+                    XLogSys.Print.Debug($"任务【{tempTask.Name}】已经成功完成");
                     tempTask.Percent = 100;
+                }
                 if (contineAction != null)
                 {
                     ControlExtended.UIInvoke(() => contineAction(tempTask.CurrentIndex));

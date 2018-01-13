@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Controls
@@ -57,7 +58,6 @@ namespace Hawk.ETL.Controls
                 {
                     return;
                 }
-
                 MessageBox.Show("可将图标拖入右侧数据列的上方空白列表处，为该列添加ETL模块");
 
             }
@@ -115,9 +115,9 @@ namespace Hawk.ETL.Controls
 
         private void Rectangle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (e.ClickCount == 1)
+            if (e.ClickCount ==1)
             {
-                MessageBox.Show("可将图标拖入右侧数据列的上方空白列表处，为该列添加模块","提示信息");
+                XLogSys.Print.Warn("可将图标拖入右侧数据列的上方空白列表处，为该列添加模块");
             }
         }
     }

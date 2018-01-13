@@ -150,11 +150,15 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Themes\MetroConverter.cs" />
+    <Compile Include="Utils\Converters.cs" />
     <Compile Include="Utils\CookieAwareWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Utils\CustomSerializer.cs" />
+    <Compile Include="Utils\DragAdorner.cs" />
     <Compile Include="Utils\ForceLazy.cs" />
+    <Compile Include="Utils\ListViewDragDropManager.cs" />
+    <Compile Include="Utils\MouseUtilities.cs" />
     <Compile Include="Utils\MVVM\BindingEvaluator.cs" />
     <Compile Include="Utils\MVVM\BindingProxy.cs" />
     <Compile Include="Utils\MVVM\DropHelper.cs" />

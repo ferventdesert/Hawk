@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Security.Policy;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
@@ -19,9 +16,8 @@ namespace Hawk.ETL.Plugins.Executor
     [XFrmWork("保存超链接文件", "目标列需要为超链接类型，会保存链接的文件，如图片，视频等")]
     public class SaveFileEX : DataExecutorBase
     {
-        private  HttpHelper helper;
-     
         private string _crawlerSelector;
+        private HttpHelper helper;
 
         public SaveFileEX()
         {
@@ -45,15 +41,16 @@ namespace Hawk.ETL.Plugins.Executor
         [LocalizedDescription("填写采集器或模块的名称")]
         public TextEditSelector CrawlerSelector { get; set; }
 
-
         [LocalizedDisplayName("是否异步")]
         public bool IsAsync { get; set; }
+
         private SmartCrawler crawler { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
             crawler =
-                processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector.SelectItem) as SmartCrawler;
+                processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector.SelectItem) as
+                    SmartCrawler;
             if (crawler != null)
             {
             }
@@ -64,7 +61,8 @@ namespace Hawk.ETL.Plugins.Executor
                     return false;
                 ControlExtended.UIInvoke(() => { task.Load(false); });
                 crawler =
-                    processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector.SelectItem) as
+                    processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == CrawlerSelector.SelectItem)
+                        as
                         SmartCrawler;
             }
             helper = new HttpHelper();
@@ -77,12 +75,12 @@ namespace Hawk.ETL.Plugins.Executor
             {
                 var path = document.Query(SavePath);
                 var directoryInfo = new DirectoryInfo(path);
-                 var isdir = IsDir(path);
-                var url = document[Column].ToString();
+                var isdir = IsDir(path);
+                var url = document[Column]?.ToString();
                 if (string.IsNullOrEmpty(url))
                     continue;
                 DirectoryInfo folder = null;
-                if(!isdir)
+                if (!isdir)
                 {
                     folder = directoryInfo.Parent;
                 }
@@ -90,34 +88,34 @@ namespace Hawk.ETL.Plugins.Executor
                 {
                     folder = directoryInfo;
                 }
-              
+
                 if (folder == null)
                     continue;
                 if (!folder.Exists)
                 {
                     folder.Create();
                 }
-               if(isdir)
+                if (isdir)
                 {
                     path = folder.ToString();
                     if (path.EndsWith("/") == false)
                         path += "/";
-                    path+=getFileName(url);
+                    path += getFileName(url);
                 }
+                if (File.Exists(path))
+                    continue;
 
-            
 
                 try
                 {
-                    CookieAwareWebClient webClient = new CookieAwareWebClient();
+                    var webClient = new CookieAwareWebClient();
                     if (!IsAsync)
                     {
-                       
-                        webClient.DownloadFile(url,path);
+                        webClient.DownloadFile(url, path);
                     }
                     else
                     {
-                        webClient.DownloadFileAsync(new Uri( url), path);
+                        webClient.DownloadFileAsync(new Uri(url), path);
                     }
                     //HttpStatusCode code;
                     //var bytes = helper.GetFile(crawler.Http, out code, url);
@@ -132,37 +130,35 @@ namespace Hawk.ETL.Plugins.Executor
                 yield return document;
             }
         }
+
         /// <summary>
-        /// 判断目标是文件夹还是目录(目录包括磁盘)
+        ///     判断目标是文件夹还是目录(目录包括磁盘)
         /// </summary>
         /// <param name="filepath">文件名</param>
         /// <returns></returns>
         public static bool IsDir(string filepath)
         {
-            if(filepath.EndsWith("/"))
+            if (filepath.EndsWith("\\"))
             {
                 return true;
             }
-            FileInfo fi = new FileInfo(filepath);
-            if ((fi.Attributes & FileAttributes.Directory) != 0)
+            var fi = new FileInfo(filepath);
+            if (fi.Exists && (fi.Attributes & FileAttributes.Directory) != 0)
                 return true;
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         public static string getFileName(string path)
         {
-            string str = string.Empty;
-            int pos1 = path.LastIndexOf('/');
-            int pos2 = path.LastIndexOf('\\');
-            int pos = Math.Max(pos1, pos2);
+            var str = string.Empty;
+            var pos1 = path.LastIndexOf('/');
+            var pos2 = path.LastIndexOf('\\');
+            var pos = Math.Max(pos1, pos2);
             if (pos < 0)
                 str = path;
             else
                 str = path.Substring(pos + 1);
-            var chars= @"\/:*?""< >|";
+            var chars = @"\/:*?""< >|";
             foreach (var item in chars)
             {
                 str = str.Replace(item.ToString(), "");
@@ -170,5 +166,4 @@ namespace Hawk.ETL.Plugins.Executor
             return str;
         }
     }
-
 }

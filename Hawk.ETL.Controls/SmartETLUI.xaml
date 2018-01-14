@@ -468,12 +468,12 @@
         </Grid>
         <TextBox x:Name="SearchBox" Margin="81.348,12.835,29.75,0" TextWrapping="Wrap" VerticalAlignment="Top"
         	Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <Grid Margin="20" Grid.RowSpan="2">
+        <Grid Margin="8" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.537*" />
                 <RowDefinition Height="0.463*" />
             </Grid.RowDefinitions>
-            <ListBox x:Name="ETLToolList" x:FieldModifier="public" Margin="0,22,0,8"
+            <ListBox x:Name="ETLToolList" x:FieldModifier="public" Margin="0,27,0,8"
 				ItemsSource="{Binding ETLToolsView}" ItemTemplate="{DynamicResource DataTemplateList}"
 				ItemsPanel="{DynamicResource ItemsPanelTemplate1}"
 				ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -505,7 +505,7 @@
 						   <GridViewColumn Header="位置" DisplayMemberBinding="{Binding ETLIndex}" />
                         <GridViewColumn Header="类型" DisplayMemberBinding="{Binding Attribute, Converter={StaticResource GroupConverter}}" />
                         <GridViewColumn Header="名称" DisplayMemberBinding="{Binding TypeName}" />
-                        <GridViewColumn Header="输入" DisplayMemberBinding="{Binding Column}" />
+                        <GridViewColumn Header="输入" DisplayMemberBinding="{Binding Column}"  Width="60"/>
                         <GridViewColumn Header="输出" DisplayMemberBinding="{Binding NewColumn}" />
                     </GridView>
 

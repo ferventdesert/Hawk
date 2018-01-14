@@ -29,7 +29,7 @@ namespace Hawk.ETL.Plugins.Executor
             {
                 Thread.Sleep(result);
             }
-            return new List<IFreeDocument>() {r};
+            return new List<IFreeDocument>() {data};
         }
     }
 }

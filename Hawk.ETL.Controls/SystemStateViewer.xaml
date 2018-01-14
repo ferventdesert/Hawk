@@ -93,7 +93,7 @@
     		<ColumnDefinition Width="0.511*"/>
     		<ColumnDefinition Width="0.489*"/>
     	</Grid.ColumnDefinitions>
-            <ListBox x:Name="processListBox" ToolTip="当前加载的所有算法模块" SelectedItem="{Binding SelectedProcess}" Margin="20" MouseMove="processListBox_MouseMove" DataContext="{Binding PluginDictionary[模块管理]}" ItemsSource="{Binding ProcessCollectionView}"  ItemTemplate="{DynamicResource DataTemplate2}"  >
+            <ListBox x:Name="processListBox" ToolTip="当前加载的所有算法模块" SelectedItem="{Binding SelectedProcess}" Margin="8,8,8,20" MouseMove="processListBox_MouseMove" DataContext="{Binding PluginDictionary[模块管理]}" ItemsSource="{Binding ProcessCollectionView}"  ItemTemplate="{DynamicResource DataTemplate2}"  >
             <ListBox.GroupStyle>
                 <GroupStyle ContainerStyle="{StaticResource GroupContainerStyle}">
                     <GroupStyle.HeaderTemplate>
@@ -126,7 +126,7 @@
 					<Button Style="{DynamicResource miniButton}" DataContext="{Binding [3]}" />  	
 								<Button Style="{DynamicResource miniButton}" DataContext="{Binding [4]}" />  
 		</StackPanel>
-        <ListBox x:Name="dataListBox" Margin="20" ToolTip="当前加载的所有数据，可在此进行管理" SelectedItem="{Binding SelectedDataCollection}" MouseMove="ListBox_MouseMove_1" DataContext="{Binding PluginDictionary[数据管理]}" ItemsSource="{Binding DataCollections}" ItemTemplate="{DynamicResource DataTemplate1}" Grid.Column="1">
+        <ListBox x:Name="dataListBox" Margin="8,8,8,20" ToolTip="当前加载的所有数据，可在此进行管理" SelectedItem="{Binding SelectedDataCollection}" MouseMove="ListBox_MouseMove_1" DataContext="{Binding PluginDictionary[数据管理]}" ItemsSource="{Binding DataCollections}" ItemTemplate="{DynamicResource DataTemplate1}" Grid.Column="1">
     		<ListBox.Resources>
     			<ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding PluginDictionary[数据管理].Commands[2].ChildActions}"/>
 

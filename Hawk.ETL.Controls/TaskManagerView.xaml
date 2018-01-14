@@ -22,7 +22,7 @@
     		<RowDefinition Height="0.858*"/>
     		<RowDefinition Height="18"/>
     	</Grid.RowDefinitions>
-    	<ListView   ItemsSource="{Binding CurrentProcessTasks}" Margin="20,8">
+    	<ListView   ItemsSource="{Binding CurrentProcessTasks}" Margin="8">
     	
     		<ListView.View>
     			<GridView>

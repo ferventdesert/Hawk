@@ -102,9 +102,18 @@ namespace Hawk.ETL.Managements
                        var  thread = Thread.CurrentThread;
                         using (CancellationToken.Token.Register(() =>
                         {
-                            Thread.Sleep(2000);
-                            if (WasCanceled == false)
-                                thread.Abort();
+                            Task.Factory.StartNew(() =>
+                            {
+                                for (int i = 0; i < 10; i++)
+                                {
+                                    Thread.Sleep(100);
+                                    if (WasCanceled == true)
+                                        break;
+                                }
+                                if (WasCanceled == false)
+                                    thread.Abort();
+                            });
+                           
                         }))
                         {
                             TaskAction();

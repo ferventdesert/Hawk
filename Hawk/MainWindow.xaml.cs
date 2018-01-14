@@ -316,6 +316,13 @@ namespace Hawk
 
                         layout.IsActive = true;
                         break;
+                    case FrmState.Mini2:
+                        layout = Factory(name, thisControl);
+                        viewitem.Container = layout;
+                        dockablePane3.Children.Add(layout);
+
+                        layout.IsActive = true;
+                        break;
                     case FrmState.Custom:
                         var window = new Window {Title = name};
                         window.Content = thisControl;

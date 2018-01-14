@@ -14,6 +14,6 @@ namespace Hawk.ETL.Controls
             InitializeComponent();
         }
 
-        public FrmState FrmState => FrmState.Buttom;
+        public FrmState FrmState => FrmState.Mini2;
     }
 }

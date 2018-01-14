@@ -27,6 +27,7 @@
         Middle,
         Large,
         Float,
+        Mini2,
         /// <summary>
         /// 用于项目内部自身处理需求
         /// </summary>

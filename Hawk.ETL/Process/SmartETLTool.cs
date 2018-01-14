@@ -620,8 +620,12 @@ namespace Hawk.ETL.Process
                     if (string.IsNullOrEmpty(p.Name) == false)
                         item.Column = p.Name;
                     item.Father = this;
+                    this.shouldUpdate = false;
                     InsertModule(item);
+                    this.shouldUpdate = true;
                     ETLMount++;
+                  
+
                     //etlmount修改一定会引发RefreshSamples，因此注释掉下面代码
                     // RefreshSamples();
                 }
@@ -786,6 +790,7 @@ namespace Hawk.ETL.Process
         {
             if (shouldUpdate == false)
                 return;
+        
             if (SysProcessManager == null)
                 return;
             if (!mudoleHasInit)
@@ -892,12 +897,13 @@ namespace Hawk.ETL.Process
                 return;
             SmartGroupCollection.Clear();
             Documents.Clear();
-
+            shouldUpdate = false;
             var i = 0;
             foreach (var currentEtlTool in CurrentETLTools)
             {
                 (currentEtlTool).ETLIndex = i++;
             }
+            shouldUpdate = true;
             if (!MainDescription.IsUIForm)
                 return;
             all_columns.Clear();

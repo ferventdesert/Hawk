@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Windows.Controls.WpfPropertyGrid.Annotations;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
@@ -614,7 +613,7 @@ namespace Hawk.ETL.Crawlers
             var leafCount = avanode.Last().GetLeafNodeCount();
             var value = (childCount*PM25 + leafCount)*(v == 0 ? 2 : (Math.Log10((100 - v)/100)));
 
-            if(xpath.Contains("你"))
+            if (xpath.Contains("你"))
             {
                 Console.WriteLine(xpath);
             }
@@ -911,7 +910,6 @@ namespace Hawk.ETL.Crawlers
             {
                 return new List<CrawlItem>();
             }
-
             var buffers = new List<List<string>>();
             var nodes3 = nodes.ToList(); // .Where(d => d.Name.Contains("#") == false).ToList();
             if (nodes3.Count > 1)
@@ -920,8 +918,14 @@ namespace Hawk.ETL.Crawlers
             }
             if (exists != null)
             {
-                crawlItems.RemoveElementsNoReturn(d => exists.Any(r => IsSameXPath(d.XPath, r.XPath, root)));
-                crawlItems.AddRange(exists);
+                var copied = exists.Select(d =>
+                {
+                    var xp = new CrawlItem();
+                    d.DictCopyTo(xp);
+                    return xp;
+                }).ToList();
+                crawlItems.RemoveElementsNoReturn(d => copied.Any(r => IsSameXPath(d.XPath, r.XPath, root)));
+                crawlItems.AddRange(copied);
             }
 
             return crawlItems;
@@ -955,19 +959,29 @@ namespace Hawk.ETL.Crawlers
             var dict = new Dictionary<string, double>();
             if (string.IsNullOrEmpty(rootPath))
             {
+                var isForceItemOne = false; //强制进入只有一个属性的模式
                 if (existItems.Count > 1)
                 {
                     shortv =
                         XPath.GetMaxCompareXPath(existItems.Select(d => d.XPath));
+                    var nodes = doc2.DocumentNode.SelectNodes(shortv);
+                    if (nodes == null || nodes.Count == 0)
+                        yield break;
 
-                    var items = GetDiffNodes(doc2, shortv, isAttrEnabled, existItems, 1);
-                    var target = getCrawTarget(items, shortv);
-                    if (target != null)
-                        yield return target;
-                    yield break;
+                    if (nodes.Count == 1)
+                    {
+                        isForceItemOne = true;
+                    }
+                    else
+                    {
+                        var items = GetDiffNodes(doc2, shortv, isAttrEnabled, existItems, 1);
+                        var target = getCrawTarget(items, shortv);
+                        if (target != null)
+                            yield return target;
+                    }
                 }
 
-                if (existItems.Count == 1)
+                if (isForceItemOne || existItems.Count == 1)
                 {
                     var realPath = existItems.First().XPath;
                     var items = XPath.Split(realPath);
@@ -987,17 +1001,17 @@ namespace Hawk.ETL.Crawlers
                     GetTableRootProbability(
                         doc2.DocumentNode.ChildNodes.Where(d => d.Name.Contains("#") == false).ToList(), dict, true);
                 }
-                if (existItems.Count < 2)
+                if (isForceItemOne || existItems.Count < 2)
                 {
                     IEnumerable<KeyValuePair<string, double>> p = dict.OrderByDescending(d => d.Value);
                     foreach (var keyValuePair in p)
                     {
                         var items = GetDiffNodes(doc2, keyValuePair.Key, isAttrEnabled, existItems, 4);
-                        if(items.Count==0)
+                        if (items.Count == 0)
                             continue;
                         var target = getCrawTarget(items, keyValuePair.Key);
                         var rootNode = doc2.DocumentNode.SelectSingleNode(keyValuePair.Key).ParentNode;
-                        if(rootNode==null)
+                        if (rootNode == null)
                             continue;
 
                         target.Html = rootNode.InnerHtml;
@@ -1015,14 +1029,9 @@ namespace Hawk.ETL.Crawlers
                 if (items.Count > 0)
                 {
                     var root = doc2.DocumentNode.SelectSingleNode(rootPath);
-
-                    foreach (var crawlItem in items)
-                    {
-                        crawlItem.XPath = XPath.TakeOff(crawlItem.XPath, root.XPath);
-                    }
-
-                    var target = getCrawTarget(items, rootPath);
-
+                    var xpath = XPath.RemoveFinalNum(root.XPath);
+                    var target = getCrawTarget(items, xpath);
+                    target.RootXPath = rootPath;
                     yield return target;
                 }
             }

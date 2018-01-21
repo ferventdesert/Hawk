@@ -226,9 +226,9 @@ namespace Hawk.ETL.Process
         [LocalizedDisplayName("已有属性")]
         public ObservableCollection<CrawlItem> CrawlItems { get; set; }
 
-        [LocalizedCategory("2.属性提取")]
+        [LocalizedCategory("3.动态请求嗅探")]
         [LocalizedDisplayName("请求详情")]
-        [PropertyOrder(11)]
+        [PropertyOrder(1)]
         [LocalizedDescription("设置Cookie和其他访问选项")]
         [TypeConverter(typeof (ExpandableObjectConverter))]
         public HttpItem Http { get; set; }
@@ -331,7 +331,13 @@ namespace Hawk.ETL.Process
             {
                 var r = await MainFrm.RunBusyWork(() => currentXPaths.MoveNext(), "正在查询XPath");
                 if (r)
+                {
                     SelectXPath = currentXPaths.Current;
+                    if (string.IsNullOrWhiteSpace(this.SelectName))
+                    {
+                        this.SelectName = $"属性{this.CrawlItems.Count}";
+                    }
+                }
                 else
                 {
                     SelectXPath = "";

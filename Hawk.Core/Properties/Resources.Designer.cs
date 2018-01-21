@@ -61,11 +61,20 @@ namespace Hawk.Core.Properties {
         }
         
         /// <summary>
-        ///   查找类似 是否确定离开本软件? 请在关闭前保存要保存的工程 的本地化字符串。
+        ///   查找类似 是否确定离开Hawk?  的本地化字符串。
         /// </summary>
         public static string Closing {
             get {
                 return ResourceManager.GetString("Closing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 【{0}】任务还没有保存，【是】:保存任务并退出, 【否】：不保存退出，【取消】:取消退出 的本地化字符串。
+        /// </summary>
+        public static string Closing2 {
+            get {
+                return ResourceManager.GetString("Closing2", resourceCulture);
             }
         }
         

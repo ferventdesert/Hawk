@@ -438,7 +438,7 @@ namespace Hawk.ETL.Managements
             return true;
         }
 
-        private void SaveTask(IDataProcess process, bool haveui)
+        public void SaveTask(IDataProcess process, bool haveui)
         {
             var task = CurrentProject.Tasks.FirstOrDefault(d => d.Name == process.Name);
 
@@ -532,6 +532,20 @@ namespace Hawk.ETL.Managements
             ConfigFile.GetConfig().SaveConfig();
         }
 
+        public IEnumerable<IDataProcess> GetRevisedTasks()
+        {
+            foreach (var process in CurrentProcessCollections)
+            {
+                var task = CurrentProject.Tasks.FirstOrDefault(d => d.Name == process.Name);
+                if (task == null)
+                    yield return process;
+                if (!task.ProcessToDo.IsEqual(process.UnsafeDictSerialize()))
+                {
+                    yield return process;
+                }
+
+            }
+        } 
         #endregion
 
         #region Implemented Interfaces

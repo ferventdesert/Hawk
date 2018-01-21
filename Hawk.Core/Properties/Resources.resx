@@ -118,13 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Closing" xml:space="preserve">
-    <value>是否确定离开本软件? 请在关闭前保存要保存的工程</value>
+    <value>是否确定离开Hawk? </value>
   </data>
   <data name="ConfigNull" xml:space="preserve">
     <value>不包含任何有关配置文件的任何信息，请检查</value>
   </data>
   <data name="ControlLoad" xml:space="preserve">
     <value>控件加载</value>
+  </data>
+  <data name="Closing2" xml:space="preserve">
+    <value>【{0}】任务还没有保存，【是】:保存任务并退出, 【否】：不保存退出，【取消】:取消退出</value>
   </data>
   <data name="DataMgmt" xml:space="preserve">
     <value>数据管理</value>

@@ -41,7 +41,7 @@
         		<TextBlock TextWrapping="Wrap" Text="/" d:LayoutOverrides="Width" VerticalAlignment="Center" FontSize="16"/>
         		<TextBlock TextWrapping="Wrap" Text="{Binding Total}" d:LayoutOverrides="Width" VerticalAlignment="Center" FontSize="16"/>
         	</StackPanel>
-        	<ScrollBar SmallChange="1" Value="{Binding Position}" Maximum="{Binding Total}" Orientation="Horizontal" Margin="131.334,4,0,4" Background="#FF292929" BorderBrush="White"/>
+        	<ScrollBar SmallChange="1" Value="{Binding Position, Mode=OneWay}" Maximum="{Binding Total}" Orientation="Horizontal" Margin="131.334,4,0,4" Background="#FF292929" BorderBrush="White"/>
         </Grid>
         <Grid Grid.Row="2" Grid.ColumnSpan="2">
         	<Grid.ColumnDefinitions>

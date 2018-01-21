@@ -17,10 +17,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using AvalonDock.Layout;
+using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Controls;
+using Hawk.ETL.Interfaces;
+using Hawk.ETL.Managements;
 using log4net.Config;
 using ToastNotifications;
 using ToastNotifications.Core;
@@ -132,17 +135,45 @@ namespace Hawk
   
             Closing += (s, e) =>
             {
-                if (MessageBox.Show(Core.Properties.Resources.Closing, Core.Properties.Resources.Tips, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-
+                List<IDataProcess> revisedTasks;
+                var processmanager = PluginDictionary["模块管理"] as DataProcessManager;
+                revisedTasks = processmanager.CurrentProcessCollections.ToList();
+                if (!revisedTasks.Any())
                 {
-                    PluginManager.Close();
-                    PluginManager.SaveConfigFile();
-                    Process.GetCurrentProcess().Kill();
+                    if (MessageBox.Show(Core.Properties.Resources.Closing, Core.Properties.Resources.Tips, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                    {
+                        PluginManager.Close();
+                        PluginManager.SaveConfigFile();
+                        Process.GetCurrentProcess().Kill();
+                    }
+                    else
+                    {
+                        e.Cancel = true;
+                    }
                 }
                 else
                 {
-                    e.Cancel = true;
+
+                    var result =
+                        MessageBox.Show(string.Format(Core.Properties.Resources.Closing2," ".Join(revisedTasks.Select(d=>d.Name).ToArray())), Core.Properties.Resources.Tips,
+                            MessageBoxButton.YesNoCancel);
+                    if(result==MessageBoxResult.Yes || result==MessageBoxResult.No)
+                    {
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            revisedTasks.Execute(d => processmanager.SaveTask(d, false));
+
+                        }
+                        PluginManager.Close();
+                        PluginManager.SaveConfigFile();
+                        Process.GetCurrentProcess().Kill();
+                    }
+                    else
+                    {
+                        e.Cancel = true;
+                    }
                 }
+              
             };
             //  TestCode();
 #if !DEBUG

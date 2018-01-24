@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -263,8 +264,8 @@ namespace Hawk.ETL.Plugins.Transformers
                                         task => task.Publisher == Father && task.IsPause == false).ToList();
                                     list.Execute(task => task.Remove());
 
-                                    window.Closed += (s, e) => Father.ETLMount++;
-                                    Father.ETLMount = Father.CurrentETLTools.IndexOf(this);
+// window.Closed += (s, e) => Father.ETLMount++;
+                                    Father.ETLMount = Math.Max(0, Father.CurrentETLTools.IndexOf(this));
                                     window.ShowDialog();
                                     window.Topmost = true; 
                                     return true;

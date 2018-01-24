@@ -20,7 +20,11 @@ namespace Hawk.ETL.Plugins.Transformers
             ReferFormat = new ExtendSelector<string>();
             ReferFormat.GetItems = () =>
                 processManager.CurrentProcessCollections.OfType<SmartCrawler>().Select(d => d.URL).ToList();
-            ReferFormat.SelectChanged = (s, e) => Format = ReferFormat.SelectItem;
+            ReferFormat.SelectChanged = (s, e) =>
+            {
+                Format = ReferFormat.SelectItem;
+                OnPropertyChanged("Format");
+            };
         }
 
         [LocalizedDisplayName("其他项")]

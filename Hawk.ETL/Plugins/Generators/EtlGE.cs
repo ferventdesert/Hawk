@@ -33,15 +33,15 @@ namespace Hawk.ETL.Plugins.Generators
         }
    
         [LocalizedCategory("2.调用选项")]
-        [LocalizedDisplayName("子流-选择")]
+        [LocalizedDisplayName("子任务-选择")]
         [PropertyOrder(0)]
-        [LocalizedDescription("输入要调用的子流的名称")]
+        [LocalizedDescription("输入要调用的子任务的名称")]
         public TextEditSelector ETLSelector { get; set; }
 
         [LocalizedCategory("2.调用选项")]
         [LocalizedDisplayName("调用范围")]
         [PropertyOrder(1)]
-        [LocalizedDescription("设定调用子流的模块范围，例如2:30表示从第2个到第30个子模块将会启用，其他的模块不启用，2:-1表示从第3个到倒数第二个启用，其他不启用，符合python的slice语法")]
+        [LocalizedDescription("设定调用子任务的模块范围，例如2:30表示从第2个到第30个子模块将会启用，其他的模块不启用，2:-1表示从第3个到倒数第二个启用，其他不启用，符合python的slice语法")]
         public string ETLRange { get; set; }
 
 
@@ -101,7 +101,7 @@ namespace Hawk.ETL.Plugins.Generators
                 }
                 catch (Exception ex)
                 {
-                    XLogSys.Print.Error("子流范围表达式错误，请检查:" + ex.Message);
+                    XLogSys.Print.Error("子任务范围表达式错误，请检查:" + ex.Message);
                 }
             }
             foreach (var tool in etl.CurrentETLTools.Skip(start).Take(end - start))
@@ -113,7 +113,7 @@ namespace Hawk.ETL.Plugins.Generators
  
     }
 
-    [XFrmWork("子流-生成", "从其他数据清洗模块中生成序列，用以组合大模块")]
+    [XFrmWork("子任务-生成", "从其他数据清洗模块中生成序列，用以组合大模块")]
     public class EtlGE : ETLBase, IColumnGenerator
     {
 
@@ -147,7 +147,7 @@ namespace Hawk.ETL.Plugins.Generators
     }
 
 
-    [XFrmWork("子流-执行", "从其他数据清洗模块中生成序列，用以组合大模块")]
+    [XFrmWork("子任务-执行", "从其他数据清洗模块中生成序列，用以组合大模块")]
     public class EtlEX : ETLBase, IDataExecutor
     {
         private EnumerableFunc func;
@@ -214,8 +214,6 @@ namespace Hawk.ETL.Plugins.Generators
     [XFrmWork("矩阵转置", "将列数据转换为行数据，拖入的列为key")]
     public class DictTF : TransformerBase
     {
-        [LocalizedDisplayName("值列名")]
-        public string ValueColumn { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {
@@ -263,7 +261,7 @@ namespace Hawk.ETL.Plugins.Generators
         }
     }
 
-    [XFrmWork("子流-转换", "从其他数据清洗模块中生成序列，用以组合大模块")]
+    [XFrmWork("子任务-转换", "调用所选的子任务作为转换器，有关子任务，请参考相关文档")]
     public class EtlTF : ETLBase, IColumnDataTransformer
     {
         private EnumerableFunc func;
@@ -279,7 +277,7 @@ namespace Hawk.ETL.Plugins.Generators
 
         [LocalizedCategory("1.基本选项")]
         [LocalizedDisplayName("输出列")]
-        [LocalizedDescription("从原始数据中传递到子执行流的列，多个列用空格分割")]
+        [LocalizedDescription("从原任务中传递到子任务的列，多个列用空格分割")]
         public string NewColumn { get; set; }
 
         [Browsable(false)]

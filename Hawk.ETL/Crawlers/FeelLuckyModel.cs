@@ -31,7 +31,7 @@ namespace Hawk.ETL.Crawlers
             Position = 0;
             HtmlDoc = htmlDoc;
             SortMethods = new List<string> {"按列数排序", "按行数排序", "按分数排序", "按面积排序"};
-            SortMethod = "按分数排序";
+            SortMethod = "按面积排序";
         }
 
         public List<string> SortMethods { get; set; }
@@ -88,7 +88,7 @@ namespace Hawk.ETL.Crawlers
             }
         }
 
-        public int Total => CrawTargets.Count;
+        public int Total => CrawTargets.Count-1;
 
         public ReadOnlyCollection<ICommand> Commands
         {
@@ -104,7 +104,7 @@ namespace Hawk.ETL.Crawlers
                             if (Position > 0)
                                 Position--;
                         }, obj => Position > 0, "arrow_left"),
-                        new Command("下一个", obj => { Position++; }, obj => Position < Total - 1, "arrow_right"),
+                        new Command("下一个", obj => { Position++; }, obj => Position < Total , "arrow_right"),
                         new Command("确认结果", obj =>
                         {
                             parent.DialogResult = true;

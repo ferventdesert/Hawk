@@ -732,7 +732,12 @@ namespace Hawk.ETL.Process
                     if (control != null)
                     {
                         dynamic invoke = control.View;
-                        invoke.UpdateHtml(URLHTML);
+                        if(!IsSuperMode)
+                            invoke.UpdateHtml(URLHTML);
+                        else
+                        {
+                            invoke.UpdateHtml("超级模式下内置浏览器不展示内容，请查看左侧的文本内容");
+                        }
                     }
                 }
             },

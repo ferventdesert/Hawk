@@ -393,7 +393,7 @@ namespace Hawk.ETL.Managements
 
                 ProgramNameFilterView.GroupDescriptions.Clear();
                 ProgramNameFilterView.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
-                var taskView = PluginProvider.GetObjectInstance<ICustomView>("任务管理视图");
+                var taskView = PluginProvider.GetObjectInstance<ICustomView>("工作线程视图");
                 var userControl = taskView as UserControl;
                 if (userControl != null)
                 {
@@ -403,13 +403,13 @@ namespace Hawk.ETL.Managements
                         ControlExtended.UIInvoke(() => {
                             if (e.Action == NotifyCollectionChangedAction.Add)
                             {
-                                dockableManager.ActiveThisContent("任务管理视图");
+                                dockableManager.ActiveThisContent("工作线程视图");
                             }
                         });
                      
                     }
                         ;
-                    dockableManager.AddDockAbleContent(taskView.FrmState, this, taskView, "任务管理视图");
+                    dockableManager.AddDockAbleContent(taskView.FrmState, this, taskView, "工作线程视图");
                 }
                 ProcessCollectionView = new ListCollectionView(ProcessCollection);
                 ProcessCollectionView.GroupDescriptions.Clear();
@@ -576,7 +576,10 @@ namespace Hawk.ETL.Managements
                             rc4.MainPluginLocation = MainFrmUI.MainPluginLocation;
                             rc4.MainFrm = MainFrmUI;
                         }
-                        var count = this.CurrentProcessCollections.Count(d => d.Name.Contains( process.TypeName));
+                        var names =
+                            this.CurrentProcessCollections.Select(d => d.Name)
+                                .Concat(this.CurrentProject.Tasks.Select(d => d.Name));
+                        var count = names.Count(d => d.Contains( process.TypeName));
                         if (count > 0)
                             process.Name = process.TypeName + count;
                         ProcessCollection.Add(process);

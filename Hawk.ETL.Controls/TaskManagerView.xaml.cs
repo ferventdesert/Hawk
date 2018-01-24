@@ -6,7 +6,7 @@ namespace Hawk.ETL.Controls
     /// <summary>
     /// TaskManagerView.xaml 的交互逻辑
     /// </summary>
-  [XFrmWork("任务管理视图" )]
+  [XFrmWork("工作线程视图" )]
     public partial class TaskManagerView : UserControl,ICustomView
     {
         public TaskManagerView()

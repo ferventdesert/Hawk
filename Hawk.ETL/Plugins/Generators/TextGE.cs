@@ -26,6 +26,7 @@ namespace Hawk.ETL.Plugins.Generators
          public TextGE()
          {
              Column = "text";
+             Content = "";
          }
 
      

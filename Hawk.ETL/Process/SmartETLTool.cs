@@ -605,6 +605,19 @@ namespace Hawk.ETL.Process
 
         private bool iswait;
 
+        private bool NeedConfig(IDictionarySerializable item)
+        {
+            var config = item.DictSerialize();
+            var keys = new[] { "Type", "Group", "Column", "NewColumn" };
+            foreach (var k in config.DataItems)
+            {
+                if (keys.Contains(k.Key))
+                    continue;
+                if (k.Value == null || k.Value.ToString() == "")
+                    return true;
+            }
+            return false;
+        }
         private bool DropAction(string sender, object attr)
         {
             if (sender == "Drop")
@@ -623,11 +636,15 @@ namespace Hawk.ETL.Process
                     this.shouldUpdate = false;
                     InsertModule(item);
                     this.shouldUpdate = true;
+                    if (NeedConfig(item))
+                    {
+                        var window = PropertyGridFactory.GetPropertyWindow(item);
+                       
+                        window.ShowDialog();
+                    }
                     ETLMount++;
                   
 
-                    //etlmount修改一定会引发RefreshSamples，因此注释掉下面代码
-                    // RefreshSamples();
                 }
             }
             if (sender == "Click")

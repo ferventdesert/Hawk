@@ -38,9 +38,18 @@ namespace Hawk.ETL.Interfaces
         public static Func<List<string>> GetAllCrawlerNames(this IColumnProcess process)
         {
             var processManager = MainDescription.MainFrm.PluginDictionary[_static_name] as IProcessManager;
-            return () => processManager.CurrentProcessCollections.Where(d => d is SmartCrawler)
-                .Select(d => d.Name)
-                .ToList();
+            return delegate
+            {
+                var item=
+                 processManager.CurrentProcessCollections.Where(d => d is SmartCrawler)
+                    .Select(d => d.Name)
+                    .Concat(
+                        processManager.CurrentProject.Tasks.Where(d => d.ProcessToDo["Type"].ToString() == "SmartCrawler")
+                            .Select(d => d.Name)).
+                    Distinct().ToList();
+
+                return item;
+            };
         }
 
         public static T GetModule<T>(this IColumnProcess process, string name) where T : class
@@ -82,7 +91,10 @@ namespace Hawk.ETL.Interfaces
             var processManager = MainDescription.MainFrm.PluginDictionary[_static_name] as IProcessManager;
             return () => processManager.CurrentProcessCollections.Where(d => d is SmartETLTool)
                 .Select(d => d.Name)
-                .ToList();
+                 .Concat(
+                        processManager.CurrentProject.Tasks.Where(d => d.ProcessToDo["Type"].ToString() == "SmartETLTool")
+                            .Select(d => d.Name)).
+                Distinct().ToList();
         }
 
         public static void UnsafeDictDeserializePlus(this object item, IDictionary<string, object> dict)

@@ -694,6 +694,8 @@ namespace Hawk.Core.Utils
                 object res;
                 if (dic2.TryGetValue(o.Key, out res))
                 {
+                    if (res == null && o.Value != null)
+                        return false;
                     if (!res.Equals(  o.Value))
                     {
                         return false;

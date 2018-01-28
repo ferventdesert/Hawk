@@ -53,7 +53,7 @@ namespace Hawk.ETL.Plugins.Generators
                 queue.Enqueue(url);
             }
         }
-        public override IEnumerable<FreeDocument> Generate(IFreeDocument document = null)
+        public override IEnumerable<IFreeDocument> Generate(IFreeDocument document = null)
         {
 
             InsertQueue(StartURL);

@@ -151,11 +151,7 @@ namespace Hawk.Core.Utils
         public static string GetDescription(Enum source)
         {
             var attr = GetCustomAttribute<DescriptionAttribute>(source);
-            if (attr == null)
-            {
-                return null;
-            }
-            return attr.Description;
+            return attr?.Description;
         }
 
 

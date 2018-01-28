@@ -58,7 +58,7 @@ namespace Hawk.ETL.Interfaces
         /// </summary>
         MergeType MergeType { get; set; }
 
-        IEnumerable<FreeDocument> Generate(IFreeDocument document = null);
+        IEnumerable<IFreeDocument> Generate(IFreeDocument document = null);
 
         /// <summary>
         ///     生成器能生成的文档数量
@@ -110,7 +110,7 @@ namespace Hawk.ETL.Interfaces
 
        
 
-        public virtual IEnumerable<FreeDocument> Generate(IFreeDocument document = null)
+        public virtual IEnumerable<IFreeDocument> Generate(IFreeDocument document = null)
         {
             yield break;
         }

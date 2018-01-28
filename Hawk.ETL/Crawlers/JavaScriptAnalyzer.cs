@@ -238,7 +238,7 @@ namespace Hawk.ETL.Crawlers
                     {
                         return JsSeriaize(code);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         return code;
                     }

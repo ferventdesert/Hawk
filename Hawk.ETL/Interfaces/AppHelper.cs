@@ -4,9 +4,11 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
+using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Crawlers;
 using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Interfaces
@@ -56,9 +58,12 @@ namespace Hawk.ETL.Interfaces
         {
             var moduleName = (typeof(T) == typeof(SmartETLTool)) ? "数据清洗" : "网页采集器";
             if (string.IsNullOrEmpty(name))
+                return null;
+            var process_name = process?.TypeName;
+            if (process_name!=null&& string.IsNullOrEmpty(name))
 
             {
-                XLogSys.Print.Error($"您没有填写“{process.TypeName}”的对应参数。");
+                XLogSys.Print.Error($"您没有填写“{process_name}”的对应参数。");
 
 
                 return default(T);
@@ -76,7 +81,7 @@ namespace Hawk.ETL.Interfaces
 
             {
                
-                XLogSys.Print.Error($"没有找到名称为'{name}'的{moduleName}，请检查“{process.TypeName}”是否填写错误");
+                XLogSys.Print.Error($"没有找到名称为'{name}'的{moduleName}，请检查“{process_name}”是否填写错误");
                 throw new NullReferenceException($"can't find a ETL Module named {name}");
             }
 
@@ -86,6 +91,62 @@ namespace Hawk.ETL.Interfaces
             return module;
         }
 
+        /// <summary>
+        /// 高版本配置向低版本兼容
+        /// </summary>
+        /// <param name="new_dict"></param>
+        /// <param name="old_dict"></param>
+        public static void  ConfigVersionConverter(FreeDocument new_dict, IDictionary<string, object> old_dict)
+        {
+            var new_dic = new FreeDocument();
+            foreach (var item in old_dict)
+            {
+                object value = null;
+                if (item.Value == null)
+                    continue;
+                if (item.Key == "ScriptWorkMode")
+                {
+                    var str = item.Value.ToString();
+                    if (str == "不进行转换")
+                        value = "NoTransform";
+                    else if (str == "文档列表")
+                        value = "List";
+                    else if (str == "单文档")
+                    {
+                        value = "One";
+                    }
+
+
+                    if (value != null)
+                    {
+                        new_dic.Add(item.Key, value);
+                    }
+                }
+
+
+                else
+                {
+                    var key = new_dict.FirstOrDefault(d => d.Value != null && d.Value.GetType() == typeof(ScriptWorkMode)).Key;
+                    if (key != null && key == item.Key)
+                    {
+                        bool real_value;
+                        if (old_dict.TryGetValue(key, out value) && value!=null&&bool.TryParse(value.ToString(), out real_value))
+                        {
+                            var new_value = real_value ? ScriptWorkMode.List : ScriptWorkMode.One;
+                            new_dic.Add(key, new_value);
+                        }
+                    }
+                }
+            }
+
+            if (new_dic.Any())
+                foreach (var o in new_dic)
+                {
+                    old_dict[o.Key] = o.Value;
+                }
+
+
+        }
         public static Func<List<string>> GetAllETLNames(this IColumnProcess process)
         {
             var processManager = MainDescription.MainFrm.PluginDictionary[_static_name] as IProcessManager;

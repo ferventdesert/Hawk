@@ -100,7 +100,7 @@ namespace Hawk.ETL.Plugins.Generators
         {
             return fileList.Count;
         }
-        public override IEnumerable<FreeDocument> Generate(IFreeDocument document = null)
+        public override IEnumerable<IFreeDocument> Generate(IFreeDocument document = null)
         {
            
             foreach (string doc in fileList)

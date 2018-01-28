@@ -43,7 +43,7 @@ namespace Hawk.ETL.Plugins.Transformers
         {
             base.Init(datas);
 
-            IsMultiYield = crawler?.IsMultiData == ListType.List && crawler.CrawlItems.Count > 0;
+            IsMultiYield = crawler?.IsMultiData == ScriptWorkMode.List && crawler.CrawlItems.Count > 0;
 
             return crawler != null;
         }

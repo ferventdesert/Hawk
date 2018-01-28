@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Utils;
@@ -68,6 +69,15 @@ namespace Hawk.ETL.Interfaces
                 if (_name == value) return;
                 _name = value;
                 OnPropertyChanged("Name");
+                if (MainDescription.IsUIForm)
+                {
+                    var dock = MainFrm as IDockableManager;
+                    var view = dock?.ViewDictionary.FirstOrDefault(d => d.Model == this);
+                    if(view==null)
+                        return;
+                    dynamic container = view.Container;
+                    container.Title =  _name;
+                }
             }
         }
 
@@ -103,9 +113,6 @@ namespace Hawk.ETL.Interfaces
 
         public virtual void DictDeserialize(IDictionary<string, object> dicts, Scenario scenario = Scenario.Database)
         {
-
-
-
             Name = dicts.Set("Name", Name);
         }
 

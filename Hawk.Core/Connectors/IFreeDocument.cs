@@ -17,4 +17,34 @@ namespace Hawk.Core.Connectors
 
         #endregion
     }
+    /// <summary>
+    /// 转换器脚本运行方式
+    /// </summary>
+    public enum ScriptWorkMode
+    {
+        List,
+        One,
+        NoTransform,
+    }
+    /// <summary>
+    /// 爬虫获取数据运行方式
+    /// </summary>
+    public enum CrawlType
+    {
+        InnerText,
+        InnerHtml,
+        OuterHtml,
+
+    }
+
+    /// <summary>
+    /// 手气不错排序方式
+    /// </summary>
+    public enum SortMethod
+    {
+        按列数排序,
+        按行数排序,
+        按分数排序,
+        按面积排序
+    }
 }

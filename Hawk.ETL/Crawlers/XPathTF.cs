@@ -15,12 +15,17 @@ namespace Hawk.ETL.Crawlers
     [XFrmWork("XPath筛选器", "通过XPath选取html中的子节点文档")]
     public class XPathTF : TransformerBase
     {
+        public XPathTF()
+        {
+            IsManyData = ScriptWorkMode.One;
+        }
+
         [LocalizedDisplayName("XPath路径")]
         public string XPath { get; set; }
 
-        [LocalizedDisplayName("获取多个数据")]
-        [LocalizedDescription("当要获取符合XPath语法的多个结果时，勾选该选项")]
-        public bool IsManyData { get; set; }
+        [LocalizedDisplayName("工作模式")]
+        [LocalizedDescription("当要获取符合XPath语法的多个结果时选List，否则选One,参考“网页采集器”")]
+        public ScriptWorkMode IsManyData { get; set; }
 
         [LocalizedDisplayName("获取正文")]
         [LocalizedDescription("勾选此项后，会自动提取新闻正文，XPath路径可为空")]
@@ -55,7 +60,7 @@ namespace Hawk.ETL.Crawlers
 
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {
-            IsMultiYield = IsManyData;
+            IsMultiYield = IsManyData==ScriptWorkMode.List;
             return base.Init(docus);
         }
 
@@ -73,14 +78,14 @@ namespace Hawk.ETL.Crawlers
             if (GetText)
             {
                 var path = docu.DocumentNode.GetTextNode();
-                var textnode = docu.DocumentNode.SelectSingleNode(path);
+                var textnode = docu.DocumentNode.SelectSingleNodePlus(path);
                 if (textnode != null)
                     return textnode.GetNodeText();
             }
             if (GetTextHtml)
             {
                 var path = docu.DocumentNode.GetTextNode();
-                var textnode = docu.DocumentNode.SelectSingleNode(path);
+                var textnode = docu.DocumentNode.SelectSingleNodePlus(path);
                 if (textnode != null)
                     return textnode.InnerHtml;
             }

@@ -39,7 +39,7 @@ namespace Hawk.ETL.Plugins.Generators
         [LocalizedDescription("可参考C# DateTime Format相关方法")]
         public string Format { get; set; }
 
-        public override IEnumerable<FreeDocument> Generate(IFreeDocument document = null)
+        public override IEnumerable<IFreeDocument> Generate(IFreeDocument document = null)
         {
             //TODO
             DateTime min, max;

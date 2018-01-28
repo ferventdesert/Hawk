@@ -7,7 +7,7 @@ namespace Hawk.ETL.Crawlers
 {
     public static class XPath 
     {
-        private static readonly Regex boxRegex = new Regex(@"\[\d{1,3}\]");
+        public static readonly Regex boxRegex = new Regex(@"\[\d{1,3}\]");
 
 
         

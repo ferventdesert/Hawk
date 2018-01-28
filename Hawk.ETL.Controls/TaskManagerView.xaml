@@ -58,7 +58,7 @@
     			</GridView>
     		</ListView.View> 	           	 
     	</ListView>
-    	<StackPanel VerticalAlignment="Top"   DataContext="{Binding BindingCommands.ChildActions[2].ChildActions}"  HorizontalAlignment="Left" Orientation="Horizontal" Grid.Row="1" Margin="20,0,0,0">
+    	<StackPanel VerticalAlignment="Top"   DataContext="{Binding BindingCommands.ChildActions[2].ChildActions}"  HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="1" Margin="20,0,0,0">
     		<Button Style="{DynamicResource miniButton}" DataContext="{Binding [0]}" />
     		<Button Style="{DynamicResource miniButton}" DataContext="{Binding [1]}" />
     		<Button Style="{DynamicResource miniButton}" DataContext="{Binding [2]}" />

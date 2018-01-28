@@ -127,7 +127,7 @@
     <value>控件加载</value>
   </data>
   <data name="Closing2" xml:space="preserve">
-    <value>【{0}】任务可能还没有保存，【是】:保存任务并退出, 【否】：不保存退出，【取消】:取消退出</value>
+    <value>【{0}】任务可能还没有保存，\n【是】:保存任务并退出, \n【否】：不保存退出，\n【取消】:取消退出</value>
   </data>
   <data name="DataMgmt" xml:space="preserve">
     <value>数据管理</value>

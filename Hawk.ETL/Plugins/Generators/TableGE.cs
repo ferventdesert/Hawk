@@ -42,7 +42,7 @@ namespace Hawk.ETL.Plugins.Generators
                 dataManager.DataCollections.FirstOrDefault(d => d.Name == docu["Table"].ToString());
             TableSelector.InformPropertyChanged("");
         }
-        public override IEnumerable<FreeDocument> Generate(IFreeDocument document = null)
+        public override IEnumerable<IFreeDocument> Generate(IFreeDocument document = null)
         {
             DataCollection table = TableSelector.SelectItem;
             if(table==null)

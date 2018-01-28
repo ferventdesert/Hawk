@@ -53,7 +53,7 @@ namespace Hawk.ETL.Plugins.Generators
             return base.Init(datas);
         }
 
-        public override IEnumerable<FreeDocument> Generate(IFreeDocument document = null)
+        public override IEnumerable<IFreeDocument> Generate(IFreeDocument document = null)
         {
             int interval;
             double max, min;

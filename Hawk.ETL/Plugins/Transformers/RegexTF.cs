@@ -6,6 +6,7 @@ using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Crawlers;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
@@ -19,11 +20,13 @@ namespace Hawk.ETL.Plugins.Transformers
         {
             Index = 0;
             Script = "";
+            IsManyData=ScriptWorkMode.One;
         }
-        [LocalizedDisplayName("返回多个结果")]
-        public override bool IsMultiYield { get; set; }
+       
 
-
+        [LocalizedDisplayName("工作模式")]
+        [LocalizedDescription("当要输出多个结果时选List，否则选One或None,参考“网页采集器”")]
+        public ScriptWorkMode IsManyData { get; set; }
 
         [LocalizedDisplayName("匹配编号")]
         [LocalizedDescription("当值为小于0时，可同时匹配多个值")]
@@ -44,6 +47,7 @@ namespace Hawk.ETL.Plugins.Transformers
         public override bool Init(IEnumerable<IFreeDocument> docu)
         {
             OneOutput = true;
+            IsMultiYield = IsManyData == ScriptWorkMode.List;
             regex = new Regex(Script);
             return base.Init(docu);
 

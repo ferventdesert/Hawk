@@ -22,7 +22,7 @@ namespace Hawk.Core.Utils
         AllRight,
         AnyWrong,
         AllWrong,
-        AnyRight,
+        AnyRight
     }
 
     /// <summary>
@@ -34,13 +34,13 @@ namespace Hawk.Core.Utils
 
         public static string GenerateRandomString(int length)
         {
-            string checkCode = String.Empty;
+            var checkCode = string.Empty;
 
             var random = new Random();
 
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
             {
-                int number = random.Next();
+                var number = random.Next();
 
                 char code;
                 if (number%2 == 0)
@@ -57,18 +57,34 @@ namespace Hawk.Core.Utils
 
             return checkCode;
         }
+
+        public static IEnumerable<T> Init<T>(this IEnumerable<T> items, Func<T, bool> init = null)
+        {
+            var count = 0;
+            foreach (var item in items)
+            {
+                if (count == 0)
+                    if (init != null && init(item))
+                        yield break;
+                count++;
+
+                yield return item;
+            }
+        }
+
         public static IFreeDocument MergeQuery(this IFreeDocument document, IFreeDocument doc2, string Columns)
         {
             if (doc2 == null || string.IsNullOrWhiteSpace(Columns))
                 return document;
-            var columns = Columns.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+            var columns = Columns.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries);
             foreach (var column in columns)
             {
                 document.SetValue(column, doc2[column]);
             }
             return document;
         }
-        public static  string Query(this IFreeDocument document, string query)
+
+        public static string Query(this IFreeDocument document, string query)
         {
             if (query == null)
                 return null;
@@ -83,17 +99,13 @@ namespace Hawk.Core.Utils
             return query;
         }
 
-      
-
         public static IEnumerable<IFreeDocument> Cross(this IEnumerable<IFreeDocument> datas,
             IEnumerable<IFreeDocument> target)
         {
-
             foreach (var data in datas)
             {
                 foreach (var item in target)
                 {
-
                     var data2 = data.Clone();
                     item.DictCopyTo(data2);
                     yield return data2;
@@ -102,20 +114,19 @@ namespace Hawk.Core.Utils
         }
 
         public static IEnumerable<IFreeDocument> Cross(this IEnumerable<IFreeDocument> datas,
-        Func<IFreeDocument,IEnumerable<IFreeDocument>> generator)
+            Func<IFreeDocument, IEnumerable<IFreeDocument>> generator)
         {
-
             foreach (var data in datas)
             {
                 foreach (var item in generator(data))
                 {
-
                     var data2 = data.Clone();
                     item.DictCopyTo(data2);
                     yield return data2;
                 }
             }
         }
+
         public static Document ToMongoDocument(this IDictionary<string, object> item)
         {
             var doc = new Document(item);
@@ -125,10 +136,10 @@ namespace Hawk.Core.Utils
         public static List<int> GetRandomInts(int min, int max, int mount)
         {
             var values = new List<int>(mount);
-            int index = 0;
+            var index = 0;
             while (index < mount)
             {
-                int value = random.Next(min, max);
+                var value = random.Next(min, max);
                 if (!values.Contains(value))
                 {
                     values.Add(value);
@@ -153,7 +164,7 @@ namespace Hawk.Core.Utils
 
         #region Public Methods
 
-        public static void OrThrows(this bool condition, String message = null)
+        public static void OrThrows(this bool condition, string message = null)
         {
             if (!condition)
             {
@@ -164,7 +175,7 @@ namespace Hawk.Core.Utils
         public static T Clone<T>(this T source) where T : class, IDictionarySerializable
         {
             if (source == null) return default(T);
-            Type type = source.GetType();
+            var type = source.GetType();
             var newItem = PluginProvider.GetObjectInstance(type) as IDictionarySerializable;
             source.DictCopyTo(newItem);
             return newItem as T;
@@ -197,7 +208,7 @@ namespace Hawk.Core.Utils
 
         public static void AddRange<T>(this IList<T> source, IEnumerable<T> items)
         {
-            foreach (T d in items)
+            foreach (var d in items)
             {
                 source.Add(d);
             }
@@ -206,9 +217,9 @@ namespace Hawk.Core.Utils
         public static int MaxSameCount<T>(this IEnumerable<T> source, Func<T, T, bool> issame, out T maxvalue)
         {
             var dict = new Dictionary<T, int>();
-            foreach (T t in source)
+            foreach (var t in source)
             {
-                bool add = false;
+                var add = false;
                 foreach (var i in dict)
                 {
                     if (issame(i.Key, t))
@@ -226,7 +237,7 @@ namespace Hawk.Core.Utils
             {
                 return 0;
             }
-            int maxcount = 0;
+            var maxcount = 0;
 
             foreach (var i in dict)
             {
@@ -243,7 +254,7 @@ namespace Hawk.Core.Utils
         public static int MaxSameCount<T>(this IEnumerable<T> source, out T maxvalue)
         {
             var dict = new Dictionary<T, int>();
-            foreach (T t in source)
+            foreach (var t in source)
             {
                 if (dict.ContainsKey(t))
                     dict[t]++;
@@ -257,7 +268,7 @@ namespace Hawk.Core.Utils
             {
                 return 0;
             }
-            int maxcount = 0;
+            var maxcount = 0;
 
             foreach (var i in dict)
             {
@@ -275,7 +286,7 @@ namespace Hawk.Core.Utils
         public static int MaxSameCount<T>(this IEnumerable<T> source)
         {
             var dict = new Dictionary<T, int>();
-            foreach (T t in source)
+            foreach (var t in source)
             {
                 if (dict.ContainsKey(t))
                     dict[t]++;
@@ -315,10 +326,10 @@ namespace Hawk.Core.Utils
 
         public static IEnumerable<int> SelectAll<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> selector)
         {
-            List<TSource> item = source.ToList();
-            for (int i = 0; i < item.Count; i++)
+            var item = source.ToList();
+            for (var i = 0; i < item.Count; i++)
             {
-                TSource p = item[i];
+                var p = item[i];
                 if (selector(p))
                 {
                     yield return i;
@@ -338,12 +349,12 @@ namespace Hawk.Core.Utils
         public static int Max<TSource>(this IEnumerable<TSource> source, Func<TSource, double> selector,
             out int maxindex)
         {
-            int t = 0;
-            int index = 0;
+            var t = 0;
+            var index = 0;
             double max = 0;
-            foreach (TSource item in source)
+            foreach (var item in source)
             {
-                double i = selector(item);
+                var i = selector(item);
                 if (max < i)
                 {
                     max = i;
@@ -368,9 +379,9 @@ namespace Hawk.Core.Utils
             var dictionary = new Dictionary<int, int>();
 
 
-            int count = 0;
-            int len = 0;
-            foreach (T item in enumerable)
+            var count = 0;
+            var len = 0;
+            foreach (var item in enumerable)
             {
                 if (!Equals(sameItem, item))
                 {
@@ -390,8 +401,8 @@ namespace Hawk.Core.Utils
             }
 
 
-            int max = 0;
-            int maxindex = 0;
+            var max = 0;
+            var maxindex = 0;
             foreach (var i in dictionary)
             {
                 if (i.Value > max)
@@ -456,7 +467,7 @@ namespace Hawk.Core.Utils
         /// <param name="method"></param>
         public static void Execute<TSource>(this IEnumerable<TSource> source, Action<TSource> method)
         {
-            foreach (TSource d in source)
+            foreach (var d in source)
             {
                 method(d);
             }
@@ -465,7 +476,7 @@ namespace Hawk.Core.Utils
 
         public static void ExecuteCommand(this ICollection<ICommand> commands, string name, params object[] paras)
         {
-            Command first = commands.OfType<Command>().FirstOrDefault(d => d.Text == name);
+            var first = commands.OfType<Command>().FirstOrDefault(d => d.Text == name);
             first?.Execute(paras);
         }
 
@@ -478,15 +489,12 @@ namespace Hawk.Core.Utils
         public static IEnumerable<TSource> ExecuteReturn<TSource>(
             this IEnumerable<TSource> source, Action<TSource> method)
         {
-            foreach (TSource d in source)
+            foreach (var d in source)
             {
                 method(d);
                 yield return d;
             }
-            
         }
-       
-
 
 
         public static IEnumerable<KeyValuePair<string, object>> Filter(
@@ -502,15 +510,15 @@ namespace Hawk.Core.Utils
                 return default(T);
             }
 
-            T item = default(T);
-            object data = dat[key];
+            var item = default(T);
+            var data = dat[key];
 
-            Type type = typeof (T);
+            var type = typeof (T);
             try
             {
                 if (type.IsEnum)
                 {
-                    string s = data.ToString();
+                    var s = data.ToString();
 
                     var res = (T) Enum.Parse(typeof (T), s);
                     return (res);
@@ -541,10 +549,10 @@ namespace Hawk.Core.Utils
                 yield break;
             }
             var strList = new List<string>();
-            List<FreeDocument> sample = source.Where(d => d != null).Take(count).Select(d => d.DictSerialize()).ToList();
-            foreach (FreeDocument item in sample)
+            var sample = source.Where(d => d != null).Take(count).Select(d => d.DictSerialize()).ToList();
+            foreach (var item in sample)
             {
-                foreach (string r in item.Keys)
+                foreach (var r in item.Keys)
                 {
                     if (!strList.Contains(r))
                     {
@@ -552,7 +560,7 @@ namespace Hawk.Core.Utils
                     }
                 }
             }
-            foreach (string item in strList)
+            foreach (var item in strList)
             {
                 if (filter == null)
                     yield return item;
@@ -564,8 +572,8 @@ namespace Hawk.Core.Utils
         public static IEnumerable<T> MergeAll<T>(this IEnumerable<T> dict1, IEnumerable<T> dict2)
             where T : IFreeDocument
         {
-            IEnumerator<T> f = dict1.GetEnumerator();
-            IEnumerator<T> s = dict2.GetEnumerator();
+            var f = dict1.GetEnumerator();
+            var s = dict2.GetEnumerator();
             while (f.MoveNext())
             {
                 s.MoveNext();
@@ -575,18 +583,18 @@ namespace Hawk.Core.Utils
         }
 
         public static IEnumerable<T> Mix<T>(this IEnumerable<T> dict1, IEnumerable<T> dict2)
-         where T : IFreeDocument
+            where T : IFreeDocument
         {
-            IEnumerator<T> f = dict1.GetEnumerator();
-            IEnumerator<T> s = dict2.GetEnumerator();
-            int i=0;
-            bool fen = true;
-            bool sen = true;
+            var f = dict1.GetEnumerator();
+            var s = dict2.GetEnumerator();
+            var i = 0;
+            var fen = true;
+            var sen = true;
             while (true)
             {
-                if (i%2 == 0 )
+                if (i%2 == 0)
                 {
-                    if (fen&&f.MoveNext())
+                    if (fen && f.MoveNext())
                     {
                         yield return f.Current;
                     }
@@ -595,38 +603,31 @@ namespace Hawk.Core.Utils
                         fen = false;
                     }
                     i++;
-
-
-
                 }
                 else if (i%2 == 1)
                 {
-                    if (sen&&s.MoveNext())
+                    if (sen && s.MoveNext())
                     {
                         yield return s.Current;
-                       
                     }
                     else
                     {
                         sen = false;
                     }
                     i++;
+                }
 
-                }
-             
-                if (sen || fen==false)
+                if (sen || fen == false)
                 {
-                   yield break;
+                    yield break;
                 }
-               
             }
-           
         }
 
         // Extends String.Join for a smooth API.
-        public static String Join(this String separator, IEnumerable<Object> values)
+        public static string Join(this string separator, IEnumerable<object> values)
         {
-            return String.Join(separator, values);
+            return string.Join(separator, values);
         }
 
 
@@ -637,8 +638,8 @@ namespace Hawk.Core.Utils
         /// <returns></returns>
         public static List<string> GetNumbricKeys(this IDictionarySerializable dat)
         {
-            FreeDocument items = dat.DictSerialize();
-            List<string> allColumns =
+            var items = dat.DictSerialize();
+            var allColumns =
                 items.Where(d => AttributeHelper.IsNumeric(d.Value) || AttributeHelper.IsFloat(d.Value)).Select(
                     d => d.Key).ToList();
             return allColumns;
@@ -646,8 +647,8 @@ namespace Hawk.Core.Utils
 
         public static T GetRandom<T>(this IEnumerable<T> enumerable)
         {
-            T[] enumerable1 = enumerable as T[] ?? enumerable.ToArray();
-            int l = enumerable1.Count();
+            var enumerable1 = enumerable as T[] ?? enumerable.ToArray();
+            var l = enumerable1.Count();
             if (l == 0)
             {
                 return default(T);
@@ -657,7 +658,7 @@ namespace Hawk.Core.Utils
 
         public static IEnumerable GetRange(this IEnumerable enumerable, int start, int end)
         {
-            IEnumerator e = enumerable.GetEnumerator();
+            var e = enumerable.GetEnumerator();
             while (start > 0)
             {
                 e.MoveNext();
@@ -696,7 +697,7 @@ namespace Hawk.Core.Utils
                 {
                     if (res == null && o.Value != null)
                         return false;
-                    if (!res.Equals(  o.Value))
+                    if (!res.Equals(o.Value))
                     {
                         return false;
                     }
@@ -764,9 +765,9 @@ namespace Hawk.Core.Utils
         public static IEnumerable<TSource> RemoveElements<TSource>(
             this IList<TSource> source, Func<TSource, bool> filter, Action<TSource> method = null)
         {
-            List<int> indexs = (from d in source where filter(d) select source.IndexOf(d)).ToList();
+            var indexs = (from d in source where filter(d) select source.IndexOf(d)).ToList();
             indexs.Sort();
-            for (int i = indexs.Count - 1; i >= 0; i--)
+            for (var i = indexs.Count - 1; i >= 0; i--)
             {
                 if (method != null)
                 {
@@ -780,9 +781,9 @@ namespace Hawk.Core.Utils
         public static void RemoveElements<K, V>(
             this IDictionary<K, V> source, Func<K, bool> filter, Action<V> method = null)
         {
-            List<K> indexs = (from d in source where filter(d.Key) select d.Key).ToList();
+            var indexs = (from d in source where filter(d.Key) select d.Key).ToList();
 
-            for (int i = indexs.Count - 1; i >= 0; i--)
+            for (var i = indexs.Count - 1; i >= 0; i--)
             {
                 if (method != null)
                 {
@@ -797,7 +798,7 @@ namespace Hawk.Core.Utils
             this IList<TSource> source)
 
         {
-            source.RemoveElementsNoReturn(d=>true);
+            source.RemoveElementsNoReturn(d => true);
         }
 
         /// <summary>
@@ -810,14 +811,14 @@ namespace Hawk.Core.Utils
         public static void RemoveElementsNoReturn<TSource>(
             this IList<TSource> source, Func<TSource, bool> filter, Action<TSource> method = null)
         {
-            List<int> indexs = (from d in source where filter(d) select source.IndexOf(d)).ToList();
+            var indexs = (from d in source where filter(d) select source.IndexOf(d)).ToList();
             indexs.Sort();
-            for (int i = indexs.Count - 1; i >= 0; i--)
+            for (var i = indexs.Count - 1; i >= 0; i--)
             {
                 if (source.Count <= indexs[i])
                     continue;
                 method?.Invoke(source[indexs[i]]);
-                if(source.Count<=indexs[i])
+                if (source.Count <= indexs[i])
                     continue;
                 source.RemoveAt(indexs[i]);
             }
@@ -826,11 +827,11 @@ namespace Hawk.Core.Utils
         public static void RemoveElementsWithValue<K, V>(
             this IDictionary<K, V> source, Func<V, bool> filter, Action<K> method = null)
         {
-            List<V> indexs = (from d in source where filter(d.Value) select d.Value).ToList();
+            var indexs = (from d in source where filter(d.Value) select d.Value).ToList();
 
-            for (int i = indexs.Count - 1; i >= 0; i--)
+            for (var i = indexs.Count - 1; i >= 0; i--)
             {
-                K key = source.FirstOrDefault(d => d.Value.Equals(indexs[i])).Key;
+                var key = source.FirstOrDefault(d => d.Value.Equals(indexs[i])).Key;
                 if (method != null)
                 {
                     method(key);
@@ -877,20 +878,20 @@ namespace Hawk.Core.Utils
                 {
                     if (data is int)
                     {
-                        object index = Convert.ChangeType(data, typeof (int));
+                        var index = Convert.ChangeType(data, typeof (int));
                         return (index);
                     }
                     else
                     {
-                        string item = data.ToString();
-                        object index = Enum.Parse(type, item);
+                        var item = data.ToString();
+                        var index = Enum.Parse(type, item);
                         return (index);
                     }
                 }
                 if (type == typeof (XFrmWorkAttribute))
                 {
                     var item = (string) data;
-                    XFrmWorkAttribute newone = PluginProvider.GetPlugin(item);
+                    var newone = PluginProvider.GetPlugin(item);
                     return newone;
                 }
 
@@ -925,7 +926,7 @@ namespace Hawk.Core.Utils
             }
             if (dict.TryGetValue(key, out data))
             {
-                Type type = typeof (T);
+                var type = typeof (T);
                 if (type.IsEnum)
                 {
                     if (data is int)
@@ -935,7 +936,7 @@ namespace Hawk.Core.Utils
                     }
                     else
                     {
-                        string item = data.ToString();
+                        var item = data.ToString();
                         var index = (T) Enum.Parse(typeof (T), item);
                         return (index);
                     }
@@ -943,7 +944,7 @@ namespace Hawk.Core.Utils
                 if (type == typeof (XFrmWorkAttribute))
                 {
                     var item = (string) data;
-                    var newone= PluginProvider.GetPlugin(item);
+                    var newone = PluginProvider.GetPlugin(item);
                     return (T) Convert.ChangeType(newone, typeof (XFrmWorkAttribute));
                 }
 
@@ -976,7 +977,7 @@ namespace Hawk.Core.Utils
                 var list = data as IList;
                 if (list != null)
                 {
-                    foreach (object item in list)
+                    foreach (var item in list)
                     {
                         try
                         {
@@ -989,7 +990,7 @@ namespace Hawk.Core.Utils
                     }
                     return oldValue;
                 }
-                string str = data.ToString();
+                var str = data.ToString();
                 if (str == "[]")
                 {
                     return oldValue;
@@ -1022,7 +1023,7 @@ namespace Hawk.Core.Utils
         {
             var m = new T[column.Count];
 
-            for (int i = 0; i < m.Length; i++)
+            for (var i = 0; i < m.Length; i++)
             {
                 m[i] = (T) Convert.ChangeType(column[i][name], typeof (T));
             }
@@ -1032,7 +1033,7 @@ namespace Hawk.Core.Utils
 
         public static void UnsafeDictDeserialize(this object item, IDictionary<string, object> dict)
         {
-            Type type = item.GetType();
+            var type = item.GetType();
             if (type != lastType)
             {
                 propertys =
@@ -1041,7 +1042,7 @@ namespace Hawk.Core.Utils
             }
             lastType = type;
 
-            foreach (PropertyInfo propertyInfo in propertys)
+            foreach (var propertyInfo in propertys)
             {
                 propertyInfo.SetValue(
                     item,
@@ -1052,7 +1053,7 @@ namespace Hawk.Core.Utils
 
         public static IEnumerable<int> Range(int start, Func<int, bool> contineFunc, int interval)
         {
-            for (int i = start; contineFunc(i); i += interval)
+            for (var i = start; contineFunc(i); i += interval)
             {
                 yield return i;
             }
@@ -1060,7 +1061,7 @@ namespace Hawk.Core.Utils
 
         public static FreeDocument UnsafeDictSerialize(this object item)
         {
-            Type type = item.GetType();
+            var type = item.GetType();
             if (type != lastType)
             {
                 propertys =
@@ -1070,9 +1071,9 @@ namespace Hawk.Core.Utils
             lastType = type;
 
             var doc = new FreeDocument();
-            foreach (PropertyInfo propertyInfo in propertys)
+            foreach (var propertyInfo in propertys)
             {
-                object v = propertyInfo.GetValue(item, null);
+                var v = propertyInfo.GetValue(item, null);
                 if (v != null)
                     doc.Add(propertyInfo.Name, v);
             }

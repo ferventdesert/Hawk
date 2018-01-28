@@ -7,12 +7,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Core.Utils
 {
-    public enum ScriptWorkMode
-    {
-        不进行转换,
-        文档列表,
-        单文档
-    }
+
 
     public class DisposeHelper : IDisposable
     {

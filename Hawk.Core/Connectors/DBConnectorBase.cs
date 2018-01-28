@@ -300,24 +300,24 @@ namespace Hawk.Core.Connectors
         private string name;
 
         [LocalizedCategory("参数设置")]
-        [LocalizedDisplayName("操作表名")]
+        [LocalizedDisplayName("表名")]
         public ExtendSelector<TableInfo> TableNames { get; set; }
 
         [LocalizedDisplayName("服务器地址")]
         [LocalizedCategory("1.连接管理")]
         [PropertyOrder(2)]
-        public string Server { get; set; }
+        public virtual  string Server { get; set; }
 
         [LocalizedDisplayName("用户名")]
         [LocalizedCategory("1.连接管理")]
         [PropertyOrder(3)]
-        public string UserName { get; set; }
+        public virtual string UserName { get; set; }
 
         [LocalizedDisplayName("密码")]
         [LocalizedCategory("1.连接管理")]
         [PropertyOrder(4)]
       //  [PropertyEditor("PasswordEditor")]
-        public string Password { get; set; }
+        public virtual string Password { get; set; }
 
         [LocalizedCategory("参数设置")]
         [LocalizedDisplayName("数据库类型")]
@@ -359,13 +359,7 @@ namespace Hawk.Core.Connectors
         public virtual bool CreateTable(IFreeDocument example, string name)
         {
             FreeDocument txt = example.DictSerialize(Scenario.Database);
-            var sb = new StringBuilder();
-            foreach (var o in txt)
-            {
-                sb.Append(o.Key);
-                sb.AppendFormat(" {0}, ", DataTypeConverter.ToType(o.Value));
-            }
-            sb.Remove(sb.Length - 1, 1);
+            var sb = string.Join(",", txt.Select(d => $"{d.Key} {DataTypeConverter.ToType(d.Value)}"));
             string sql = $"CREATE TABLE {GetTableName(name)} ({sb})";
             ExecuteNonQuery(sql);
             RefreshTableNames();
@@ -487,22 +481,20 @@ namespace Hawk.Core.Connectors
         public virtual void SaveOrUpdateEntity(
             IFreeDocument updateItem, string tableName,  IDictionary<string, object> keys,EntityExecuteType executeType=EntityExecuteType.InsertOrUpdate)
         {
-            var sb = new StringBuilder();
             FreeDocument data = updateItem.DictSerialize(Scenario.Database);
-
-            if (data.Count >= 1)
+            foreach (var key in data.Keys.ToList())
             {
-                foreach (var val in data)
-                {
-                    sb.Append($" {val.Key} = '{val.Value}',");
-                }
-
-                sb = sb.Remove(sb.Length - 1, 1);
+                var value = "";
+                if (data[key] != null)
+                    value = data[key].ToString();
+                value = value.Replace("'","''" );
+                data[key] = value;
             }
-
+            var str =",".Join( data.Select(d => $"{d.Key}='{d.Value}'"));            
+           
             try
             {
-                ExecuteNonQuery($"update {GetTableName(tableName)} set {sb} where {ToString()};");
+                ExecuteNonQuery($"update {GetTableName(tableName)} set {str} ");
             }
 
             catch (Exception e)
@@ -573,7 +565,7 @@ namespace Hawk.Core.Connectors
 
         [LocalizedDisplayName("执行")]
         [PropertyOrder(20)]
-        public ReadOnlyCollection<ICommand> Commands
+        public virtual  ReadOnlyCollection<ICommand> Commands
         {
             get
             {

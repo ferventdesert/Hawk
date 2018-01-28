@@ -1,7 +1,13 @@
-﻿using System.Data.SqlClient;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Data.SqlClient;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
+using System.Windows.Forms;
+using System.Windows.Input;
 using Hawk.Core.Connectors;
+using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
+using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 
 namespace XFrmWork.DataVisualization
@@ -19,6 +25,8 @@ namespace XFrmWork.DataVisualization
     [XFrmWork("SQLite数据库",  "提供SQLite交互的数据库服务", "")]
     public class SQLiteDatabase : DBConnectorBase
     {
+        private string _dbName;
+
         #region Constants and Fields
 
 
@@ -31,22 +39,120 @@ namespace XFrmWork.DataVisualization
         /// </summary>
         public SQLiteDatabase()
         {
+            _dbName = "hawk.db";
+        }
 
+        [Browsable(false)]
+        [LocalizedDisplayName("服务器地址")]
+        [LocalizedCategory("1.连接管理")]
+        [PropertyOrder(2)]
+        public override string Server { get; set; }
+        [Browsable(false)]
+        [LocalizedDisplayName("用户名")]
+        [LocalizedCategory("1.连接管理")]
+        [PropertyOrder(3)]
+        public override string UserName { get; set; }
+
+        [Browsable(false)]
+        [LocalizedDisplayName("密码")]
+        [LocalizedCategory("1.连接管理")]
+        [PropertyOrder(4)]
+        //  [PropertyEditor("PasswordEditor")]
+        public override string Password { get; set; }
+
+        [LocalizedCategory("1.连接管理")]
+        [LocalizedDisplayName("浏览路径")]
+
+        [PropertyOrder(3)]
+        public ReadOnlyCollection<ICommand> Commands2 {
+            get
+            {
+                return CommandBuilder.GetCommands(
+                     this,
+                     new[]
+                     {
+                     
+                        new Command("加载", obj => LoadOldDB()),
+                            new Command("新建", obj => CreateNewDB()),
+                     });
+            }
+        }
+
+        private void CreateNewDB()
+        {
+            SaveFileDialog saveTifFileDialog = new SaveFileDialog();
+            saveTifFileDialog.OverwritePrompt = true;//询问是否覆盖
+            saveTifFileDialog.Filter = "*.db|*.db";
+            saveTifFileDialog.DefaultExt = "db";//缺省默认后缀名
+            if (saveTifFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                DBName = saveTifFileDialog.FileName;
+            }
+        }
+
+        private void LoadOldDB()
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = false;//该值确定是否可以选择多个文件
+            dialog.Title = "请选择sqlite数据库文件";
+            dialog.Filter = "所有文件(*.*)|*.db";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                DBName = dialog.FileName;
+            }
         }
 
         [LocalizedCategory("1.连接管理")]
-        [LocalizedDisplayName("数据库名称")]
-        [LocalizedDescription("例如data source=d:\\test\\mydb.sqlite")]
+        [LocalizedDisplayName("数据库路径")]
+        [LocalizedDescription("例如d:\\test\\mydb.sqlite")]
         [PropertyOrder(2)]
-        public override string DBName { get; set; }
+        public override string DBName
+        {
+            get { return _dbName; }
+            set
+            {
+                if (_dbName != value)
+                {
+                    _dbName = value;
+                    OnPropertyChanged("DBName");
+                }
+            }
+        }
+
+        [LocalizedDisplayName("执行")]
+        [PropertyOrder(20)]
+        public override ReadOnlyCollection<ICommand> Commands
+        {
+            get
+            {
+                return CommandBuilder.GetCommands(
+                    this,
+                    new[]
+                    {
+                        new Command("连接数据库", obj =>
+                        {
+
+                            ControlExtended.SafeInvoke(() => ConnectDB(), LogType.Important, "连接数据库");
+                            if (IsUseable)
+                            {
+                                RefreshTableNames();
+                            }
+                        }, obj => IsUseable == false),
+                        new Command("关闭连接", obj => CloseDB(), obj => IsUseable),
+                    });
+            }
+        }
+
         protected override string GetConnectString()
         {
 
-            return this.Server;
+            return  "data source="+this.DBName;
         }
         protected override void ConnectStringToOtherInfos()
         {
-            this.Server = ConnectionString;
+            var connectstrs = ConnectionString.Split('=');
+            if (connectstrs.Length > 1)
+                DBName = connectstrs[1];
         }
 
         #endregion
@@ -64,7 +170,12 @@ namespace XFrmWork.DataVisualization
 
                 using (SQLiteTransaction mytrans = cnn.BeginTransaction())
                 {
-                    foreach (var data in source)
+                    foreach (var data in source.Init(d =>
+                    {
+                        if(this.TableNames.Collection.FirstOrDefault(d2=>d2.Name==dbTableName)==null)
+                             CreateTable(d, dbTableName);
+                        return true;
+                    }))
                     {
                         try
                         {
@@ -103,9 +214,10 @@ namespace XFrmWork.DataVisualization
 
         public override bool CloseDB()
         {
+            IsUseable = false;
+            
             return true;
         }
-
         public override bool ConnectDB()
         {
             ConnectionString = GetConnectString();
@@ -160,6 +272,7 @@ namespace XFrmWork.DataVisualization
 
                 catch (Exception e)
                 {
+                    XLogSys.Print.Warn($"sql执行错误 {e.Message}  sql= {sql} ");
                     mytrans.Rollback();
                 }
 

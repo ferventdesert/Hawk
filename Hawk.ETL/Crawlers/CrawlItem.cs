@@ -1,17 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
+using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Crawlers
 {
+
+  
+ 
     public class CrawlItem : PropertyChangeNotifier, IDictionarySerializable
     {
         private string name;
 
         private string xpath;
+        private bool _isSelected;
 
         public CrawlItem()
         {
@@ -36,7 +42,7 @@ namespace Hawk.ETL.Crawlers
             }
         }
         [LocalizedDisplayName("是否保存HTML")]
-        public bool IsHTML { get; set; }
+        public CrawlType CrawlType { get; set; }
 
         [LocalizedDisplayName("XPath")]
         [PropertyOrder(1)]
@@ -57,6 +63,19 @@ namespace Hawk.ETL.Crawlers
         [PropertyOrder(2)]
         public bool IsEnabled { get; set; }
 
+        [Browsable(false)]
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                if (_isSelected != value)
+                {
+                    _isSelected = value;
+                    OnPropertyChanged("IsSelected");
+                }
+            }
+        }
 
 
         /// <summary>
@@ -70,7 +89,7 @@ namespace Hawk.ETL.Crawlers
 
         public FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
-            var doc = new FreeDocument { { "Name", Name }, { "XPath", XPath },{"IsHtml", IsHTML}, { "IsEnabled",IsEnabled } };
+            var doc = new FreeDocument { { "Name", Name }, { "XPath", XPath },{ "CrawlType", CrawlType }, { "IsEnabled",IsEnabled } };
             return doc;
         }
 
@@ -78,7 +97,7 @@ namespace Hawk.ETL.Crawlers
         {
             Name = docu.Set("Name", Name);
             XPath = docu.Set("XPath", XPath);
-            IsHTML = docu.Set("IsHtml", IsHTML);
+            CrawlType = docu.Set("CrawlType", CrawlType);
             IsEnabled = docu.Set("IsEnabled", IsEnabled);
         }
 

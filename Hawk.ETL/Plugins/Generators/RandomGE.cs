@@ -44,7 +44,7 @@ namespace Hawk.ETL.Plugins.Generators
         }
 
 
-        public override IEnumerable<FreeDocument> Generate(IFreeDocument document = null)
+        public override IEnumerable<IFreeDocument> Generate(IFreeDocument document = null)
         {
             int count;
             int max, min;

@@ -300,10 +300,17 @@ namespace Hawk.ETL.Managements
             {
                 var process = GetProcess(obj);
                 if (process == null) return;
-                ProcessCollection.Remove(obj as IDataProcess);
-                var item = GetOneInstance(process.TypeName, true, false);
+                var old = obj as IDataProcess;
+                if(old==null)
+                    return;
+                
+                //ProcessCollection.Remove(old);
+                var name = process.GetType().ToString().Split('.').Last();
+
+                var item = GetOneInstance(name, true, true);
                 (process as IDictionarySerializable).DictCopyTo(item as IDictionarySerializable);
                 item.Init();
+                item.Name = old.Name + "_copy";
                 ProcessCollection.Add(item);
             }, obj => true, "new"));
 

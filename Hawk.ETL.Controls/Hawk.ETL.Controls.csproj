@@ -97,6 +97,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SubTaskView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SystemStateViewer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -129,6 +133,9 @@
     </Compile>
     <Compile Include="SmartETLUI.xaml.cs">
       <DependentUpon>SmartETLUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SubTaskView.xaml.cs">
+      <DependentUpon>SubTaskView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SystemStateViewer.xaml.cs">
       <DependentUpon>SystemStateViewer.xaml</DependentUpon>

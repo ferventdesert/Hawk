@@ -70,7 +70,7 @@ namespace Hawk.Core.Properties {
         }
         
         /// <summary>
-        ///   查找类似 【{0}】任务可能还没有保存，【是】:保存任务并退出, 【否】：不保存退出，【取消】:取消退出 的本地化字符串。
+        ///   查找类似 【{0}】任务可能还没有保存，\n【是】:保存任务并退出, \n【否】：不保存退出，\n【取消】:取消退出 的本地化字符串。
         /// </summary>
         public static string Closing2 {
             get {

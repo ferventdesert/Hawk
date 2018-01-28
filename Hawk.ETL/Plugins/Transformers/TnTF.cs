@@ -10,6 +10,7 @@ using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Crawlers;
 using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
 
@@ -28,7 +29,7 @@ namespace Hawk.ETL.Plugins.Transformers
         {
             engine = Python.CreateEngine();
             scope = engine.CreateScope();
-            ScriptWorkMode = ScriptWorkMode.不进行转换;
+            ScriptWorkMode = Core.Connectors.ScriptWorkMode.List;
         }
         [DisplayName("工作模式")]
         [Description("文档列表：[{}],转换为多个数据行构成的列表；单文档：{},将结果的键值对附加到本行；不进行转换：直接将值放入到新列")]
@@ -39,7 +40,7 @@ namespace Hawk.ETL.Plugins.Transformers
             var source = engine.CreateScriptSourceFromString(text);
 
             compiledCode = source.Compile();
-            IsMultiYield = ScriptWorkMode == ScriptWorkMode.文档列表;
+            IsMultiYield = ScriptWorkMode == ScriptWorkMode.List;
             return true;
         }
     }

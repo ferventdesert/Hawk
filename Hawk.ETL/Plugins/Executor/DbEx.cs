@@ -37,9 +37,34 @@ namespace Hawk.ETL.Plugins.Executor
         [LocalizedDescription("如果要新建表，则填写此项，若数据库中已经存在该表，则不执行建表操作")]
         public string TableName { get; set; }
 
+        private bool InitTable(    IFreeDocument document)
+        {
+            if (string.IsNullOrEmpty(TableName) == false)
+            {
+                if (!(ConnectorSelector.SelectItem != null).SafeCheck("数据库连接器不能为空"))
+                {
+                    return false;
+                }
+                if (ConnectorSelector.SelectItem?.RefreshTableNames().FirstOrDefault(d => d.Name == TableName) == null)
+
+                {
+                    if (!ConnectorSelector.SelectItem.CreateTable(document, TableName))
+                    {
+                        throw new Exception($"创建名字为{TableName}的表失败");
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+         
        
         public override IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents)
         {
+
+         
+
+
             var con = TableName;
 
             if (ExecuteType == EntityExecuteType.OnlyInsert)
@@ -48,10 +73,10 @@ namespace Hawk.ETL.Plugins.Executor
                 {
                     var connector = FileConnector.SmartGetExport(con);
 
-                    return connector.WriteData(documents.Select(d=>d as IFreeDocument)).Select(d=>d as IFreeDocument);
+                    return connector.WriteData(documents);
                 }
                 return
-                    documents.Select(
+                    documents.Init(InitTable).Select(
                         document =>
                         {
                             ConnectorSelector.SelectItem?.SaveOrUpdateEntity(document, con, null, ExecuteType);
@@ -59,7 +84,7 @@ namespace Hawk.ETL.Plugins.Executor
                         });
             }
             return
-                documents.Select(
+                documents.Init(InitTable).Select(
                     document =>
                     {
                         var v = document[Column];
@@ -86,22 +111,7 @@ namespace Hawk.ETL.Plugins.Executor
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
 
-            if (string.IsNullOrEmpty(TableName) == false)
-            {
-                if (!(ConnectorSelector.SelectItem != null).SafeCheck("数据库连接器不能为空"))
-                {
-                    return false;
-                }
-                if (ConnectorSelector.SelectItem?.RefreshTableNames().FirstOrDefault(d => d.Name == TableName) == null)
-
-                {
-                    var data = datas?.FirstOrDefault() ?? new FreeDocument();
-                    if (!ConnectorSelector.SelectItem.CreateTable(data, TableName))
-                    {
-                        throw new Exception($"创建名字为{TableName}的表失败");
-                    }
-                }
-            }
+        
             return true;
         }
 

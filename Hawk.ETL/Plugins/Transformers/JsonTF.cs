@@ -27,7 +27,7 @@ namespace Hawk.ETL.Plugins.Transformers
         public JsonTF()
         {
             serialier = new JavaScriptSerializer();
-            ScriptWorkMode = ScriptWorkMode.不进行转换;
+            ScriptWorkMode = ScriptWorkMode.NoTransform;
             OneOutput = false;
         }
 
@@ -42,7 +42,7 @@ namespace Hawk.ETL.Plugins.Transformers
         private bool crawlerEnabled = false;
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {
-                IsMultiYield = ScriptWorkMode == ScriptWorkMode.文档列表;
+                IsMultiYield = ScriptWorkMode == ScriptWorkMode.List;
             lastData = null;
             return base.Init(docus);
         }
@@ -64,7 +64,7 @@ namespace Hawk.ETL.Plugins.Transformers
                 // XLogSys.Print.Error(ex);
                 return null;
             }
-            if (ScriptWorkMode == ScriptWorkMode.单文档)
+            if (ScriptWorkMode == ScriptWorkMode.One)
             {
                 var newdoc = ScriptHelper.ToDocument(d) as FreeDocument;
                 newdoc.DictCopyTo(datas);

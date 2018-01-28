@@ -7,6 +7,7 @@ using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Crawlers;
 using IronPython.Hosting;
 using IronPython.Runtime;
 using Microsoft.Scripting.Hosting;
@@ -25,7 +26,7 @@ namespace Hawk.ETL.Plugins.Transformers
             engine = Python.CreateEngine();
             scope = engine.CreateScope();
             Script = "value";
-            ScriptWorkMode = ScriptWorkMode.不进行转换;
+            ScriptWorkMode = ScriptWorkMode.NoTransform; 
         }
 
         [DisplayName("工作模式")]
@@ -57,7 +58,7 @@ namespace Hawk.ETL.Plugins.Transformers
             }
             var source = engine.CreateScriptSourceFromString(script);
             compiledCode = source.Compile();
-            IsMultiYield = ScriptWorkMode == ScriptWorkMode.文档列表;
+            IsMultiYield = ScriptWorkMode == ScriptWorkMode.List;
             return true;
         }
 
@@ -105,7 +106,7 @@ namespace Hawk.ETL.Plugins.Transformers
         public override object TransformData(IFreeDocument doc)
         {
             var d = eval(doc);
-            if (ScriptWorkMode == ScriptWorkMode.不进行转换)
+            if (ScriptWorkMode == ScriptWorkMode.NoTransform)
             {
                 SetValue(doc, d);
             }

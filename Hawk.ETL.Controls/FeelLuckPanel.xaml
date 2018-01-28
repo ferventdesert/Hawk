@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Hawk.ETL.Controls"
              xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
+             xmlns:attributes="clr-namespace:System.Windows.Controls.WpfPropertyGrid.Attributes;assembly=System.Windows.Controls.WpfPropertyGrid"
+             xmlns:connectors="clr-namespace:Hawk.Core.Connectors;assembly=Hawk.Core"
              mc:Ignorable="d" 
              d:DesignHeight="659" d:DesignWidth="916" Background="{DynamicResource NormalBrush}">
     <UserControl.Resources>
@@ -51,7 +53,45 @@
         	<TabControl  DataContext="{Binding CurrentTarget}" Margin="20">
         		<TabItem Header="XPath">
         			<Grid Margin="0,0,6,-5">
-        				<ListBox ItemTemplate="{DynamicResource DataTemplate1}" ItemsSource="{Binding CrawItems}" Margin="8,49.5,8,8"/>
+        				 <ListView Margin="8,30,8,8" SelectionMode="Single" DataContext="{Binding}"
+				ItemsSource="{Binding CrawItems}" d:LayoutOverrides="GridBox" >
+
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="选择">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsEnabled}"  HorizontalAlignment="Center" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+						 <GridViewColumn Header="名称">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Name}" HorizontalAlignment="Center" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+					<GridViewColumn Header="XPath" Width="200">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding XPath}" HorizontalAlignment="Center" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+						    <GridViewColumn Header="获取策略">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                      <ComboBox ItemsSource="{attributes:EnumValues {x:Type connectors:CrawlType}}" SelectedItem="{Binding CrawlType}" HorizontalAlignment="Center" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+						 
+						 
+                    </GridView>
+
+                </ListView.View>
+				</ListView>
         				<TextBlock HorizontalAlignment="Left" Margin="8,8,0,0" TextWrapping="Wrap" Text="根节点XPath" VerticalAlignment="Top"/>
         				<TextBox Margin="94.999,8,8,0" TextWrapping="Wrap" Text="{Binding RootXPath}" VerticalAlignment="Top"/>
         			</Grid>
@@ -79,7 +119,7 @@
         		<TextBlock TextWrapping="WrapWithOverflow" Height="41.24" HorizontalAlignment="Center" Margin="0,3"><Run Text="左右切换选择所需的数据，左方可修改列名，"/><Run Language="zh-cn" Text="点击“刷新“可刷新结果"/><LineBreak/><Run Text="点击“确认结果”即可提交"/></TextBlock>
         		<StackPanel Orientation="Horizontal" Margin="0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
         			<TextBlock TextWrapping="Wrap" Text="排序策略"/>
-        			<ComboBox  ItemsSource="{Binding SortMethods}" SelectedItem="{Binding SortMethod}"  Width="120" Margin="10,0,0,0"/>
+                    <ComboBox   ItemsSource="{attributes:EnumValues {x:Type connectors:SortMethod}}" SelectedItem="{Binding SortMethod}"  Width="120" Margin="10,0,0,0"/>
         		</StackPanel>
         		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,3" Height="46.172" VerticalAlignment="Center">
         			<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands[1]}" Width="35" Height="35" Margin="15,0,0,0" />

@@ -41,7 +41,7 @@ namespace Hawk.ETL.Plugins.Filters
         public string Script { get; set; }
 
         [LocalizedDisplayName("最小匹配数")]
-        [LocalizedDescription("只有正则匹配的数量大于等于该值时，才会通过")]
+        [LocalizedDescription("只有正则表达式匹配该文本的结果数量大于等于该值时，才会保留，默认为1")]
         public int Count { get; set; }
 
       

@@ -23,10 +23,11 @@ namespace Hawk.ETL.Plugins.Generators
         public string MinValue { get; set; }
 
         [LocalizedDisplayName("最大值")]
+        [LocalizedDescription("除了填写数字，还可以用方括号表达式，如[a]表示从a列获取值作为本参数的真实值")]
         public string MaxValue { get; set; }
 
         [LocalizedDisplayName("间隔")]
-        [LocalizedDescription("如1,3,5,7,9，间隔为2")]
+        [LocalizedDescription("如需生成数组1,3,5,7,9，则间隔为2")]
         public string Interval { get; set; }
 
     

@@ -54,7 +54,7 @@ namespace Hawk.ETL.Managements
                     ControlExtended.SetBusy(false);
                 }
                 GetQueryFunc(datas);
-            }, obj => string.IsNullOrEmpty(SQL) == false));
+            }, obj => string.IsNullOrEmpty(SQL) == false,"page_search"));
         }
 
         [LocalizedDisplayName("当前表")]
@@ -288,9 +288,9 @@ namespace Hawk.ETL.Managements
                     Window w = PropertyGridFactory.GetPropertyWindow(obj);
                     w.ShowDialog();
                 },
-                obj => obj != null));
+                obj => obj != null,"edit"));
             dbaction.ChildActions.Add(
-                new Command("刷新", obj => RefreshConnect(obj as IDataBaseConnector), obj => obj != null));
+                new Command("刷新", obj => RefreshConnect(obj as IDataBaseConnector), obj => obj != null,"refresh"));
             dbaction.ChildActions.Add(
                 new Command("执行查询", obj =>
                 {
@@ -306,7 +306,7 @@ namespace Hawk.ETL.Managements
                         AddDataCollection(d, GetNewName());
                     };
                     propertyGridWindow.SetObjectView(query);
-                }, obj => obj != null));
+                }, obj => obj != null,"magnify"));
             dbaction.ChildActions.Add(
                 new Command("删除连接", obj =>
                 {
@@ -315,7 +315,7 @@ namespace Hawk.ETL.Managements
                         var con = obj as DBConnectorBase;
                         _dbConnections.Remove(con);
                     }
-                }, obj => obj != null));
+                }, obj => obj != null,"delete"));
             var dataaction = new BindingAction();
 
 
@@ -374,7 +374,7 @@ namespace Hawk.ETL.Managements
                         return;
                     AddDataCollection(datas, items.Name);
                 },
-                obj => obj != null));
+                obj => obj != null,"add"));
             tableAction.ChildActions.Add(new Command(
                 "添加虚拟数据集",
                 obj =>
@@ -382,7 +382,7 @@ namespace Hawk.ETL.Managements
                     var con = obj as TableInfo;
                     ReadCollection(con.Connector, con.Name, true);
                 },
-                obj => obj != null));
+                obj => obj != null,"layer_add"));
             tableAction.ChildActions.Add(new Command(
                 "删除表",
                 obj =>
@@ -391,7 +391,7 @@ namespace Hawk.ETL.Managements
 
                     DropTable(items.Connector, items.Name);
                 },
-                obj => obj != null));
+                obj => obj != null,"delete"));
             tableAction.ChildActions.Add(new Command(
                 "查看属性",
                 obj =>
@@ -399,7 +399,7 @@ namespace Hawk.ETL.Managements
                     Window w = PropertyGridFactory.GetPropertyWindow(obj);
                     w.ShowDialog();
                 },
-                obj => obj != null));
+                obj => obj != null,"edit"));
             tableAction.ChildActions.Add(new Command(
                 "执行查询",
                 obj =>
@@ -417,7 +417,7 @@ namespace Hawk.ETL.Managements
                         AddDataCollection(d, GetNewName());
                     };
                     propertyGridWindow.SetObjectView(query);
-                }, obj => obj != null));
+                }, obj => obj != null,"magnify"));
 
 
             var visitData = new BindingAction("浏览方式");
@@ -553,13 +553,13 @@ namespace Hawk.ETL.Managements
                 {
                     var data = obj as DataCollection;
                     processManager.CurrentProcessTasks.Add(TemporaryTask.AddTempTask(data.Name + "插入到数据库", dataBaseConnector.InserDataCollection(data), result => dataBaseConnector.RefreshTableNames(), count: data.Count/1000));
-                })).Cast<ICommand>().ToList();
+                },icon:"database")).Cast<ICommand>().ToList();
             });
 
 
             dataaction.ChildActions.Add(insertdb);
             var otherDataAction = new BindingAction();
-            otherDataAction.ChildActions.Add(new Command("清空数据", obj => CleanData(), obj => DataCollections.Count > 0));
+            otherDataAction.ChildActions.Add(new Command("清空数据", obj => CleanData(), obj => DataCollections.Count > 0,"clear"));
 
 
             commands.Add(dbaction);

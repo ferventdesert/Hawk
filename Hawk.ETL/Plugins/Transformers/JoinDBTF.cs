@@ -11,7 +11,7 @@ using Hawk.ETL.Interfaces;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("数据库投影" )]
+    [XFrmWork("数据库匹配","用于完成与数据库的join操作和匹配，目前测试不完善" )]
     public class 
         JoinDBTF : TransformerBase
     {
@@ -57,6 +57,7 @@ namespace Hawk.ETL.Plugins.Transformers
         public bool IsMutliDatas { get; set; }
 
         [LocalizedDisplayName("匹配方式")]
+        [LocalizedDescription("字符串匹配，如like,contains等，符合sql标准语法")]
         public DBSearchStrategy SearchStrategy { get; set; }
 
         [LocalizedDisplayName("连接器")]
@@ -70,11 +71,13 @@ namespace Hawk.ETL.Plugins.Transformers
         public ExtendSelector<TableInfo> TableSelector { get; set; }
 
         [LocalizedDisplayName("表主键")]
+        [LocalizedDescription("字符串匹配，如like,contains等，符合sql标准语法")]
         public string KeyName { get; set; }
 
       
 
         [LocalizedDisplayName("导入列")]
+        [LocalizedDescription("join成功后倒入哪些列")]
         public ObservableCollection<string> ImportColumns { get; set; }
 
          

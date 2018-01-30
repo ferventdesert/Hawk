@@ -74,13 +74,13 @@ namespace Hawk.ETL.Process
                 {
                     new Command("添加", obj => AddNewItem(),
                         obj =>
-                            string.IsNullOrEmpty(SelectName) == false && string.IsNullOrEmpty(SelectXPath) == false),
+                            string.IsNullOrEmpty(SelectName) == false && string.IsNullOrEmpty(SelectXPath) == false,"add"),
                     new Command("搜索", obj => GetXPathAsync(),
                         obj =>
-                            currentXPaths != null),
+                            currentXPaths != null,"magnify"),
                     new Command("手气不错",
                         obj => FeelLucky(),
-                        obj => IsMultiData != ScriptWorkMode.NoTransform && isBusy == false
+                        obj => IsMultiData != ScriptWorkMode.NoTransform && isBusy == false,"smiley_happy"
                         ),
                     new Command("提取测试", obj =>
                     {
@@ -110,7 +110,7 @@ namespace Hawk.ETL.Process
                             HtmlDoc.CompileCrawItems(CrawlItems);
                             OnPropertyChanged("RootXPath");
                         }
-                    })
+                    },icon:"page_search")
                 });
         }
 
@@ -151,8 +151,8 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("刷新网页", obj => VisitUrlAsync()),
-                        new Command("复制到剪切板", obj => CopytoClipBoard())
+                        new Command("刷新网页", obj => VisitUrlAsync(),icon:"refresh"),
+                        new Command("复制到剪切板", obj => CopytoClipBoard(),icon:"clipboard_file")
                     });
             }
         }
@@ -288,8 +288,8 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("开始", obj => StartVisit(), obj => IsRunning == false),
-                        new Command("停止", obj => StopVisit(), obj => IsRunning)
+                        new Command("开始", obj => StartVisit(), obj => IsRunning == false,"camera"),
+                        new Command("停止", obj => StopVisit(), obj => IsRunning,"stop")
                         //     new Command("模拟登录", obj => { AutoVisit(); })
                     });
             }

@@ -24,7 +24,7 @@ namespace Hawk.ETL.Crawlers
         public string XPath { get; set; }
 
         [LocalizedDisplayName("工作模式")]
-        [LocalizedDescription("当要获取符合XPath语法的多个结果时选List，否则选One,参考“网页采集器”")]
+        [LocalizedDescription("当要获取符合XPath语法的多个结果时选List，只获取一条选One,其行为可参考“网页采集器”")]
         public ScriptWorkMode IsManyData { get; set; }
 
         [LocalizedDisplayName("获取正文")]

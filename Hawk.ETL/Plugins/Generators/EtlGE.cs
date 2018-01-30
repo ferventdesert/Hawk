@@ -62,6 +62,7 @@ namespace Hawk.ETL.Plugins.Generators
             MappingSet = "";
         }
 
+        [Browsable(false)]
         [LocalizedCategory("2.调用选项")]
         [PropertyOrder(1)]
         [LocalizedDisplayName("图形化配置")]
@@ -102,20 +103,20 @@ namespace Hawk.ETL.Plugins.Generators
         [LocalizedCategory("2.调用选项")]
         [LocalizedDisplayName("子任务-选择")]
         [PropertyOrder(0)]
-        [LocalizedDescription("输入要调用的子任务的名称")]
+        [LocalizedDescription("输入或选择调用的子任务的名称")]
         public TextEditSelector ETLSelector { get; set; }
 
         [LocalizedCategory("2.调用选项")]
         [LocalizedDisplayName("调用范围")]
         [PropertyOrder(2)]
-        [LocalizedDescription("设定调用子任务的模块范围，例如2:30表示从第2个到第30个子模块将会启用，其他的模块不启用，2:-1表示从第3个到倒数第二个启用，其他不启用，符合python的slice语法"
+        [LocalizedDescription("设定调用子任务的模块范围，例如2:30表示被调用任务的第2个到第30个子模块将会启用，其他模块忽略，2:-1表示从第2个到倒数第二个启用，符合python的slice语法，为空则默认全部调用"
             )]
         public string ETLRange { get; set; }
 
         [LocalizedCategory("2.调用选项")]
         [LocalizedDisplayName("属性映射")]
         [PropertyOrder(3)]
-        [LocalizedDescription("源属性:目标属性 多个映射中间用空格分割")]
+        [LocalizedDescription("源属性:目标属性列 多个映射中间用空格分割，例如A:B C:D, 表示主任务中的A,B属性列会以C,D的名称传递到子任务中")]
         public string MappingSet { get; set; }
 
         protected SmartETLTool etl { get; set; }
@@ -182,7 +183,7 @@ namespace Hawk.ETL.Plugins.Generators
         }
     }
 
-    [XFrmWork("子任务-生成", "从其他数据清洗模块中生成序列，用以组合大模块")]
+    [XFrmWork("子任务-生成", "调用其他任务作为生成器，使用类似于“生成区间数”")]
     public class EtlGE : ETLBase, IColumnGenerator
     {
         [LocalizedDisplayName("生成模式")]
@@ -217,7 +218,7 @@ namespace Hawk.ETL.Plugins.Generators
     }
 
 
-    [XFrmWork("子任务-执行", "从其他数据清洗模块中生成序列，用以组合大模块")]
+    [XFrmWork("子任务-执行", "调用其他任务，作为执行器块")]
     public class EtlEX : ETLBase, IDataExecutor
     {
         private EnumerableFunc func;

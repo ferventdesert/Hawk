@@ -10,7 +10,15 @@
         <Style   TargetType="{x:Type MenuItem}"  BasedOn="{StaticResource {x:Type MenuItem}}">
             <Setter Property="Header" Value="{Binding Text}" />
             <Setter Property="Command" Value="{Binding}" />
-
+            <Setter Property="Icon">
+                <Setter.Value>
+                    <Rectangle>
+                        <Rectangle.Fill>
+                            <VisualBrush Stretch="Fill" Visual="{Binding Icon, Converter={StaticResource MetroConverter}}" />
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Setter.Value>
+            </Setter>
             <Setter Property="ItemsSource" Value="{Binding ChildActions}" />
             <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
             <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>

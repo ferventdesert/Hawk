@@ -107,12 +107,12 @@ namespace Hawk.ETL.Crawlers
                         {
                             parent.DialogResult = true;
                             parent.Close();
-                        }),
+                        },icon:"check"),
                         new Command("退出", obj =>
                         {
                             parent.DialogResult = false;
                             parent.Close();
-                        })
+                        },icon:"close")
                     }
                     );
             }

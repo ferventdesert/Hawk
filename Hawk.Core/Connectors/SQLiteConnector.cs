@@ -72,8 +72,8 @@ namespace XFrmWork.DataVisualization
                      new[]
                      {
                      
-                        new Command("加载", obj => LoadOldDB()),
-                            new Command("新建", obj => CreateNewDB()),
+                        new Command("加载", obj => LoadOldDB(),icon:"disk"),
+                            new Command("新建", obj => CreateNewDB(),icon:"add"),
                      });
             }
         }
@@ -137,8 +137,8 @@ namespace XFrmWork.DataVisualization
                             {
                                 RefreshTableNames();
                             }
-                        }, obj => IsUseable == false),
-                        new Command("关闭连接", obj => CloseDB(), obj => IsUseable),
+                        }, obj => IsUseable == false,"connect"),
+                        new Command("关闭连接", obj => CloseDB(), obj => IsUseable,"close"),
                     });
             }
         }

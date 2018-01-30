@@ -36,7 +36,7 @@ namespace Hawk.ETL.Plugins.Generators
         public string Interval { get; set; }
         [LocalizedCategory("参数设置")]
         [LocalizedDisplayName("生成时间格式")]
-        [LocalizedDescription("可参考C# DateTime Format相关方法")]
+        [LocalizedDescription("可参考C# DateTime Format相关方法， 例如yyyy-MM-dd等")]
         public string Format { get; set; }
 
         public override IEnumerable<IFreeDocument> Generate(IFreeDocument document = null)

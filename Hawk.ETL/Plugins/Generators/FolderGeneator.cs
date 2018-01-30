@@ -49,7 +49,7 @@ namespace Hawk.ETL.Plugins.Generators
         }
 
         [LocalizedDisplayName("筛选模式")]
-        [LocalizedDescription("符合windows的文件筛选规范")]
+        [LocalizedDescription("符合windows的文件通配符筛选规范")]
         public string Pattern
         {
             get { return _pattern; }
@@ -64,6 +64,7 @@ namespace Hawk.ETL.Plugins.Generators
         }
 
         [LocalizedDisplayName("是否递归")]
+        [LocalizedDescription("即是否获取子文件夹的子文件")]
         public SearchOption SearchOption
         {
             get { return _searchOption; }

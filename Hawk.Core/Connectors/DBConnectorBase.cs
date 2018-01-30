@@ -581,9 +581,9 @@ namespace Hawk.Core.Connectors
                             {
                                 RefreshTableNames();
                             }
-                        }, obj => IsUseable == false),
-                        new Command("关闭连接", obj => CloseDB(), obj => IsUseable),
-                        new Command("创建新库", obj => CreateDataBase(DBName), obj => string.IsNullOrEmpty(DBName) == false)
+                        }, obj => IsUseable == false,"connect"),
+                        new Command("关闭连接", obj => CloseDB(), obj => IsUseable,"close"),
+                        new Command("创建新库", obj => CreateDataBase(DBName), obj => string.IsNullOrEmpty(DBName) == false,"add")
                     });
             }
         }

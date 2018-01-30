@@ -112,7 +112,7 @@ namespace Hawk.ETL.Plugins.Transformers
         public bool SplitPause { get; set; }
 
         [LocalizedDisplayName("匹配编号")]
-        [Description("若想获取分割后的第0个元素，则填入0，获取倒数第一个元素，则填入-1 \n可输入多个匹配编号，中间以空格分割，输出列也需要与之一对应")]
+        [Description("若想获取分割后的第0个元素，则填入0，获取倒数第一个元素，则填入-1 \n可输入多个匹配编号，中间以空格分割，【输出列】也需要与之一对应\n ")]
         public string Index { get; set; }
 
         /// <summary>

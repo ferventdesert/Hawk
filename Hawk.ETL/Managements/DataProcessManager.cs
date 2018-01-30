@@ -210,7 +210,7 @@ namespace Hawk.ETL.Managements
                             SaveCurrentTasks();
                         }
                     }, obj => true,
-                    "clear"));
+                    "save"));
 
             BindingCommands.ChildActions.Add(sysCommand);
 
@@ -219,12 +219,12 @@ namespace Hawk.ETL.Managements
 
             taskAction1.ChildActions.Add(new Command("加载本任务",
                 obj => (obj as ProcessTask).Load(true),
-                obj => obj is ProcessTask, "download"));
+                obj => obj is ProcessTask, "inbox_out"));
 
      
             taskAction1.ChildActions.Add(new Command("删除任务",
                 obj => CurrentProject.Tasks.Remove(obj as ProcessTask),
-                obj => obj is ProcessTask));
+                obj => obj is ProcessTask,"delete"));
             taskAction1.ChildActions.Add(new Command("执行任务脚本",
              (obj=>(obj as ProcessTask).EvalScript()),
              obj =>(obj is ProcessTask)&& CurrentProcessCollections.FirstOrDefault(d => d.Name == (obj as ProcessTask).Name) != null));
@@ -241,7 +241,7 @@ namespace Hawk.ETL.Managements
                 {
                     var task = obj as TaskBase;
                     return task != null && task.IsStart == false;
-                }, "download"));
+                }, "play"));
 
             taskAction2.ChildActions.Add(new Command("取消任务",
                 obj =>
@@ -258,7 +258,7 @@ namespace Hawk.ETL.Managements
                 {
                     var task = obj as TaskBase;
                     return task != null;
-                }, "download"));
+                }, "cancel"));
 
 
             var taskListAction = new BindingAction("任务列表命令");
@@ -376,7 +376,7 @@ namespace Hawk.ETL.Managements
 
                 var process = GetOneInstance(attr.MyType.Name, newOne: true, isAddUI: true);
                 process.Init();
-            }));
+            },icon:"add"));
             BindingCommands.ChildActions.Add(attributeactions);
 
             var config = ConfigFile.GetConfig<DataMiningConfig>();

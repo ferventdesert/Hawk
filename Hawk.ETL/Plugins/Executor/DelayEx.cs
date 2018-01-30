@@ -12,7 +12,7 @@ namespace Hawk.ETL.Plugins.Executor
     public class DelayTF : TransformerBase
     {
         [LocalizedDisplayName("延时值")]
-        [LocalizedDescription("单位为毫秒")]
+        [LocalizedDescription("单位为毫秒，也可使用方括号语法，例如[a]表示从a列中读取延时长度")]
         public string DelayTime { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> docus)

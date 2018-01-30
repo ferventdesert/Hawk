@@ -34,7 +34,7 @@ namespace Hawk.ETL.Plugins.Executor
         }
 
         [LocalizedDisplayName("保存位置")]
-        [LocalizedDescription("路径或文件名，可通过'[]'引用其他列 \n 若为目录名，必须显式以/结束，文件名将会通过url自动解析")]
+        [LocalizedDescription("路径或文件名，例如D:\\file.txt, 可通过'[]'引用其他列， \n 若为目录名，必须显式以/结束，文件名将会通过url自动解析")]
         public string SavePath { get; set; }
 
         [LocalizedDisplayName("爬虫选择")]

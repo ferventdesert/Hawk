@@ -14,7 +14,7 @@ using HtmlAgilityPack;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("获取请求响应", "使用网页采集器获取网页数据，并得到对应的响应字段")]
+    [XFrmWork("获取请求响应", "使用网页采集器获取网页数据，得到响应字段的值并添加到对应的属性中")]
     public class ResponseTF : TransformerBase
     {
         protected readonly BuffHelper<HtmlDocument> buffHelper = new BuffHelper<HtmlDocument>(50);

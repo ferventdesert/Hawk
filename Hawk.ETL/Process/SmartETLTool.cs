@@ -19,6 +19,7 @@ using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
 using Hawk.ETL.Plugins.Transformers;
+using IronPython.Modules;
 using Xceed.Wpf.Toolkit;
 using MessageBox = System.Windows.MessageBox;
 
@@ -78,7 +79,7 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("执行", obj => ExecuteAllExecutors())
+                        new Command("执行", obj => ExecuteAllExecutors(),icon:"play")
                     });
             }
         }
@@ -93,8 +94,8 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("配置属性", obj => DropAction("Click", obj), obj => obj != null),
-                        new Command("删除节点", obj => DropAction("Delete", obj), obj => obj != null),
+                        new Command("配置属性", obj => DropAction("Click", obj), obj => obj != null,icon:"settings"),
+                        new Command("删除节点", obj => DropAction("Delete", obj), obj => obj != null,"delete"),
                         new Command("清空所有工具", obj =>
                         {
                             var item = obj as SmartGroup;
@@ -103,26 +104,30 @@ namespace Hawk.ETL.Process
                                 CurrentETLTools.Remove(ColumnProcess);
                             }
                             RefreshSamples();
-                        }, obj => obj != null),
+                        }, obj => obj != null,"clear"),
                         new Command("拷贝模块", obj =>
                         {
                             var item = obj as IColumnProcess;
                             var newitem = PluginProvider.GetObjectInstance<IColumnProcess>(item.TypeName);
                             item.DictCopyTo(newitem);
                             CurrentETLTools.Insert(CurrentETLTools.IndexOf(item), newitem);
-                        }, obj => obj != null),
+                        }, obj => obj != null,"clipboard_file"),
                         new Command("上移", obj =>
                         {
                             var item = obj as IColumnProcess;
                             var index = CurrentETLTools.IndexOf(item);
                             CurrentETLTools.Move(index, index - 1);
-                        }, obj => obj != null),
+                        }, obj => obj != null,"arrow_up"),
                          new Command("下移", obj =>
                         {
                             var item = obj as IColumnProcess;
                             var index = CurrentETLTools.IndexOf(item);
                             CurrentETLTools.Move(index, index + 1);
-                        }, obj => obj != null)
+                        }, obj => obj != null,"arrow_down"),
+                            new Command("调试到该步", obj =>
+                            {
+                                ETLMount = CurrentETLTools.IndexOf(obj as IColumnProcess);
+                            }, obj => obj != null,"tag")
                     });
             }
         }

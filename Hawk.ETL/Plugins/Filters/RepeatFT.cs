@@ -18,18 +18,19 @@ namespace Hawk.ETL.Plugins.Filters
         {
             CollectionColumns = "";
             SumColumns = "";
+            IsLazyLinq = false;
         }
 
         [LocalizedDisplayName("延迟输出")]
         [LocalizedDescription("不勾选此选项使用枚举式迭代，需保证在本模块之后没有其他操作，否则请勾选该选项")]
         public bool IsLazyLinq { get; set; }
 
-        [LocalizedDisplayName("集合式合并键")]
-        [LocalizedDescription("空格分割的列名，键相同的写入同一个集合")]
+        [LocalizedDisplayName("合并到集合的属性")]
+        [LocalizedDescription("填入空格分割的列名，对本模块所在列的值相同的所有属性分别进行纵向合并数组")]
         public string CollectionColumns { get; set; }
 
-        [LocalizedDisplayName("求和式合并键")]
-        [LocalizedDescription("空格分割的列名，键相同的所有项进行求和")]
+        [LocalizedDisplayName("求和属性")]
+        [LocalizedDescription("填入空格分割的列名，对本模块所在列的值相同的所有属性分别进行纵向求和")]
         public string SumColumns { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> docus)
@@ -130,7 +131,7 @@ namespace Hawk.ETL.Plugins.Filters
         }
     }
 
-    [XFrmWork("删除重复项", "以拖入的列为键，自动去重，仅保留重复出现的第一项")]
+    [XFrmWork("删除重复项", "以拖入的列为唯一主键，自动去重，仅保留重复出现的第一项")]
     public class RepeatFT : NullFT
     {
         private ICollection<string> set;

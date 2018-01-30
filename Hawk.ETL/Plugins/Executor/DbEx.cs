@@ -25,7 +25,7 @@ namespace Hawk.ETL.Plugins.Executor
         }
 
         [LocalizedDisplayName("操作类型")]
-        [LocalizedDescription("选择数据对数据库的操作")]
+        [LocalizedDescription("选择数据库的操作，如插入，删除，更新等")]
         public EntityExecuteType ExecuteType { get; set; }
 
         [LocalizedDisplayName("选择数据库")]
@@ -34,7 +34,7 @@ namespace Hawk.ETL.Plugins.Executor
         public ExtendSelector<IDataBaseConnector> ConnectorSelector { get; set; }
 
         [LocalizedDisplayName("表名")]
-        [LocalizedDescription("如果要新建表，则填写此项，若数据库中已经存在该表，则不执行建表操作")]
+        [LocalizedDescription("必填，若数据库不存在该表，则会根据第一条数据的列自动创建表")]
         public string TableName { get; set; }
 
         private bool InitTable(    IFreeDocument document)

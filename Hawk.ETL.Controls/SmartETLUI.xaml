@@ -18,20 +18,15 @@
         <local:GroupColorConverter x:Key="GroupColorConverter" />
         <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
         <themes:MetroConverter x:Key="MetroConverter" />
-        <Style x:Key="CommandMenuItem" TargetType="{x:Type MenuItem}">
-            <Setter Property="Header" Value="{Binding Text}" />
-            <Setter Property="Command" Value="{Binding}" />
-            <Setter Property="CommandParameter"
-        		Value="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}, Mode=FindAncestor}}" />
-        </Style>
+   
 
          <ContextMenu x:Key="resourceContextMenu"
         					DataContext="{Binding Data.Commands, Source={StaticResource BindingProxy}}">
-                            <MenuItem DataContext="{Binding [0]}" Style="{StaticResource CommandMenuItem}" />
-                            <MenuItem DataContext="{Binding [1]}" Style="{StaticResource CommandMenuItem}" />
-							 <MenuItem DataContext="{Binding [3]}" Style="{StaticResource CommandMenuItem}" />
-							 	 <MenuItem DataContext="{Binding [4]}" Style="{StaticResource CommandMenuItem}" />
-								 	 <MenuItem DataContext="{Binding [5]}" Style="{StaticResource CommandMenuItem}" />
+                            <MenuItem DataContext="{Binding [0]}" Style="{DynamicResource CommandMenuItem}" />
+            <MenuItem DataContext="{Binding [1]}" Style="{DynamicResource CommandMenuItem}" />
+            <MenuItem DataContext="{Binding [3]}" Style="{DynamicResource CommandMenuItem}" />
+            <MenuItem DataContext="{Binding [4]}" Style="{DynamicResource CommandMenuItem}" />
+            <MenuItem DataContext="{Binding [5]}" Style="{DynamicResource CommandMenuItem}" />
                         </ContextMenu>
         <Style TargetType="{x:Type ListViewItem}">
             <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
@@ -219,13 +214,13 @@
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="DataTemplate2">
-            <StackPanel Height="30" Width="140" d:DesignWidth="126.167" d:DesignHeight="39.987"
+            <StackPanel Height="20" Width="140" d:DesignWidth="126.167" d:DesignHeight="39.987"
         		Orientation="Horizontal">
-                <TextBlock Margin="2,0,2,0" TextWrapping="Wrap" Text="{Binding ETLIndex}" FontSize="14.667"
+                <TextBlock Margin="2,0,2,0" TextWrapping="Wrap" Text="{Binding ETLIndex}"  
         			Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Center" />
                 <TextBlock Margin="2,0,8,0"
         			mvvm:ListBindingDoubleClick.Property="{Binding Data.Commands[0], Source={StaticResource BindingProxy}}"
-        			TextWrapping="Wrap" Text="{Binding TypeName}" FontSize="14.667" Width="Auto"
+        			TextWrapping="Wrap" Text="{Binding TypeName}"  Width="Auto"
         			HorizontalAlignment="Left" VerticalAlignment="Center" />
                 <CheckBox Content="" IsChecked="{Binding Enabled}" VerticalAlignment="Center"
         			HorizontalAlignment="Center" ToolTip="是否激活" />
@@ -446,7 +441,7 @@
                     <DataGrid x:FieldModifier="public" ItemsSource="{Binding Documents}"
 						Background="{DynamicResource NormalBrush}" RowBackground="{DynamicResource NormalBrush}"
 						Foreground="{DynamicResource TextBrush}" x:Name="DataList"
-						ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1" Margin="8"
+						ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1" Margin="8,10,8,6"
 						CellStyle="{DynamicResource DataGridCellStyle1}" AutoGenerateColumns="False">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="{x:Type DataGridColumnHeader}">

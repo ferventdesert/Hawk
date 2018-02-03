@@ -78,14 +78,14 @@ namespace Hawk.ETL.Crawlers
             if (GetText)
             {
                 var path = docu.DocumentNode.GetTextNode();
-                var textnode = docu.DocumentNode.SelectSingleNodePlus(path);
+                var textnode = docu.DocumentNode.SelectSingleNodePlus(path,SelectorFormat.XPath);
                 if (textnode != null)
                     return textnode.GetNodeText();
             }
             if (GetTextHtml)
             {
                 var path = docu.DocumentNode.GetTextNode();
-                var textnode = docu.DocumentNode.SelectSingleNodePlus(path);
+                var textnode = docu.DocumentNode.SelectSingleNodePlus(path,SelectorFormat.XPath);
                 if (textnode != null)
                     return textnode.InnerHtml;
             }

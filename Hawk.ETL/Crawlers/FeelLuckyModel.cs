@@ -127,9 +127,9 @@ namespace Hawk.ETL.Crawlers
 
         private void Refresh()
         {
-            CurrentTarget.Datas = HtmlDoc.GetDataFromXPath(CurrentTarget.CrawItems.Where(d => d.IsEnabled).ToList(),
+            CurrentTarget.Datas = HtmlDoc.DocumentNode.GetDataFromXPath(CurrentTarget.CrawItems.Where(d => d.IsEnabled).ToList(),
                 ScriptWorkMode.List,
-                CurrentTarget.RootXPath);
+                CurrentTarget.RootXPath,CurrentTarget.RootFormat);
             if (View != null)
                 View.SetContent(CurrentTarget.Datas);
         }

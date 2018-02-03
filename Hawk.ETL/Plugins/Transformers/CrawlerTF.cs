@@ -85,7 +85,7 @@ namespace Hawk.ETL.Plugins.Transformers
             }
             else
             {
-                docs = crawler.CrawlData(htmldoc);
+                docs = crawler.CrawlData(htmldoc.DocumentNode);
             }
 
             return docs;

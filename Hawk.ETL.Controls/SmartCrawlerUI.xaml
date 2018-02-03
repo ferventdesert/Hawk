@@ -6,11 +6,13 @@
              xmlns:wpfPropertyGrid="clr-namespace:System.Windows.Controls.WpfPropertyGrid;assembly=System.Windows.Controls.WpfPropertyGrid"
              xmlns:attributes="clr-namespace:System.Windows.Controls.WpfPropertyGrid.Attributes;assembly=System.Windows.Controls.WpfPropertyGrid"
              xmlns:connectors="clr-namespace:Hawk.Core.Connectors;assembly=Hawk.Core"
+             xmlns:mvvm="clr-namespace:Hawk.Core.Utils.MVVM;assembly=Hawk.Core"
 
 
              mc:Ignorable="d" 
              d:DesignHeight="518" d:DesignWidth="877">
 	<UserControl.Resources>
+		    <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
 		<DataTemplate x:Key="DataTemplate1">
 			<StackPanel Orientation="Horizontal" Width="Auto">
 				<CheckBox   Margin="0" IsChecked="{Binding IsSelected}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -20,6 +22,12 @@
 				<TextBox ToolTip="XPath" MinWidth="200" Text="{Binding XPath}" Margin="5,0,0,0" TextWrapping="Wrap"   Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 			</StackPanel>
 		</DataTemplate>
+		    <ContextMenu x:Key="resourceContextMenu"
+        					DataContext="{Binding Data.Binding CrawlItemCommands, Source={StaticResource BindingProxy}}">
+                            <MenuItem DataContext="{Binding [3]}" Style="{DynamicResource CommandMenuItem}" />
+                            <MenuItem DataContext="{Binding [4]}" Style="{DynamicResource CommandMenuItem}" />
+						 >
+                        </ContextMenu>
 	</UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -64,7 +72,7 @@
             <GridSplitter Width="3.375" Margin="-1.625,0,0,0" Grid.Column="1" HorizontalAlignment="Left"/>
             <Grid Grid.Column="1">
             	<Grid.RowDefinitions>
-            		<RowDefinition Height="0.5*"/>
+            		<RowDefinition Height="0.4*"/>
             		<RowDefinition Height="0.5*"/>
             	</Grid.RowDefinitions>
             	<GroupBox Header="属性提取" MinHeight="115" Margin="8,0,8,8.333">
@@ -75,7 +83,7 @@
             			</Grid.ColumnDefinitions>
             			<TextBlock Margin="8,42.5,0,0" TextWrapping="Wrap" Text="搜索字符" VerticalAlignment="Top" HorizontalAlignment="Left"/>
             			<TextBox Grid.Column="1" Margin="8,42.5,76.759,0" TextWrapping="Wrap" Text="{Binding SelectText}" wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" VerticalAlignment="Top"/>
-            			<TextBlock Margin="8,78,0,0" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top"><Run Language="zh-cn" Text="XPath结果"/></TextBlock>
+            			<TextBlock Margin="8,78,0,0" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top"><Run Language="zh-cn" Text="结果XPath"/></TextBlock>
             			<TextBox Grid.Column="1" Margin="8,76,3.509,0" TextWrapping="Wrap" Text="{Binding SelectXPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="40.907" VerticalAlignment="Top"/>
             			<Button   DataContext="{Binding Commands2[0]}"   Content="{Binding Text}" Command="{Binding}" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Right" Width="50.733" Height="20" Margin="0,132.359,3.509,0"/>
             			<Button  DataContext="{Binding Commands2[1]}"   Content="{Binding Text}" Command="{Binding}"  Margin="0,40.5,3.509,0" VerticalAlignment="Top" Grid.Column="1" Height="20" HorizontalAlignment="Right" Width="50"/>
@@ -85,11 +93,17 @@
             			<ComboBox Grid.Column="1"  Margin="8,5.01,76.759,0"  ItemsSource="{attributes:EnumValues {x:Type connectors:ScriptWorkMode}}"  SelectedItem="{Binding IsMultiData}" VerticalAlignment="Top"/>
             		</Grid>
             	</GroupBox>
-            	<GroupBox Header="已有属性" Margin="8" Grid.Row="1">
-            		<Grid Margin="0,0,0,20">
-            		 <ListView Margin="0,30,0,20" SelectionMode="Single" DataContext="{Binding}"
-				ItemsSource="{Binding CrawlItems}" d:LayoutOverrides="GridBox" >
-
+            	<GroupBox Header="属性管理" Margin="8" Grid.Row="1">
+            		<Grid Margin="0">
+            			<Expander IsExpanded="{Binding IsDetailExpand}" Margin="0,40,0,0" Header="属性列表">
+            				<Grid>
+            		 <ListView  SelectionMode="Single" DataContext="{Binding}"
+				ItemsSource="{Binding CrawlItems}" d:LayoutOverrides="GridBox" Margin="0,0,0,20" >
+                 <ListView.Resources>
+                 	  <Style TargetType="{x:Type ListViewItem}">
+                     <Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />
+			       </Style>
+				 </ListView.Resources>
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="选中">
@@ -99,21 +113,28 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-						 <GridViewColumn Header="名称">
+						 <GridViewColumn Header="名称" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBox Text="{Binding Name}" HorizontalAlignment="Center" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-					<GridViewColumn Header="XPath" Width="200">
+						   <GridViewColumn Header="选择器" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{attributes:EnumValues {x:Type connectors:SelectorFormat}}" SelectedItem="{Binding Format}" HorizontalAlignment="Center" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+							</GridViewColumn>
+					<GridViewColumn Header="路径" Width="200">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBox Text="{Binding XPath}" HorizontalAlignment="Center" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                                    <GridViewColumn Header="获取策略">
+                                    <GridViewColumn Header="获取策略" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{attributes:EnumValues {x:Type connectors:CrawlType}}" SelectedItem="{Binding CrawlType}" HorizontalAlignment="Center" />
@@ -140,14 +161,20 @@
 				  
             </ListView>
             			<StackPanel VerticalAlignment="Bottom"   DataContext="{Binding CrawlItemCommands}"  HorizontalAlignment="Right" Orientation="Horizontal" Margin="0" d:LayoutOverrides="GridBox">
-    		<Button Style="{DynamicResource miniButton}" DataContext="{Binding [0]}" />
+ 
+			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [0]}" />
     		<Button Style="{DynamicResource miniButton}" DataContext="{Binding [1]}" />
     		<Button Style="{DynamicResource miniButton}" DataContext="{Binding [2]}" />
     		 	<Button Style="{DynamicResource miniButton}" DataContext="{Binding [3]}" />
+				   		<Button Style="{DynamicResource miniButton}" DataContext="{Binding [4]}" />
     	</StackPanel>
-            			<TextBlock Margin="6.759,8,0,0" TextWrapping="Wrap" Text="根节点XPath"  ToolTip="当设置该值后，所有属性Path都应该为父节点的子path，而不能是完整的xpath路径" VerticalAlignment="Top" HorizontalAlignment="Left" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment"/>
-            			<TextBox Margin="129.567,8,4.75,0" TextWrapping="Wrap" Text="{Binding RootXPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment"/>       		
+		</Grid>
+		</Expander>
+            			<TextBlock Margin="6.759,8,0,0" TextWrapping="Wrap" Text="根节点"  ToolTip="当设置该值后，所有属性Path都应该为父节点的子path，而不能是完整的xpath路径" VerticalAlignment="Top" HorizontalAlignment="Left" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment"/>
+            			<TextBox Margin="129.567,8,4.75,0" TextWrapping="Wrap" Text="{Binding RootXPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment"/>
+            			<ComboBox Margin="51.692,8,0,0"   ItemsSource="{attributes:EnumValues {x:Type connectors:SelectorFormat}}" SelectedItem="{Binding RootFormat}"  ToolTip="  可选择完整XPath,或只根据id或class名称进行检索，如选择class,值填【name】，就是查找所有class=name的节点" VerticalAlignment="Top" HorizontalAlignment="Left" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment" Width="73.875"/>       		
 					</Grid>
+					
 					
             	</GroupBox>
             	<GridSplitter HorizontalAlignment="Stretch" Margin="0" Height="3" VerticalAlignment="Bottom"/>

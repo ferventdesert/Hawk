@@ -41,10 +41,15 @@ namespace Hawk.ETL.Crawlers
                 }
             }
         }
-        [LocalizedDisplayName("是否保存HTML")]
+        [LocalizedDisplayName("目标内容")]
         public CrawlType CrawlType { get; set; }
 
-        [LocalizedDisplayName("XPath")]
+        
+
+        [LocalizedDisplayName("选择器")]
+        public SelectorFormat Format { get; set; }
+
+        [LocalizedDisplayName("路径")]
         [PropertyOrder(1)]
         public string XPath
         {
@@ -89,7 +94,7 @@ namespace Hawk.ETL.Crawlers
 
         public FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
-            var doc = new FreeDocument { { "Name", Name }, { "XPath", XPath },{ "CrawlType", CrawlType }, { "IsEnabled",IsEnabled } };
+            var doc = new FreeDocument { { "Name", Name }, { "XPath", XPath },{ "CrawlType", CrawlType }, { "IsEnabled",IsEnabled },{ "Format", Format} };
             return doc;
         }
 
@@ -99,6 +104,7 @@ namespace Hawk.ETL.Crawlers
             XPath = docu.Set("XPath", XPath);
             CrawlType = docu.Set("CrawlType", CrawlType);
             IsEnabled = docu.Set("IsEnabled", IsEnabled);
+            Format = docu.Set("Format", Format);
         }
 
         public override string ToString()

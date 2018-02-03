@@ -56,6 +56,7 @@ namespace Hawk.ETL.Process
         private string urlHTML = "";
         private int xpath_count;
 
+       
         public SmartCrawler()
         {
             Http = new HttpItem();
@@ -92,7 +93,8 @@ namespace Hawk.ETL.Process
                             MessageBox.Show("列表模式下，属性数量不能少于2个", "提示信息");
                             return;
                         }
-                        var datas = HtmlDoc.GetDataFromXPath(CrawlItems, IsMultiData, RootXPath);
+
+                        var datas = HtmlDoc.DocumentNode.GetDataFromXPath(CrawlItems, IsMultiData, RootXPath,RootFormat);
                         var view = PluginProvider.GetObjectInstance<IDataViewer>("可编辑列表");
 
                         var r = view.SetCurrentView(datas);
@@ -107,11 +109,40 @@ namespace Hawk.ETL.Process
                                 MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                         {
                             RootXPath = rootPath;
+                           RootFormat=SelectorFormat.XPath;
                             HtmlDoc.CompileCrawItems(CrawlItems);
                             OnPropertyChanged("RootXPath");
                         }
                     },icon:"page_search")
                 });
+        }
+
+
+        [Browsable(false)]
+        public SelectorFormat RootFormat
+        {
+            get { return _rootFormat; }
+            set
+            {
+                if (_rootFormat != value)
+                {
+                    _rootFormat = value;
+                    OnPropertyChanged("RootFormat");
+                }
+            }
+        }
+        [Browsable(false)]
+        public SelectorFormat SearchFormat
+        {
+            get { return _searchFormat; }
+            set
+            {
+                if (_searchFormat != value)
+                {
+                    _searchFormat = value;
+                    OnPropertyChanged("SearchFormat");
+                }
+            }
         }
 
         [Browsable(false)]
@@ -166,6 +197,8 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
+                           new Command("新建",
+                            d => CrawlItems.Add(new CrawlItem() {Name = "属性_"+CrawlItems.Count}), null, "add"),
                         new Command("全选",
                             d => CrawlItems.Execute(d2 => d2.IsSelected = true), null, "check"),
                         new Command("反选",
@@ -241,7 +274,7 @@ namespace Hawk.ETL.Process
         [Browsable(false)]
         public ObservableCollection<CrawlItem> CrawlItems { get; set; }
 
-        [LocalizedCategory("3.请求参数")]
+        [LocalizedCategory("2.请求参数")]
         [LocalizedDisplayName("请求详情")]
         [PropertyOrder(1)]
         [LocalizedDescription("设置Cookie和其他访问选项")]
@@ -277,7 +310,7 @@ namespace Hawk.ETL.Process
         [PropertyOrder(18)]
         public bool CanSave { get; set; }
 
-        [LocalizedCategory("4.动态请求嗅探")]
+        [LocalizedCategory("3.动态请求嗅探")]
         [LocalizedDisplayName("执行")]
         [PropertyOrder(20)]
         public ReadOnlyCollection<ICommand> Commands
@@ -295,7 +328,7 @@ namespace Hawk.ETL.Process
             }
         }
 
-        [LocalizedCategory("4.动态请求嗅探")]
+        [LocalizedCategory("3.动态请求嗅探")]
         [LocalizedDisplayName("超级模式")]
         [LocalizedDescription("该模式能够强力解析网页内容，但是消耗资源，且会修改原始Html内容")]
         [PropertyOrder(9)]
@@ -317,7 +350,7 @@ namespace Hawk.ETL.Process
             }
         }
 
-        [LocalizedCategory("3.请求参数")]
+        [LocalizedCategory("2.请求参数")]
         [LocalizedDisplayName("共享源")]
         [LocalizedDescription("填写拥有正确cookie的采集器名称，为空时不起作用，该功能还会获取代理IP等属性，避免重复设置网页采集器")]
         public TextEditSelector ShareCookie { get; set; }
@@ -335,6 +368,8 @@ namespace Hawk.ETL.Process
         }
 
         private TextBox htmlTextBox;
+        private SelectorFormat _rootFormat;
+        private SelectorFormat _searchFormat;
 
         private async void GetXPathAsync()
         {
@@ -347,7 +382,8 @@ namespace Hawk.ETL.Process
                 if (r)
                 {
                     SelectXPath = currentXPaths.Current;
-                    var node = HtmlDoc.DocumentNode.SelectSingleNodePlus(SelectXPath);
+                    SearchFormat=SelectorFormat.XPath;
+                    var node = HtmlDoc.DocumentNode.SelectSingleNodePlus(SelectXPath,SelectorFormat.XPath);
                     if (node != null && MainDescription.IsUIForm)
                     {
                         if (htmlTextBox == null)
@@ -414,10 +450,10 @@ namespace Hawk.ETL.Process
             if (IsMultiData == ScriptWorkMode.One)
                  existItems= new List<CrawlItem>() {new CrawlItem() {Name = "temp",XPath = SelectXPath} };
             var task = TemporaryTask.AddTempTask("网页结构计算中",
-                HtmlDoc.SearchPropertiesSmart(IsMultiData, existItems, RootXPath, IsAttribute), crawTarget =>
+                HtmlDoc.DocumentNode.SearchPropertiesSmart(IsMultiData, existItems, RootXPath,RootFormat, IsAttribute), crawTarget =>
                 {
                     crawTargets.Add(crawTarget);
-                    var datas = HtmlDoc.GetDataFromXPath(crawTarget.CrawItems, IsMultiData, crawTarget.RootXPath);
+                    var datas = HtmlDoc.DocumentNode.GetDataFromXPath(crawTarget.CrawItems, IsMultiData, crawTarget.RootXPath,RootFormat);
                     crawTarget.Datas = datas;
                 }, d =>
                 {
@@ -444,7 +480,12 @@ namespace Hawk.ETL.Process
 
                     {
                         var crawTarget = luckModel.CurrentTarget;
+                        if(string.IsNullOrEmpty(RootXPath))
+                            RootFormat = SelectorFormat.XPath;
                         RootXPath = crawTarget.RootXPath;
+                        
+                     
+                        
                         if(IsMultiData==ScriptWorkMode.List)
                             CrawlItems.Clear();
                         CrawlItems.AddRange(crawTarget.CrawItems.Where(r => r.IsEnabled));
@@ -470,6 +511,7 @@ namespace Hawk.ETL.Process
             dict.Add("RootXPath", RootXPath);
             dict.Add("IsMultiData", IsMultiData);
             dict.Add("IsSuperMode", IsSuperMode);
+            dict.Add("RootFormat", RootFormat);
             dict.Add("ShareCookie", ShareCookie.SelectItem);
             dict.Add("HttpSet", Http.DictSerialize());
             dict.Children = new List<FreeDocument>();
@@ -573,6 +615,7 @@ namespace Hawk.ETL.Process
             base.DictDeserialize(dicts, scenario);
             URL = dicts.Set("URL", URL);
             RootXPath = dicts.Set("RootXPath", RootXPath);
+            RootFormat = dicts.Set("RootFormat", RootFormat);
             ShareCookie.SelectItem = dicts.Set("ShareCookie", ShareCookie.SelectItem);
             IsMultiData = dicts.Set("IsMultiData", IsMultiData);
             IsSuperMode = dicts.Set("IsSuperMode", IsSuperMode);
@@ -604,25 +647,26 @@ namespace Hawk.ETL.Process
         private void AddNewItem(bool isAlert = true)
         {
             var path = SelectXPath;
-            if (!string.IsNullOrEmpty(RootXPath))
+            var rootPath = RootXPath;
+            if (!string.IsNullOrEmpty(rootPath))
             {
                 //TODO: 当XPath路径错误时，需要捕获异常
                 HtmlNode root = null;
                 try
                 {
-                    root = HtmlDoc.DocumentNode.SelectSingleNodePlus(RootXPath);
+                    root = HtmlDoc.DocumentNode.SelectSingleNodePlus(rootPath,RootFormat);
                 }
                 catch (Exception ex)
                 {
-                    XLogSys.Print.Error($"{RootXPath}  不能被识别为正确的XPath表达式，请检查");
+                    XLogSys.Print.Error($"{RootXPath}  不能被识别为正确的{RootFormat}表达式，请检查");
                 }
-                if (!(root != null).SafeCheck("使用当前父节点XPath，在文档中找不到任何父节点"))
+                if (!(root != null).SafeCheck($"使用当前父节点{RootFormat} {RootXPath}，在文档中找不到任何父节点"))
                     return;
-                root = HtmlDoc.DocumentNode.SelectSingleNodePlus(RootXPath)?.ParentNode;
+                root = HtmlDoc.DocumentNode.SelectSingleNodePlus(rootPath,RootFormat)?.ParentNode;
 
                 HtmlNode node = null;
                 if (
-                    !ControlExtended.SafeInvoke(() => HtmlDoc.DocumentNode.SelectSingleNodePlus(path), ref node,
+                    !ControlExtended.SafeInvoke(() => HtmlDoc.DocumentNode.SelectSingleNodePlus(path,SearchFormat), ref node,
                         LogType.Info, "检查子节点XPath正确性", true))
 
                 {
@@ -640,30 +684,33 @@ namespace Hawk.ETL.Process
                         return;
                     }
                 }
-                path = XPath.TakeOffPlus(node.XPath, root.XPath);
+                if(SearchFormat==SelectorFormat.XPath)
+                 path = XPath.TakeOffPlus(node.XPath, root.XPath);
             }
             if (CrawlItems.FirstOrDefault(d => d.Name == SelectName) == null ||
                 MessageBox.Show("已经存在同名的属性，是否依然添加?", "提示信息", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
                 var item = new CrawlItem {XPath = path, Name = SelectName, SampleData1 = SelectText};
-
+                item.Format = SearchFormat;
                 CrawlItems.Add(item);
 
                 SelectXPath = "";
                 SelectName = "";
+               
                 XLogSys.Print.Info("成功添加属性");
             }
         }
 
-        public List<FreeDocument> CrawlData(HtmlDocument doc)
+        public List<FreeDocument> CrawlData(HtmlNode doc)
         {
             if (CrawlItems.Count == 0)
             {
-                var freedoc = new FreeDocument {{"Content", doc.DocumentNode.OuterHtml}};
+                var freedoc = new FreeDocument {{"Content", doc.OuterHtml}};
 
                 return new List<FreeDocument> {freedoc};
             }
-            return doc.GetDataFromXPath(CrawlItems, IsMultiData, RootXPath);
+            
+            return doc.GetDataFromXPath(CrawlItems, IsMultiData,  RootXPath,RootFormat);
         }
 
         public string GetHtml(string url, out HttpStatusCode code,
@@ -746,7 +793,7 @@ namespace Hawk.ETL.Process
             doc.LoadHtml(html);
 
 
-            return CrawlData(doc);
+            return CrawlData(doc.DocumentNode);
         }
 
         private async void VisitUrlAsync()

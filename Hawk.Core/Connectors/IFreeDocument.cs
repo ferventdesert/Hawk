@@ -26,6 +26,13 @@ namespace Hawk.Core.Connectors
         One,
         NoTransform,
     }
+
+    public enum SelectorFormat
+    {
+        XPath,
+        CssSelecor,
+
+    }
     /// <summary>
     /// 爬虫获取数据运行方式
     /// </summary>

@@ -1,11 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Windows.Controls;
+using System.Windows.Data;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 using Xceed.Wpf.DataGrid;
 
 namespace Hawk.ETL.Controls
 {
+
+
     /// <summary>
     ///     FeelLuckPanel.xaml 的交互逻辑
     /// </summary>

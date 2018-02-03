@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -14,7 +13,6 @@ using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Crawlers;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
 using Hawk.ETL.Plugins.Transformers;
@@ -22,31 +20,176 @@ using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Plugins.Generators
 {
-
     public class SubTaskModel : PropertyChangeNotifier
     {
-        public class MappingPair
+        private int _rangeEnd;
+        private int _rangeStart;
+        private Window parent;
+
+        public SubTaskModel(SmartETLTool mother, SmartETLTool subTask, ETLBase etlmodule)
         {
-            public TextEditSelector Source { get; set; }
-            public TextEditSelector Target { get; set; }
-
-        }
-
-
-        public SubTaskModel(SmartETLTool mother, SmartETLTool subTask)
-        {
+            MappingPairs =
+                new ObservableCollection<MappingPair>();
             Mother = mother;
             SubTask = subTask;
+            var start = 0;
+            var end = 0;
+            ETLBase.GetRange(etlmodule.ETLRange, subTask.AllETLMount, out start, out end);
+            RangeStart = start;
+            RangeEnd = end;
+            ETLModule = etlmodule;
+            if (!string.IsNullOrEmpty(etlmodule.MappingSet))
+            {
+                foreach (var item in etlmodule.MappingSet.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    var kv = item.Split(':');
+                    if (kv.Length != 2)
+                        continue;
+                    var pair = new MappingPair();
+                    pair.Source.SelectItem = kv[0];
+                    pair.Target.SelectItem = kv[1];
+                    MappingPairs.Add(pair);
+                }
+            }
+            Refresh();
 
         }
+        
 
-        public string ETLRange { get; set; }
-        public string MappingResult { get; set; }
+        public ETLBase ETLModule { get; set; }
+
+        public int RangeStart
+        {
+            get { return _rangeStart; }
+            set
+            {
+                if (_rangeStart != value)
+                {
+                    _rangeStart = value;
+                    OnPropertyChanged("RangeStart");
+                }
+            }
+        }
+
+        public int RangeEnd
+        {
+            get { return _rangeEnd; }
+            set
+            {
+                if (_rangeEnd != value)
+                {
+                    _rangeEnd = value;
+                    OnPropertyChanged("RangeEnd");
+                }
+            }
+        }
+
+        public string ETLRange => $"{RangeStart}:{RangeEnd}";
+
+        public string MappingSet
+        {
+            get { return " ".Join(MappingPairs.Select(d => $"{d.Source.SelectItem}:{d.Target.SelectItem}")); }
+        }
+
         public SmartETLTool Mother { get; set; }
         public SmartETLTool SubTask { get; set; }
 
-        public List<MappingPair> MappingPairs { get; set; }
+        public ReadOnlyCollection<ICommand> Commands
+        {
+            get
+            {
+                return CommandBuilder.GetCommands(
+                    this,
+                    new[]
+                    {
+
+                        new Command("刷新", async obj => await Mother.MainFrm.RunBusyWork(Refresh), icon: "refresh"),
+                        new Command("确认结果", obj =>
+                        {
+                            parent.DialogResult = true;
+
+                            parent.Close();
+                        }, icon: "check"),
+                        new Command("退出", obj =>
+                        {
+                            parent.DialogResult = false;
+                            parent.Close();
+                        }, icon: "close"),
+                        new Command("添加", obj =>
+                        {
+                            var pair = new MappingPair();
+                            pair.Source.SetSource(motherkeys);
+                            pair.Target.SetSource(subkeys);
+                            MappingPairs.Add(pair);
+                            
+                        }, icon: "add"),
+                        new Command("删除", obj => { MappingPairs.Remove(obj as MappingPair); }, obj => obj is MappingPair,
+                            "add")
+                    }
+                    );
+            }
+        }
+
+        public ObservableCollection<MappingPair> MappingPairs { get; set; }
+
+        public void SetView(object view, Window window)
+        {
+            parent = window;
+        }
+
+        private List<string> motherkeys=new List<string>();
+        private List<string> subkeys=new List<string>(); 
+        private bool Refresh()
+        {
+
+            motherkeys = this.Mother.Generate(Mother.CurrentETLTools.Take(Mother.CurrentETLTools.IndexOf(this.ETLModule)), false).Take(3).GetKeys().ToList();
+                 subkeys =
+                    SubTask.Generate(
+                        SubTask.CurrentETLTools.Take(RangeStart),false)
+                        .Take(3).GetKeys().ToList();
+                var dict =
+                    MappingPairs.Where(
+                        d =>
+                            string.IsNullOrEmpty(d.Target.SelectItem) == false &&
+                            string.IsNullOrEmpty(d.Source.SelectItem) == false)
+                        .ToDictionary(d => d.Target.SelectItem, d => d.Source.SelectItem);
+            ControlExtended.UIInvoke(() =>
+            {
+                MappingPairs.Clear();
+                foreach (var key in subkeys)
+                {
+                    var pair = new MappingPair();
+                    pair.Source.SetSource(motherkeys);
+                    pair.Target.SetSource(subkeys);
+                    pair.Target.SelectItem = key;
+                    string value = key;
+                    dict.TryGetValue(key, out value);
+                    pair.Source.SelectItem =  value;
+                    MappingPairs.Add(pair);
+
+                }
+            });
+            return true;
+
+            //var index = Mother.CurrentETLTools.IndexOf(ETLModule);
+            //if (index == -1)
+            //    return;
+            //Mother.Generate(Mother.CurrentETLTools.Take(index), false);
+        }
+
+        public class MappingPair
+        {
+            public MappingPair()
+            {
+                Source = new TextEditSelector();
+                Target = new TextEditSelector();
+            }
+
+            public TextEditSelector Source { get; set; }
+            public TextEditSelector Target { get; set; }
+        }
     }
+
     public class ETLBase : ToolBase, INotifyPropertyChanged
     {
         protected readonly IProcessManager processManager;
@@ -62,7 +205,6 @@ namespace Hawk.ETL.Plugins.Generators
             MappingSet = "";
         }
 
-        [Browsable(false)]
         [LocalizedCategory("2.调用选项")]
         [PropertyOrder(1)]
         [LocalizedDisplayName("图形化配置")]
@@ -74,29 +216,10 @@ namespace Hawk.ETL.Plugins.Generators
                     this,
                     new[]
                     {
-                        new Command("配置", obj =>SetConfig(), icon: "refresh"),
+                        new Command("配置", obj => SetConfig(), obj => !string.IsNullOrEmpty(ETLSelector.SelectItem),
+                            "refresh")
                     }
                     );
-            }
-        }
-
-        private void SetConfig()
-        {
-            this.Init(null);
-            var subTaskModel = new SubTaskModel(this.Father,etl);
-
-            var view = PluginProvider.GetObjectInstance<ICustomView>("子任务面板") as UserControl;
-            view.DataContext = subTaskModel;
-
-            var name = "设置子任务调用属性";
-            var window = new Window {Title = name};
-            window.Content = view;
-            window.Activate();
-            window.ShowDialog();
-            if (window.DialogResult == true)
-
-            {
-
             }
         }
 
@@ -109,7 +232,8 @@ namespace Hawk.ETL.Plugins.Generators
         [LocalizedCategory("2.调用选项")]
         [LocalizedDisplayName("调用范围")]
         [PropertyOrder(2)]
-        [LocalizedDescription("设定调用子任务的模块范围，例如2:30表示被调用任务的第2个到第30个子模块将会启用，其他模块忽略，2:-1表示从第2个到倒数第二个启用，符合python的slice语法，为空则默认全部调用"
+        [LocalizedDescription(
+            "设定调用子任务的模块范围，例如2:30表示被调用任务的第2个到第30个子模块将会启用，其他模块忽略，2:-1表示从第2个到倒数第二个启用，符合python的slice语法，为空则默认全部调用"
             )]
         public string ETLRange { get; set; }
 
@@ -120,6 +244,29 @@ namespace Hawk.ETL.Plugins.Generators
         public string MappingSet { get; set; }
 
         protected SmartETLTool etl { get; set; }
+
+        private void SetConfig()
+        {
+            Init(null);
+            var subTaskModel = new SubTaskModel(Father, etl, this);
+            var view = PluginProvider.GetObjectInstance<ICustomView>("子任务面板") as UserControl;
+            view.DataContext = subTaskModel;
+
+            var name = "设置子任务调用属性";
+            var window = new Window {Title = name};
+            window.Content = view;
+            subTaskModel.SetView(view, window);
+            window.Activate();
+            window.ShowDialog();
+            if (window.DialogResult == true)
+
+            {
+                ETLRange = subTaskModel.ETLRange;
+                MappingSet = subTaskModel.MappingSet;
+                OnPropertyChanged("ETLRange");
+                OnPropertyChanged("MappingSet");
+            }
+        }
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
@@ -136,46 +283,55 @@ namespace Hawk.ETL.Plugins.Generators
                 return null;
             if (string.IsNullOrEmpty(MappingSet))
                 return doc;
-            var newdoc=new FreeDocument();
+            var newdoc = new FreeDocument();
             doc.DictCopyTo(newdoc);
-            foreach (var item  in MappingSet.Split(new [] { ' '},StringSplitOptions.RemoveEmptyEntries))
+            foreach (var item  in MappingSet.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries))
             {
                 var kv = item.Split(':');
-                if(kv.Length!=2)
+                if (kv.Length != 2)
                     continue;
-                if (newdoc.Contains(kv[0]))
+                if (newdoc.Keys.Contains(kv[0]))
                 {
                     newdoc[kv[1]] = newdoc[kv[0]];
                     newdoc.Remove(kv[0]);
                 }
-
             }
             return newdoc;
         }
-        protected IEnumerable<IColumnProcess> GetProcesses()
-        {
-            var range = ETLRange.Split(':');
-            var start = 0;
-            if (etl == null)
-                yield break;
 
-            var end = etl.CurrentETLTools.Count;
+        internal static bool GetRange(string strrange, int total, out int start, out int end)
+        {
+            start = 0;
+            end = total;
+            if (string.IsNullOrEmpty(strrange))
+                return false;
+            var range = strrange.Split(':');
             if (range.Length == 2)
             {
                 try
                 {
                     start = int.Parse(range[0]);
                     if (start < 0)
-                        start = etl.CurrentETLTools.Count + start;
+                        start = total + start;
                     end = int.Parse(range[1]);
                     if (end < 0)
-                        end = etl.CurrentETLTools.Count + end;
+                        end = total + end;
                 }
                 catch (Exception ex)
                 {
                     XLogSys.Print.Error("子任务范围表达式错误，请检查:" + ex.Message);
                 }
             }
+            return true;
+        }
+
+        protected IEnumerable<IColumnProcess> GetProcesses()
+        {
+            var start = 0;
+            var end = etl.CurrentETLTools.Count;
+            GetRange(ETLRange, etl.CurrentETLTools.Count, out start, out end);
+            if (etl == null)
+                yield break;
             foreach (var tool in etl.CurrentETLTools.Skip(start).Take(end - start))
             {
                 yield return tool;
@@ -194,12 +350,11 @@ namespace Hawk.ETL.Plugins.Generators
             var process = GetProcesses().ToList();
             if (process.Any() == false)
             {
-               return new List<IFreeDocument>();
-                     
+                return new List<IFreeDocument>();
             }
             var documents = new List<IFreeDocument>();
             if (document != null)
-                documents.Add( MappingDocument(document));
+                documents.Add(MappingDocument(document));
 
             return etl.Generate(process, IsExecute, documents);
         }
@@ -227,8 +382,6 @@ namespace Hawk.ETL.Plugins.Generators
         [LocalizedDescription("勾选后，本子任务会添加到任务管理器中")]
         public bool AddTask { get; set; }
 
-       
-
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
             base.Init(datas);
@@ -248,7 +401,7 @@ namespace Hawk.ETL.Plugins.Generators
         {
             foreach (var document in documents)
             {
-                IFreeDocument doc = MappingDocument(document);
+                var doc = MappingDocument(document);
                 if (AddTask)
                 {
                     var name = doc[Column];
@@ -330,6 +483,10 @@ namespace Hawk.ETL.Plugins.Generators
         [LocalizedDisplayName("递归到下列")]
         public bool IsCycle { get; set; }
 
+        [LocalizedDisplayName("工作模式")]
+        [LocalizedDescription("当要输出多个结果时选List，否则选One,参考“网页采集器”")]
+        public ScriptWorkMode IsManyData { get; set; }
+
         [LocalizedCategory("1.基本选项")]
         [LocalizedDisplayName("输出列")]
         [LocalizedDescription("从原任务中传递到子任务的列，多个列用空格分割")]
@@ -341,7 +498,6 @@ namespace Hawk.ETL.Plugins.Generators
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
             base.Init(datas);
-            IsMultiYield = IsManyData == ScriptWorkMode.List;
             process = GetProcesses();
             func = etl.Aggregate(d => d, process, IsExecute);
             return true;
@@ -349,24 +505,21 @@ namespace Hawk.ETL.Plugins.Generators
 
         public object TransformData(IFreeDocument data)
         {
-            IFreeDocument doc = MappingDocument(data);
-            var result = func(new List<IFreeDocument> { doc }).FirstOrDefault();
+            var doc = MappingDocument(data);
+            var result = func(new List<IFreeDocument> {doc}).FirstOrDefault();
+            data.Clear();
             data.AddRange(result);
             return null;
         }
-        [LocalizedDisplayName("工作模式")]
-        [LocalizedDescription("当要输出多个结果时选List，否则选One,参考“网页采集器”")]
-        public ScriptWorkMode IsManyData { get; set; }
 
-
-        [Browsable(false)] 
-        public bool IsMultiYield { get; set; }
+        [Browsable(false)]
+        public bool IsMultiYield => IsManyData == ScriptWorkMode.List;
 
         public IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
         {
             foreach (var data in datas)
             {
-                IFreeDocument doc = MappingDocument(data);
+                var doc = MappingDocument(data);
                 if (IsCycle)
                 {
                     var newdata = doc;
@@ -382,7 +535,7 @@ namespace Hawk.ETL.Plugins.Generators
                 }
                 else
                 {
-                    var result = etl.Generate(process, IsExecute, new List<IFreeDocument> { doc});
+                    var result = etl.Generate(process, IsExecute, new List<IFreeDocument> {doc});
                     foreach (var item in result)
                     {
                         yield return item.MergeQuery(data, NewColumn);

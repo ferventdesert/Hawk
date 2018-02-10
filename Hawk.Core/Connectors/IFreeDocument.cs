@@ -27,6 +27,19 @@ namespace Hawk.Core.Connectors
         NoTransform,
     }
 
+
+    /// <summary>
+    /// Web请求运行方式
+    /// </summary>
+    public enum RequestMode 
+    {
+        HttpClient,
+        SuperMode,
+        Browser,
+    }
+
+
+
     public enum SelectorFormat
     {
         XPath,

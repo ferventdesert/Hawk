@@ -9,6 +9,7 @@ using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
+using XFrmWork.DataVisualization;
 
 namespace Hawk.ETL.Managements
 {
@@ -189,6 +190,13 @@ namespace Hawk.ETL.Managements
                 var mongo = new MongoDBConnector() {Name = "MongoDB连接器"};
                 mongo.DBName = "hawk";
                 DBConnections.Add(mongo);
+
+            }
+            if (DBConnections.FirstOrDefault(d => d.TypeName == "SQLite数据库") == null)
+            {
+                var sqlite = new SQLiteDatabase() { Name = "SQLite数据库" };
+                sqlite.DBName = "hawk-sqlite";
+                DBConnections.Add(sqlite);
 
             }
         }

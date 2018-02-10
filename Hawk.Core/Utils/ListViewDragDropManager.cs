@@ -513,6 +513,8 @@ namespace Hawk.Core.Utils
 				for( int i = 0; i < this.listView.Items.Count; ++i )
 				{
 					ListViewItem item = this.GetListViewItem( i );
+				    if (item == null)
+				        return -1;
 					if( this.IsMouseOver( item ) )
 					{
 						index = i;

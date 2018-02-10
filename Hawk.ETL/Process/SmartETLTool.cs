@@ -805,7 +805,7 @@ namespace Hawk.ETL.Process
 
 
         [PropertyOrder(2)]
-        [LocalizedCategory("4.执行")]
+        [LocalizedCategory("1.执行")]
         [LocalizedDescription("在并行模式工作时，线程池所承载的最大线程数")]
         [LocalizedDisplayName("最大线程数")]
         [NumberRange(1, 20, 1)]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -945,8 +946,18 @@ namespace Hawk.ETL.Crawlers
             var crawlItems = new List<CrawlItem>();
             try
             {
+
+
                 if (rootFormat == SelectorFormat.XPath)
-                    nodes = doc2.SelectNodes(root).ToList();
+                {
+                    if (root == null || root.Contains("#")||root.EndsWith("/"))
+                        nodes = null;
+                    else
+                    {
+                        nodes = doc2.SelectNodes(root).ToList();
+                    }
+                }
+                
                 else
                     nodes = doc2.CssSelect(root).ToList();
             }
@@ -1378,14 +1389,14 @@ namespace Hawk.ETL.Crawlers
             public CrawTarget(List<CrawlItem> items, string rootpath = "",
                 SelectorFormat rootFormat = SelectorFormat.XPath)
             {
-                CrawItems = items;
+                CrawItems =  new ObservableCollection<CrawlItem>(items);
                 RootXPath = rootpath;
                 RootFormat = rootFormat;
             }
 
             public SelectorFormat RootFormat { get; set; }
             public string RootXPath { get; set; }
-            public List<CrawlItem> CrawItems { get; set; }
+            public ObservableCollection<CrawlItem> CrawItems { get; set; }
             public string Html { get; set; }
             public string Text { get; set; }
             public int NodeCount { get; set; }

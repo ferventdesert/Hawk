@@ -94,7 +94,8 @@
 
                 <HierarchicalDataTemplate DataType="{x:Type Connectors:DBConnectorBase}"
 					ItemsSource="{Binding TableNames.Collection}"  >
-                    <TextBlock Text="{Binding Name}"  AllowDrop="True"   FontSize="16"   ToolTip="{Binding TypeName}" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Name}"   mvvm:TreeViewItemDoubleClick.Property="{Binding Data.Commands[0].ChildActions[0], Source={StaticResource BindingProxy}}"
+					  AllowDrop="True"   FontSize="16"   ToolTip="{Binding TypeName}" VerticalAlignment="Center">
 						<mvvm:DropHelper.DropSupport>
 							<mvvm:DropSupportData BindingPath="Commands[0]"  />
 						</mvvm:DropHelper.DropSupport>

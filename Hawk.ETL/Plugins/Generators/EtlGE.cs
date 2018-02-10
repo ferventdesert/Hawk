@@ -151,7 +151,7 @@ namespace Hawk.ETL.Plugins.Generators
                     MappingPairs.Where(
                         d =>
                             string.IsNullOrEmpty(d.Target.SelectItem) == false &&
-                            string.IsNullOrEmpty(d.Source.SelectItem) == false)
+                            string.IsNullOrEmpty(d.Source.SelectItem) == false).Distinct().GroupBy(d=>d.Target.SelectItem).Select(group=>group.First())
                         .ToDictionary(d => d.Target.SelectItem, d => d.Source.SelectItem);
             ControlExtended.UIInvoke(() =>
             {

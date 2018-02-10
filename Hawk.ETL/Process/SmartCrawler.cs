@@ -21,6 +21,9 @@ using Hawk.ETL.Crawlers;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
 using HtmlAgilityPack;
+using ScrapySharp;
+using System;
+using ScrapySharp.Network;
 
 namespace Hawk.ETL.Process
 {
@@ -35,7 +38,6 @@ namespace Hawk.ETL.Process
 
         private readonly Regex extract = new Regex(@"\[(\w+)\]");
         private readonly HttpHelper helper;
-        private bool _isSuperMode;
         private string _rootXPath;
         private XPathAnalyzer.CrawTarget CrawTarget;
         private IEnumerator<string> currentXPaths;
@@ -43,7 +45,7 @@ namespace Hawk.ETL.Process
         private bool hasInit;
         public HtmlDocument HtmlDoc = new HtmlDocument();
         private bool isBusy;
-
+        ScrapingBrowser browser = new ScrapingBrowser();
         /// <summary>
         ///     上一次采集到的数据条目数
         /// </summary>
@@ -183,42 +185,13 @@ namespace Hawk.ETL.Process
                     new[]
                     {
                         new Command("刷新网页", obj => VisitUrlAsync(),icon:"refresh"),
-                        new Command("复制到剪切板", obj => CopytoClipBoard(),icon:"clipboard_file")
+                        new Command("复制到剪切板", obj => CopytoClipBoard(),icon:"clipboard_file"),
+                              new Command("配置属性", obj => EditProperty(),icon:"edit")
                     });
             }
         }
 
-        [Browsable(false)]
-        public ReadOnlyCollection<ICommand> CrawlItemCommands
-        {
-            get
-            {
-                return CommandBuilder.GetCommands(
-                    this,
-                    new[]
-                    {
-                           new Command("新建",
-                            d => CrawlItems.Add(new CrawlItem() {Name = "属性_"+CrawlItems.Count}), null, "add"),
-                        new Command("全选",
-                            d => CrawlItems.Execute(d2 => d2.IsSelected = true), null, "check"),
-                        new Command("反选",
-                            d => CrawlItems.Execute(d2 => d2.IsSelected = !d2.IsSelected), null, "redo"),
-                          new Command("复制",
-                              d =>
-                              {
-                                  var items = CrawlItems.Where(d2 => d2.IsSelected).ToList();
-                                  foreach (var item in items)
-                                  {
-                                      var newItem= new CrawlItem();
-                                      item.DictCopyTo(newItem);
-                                      CrawlItems.Add(newItem);
-                                  }
-                              }, null, "copy"),
-                        new Command("删除",
-                            d => CrawlItems.RemoveElementsNoReturn(d2 => d2.IsSelected), null, "delete")
-                    });
-            }
-        }
+      
 
         [Browsable(false)]
         public ReadOnlyCollection<ICommand> Commands2 { get; }
@@ -328,7 +301,7 @@ namespace Hawk.ETL.Process
             }
         }
 
-        [LocalizedCategory("3.动态请求嗅探")]
+        [LocalizedCategory("2.请求参数")]
         [LocalizedDisplayName("超级模式")]
         [LocalizedDescription("该模式能够强力解析网页内容，但是消耗资源，且会修改原始Html内容")]
         [PropertyOrder(9)]
@@ -369,6 +342,7 @@ namespace Hawk.ETL.Process
 
         private TextBox htmlTextBox;
         private SelectorFormat _rootFormat;
+        private bool _isSuperMode;
         private SelectorFormat _searchFormat;
 
         private async void GetXPathAsync()
@@ -442,6 +416,31 @@ namespace Hawk.ETL.Process
             }
         }
 
+        public void EditProperty()
+        {
+            var crawTargets = new List<XPathAnalyzer.CrawTarget>();
+            crawTargets.Add(new XPathAnalyzer.CrawTarget(this.CrawlItems.Select(d=>d.Clone()).ToList(), RootXPath, RootFormat));
+            var luckModel = new FeelLuckyModel(crawTargets, HtmlDoc,IsMultiData);
+            luckModel.CanChange = false;
+            var view = PluginProvider.GetObjectInstance<ICustomView>("手气不错面板") as UserControl;
+            view.DataContext = luckModel;
+
+            var name = "属性配置";
+            var window = new Window {Title = name};
+            window.WindowState = WindowState.Maximized;
+            window.Content = view;
+            luckModel.SetView(view, window);
+           
+            window.Activate();
+            window.ShowDialog();
+            if (window.DialogResult == true)
+            {
+                this.CrawlItems.Clear();
+                this.RootXPath = luckModel.CurrentTarget.RootXPath;
+                this.CrawlItems.AddRange(luckModel.CurrentTarget.CrawItems);
+            }
+        }
+
         public void FeelLucky()
         {
             isBusy = true;
@@ -465,7 +464,7 @@ namespace Hawk.ETL.Process
                         return;
                     }
 
-                    var luckModel = new FeelLuckyModel(crawTargets, HtmlDoc, IsMultiData==ScriptWorkMode.List ?SortMethod.按面积排序:SortMethod.按列数排序);
+                    var luckModel = new FeelLuckyModel(crawTargets, HtmlDoc, IsMultiData);
                     var view = PluginProvider.GetObjectInstance<ICustomView>("手气不错面板") as UserControl;
                     view.DataContext = luckModel;
 
@@ -483,9 +482,6 @@ namespace Hawk.ETL.Process
                         if(string.IsNullOrEmpty(RootXPath))
                             RootFormat = SelectorFormat.XPath;
                         RootXPath = crawTarget.RootXPath;
-                        
-                     
-                        
                         if(IsMultiData==ScriptWorkMode.List)
                             CrawlItems.Clear();
                         CrawlItems.AddRange(crawTarget.CrawItems.Where(r => r.IsEnabled));
@@ -595,7 +591,7 @@ namespace Hawk.ETL.Process
             ControlExtended.UIInvoke(() => { if (window != null) window.Topmost = true; });
             var info = $"已经成功获取嗅探字段！ 真实请求地址:\n{oSession.url}，\n已自动配置了网页采集器，请求类型为{Http.Method}\n {post}已经刷新了网页采集器的内容";
             XLogSys.Print.Info(info);
-
+            IsSuperMode = true; 
             ControlExtended.UIInvoke(() => { if (window != null) window.Topmost = false; });
             SniffSucceed?.Invoke(this, new EventArgs());
             URL = oSession.url;
@@ -716,6 +712,7 @@ namespace Hawk.ETL.Process
         public string GetHtml(string url, out HttpStatusCode code,
             string post = null)
         {
+            
             var mc = extract.Matches(url);
             if (SysProcessManager == null)
             {
@@ -827,7 +824,7 @@ namespace Hawk.ETL.Process
                     if (control != null)
                     {
                         dynamic invoke = control.View;
-                        if (!IsSuperMode)
+                        if (IsSuperMode==true)
                             invoke.UpdateHtml(URLHTML);
                         else
                         {

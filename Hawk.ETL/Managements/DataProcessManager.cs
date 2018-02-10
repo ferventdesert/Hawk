@@ -669,7 +669,7 @@ namespace Hawk.ETL.Managements
 
         private void LoadProcessView(IDataProcess rc)
         {
-            var view = PluginManager.AddCusomView(MainFrmUI as IDockableManager, rc.TypeName, rc as IView);
+            var view = PluginManager.AddCusomView(MainFrmUI as IDockableManager, rc.TypeName, rc as IView,rc.Name);
             var control = view as UserControl;
             if (control != null)
             {

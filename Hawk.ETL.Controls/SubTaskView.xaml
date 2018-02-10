@@ -67,14 +67,14 @@
 						    <GridViewColumn Header="主任务属性" Width="200">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                      <ComboBox DataContext="{Binding Source}"  IsEditable="True" Width="180" ItemsSource="{Binding Collection}" SelectedItem="{Binding  SelectItem}" HorizontalAlignment="Center" />
+                                      <ComboBox DataContext="{Binding Source}"  IsEditable="True" Width="180" ItemsSource="{Binding Collection}" SelectedItem="{Binding  _SelectItem}" Text="{Binding SelectItem}"  HorizontalAlignment="Center" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 						    <GridViewColumn Header="子任务属性" Width="200">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate> 
-                                      <ComboBox DataContext="{Binding Target}" IsEditable="True"  Width="180" ItemsSource="{Binding Collection}" SelectedItem="{Binding  SelectItem}" HorizontalAlignment="Center" />
+                                      <ComboBox DataContext="{Binding Target}" IsEditable="True"  Width="180" ItemsSource="{Binding Collection}" SelectedItem="{Binding  _SelectItem}" Text="{Binding SelectItem}" HorizontalAlignment="Center" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

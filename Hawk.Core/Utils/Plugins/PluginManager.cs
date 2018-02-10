@@ -161,7 +161,7 @@ namespace Hawk.Core.Utils.Plugins
                 var ui = plugin as IView;
                 if (ui != null)
                 {
-                   var control=  AddCusomView(this.MainFrmUI as IDockableManager,plugin.TypeName,ui);
+                   var control=  AddCusomView(this.MainFrmUI as IDockableManager,plugin.TypeName,ui,plugin.Name);
                     if (control is UserControl)
                     {
                         (control as UserControl).DataContext = ui;
@@ -177,7 +177,7 @@ namespace Hawk.Core.Utils.Plugins
         /// <param name="plugin"></param>
         /// <param name="model"></param>
         /// <param name="bindingAction"></param>
-        public  static object AddCusomView(IDockableManager dockableManager, string pluginName, IView model)
+        public  static object AddCusomView(IDockableManager dockableManager, string pluginName, IView model,string name)
         {
             if (dockableManager == null || model == null)
                 return null;
@@ -201,7 +201,7 @@ namespace Hawk.Core.Utils.Plugins
             XFrmWorkAttribute attr = PluginProvider.GetPluginAttribute(model.GetType());
 
             dockableManager.AddDockAbleContent(
-                frm, view1, new[] { pluginName, attr.LogoURL, attr.Description });
+                frm, view1, new[] { name, attr.LogoURL, attr.Description });
             dockableManager.ViewDictionary.Last().Model = model;
             return view1;
         }

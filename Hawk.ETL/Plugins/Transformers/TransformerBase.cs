@@ -60,7 +60,15 @@ namespace Hawk.ETL.Plugins.Transformers
         public string Column
         {
             get { return ColumnSelector.SelectItem; }
-            set { ColumnSelector.SelectItem = value; }
+            set
+            {
+                if (value != ColumnSelector.SelectItem)
+                {
+                    ColumnSelector.SelectItem = value;
+                    OnPropertyChanged("Column");
+                }
+             
+            }
         }
 
         [LocalizedDisplayName("介绍")]

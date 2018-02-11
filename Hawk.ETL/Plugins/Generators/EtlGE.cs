@@ -26,7 +26,7 @@ namespace Hawk.ETL.Plugins.Generators
         private int _rangeStart;
         private Window parent;
 
-        public SubTaskModel(SmartETLTool mother, SmartETLTool subTask, ETLBase etlmodule)
+        public SubTaskModel(SmartETLTool mother, SmartETLTool subTask, ETLBase etlmodule,string[] mother_keys=null,string[] sub_keys=null)
         {
             MappingPairs =
                 new ObservableCollection<MappingPair>();
@@ -35,6 +35,10 @@ namespace Hawk.ETL.Plugins.Generators
             var start = 0;
             var end = 0;
             ETLBase.GetRange(etlmodule.ETLRange, subTask.AllETLMount, out start, out end);
+            if (mother_keys!=null)
+               motherkeys.AddRange(mother_keys); 
+            if (sub_keys != null)
+               subkeys.AddRange(sub_keys); 
             RangeStart = start;
             RangeEnd = end;
             ETLModule = etlmodule;
@@ -43,18 +47,21 @@ namespace Hawk.ETL.Plugins.Generators
                 foreach (var item in etlmodule.MappingSet.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries))
                 {
                     var kv = item.Split(':');
-                    if (kv.Length != 2)
-                        continue;
-                    var pair = new MappingPair();
-                    pair.Source.SelectItem = kv[0];
-                    pair.Target.SelectItem = kv[1];
+                    string key = "";
+                    string value = "";
+                    if (kv.Length == 1)
+                        key = value = kv[1];
+                    if (kv.Length > 1)
+                        value = kv[1];
+                    var pair = new MappingPair(motherkeys,subkeys);
+                    pair.Source.SelectItem = key;
+                    pair.Target.SelectItem = value;
                     MappingPairs.Add(pair);
                 }
             }
-            Refresh();
+           // Refresh();
 
         }
-        
 
         public ETLBase ETLModule { get; set; }
 
@@ -117,9 +124,7 @@ namespace Hawk.ETL.Plugins.Generators
                         }, icon: "close"),
                         new Command("添加", obj =>
                         {
-                            var pair = new MappingPair();
-                            pair.Source.SetSource(motherkeys);
-                            pair.Target.SetSource(subkeys);
+                            var pair = new MappingPair(motherkeys,subkeys);
                             MappingPairs.Add(pair);
                             
                         }, icon: "add"),
@@ -142,11 +147,11 @@ namespace Hawk.ETL.Plugins.Generators
         private bool Refresh()
         {
 
-            motherkeys = this.Mother.Generate(Mother.CurrentETLTools.Take(Mother.CurrentETLTools.IndexOf(this.ETLModule)), false).Take(3).GetKeys().ToList();
-                 subkeys =
-                    SubTask.Generate(
-                        SubTask.CurrentETLTools.Take(RangeStart),false)
-                        .Take(3).GetKeys().ToList();
+            //motherkeys = this.Mother.Generate(Mother.CurrentETLTools.Take(Mother.CurrentETLTools.IndexOf(this.ETLModule)), false).Take(3).GetKeys().ToList();
+            //     subkeys =
+            //        SubTask.Generate(
+            //            SubTask.CurrentETLTools.Take(RangeStart),false)
+            //            .Take(3).GetKeys().ToList();
                 var dict =
                     MappingPairs.Where(
                         d =>
@@ -158,9 +163,7 @@ namespace Hawk.ETL.Plugins.Generators
                 MappingPairs.Clear();
                 foreach (var key in subkeys)
                 {
-                    var pair = new MappingPair();
-                    pair.Source.SetSource(motherkeys);
-                    pair.Target.SetSource(subkeys);
+                    var pair = new MappingPair(motherkeys,subkeys);
                     pair.Target.SelectItem = key;
                     string value = key;
                     dict.TryGetValue(key, out value);
@@ -179,10 +182,13 @@ namespace Hawk.ETL.Plugins.Generators
 
         public class MappingPair
         {
-            public MappingPair()
+            public MappingPair(List<string> source_keys, List<string>target_keys)
             {
                 Source = new TextEditSelector();
                 Target = new TextEditSelector();
+                Source.SetSource(source_keys);
+                Target.SetSource(target_keys);
+               
             }
 
             public TextEditSelector Source { get; set; }
@@ -248,7 +254,7 @@ namespace Hawk.ETL.Plugins.Generators
         private void SetConfig()
         {
             Init(null);
-            var subTaskModel = new SubTaskModel(Father, etl, this);
+            var subTaskModel = new SubTaskModel(Father, etl, this,this.Father.Documents.GetKeys().ToArray(),etl.Documents.GetKeys().ToArray());
             var view = PluginProvider.GetObjectInstance<ICustomView>("子任务面板") as UserControl;
             view.DataContext = subTaskModel;
 

@@ -26,7 +26,7 @@
     <Color x:Key="BottomGradientSelectColor">#E7A9A9A9</Color>
 
     <Color x:Key="BlackColor">#FF000000</Color>
-    <Color x:Key="WhiteColor">#FFFFFFFF</Color>
+    <Color x:Key="WhiteColor">White</Color>
      <Style x:Key="CommandMenuItem" TargetType="{x:Type MenuItem}">
             <Setter Property="Header" Value="{Binding Text}" />
             <Setter Property="Command" Value="{Binding}" />
@@ -2654,7 +2654,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="Foreground" Value="#FFFFFFFF" />
+        <Setter Property="Foreground" Value="White" />
         <Setter Property="Background" Value="Transparent" />
     </Style>
 

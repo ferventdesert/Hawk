@@ -199,6 +199,8 @@ namespace Hawk.Core.Utils
 
         public static void AddRange<K, V>(this IDictionary<K, V> source, IDictionary<K, V> value)
         {
+            if (value == null)
+                return;
             foreach (var d in value)
             {
                 source.SetValue(d.Key, d.Value);

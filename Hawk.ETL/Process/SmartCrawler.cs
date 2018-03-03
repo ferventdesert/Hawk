@@ -21,8 +21,6 @@ using Hawk.ETL.Crawlers;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
 using HtmlAgilityPack;
-using ScrapySharp;
-using System;
 using ScrapySharp.Network;
 
 namespace Hawk.ETL.Process
@@ -38,14 +36,19 @@ namespace Hawk.ETL.Process
 
         private readonly Regex extract = new Regex(@"\[(\w+)\]");
         private readonly HttpHelper helper;
+        private bool _isSuperMode;
+        private SelectorFormat _rootFormat;
         private string _rootXPath;
+        private SelectorFormat _searchFormat;
+        private ScrapingBrowser browser = new ScrapingBrowser();
         private XPathAnalyzer.CrawTarget CrawTarget;
         private IEnumerator<string> currentXPaths;
         public bool enableRefresh = true;
         private bool hasInit;
         public HtmlDocument HtmlDoc = new HtmlDocument();
+        private TextBox htmlTextBox;
         private bool isBusy;
-        ScrapingBrowser browser = new ScrapingBrowser();
+
         /// <summary>
         ///     上一次采集到的数据条目数
         /// </summary>
@@ -58,7 +61,6 @@ namespace Hawk.ETL.Process
         private string urlHTML = "";
         private int xpath_count;
 
-       
         public SmartCrawler()
         {
             Http = new HttpItem();
@@ -77,13 +79,14 @@ namespace Hawk.ETL.Process
                 {
                     new Command("添加", obj => AddNewItem(),
                         obj =>
-                            string.IsNullOrEmpty(SelectName) == false && string.IsNullOrEmpty(SelectXPath) == false,"add"),
+                            string.IsNullOrEmpty(SelectName) == false && string.IsNullOrEmpty(SelectXPath) == false,
+                        "add"),
                     new Command("搜索", obj => GetXPathAsync(),
                         obj =>
-                            currentXPaths != null,"magnify"),
+                            currentXPaths != null, "magnify"),
                     new Command("手气不错",
                         obj => FeelLucky(),
-                        obj => IsMultiData != ScriptWorkMode.NoTransform && isBusy == false,"smiley_happy"
+                        obj => IsMultiData != ScriptWorkMode.NoTransform && isBusy == false, "smiley_happy"
                         ),
                     new Command("提取测试", obj =>
                     {
@@ -96,7 +99,9 @@ namespace Hawk.ETL.Process
                             return;
                         }
 
-                        var datas = HtmlDoc.DocumentNode.GetDataFromXPath(CrawlItems, IsMultiData, RootXPath,RootFormat);
+                        var datas =
+                            HtmlDoc.DocumentNode.GetDataFromXPath(CrawlItems, IsMultiData, RootXPath, RootFormat)
+                                .ToList();
                         var view = PluginProvider.GetObjectInstance<IDataViewer>("可编辑列表");
 
                         var r = view.SetCurrentView(datas);
@@ -111,14 +116,13 @@ namespace Hawk.ETL.Process
                                 MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                         {
                             RootXPath = rootPath;
-                           RootFormat=SelectorFormat.XPath;
+                            RootFormat = SelectorFormat.XPath;
                             HtmlDoc.CompileCrawItems(CrawlItems);
                             OnPropertyChanged("RootXPath");
                         }
-                    },icon:"page_search")
+                    }, icon: "page_search")
                 });
         }
-
 
         [Browsable(false)]
         public SelectorFormat RootFormat
@@ -133,6 +137,7 @@ namespace Hawk.ETL.Process
                 }
             }
         }
+
         [Browsable(false)]
         public SelectorFormat SearchFormat
         {
@@ -184,14 +189,12 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("刷新网页", obj => VisitUrlAsync(),icon:"refresh"),
-                        new Command("复制到剪切板", obj => CopytoClipBoard(),icon:"clipboard_file"),
-                              new Command("配置属性", obj => EditProperty(),icon:"edit")
+                        new Command("刷新网页", obj => VisitUrlAsync(), icon: "refresh"),
+                        new Command("复制到剪切板", obj => CopytoClipBoard(), icon: "clipboard_file"),
+                        new Command("配置属性", obj => EditProperty(), icon: "edit")
                     });
             }
         }
-
-      
 
         [Browsable(false)]
         public ReadOnlyCollection<ICommand> Commands2 { get; }
@@ -294,8 +297,8 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("开始", obj => StartVisit(), obj => IsRunning == false,"camera"),
-                        new Command("停止", obj => StopVisit(), obj => IsRunning,"stop")
+                        new Command("开始", obj => StartVisit(), obj => IsRunning == false, "camera"),
+                        new Command("停止", obj => StopVisit(), obj => IsRunning, "stop")
                         //     new Command("模拟登录", obj => { AutoVisit(); })
                     });
             }
@@ -340,11 +343,6 @@ namespace Hawk.ETL.Process
             XLogSys.Print.Info("已经成功复制到剪贴板");
         }
 
-        private TextBox htmlTextBox;
-        private SelectorFormat _rootFormat;
-        private bool _isSuperMode;
-        private SelectorFormat _searchFormat;
-
         private async void GetXPathAsync()
         {
             if (currentXPaths == null)
@@ -356,8 +354,8 @@ namespace Hawk.ETL.Process
                 if (r)
                 {
                     SelectXPath = currentXPaths.Current;
-                    SearchFormat=SelectorFormat.XPath;
-                    var node = HtmlDoc.DocumentNode.SelectSingleNodePlus(SelectXPath,SelectorFormat.XPath);
+                    SearchFormat = SelectorFormat.XPath;
+                    var node = HtmlDoc.DocumentNode.SelectSingleNodePlus(SelectXPath, SelectorFormat.XPath);
                     if (node != null && MainDescription.IsUIForm)
                     {
                         if (htmlTextBox == null)
@@ -368,16 +366,14 @@ namespace Hawk.ETL.Process
                             {
                                 dynamic dy = control.View;
                                 htmlTextBox = dy.HTMLTextBox;
-
                             }
-
                         }
                         if (htmlTextBox != null)
                         {
                             htmlTextBox.Focus();
                             htmlTextBox.SelectionStart = node.StreamPosition;
                             htmlTextBox.SelectionLength = node.OuterHtml.Length;
-                            int line = htmlTextBox.GetLineIndexFromCharacterIndex(node.StreamPosition); //返回指定字符串索引所在的行号
+                            var line = htmlTextBox.GetLineIndexFromCharacterIndex(node.StreamPosition); //返回指定字符串索引所在的行号
                             //Debug.WriteLine(rows + ",," + line);
                             htmlTextBox.ScrollToLine(line + 1); //滚动到视图中指定行索引
                         }
@@ -408,7 +404,6 @@ namespace Hawk.ETL.Process
                         XLogSys.Print.Info($"在该网页中找不到关键字 {SelectText},可能是动态请求，可以启用【自动嗅探】,并将浏览器页面翻到包含该关键字的位置");
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -419,8 +414,9 @@ namespace Hawk.ETL.Process
         public void EditProperty()
         {
             var crawTargets = new List<XPathAnalyzer.CrawTarget>();
-            crawTargets.Add(new XPathAnalyzer.CrawTarget(this.CrawlItems.Select(d=>d.Clone()).ToList(), RootXPath, RootFormat));
-            var luckModel = new FeelLuckyModel(crawTargets, HtmlDoc,IsMultiData);
+            crawTargets.Add(new XPathAnalyzer.CrawTarget(CrawlItems.Select(d => d.Clone()).ToList(), RootXPath,
+                RootFormat));
+            var luckModel = new FeelLuckyModel(crawTargets, HtmlDoc, IsMultiData);
             luckModel.CanChange = false;
             var view = PluginProvider.GetObjectInstance<ICustomView>("手气不错面板") as UserControl;
             view.DataContext = luckModel;
@@ -430,14 +426,14 @@ namespace Hawk.ETL.Process
             window.WindowState = WindowState.Maximized;
             window.Content = view;
             luckModel.SetView(view, window);
-           
+
             window.Activate();
             window.ShowDialog();
             if (window.DialogResult == true)
             {
-                this.CrawlItems.Clear();
-                this.RootXPath = luckModel.CurrentTarget.RootXPath;
-                this.CrawlItems.AddRange(luckModel.CurrentTarget.CrawItems);
+                CrawlItems.Clear();
+                RootXPath = luckModel.CurrentTarget.RootXPath;
+                CrawlItems.AddRange(luckModel.CurrentTarget.CrawItems);
             }
         }
 
@@ -447,12 +443,15 @@ namespace Hawk.ETL.Process
             var crawTargets = new List<XPathAnalyzer.CrawTarget>();
             ICollection<CrawlItem> existItems = CrawlItems;
             if (IsMultiData == ScriptWorkMode.One)
-                 existItems= new List<CrawlItem>() {new CrawlItem() {Name = "temp",XPath = SelectXPath} };
+                existItems = new List<CrawlItem> {new CrawlItem {Name = "temp", XPath = SelectXPath}};
             var task = TemporaryTask.AddTempTask("网页结构计算中",
-                HtmlDoc.DocumentNode.SearchPropertiesSmart(IsMultiData, existItems, RootXPath,RootFormat, IsAttribute), crawTarget =>
+                HtmlDoc.DocumentNode.SearchPropertiesSmart(IsMultiData, existItems, RootXPath, RootFormat, IsAttribute),
+                crawTarget =>
                 {
                     crawTargets.Add(crawTarget);
-                    var datas = HtmlDoc.DocumentNode.GetDataFromXPath(crawTarget.CrawItems, IsMultiData, crawTarget.RootXPath,RootFormat);
+                    var datas =
+                        HtmlDoc.DocumentNode.GetDataFromXPath(crawTarget.CrawItems, IsMultiData, crawTarget.RootXPath,
+                            RootFormat).ToList();
                     crawTarget.Datas = datas;
                 }, d =>
                 {
@@ -479,10 +478,10 @@ namespace Hawk.ETL.Process
 
                     {
                         var crawTarget = luckModel.CurrentTarget;
-                        if(string.IsNullOrEmpty(RootXPath))
+                        if (string.IsNullOrEmpty(RootXPath))
                             RootFormat = SelectorFormat.XPath;
                         RootXPath = crawTarget.RootXPath;
-                        if(IsMultiData==ScriptWorkMode.List)
+                        if (IsMultiData == ScriptWorkMode.List)
                             CrawlItems.Clear();
                         CrawlItems.AddRange(crawTarget.CrawItems.Where(r => r.IsEnabled));
                     }
@@ -591,7 +590,7 @@ namespace Hawk.ETL.Process
             ControlExtended.UIInvoke(() => { if (window != null) window.Topmost = true; });
             var info = $"已经成功获取嗅探字段！ 真实请求地址:\n{oSession.url}，\n已自动配置了网页采集器，请求类型为{Http.Method}\n {post}已经刷新了网页采集器的内容";
             XLogSys.Print.Info(info);
-            IsSuperMode = true; 
+            IsSuperMode = true;
             ControlExtended.UIInvoke(() => { if (window != null) window.Topmost = false; });
             SniffSucceed?.Invoke(this, new EventArgs());
             URL = oSession.url;
@@ -650,7 +649,7 @@ namespace Hawk.ETL.Process
                 HtmlNode root = null;
                 try
                 {
-                    root = HtmlDoc.DocumentNode.SelectSingleNodePlus(rootPath,RootFormat);
+                    root = HtmlDoc.DocumentNode.SelectSingleNodePlus(rootPath, RootFormat);
                 }
                 catch (Exception ex)
                 {
@@ -658,11 +657,12 @@ namespace Hawk.ETL.Process
                 }
                 if (!(root != null).SafeCheck($"使用当前父节点{RootFormat} {RootXPath}，在文档中找不到任何父节点"))
                     return;
-                root = HtmlDoc.DocumentNode.SelectSingleNodePlus(rootPath,RootFormat)?.ParentNode;
+                root = HtmlDoc.DocumentNode.SelectSingleNodePlus(rootPath, RootFormat)?.ParentNode;
 
                 HtmlNode node = null;
                 if (
-                    !ControlExtended.SafeInvoke(() => HtmlDoc.DocumentNode.SelectSingleNodePlus(path,SearchFormat), ref node,
+                    !ControlExtended.SafeInvoke(() => HtmlDoc.DocumentNode.SelectSingleNodePlus(path, SearchFormat),
+                        ref node,
                         LogType.Info, "检查子节点XPath正确性", true))
 
                 {
@@ -680,8 +680,8 @@ namespace Hawk.ETL.Process
                         return;
                     }
                 }
-                if(SearchFormat==SelectorFormat.XPath)
-                 path = XPath.TakeOffPlus(node.XPath, root.XPath);
+                if (SearchFormat == SelectorFormat.XPath)
+                    path = XPath.TakeOffPlus(node.XPath, root.XPath);
             }
             if (CrawlItems.FirstOrDefault(d => d.Name == SelectName) == null ||
                 MessageBox.Show("已经存在同名的属性，是否依然添加?", "提示信息", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
@@ -692,12 +692,12 @@ namespace Hawk.ETL.Process
 
                 SelectXPath = "";
                 SelectName = "";
-               
+
                 XLogSys.Print.Info("成功添加属性");
             }
         }
 
-        public List<FreeDocument> CrawlData(HtmlNode doc)
+        public IEnumerable<FreeDocument> CrawlData(HtmlNode doc)
         {
             if (CrawlItems.Count == 0)
             {
@@ -705,14 +705,13 @@ namespace Hawk.ETL.Process
 
                 return new List<FreeDocument> {freedoc};
             }
-            
-            return doc.GetDataFromXPath(CrawlItems, IsMultiData,  RootXPath,RootFormat);
+
+            return doc.GetDataFromXPath(CrawlItems, IsMultiData, RootXPath, RootFormat);
         }
 
         public string GetHtml(string url, out HttpStatusCode code,
             string post = null)
         {
-            
             var mc = extract.Matches(url);
             if (SysProcessManager == null)
             {
@@ -759,30 +758,30 @@ namespace Hawk.ETL.Process
             return content;
         }
 
-        public List<FreeDocument> CrawlData(string url, out HtmlDocument doc, out HttpStatusCode code,
+        public IEnumerable<FreeDocument> CrawlData(string url, out HtmlDocument doc, out HttpStatusCode code,
             string post = null)
         {
             var content = GetHtml(url, out code, post);
-            var datas = new List<FreeDocument>();
             try
             {
-                datas = CrawlHtmlData(content, out doc);
-                if (datas.Count == 0)
+                var datas = CrawlHtmlData(content, out doc);
+                if (!datas.Any())
                 {
                     XLogSys.Print.InfoFormat("HTML抽取数据失败，url:{0}", url);
                 }
+                return datas;
             }
             catch (Exception ex)
             {
                 doc = new HtmlDocument();
                 XLogSys.Print.ErrorFormat("HTML抽取数据失败，url:{0}, 异常为{1}", url, ex.Message);
+                return new List<FreeDocument>();
             }
 
 
-            return datas;
         }
 
-        public List<FreeDocument> CrawlHtmlData(string html, out HtmlDocument doc
+        public IEnumerable<FreeDocument> CrawlHtmlData(string html, out HtmlDocument doc
             )
         {
             doc = new HtmlDocument();
@@ -824,7 +823,7 @@ namespace Hawk.ETL.Process
                     if (control != null)
                     {
                         dynamic invoke = control.View;
-                        if (IsSuperMode==true)
+                        if (IsSuperMode == false)
                             invoke.UpdateHtml(URLHTML);
                         else
                         {

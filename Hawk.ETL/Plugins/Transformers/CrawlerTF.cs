@@ -48,7 +48,7 @@ namespace Hawk.ETL.Plugins.Transformers
             return crawler != null;
         }
 
-        private List<FreeDocument> GetDatas(IFreeDocument data)
+        private IEnumerable<FreeDocument> GetDatas(IFreeDocument data)
         {
             var p = data[Column];
             if (p == null || crawler == null)
@@ -62,7 +62,6 @@ namespace Hawk.ETL.Plugins.Transformers
                 bufkey += post;
             }
             var htmldoc = buffHelper.Get(bufkey);
-            var docs = new List<FreeDocument>();
 
             if (htmldoc == null)
             {
@@ -73,11 +72,11 @@ namespace Hawk.ETL.Plugins.Transformers
                 var count = 0;
                 while (count < maxcount)
                 {
-                    docs = crawler.CrawlData(url, out htmldoc, out code, post);
+                  var   docs = crawler.CrawlData(url, out htmldoc, out code, post);
                     if (HttpHelper.IsSuccess(code))
                     {
                         buffHelper.Set(bufkey, htmldoc);
-                        break;
+                        return docs;
                     }
                     Thread.Sleep(ErrorDelay);
                     count++;
@@ -85,26 +84,24 @@ namespace Hawk.ETL.Plugins.Transformers
             }
             else
             {
-                docs = crawler.CrawlData(htmldoc.DocumentNode);
+                return crawler.CrawlData(htmldoc.DocumentNode);
             }
+            return new List<FreeDocument>(); 
 
-            return docs;
         }
 
         protected override IEnumerable<IFreeDocument> InternalTransformManyData(IFreeDocument data)
         {
             var docs = GetDatas(data);
-            if (docs.Count == 0)
-                return docs;
             return docs.Select(d => d.MergeQuery(data, NewColumn));
         }
 
         public override object TransformData(IFreeDocument datas)
         {
             var docs = GetDatas(datas);
-            if (docs.Count > 0)
+            var first = docs.FirstOrDefault();
+            if (first!=null)
             {
-                var first = docs.First();
                 first.DictCopyTo(datas);
             }
 

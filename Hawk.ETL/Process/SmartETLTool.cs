@@ -981,7 +981,7 @@ namespace Hawk.ETL.Process
                 {
                     ControlExtended.UIInvoke(() =>
                     {
-                        foreach (var key in data.GetKeys().Where(d => all_columns.Contains(d) == false))
+                        foreach (var key in data.GetKeys().Where(d => all_columns.Contains(d) == false).OrderBy(d=>d))
                         {
                             AddColumn(key, alltools);
                             all_columns.Add(key);

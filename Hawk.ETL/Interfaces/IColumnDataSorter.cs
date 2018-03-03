@@ -114,7 +114,7 @@ namespace Hawk.ETL.Interfaces
         {
             yield break;
         }
-
+        [LocalizedCategory("1.基本选项")]
         [LocalizedDisplayName("生成模式")]
         public MergeType MergeType { get; set; }
 

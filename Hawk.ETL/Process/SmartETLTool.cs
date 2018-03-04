@@ -863,7 +863,7 @@ namespace Hawk.ETL.Process
             var tasks = SysProcessManager.CurrentProcessTasks.Where(d => d.Publisher == this).ToList();
             if (tasks.Any())
             {
-                var str = $"{Name}已经有任务在执行，由于调整参数，是否要取消当前任务重新执行？\n【取消】:【不再提醒】";
+                var str = $"{Name}已经有任务在执行，由于调整参数，是否要取消当前任务重新执行？\n 【取消】:【不再提醒】";
                 if (isErrorRemind == false)
                 {
                     XLogSys.Print.Warn($"{Name}已经有任务在执行，请在任务管理器中取消该任务后再刷新");

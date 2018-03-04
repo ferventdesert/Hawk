@@ -251,7 +251,7 @@ namespace Hawk.ETL.Plugins.Transformers
                             {
                                 var result =
                                     MessageBox.Show(
-                                        $"作用在列名`{Column}`的 模块`{TypeName}` 已经连续 {5} 次没有成功获取数据，可能需要重新修改参数 \n【是】：【进入调试模式】 \n【否】：【取消当前任务】 \n【取消】：【不再提示】",
+                                        $"作用在列名`{Column}`的 模块`{TypeName}` 已经连续 {5} 次没有成功获取数据，可能需要重新修改参数 \n 【是】：【进入调试模式】 \n 【否】：【取消当前任务】 \n 【取消】：【不再提示】",
                                         "参数设置可能有误",
                                         MessageBoxButton.YesNoCancel);
                                 if (result == MessageBoxResult.Yes)

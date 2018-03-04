@@ -370,12 +370,17 @@ namespace Hawk.ETL.Process
                         }
                         if (htmlTextBox != null)
                         {
-                            htmlTextBox.Focus();
-                            htmlTextBox.SelectionStart = node.StreamPosition;
-                            htmlTextBox.SelectionLength = node.OuterHtml.Length;
-                            var line = htmlTextBox.GetLineIndexFromCharacterIndex(node.StreamPosition); //返回指定字符串索引所在的行号
-                            //Debug.WriteLine(rows + ",," + line);
-                            htmlTextBox.ScrollToLine(line + 1); //滚动到视图中指定行索引
+                            ControlExtended.UIInvoke(() =>
+                            {
+                                htmlTextBox.Focus();
+                                htmlTextBox.SelectionStart = node.StreamPosition;
+                                htmlTextBox.SelectionLength = node.OuterHtml.Length;
+                                var line = htmlTextBox.GetLineIndexFromCharacterIndex(node.StreamPosition); //返回指定字符串索引所在的行号
+                                                                                                            //Debug.WriteLine(rows + ",," + line);
+                                htmlTextBox.ScrollToLine(line + 1); //滚动到视图中指定行索引
+                            });
+
+                        
                         }
                     }
 
@@ -389,9 +394,13 @@ namespace Hawk.ETL.Process
                 else
                 {
                     if (htmlTextBox != null)
+
                     {
-                        htmlTextBox.SelectionStart = 0;
-                        htmlTextBox.SelectionLength = 0;
+                        ControlExtended.UIInvoke(() =>
+                        {
+                            htmlTextBox.SelectionStart = 0;
+                            htmlTextBox.SelectionLength = 0;
+                        });
                     }
                     SelectXPath = "";
                     if (xpath_count > 1)
@@ -401,7 +410,27 @@ namespace Hawk.ETL.Process
                     }
                     else
                     {
-                        XLogSys.Print.Info($"在该网页中找不到关键字 {SelectText},可能是动态请求，可以启用【自动嗅探】,并将浏览器页面翻到包含该关键字的位置");
+                        var str = $"在该网页中找不到关键字 {SelectText},可能是动态请求，可以启用【自动嗅探】,并将浏览器页面翻到包含该关键字的位置";
+                        if (isDynamicRemind == false)
+                        {
+                            XLogSys.Print.Info(str);
+                        }
+                        else
+                        {
+                            var str2 = $"在该网页中找不到关键字 `{SelectText}`,可能是动态请求，\n 【是】：【自动嗅探】，并将浏览器页面翻到包含该关键字的位置\n 【否】:【不嗅探】,\n 【取消】:【不再提醒】 ";
+                            var res = MessageBox.Show(str2, "是否启用自动嗅探", MessageBoxButton.YesNoCancel);
+                            switch (res)
+                            {
+                                case MessageBoxResult.Yes:
+                                    StartVisit();
+                                    break;
+                                case MessageBoxResult.Cancel:
+                                    isDynamicRemind = false;
+                                    break;
+
+                            }
+                        }
+                     
                     }
                 }
             }
@@ -411,6 +440,10 @@ namespace Hawk.ETL.Process
             }
         }
 
+        /// <summary>
+        /// 是否提示自动嗅探对话框
+        /// </summary>
+        private bool isDynamicRemind = true;
         public void EditProperty()
         {
             var crawTargets = new List<XPathAnalyzer.CrawTarget>();

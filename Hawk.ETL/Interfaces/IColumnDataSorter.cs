@@ -86,7 +86,8 @@ namespace Hawk.ETL.Interfaces
         Append,
         Merge,
         Cross,
-        Mix
+        Mix,
+        OutputOnly
     }
 
     public class GeneratorBase : ToolBase, IColumnGenerator
@@ -115,7 +116,7 @@ namespace Hawk.ETL.Interfaces
             yield break;
         }
         [LocalizedCategory("1.基本选项")]
-        [LocalizedDisplayName("生成模式")]
+        [LocalizedDisplayName("工作模式")]
         public MergeType MergeType { get; set; }
 
         public virtual int? GenerateCount()

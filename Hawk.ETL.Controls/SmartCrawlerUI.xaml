@@ -96,7 +96,8 @@
             			<TextBox Margin="129.567,8,4.75,0" TextWrapping="Wrap" Text="{Binding RootXPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment"/>
             			<ComboBox Margin="51.692,8,0,0"   ItemsSource="{attributes:EnumValues {x:Type connectors:SelectorFormat}}" SelectedItem="{Binding RootFormat}"  ToolTip="  可选择完整XPath,或只根据id或class名称进行检索，如选择class,值填【name】，就是查找所有class=name的节点" VerticalAlignment="Top" HorizontalAlignment="Left" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment" Width="73.875"/>
             			<TextBlock  Text="{Binding CrawlItems.Count, StringFormat=共计{0}种属性:}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,44.4,0,0" Width="138.8"></TextBlock>
-						<Button DataContext="{Binding Commands3[2]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" HorizontalAlignment="Left" Width="80" Margin="164,40,0,0"/>       		
+						<Button DataContext="{Binding Commands3[2]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" HorizontalAlignment="Left" Width="80" Margin="164,40,0,0"/>
+						<Button DataContext="{Binding Commands3[3]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="80" Margin="257.333,40,0,0" d:LayoutOverrides="VerticalAlignment"/>       		
 				
 					</Grid>
 					

@@ -191,7 +191,8 @@ namespace Hawk.ETL.Process
                     {
                         new Command("刷新网页", obj => VisitUrlAsync(), icon: "refresh"),
                         new Command("复制到剪切板", obj => CopytoClipBoard(), icon: "clipboard_file"),
-                        new Command("配置属性", obj => EditProperty(), icon: "edit")
+                        new Command("配置属性", obj => EditProperty(), icon: "edit"),
+                        new Command("清空属性", obj => this.CrawlItems.Clear(), icon: "edit")
                     });
             }
         }

@@ -196,7 +196,18 @@ namespace Hawk.ETL.Plugins.Transformers
         [PropertyOrder(2)]
         [LocalizedDisplayName("输出列")]
         [LocalizedDescription("结果要输出到的列的名称")]
-        public virtual string NewColumn { get; set; }
+        public virtual string NewColumn
+        {
+            get { return _newColumn; }
+            set
+            {
+                if (_newColumn != value)
+                {
+                    OnPropertyChanged("NewColumn");
+                    _newColumn = value;
+                }
+            }
+        }
 
 
         /// <summary>
@@ -229,6 +240,7 @@ namespace Hawk.ETL.Plugins.Transformers
         }
 
         private bool isErrorRemind = true;
+        private string _newColumn;
 
         public virtual IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -7,64 +6,46 @@ using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
-using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Plugins.Transformers;
-using AttributeHelper = Hawk.Core.Utils.AttributeHelper;
 using EncodingType = Hawk.Core.Utils.EncodingType;
 
 namespace Hawk.ETL.Plugins.Generators
 {
-
-
     [XFrmWork("读取文件文本", "获取文件中的全部纯文本内容，注意与【读取文件数据】区别")]
     public class ReadFileTextTF : TransformerBase
     {
-        private BuffHelper<string> buffHelper = new BuffHelper<string>(50);
-
-
+        private readonly BuffHelper<string> buffHelper = new BuffHelper<string>(50);
 
         [LocalizedDisplayName("编码")]
         public EncodingType EncodingType { get; set; }
 
         public override object TransformData(IFreeDocument datas)
         {
-            string item = datas[Column].ToString();
+            var item = datas[Column].ToString();
             var res = buffHelper.Get(item);
             if (res != null)
                 return res;
-            else
-            {
-
-                var content = File.ReadAllText(item, AttributeHelper.GetEncoding(EncodingType));
-                buffHelper.Set(item, content);
-                return content;
-            }
+            var content = File.ReadAllText(item, AttributeHelper.GetEncoding(EncodingType));
+            buffHelper.Set(item, content);
+            return content;
         }
-
-
-
-      
-
-
-
     }
 
 
-
     [XFrmWork("读取文件数据", "从文件中读取数据内容，需要配置连接器属性")]
-    public class ReadFileTF :TransformerBase 
+    public class ReadFileTF : TransformerBase
     {
-
         public ReadFileTF()
         {
-            ConnectorSelector = new ExtendSelector<XFrmWorkAttribute>(PluginProvider.GetPluginCollection(typeof(IFileConnector)));
+            ConnectorSelector =
+                new ExtendSelector<XFrmWorkAttribute>(PluginProvider.GetPluginCollection(typeof (IFileConnector)));
 
             ConnectorSelector.SelectChanged += (s, e) =>
             {
-                if(ConnectorSelector.SelectItem==null)
+                if (ConnectorSelector.SelectItem == null)
                     return;
                 Connector = PluginProvider.GetObjectInstance<IFileConnector>(ConnectorSelector.SelectItem.Name);
                 OnPropertyChanged("Connector");
@@ -72,9 +53,16 @@ namespace Hawk.ETL.Plugins.Generators
             Enabled = false;
         }
 
+        [LocalizedDisplayName("文件格式")]
+        public ExtendSelector<XFrmWorkAttribute> ConnectorSelector { get; set; }
+
+        [LocalizedDisplayName(("连接器配置"))]
+        [TypeConverter(typeof (ExpandableObjectConverter))]
+        public IFileConnector Connector { get; set; }
+
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
-            FreeDocument dict = base.DictSerialize();
+            var dict = base.DictSerialize();
 
             if (Connector != null)
             {
@@ -88,43 +76,32 @@ namespace Hawk.ETL.Plugins.Generators
             this.UnsafeDictDeserialize(docu);
             if (docu.ContainsKey("Connector"))
             {
-                List<XFrmWorkAttribute> coll = PluginProvider.GetPluginCollection(typeof(IFileConnector));
-                object doc2 = docu["Connector"];
+                var coll = PluginProvider.GetPluginCollection(typeof (IFileConnector));
+                var doc2 = docu["Connector"];
                 var p = doc2 as IDictionary<string, object>;
-                object name = p["Type"];
+                var name = p["Type"];
                 if (name != null)
                 {
-                    var result=
+                    var result =
                         coll.FirstOrDefault(d => d.MyType.Name == name.ToString());
                     ConnectorSelector.SelectItem = result;
 
-                    if (Connector != null)
-                    {
-                       ( Connector as IDictionarySerializable).DictDeserialize(p);
-                    }
+                    Connector?.DictDeserialize(p);
                 }
             }
         }
 
-
-        [LocalizedDisplayName("文件格式")]
-        public ExtendSelector<XFrmWorkAttribute> ConnectorSelector { get; set; }
-
-        [LocalizedDisplayName(("连接器配置"))]
-        [TypeConverter(typeof(ExpandableObjectConverter))]
-        public IFileConnector Connector { get; set; }
-
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {
-           
             IsMultiYield = true;
-           return base.Init(docus);
+            return base.Init(docus);
         }
+
         public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
         {
-            if(Connector==null)
+            if (Connector == null)
                 yield break;
-            
+
             foreach (var data in datas)
             {
                 var path = data[Column].ToString();
@@ -134,22 +111,15 @@ namespace Hawk.ETL.Plugins.Generators
                     yield return item.MergeQuery(data, NewColumn);
                 }
             }
-          
         }
-
-       
     }
 
 
     [XFrmWork("写入文件文本", "写入文件中的文本")]
     public class WriteFileTextTF : DataExecutorBase
     {
-
-
-
         [LocalizedDisplayName("编码")]
         public EncodingType EncodingType { get; set; }
-
 
         [LocalizedDisplayName("要写入文件的完整路径")]
         public string Path { get; set; }
@@ -158,28 +128,29 @@ namespace Hawk.ETL.Plugins.Generators
         {
             foreach (var document in documents)
             {
-                string item = document[Column].ToString();
+                var item = document[Column].ToString();
                 var mypath = document.Query(Path);
                 var path = document.Query(mypath);
-                DirectoryInfo directoryInfo = new DirectoryInfo(path);
+                var directoryInfo = new DirectoryInfo(path);
                 var folder = directoryInfo.Parent;
                 if (folder == null)
+                {
+                    yield return document;
                     continue;
+                }
                 if (!folder.Exists)
                 {
-
                     folder.Create();
                 }
                 var url = document[Column].ToString();
                 if (string.IsNullOrEmpty(url))
+                {
+                    yield return document;
                     continue;
+                }
                 File.WriteAllText(mypath, item, AttributeHelper.GetEncoding(EncodingType));
                 yield return document;
             }
-
-
         }
     }
-
-
 }

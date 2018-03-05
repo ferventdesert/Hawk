@@ -78,7 +78,10 @@ namespace Hawk.ETL.Plugins.Executor
                 var isdir = IsDir(path);
                 var url = document[Column]?.ToString();
                 if (string.IsNullOrEmpty(url))
+                {
+                    yield return document;
                     continue;
+                }
                 DirectoryInfo folder = null;
                 if (!isdir)
                 {
@@ -90,7 +93,10 @@ namespace Hawk.ETL.Plugins.Executor
                 }
 
                 if (folder == null)
+                {
+                    yield return document;
                     continue;
+                }
                 if (!folder.Exists)
                 {
                     folder.Create();
@@ -103,7 +109,10 @@ namespace Hawk.ETL.Plugins.Executor
                     path += getFileName(url);
                 }
                 if (File.Exists(path))
-                    continue;
+                    {
+                        yield return document;
+                        continue;
+                    }
 
 
                 try

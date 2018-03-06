@@ -18,8 +18,8 @@ using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
+using Hawk.ETL.Plugins.Generators;
 using Hawk.ETL.Plugins.Transformers;
-using IronPython.Modules;
 using Xceed.Wpf.Toolkit;
 using MessageBox = System.Windows.MessageBox;
 
@@ -79,7 +79,7 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("执行", obj => ExecuteAllExecutors(),icon:"play")
+                        new Command("执行", obj => ExecuteAllExecutors(), icon: "play")
                     });
             }
         }
@@ -94,8 +94,8 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("配置属性", obj => DropAction("Click", obj), obj => obj != null,icon:"settings"),
-                        new Command("删除节点", obj => DropAction("Delete", obj), obj => obj != null,"delete"),
+                        new Command("配置属性", obj => DropAction("Click", obj), obj => obj != null, "settings"),
+                        new Command("删除节点", obj => DropAction("Delete", obj), obj => obj != null, "delete"),
                         new Command("清空所有工具", obj =>
                         {
                             var item = obj as SmartGroup;
@@ -104,30 +104,28 @@ namespace Hawk.ETL.Process
                                 CurrentETLTools.Remove(ColumnProcess);
                             }
                             RefreshSamples();
-                        }, obj => obj != null,"clear"),
+                        }, obj => obj != null, "clear"),
                         new Command("拷贝模块", obj =>
                         {
                             var item = obj as IColumnProcess;
                             var newitem = PluginProvider.GetObjectInstance<IColumnProcess>(item.TypeName);
                             item.DictCopyTo(newitem);
                             CurrentETLTools.Insert(CurrentETLTools.IndexOf(item), newitem);
-                        }, obj => obj != null,"clipboard_file"),
+                        }, obj => obj != null, "clipboard_file"),
                         new Command("上移", obj =>
                         {
                             var item = obj as IColumnProcess;
                             var index = CurrentETLTools.IndexOf(item);
                             CurrentETLTools.Move(index, index - 1);
-                        }, obj => obj != null,"arrow_up"),
-                         new Command("下移", obj =>
+                        }, obj => obj != null, "arrow_up"),
+                        new Command("下移", obj =>
                         {
                             var item = obj as IColumnProcess;
                             var index = CurrentETLTools.IndexOf(item);
                             CurrentETLTools.Move(index, index + 1);
-                        }, obj => obj != null,"arrow_down"),
-                            new Command("调试到该步", obj =>
-                            {
-                                ETLMount = CurrentETLTools.IndexOf(obj as IColumnProcess);
-                            }, obj => obj != null,"tag")
+                        }, obj => obj != null, "arrow_down"),
+                        new Command("调试到该步", obj => { ETLMount = CurrentETLTools.IndexOf(obj as IColumnProcess); },
+                            obj => obj != null, "tag")
                     });
             }
         }
@@ -981,7 +979,7 @@ namespace Hawk.ETL.Process
                 {
                     ControlExtended.UIInvoke(() =>
                     {
-                        foreach (var key in data.GetKeys().Where(d => all_columns.Contains(d) == false).OrderBy(d=>d))
+                        foreach (var key in data.GetKeys().Where(d => all_columns.Contains(d) == false).OrderBy(d => d))
                         {
                             AddColumn(key, alltools);
                             all_columns.Add(key);
@@ -993,27 +991,47 @@ namespace Hawk.ETL.Process
                 }, r =>
                 {
                     var tool = CurrentTool;
-
+                    var outputCol = new List<string>();
+                    var inputCol = new List<string>();
 
                     if (tool != null)
                     {
-                        SmartGroupCollection.Where(d => d.Name == tool.Column)
-                            .Execute(d => d.GroupType = GroupType.Input);
+                        inputCol.Add(tool.Column);
+
                         var transformer = tool as IColumnDataTransformer;
                         if (transformer != null)
                         {
-                            var newcol = transformer.NewColumn.Split(' ');
-                            if (transformer.IsMultiYield)
+                            if (transformer is CrawlerTF)
                             {
-                                SmartGroupCollection.Execute(
-                                    d => d.GroupType = newcol.Contains(d.Name) ? GroupType.Input : GroupType.Output);
+                                var crawler = transformer as CrawlerTF;
+                                outputCol = crawler?.Crawler?.CrawlItems.Select(d => d.Name).ToList();
+                            }
+                            else if (transformer is ETLBase)
+                            {
+                                var etl = transformer as ETLBase;
+                                var target = etl.GetModule<SmartETLTool>(etl.ETLSelector.SelectItem);
+                                outputCol = target?.Documents.GetKeys().ToList();
+                                inputCol.AddRange(etl.MappingSet.Split(' ').Select(d=>d.Split(':')[0]));
                             }
                             else
                             {
-                                SmartGroupCollection.Where(d => d.Name == transformer.NewColumn)
-                                    .Execute(d => d.GroupType = GroupType.Output);
-                                ;
+                                outputCol = transformer.NewColumn.Split(' ').ToList();
                             }
+                            SmartGroupCollection.Where(d => outputCol.Contains(d.Name))
+                                .Execute(d => d.GroupType = GroupType.Output);
+                            SmartGroupCollection.Where(d => inputCol.Contains(d.Name))
+                                .Execute(d => d.GroupType = GroupType.Input);
+                        }
+                    }
+
+                    var firstOutCol = outputCol.FirstOrDefault();
+                    if (firstOutCol != null)
+                    {
+                        var index = all_columns.IndexOf(firstOutCol);
+                        if (index != -1&&ETLMount<AllETLMount)
+                        {
+                          
+                            this.scrollViewer.ScrollToHorizontalOffset(index* CellWidth);
                         }
                     }
                     var nullgroup = SmartGroupCollection.FirstOrDefault(d => string.IsNullOrEmpty(d.Name));
@@ -1028,7 +1046,7 @@ namespace Hawk.ETL.Process
             temptask.Publisher = this;
             SysProcessManager.CurrentProcessTasks.Add(temptask);
         }
-
+        public static int CellWidth=155;
         private void AddColumn(string key, IEnumerable<IColumnProcess> alltools)
         {
             if (dataView == null)
@@ -1036,7 +1054,7 @@ namespace Hawk.ETL.Process
             var col = new DataGridTemplateColumn
             {
                 Header = key,
-                Width = 155
+                Width = CellWidth
             };
             var dt = new DataTemplate();
             col.CellTemplate = dt;
@@ -1100,13 +1118,25 @@ namespace Hawk.ETL.Process
     public class SmartGroup : PropertyChangeNotifier
     {
         private string _name;
+        private GroupType _groupType;
 
         #region Properties
 
         public ColumnInfo ColumnInfo { get; set; }
         public int Index { get; set; }
 
-        public GroupType GroupType { get; set; }
+        public GroupType GroupType
+        {
+            get { return _groupType; }
+            set
+            {
+                if (_groupType != value)
+                {
+                    _groupType = value;
+                    OnPropertyChanged("GroupType");
+                }
+            }
+        }
 
         /// <summary>
         ///     名称

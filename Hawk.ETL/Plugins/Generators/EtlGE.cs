@@ -251,6 +251,7 @@ namespace Hawk.ETL.Plugins.Generators
         [PropertyOrder(3)]
         [LocalizedDescription("源属性:目标属性列 多个映射中间用空格分割，例如A:B C:D, 表示主任务中的A,B属性列会以C,D的名称传递到子任务中")]
         public string MappingSet { get; set; }
+     
 
         protected SmartETLTool etl { get; set; }
 

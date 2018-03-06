@@ -115,10 +115,10 @@ namespace Hawk.ETL.Crawlers
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {
             base.Init(docus);
-            if (crawler == null)
+            if (Crawler == null)
                 return false;
             IsMultiYield = true;
-            xpaths = crawler.CrawlItems.GroupBy(d => d.Name).Select(d =>
+            xpaths = Crawler.CrawlItems.GroupBy(d => d.Name).Select(d =>
             {
                 var column = d.Key;
                 var path = XPath.GetMaxCompareXPath(d.Select(d2 => d2.XPath).ToList());

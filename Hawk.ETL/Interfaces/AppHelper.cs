@@ -18,6 +18,7 @@ namespace Hawk.ETL.Interfaces
         private static readonly List<Type> SpecialTypes = new List<Type>
         {
             typeof (ExtendSelector),
+            typeof (ExtendSelector<string>),
             typeof (TextEditSelector)
         };
 

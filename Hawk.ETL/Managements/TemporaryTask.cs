@@ -87,6 +87,72 @@ namespace Hawk.ETL.Managements
             return tempTask;
         }
 
+
+        public static TemporaryTask AddTempTask<T>(string taskName, IEnumerable<T> enumable, Func<IEnumerable<T>,IEnumerable<T>> action,
+          Action<int> contineAction = null, int count = -1, bool autoStart = true, int notifyInterval = 1,
+          Func<int> delayFunc = null)
+        {
+            var tempTask = new TemporaryTask { Name = taskName };
+            // start a task with a means to do a hard abort (unsafe!)
+
+            var index = 0;
+            if (notifyInterval <= 0)
+                notifyInterval = 1;
+            tempTask.TaskAction = () =>
+            {
+                if (enumable is ICollection<T>)
+                {
+                    count = ((ICollection<T>)enumable).Count;
+                }
+
+                foreach (var r in action(enumable))
+                {
+                 
+
+                    if (r is int)
+                    {
+                        index = Convert.ToInt32(r);
+                    }
+                    else
+                    {
+                        index++;
+                    }
+
+                    if (index % notifyInterval != 0) continue;
+                    if (tempTask.CheckCancel())
+                    {
+                        tempTask.WasCanceled = true;
+                        break;
+                    }
+                    if (delayFunc != null)
+                        Thread.Sleep(delayFunc());
+                    if (count > 0)
+                    {
+                        tempTask.Percent = tempTask.CurrentIndex * 100 / count;
+                    }
+                    tempTask.CurrentIndex = index;
+                    tempTask.CheckWait();
+                }
+                if (!tempTask.WasCanceled)
+                {
+                    XLogSys.Print.Debug($"任务【{tempTask.Name}】已经成功完成");
+                    tempTask.Percent = 100;
+                }
+                if (contineAction != null)
+                {
+                    ControlExtended.UIInvoke(() => contineAction(tempTask.CurrentIndex));
+                }
+            };
+
+            if (autoStart)
+            {
+                tempTask.Start();
+            }
+            return tempTask;
+        }
+
+
+
         public override void Start()
         {
             base.Start();

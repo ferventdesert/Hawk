@@ -13,7 +13,7 @@ using TableInfo = Hawk.Core.Connectors.TableInfo;
 
 namespace Hawk.ETL.Plugins.Generators
 {
-    [XFrmWork("从连接器生成","从数据管理的连接器中生成序列" )]
+    [XFrmWork("从数据库生成","从数据库读取内容，需提前在数据视图中配置连接" )]
     public class DbGE : GeneratorBase
     {
         private IDataManager dataManager;
@@ -29,21 +29,24 @@ namespace Hawk.ETL.Plugins.Generators
             TableNames=new ExtendSelector<TableInfo>();
             Mount = -1;
             ConnectorSelector.SelectChanged += (s, e) => TableNames.SetSource(ConnectorSelector.SelectItem.RefreshTableNames());
+            TableNames.SelectChanged += (s, e) => { this.InformPropertyChanged("TableNames"); };
         }
-
-        [LocalizedDisplayName("连接器")]
+        [LocalizedCategory("参数设置")]
+        [LocalizedDisplayName("1.连接器")]
         [LocalizedDescription("选择所要连接的数据库服务")]
         [PropertyOrder(1)]
         public ExtendSelector<IDataBaseConnector> ConnectorSelector { get; set; }
 
 
         [LocalizedCategory("参数设置")]
-        [LocalizedDisplayName("操作表名")]
+        [LocalizedDisplayName("2.操作表名")]
+        [PropertyOrder(2)]
         public ExtendSelector<TableInfo> TableNames { get; set; }
 
 
         [LocalizedCategory("参数设置")]
-        [LocalizedDisplayName("数量")]
+        [LocalizedDisplayName("3.数量")]
+        [PropertyOrder(3)]
         public int Mount { get; set; }
 
  

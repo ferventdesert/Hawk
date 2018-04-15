@@ -400,7 +400,7 @@ namespace Hawk.ETL.Process
                         }
                         if (IsAutoRefresh == false)
                             return;
-                        RefreshSamples();
+                        //RefreshSamples();
                     };
                 }
             };
@@ -545,8 +545,10 @@ namespace Hawk.ETL.Process
                 if (generator == null)
                     return;
                 var realfunc3 = Aggregate(func, etls.Skip(1), true);
+                //var task = TemporaryTask.AddTempTask(Name + "串行任务", generator.Generate(),
+                //    d => { realfunc3(new List<IFreeDocument> {d}).ToList(); }, null, generator.GenerateCount() ?? (-1));
                 var task = TemporaryTask.AddTempTask(Name + "串行任务", generator.Generate(),
-                    d => { realfunc3(new List<IFreeDocument> {d}).ToList(); }, null, generator.GenerateCount() ?? (-1));
+                 list=> realfunc3(list), null, generator.GenerateCount() ?? (-1));
                 SysProcessManager.CurrentProcessTasks.Add(task);
             }
             else
@@ -847,7 +849,7 @@ namespace Hawk.ETL.Process
         private bool isErrorRemind = true;
         private readonly List<string> all_columns = new List<string>();
         private bool _isAutoRefresh;
-
+        private DateTime lastRefreshTime;
         public void RefreshSamples(bool canGetDatas = true)
         {
             if (shouldUpdate == false)
@@ -858,6 +860,7 @@ namespace Hawk.ETL.Process
             if (!mudoleHasInit)
                 return;
             OnPropertyChanged("AllETLMount");
+         
             var tasks = SysProcessManager.CurrentProcessTasks.Where(d => d.Publisher == this).ToList();
             if (tasks.Any())
             {

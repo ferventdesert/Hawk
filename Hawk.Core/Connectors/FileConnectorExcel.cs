@@ -52,7 +52,11 @@ namespace Hawk.Core.Connectors
                 for (var index = 0; index < titles.Count; index++)
                 {
                     var title = titles[index];
-                    dict.Add(title, row.GetCell(index).ToString());
+                    var cell = row.GetCell(index);
+                    string value = "";
+                    if (cell != null)
+                        value = cell.ToString();
+                    dict.Add(title, value);
                 }
 
                 if (data != null)

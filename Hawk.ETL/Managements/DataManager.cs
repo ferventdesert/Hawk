@@ -465,12 +465,14 @@ namespace Hawk.ETL.Managements
                     if (collection == null) return;
 
                     var plugin = processManager.GetOneInstance("SmartETLTool", true, true,true) as SmartETLTool;
-                    plugin.Init();
                     dynamic generator = PluginProvider.GetObjectByType<IColumnProcess>("TableGE");
                     generator.Father = plugin;
                     generator.TableSelector.SelectItem = collection;
                     plugin.CurrentETLTools.Add(generator);
-                    plugin.RefreshSamples(true);
+                    plugin.ETLMount++;
+                    plugin.Init();
+                  
+                    //plugin.RefreshSamples(true);
                     ControlExtended.DockableManager.ActiveModelContent(plugin);
                 }, obj => true, "new"));
             dataaction.ChildActions.Add(new Command(

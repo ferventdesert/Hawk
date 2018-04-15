@@ -90,6 +90,10 @@ namespace Hawk.ETL.Interfaces
         OutputOnly
     }
 
+    public interface ICacheable
+    {
+        
+    }
     public class GeneratorBase : ToolBase, IColumnGenerator
     {
        

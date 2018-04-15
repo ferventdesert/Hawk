@@ -9,7 +9,6 @@ using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
-using XFrmWork.DataVisualization;
 
 namespace Hawk.ETL.Managements
 {

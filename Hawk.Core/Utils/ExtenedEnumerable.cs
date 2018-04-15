@@ -64,8 +64,11 @@ namespace Hawk.Core.Utils
             foreach (var item in items)
             {
                 if (count == 0)
-                    if (init != null && init(item))
+                    if (init != null && init(item) == false)
+                    {
+
                         yield break;
+                    }
                 count++;
 
                 yield return item;

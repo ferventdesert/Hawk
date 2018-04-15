@@ -1,27 +1,20 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data.SqlClient;
+using System.Data;
+using System.Data.SQLite;
+using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Forms;
 using System.Windows.Input;
-using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 
-namespace XFrmWork.DataVisualization
+namespace Hawk.Core.Connectors
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Data.SQLite;
-    using System.Linq;
-    using System.Text;
-
- 
-
     [XFrmWork("SQLite数据库",  "提供SQLite交互的数据库服务", "")]
     public class SQLiteDatabase : DBConnectorBase
     {
@@ -88,6 +81,7 @@ namespace XFrmWork.DataVisualization
             {
                 DBName = saveTifFileDialog.FileName;
             }
+            SafeConnectDB();
         }
 
         private void LoadOldDB()
@@ -100,6 +94,7 @@ namespace XFrmWork.DataVisualization
             {
                 DBName = dialog.FileName;
             }
+            SafeConnectDB();
         }
 
         [LocalizedCategory("1.连接管理")]
@@ -131,18 +126,22 @@ namespace XFrmWork.DataVisualization
                     {
                         new Command("连接数据库", obj =>
                         {
+                            SafeConnectDB();
 
-                            ControlExtended.SafeInvoke(() => ConnectDB(), LogType.Important, "连接数据库");
-                            if (IsUseable)
-                            {
-                                RefreshTableNames();
-                            }
                         }, obj => IsUseable == false,"connect"),
                         new Command("关闭连接", obj => CloseDB(), obj => IsUseable,"close"),
                     });
             }
         }
 
+        private void SafeConnectDB()
+        {
+            ControlExtended.SafeInvoke(() => ConnectDB(), LogType.Important, "连接数据库");
+            if (IsUseable)
+            {
+                RefreshTableNames();
+            }
+        }
         protected override string GetConnectString()
         {
 
@@ -173,7 +172,7 @@ namespace XFrmWork.DataVisualization
                     foreach (var data in source.Init(d =>
                     {
                         if(this.TableNames.Collection.FirstOrDefault(d2=>d2.Name==dbTableName)==null)
-                             CreateTable(d, dbTableName);
+                             return CreateTable(d, dbTableName);
                         return true;
                     }))
                     {
@@ -289,6 +288,7 @@ namespace XFrmWork.DataVisualization
 
         public override List<FreeDocument> QueryEntities(string querySQL,out int count, string tableName=null)
         {
+            
             var table = GetDataTable(querySQL);
             var datas = Table2Data(table );
             count = datas.Count;
@@ -431,9 +431,9 @@ namespace XFrmWork.DataVisualization
             List<TableInfo> res = new List<TableInfo>();
             foreach (DataRow dr in items.Rows)
             {
-
-
-                res.Add( new TableInfo(dr.ItemArray[0].ToString(),this));
+                var name = dr.ItemArray[0].ToString();
+                var size = GetDataTable($"select count(*) from  {name}").Rows[0].ItemArray[0];
+                res.Add( new TableInfo(name,this) {Size = int.Parse(size.ToString())});
             }
             TableNames.SetSource(res);
             return res;
@@ -509,7 +509,8 @@ namespace XFrmWork.DataVisualization
 
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                XLogSys.Print.Error("SQLLite连接器异常",e);
+                
             }
 
             return dt;

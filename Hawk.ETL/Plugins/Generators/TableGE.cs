@@ -18,33 +18,34 @@ namespace Hawk.ETL.Plugins.Generators
         public TableGE()
         {
             dataManager = MainDescription.MainFrm.PluginDictionary["数据管理"] as IDataManager;
-            TableSelector = new ExtendSelector<DataCollection>();
-            TableSelector.GetItems = () => dataManager.DataCollections.ToList();
+            TableSelector = new ExtendSelector<string>();
+            TableSelector.GetItems = () => dataManager.DataCollections.Select(d=>d.Name).ToList();
+            TableSelector.SelectChanged +=(s,e)=> this.InformPropertyChanged("TableSelector");
         }
 
         [LocalizedDisplayName("数据表")]
         [LocalizedDescription("选择所要连接的数据表")]
         [PropertyOrder(1)]
-        public ExtendSelector<DataCollection> TableSelector { get; set; }
+        public ExtendSelector<string> TableSelector { get; set; }
 
-        public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
-        {
-            var dict = base.DictSerialize(scenario);
-            if(TableSelector.SelectItem!=null)
-              dict.Add("Table", TableSelector.SelectItem.Name);
+        //public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
+        //{
+        //    var dict = base.DictSerialize(scenario);
+        //    if(TableSelector.SelectItem!=null)
+        //      dict.Add("Table", TableSelector.SelectItem);
              
-            return dict;
-        }
-        public override void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
-        {
-            base.DictDeserialize(docu);
-            TableSelector.SelectItem =
-                dataManager.DataCollections.FirstOrDefault(d => d.Name == docu["Table"].ToString());
-            TableSelector.InformPropertyChanged("");
-        }
+        //    return dict;
+        //}
+        //public override void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
+        //{
+        //    base.DictDeserialize(docu);
+        //    TableSelector.SelectItem =
+        //        dataManager.DataCollections.FirstOrDefault(d => d.Name == docu["Table"].ToString());
+        //    TableSelector.InformPropertyChanged("");
+        //}
         public override IEnumerable<IFreeDocument> Generate(IFreeDocument document = null)
         {
-            DataCollection table = TableSelector.SelectItem;
+            DataCollection table = dataManager.DataCollections.FirstOrDefault(d=>d.Name== TableSelector.SelectItem);
             if(table==null)
                 yield break;
             var me = table.ComputeData;

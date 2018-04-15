@@ -79,10 +79,13 @@ namespace Hawk.ETL.Plugins.Web
         {
             var first = info["results"][0];
             var newlocation = new FreeDocument();
-
-            newlocation["pos_name"] = first["name"];
+            foreach (var item in first)
+            {
+                newlocation[item.Key] = item.Value;
+            }
             newlocation["pos_lat"] = first["location"]["lat"];
             newlocation["pos_lng"] = first["location"]["lng"];
+
             return newlocation;
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -746,43 +747,60 @@ namespace Hawk.ETL.Process
         public string GetHtml(string url, out HttpStatusCode code,
             string post = null)
         {
-            var mc = extract.Matches(url);
-            if (SysProcessManager == null)
+            string content = "";
+            code= HttpStatusCode.NotFound;
+            if (Regex.IsMatch(url, @"^[A-Z]:\\")) //本地文件
             {
-                code = HttpStatusCode.NoContent;
-                return "";
-            }
-            var crawler = AppHelper.GetModule<SmartCrawler>(null, ShareCookie.SelectItem);
-            if (crawler != null)
-            {
-                Http.ProxyIP = crawler.Http.ProxyIP;
-                Http.ProxyPassword = crawler.Http.ProxyPassword;
-                Http.ProxyUserName = crawler.Http.ProxyUserName;
-                Http.ProxyPort = crawler.Http.ProxyPort;
-                if (Http.Parameters != crawler.Http.Parameters)
+                if (File.Exists(url))
                 {
-                    var cookie = crawler.Http.GetHeaderParameter().Get<string>("Cookie");
-                    if (string.IsNullOrWhiteSpace(cookie) == false)
+                    content = File.ReadAllText(url, AttributeHelper.GetEncoding(this.Http.Encoding));
+                    code = HttpStatusCode.Accepted;
+                }
+              
+              
+            }
+            else
+            {
+
+
+                var mc = extract.Matches(url);
+                if (SysProcessManager == null)
+                {
+                    code = HttpStatusCode.NoContent;
+                    return "";
+                }
+                var crawler = AppHelper.GetModule<SmartCrawler>(null, ShareCookie.SelectItem);
+                if (crawler != null)
+                {
+                    Http.ProxyIP = crawler.Http.ProxyIP;
+                    Http.ProxyPassword = crawler.Http.ProxyPassword;
+                    Http.ProxyUserName = crawler.Http.ProxyUserName;
+                    Http.ProxyPort = crawler.Http.ProxyPort;
+                    if (Http.Parameters != crawler.Http.Parameters)
                     {
-                        Http.SetValue("Cookie", cookie);
+                        var cookie = crawler.Http.GetHeaderParameter().Get<string>("Cookie");
+                        if (string.IsNullOrWhiteSpace(cookie) == false)
+                        {
+                            Http.SetValue("Cookie", cookie);
+                        }
                     }
                 }
-            }
-            Dictionary<string, string> paradict = null;
-            foreach (Match m in mc)
-            {
-                if (paradict == null)
-                    paradict = XPathAnalyzer.ParseUrl(URL);
-                if (paradict == null)
-                    break;
-                var str = m.Groups[1].Value;
-                if (paradict.ContainsKey(str))
+                Dictionary<string, string> paradict = null;
+                foreach (Match m in mc)
                 {
-                    url = url.Replace(m.Groups[0].Value, paradict[str]);
+                    if (paradict == null)
+                        paradict = XPathAnalyzer.ParseUrl(URL);
+                    if (paradict == null)
+                        break;
+                    var str = m.Groups[1].Value;
+                    if (paradict.ContainsKey(str))
+                    {
+                        url = url.Replace(m.Groups[0].Value, paradict[str]);
+                    }
                 }
+                WebHeaderCollection headerCollection;
+                 content = helper.GetHtml(Http, out headerCollection, out code, url, post);
             }
-            WebHeaderCollection headerCollection;
-            var content = helper.GetHtml(Http, out headerCollection, out code, url, post);
             content = JavaScriptAnalyzer.Decode(content);
             if (IsSuperMode)
             {

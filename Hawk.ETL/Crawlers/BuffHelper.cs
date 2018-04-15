@@ -44,6 +44,22 @@ namespace Hawk.ETL.Crawlers
             return result;
 
         }
+
+        public T GetOrCreate(string item,T defaultValue)
+        {
+            if (EnableBuffer == false || bufferDictionary.Count >= maxBufferCount)
+                return default(T);
+            if (bufferDictionary.ContainsKey(item))
+            {
+                var result = bufferDictionary[item];
+
+                return GetClone(result);
+            }
+            var result2= defaultValue;
+            bufferDictionary[item] = result2;
+            return result2;
+
+        }
         public T Get(string item)
         {
             if (EnableBuffer == false || bufferDictionary.Count >= maxBufferCount)

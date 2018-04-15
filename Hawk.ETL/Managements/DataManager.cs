@@ -465,6 +465,7 @@ namespace Hawk.ETL.Managements
                     if (collection == null) return;
 
                     var plugin = processManager.GetOneInstance("SmartETLTool", true, true,true) as SmartETLTool;
+
                     dynamic generator = PluginProvider.GetObjectByType<IColumnProcess>("TableGE");
                     generator.Father = plugin;
                     generator.TableSelector.SelectItem = collection;

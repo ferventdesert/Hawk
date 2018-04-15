@@ -702,7 +702,7 @@ namespace Hawk.ETL.Process
 
                 window.Closed += (s, e) =>
                 {
-                    if (oldProp.IsEqual(attr.UnsafeDictSerializePlus()) == false && IsAutoRefresh)
+                    if ((oldProp.IsEqual(attr.UnsafeDictSerializePlus()) == false && IsAutoRefresh).SafeCheck("检查模块参数是否修改"))
                         RefreshSamples();
                 };
                 window.ShowDialog();
@@ -924,7 +924,7 @@ namespace Hawk.ETL.Process
                         var window = PropertyGridFactory.GetPropertyWindow(process);
                         window.Closed += (s2, e2) =>
                         {
-                            if (oldProp.IsEqual(process.UnsafeDictSerializePlus()) == false && IsAutoRefresh)
+                            if ((oldProp.IsEqual(process.UnsafeDictSerializePlus()) == false && IsAutoRefresh).SafeCheck("检查模块参数是否修改"))
                                 RefreshSamples();
                         };
                         window.ShowDialog();

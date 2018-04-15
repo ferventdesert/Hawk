@@ -16,7 +16,7 @@ namespace Hawk.ETL.Plugins.Transformers
             OneOutput = false;
             if (!string.IsNullOrEmpty(NewColumn))
             {
-                Regex.IsMatch(NewColumn, "[a-zA-Z_$][a-zA-Z0-9_$]*").SafeCheck("列名需要满足C语言命名规范，否则将导致无法正确显示该列", LogType.Important);
+                (Regex.IsMatch(NewColumn, "^\\d+")==false).SafeCheck("列名不能以数字开头，否则将导致无法正确显示该列", LogType.Important);
             }
             return base.Init(docus);
         }

@@ -102,7 +102,7 @@ namespace Hawk
             Dispatcher.UnhandledException += (s, e) =>
             {
 
-                if (MessageBox.Show("是否保存当前工程的内容？您只有一次机会这样做，", "警告信息", MessageBoxButton.YesNoCancel) ==
+                if (MessageBox.Show("是否保存当前工程的内容？您只有一次机会这样做，", "Hawk由于内部异常而崩溃", MessageBoxButton.YesNoCancel) ==
                     MessageBoxResult.Yes)
                 {
                     dynamic process = PluginDictionary["模块管理"];

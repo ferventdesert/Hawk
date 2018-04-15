@@ -22,8 +22,12 @@ namespace Hawk.ETL.Plugins.Transformers
                 processManager.CurrentProcessCollections.OfType<SmartCrawler>().Select(d => d.URL).ToList();
             ReferFormat.SelectChanged = (s, e) =>
             {
-                Format = ReferFormat.SelectItem;
-                OnPropertyChanged("Format");
+                if (ReferFormat.SelectItem != "")
+                {
+                   // Format = ReferFormat.SelectItem;
+                    //OnPropertyChanged("Format");
+                }
+             
             };
         }
 

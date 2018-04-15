@@ -12,6 +12,7 @@ using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
+using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Managements
 {
@@ -283,6 +284,9 @@ namespace Hawk.ETL.Managements
 
             var processAction = new BindingAction();
 
+          
+
+
 
             processAction.ChildActions.Add(new Command("配置", obj =>
             {
@@ -363,7 +367,20 @@ namespace Hawk.ETL.Managements
                 (MainFrmUI as IDockableManager).ActiveModelContent(process);
                 ShowConfigUI(process);
             }, obj => true, "delete"));
+            processAction.ChildActions.Add(new Command("新建网页采集器", obj =>
+            {
+                var plugin = this.GetOneInstance("SmartCrawler", true, true, true) as SmartCrawler;
+                plugin.Init();
+                ControlExtended.DockableManager.ActiveModelContent(plugin);
 
+            }, obj => true, "interface_list"));
+            processAction.ChildActions.Add(new Command("新建数据清洗", obj =>
+            {
+                var plugin = this.GetOneInstance("SmartETLTool", true, true, true) as SmartETLTool;
+                plugin.Init();
+                ControlExtended.DockableManager.ActiveModelContent(plugin);
+
+            }, obj => true, "diagram"));
 
             BindingCommands.ChildActions.Add(processAction);
             BindingCommands.ChildActions.Add(taskAction2);

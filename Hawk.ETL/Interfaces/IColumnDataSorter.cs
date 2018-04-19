@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
-using Hawk.Core.Utils.MVVM;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Plugins.Transformers;
 using Hawk.ETL.Process;
@@ -78,6 +79,168 @@ namespace Hawk.ETL.Interfaces
         并行模式
     }
 
+    public static class ETLHelper
+    {
+        public static IEnumerable<IFreeDocument> ConcatPlus(this IEnumerable<IFreeDocument> d, EnumerableFunc func1,
+            IColumnGenerator ge)
+        {
+            IFreeDocument last = null;
+            foreach (var r in func1(d))
+            {
+                yield return r;
+                last = r;
+            }
+            foreach (var r in ge.Generate(last))
+            {
+                yield return
+                    r;
+            }
+        }
+
+       
+
+        public static IFreeDocument Transform(this IColumnDataTransformer ge,
+            IFreeDocument item)
+        {
+            if (item == null)
+                return new FreeDocument();
+
+            var dict = item;
+
+            object res = null;
+            try
+            {
+                if (ge.OneOutput && dict[ge.Column] == null)
+                {
+                }
+                else
+                {
+                    res = ge.TransformData(dict);
+                }
+            }
+            catch (Exception ex)
+            {
+                res = ex.Message;
+                XLogSys.Print.Error(ex.ToString());
+            }
+
+            if (ge.OneOutput)
+            {
+                if (!string.IsNullOrWhiteSpace(ge.NewColumn))
+                {
+                    if (res != null)
+                    {
+                        dict.SetValue(ge.NewColumn, res);
+                    }
+                }
+                else
+                {
+                    dict.SetValue(ge.Column, res);
+                }
+            }
+
+
+            return dict;
+        }
+
+        public static EnumerableFunc FuncAdd(this IColumnProcess tool, EnumerableFunc func, bool isexecute)
+        {
+            try
+            {
+                tool.SetExecute(isexecute);
+                tool.Init(new List<IFreeDocument>());
+            }
+            catch (Exception ex)
+            {
+                XLogSys.Print.Error($"位于{tool.Column}列的{tool.TypeName}模块在初始化时出现异常：{ex},请检查任务参数");
+                return func;
+            }
+            if (!tool.Enabled)
+                return func;
+            if (tool is IColumnDataTransformer)
+            {
+                var ge = tool as IColumnDataTransformer;
+                var func1 = func;
+                func = d =>
+                {
+                    if (ge.IsMultiYield)
+                    {
+                        return ge.TransformManyData(func1(d));
+                    }
+                    var r = func1(d);
+                    return r.Select(d2 => Transform(ge, d2));
+                };
+            }
+
+            if (tool is IColumnGenerator)
+            {
+                var ge = tool as IColumnGenerator;
+
+                var func1 = func;
+                switch (ge.MergeType)
+                {
+                    case MergeType.Append:
+
+                        func = d => d.ConcatPlus(func1, ge);
+                        break;
+                    case MergeType.Cross:
+                        func = d => func1(d).Cross(ge.Generate);
+                        break;
+
+                    case MergeType.Merge:
+                        func = d => func1(d).MergeAll(ge.Generate());
+                        break;
+                    case MergeType.Mix:
+                        func = d => func1(d).Mix(ge.Generate());
+                        break;
+                }
+            }
+
+
+            if (tool is IDataExecutor && isexecute)
+            {
+                var ge = tool as IDataExecutor;
+                var func1 = func;
+                func = d => ge.Execute(func1(d));
+            }
+            else if (tool is IColumnDataFilter)
+            {
+                var t = tool as IColumnDataFilter;
+
+                if (t.TypeName == "数量范围选择")
+                {
+                    dynamic range = t;
+                    var func1 = func;
+                    func = d => func1(d).Skip((int) range.Skip).Take((int) range.Take);
+                }
+                else
+
+                {
+                    var func1 = func;
+                    func = d => func1(d).Where(t.FilteData);
+                }
+            }
+            return func;
+        }
+
+        public static EnumerableFunc Aggregate(this IEnumerable<IColumnProcess> tools, EnumerableFunc func=null,  bool isexecute=false)
+
+        {
+            if (func == null)
+                func = d => d;
+            return tools.Aggregate(func, (current, tool) => FuncAdd(tool, current, isexecute));
+        }
+
+        public static IEnumerable<IFreeDocument> Generate(this IEnumerable<IColumnProcess> processes, bool isexecute,
+            IEnumerable<IFreeDocument> source = null)
+
+        {
+            if (source == null)
+                source = new List<IFreeDocument>();
+            var func = processes.Aggregate(d => d,  isexecute);
+            return func(source);
+        }
+    }
 
     public delegate IEnumerable<IFreeDocument> EnumerableFunc(IEnumerable<IFreeDocument> source = null);
 
@@ -92,19 +255,17 @@ namespace Hawk.ETL.Interfaces
 
     public interface ICacheable
     {
-        
     }
+
     public class GeneratorBase : ToolBase, IColumnGenerator
     {
-       
-
         public GeneratorBase()
         {
             Column = TypeName;
             Enabled = true;
         }
-       
-        public  override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
+
+        public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
 
         {
             var dict = base.DictSerialize();
@@ -112,13 +273,11 @@ namespace Hawk.ETL.Interfaces
             return dict;
         }
 
-
-       
-
         public virtual IEnumerable<IFreeDocument> Generate(IFreeDocument document = null)
         {
             yield break;
         }
+
         [LocalizedCategory("1.基本选项")]
         [LocalizedDisplayName("工作模式")]
         public MergeType MergeType { get; set; }
@@ -127,7 +286,5 @@ namespace Hawk.ETL.Interfaces
         {
             return null;
         }
-
-      
     }
 }

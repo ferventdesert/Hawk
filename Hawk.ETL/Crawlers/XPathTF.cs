@@ -9,6 +9,7 @@ using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Plugins.Transformers;
 using HtmlAgilityPack;
+using ScrapySharp.Extensions;
 
 namespace Hawk.ETL.Crawlers
 {
@@ -102,6 +103,57 @@ namespace Hawk.ETL.Crawlers
             return res;
         }
     }
+    [XFrmWork("CssSelector筛选器", "通过CssSelector选取html中的子节点文档，相比XPath更简单      ")]
+    public class CssSelectorTF : TransformerBase
+    {
+        public CssSelectorTF()
+        {
+            WorkMode = ScriptWorkMode.One;
+        }
+
+        [LocalizedDisplayName("selector路径")]
+        public string Path { get; set; }
+
+        [LocalizedDisplayName("工作模式")]
+        [LocalizedDescription("当要获取符合XPath语法的多个结果时选List，只获取一条选One,其行为可参考“网页采集器”")]
+        public ScriptWorkMode WorkMode { get; set; }
+
+        
+        protected override IEnumerable<IFreeDocument> InternalTransformManyData(IFreeDocument data)
+        {
+            var item = data[Column];
+            var docu = new HtmlDocument();
+
+            docu.LoadHtml(item.ToString());
+            var p2 = docu.DocumentNode.CssSelect(Path);
+            if (p2 == null)
+                return new List<IFreeDocument>();
+            return p2.Select(node =>
+            {
+                var doc = new FreeDocument();
+                doc.Add("Text", node.GetNodeText());
+                doc.Add("HTML", node.InnerHtml);
+                doc.Add("OHTML", node.OuterHtml);
+                return doc.MergeQuery(data, NewColumn);
+            });
+        }
+
+        public override bool Init(IEnumerable<IFreeDocument> docus)
+        {
+            IsMultiYield = WorkMode == ScriptWorkMode.List;
+            return base.Init(docus);
+        }
+
+        public override object TransformData(IFreeDocument document)
+        {
+            var item = document[Column];
+            var docu = new HtmlDocument();
+            docu.LoadHtml(item.ToString());
+            var res = docu.DocumentNode.CssSelect(document.Query(Path)).FirstOrDefault();
+            return res?.GetNodeText();
+        }
+    }
+
 
 
     [XFrmWork("门类枚举", "要拖入HTML文本列,可将页面中的门类，用Cross模式组合起来，适合于爬虫无法抓取全部页面，但可以按分类抓取的情况。需调用网页采集器，具体参考文档-门类枚举")]

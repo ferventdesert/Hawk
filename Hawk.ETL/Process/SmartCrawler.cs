@@ -22,6 +22,7 @@ using Hawk.ETL.Crawlers;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
 using HtmlAgilityPack;
+using IronPython.Runtime.Operations;
 using ScrapySharp.Network;
 
 namespace Hawk.ETL.Process
@@ -98,6 +99,10 @@ namespace Hawk.ETL.Process
                         {
                             MessageBox.Show("列表模式下，属性数量不能少于2个", "提示信息");
                             return;
+                        }
+                        if (string.IsNullOrEmpty(this.URLHTML))
+                        {
+                            this.VisitUrlAsync();
                         }
 
                         var datas =
@@ -678,6 +683,7 @@ namespace Hawk.ETL.Process
         {
             var path = SelectXPath;
             var rootPath = RootXPath;
+         
             if (!string.IsNullOrEmpty(rootPath))
             {
                 //TODO: 当XPath路径错误时，需要捕获异常
@@ -715,8 +721,16 @@ namespace Hawk.ETL.Process
                         return;
                     }
                 }
+                string attr = "";
+                string attrValue = "";
+                XPathAnalyzer.GetAttribute(path, out attr, out attrValue);
                 if (SearchFormat == SelectorFormat.XPath)
+                {
                     path = XPath.TakeOffPlus(node.XPath, root.XPath);
+                    if (attr != "")
+                        path += "/@" + attr + "[1]";
+                }
+
             }
             if (CrawlItems.FirstOrDefault(d => d.Name == SelectName) == null ||
                 MessageBox.Show("已经存在同名的属性，是否依然添加?", "提示信息", MessageBoxButton.OKCancel) == MessageBoxResult.OK)

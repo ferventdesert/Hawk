@@ -121,7 +121,7 @@ namespace Hawk.ETL.Plugins.Transformers
         [LocalizedDisplayName("分割字符")]
         [StringEditor("C#")]
         [PropertyEditor("DynamicScriptEditor")]
-        [LocalizedDescription("每行一个分割符，换行符用\\t，制表符用\\t")]
+        [LocalizedDescription("多个分隔符用空格分割，换行符用\\t，制表符用\\t")]
         public string SplitChar { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> docus)
@@ -154,10 +154,7 @@ namespace Hawk.ETL.Plugins.Transformers
                 if (datas[Column] == null)
                     return null;
                 var data = datas[Column];
-
-
                 var r = data.ToString();
-
                 List<string> items = null;
                 if (ShouldSplitChars == false)
                 {
@@ -169,8 +166,6 @@ namespace Hawk.ETL.Plugins.Transformers
                 {
                     items = r.Select(d => d.ToString()).ToList();
                 }
-
-
                 for (int i = 0; i < Math.Min(indexs.Count, o_columns.Count); i++)
                 {
                     datas[o_columns[i]] = GetValue(items, indexs[i]);

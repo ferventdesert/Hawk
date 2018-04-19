@@ -95,6 +95,7 @@ namespace Hawk.Core.Utils
             collection.Add(instance);
         }
 
+      
         /// <summary>
         ///     添加一个新实例
         /// </summary>
@@ -210,13 +211,17 @@ namespace Hawk.Core.Utils
 
         }
         public static IEnumerable<T> BatchDo<T>(this IEnumerable<T> documents,
-            Func<T,bool> initFunc, Action<List<T> > batchFunc, Action endFunc = null, int batchMount = 1000)
+            Func<T,bool> initFunc, Action<List<T> > batchFunc, Action endFunc = null, int batchMount = 1000) 
         {
             
             var i = 0;
             var list = new List<T>();
             foreach (var document in documents)
             {
+                if(document==null)
+                    continue;
+
+// list.Add(document.Clone());
                 list.Add(document);
                 if (list.Count == batchMount)
                 {

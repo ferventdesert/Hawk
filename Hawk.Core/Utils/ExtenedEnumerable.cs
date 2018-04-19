@@ -11,6 +11,7 @@ using Hawk.Core.Utils.Plugins;
 using Jayrock.Json;
 using Jayrock.Json.Conversion;
 using MongoDB;
+using NPOI.OpenXmlFormats.Wordprocessing;
 
 namespace Hawk.Core.Utils
 {
@@ -99,7 +100,7 @@ namespace Hawk.Core.Utils
             {
                 var len = query.Length;
                 query = query.Substring(1, len - 2);
-                var result = document[query];
+                var result = document?[query];
                 return result?.ToString();
             }
             return query;
@@ -705,7 +706,7 @@ namespace Hawk.Core.Utils
                 {
                     if (res == null && o.Value != null)
                         return false;
-                    if (!res.Equals(o.Value))
+                    if (res!=null&&res.Equals(o.Value)==false)
                     {
                         return false;
                     }

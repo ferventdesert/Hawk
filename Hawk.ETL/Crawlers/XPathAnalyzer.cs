@@ -11,7 +11,6 @@ using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using HtmlAgilityPack;
-using ScrapySharp;
 using ScrapySharp.Extensions;
 
 namespace Hawk.ETL.Crawlers
@@ -172,6 +171,28 @@ namespace Hawk.ETL.Crawlers
             return childHasDiff;
         }
 
+        public static bool GetAttribute(string path, out string attrName, out string attrValue, HtmlNode node = null)
+        {
+            var paths = path.Split('/');
+            var last = paths[paths.Length - 1];
+            attrName = null;
+            attrValue = "";
+            if (last.Any() && last.Contains("@") && last.Contains("[1]")) //标签数据
+            {
+                var attr = XPath.GetAttributeName(last.Split('@', '[')[1]);
+                attrName = attr;
+                if (node != null && node.HasAttributes)
+                {
+                    var a = node.Attributes.FirstOrDefault(d => d.Name == attr);
+                    attrValue = a?.Value.Trim();
+                 
+                }
+                return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         ///     从XPath获取数据
         /// </summary>
@@ -188,7 +209,7 @@ namespace Hawk.ETL.Crawlers
                 try
                 {
                     if (format == SelectorFormat.XPath)
-                        p2 = doc.SelectSingleNodePlus( path, format);
+                        p2 = doc.SelectSingleNodePlus(path, format);
                     else
                         p2 = doc.CssSelect(path).FirstOrDefault();
                 }
@@ -200,16 +221,11 @@ namespace Hawk.ETL.Crawlers
                     return null;
                 if (format == SelectorFormat.XPath)
                 {
-                    var paths = path.Split('/');
-                    var last = paths[paths.Length - 1];
-                    if (last.Any() && last.Contains("@") && last.Contains("[1]")) //标签数据
+                    string attr;
+                    string attrValue;
+                    if (GetAttribute(path, out attr, out attrValue, p2))
                     {
-                        var name = XPath.GetAttributeName(last.Split('@', '[')[1]);
-                        if (p2.HasAttributes)
-                        {
-                            var a = p2.Attributes.FirstOrDefault(d => d.Name == name);
-                            return a?.Value.Trim();
-                        }
+                        return attrValue;
                     }
                 }
                 if (crawlType == CrawlType.InnerHtml)
@@ -946,18 +962,16 @@ namespace Hawk.ETL.Crawlers
             var crawlItems = new List<CrawlItem>();
             try
             {
-
-
                 if (rootFormat == SelectorFormat.XPath)
                 {
-                    if (root == null || root.Contains("#")||root.EndsWith("/"))
+                    if (root == null || root.Contains("#") || root.EndsWith("/"))
                         nodes = null;
                     else
                     {
                         nodes = doc2.SelectNodes(root).ToList();
                     }
                 }
-                
+
                 else
                     nodes = doc2.CssSelect(root).ToList();
             }
@@ -1328,7 +1342,7 @@ namespace Hawk.ETL.Crawlers
                             break;
                         foreach (var node in nodes)
                         {
-                          var   nodePath = node.XPath;
+                            var nodePath = node.XPath;
 
                             var document = new FreeDocument();
                             foreach (var r in crawlItems)
@@ -1366,8 +1380,8 @@ namespace Hawk.ETL.Crawlers
                                 var path = r.XPath;
                                 if (r.Format == SelectorFormat.XPath)
                                     path = node.XPath + r.XPath;
-                                var v=node.GetDataFromXPath(path,r.CrawlType,  r.Format);
-                                document.SetValue(r.Name,v);
+                                var v = node.GetDataFromXPath(path, r.CrawlType, r.Format);
+                                document.SetValue(r.Name, v);
                             }
                             yield return document;
                         }
@@ -1390,7 +1404,7 @@ namespace Hawk.ETL.Crawlers
             public CrawTarget(List<CrawlItem> items, string rootpath = "",
                 SelectorFormat rootFormat = SelectorFormat.XPath)
             {
-                CrawItems =  new ObservableCollection<CrawlItem>(items);
+                CrawItems = new ObservableCollection<CrawlItem>(items);
                 RootXPath = rootpath;
                 RootFormat = rootFormat;
             }

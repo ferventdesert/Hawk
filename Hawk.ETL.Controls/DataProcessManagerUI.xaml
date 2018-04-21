@@ -92,12 +92,13 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="575*"/>
-            <ColumnDefinition Width="398*"/>
+            <ColumnDefinition Width="0.331*"/>
+            <ColumnDefinition Width="0.26*"/>
+            <ColumnDefinition Width="0.409*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="listboxProcessMethodList" ToolTip="双击图标以新建任务" ItemsSource="{Binding ProgramNameFilterView}"  x:FieldModifier="public"   Margin="20,46,20,0"     ItemsPanel="{DynamicResource ItemsPanelTemplate1}"  ItemTemplate="{DynamicResource DataTemplateList}" Height="112" VerticalAlignment="Top"/>
-        <GridSplitter Width="5" Grid.Column="1" HorizontalAlignment="Left"/>
-        <ListBox x:Name="listBox"  DataContext="{Binding}" ToolTip="双击可加载任务，右键可对任务进行删除等操作"  SelectedItem="{Binding SelectedTask}" ItemsSource="{Binding ProjectTaskList}"  HorizontalContentAlignment="Stretch" Margin="20,205,20,20"    ItemTemplate="{DynamicResource DataTemplate2}"  >
+        <ListBox x:Name="listboxProcessMethodList" ToolTip="双击图标以新建任务" ItemsSource="{Binding ProgramNameFilterView}"  x:FieldModifier="public"   Margin="20,46,20,0"     ItemsPanel="{DynamicResource ItemsPanelTemplate1}"  ItemTemplate="{DynamicResource DataTemplateList}" Height="90" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <GridSplitter Width="5" Grid.Column="2" HorizontalAlignment="Left"/>
+        <ListBox x:Name="listBox"  DataContext="{Binding}" ToolTip="双击可加载任务，右键可对任务进行删除等操作"  SelectedItem="{Binding SelectedTask}" ItemsSource="{Binding ProjectTaskList}"  HorizontalContentAlignment="Stretch" Margin="20,187.667,8,20"    ItemTemplate="{DynamicResource DataTemplate2}"  >
             <ListBox.GroupStyle>
                 <GroupStyle ContainerStyle="{StaticResource GroupContainerStyle}">
                     <GroupStyle.HeaderTemplate>
@@ -121,12 +122,15 @@
 
 
         </ListBox>
-        <TextBlock TextWrapping="Wrap" FontSize="21.333" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="23,172,0,0" Width="239"><Run Language="zh-cn" Text="保存的任务" /></TextBlock>
-        <TextBox TextWrapping="Wrap" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="186,182,0,0" Width="76" Height="19" d:LayoutOverrides="HorizontalAlignment"/>
-        <TextBlock TextWrapping="Wrap"  Height="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="135,182,0,0" Width="50"><Run Language="zh-cn" Text="快速检索" /></TextBlock>
+        <Grid Height="29" Margin="23,154.667,60,0" VerticalAlignment="Top">
+        	<TextBlock TextWrapping="Wrap" FontSize="21.333" Margin="0,0,0,1"><Run Language="zh-cn" Text="保存的任务" /></TextBlock>
+        	<TextBox TextWrapping="Wrap" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="163,10,0,0" Width="76"/>
+        	<TextBlock TextWrapping="Wrap" Margin="112,10,77,1"><Run Language="zh-cn" Text="快速检索" /></TextBlock>
 
-        <TextBlock VerticalAlignment="Top" TextWrapping="Wrap" Margin="22,11,0,0" HorizontalAlignment="Left" FontSize="21.333" Grid.Column="1" Height="28" Width="97"><Run Text="数据"/><Run Text="源"/></TextBlock>
-        <TreeView DataContext="{Binding MainFrmUI.PluginDictionary[数据管理]}" ToolTip="右键可新建数据源"  Margin="20,48,20,20"  x:Name="treeView"  ItemsSource="{Binding CurrentConnectors}" Grid.Column="1">
+        </Grid>
+
+        <TextBlock VerticalAlignment="Top" TextWrapping="Wrap" Margin="22,11,0,0" HorizontalAlignment="Left" FontSize="21.333" Grid.Column="2" Height="28" Width="97"><Run Text="数据"/><Run Text="源"/></TextBlock>
+        <TreeView DataContext="{Binding MainFrmUI.PluginDictionary[数据管理]}" ToolTip="右键可新建数据源"  Margin="20,48,20,20"  x:Name="treeView"  ItemsSource="{Binding CurrentConnectors}" Grid.Column="2">
             <TreeView.Resources>
 
                 <HierarchicalDataTemplate DataType="{x:Type Connectors:DBConnectorBase}"
@@ -157,6 +161,8 @@
             </TreeView.ContextMenu>
         </TreeView>
         <TextBlock VerticalAlignment="Top" TextWrapping="Wrap" Margin="23,10,0,0" HorizontalAlignment="Left" FontSize="21.333" Height="28" Width="97"><Run Text="新建任务"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="12.396,187.667,0,0" TextWrapping="Wrap" Text="任务描述" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBox Margin="8,219.907,8,102" TextWrapping="Wrap" Text="{Binding SelectedItem.Description, ElementName=listBox}" Grid.Column="1" d:LayoutOverrides="HorizontalAlignment"/>
 
     </Grid>
 </UserControl>

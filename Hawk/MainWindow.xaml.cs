@@ -334,13 +334,7 @@ namespace Hawk
 
                         layout.IsActive = true;
                         break;
-                    case FrmState.Middle:
-                        layout = Factory(name, thisControl);
-                        viewitem.Container = layout;
-                        dockablePane1.Children.Add(layout);
-
-                        layout.IsActive = true;
-                        break;
+                
                     case FrmState.Mini:
                         layout = Factory(name, thisControl);
                         viewitem.Container = layout;
@@ -351,7 +345,7 @@ namespace Hawk
                     case FrmState.Mini2:
                         layout = Factory(name, thisControl);
                         viewitem.Container = layout;
-                        dockablePane3.Children.Add(layout);
+                        dockablePane1.Children.Add(layout);
 
                         layout.IsActive = true;
                         break;

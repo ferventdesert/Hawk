@@ -157,6 +157,7 @@ namespace Hawk.ETL.Process
                 }
             }
         }
+        
 
         [Browsable(false)]
         public string URLHTML

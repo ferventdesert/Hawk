@@ -64,51 +64,60 @@
         		</TabItem>
         	</TabControl>
             <GridSplitter Width="3.375" Margin="-1.625,0,0,0" Grid.Column="1" HorizontalAlignment="Left"/>
-            <Grid Grid.Column="1">
-            	<Grid.RowDefinitions>
-            		<RowDefinition Height="0.4*"/>
-            		<RowDefinition Height="0.5*"/>
-            	</Grid.RowDefinitions>
-            	<GroupBox Header="属性提取" MinHeight="115" Margin="8,0,8,8.333">
-            		<Grid>
-            			<Grid.ColumnDefinitions>
-            				<ColumnDefinition Width="0.301*"/>
-            				<ColumnDefinition Width="0.699*"/>
-            			</Grid.ColumnDefinitions>
-            			<TextBlock Margin="8,42.5,0,0" TextWrapping="Wrap" Text="搜索字符" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-            			<TextBox Grid.Column="1" Margin="8,42.5,76.759,0" TextWrapping="Wrap" Text="{Binding SelectText}" wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" VerticalAlignment="Top"/>
-            			<TextBlock Margin="8,78,0,0" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top"><Run Language="zh-cn" Text="结果XPath"/></TextBlock>
-            			<TextBox Grid.Column="1" Margin="8,76,3.509,0" TextWrapping="Wrap" Text="{Binding SelectXPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="40.907" VerticalAlignment="Top"/>
-            			<Button   DataContext="{Binding Commands2[0]}"   Content="{Binding Text}" Command="{Binding}" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Right" Width="50.733" Height="20" Margin="0,132.359,3.509,0"/>
-            			<Button  DataContext="{Binding Commands2[1]}"   Content="{Binding Text}" Command="{Binding}"  Margin="0,40.5,3.509,0" VerticalAlignment="Top" Grid.Column="1" Height="20" HorizontalAlignment="Right" Width="50"/>
-            			<TextBlock Margin="8,132.361,0,0" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top"><Run Language="zh-cn" Text="新增属性"/></TextBlock>
-            			<TextBox Grid.Column="1" Margin="8,132.364,76.759,0" TextWrapping="Wrap" Text="{Binding SelectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
-            			<TextBlock Margin="8,8,0,0" TextWrapping="Wrap" Text="工作模式" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-            			<ComboBox Grid.Column="1"  Margin="8,5.01,76.759,0"  ItemsSource="{attributes:EnumValues {x:Type connectors:ScriptWorkMode}}"  SelectedItem="{Binding IsMultiData}" VerticalAlignment="Top"/>
-            		</Grid>
-            	</GroupBox>
-            	<GroupBox Header="属性管理" Margin="8" Grid.Row="1">
-            		<Grid Margin="0">
+            <ScrollViewer Grid.Column="1">
+            	<StackPanel>
+            		<GroupBox Header="属性提取" MinHeight="115" Margin="8,0" Height="180" d:LayoutOverrides="Height">
+            			<Grid>
+            				<Grid.ColumnDefinitions>
+            					<ColumnDefinition Width="0.3*"/>
+            					<ColumnDefinition Width="0.7*"/>
+            				</Grid.ColumnDefinitions>
+            				<TextBlock Margin="8,42.5,0,0" TextWrapping="Wrap" Text="搜索字符" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+            				<TextBox Grid.Column="1" Margin="8,42.5,80,0" TextWrapping="Wrap" Text="{Binding SelectText}" wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" VerticalAlignment="Top"/>
+            				<TextBlock Margin="8,78,0,0" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top"><Run Language="zh-cn" Text="结果XPath"/></TextBlock>
+            				<TextBox Grid.Column="1" Margin="8,76,3.509,0" TextWrapping="Wrap" Text="{Binding SelectXPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="40.907" VerticalAlignment="Top"/>
+            				<Button   DataContext="{Binding Commands2[0]}"   Content="{Binding Text}" Command="{Binding}" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Right" Width="50.733" Height="20" Margin="0,132.359,3.509,0"/>
+            				<Button  DataContext="{Binding Commands2[1]}"   Content="{Binding Text}" Command="{Binding}"  Margin="0,40.5,3.509,0" VerticalAlignment="Top" Grid.Column="1" Height="20" HorizontalAlignment="Right" Width="50"/>
+            				<TextBlock Margin="8,132.361,0,0" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top"><Run Language="zh-cn" Text="新增属性"/></TextBlock>
+            				<TextBox Grid.Column="1" Margin="8,132.364,80,0" TextWrapping="Wrap" Text="{Binding SelectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
+            				<TextBlock Margin="8,8,0,0" TextWrapping="Wrap" Text="工作模式" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+            				<ComboBox Grid.Column="1"  Margin="8,5.01,80,0"  ItemsSource="{attributes:EnumValues {x:Type connectors:ScriptWorkMode}}"  SelectedItem="{Binding IsMultiData}" VerticalAlignment="Top"/>
+            			</Grid>
+            		</GroupBox>
+            		<GroupBox Header="属性管理" Margin="8,0" Height="150">
+            			<Grid Margin="0">
             			 
             			 
 	 
-            			<TextBlock Margin="6.759,10,0,0" TextWrapping="Wrap" Text="根节点"  ToolTip="当设置该值后，所有属性Path都应该为父节点的子path，而不能是完整的xpath路径" VerticalAlignment="Top" HorizontalAlignment="Left" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment"/>
-            			<TextBox Margin="129.567,8,4.75,0" TextWrapping="Wrap" Text="{Binding RootXPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment"/>
-            			<ComboBox Margin="51.692,8,0,0"   ItemsSource="{attributes:EnumValues {x:Type connectors:SelectorFormat}}" SelectedItem="{Binding RootFormat}"  ToolTip="  可选择完整XPath,或只根据id或class名称进行检索，如选择class,值填【name】，就是查找所有class=name的节点" VerticalAlignment="Top" HorizontalAlignment="Left" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment" Width="73.875"/>
-            			<TextBlock  Text="{Binding CrawlItems.Count, StringFormat=共计{0}种属性:}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,44.4,0,0" Width="138.8"></TextBlock>
-						<Button DataContext="{Binding Commands3[2]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" HorizontalAlignment="Left" Width="80" Margin="164,40,0,0"/>
-						<Button DataContext="{Binding Commands3[3]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="80" Margin="257.333,40,0,0" d:LayoutOverrides="VerticalAlignment"/>       		
+            				<TextBlock Margin="6.759,10,0,0" TextWrapping="Wrap" Text="根节点"  ToolTip="当设置该值后，所有属性Path都应该为父节点的子path，而不能是完整的xpath路径" VerticalAlignment="Top" HorizontalAlignment="Left" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment"/>
+            				<TextBox Margin="129.567,8,4.75,0" TextWrapping="Wrap" Text="{Binding RootXPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment"/>
+            				<ComboBox Margin="51.692,8,0,0"   ItemsSource="{attributes:EnumValues {x:Type connectors:SelectorFormat}}" SelectedItem="{Binding RootFormat}"  ToolTip="  可选择完整XPath,或只根据id或class名称进行检索，如选择class,值填【name】，就是查找所有class=name的节点" VerticalAlignment="Top" HorizontalAlignment="Left" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment" Width="73.875"/>
+            				<TextBlock  Text="{Binding CrawlItems.Count, StringFormat=共计\{0\}种属性:}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,44.4,0,0" Width="138.8"/>
+            				<Button DataContext="{Binding Commands3[2]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" HorizontalAlignment="Left" Width="80" Margin="164,40,0,0"/>
+            				<Button DataContext="{Binding Commands3[3]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="80" Margin="257.333,40,0,0" d:LayoutOverrides="VerticalAlignment"/>       		
 				
-					</Grid>
+            			</Grid>
 					
 					
-            	</GroupBox>
-            	<GridSplitter HorizontalAlignment="Stretch" Margin="0" Height="3" VerticalAlignment="Bottom"/>
-            </Grid>
+            		</GroupBox>
+            		<GroupBox Header="高级设置" Margin="8,0" Height="200" VerticalAlignment="Bottom">
+            			<ContentPresenter Content="{Binding PropertyGrid}"/>
+					
+					
+            		</GroupBox>
+            		<GridSplitter HorizontalAlignment="Stretch" Margin="0" Height="3"/>
+            		<Grid Height="17.24" Margin="22,0,90.759,0">
+            			<TextBlock Margin="0,0,0,2" TextWrapping="Wrap" HorizontalAlignment="Left" d:LayoutOverrides="Height"><Run Language="zh-cn" Text="任务名称"/></TextBlock>
+            			<TextBox Margin="122.808,0,0,0" TextWrapping="Wrap" Text="{Binding Name}" wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" d:LayoutOverrides="Height"/>
+            		</Grid>
+            	</StackPanel>
+
+
+            </ScrollViewer>
 
 
         </Grid>
-        <Button Margin="0,10.88,23.5,0" DataContext="{Binding Commands2[3]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="50" HorizontalAlignment="Right"/>
+        <Button Margin="0,10,23.5,0" DataContext="{Binding Commands2[3]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="50" HorizontalAlignment="Right"/>
 
 
     </Grid>

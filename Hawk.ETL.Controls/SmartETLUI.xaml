@@ -10,6 +10,7 @@
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:adorners="clr-namespace:Hawk.ETL.Controls.Adorners"
     xmlns:Utils="clr-namespace:Hawk.Core.Utils;assembly=Hawk.Core"
+    xmlns:System_Windows_Controls_WpfPropertyGrid="clr-namespace:System.Windows.Controls.WpfPropertyGrid;assembly=System.Windows.Controls.WpfPropertyGrid"
     x:Class="Hawk.ETL.Controls.ETLSmartView"
     mc:Ignorable="d"
     d:DesignHeight="553.5" d:DesignWidth="799.5">
@@ -466,6 +467,10 @@
 						d:LayoutOverrides="VerticalAlignment, GridBox" />
                 </Grid>
             </ScrollViewer>
+            <StackPanel Margin="52,4,0,2.402" Grid.Row="2" HorizontalAlignment="Left" Width="86.241" >
+            	<TextBlock TextWrapping="Wrap" HorizontalAlignment="Left"><Run Language="zh-cn" Text="任务名称"/></TextBlock>
+            	<TextBox TextWrapping="Wrap" Text="{Binding Name}" System_Windows_Controls_WpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" Margin="0,8,0,0"/>
+            </StackPanel>
         </Grid>
         <TextBox x:Name="SearchBox" Margin="81.348,12.835,29.75,0" TextWrapping="Wrap" VerticalAlignment="Top"
         	Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

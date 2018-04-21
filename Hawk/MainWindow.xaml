@@ -62,12 +62,12 @@
                             <Avalondock:LayoutAnchorable/>
                         </Avalondock:LayoutAnchorablePane>
                     </Avalondock:LayoutPanel>
-                    <Avalondock:LayoutPanel Orientation="Vertical" DockWidth="1*" >
+                    <Avalondock:LayoutPanel Orientation="Vertical" DockWidth="1*" >    
                         <Avalondock:LayoutAnchorablePane DockHeight="4*" x:Name="dockablePane1">
                             <Avalondock:LayoutAnchorable/>
                             
-                        </Avalondock:LayoutAnchorablePane>
-                        <Avalondock:LayoutAnchorablePane DockHeight="2*" x:Name="dockablePane3"/>
+                        </Avalondock:LayoutAnchorablePane>                     
+                  
                         <Avalondock:LayoutAnchorablePane DockHeight="4*" x:Name="dockablePane2"/>
                     </Avalondock:LayoutPanel>
 

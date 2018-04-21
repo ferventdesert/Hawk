@@ -440,12 +440,7 @@ namespace Hawk.ETL.Managements
                 ProcessCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("TypeName"));
 
 
-                ProjectTaskList = new ListCollectionView(CurrentProject.Tasks);
-                ProjectTaskList.GroupDescriptions.Clear();
-
-                ProjectTaskList.GroupDescriptions.Add(new PropertyGroupDescription("TypeName"));
-
-
+    
                 OnPropertyChanged("ProjectTaskList");
                 ProjectTaskList = new ListCollectionView(CurrentProject.Tasks);
                 ProjectTaskList.GroupDescriptions.Clear();
@@ -645,8 +640,7 @@ namespace Hawk.ETL.Managements
 
         private void NotifyCurrentProjectChanged()
         {
-            if (OnCurrentProjectChanged != null)
-                OnCurrentProjectChanged(this, new EventArgs());
+            OnCurrentProjectChanged?.Invoke(this, new EventArgs());
             OnPropertyChanged("CurrentProject");
 
 

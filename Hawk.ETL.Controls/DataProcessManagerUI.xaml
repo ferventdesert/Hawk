@@ -14,7 +14,34 @@
     <UserControl.Resources>
         <ResourceDictionary>
 
-
+   <Style x:Key="GroupContainerStyle" TargetType="{x:Type GroupItem}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                            <Expander IsExpanded="True">
+                                <Expander.Header>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                                            <TextBlock Text="{Binding  Name}"  />
+                                    
+                                        </StackPanel>
+                                        <Line Grid.Column="1" SnapsToDevicePixels="true" X1="0" X2="1" Stretch="Fill"
+                                          StrokeThickness="1" />
+                                    </Grid>
+                                </Expander.Header>
+                                <ItemsPresenter />
+                            </Expander>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
 
 
@@ -54,8 +81,7 @@
 
             <DataTemplate x:Key="DataTemplate2">
                 <StackPanel   mvvm:ListItemDoubleClick.Property="BindingCommands.ChildActions[1].ChildActions[0]"  HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" Orientation="Horizontal"   >
-                    <Label Content="{Binding Name}" Margin="5,5,0,5" VerticalAlignment="Center"  FontSize="14.667" HorizontalAlignment="Left" Width="Auto" />
-                    <Label Content="{Binding ProcessToDo[Type]}" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Width="Auto" Height="Auto" />
+                    <Label Content="{Binding Name}" ToolTip="{Binding Description}" Margin="5,5,0,5" VerticalAlignment="Center"  FontSize="14.667" HorizontalAlignment="Left" Width="Auto" />
                 </StackPanel>
             </DataTemplate>
             <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
@@ -72,7 +98,18 @@
         <ListBox x:Name="listboxProcessMethodList" ToolTip="双击图标以新建任务" ItemsSource="{Binding ProgramNameFilterView}"  x:FieldModifier="public"   Margin="20,46,20,0"     ItemsPanel="{DynamicResource ItemsPanelTemplate1}"  ItemTemplate="{DynamicResource DataTemplateList}" Height="112" VerticalAlignment="Top"/>
         <GridSplitter Width="5" Grid.Column="1" HorizontalAlignment="Left"/>
         <ListBox x:Name="listBox"  DataContext="{Binding}" ToolTip="双击可加载任务，右键可对任务进行删除等操作"  SelectedItem="{Binding SelectedTask}" ItemsSource="{Binding ProjectTaskList}"  HorizontalContentAlignment="Stretch" Margin="20,205,20,20"    ItemTemplate="{DynamicResource DataTemplate2}"  >
-            <ListBox.Resources>
+            <ListBox.GroupStyle>
+                <GroupStyle ContainerStyle="{StaticResource GroupContainerStyle}">
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="Black" BorderThickness="1" Height="30">
+                                <TextBlock Text="{Binding Name}"  FontWeight="Bold" />
+                            </Border>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ListBox.GroupStyle>
+		    <ListBox.Resources>
                 <ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding BindingCommands.ChildActions[1].ChildActions}"/>
 
                 <Style TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource {x:Type ListBoxItem}}">

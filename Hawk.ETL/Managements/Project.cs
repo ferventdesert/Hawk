@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
+using System.Windows.Data;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
@@ -85,6 +86,9 @@ namespace Hawk.ETL.Managements
         /// </summary>
         [LocalizedDisplayName("任务列表")]
         public ObservableCollection<ProcessTask> Tasks { get; set; }
+
+
+     
 
         public void Save()
         {

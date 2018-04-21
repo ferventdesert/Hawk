@@ -81,9 +81,11 @@ namespace Hawk.ETL.Managements
         /// </summary>
         [LocalizedDisplayName("任务描述")]
         [PropertyOrder(3)]
+        [PropertyEditor("CodeEditor")]
         public string Description { get; set; }
 
-      
+     
+    
 
         [LocalizedDisplayName("名称")]
         [PropertyOrder(1)]

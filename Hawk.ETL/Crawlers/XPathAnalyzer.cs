@@ -96,10 +96,7 @@ namespace Hawk.ETL.Crawlers
         {
             if (format == SelectorFormat.XPath)
                 return node.SelectNodes(path);
-            else
-            {
-                return node.CssSelect(path);
-            }
+            return node.CssSelect(path);
         }
 
         private static HtmlNode GetPageListURLInner(HtmlNode doc)
@@ -195,7 +192,6 @@ namespace Hawk.ETL.Crawlers
                 {
                     var a = node.Attributes.FirstOrDefault(d => d.Name == attr);
                     attrValue = a?.Value.Trim();
-                 
                 }
                 return true;
             }
@@ -246,7 +242,6 @@ namespace Hawk.ETL.Crawlers
             }
             return null;
         }
-
 
         private static string SearchPropertyName(this HtmlNode node, List<CrawlItem> crawlItems)
         {
@@ -1090,8 +1085,13 @@ namespace Hawk.ETL.Crawlers
                     {
                         var items = GetDiffNodes(doc2, shortv, rootFormat, isAttrEnabled, existItems, 1);
                         var target = getCrawTarget(items, shortv);
+
                         if (target != null)
+                        {
+                            target.RootNode = doc2;
+                            target.WorkMode = ScriptWorkMode.List;
                             yield return target;
+                        }
                     }
                 }
 
@@ -1130,6 +1130,8 @@ namespace Hawk.ETL.Crawlers
 
                         target.Html = rootNode.InnerHtml;
                         target.Text = rootNode.InnerText;
+                        target.RootNode = doc2;
+                        target.WorkMode= ScriptWorkMode.List;
                         target.NodeCount = doc2.SelectNodes(keyValuePair.Key).Count;
                         target.Score = keyValuePair.Value;
                         target.ColumnCount = items.Count;
@@ -1146,6 +1148,8 @@ namespace Hawk.ETL.Crawlers
                     var root = doc2.SelectSingleNodePlus(rootPath, rootFormat);
                     var xpath = XPath.RemoveFinalNum(root.XPath);
                     target = getCrawTarget(items, xpath);
+                    target.RootNode = doc2;
+                    target.WorkMode = ScriptWorkMode.List;
                     target.RootXPath = rootPath;
                     yield return target;
                 }
@@ -1201,9 +1205,13 @@ namespace Hawk.ETL.Crawlers
                     var valuePath = XPath.TakeOff(existItem.XPath, root);
                     var xpaths = childNodes.Select(d => d.XPath + (valuePath == "/" ? "" : valuePath));
                     var count = 0;
-                    yield return
+                    var target= 
                         getCrawTarget(xpaths.Select(d => new CrawlItem {XPath = d, Name = "属性_" + count++}).ToList(), "")
                         ;
+                    target.RootNode = doc2;
+                    target.WorkMode = ScriptWorkMode.One;
+                    yield return target;
+
                     yield break;
                 }
                 foreach (var crawlItem in items)
@@ -1420,14 +1428,26 @@ namespace Hawk.ETL.Crawlers
                 RootFormat = rootFormat;
             }
 
+            public ScriptWorkMode WorkMode { get; set; }
             public SelectorFormat RootFormat { get; set; }
             public string RootXPath { get; set; }
+            public HtmlNode RootNode { get; set; }
             public ObservableCollection<CrawlItem> CrawItems { get; set; }
             public string Html { get; set; }
             public string Text { get; set; }
             public int NodeCount { get; set; }
             public double Score { get; set; }
-            public List<FreeDocument> Datas { get; set; }
+
+            public List<FreeDocument> Datas
+            {
+                get
+                {
+                    return RootNode.GetDataFromXPath(CrawItems.Where(d => d.IsEnabled).ToList(),
+                        WorkMode,
+                        RootXPath, RootFormat).ToList();
+                }
+            }
+
             public int ColumnCount { get; set; }
         }
 

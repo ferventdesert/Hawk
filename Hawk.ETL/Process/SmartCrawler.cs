@@ -157,6 +157,7 @@ namespace Hawk.ETL.Process
                 }
             }
         }
+        
 
         [Browsable(false)]
         public string URLHTML
@@ -488,11 +489,12 @@ namespace Hawk.ETL.Process
                 HtmlDoc.DocumentNode.SearchPropertiesSmart(IsMultiData, existItems, RootXPath, RootFormat, IsAttribute),
                 crawTarget =>
                 {
+                    
                     crawTargets.Add(crawTarget);
-                    var datas =
-                        HtmlDoc.DocumentNode.GetDataFromXPath(crawTarget.CrawItems, IsMultiData, crawTarget.RootXPath,
-                            RootFormat).ToList();
-                    crawTarget.Datas = datas;
+                    //var datas =
+                    //    HtmlDoc.DocumentNode.GetDataFromXPath(crawTarget.CrawItems, IsMultiData, crawTarget.RootXPath,
+                    //        RootFormat).ToList();
+                    //crawTarget.Datas = datas;
                 }, d =>
                 {
                     isBusy = false;

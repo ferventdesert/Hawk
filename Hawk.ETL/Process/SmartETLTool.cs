@@ -125,6 +125,13 @@ namespace Hawk.ETL.Process
                             CurrentETLTools.Move(index, index + 1);
                         }, obj => obj != null, "arrow_down"),
                         new Command("调试到该步", obj => { ETLMount = CurrentETLTools.IndexOf(obj as IColumnProcess); },
+                            obj => obj != null, "tag"),
+                              new Command("删除下游节点", obj =>
+                              {
+                                  var index= CurrentETLTools.IndexOf(obj as IColumnProcess);
+                                  CurrentETLTools.KeepRange(0,index+1);
+                                  ETLMount = index + 1;
+                              },
                             obj => obj != null, "tag")
                     });
             }
@@ -321,7 +328,7 @@ namespace Hawk.ETL.Process
         private void ExecuteAllExecutors()
         {
             var has_execute = CurrentETLTools.FirstOrDefault(d => d is IDataExecutor) != null;
-            var info = "确定启动执行器?";
+            var info = "确定启动执行?";
             if (!has_execute)
                 info = info + "没有在本任务中发现任何执行器。";
             if (MainDescription.IsUIForm &&
@@ -449,7 +456,6 @@ namespace Hawk.ETL.Process
         public void ExecuteDatas()
         {
             var etls = CurrentETLTools.Take(ETLMount).Where(d => d.Enabled).ToList();
-            EnumerableFunc func = d => d;
             var index = 0;
 
 
@@ -458,7 +464,7 @@ namespace Hawk.ETL.Process
                 var generator = etls.FirstOrDefault() as IColumnGenerator;
                 if (generator == null)
                     return;
-                var realfunc3 = etls.Skip(1).Aggregate(func,  true);
+                var realfunc3 = etls.Skip(1).Aggregate(isexecute:  true);
                 //var task = TemporaryTask.AddTempTask(Name + "串行任务", generator.Generate(),
                 //    d => { realfunc3(new List<IFreeDocument> {d}).ToList(); }, null, generator.GenerateCount() ?? (-1));
                 var task = TemporaryTask.AddTempTask(Name + "串行任务", generator.Generate(),
@@ -475,13 +481,12 @@ namespace Hawk.ETL.Process
                 {
                     index = etls.IndexOf(tolistTransformer);
 
-                    var beforefunc = etls.Take(index).Aggregate(func,  true);
+                    var beforefunc = etls.Take(index).Aggregate(isexecute:  true);
                     var taskbuff = new List<IFreeDocument>();
-                    paratask = TemporaryTask.AddTempTask("清洗任务并行化", beforefunc(new List<IFreeDocument>())
+                    paratask = TemporaryTask.AddTempTask("并行任务", beforefunc(new List<IFreeDocument>())
                         ,
                         d2 =>
                         {
-//TODO:这种分组方式可能会丢数据！！
                             if (taskbuff.Count < tolistTransformer.GroupMount)
                             {
                                 taskbuff.Add(d2);
@@ -502,7 +507,7 @@ namespace Hawk.ETL.Process
 
                             var rcount = -1;
                             int.TryParse(countstr, out rcount);
-                            var afterfunc = etls.Skip(index + 1).Aggregate(func,  true);
+                            var afterfunc = etls.Skip(index + 1).Aggregate(isexecute:true);
                             var task = TemporaryTask.AddTempTask(name, afterfunc(newtaskbuff), d => { },
                                 null, rcount, false);
                             if (tolistTransformer.DisplayProgress)
@@ -512,11 +517,13 @@ namespace Hawk.ETL.Process
                 }
                 else
                 {
+                    var paraPoint = etls.GetParallelPoint();
+                    var beforefunc = etls.Take(paraPoint).Aggregate(isexecute: true);
                     var generator = etls.FirstOrDefault() as IColumnGenerator;
                     if (generator == null)
                         return;
-                    var realfunc3 = etls.Skip(1).Aggregate(func, true);
-                    paratask = TemporaryTask.AddTempTask("并行清洗任务", generator.Generate(),
+                    var afterfunc = etls.Skip(paraPoint).Aggregate(isexecute: true);
+                    paratask = TemporaryTask.AddTempTask("并行清洗任务", beforefunc(new List<IFreeDocument>()),
                         d =>
                         {
                             if (paratask.IsPause == false &&
@@ -525,7 +532,7 @@ namespace Hawk.ETL.Process
                                 iswait = true;
                                 paratask.IsPause = true;
                             }
-                            var task = TemporaryTask.AddTempTask("子任务", realfunc3(new List<IFreeDocument> {d}),
+                            var task = TemporaryTask.AddTempTask("子任务", afterfunc(new List<IFreeDocument> {d}),
                                 d2 => { },
                                 null, 1, false);
                             ControlExtended.UIInvoke(() => SysProcessManager.CurrentProcessTasks.Add(task));
@@ -886,7 +893,7 @@ namespace Hawk.ETL.Process
                             {
                                 outputCol = transformer.NewColumn.Split(' ').ToList();
                             }
-                            SmartGroupCollection.Where(d => outputCol.Contains(d.Name))
+                            SmartGroupCollection.Where(d => outputCol != null && outputCol.Contains(d.Name))
                                 .Execute(d => d.GroupType = GroupType.Output);
                             SmartGroupCollection.Where(d => inputCol.Contains(d.Name))
                                 .Execute(d => d.GroupType = GroupType.Input);

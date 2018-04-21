@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
+using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Process;
 
@@ -52,6 +53,7 @@ namespace Hawk.ETL.Plugins.Transformers
             var strs = new List<object> {item};
             if (string.IsNullOrEmpty(Format))
                 return item;
+            var format = datas.Query(Format);
             var columns = MergeWith.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries);
             strs.AddRange(columns.Select(key =>
             {
@@ -60,7 +62,7 @@ namespace Hawk.ETL.Plugins.Transformers
                     return datas[key];
                 return key;
             }));
-            return string.Format(Format, strs.ToArray());
+            return string.Format(format, strs.ToArray());
         }
     }
 }

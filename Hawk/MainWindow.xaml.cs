@@ -155,7 +155,8 @@ namespace Hawk
                 {
 
                     var result =
-                        MessageBox.Show(string.Format(Core.Properties.Resources.Closing2," ".Join(revisedTasks.Select(d=>d.Name).ToArray())), Core.Properties.Resources.Tips,
+                        MessageBox.Show(
+                            $"【{" ".Join(revisedTasks.Select(d => d.Name).ToArray())}】任务可能还没有保存，\n【是】:保存任务并退出, \n【否】：不保存退出，\n【取消】:取消退出", Core.Properties.Resources.Tips,
                             MessageBoxButton.YesNoCancel);
                     if(result==MessageBoxResult.Yes || result==MessageBoxResult.No)
                     {

@@ -126,9 +126,17 @@ namespace Hawk.ETL.Plugins.Generators
                     OnPropertyChanged("FileName");
                     var connector = FileConnector.SmartGetExpotStr(FileName);
                     if (connector != null && ConnectorSelector != null)
+                    {
                         ConnectorSelector.SelectItem =
                             ConnectorSelector.Collection.FirstOrDefault(d => d.Name == connector);
-                }
+                        if (Connector == null)
+                        {
+                            Connector = PluginProvider.GetObjectInstance<IFileConnector>(ConnectorSelector.SelectItem.Name);
+                            OnPropertyChanged("Connector");
+                        }
+                    }
+                
+            }
             }
         }
 

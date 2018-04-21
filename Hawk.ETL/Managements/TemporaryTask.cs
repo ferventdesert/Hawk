@@ -105,7 +105,7 @@ namespace Hawk.ETL.Managements
                     count = ((ICollection<T>)enumable).Count;
                 }
 
-                foreach (var r in action(enumable))
+                foreach (var r in action!=null?action(enumable):enumable)
                 {
                  
 

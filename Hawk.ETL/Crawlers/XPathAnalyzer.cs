@@ -92,6 +92,16 @@ namespace Hawk.ETL.Crawlers
             return GetPageListURLInner(doc);
         }
 
+        public static IEnumerable<HtmlNode> SelectNodes(this HtmlNode node, string path, SelectorFormat format)
+        {
+            if (format == SelectorFormat.XPath)
+                return node.SelectNodes(path);
+            else
+            {
+                return node.CssSelect(path);
+            }
+        }
+
         private static HtmlNode GetPageListURLInner(HtmlNode doc)
         {
             var index = 0;
@@ -236,6 +246,7 @@ namespace Hawk.ETL.Crawlers
             }
             return null;
         }
+
 
         private static string SearchPropertyName(this HtmlNode node, List<CrawlItem> crawlItems)
         {

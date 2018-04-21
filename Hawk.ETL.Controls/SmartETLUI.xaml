@@ -28,6 +28,7 @@
             <MenuItem DataContext="{Binding [4]}" Style="{DynamicResource CommandMenuItem}" />
             <MenuItem DataContext="{Binding [5]}" Style="{DynamicResource CommandMenuItem}" />
             <MenuItem DataContext="{Binding [6]}" Style="{DynamicResource CommandMenuItem}" />
+			            <MenuItem DataContext="{Binding [7]}" Style="{DynamicResource CommandMenuItem}" />
                         </ContextMenu>
         <Style TargetType="{x:Type ListViewItem}">
             <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />

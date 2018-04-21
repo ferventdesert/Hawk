@@ -97,7 +97,31 @@ namespace Hawk.ETL.Interfaces
             }
         }
 
-       
+
+        public static int GetParallelPoint(this IList<IColumnProcess> etls)
+
+        {
+            int index = 0;
+          
+            foreach (var etl in etls)
+            {
+                var generator = etl as IColumnGenerator;
+                if (generator != null && generator.GenerateCount() > 0)
+                {
+                   
+                    return index+1;
+                }
+                var trans = etl as IColumnDataTransformer;
+                if (trans != null && trans.IsMultiYield)
+                {
+                    return index+1;
+                }
+                index++;
+            }
+
+            return 1;
+
+        }
 
         public static IFreeDocument Transform(this IColumnDataTransformer ge,
             IFreeDocument item)
@@ -263,6 +287,7 @@ namespace Hawk.ETL.Interfaces
         {
             Column = TypeName;
             Enabled = true;
+            MergeType= MergeType.Cross;
         }
 
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)

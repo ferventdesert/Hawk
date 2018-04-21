@@ -59,6 +59,25 @@ namespace Hawk.Core.Utils
             return checkCode;
         }
 
+        public static void KeepRange<T>(this IList<T> collection, int start, int end)
+        {
+            if (start < 0)
+                start = 0;
+            if (end >= collection.Count)
+                end = collection.Count;
+            
+            for (int i = collection.Count-1; i >end ; i--)
+            {
+                var item = collection[i];
+                collection.Remove(item);
+
+            }
+            for (int i = 0; i < start; i++)
+            {
+                var item = collection[i];
+                collection.Remove(item);
+            }
+        }
         public static IEnumerable<T> Init<T>(this IEnumerable<T> items, Func<T, bool> init = null)
         {
             var count = 0;
@@ -123,6 +142,7 @@ namespace Hawk.Core.Utils
         public static IEnumerable<IFreeDocument> Cross(this IEnumerable<IFreeDocument> datas,
             Func<IFreeDocument, IEnumerable<IFreeDocument>> generator)
         {
+            bool any = false;
             foreach (var data in datas)
             {
                 foreach (var item in generator(data))
@@ -130,6 +150,15 @@ namespace Hawk.Core.Utils
                     var data2 = data.Clone();
                     item.DictCopyTo(data2);
                     yield return data2;
+                }
+                any = true;
+            }
+            if (any == false)
+            {
+                foreach (var item in generator(null))
+                {
+                  
+                    yield return item;
                 }
             }
         }

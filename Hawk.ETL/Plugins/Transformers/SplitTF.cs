@@ -14,6 +14,7 @@ namespace Hawk.ETL.Plugins.Transformers
     [XFrmWork("正则分割", "使用正则表达式分割字符串")]
     public class RegexSplitTF : RegexTF
     {
+        [PropertyOrder(3)]
         [LocalizedDisplayName("倒序")]
         [LocalizedDescription("勾选此项后，选择从后数的第n项")]
         public bool FromBack { get; set; }
@@ -29,13 +30,13 @@ namespace Hawk.ETL.Plugins.Transformers
             if (items.Length <= Index)
                 return null;
             if (FromBack == false)
-                dict.SetValue(NewColumn, items[Index]);
+                return items[Index];
             else
             {
                 var index = items.Length - Index - 1;
                 if (index < 0)
                     return null;
-                dict.SetValue(NewColumn, items[index]);
+                return items[index];
             }
 
 

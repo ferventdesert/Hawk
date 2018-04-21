@@ -309,6 +309,8 @@ namespace Hawk.ETL.Plugins.Generators
                 var kv = item.Split(':');
                 if (kv.Length != 2)
                     continue;
+                if(kv[0]==kv[1])
+                    continue;
                 if (newdoc.Keys.Contains(kv[0]))
                 {
                     newdoc[kv[1]] = newdoc[kv[0]];

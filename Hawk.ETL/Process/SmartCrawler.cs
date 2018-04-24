@@ -456,7 +456,7 @@ namespace Hawk.ETL.Process
         {
             var crawTargets = new List<XPathAnalyzer.CrawTarget>();
             crawTargets.Add(new XPathAnalyzer.CrawTarget(CrawlItems.Select(d => d.Clone()).ToList(), RootXPath,
-                RootFormat));
+                RootFormat) {RootNode = this.HtmlDoc.DocumentNode,WorkMode = IsMultiData});
             var luckModel = new FeelLuckyModel(crawTargets, HtmlDoc, IsMultiData);
             luckModel.CanChange = false;
             var view = PluginProvider.GetObjectInstance<ICustomView>("手气不错面板") as UserControl;

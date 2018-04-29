@@ -317,13 +317,13 @@ namespace Hawk
                 {
                     case FrmState.Large:
                         layout = Factory(name, thisControl);
+                        
                         documentMain.Children.Add(layout);
-
+                        documentMain.Children.RemoveElementsNoReturn(d => d.Content == null);
                         layout.IsActive = true;
                         break;
                     case FrmState.Buttom:
                         layout = Factory(name, thisControl);
-
                         var view = thisControl as DebugManagerUI;
                         if (view != null)
                         {
@@ -331,22 +331,18 @@ namespace Hawk
                         }
 
                         documentButtom.Children.Add(layout);
-
+                        documentButtom.Children.RemoveElementsNoReturn(d=>d.Content==null);
+                       // layout.Hide(true);
                         layout.IsActive = true;
+
                         break;
                 
+                   case FrmState.Mini2:
                     case FrmState.Mini:
                         layout = Factory(name, thisControl);
                         viewitem.Container = layout;
-                        dockablePane2.Children.Add(layout);
-
-                        layout.IsActive = true;
-                        break;
-                    case FrmState.Mini2:
-                        layout = Factory(name, thisControl);
-                        viewitem.Container = layout;
                         dockablePane1.Children.Add(layout);
-
+                        dockablePane1.Children.RemoveElementsNoReturn(d => d.Content == null);
                         layout.IsActive = true;
                         break;
                     case FrmState.Custom:
@@ -359,7 +355,7 @@ namespace Hawk
 
                         layout = Factory(name, thisControl);
 
-                        dockablePane2.Children.Add(layout);
+                     
 
                         layout.Float();
                                     

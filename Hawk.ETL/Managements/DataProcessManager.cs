@@ -470,7 +470,7 @@ namespace Hawk.ETL.Managements
                     task = new ProcessTask
                     {
                         Name = process.Name,
-                        Description = "请填写任务描述",
+                        Description = "任务描述",
                     };
 
                     CurrentProject.Tasks.Add(task);

@@ -469,6 +469,7 @@ namespace Hawk.ETL.Process
                 //    d => { realfunc3(new List<IFreeDocument> {d}).ToList(); }, null, generator.GenerateCount() ?? (-1));
                 var task = TemporaryTask.AddTempTask(Name + "串行任务", generator.Generate(),
                     list => realfunc3(list), null, generator.GenerateCount() ?? (-1));
+                task.IsSelected = true;
                 SysProcessManager.CurrentProcessTasks.Add(task);
             }
             else
@@ -900,7 +901,7 @@ namespace Hawk.ETL.Process
                         }
                     }
 
-                    var firstOutCol = outputCol.FirstOrDefault();
+                    var firstOutCol = outputCol?.FirstOrDefault();
                     if (firstOutCol != null)
                     {
                         var index = all_columns.IndexOf(firstOutCol);
@@ -915,10 +916,11 @@ namespace Hawk.ETL.Process
                             d =>
                                 Documents.GetKeys().Contains(d.Column) == false &&
                                 string.IsNullOrEmpty(d.Column) == false));
-                    nullgroup.OnPropertyChanged("Value");
+                    nullgroup?.OnPropertyChanged("Value");
                 }
                 , SampleMount);
             temptask.Publisher = this;
+            temptask.IsSelected = true;
             SysProcessManager.CurrentProcessTasks.Add(temptask);
         }
 

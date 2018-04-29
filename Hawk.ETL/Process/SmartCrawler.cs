@@ -480,6 +480,10 @@ namespace Hawk.ETL.Process
 
         public void FeelLucky()
         {
+            if (string.IsNullOrEmpty(this.URLHTML))
+            {
+                this.VisitUrlAsync();
+            }
             isBusy = true;
             var crawTargets = new List<XPathAnalyzer.CrawTarget>();
             ICollection<CrawlItem> existItems = CrawlItems;

@@ -187,10 +187,13 @@ namespace Hawk.Core.Utils
 
         public static IEnumerable<FreeDocument> CacheDo(this IEnumerable<FreeDocument> documents,IList<FreeDocument> cache=null,int maxCount=100 )
         {
-            if (cache == null)
+            if (cache == null||cache.Count==0)
             {
+
                 foreach (var document in documents)
                 {
+                    if(cache?.Count<maxCount)
+                        cache.Add(document.Clone());
                     yield return document;
                 }
                 yield break;
@@ -201,12 +204,8 @@ namespace Hawk.Core.Utils
                 {
                     yield return item;
                 }
-                foreach (var document in documents)
-                {
-                    if(cache.Count<maxCount)
-                        cache.Add(document.Clone());
-                    yield return document;
-                }
+                yield break;
+            
             }
 
         }

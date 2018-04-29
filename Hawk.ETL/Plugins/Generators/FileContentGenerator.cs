@@ -192,7 +192,11 @@ namespace Hawk.ETL.Plugins.Generators
                 path = result;
 
             Connector.FileName = path;
-            return Connector.ReadFile().CacheDo(buffHelper.GetOrCreate(path,new List<FreeDocument>()));
+
+            if (!IsExecute)
+                return Connector.ReadFile();
+            else
+                return Connector.ReadFile().CacheDo(buffHelper.GetOrCreate(path,new List<FreeDocument>()),this.Father.SampleMount*2);
          
         }
 

@@ -456,7 +456,7 @@ namespace Hawk.ETL.Process
         {
             var crawTargets = new List<XPathAnalyzer.CrawTarget>();
             crawTargets.Add(new XPathAnalyzer.CrawTarget(CrawlItems.Select(d => d.Clone()).ToList(), RootXPath,
-                RootFormat));
+                RootFormat) {RootNode = this.HtmlDoc.DocumentNode,WorkMode = IsMultiData});
             var luckModel = new FeelLuckyModel(crawTargets, HtmlDoc, IsMultiData);
             luckModel.CanChange = false;
             var view = PluginProvider.GetObjectInstance<ICustomView>("手气不错面板") as UserControl;
@@ -480,6 +480,10 @@ namespace Hawk.ETL.Process
 
         public void FeelLucky()
         {
+            if (string.IsNullOrEmpty(this.URLHTML))
+            {
+                this.VisitUrlAsync();
+            }
             isBusy = true;
             var crawTargets = new List<XPathAnalyzer.CrawTarget>();
             ICollection<CrawlItem> existItems = CrawlItems;
@@ -489,11 +493,12 @@ namespace Hawk.ETL.Process
                 HtmlDoc.DocumentNode.SearchPropertiesSmart(IsMultiData, existItems, RootXPath, RootFormat, IsAttribute),
                 crawTarget =>
                 {
+                    
                     crawTargets.Add(crawTarget);
-                    var datas =
-                        HtmlDoc.DocumentNode.GetDataFromXPath(crawTarget.CrawItems, IsMultiData, crawTarget.RootXPath,
-                            RootFormat).ToList();
-                    crawTarget.Datas = datas;
+                    //var datas =
+                    //    HtmlDoc.DocumentNode.GetDataFromXPath(crawTarget.CrawItems, IsMultiData, crawTarget.RootXPath,
+                    //        RootFormat).ToList();
+                    //crawTarget.Datas = datas;
                 }, d =>
                 {
                     isBusy = false;

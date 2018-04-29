@@ -331,28 +331,28 @@ namespace Hawk
                         }
 
                         documentButtom.Children.Add(layout);
-
+                        documentButtom.Children.RemoveElementsNoReturn(d => d.Content == null);
                         layout.IsActive = true;
                         break;
                     case FrmState.Middle:
                         layout = Factory(name, thisControl);
                         viewitem.Container = layout;
                         dockablePane1.Children.Add(layout);
-
+                        dockablePane1.Children.RemoveElementsNoReturn(d => d.Content == null);
                         layout.IsActive = true;
                         break;
                     case FrmState.Mini:
                         layout = Factory(name, thisControl);
                         viewitem.Container = layout;
                         dockablePane2.Children.Add(layout);
-
+                        dockablePane2.Children.RemoveElementsNoReturn(d => d.Content == null);
                         layout.IsActive = true;
                         break;
                     case FrmState.Mini2:
                         layout = Factory(name, thisControl);
                         viewitem.Container = layout;
                         dockablePane3.Children.Add(layout);
-
+                        dockablePane3.Children.RemoveElementsNoReturn(d => d.Content == null);
                         layout.IsActive = true;
                         break;
                     case FrmState.Custom:

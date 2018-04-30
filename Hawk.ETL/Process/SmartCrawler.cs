@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.WpfPropertyGrid;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using System.Windows.Input;
@@ -199,7 +200,13 @@ namespace Hawk.ETL.Process
                         new Command("刷新网页", obj => VisitUrlAsync(), icon: "refresh"),
                         new Command("复制到剪切板", obj => CopytoClipBoard(), icon: "clipboard_file"),
                         new Command("配置属性", obj => EditProperty(), icon: "edit"),
-                        new Command("清空属性", obj => this.CrawlItems.Clear(), icon: "edit")
+                        new Command("清空属性", obj =>
+                        {
+                            if (ControlExtended.UserCheck("是否确定清除所有属性?"))
+                            {
+                                this.CrawlItems.Clear();
+                            }
+                        }, obj=>this.CrawlItems.Count>0, icon: "edit")
                     });
             }
         }
@@ -306,10 +313,18 @@ namespace Hawk.ETL.Process
                     new[]
                     {
                         new Command("开始", obj => StartVisit(), obj => IsRunning == false, "camera"),
-                        new Command("停止", obj => StopVisit(), obj => IsRunning, "stop")
+                        new Command("停止", obj => StopVisit(), obj => IsRunning, "stop"),
+                         new Command("参数配置", obj => ConfigParam(), obj => true, "edit")
+                        //     new Command("模拟登录", obj => { AutoVisit(); })
                         //     new Command("模拟登录", obj => { AutoVisit(); })
                     });
             }
+        }
+
+        private void ConfigParam()
+        {
+            PropertyGridFactory.GetPropertyWindow(this.Http).ShowDialog();
+
         }
 
         [LocalizedCategory("2.请求参数")]

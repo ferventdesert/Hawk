@@ -849,7 +849,7 @@ namespace Hawk.ETL.Process
             all_columns.Clear();
             dataView.Columns.Clear();
 
-            AddColumn("", alltools);
+            ///AddColumn("", alltools);
             var temptask = TemporaryTask.AddTempTask(Name + "_转换",
                 func(new List<IFreeDocument>()).Take(SampleMount),
                 data =>

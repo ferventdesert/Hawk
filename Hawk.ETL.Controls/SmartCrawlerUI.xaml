@@ -1,16 +1,5 @@
-﻿<UserControl x:Class="Hawk.ETL.Controls.SmartCrawlerUI"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:wpfPropertyGrid="clr-namespace:System.Windows.Controls.WpfPropertyGrid;assembly=System.Windows.Controls.WpfPropertyGrid"
-             xmlns:attributes="clr-namespace:System.Windows.Controls.WpfPropertyGrid.Attributes;assembly=System.Windows.Controls.WpfPropertyGrid"
-             xmlns:connectors="clr-namespace:Hawk.Core.Connectors;assembly=Hawk.Core"
-             xmlns:mvvm="clr-namespace:Hawk.Core.Utils.MVVM;assembly=Hawk.Core"
-
-
-             mc:Ignorable="d" 
-             d:DesignHeight="518" d:DesignWidth="877">
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:wpfPropertyGrid="clr-namespace:System.Windows.Controls.WpfPropertyGrid;assembly=System.Windows.Controls.WpfPropertyGrid" xmlns:attributes="clr-namespace:System.Windows.Controls.WpfPropertyGrid.Attributes;assembly=System.Windows.Controls.WpfPropertyGrid" xmlns:connectors="clr-namespace:Hawk.Core.Connectors;assembly=Hawk.Core" xmlns:mvvm="clr-namespace:Hawk.Core.Utils.MVVM;assembly=Hawk.Core" xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" x:Class="Hawk.ETL.Controls.SmartCrawlerUI" 
+             d:DesignHeight="630.667" d:DesignWidth="943" mc:Ignorable="d">
 	<UserControl.Resources>
 		    <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
 		<DataTemplate x:Key="DataTemplate1">
@@ -22,6 +11,61 @@
 				<TextBox ToolTip="XPath" MinWidth="200" Text="{Binding XPath}" Margin="5,0,0,0" TextWrapping="Wrap"   Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 			</StackPanel>
 		</DataTemplate>
+		<ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
+			<WrapPanel IsItemsHost="True"/>
+		</ItemsPanelTemplate>
+		<DataTemplate x:Key="DataTemplate2">
+			<StackPanel Orientation="Horizontal" Margin="3,0,8,0" Opacity="0.6">
+				<Label Content="{Binding Name}" ToolTip="{Binding XPath}" Margin="0,0,8,0" VerticalAlignment="Center"/>
+				<Button Content="x" Margin="0" Width="10" MaxWidth="10" MaxHeight="18" MinWidth="10" MinHeight="18"  VerticalAlignment="Center" Height="18" BorderThickness="0" Background="#00DDDDDD" Style="{DynamicResource ButtonStyle1}"/>
+			</StackPanel>
+		</DataTemplate>
+		<Style x:Key="ButtonFocusVisual">
+			<Setter Property="Control.Template">
+				<Setter.Value>
+					<ControlTemplate>
+						<Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<LinearGradientBrush x:Key="ButtonNormalBackground" EndPoint="0,1" StartPoint="0,0">
+			<GradientStop Color="#F3F3F3" Offset="0"/>
+			<GradientStop Color="#EBEBEB" Offset="0.5"/>
+			<GradientStop Color="#DDDDDD" Offset="0.5"/>
+			<GradientStop Color="#CDCDCD" Offset="1"/>
+		</LinearGradientBrush>
+		<SolidColorBrush x:Key="ButtonNormalBorder" Color="#FF707070"/>
+		<Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+			<Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}"/>
+			<Setter Property="Background" Value="{StaticResource ButtonNormalBackground}"/>
+			<Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+			<Setter Property="HorizontalContentAlignment" Value="Center"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+			<Setter Property="Padding" Value="1"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type Button}">
+						<Microsoft_Windows_Themes:ButtonChrome x:Name="Chrome" RenderMouseOver="{TemplateBinding IsMouseOver}" RenderPressed="{TemplateBinding IsPressed}" RenderDefaulted="{TemplateBinding IsDefaulted}" SnapsToDevicePixels="true">
+							<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+						</Microsoft_Windows_Themes:ButtonChrome>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsKeyboardFocused" Value="true">
+								<Setter Property="RenderDefaulted" TargetName="Chrome" Value="true"/>
+							</Trigger>
+							<Trigger Property="ToggleButton.IsChecked" Value="true">
+								<Setter Property="RenderPressed" TargetName="Chrome" Value="true"/>
+							</Trigger>
+							<Trigger Property="IsEnabled" Value="false">
+								<Setter Property="Foreground" Value="#ADADAD"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
 	</UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -66,6 +110,10 @@
             <GridSplitter Width="3.375" Margin="-1.625,0,0,0" Grid.Column="1" HorizontalAlignment="Left"/>
             <ScrollViewer Grid.Column="1">
             	<StackPanel>
+            		<Grid Height="18" Margin="18,0,90.759,0">
+            			<TextBlock Margin="0,0,0,2" TextWrapping="Wrap" HorizontalAlignment="Left" d:LayoutOverrides="Height"><Run Language="zh-cn" Text="任务名称"/></TextBlock>
+            			<TextBox Margin="122.808,0,0,0" TextWrapping="Wrap" Text="{Binding Name}" wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" d:LayoutOverrides="Height"/>
+            		</Grid>
             		<GroupBox Header="属性提取" MinHeight="115" Margin="8,0" Height="180" d:LayoutOverrides="Height">
             			<Grid>
             				<Grid.ColumnDefinitions>
@@ -84,32 +132,43 @@
             				<ComboBox Grid.Column="1"  Margin="8,5.01,80,0"  ItemsSource="{attributes:EnumValues {x:Type connectors:ScriptWorkMode}}"  SelectedItem="{Binding IsMultiData}" VerticalAlignment="Top"/>
             			</Grid>
             		</GroupBox>
-            		<GroupBox Header="属性管理" Margin="8,0" Height="150">
+            		<GroupBox Header="属性管理" Margin="8,0" Height="250">
             			<Grid Margin="0">
-            			 
+            				<Grid.ColumnDefinitions>
+            					<ColumnDefinition Width="0.3*"/>
+            					<ColumnDefinition Width="0.7*"/>
+            				</Grid.ColumnDefinitions>
             			 
 	 
             				<TextBlock Margin="6.759,10,0,0" TextWrapping="Wrap" Text="根节点"  ToolTip="当设置该值后，所有属性Path都应该为父节点的子path，而不能是完整的xpath路径" VerticalAlignment="Top" HorizontalAlignment="Left" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment"/>
-            				<TextBox Margin="129.567,8,4.75,0" TextWrapping="Wrap" Text="{Binding RootXPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment"/>
+            				<TextBox Margin="8,8,80,0" TextWrapping="Wrap" Text="{Binding RootXPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" Grid.Column="1"/>
             				<ComboBox Margin="51.692,8,0,0"   ItemsSource="{attributes:EnumValues {x:Type connectors:SelectorFormat}}" SelectedItem="{Binding RootFormat}"  ToolTip="  可选择完整XPath,或只根据id或class名称进行检索，如选择class,值填【name】，就是查找所有class=name的节点" VerticalAlignment="Top" HorizontalAlignment="Left" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment" Width="73.875"/>
-            				<TextBlock  Text="{Binding CrawlItems.Count, StringFormat=共计\{0\}种属性:}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,44.4,0,0" Width="138.8"/>
-            				<Button DataContext="{Binding Commands3[2]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" HorizontalAlignment="Left" Width="80" Margin="164,40,0,0"/>
-            				<Button DataContext="{Binding Commands3[3]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="80" Margin="257.333,40,0,0" d:LayoutOverrides="VerticalAlignment"/>       		
+            				<TextBlock  Text="{Binding CrawlItems.Count, StringFormat=共计\{0\}种属性:}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,44.4,0,0"/>
+            				<Button DataContext="{Binding Commands3[2]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" HorizontalAlignment="Left" Width="80" Margin="8,40,0,0" Grid.Column="1"/>
+            				<Button DataContext="{Binding Commands3[3]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Margin="136.8,40,0,0" Grid.Column="1" HorizontalAlignment="Left" Width="80"/>
+            				<ListBox Margin="8,92.427,8,8" ItemsSource="{Binding CrawlItems}"  Grid.ColumnSpan="2" ItemsPanel="{DynamicResource ItemsPanelTemplate1}" ItemTemplate="{DynamicResource DataTemplate2}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>       		
 				
             			</Grid>
 					
 					
             		</GroupBox>
             		<GroupBox Header="高级设置" Margin="8,0" Height="200" VerticalAlignment="Bottom">
-            			<ContentPresenter Content="{Binding PropertyGrid}"/>
-					
-					
+            			<Grid>
+            				<Grid.ColumnDefinitions>
+            					<ColumnDefinition Width="0.3*"/>
+            					<ColumnDefinition Width="0.7*"/>
+            				</Grid.ColumnDefinitions>
+            				<TextBlock Margin="8,8,0,0" TextWrapping="Wrap" Text="共享源" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+            				<ComboBox  Margin="8,5.01,80,0"  DataContext="{Binding ShareCookie}" ItemsSource="{Binding Collection}"  SelectedItem="{Binding _SelectItem}" VerticalAlignment="Top" Grid.Column="1"/>
+            				<TextBlock Margin="8,42.5,0,0" TextWrapping="Wrap" Text="超级模式" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+            				<CheckBox  Margin="8,42.5,80,0"  IsChecked="{Binding IsSuperMode}" ToolTip="该模式能够强力解析网页内容，但是消耗资源，且会修改原始Html内容" VerticalAlignment="Top" Grid.Column="1"/>
+            				<Button DataContext="{Binding Commands[0]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="80" Margin="8,78,0,0" Grid.Column="1"/>
+            				<Button DataContext="{Binding Commands[1]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Margin="136.8,78,0,0" Grid.Column="1" HorizontalAlignment="Left" Width="80"/>
+            				<TextBlock Margin="8,78,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left"><Run Language="zh-cn" Text="动态请求嗅探"/></TextBlock>
+            				<Button DataContext="{Binding Commands[2]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="80" Margin="8,114.666,0,0" Grid.Column="1"/>
+            				<TextBlock Margin="8,114.666,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left"><Run Language="zh-cn" Text="请求详情"/></TextBlock>
+            			</Grid>
             		</GroupBox>
-            		<GridSplitter HorizontalAlignment="Stretch" Margin="0" Height="3"/>
-            		<Grid Height="17.24" Margin="22,0,90.759,0">
-            			<TextBlock Margin="0,0,0,2" TextWrapping="Wrap" HorizontalAlignment="Left" d:LayoutOverrides="Height"><Run Language="zh-cn" Text="任务名称"/></TextBlock>
-            			<TextBox Margin="122.808,0,0,0" TextWrapping="Wrap" Text="{Binding Name}" wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" d:LayoutOverrides="Height"/>
-            		</Grid>
             	</StackPanel>
 
 

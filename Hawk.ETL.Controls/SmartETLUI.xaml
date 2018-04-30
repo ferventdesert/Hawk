@@ -11,10 +11,13 @@
     xmlns:adorners="clr-namespace:Hawk.ETL.Controls.Adorners"
     xmlns:Utils="clr-namespace:Hawk.Core.Utils;assembly=Hawk.Core"
     xmlns:System_Windows_Controls_WpfPropertyGrid="clr-namespace:System.Windows.Controls.WpfPropertyGrid;assembly=System.Windows.Controls.WpfPropertyGrid"
+    xmlns:attributes="clr-namespace:System.Windows.Controls.WpfPropertyGrid.Attributes;assembly=System.Windows.Controls.WpfPropertyGrid"
+    xmlns:connectors="clr-namespace:Hawk.Core.Utils.Plugins;assembly=Hawk.Core"
     x:Class="Hawk.ETL.Controls.ETLSmartView"
     mc:Ignorable="d"
-    d:DesignHeight="553.5" d:DesignWidth="799.5">
+    d:DesignHeight="683.5" d:DesignWidth="1113.5">
     <UserControl.Resources>
+    	<Utils:GeneratorConverter x:Key="GeneratorConverter"/>
         <Utils:GroupConverter x:Key="GroupConverter"/>
         <local:GroupColorConverter x:Key="GroupColorConverter" />
         <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
@@ -342,7 +345,7 @@
         <Grid Grid.Column="1" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="25" />
+                <RowDefinition Height="40" />
             
             </Grid.RowDefinitions>
             <StackPanel HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Center" Margin="0,0,10,0"/>
@@ -350,23 +353,20 @@
                 <Border BorderBrush="Black" BorderThickness="1" Background="#FF2D2D2D" />
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal"
 					d:LayoutOverrides="Height" VerticalAlignment="Center">
-                    <TextBlock TextWrapping="Wrap" Text="模块" d:LayoutOverrides="Width" Margin="5,0,10,0"
-						VerticalAlignment="Center" />
-                    <TextBox Width="50" TextWrapping="Wrap" Text="{Binding ETLMount}" VerticalAlignment="Center"
-						FontSize="16" />
-                    <TextBlock TextWrapping="Wrap" Text="/" d:LayoutOverrides="Width" VerticalAlignment="Center"
-						FontSize="16" />
-                    <TextBlock TextWrapping="Wrap" Text="{Binding AllETLMount}" d:LayoutOverrides="Width"
-						VerticalAlignment="Center" FontSize="16" />
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Language="zh-cn" Text="任务名称"/></TextBlock>
+                	<TextBox TextWrapping="Wrap" Text="{Binding Name}" System_Windows_Controls_WpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" VerticalAlignment="Center" Width="100" Margin="0,0,30,0"/>
                     <TextBlock TextWrapping="Wrap" Margin="15,0,10,0"
                     	VerticalAlignment="Center" ><Run Language="zh-cn" Text="采样量"/></TextBlock>
                     <TextBox Width="50" TextWrapping="Wrap" Text="{Binding SampleMount}" ToolTip="设置获取数据表的前n行" VerticalAlignment="Center"
                     	FontSize="16" />
-                    <CheckBox Content="自动刷新" IsChecked="{Binding IsAutoRefresh}" VerticalAlignment="Center" Margin="15,0,0,0" />
-                    <CheckBox Content="调试详情" IsChecked="{Binding DisplayDetail}" VerticalAlignment="Center" Margin="15,0,0,0" />
-                </StackPanel>
-            </Grid>
-            <ScrollViewer x:FieldModifier="public" x:Name="ScrollViewer" Margin="0"
+                    <ComboBox Width="120" ItemsSource="{attributes:EnumValues {x:Type connectors:GenerateMode}}" SelectedItem="{Binding GenerateMode}"  Margin="100,0,0,0"/>
+                    <TextBlock TextWrapping="Wrap" Text="线程数" VerticalAlignment="Center" Margin="8,0,0,0" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter}}" />
+                    <TextBox TextWrapping="Wrap" Text="{Binding MaxThreadCount}" VerticalAlignment="Center" Margin="8,0,0,0" Width="40" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter}}" />
+                    <Button DataContext="{Binding Commands3[0]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="80" Margin="10,0,0,0"/>
+                    </StackPanel>
+               
+                 </Grid>
+                             <ScrollViewer x:FieldModifier="public" x:Name="ScrollViewer" Margin="0"
 				ScrollViewer.HorizontalScrollBarVisibility="Auto"
 				ScrollViewer.VerticalScrollBarVisibility="Disabled">
 
@@ -403,10 +403,6 @@
 						d:LayoutOverrides="VerticalAlignment, GridBox" />
                 </Grid>
             </ScrollViewer>
-            <StackPanel Margin="52,4,0,2.402" Grid.Row="2" HorizontalAlignment="Left" Width="86.241" >
-            	<TextBlock TextWrapping="Wrap" HorizontalAlignment="Left"><Run Language="zh-cn" Text="任务名称"/></TextBlock>
-            	<TextBox TextWrapping="Wrap" Text="{Binding Name}" System_Windows_Controls_WpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" Margin="0,8,0,0"/>
-            </StackPanel>
         </Grid>
         <TextBox x:Name="SearchBox" Margin="81.348,12.835,29.75,0" TextWrapping="Wrap" VerticalAlignment="Top"
         	Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -414,7 +410,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.5*" />
                 <RowDefinition Height="0.6*" />
-				  <RowDefinition Height="45" />
+				  <RowDefinition Height="66" />
             </Grid.RowDefinitions>
             <ListBox x:Name="ETLToolList" x:FieldModifier="public" Margin="0,27,0,8"
 				ItemsSource="{Binding ETLToolsView}" ItemTemplate="{DynamicResource DataTemplateList}"
@@ -455,66 +451,80 @@
                 </ListView.View>
 				  
             </ListView>
-            <StackPanel HorizontalAlignment="Center" Grid.Row="2" Orientation="Horizontal" Height="45" Margin="0" VerticalAlignment="Bottom">
-            	<Button Style="{DynamicResource middleButton2}" DataContext="{Binding Commands5[4]}" Width="35"
-            		Height="35" Margin="0,5,10,5">
-            		<Viewbox Width="20" Height="20">
-            			<Canvas RenderTransformOrigin="0.5,0.5" Width="50" Height="50">
+            <StackPanel Orientation="Vertical" Grid.Row="2" d:LayoutOverrides="Height">
+            	<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            		<TextBlock TextWrapping="Wrap" Text="模块"
+            			VerticalAlignment="Center" />
+            		<TextBox Width="50" TextWrapping="Wrap" Text="{Binding ETLMount}" VerticalAlignment="Center"
+            			FontSize="16" />
+            		<TextBlock TextWrapping="Wrap" Text="/" VerticalAlignment="Center"
+            			FontSize="16" />
+            		<TextBlock TextWrapping="Wrap" Text="{Binding AllETLMount}"
+            			VerticalAlignment="Center" FontSize="16" />
+            		<CheckBox Content="自动刷新" IsChecked="{Binding IsAutoRefresh}" VerticalAlignment="Center" Margin="15,0,0,0" />
+            		<CheckBox Content="调试详情" IsChecked="{Binding DisplayDetail}" VerticalAlignment="Center" Margin="15,0,0,0" />
+            	</StackPanel>
+            	<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Height="45" Margin="0" VerticalAlignment="Bottom">
+            		<Button Style="{DynamicResource middleButton2}" DataContext="{Binding Commands5[4]}" Width="35"
+            			Height="35" Margin="0,5,10,5">
+            			<Viewbox Width="20" Height="20">
+            				<Canvas RenderTransformOrigin="0.5,0.5" Width="50" Height="50">
 
-            				<Path Stretch="Fill" StrokeLineJoin="Round" Stroke="Black" Fill="White"
-            					Data="F1 M -66.7518,-348.017L 183.248,-168.017L -60.7518,3.98303L -66.7518,-348.017 Z "
-            					Height="50.08" Width="42.519" RenderTransformOrigin="0.5,0.5" Canvas.Left="-5.331"
-            					Canvas.Top="-0.021">
-            					<Path.RenderTransform>
+            					<Path Stretch="Fill" StrokeLineJoin="Round" Stroke="Black" Fill="White"
+            						Data="F1 M -66.7518,-348.017L 183.248,-168.017L -60.7518,3.98303L -66.7518,-348.017 Z "
+            						Height="50.08" Width="42.519" RenderTransformOrigin="0.5,0.5" Canvas.Left="-5.331"
+            						Canvas.Top="-0.021">
+            						<Path.RenderTransform>
+            							<TransformGroup>
+            								<ScaleTransform ScaleX="-1" />
+            								<SkewTransform />
+            								<RotateTransform />
+            								<TranslateTransform />
+            							</TransformGroup>
+            						</Path.RenderTransform>
+            					</Path>
+            					<Rectangle Fill="White" Height="51.333" Canvas.Left="42.056" Stroke="Black"
+            						StrokeLineJoin="Round" Canvas.Top="-0.135" Width="14" />
+            				</Canvas>
+            			</Viewbox>
+            		</Button>
+            		<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[2]}" Width="35"
+            			Height="35" Margin="15,0,0,0" />
+            		<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[0]}" Width="35"
+            			Height="35" Margin="15,0,0,0" />
+            		<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[3]}" Width="35"
+            			Height="35" Margin="15,0,0,0" />
+            		<Button Style="{DynamicResource middleButton2}" DataContext="{Binding Commands5[5]}" Width="35"
+            			Height="35" Margin="25,5,0,5">
+            			<Viewbox Width="20" Height="20">
+            				<Canvas RenderTransformOrigin="0.5,0.5" Width="50" Height="50">
+            					<Canvas.RenderTransform>
             						<TransformGroup>
             							<ScaleTransform ScaleX="-1" />
             							<SkewTransform />
             							<RotateTransform />
             							<TranslateTransform />
             						</TransformGroup>
-            					</Path.RenderTransform>
-            				</Path>
-            				<Rectangle Fill="White" Height="51.333" Canvas.Left="42.056" Stroke="Black"
-            					StrokeLineJoin="Round" Canvas.Top="-0.135" Width="14" />
-            			</Canvas>
-            		</Viewbox>
-            	</Button>
-            	<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[2]}" Width="35"
-            		Height="35" Margin="15,0,0,0" />
-            	<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[0]}" Width="35"
-            		Height="35" Margin="15,0,0,0" />
-            	<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[3]}" Width="35"
-            		Height="35" Margin="15,0,0,0" />
-            	<Button Style="{DynamicResource middleButton2}" DataContext="{Binding Commands5[5]}" Width="35"
-            		Height="35" Margin="25,5,0,5">
-            		<Viewbox Width="20" Height="20">
-            			<Canvas RenderTransformOrigin="0.5,0.5" Width="50" Height="50">
-            				<Canvas.RenderTransform>
-            					<TransformGroup>
-            						<ScaleTransform ScaleX="-1" />
-            						<SkewTransform />
-            						<RotateTransform />
-            						<TranslateTransform />
-            					</TransformGroup>
-            				</Canvas.RenderTransform>
-            				<Path Stretch="Fill" StrokeLineJoin="Round" Stroke="Black" Fill="White"
-            					Data="F1 M -66.7518,-348.017L 183.248,-168.017L -60.7518,3.98303L -66.7518,-348.017 Z "
-            					Height="50.08" Width="42.519" RenderTransformOrigin="0.5,0.5" Canvas.Left="-5.331"
-            					Canvas.Top="-0.021">
-            					<Path.RenderTransform>
-            						<TransformGroup>
-            							<ScaleTransform ScaleX="-1" />
-            							<SkewTransform />
-            							<RotateTransform />
-            							<TranslateTransform />
-            						</TransformGroup>
-            					</Path.RenderTransform>
-            				</Path>
-            				<Rectangle Fill="White" Height="51.333" Canvas.Left="42.056" Stroke="Black"
-            					StrokeLineJoin="Round" Canvas.Top="-0.135" Width="14" />
-            			</Canvas>
-            		</Viewbox>
-            	</Button>
+            					</Canvas.RenderTransform>
+            					<Path Stretch="Fill" StrokeLineJoin="Round" Stroke="Black" Fill="White"
+            						Data="F1 M -66.7518,-348.017L 183.248,-168.017L -60.7518,3.98303L -66.7518,-348.017 Z "
+            						Height="50.08" Width="42.519" RenderTransformOrigin="0.5,0.5" Canvas.Left="-5.331"
+            						Canvas.Top="-0.021">
+            						<Path.RenderTransform>
+            							<TransformGroup>
+            								<ScaleTransform ScaleX="-1" />
+            								<SkewTransform />
+            								<RotateTransform />
+            								<TranslateTransform />
+            							</TransformGroup>
+            						</Path.RenderTransform>
+            					</Path>
+            					<Rectangle Fill="White" Height="51.333" Canvas.Left="42.056" Stroke="Black"
+            						StrokeLineJoin="Round" Canvas.Top="-0.135" Width="14" />
+            				</Canvas>
+            			</Viewbox>
+            		</Button>
+            	</StackPanel>
             </StackPanel>
         </Grid>
         <TextBlock HorizontalAlignment="Left" Margin="20,16.333,0,0" TextWrapping="Wrap" VerticalAlignment="Top"

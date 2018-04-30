@@ -73,11 +73,7 @@ namespace Hawk.ETL.Interfaces
         SortType SortType { get; set; }
     }
 
-    public enum GenerateMode
-    {
-        串行模式,
-        并行模式
-    }
+  
 
     public static class ETLHelper
     {

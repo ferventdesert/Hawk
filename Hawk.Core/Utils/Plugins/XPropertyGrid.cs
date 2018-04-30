@@ -9,7 +9,7 @@ using System.Windows.Controls.WpfPropertyGrid;
 namespace Hawk.Core.Utils.Plugins
 {
     [XFrmWork("属性配置器", "属性配置选项", "")]
-    public class XFrmWorkPropertyGrid : AbstractPlugIn, IView
+    public class XFrmWorkPropertyGrid : AbstractPlugIn 
     {
          WPFPropertyGrid propertyGrid;
 

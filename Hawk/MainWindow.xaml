@@ -56,19 +56,19 @@
             </Avalondock:DockingManager.Theme>
             <Avalondock:LayoutRoot >
                 <Avalondock:LayoutPanel Orientation="Horizontal">
-                    <Avalondock:LayoutPanel  Orientation="Vertical" DockWidth="1*" >
-                        <Avalondock:LayoutAnchorablePane  x:Name="dockablePane1">
-                            <Avalondock:LayoutAnchorable/>
-                        </Avalondock:LayoutAnchorablePane>
-
-                    </Avalondock:LayoutPanel>
+                 
                     <Avalondock:LayoutPanel Orientation="Vertical"  DockWidth="3*" >
                         <Avalondock:LayoutAnchorablePane DockHeight="8*" x:Name="documentMain"/>
                         <Avalondock:LayoutAnchorablePane DockHeight="1.2*" x:Name="documentButtom" >
                             <Avalondock:LayoutAnchorable/>
                         </Avalondock:LayoutAnchorablePane>
                     </Avalondock:LayoutPanel>
-                
+                    <Avalondock:LayoutPanel  Orientation="Vertical" DockWidth="1*" >
+                        <Avalondock:LayoutAnchorablePane  x:Name="dockablePane1">
+                            <Avalondock:LayoutAnchorable/>
+                        </Avalondock:LayoutAnchorablePane>
+
+                    </Avalondock:LayoutPanel>
 
                 </Avalondock:LayoutPanel>
             </Avalondock:LayoutRoot>

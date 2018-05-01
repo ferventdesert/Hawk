@@ -16,7 +16,7 @@
 
     <!-- Main Colors -->
     <themes:MetroConverter x:Key="MetroConverter" />
-    <Color x:Key="MainColor">#FC595959</Color>
+    <Color x:Key="MainColor">#FC213643</Color>
     <Color x:Key="HoverColor">#FF393939</Color>
     <Color x:Key="DefaultColor">#FF9BB1C5</Color>
     <SolidColorBrush x:Key="LightBrush" Color="#FF333333" />
@@ -56,7 +56,7 @@
     <SolidColorBrush x:Key="DisabledForegroundBrush" Color="#888" />
     <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#FF787878" />
     <SolidColorBrush x:Key="DisabledBorderBrush" Color="#AAA" />
-    <SolidColorBrush x:Key="MainBackBrush" Color="Black" />
+    <SolidColorBrush x:Key="MainBackBrush" Color="Black"/>
     <!--<BitmapImage x:Key="MainBackBrush">background.jpg</BitmapImage>-->
     <!-- EXPRESSION COMMON VALUES -->
 
@@ -203,11 +203,7 @@
 
     <Style TargetType="{x:Type Button}" BasedOn="{x:Null}">
         <Setter Property="FocusVisualStyle" Value="{DynamicResource NuclearButtonFocusVisual}" />
-        <Setter Property="Background">
-            <Setter.Value>
-                <SolidColorBrush Color="#FC183A58" />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Background" Value="{DynamicResource NormalBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource NormalBorderBrush}" />
         <Setter Property="Template">

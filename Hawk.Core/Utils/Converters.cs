@@ -51,7 +51,7 @@ namespace Hawk.Core.Utils
             GenerateMode mode;
             if (Enum.TryParse(value?.ToString(), out mode))
             {
-                return mode == GenerateMode.并行模式 ? Visibility.Visible : Visibility.Hidden;
+                return mode == GenerateMode.并行模式 ? Visibility.Visible : Visibility.Collapsed;
             }
             return Visibility.Collapsed;
 

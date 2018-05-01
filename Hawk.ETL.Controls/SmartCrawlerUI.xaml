@@ -72,12 +72,19 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="178*"/>
         </Grid.RowDefinitions>
+        <StackPanel Margin="0,10,8,12.38" Orientation="Horizontal" d:LayoutOverrides="Width">
 
-        <Label Content="请键入URL:" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-        <TextBox 	wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" Text="{Binding URL, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" VerticalAlignment="Center" Margin="68,0,268,0"/>
+    		<Label Content="请键入URL:" VerticalAlignment="Center"/>
+    		<TextBox 	wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" Text="{Binding URL, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" VerticalAlignment="Center" Width="607" Margin="8,0,0,0"/>
+    		<StackPanel Orientation="Horizontal" Width="242.5" d:LayoutOverrides="HorizontalAlignment" Margin="16,0,0,0">
 
-        <Button Margin="0,10,188,0" DataContext="{Binding Commands3[0]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="50" HorizontalAlignment="Right"/>
-        <Button Margin="0,10,99,0" DataContext="{Binding Commands2[2]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="50" HorizontalAlignment="Right"/>
+    			<Button DataContext="{Binding Commands3[0]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="50" Margin="0,0,16,0"/>
+    			<Button DataContext="{Binding Commands2[2]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="50" Margin="0,0,8,0"/>
+    			<Button DataContext="{Binding Commands2[3]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="50" Margin="0,0,8,0"/>
+
+
+    		</StackPanel>
+    	</StackPanel>
         <Grid Margin="0,4,5,0" Grid.Row="1">
         	<Grid.ColumnDefinitions>
         		<ColumnDefinition Width="0.5*"/>
@@ -92,7 +99,7 @@
         				</LinearGradientBrush>
         			</TabItem.Background>
         			<Grid Background="#FFE5E5E5">
-        				<TextBox Text="{Binding URLHTML}" x:FieldModifier="public" x:Name="HTMLTextBox"   ScrollViewer.CanContentScroll="True" TextWrapping="WrapWithOverflow" Margin="0" VerticalScrollBarVisibility="Auto" d:LayoutOverrides="Width, Height" />
+        				<TextBox Text="{Binding URLHTML}" x:FieldModifier="public" x:Name="HTMLTextBox"   ScrollViewer.CanContentScroll="True" TextWrapping="WrapWithOverflow" Margin="0" VerticalScrollBarVisibility="Auto" d:LayoutOverrides="Width, Height" Background="{DynamicResource NormalBorderBrush}" />
         			</Grid>
         		</TabItem>
         		<TabItem Header="浏览器视图">
@@ -110,11 +117,16 @@
             <GridSplitter Width="3.375" Margin="-1.625,0,0,0" Grid.Column="1" HorizontalAlignment="Left"/>
             <ScrollViewer Grid.Column="1">
             	<StackPanel>
-            		<Grid Height="18" Margin="18,0,90.759,0">
-            			<TextBlock Margin="0,0,0,2" TextWrapping="Wrap" HorizontalAlignment="Left" d:LayoutOverrides="Height"><Run Language="zh-cn" Text="任务名称"/></TextBlock>
-            			<TextBox Margin="122.808,0,0,0" TextWrapping="Wrap" Text="{Binding Name}" wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" d:LayoutOverrides="Height"/>
+            		<Grid Margin="18,8,8,8">
+            			<Grid.ColumnDefinitions>
+            				<ColumnDefinition Width="0.3*"/>
+            				<ColumnDefinition Width="0.7*"/>
+            			</Grid.ColumnDefinitions>
+							
+            			<TextBlock Margin="0,0,0,2" TextWrapping="Wrap" HorizontalAlignment="Left" d:LayoutOverrides="Height" VerticalAlignment="Center"><Run Language="zh-cn" Text="任务名称"/></TextBlock>
+            			<TextBox Margin="8,0,0,0" TextWrapping="Wrap" Text="{Binding Name}" wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" d:LayoutOverrides="Height" Grid.Column="1" FontSize="16"/>
             		</Grid>
-            		<GroupBox Header="属性提取" MinHeight="115" Margin="8,0" Height="180" d:LayoutOverrides="Height">
+            		<GroupBox Header="属性提取" MinHeight="115" Margin="8,8,8,0" Height="180" d:LayoutOverrides="Height">
             			<Grid>
             				<Grid.ColumnDefinitions>
             					<ColumnDefinition Width="0.3*"/>
@@ -132,7 +144,7 @@
             				<ComboBox Grid.Column="1"  Margin="8,5.01,80,0"  ItemsSource="{attributes:EnumValues {x:Type connectors:ScriptWorkMode}}"  SelectedItem="{Binding IsMultiData}" VerticalAlignment="Top"/>
             			</Grid>
             		</GroupBox>
-            		<GroupBox Header="属性管理" Margin="8,0" Height="250">
+            		<GroupBox Header="属性管理" Margin="8,8,8,0" Height="150">
             			<Grid Margin="0">
             				<Grid.ColumnDefinitions>
             					<ColumnDefinition Width="0.3*"/>
@@ -145,14 +157,13 @@
             				<ComboBox Margin="51.692,8,0,0"   ItemsSource="{attributes:EnumValues {x:Type connectors:SelectorFormat}}" SelectedItem="{Binding RootFormat}"  ToolTip="  可选择完整XPath,或只根据id或class名称进行检索，如选择class,值填【name】，就是查找所有class=name的节点" VerticalAlignment="Top" HorizontalAlignment="Left" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment" Width="73.875"/>
             				<TextBlock  Text="{Binding CrawlItems.Count, StringFormat=共计\{0\}种属性:}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,44.4,0,0"/>
             				<Button DataContext="{Binding Commands3[2]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" HorizontalAlignment="Left" Width="80" Margin="8,40,0,0" Grid.Column="1"/>
-            				<Button DataContext="{Binding Commands3[3]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Margin="136.8,40,0,0" Grid.Column="1" HorizontalAlignment="Left" Width="80"/>
-            				<ListBox Margin="8,92.427,8,8" ItemsSource="{Binding CrawlItems}"  Grid.ColumnSpan="2" ItemsPanel="{DynamicResource ItemsPanelTemplate1}" ItemTemplate="{DynamicResource DataTemplate2}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>       		
+            				<Button DataContext="{Binding Commands3[3]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Margin="136.8,40,0,0" Grid.Column="1" HorizontalAlignment="Left" Width="80"/>       		
 				
             			</Grid>
 					
 					
             		</GroupBox>
-            		<GroupBox Header="高级设置" Margin="8,0" Height="200" VerticalAlignment="Bottom">
+            		<GroupBox Header="高级设置" Margin="8,8,8,0" Height="200" VerticalAlignment="Bottom">
             			<Grid>
             				<Grid.ColumnDefinitions>
             					<ColumnDefinition Width="0.3*"/>
@@ -176,7 +187,6 @@
 
 
         </Grid>
-        <Button Margin="0,10,23.5,0" DataContext="{Binding Commands2[3]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="50" HorizontalAlignment="Right"/>
 
 
     </Grid>

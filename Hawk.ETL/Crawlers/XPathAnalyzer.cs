@@ -1236,7 +1236,7 @@ namespace Hawk.ETL.Crawlers
                     properties = doc2.DocumentNode.SearchPropertiesSmart().FirstOrDefault();
                 if (properties?.CrawItems != null)
                 {
-                    yield return doc2.DocumentNode.GetDataFromXPath(properties.CrawItems);
+                    yield return doc2.DocumentNode.GetDataFromXPath(properties.CrawItems).ToList();
                 }
             }
         }
@@ -1292,7 +1292,7 @@ namespace Hawk.ETL.Crawlers
         public static IEnumerable<List<FreeDocument>> GetDataFromHtml(this HtmlNode doc)
         {
             var properties = doc.SearchPropertiesSmart();
-            return properties.Select(property => doc.GetDataFromXPath(property.CrawItems));
+            return properties.Select(property => doc.GetDataFromXPath(property.CrawItems).ToList());
         }
 
         public static string CompileCrawItems(this HtmlDocument doc2, IList<CrawlItem> crawlItem)
@@ -1307,14 +1307,12 @@ namespace Hawk.ETL.Crawlers
             return "";
         }
 
-        public static List<FreeDocument> GetDataFromXPath(this HtmlNode doc2, IList<CrawlItem> crawlItems,
+        public static IEnumerable<FreeDocument> GetDataFromXPath(this HtmlNode doc2, IList<CrawlItem> crawlItems,
             ScriptWorkMode type = ScriptWorkMode.List, string rootXPath = "",
             SelectorFormat rootFormat = SelectorFormat.XPath)
         {
             if (crawlItems.Count == 0)
-                return new List<FreeDocument>();
-
-            var documents = new List<FreeDocument>();
+                yield break;
 
             switch (type)
             {
@@ -1330,27 +1328,30 @@ namespace Hawk.ETL.Crawlers
                             break;
                         foreach (var node in nodes)
                         {
+                          var   nodePath = node.XPath;
+
                             var document = new FreeDocument();
                             foreach (var r in crawlItems)
                             {
                                 string path = null;
                                 if (string.IsNullOrEmpty(rootXPath))
-                                    path = node.XPath + XPath.TakeOff(r.XPath, root);
+                                    path = nodePath + XPath.TakeOff(r.XPath, root);
+
                                 else
                                 {
                                     if (r.XPath != "/")
-                                        path = node.XPath + r.XPath;
+                                        path = nodePath + r.XPath;
+
                                     else
                                     {
-                                        path = node.XPath;
+                                        path = nodePath;
                                     }
                                 }
                                 var result = node.GetDataFromXPath(path, r.CrawlType, r.Format);
                                 document.SetValue(r.Name, result);
                             }
-                            documents.Add(document);
+                            yield return document;
                         }
-                        return documents;
                     }
                     else
                     {
@@ -1368,10 +1369,10 @@ namespace Hawk.ETL.Crawlers
                                 var v=node.GetDataFromXPath(path,r.CrawlType,  r.Format);
                                 document.SetValue(r.Name,v);
                             }
-                            documents.Add(document);
+                            yield return document;
                         }
-                        return documents;
                     }
+                    break;
 
                 case ScriptWorkMode.One:
                     var freeDocument = new FreeDocument();
@@ -1379,9 +1380,9 @@ namespace Hawk.ETL.Crawlers
                     {
                         doc2.GetDataFromXPath(r, freeDocument);
                     }
-                    return new List<FreeDocument> {freeDocument};
+                    yield return freeDocument;
+                    break;
             }
-            return new List<FreeDocument>();
         }
 
         public class CrawTarget

@@ -72,11 +72,14 @@ namespace Hawk.Core.Utils
             }
         }
 
-        public static IFreeDocument MergeQuery(this IFreeDocument document, IFreeDocument doc2, string Columns)
+        public static IFreeDocument MergeQuery(this IFreeDocument document, IFreeDocument doc2, string columnNames)
         {
-            if (doc2 == null || string.IsNullOrWhiteSpace(Columns))
+            if (doc2 == null || string.IsNullOrWhiteSpace(columnNames))
                 return document;
-            var columns = Columns.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries);
+
+            var columns = columnNames.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries);
+            if (columnNames.ToString() == "*")
+                columns = doc2.Keys.ToArray();
             foreach (var column in columns)
             {
                 document.SetValue(column, doc2[column]);

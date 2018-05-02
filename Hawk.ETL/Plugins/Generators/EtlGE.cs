@@ -49,13 +49,16 @@ namespace Hawk.ETL.Plugins.Generators
                     var kv = item.Split(':');
                     string key = "";
                     string value = "";
-                    if (kv.Length == 1)
+                    if (kv.Length ==1)
                         key = value = kv[1];
                     if (kv.Length > 1)
+                    {
+                        key = kv[0];
                         value = kv[1];
+                    }
                     var pair = new MappingPair(motherkeys,subkeys);
-                    pair.Source.SelectItem = key;
-                    pair.Target.SelectItem = value;
+                    pair.Source._SelectItem = key;
+                    pair.Target._SelectItem = value;
                     MappingPairs.Add(pair);
                 }
             }

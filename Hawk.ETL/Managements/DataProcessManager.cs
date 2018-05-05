@@ -16,6 +16,8 @@ using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Managements
 {
+
+  
     [XFrmWork("模块管理", "对算法模块实现管理和组装，但不提供界面", "")]
     public class DataProcessManager : AbstractPlugIn, IProcessManager, IView
     {
@@ -139,46 +141,47 @@ namespace Hawk.ETL.Managements
                 window.Title = "关于作者";
                 window.Content = view;
                 window.ShowDialog();
-            });
-            var mainlink = new BindingAction("项目主页", d =>
+            }) {Description = "Hawk版本与检查更新", Icon = "information"};
+            var mainlink = new BindingAction("项目主页",  d =>
             {
-                var url = "https://github.com/ferventdesert/Hawk/wik";
+                var url = "https://github.com/ferventdesert/Hawk";
                 System.Diagnostics.Process.Start(url);
-            });
+            }) {Description = "访问Hawk的开源项目地址",Icon = "home"};
             var helplink = new BindingAction("使用文档", d =>
             {
                 var url = "https://github.com/ferventdesert/Hawk/wiki";
                 System.Diagnostics.Process.Start(url);
-            });
+            })
+            { Description = "这里有使用Hawk的案例与完整教程" ,Icon = "question" };
 
             var feedback = new BindingAction("反馈问题", d =>
             {
                 var url = "https://github.com/ferventdesert/Hawk/issues";
                 System.Diagnostics.Process.Start(url);
-            });
+            })
+            { Description = "出现bug或者问题了？欢迎反馈" ,Icon = "reply_people"};
 
 
             var giveme = new BindingAction("捐赠", d =>
             {
-                var url = "https://github.com/ferventdesert/Hawk/wiki/8.%E5%85%B3%E4%BA%8E%E4%BD%9C%E8%80%85";
+                var url = "https://github.com/ferventdesert/Hawk/wiki/8-%E5%85%B3%E4%BA%8E%E4%BD%9C%E8%80%85%E5%92%8C%E6%8D%90%E8%B5%A0";
                 System.Diagnostics.Process.Start(url);
-            });
+            })
+            { Description = "你的支持是作者更新Hawk的动力" , Icon = "smiley_happy"};
             var blog = new BindingAction("博客", d =>
             {
                 var url = "http://www.cnblogs.com/buptzym/";
                 System.Diagnostics.Process.Start(url);
-            });
-            var wechat = new BindingAction("微信公众号", d =>
-            {
-                MessageBox.Show("欢迎关注微信公众号“沙漠之鹰”，实在没时间给软件做UI了。。。","沙漠君欢迎你");
-            });
+            }){Description = "作者沙漠君的博客", Icon = "tower"};
+         
             var pluginCommands = new BindingAction("帮助");
             pluginCommands.ChildActions.Add(mainlink);
             pluginCommands.ChildActions.Add(helplink);
-            pluginCommands.ChildActions.Add(aboutAuthor);
+        
             pluginCommands.ChildActions.Add(feedback);
             pluginCommands.ChildActions.Add(giveme);
             pluginCommands.ChildActions.Add(blog);
+            pluginCommands.ChildActions.Add(aboutAuthor);
             MainFrmUI.CommandCollection.Add(pluginCommands);
             ProcessCollection = new ObservableCollection<IDataProcess>();
 
@@ -284,59 +287,50 @@ namespace Hawk.ETL.Managements
 
             var processAction = new BindingAction();
 
-          
 
 
 
-            processAction.ChildActions.Add(new Command("配置", obj =>
+
+
+            processAction.ChildActions.Add(new Command("新建数据清洗", obj =>
             {
-                var process = GetProcess(obj);
-                if (process == null) return;
-                ShowConfigUI(process);
-            }, obj => true, "settings"));
-            processAction.ChildActions.Add(new Command("查看视图", obj =>
-            {
-                var process = GetProcess(obj);
-                if (process == null) return;
-                (MainFrmUI as IDockableManager).ActiveModelContent(process);
-            }, obj => true, "tv"));
-            processAction.ChildActions.Add(new Command("拷贝", obj =>
-            {
-                var process = GetProcess(obj);
-                if (process == null) return;
-                var old = obj as IDataProcess;
-                if(old==null)
-                    return;
-                
-                //ProcessCollection.Remove(old);
-                var name = process.GetType().ToString().Split('.').Last();
-
-                var item = GetOneInstance(name, true, true);
-                (process as IDictionarySerializable).DictCopyTo(item as IDictionarySerializable);
-                item.Init();
-                item.Name = old.Name + "_copy";
-                ProcessCollection.Add(item);
-            }, obj => true, "new"));
-
-            processAction.ChildActions.Add(new Command("移除", obj =>
-            {
-                var process = GetProcess(obj);
-                if (process == null) return;
-
-                RemoveOperation(process);
-                ProcessCollection.Remove(process);
-                var tasks = this.CurrentProcessTasks.Where(d => d.Publisher == process).ToList();
-                if (tasks.Any())
+                if (obj != null)
                 {
-                        foreach (var item in tasks)
-                        {
-                            item.Remove();
-                        XLogSys.Print.Warn($"由于任务{process.Name} 已经被删除， 相关任务${item.Name} 也已经被强行取消");
-                        }
+                    var process = GetProcess(obj);
+                    if (process == null) return;
+                    var old = obj as IDataProcess;
+                    if (old == null)
+                        return;
+
+                    //ProcessCollection.Remove(old);
+                    var name = process.GetType().ToString().Split('.').Last();
+
+                    var item = GetOneInstance(name, true, true);
+                    (process as IDictionarySerializable).DictCopyTo(item as IDictionarySerializable);
+                    item.Init();
+                    item.Name = old.Name + "_copy";
+                    ProcessCollection.Add(item);
 
                 }
-                ShowConfigUI(null);
-            }, obj => true, "delete"));
+                else
+                {
+                    var plugin = this.GetOneInstance("SmartETLTool", true, true, true) as SmartETLTool;
+                    plugin.Init();
+                    ControlExtended.DockableManager.ActiveModelContent(plugin);
+                }
+              
+
+            }, obj => true, "add"));
+
+            processAction.ChildActions.Add(new Command("新建网页采集器", obj =>
+            {
+                var plugin = this.GetOneInstance("SmartCrawler", true, true, true) as SmartCrawler;
+                plugin.Init();
+                ControlExtended.DockableManager.ActiveModelContent(plugin);
+
+            }, obj => true, "cloud_add"));
+
+       
 
             processAction.ChildActions.Add(new Command("保存任务", obj =>
             {
@@ -367,20 +361,30 @@ namespace Hawk.ETL.Managements
                 (MainFrmUI as IDockableManager).ActiveModelContent(process);
                 ShowConfigUI(process);
             }, obj => true, "delete"));
-            processAction.ChildActions.Add(new Command("新建网页采集器", obj =>
+            processAction.ChildActions.Add(new Command("移除", obj =>
             {
-                var plugin = this.GetOneInstance("SmartCrawler", true, true, true) as SmartCrawler;
-                plugin.Init();
-                ControlExtended.DockableManager.ActiveModelContent(plugin);
+                var process = GetProcess(obj);
+                if (process == null) return;
 
-            }, obj => true, "interface_list"));
-            processAction.ChildActions.Add(new Command("新建数据清洗", obj =>
+                RemoveOperation(process);
+                ProcessCollection.Remove(process);
+                var tasks = this.CurrentProcessTasks.Where(d => d.Publisher == process).ToList();
+                if (tasks.Any())
+                {
+                    foreach (var item in tasks)
+                    {
+                        item.Remove();
+                        XLogSys.Print.Warn($"由于任务{process.Name} 已经被删除， 相关任务${item.Name} 也已经被强行取消");
+                    }
+
+                }
+                ShowConfigUI(null);
+            }, obj => true, "delete"));
+            processAction.ChildActions.Add(new Command("打开欢迎页面", obj =>
             {
-                var plugin = this.GetOneInstance("SmartETLTool", true, true, true) as SmartETLTool;
-                plugin.Init();
-                ControlExtended.DockableManager.ActiveModelContent(plugin);
+                ControlExtended.DockableManager.ActiveThisContent("模块管理");
+            }, obj => true, "home"));
 
-            }, obj => true, "diagram"));
 
             BindingCommands.ChildActions.Add(processAction);
             BindingCommands.ChildActions.Add(taskAction2);

@@ -37,7 +37,10 @@ namespace Hawk.Core.Themes
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (foundIcons == null) return null;
-            if (value == null) return foundIcons.Values.FirstOrDefault();
+            if (!(value is string))
+                value = parameter;
+            if(value==null)
+                return foundIcons.Values.FirstOrDefault();
             if (foundIcons.ContainsKey("appbar_" + value))
                 return foundIcons["appbar_" + value];
             return foundIcons.Values.FirstOrDefault();

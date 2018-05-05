@@ -28,7 +28,7 @@ using ScrapySharp.Network;
 
 namespace Hawk.ETL.Process
 {
-    [XFrmWork("网页采集器", "自动采集网络脚本", "/XFrmWork.DataMining.Process;component/Images/hadoop.jpg",
+    [XFrmWork("网页采集器", "自动采集网络脚本", "camera",
         "数据采集和处理")]
     public class SmartCrawler : AbstractProcessMethod, IView
     {

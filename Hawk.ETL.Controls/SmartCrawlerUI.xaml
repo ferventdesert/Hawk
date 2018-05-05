@@ -78,9 +78,9 @@
     		<TextBox 	wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" Text="{Binding URL, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" VerticalAlignment="Center" Width="607" Margin="8,0,0,0"/>
     		<StackPanel Orientation="Horizontal" Width="242.5" d:LayoutOverrides="HorizontalAlignment" Margin="16,0,0,0">
 
-    			<Button DataContext="{Binding Commands3[0]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="50" Margin="0,0,16,0"/>
-    			<Button DataContext="{Binding Commands2[2]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="50" Margin="0,0,8,0"/>
-    			<Button DataContext="{Binding Commands2[3]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="50" Margin="0,0,8,0"/>
+    			<Button DataContext="{Binding Commands3[0]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="60" Margin="0,0,16,0"/>
+    			<Button DataContext="{Binding Commands2[2]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="60" Margin="0,0,8,0"/>
+    			<Button DataContext="{Binding Commands2[3]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="60" Margin="0,0,8,0"/>
 
 
     		</StackPanel>

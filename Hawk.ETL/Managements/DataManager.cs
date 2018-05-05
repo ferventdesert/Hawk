@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,13 +20,12 @@ using Hawk.ETL.Interfaces;
 using Hawk.ETL.Process;
 using Microsoft.Win32;
 
-
 namespace Hawk.ETL.Managements
 {
     public class QueryEntity
     {
-        public Action<List<FreeDocument>> GetQueryFunc;
         public List<ICommand> commands;
+        public Action<List<FreeDocument>> GetQueryFunc;
 
         public QueryEntity()
         {
@@ -54,7 +52,7 @@ namespace Hawk.ETL.Managements
                     ControlExtended.SetBusy(false);
                 }
                 GetQueryFunc(datas);
-            }, obj => string.IsNullOrEmpty(SQL) == false,"page_search"));
+            }, obj => string.IsNullOrEmpty(SQL) == false, "page_search"));
         }
 
         [LocalizedDisplayName("当前表")]
@@ -77,19 +75,15 @@ namespace Hawk.ETL.Managements
         public ReadOnlyCollection<ICommand> Commands => new ReadOnlyCollection<ICommand>(commands);
     }
 
-    [XFrmWork("数据管理",  "查看和分析数据", "")]
+    [XFrmWork("数据管理", "查看和分析数据", "")]
     public class DataManager : AbstractPlugIn, IDataManager, IView
     {
         #region Constants and Fields
-
-
 
         private IDockableManager dockableManager;
 
 
         private XFrmWorkPropertyGrid propertyGridWindow;
-
-
 
         #endregion
 
@@ -122,10 +116,7 @@ namespace Hawk.ETL.Managements
 
         public IEnumerable<string> DataNameCollection
         {
-            get
-            {
-                return DataCollections?.Select(i => i.Name);
-            }
+            get { return DataCollections?.Select(i => i.Name); }
         }
 
 
@@ -162,7 +153,8 @@ namespace Hawk.ETL.Managements
             fileName = exporter.FileName;
 
             ControlExtended.SafeInvoke(
-                () => AddDataCollection(exporter.ReadFile(), Path.GetFileNameWithoutExtension(fileName)),LogType.Important);
+                () => AddDataCollection(exporter.ReadFile(), Path.GetFileNameWithoutExtension(fileName)),
+                LogType.Important);
             return GetCollection(fileName);
         }
 
@@ -171,7 +163,7 @@ namespace Hawk.ETL.Managements
             if (isVirtual)
             {
                 IItemsProvider<IFreeDocument> vir = null;
-                TableInfo tableInfo = connector.RefreshTableNames().FirstOrDefault(d => d.Name == tableName);
+                var tableInfo = connector.RefreshTableNames().FirstOrDefault(d => d.Name == tableName);
 
                 var enumable = connector as IEnumerableProvider<IFreeDocument>;
                 if (enumable != null && enumable.CanSkip(tableInfo.Name) == false)
@@ -183,10 +175,10 @@ namespace Hawk.ETL.Managements
                 {
                     vir = new DataBaseVirtualProvider<IFreeDocument>(tableInfo.Connector, tableInfo.Name);
                 }
-                int count = 1000;
+                var count = 1000;
                 if (connector.TypeName == "网页爬虫连接器")
                     count = 100;
-                var col = new VirtualDataCollection( vir, count)
+                var col = new VirtualDataCollection(vir, count)
                 {
                     Name = tableInfo.Name
                 };
@@ -195,8 +187,8 @@ namespace Hawk.ETL.Managements
             }
             else
             {
-                Task<List<IFreeDocument>> datas = GetDataFromDB(connector, tableName, true);
-                DataCollection col = AddDataCollection(datas.Result);
+                var datas = GetDataFromDB(connector, tableName, true);
+                var col = AddDataCollection(datas.Result);
                 return col;
             }
         }
@@ -212,13 +204,14 @@ namespace Hawk.ETL.Managements
 
             var table = db.RefreshTableNames().FirstOrDefault(d => d.Name == dataName);
             var dataAll = new List<IFreeDocument>();
-            
-                var  task = TemporaryTask.AddTempTask(dataName + "数据导入",
-                 db.GetEntities(dataName, mount), dataAll.Add,null,table!=null?table.Size:-1,notifyInterval:1000);
+
+            var task = TemporaryTask.AddTempTask(dataName + "数据导入",
+                db.GetEntities(dataName, mount), dataAll.Add, null, table != null ? table.Size : -1,
+                notifyInterval: 1000);
             processManager.CurrentProcessTasks.Add(task);
-                await Task.Run(
-                    () => task.Wait());
-                return dataAll;
+            await Task.Run(
+                () => task.Wait());
+            return dataAll;
         }
 
         private DataCollection GetCollection(object data)
@@ -240,11 +233,11 @@ namespace Hawk.ETL.Managements
         {
             if (DataCollections.Any(d => d.Name == name))
             {
-                char item =
+                var item =
                     name.Last();
-                if (Char.IsDigit(item))
+                if (char.IsDigit(item))
                 {
-                    int p = int.Parse(item.ToString());
+                    var p = int.Parse(item.ToString());
                     name = name.Substring(name.Length - 2) + (p + 1);
                 }
                 else
@@ -284,13 +277,12 @@ namespace Hawk.ETL.Managements
             dbaction.ChildActions.Add(new Command("配置连接",
                 obj =>
                 {
-               
-                    Window w = PropertyGridFactory.GetPropertyWindow(obj);
+                    var w = PropertyGridFactory.GetPropertyWindow(obj);
                     w.ShowDialog();
                 },
-                obj => obj != null,"edit"));
+                obj => obj != null, "edit"));
             dbaction.ChildActions.Add(
-                new Command("刷新", obj => RefreshConnect(obj as IDataBaseConnector), obj => obj != null,"refresh"));
+                new Command("刷新", obj => RefreshConnect(obj as IDataBaseConnector), obj => obj != null, "refresh"));
             dbaction.ChildActions.Add(
                 new Command("执行查询", obj =>
                 {
@@ -306,7 +298,7 @@ namespace Hawk.ETL.Managements
                         AddDataCollection(d, GetNewName());
                     };
                     propertyGridWindow.SetObjectView(query);
-                }, obj => obj != null,"magnify"));
+                }, obj => obj != null, "magnify"));
             dbaction.ChildActions.Add(
                 new Command("删除连接", obj =>
                 {
@@ -315,7 +307,7 @@ namespace Hawk.ETL.Managements
                         var con = obj as DBConnectorBase;
                         _dbConnections.Remove(con);
                     }
-                }, obj => obj != null,"delete"));
+                }, obj => obj != null, "delete"));
             var dataaction = new BindingAction();
 
 
@@ -328,18 +320,17 @@ namespace Hawk.ETL.Managements
                     List<IFreeDocument> dataAll = null;
                     try
                     {
-                        dataAll= await
-                      GetDataFromDB(items.Connector, items.Name, true,
-                          items.Connector is FileManager ? -1 : 200);
-
+                        dataAll = await
+                            GetDataFromDB(items.Connector, items.Name, true,
+                                items.Connector is FileManager ? -1 : 200);
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show("文件打开失败" + ex.Message);
                         return;
                     }
-                  
-                 
+
+
                     if (dataAll == null || dataAll.Count == 0)
                     {
                         XLogSys.Print.Warn("没有在表中的发现可用的数据");
@@ -347,7 +338,7 @@ namespace Hawk.ETL.Managements
                     }
                     if (items.Connector is FileManager)
                     {
-                        string file = (items.Connector as FileManager).LastFileName;
+                        var file = (items.Connector as FileManager).LastFileName;
                         var name = Path.GetFileNameWithoutExtension(file);
                         AddDataCollection(dataAll, name);
                         return;
@@ -355,7 +346,7 @@ namespace Hawk.ETL.Managements
                     var excel = PluginProvider.GetObjectInstance<IDataViewer>("可编辑列表");
                     if (excel == null)
                         return;
-                    object view = excel.SetCurrentView(dataAll.Select(d=>d as IFreeDocument).ToList());
+                    var view = excel.SetCurrentView(dataAll.Select(d => d).ToList());
 
                     if (ControlExtended.DockableManager != null)
                     {
@@ -369,12 +360,12 @@ namespace Hawk.ETL.Managements
                 async obj =>
                 {
                     var items = obj as TableInfo;
-                    List<IFreeDocument> datas = await GetDataFromDB(items.Connector, items.Name, true);
+                    var datas = await GetDataFromDB(items.Connector, items.Name, true);
                     if (datas == null)
                         return;
                     AddDataCollection(datas, items.Name);
                 },
-                obj => obj != null,"add"));
+                obj => obj != null, "add"));
             tableAction.ChildActions.Add(new Command(
                 "添加虚拟数据集",
                 obj =>
@@ -382,7 +373,7 @@ namespace Hawk.ETL.Managements
                     var con = obj as TableInfo;
                     ReadCollection(con.Connector, con.Name, true);
                 },
-                obj => obj != null,"layer_add"));
+                obj => obj != null, "layer_add"));
             tableAction.ChildActions.Add(new Command(
                 "删除表",
                 obj =>
@@ -391,15 +382,15 @@ namespace Hawk.ETL.Managements
 
                     DropTable(items.Connector, items.Name);
                 },
-                obj => obj != null,"delete"));
+                obj => obj != null, "delete"));
             tableAction.ChildActions.Add(new Command(
                 "查看属性",
                 obj =>
                 {
-                    Window w = PropertyGridFactory.GetPropertyWindow(obj);
+                    var w = PropertyGridFactory.GetPropertyWindow(obj);
                     w.ShowDialog();
                 },
-                obj => obj != null,"edit"));
+                obj => obj != null, "edit"));
             tableAction.ChildActions.Add(new Command(
                 "执行查询",
                 obj =>
@@ -417,12 +408,12 @@ namespace Hawk.ETL.Managements
                         AddDataCollection(d, GetNewName());
                     };
                     propertyGridWindow.SetObjectView(query);
-                }, obj => obj != null,"magnify"));
+                }, obj => obj != null, "magnify"));
 
 
             var visitData = new BindingAction("浏览方式");
 
-            IEnumerable<Command> visitCommands = PluginProvider.GetPluginCollection(typeof (IDataViewer)).Select(
+            var visitCommands = PluginProvider.GetPluginCollection(typeof (IDataViewer)).Select(
                 d =>
                 {
                     var comm = new Command(d.Name);
@@ -441,7 +432,7 @@ namespace Hawk.ETL.Managements
                         {
                             var view = PluginProvider.GetObjectInstance<IDataViewer>(d.Name);
 
-                            object r = view.SetCurrentView(data.ComputeData);
+                            var r = view.SetCurrentView(data.ComputeData);
 
                             if (ControlExtended.DockableManager != null)
                             {
@@ -453,7 +444,7 @@ namespace Hawk.ETL.Managements
                     return comm;
                 });
             visitData.Execute = obj => visitCommands.FirstOrDefault(d => d.Text == "可编辑列表").Execute(obj);
-            foreach (Command visitCommand in visitCommands)
+            foreach (var visitCommand in visitCommands)
             {
                 visitData.ChildActions.Add(visitCommand);
             }
@@ -461,10 +452,10 @@ namespace Hawk.ETL.Managements
             dataaction.ChildActions.Add(new Command(
                 "数据清洗", obj =>
                 {
-                    DataCollection collection = GetCollection(obj);
+                    var collection = GetCollection(obj);
                     if (collection == null) return;
 
-                    var plugin = processManager.GetOneInstance("SmartETLTool", true, true,true) as SmartETLTool;
+                    var plugin = processManager.GetOneInstance("SmartETLTool", true, true, true) as SmartETLTool;
 
                     dynamic generator = PluginProvider.GetObjectByType<IColumnProcess>("TableGE");
                     generator.Father = plugin;
@@ -472,22 +463,14 @@ namespace Hawk.ETL.Managements
                     plugin.CurrentETLTools.Add(generator);
                     plugin.ETLMount++;
                     plugin.Init();
-                  
+
                     //plugin.RefreshSamples(true);
                     ControlExtended.DockableManager.ActiveModelContent(plugin);
                 }, obj => true, "new"));
-            dataaction.ChildActions.Add(new Command(
-                "拷贝", obj =>
-                {
-                    DataCollection collection = GetCollection(obj);
-                    if (collection == null) return;
-                    DataCollection n = collection.Clone(true);
-                    n.Name = GetNewName(collection.Name);
-                    DataCollections.Add(n);
-                }, obj => true, "page_new"));
+
             var saveData = new Command("另存为", d =>
             {
-                DataCollection collection = GetCollection(d);
+                var collection = GetCollection(d);
                 if (collection == null)
                     return;
                 var ofd = new SaveFileDialog {Filter = FileConnector.GetDataFilter(), DefaultExt = "*"};
@@ -495,7 +478,7 @@ namespace Hawk.ETL.Managements
                 ofd.FileName = collection.Name + ".xlsx";
                 if (ofd.ShowDialog() == true)
                 {
-                    string filename = ofd.FileName;
+                    var filename = ofd.FileName;
                     SaveFile(collection.Name, filename);
                 }
             }, obj => true, "save");
@@ -503,22 +486,36 @@ namespace Hawk.ETL.Managements
             dataaction.ChildActions.Add(saveData);
             dataaction.ChildActions.Add(visitData);
             dataaction.ChildActions.Add(new Command(
-                "新建",
+                "新建或拷贝",
                 obj =>
-                    DataCollections.Add(new DataCollection(new List<IFreeDocument>())
+                {
+                    if (obj != null)
                     {
-                        Name = GetNewName("新建数据集")
-                    }), obj => true, "box"));
+                        var collection = GetCollection(obj);
+                        if (collection == null) return;
+                        var n = collection.Clone(true);
+                        n.Name = GetNewName(collection.Name);
+                        DataCollections.Add(n);
+                    }
+                    else
+                    {
+                        DataCollections.Add(new DataCollection(new List<IFreeDocument>())
+                        {
+                            Name = GetNewName("新建数据集")
+                        });
+                    }
+                    ;
+                }, obj => true, "add"));
             dataaction.ChildActions.Add(new Command(
                 "配置", obj =>
                 {
-                    DataCollection collection = GetCollection(obj);
+                    var collection = GetCollection(obj);
                     if (collection != null) propertyGridWindow.SetObjectView(collection);
                 }, obj => true, "settings"));
             dataaction.ChildActions.Add(new Command(
                 "删除", obj =>
                 {
-                    DataCollection collection = GetCollection(obj);
+                    var collection = GetCollection(obj);
                     if (collection != null) DataCollections.Remove(collection);
                 }, obj => true, "delete"));
 
@@ -526,7 +523,7 @@ namespace Hawk.ETL.Managements
             dataaction.ChildActions.Add(convert);
             convert.ChildActions.Add(new Command("转为非虚拟数据集", obj =>
             {
-                DataCollection coll = GetCollection(obj);
+                var coll = GetCollection(obj);
                 if (coll.Count > 500000)
                 {
                     if (
@@ -537,15 +534,15 @@ namespace Hawk.ETL.Managements
                     }
                 }
                 var docuts = new List<IFreeDocument>();
-                var task=TemporaryTask.AddTempTask("转为非虚拟数据集", coll.ComputeData, d =>
+                var task = TemporaryTask.AddTempTask("转为非虚拟数据集", coll.ComputeData, d =>
                 {
                     if (d != null)
-                        docuts.Add(d as IFreeDocument);
+                        docuts.Add(d);
                 }, result =>
                 {
                     var collection = new DataCollection(docuts) {Name = coll.Name + '1'};
                     AddDataCollection(collection);
-                    this.DataCollections.Remove(coll);
+                    DataCollections.Remove(coll);
                 });
                 processManager.CurrentProcessTasks.Add(task);
             }));
@@ -555,14 +552,17 @@ namespace Hawk.ETL.Managements
                 return _dbConnections.Select(dataBaseConnector => new Command(dataBaseConnector.Name, obj =>
                 {
                     var data = obj as DataCollection;
-                    processManager.CurrentProcessTasks.Add(TemporaryTask.AddTempTask(data.Name + "插入到数据库", dataBaseConnector.InserDataCollection(data), result => dataBaseConnector.RefreshTableNames(), count: data.Count/1000));
-                },icon:"database")).Cast<ICommand>().ToList();
+                    processManager.CurrentProcessTasks.Add(TemporaryTask.AddTempTask(data.Name + "插入到数据库",
+                        dataBaseConnector.InserDataCollection(data), result => dataBaseConnector.RefreshTableNames(),
+                        count: data.Count/1000));
+                }, icon: "database")).Cast<ICommand>().ToList();
             });
 
 
             dataaction.ChildActions.Add(insertdb);
             var otherDataAction = new BindingAction();
-            otherDataAction.ChildActions.Add(new Command("清空数据", obj => CleanData(), obj => DataCollections.Count > 0,"clear"));
+            otherDataAction.ChildActions.Add(new Command("清空数据", obj => CleanData(), obj => DataCollections.Count > 0,
+                "clear"));
 
 
             commands.Add(dbaction);
@@ -573,7 +573,7 @@ namespace Hawk.ETL.Managements
 
             var addnew = new BindingAction("增加新连接");
             dblistAction.ChildActions.Add(addnew);
-            foreach (XFrmWorkAttribute item in PluginProvider.GetPluginCollection(typeof (IDataBaseConnector)))
+            foreach (var item in PluginProvider.GetPluginCollection(typeof (IDataBaseConnector)))
             {
                 addnew.ChildActions.Add(new Command(item.Name)
                 {
@@ -602,7 +602,7 @@ namespace Hawk.ETL.Managements
                 ConfigUI = PropertyGridFactory.GetInstance(_dbConnections.FirstOrDefault());
                 propertyGridWindow = MainFrmUI.PluginDictionary["属性配置器"] as XFrmWorkPropertyGrid;
             }
-         
+
             var changed = DataCollections as INotifyCollectionChanged;
 
             changed.CollectionChanged += (s, e) => OnDataSourceChanged(new EventArgs());
@@ -619,8 +619,8 @@ namespace Hawk.ETL.Managements
         {
             _dbConnections = processManager?.CurrentProject?.DBConnections;
             InformPropertyChanged("CurrentConnectors");
-            foreach (var  dataBaseConnector in processManager.CurrentProject.DBConnections.Where(d=>d.AutoConnect==true
-))
+            foreach (var  dataBaseConnector in processManager.CurrentProject.DBConnections.Where(d => d.AutoConnect
+                ))
             {
                 var db = (DBConnectorBase) dataBaseConnector;
                 if (db.ConnectDB() == false)
@@ -649,14 +649,14 @@ namespace Hawk.ETL.Managements
             {
                 collectionName = "数据集" + DateTime.Now.ToShortTimeString();
             }
- 
-            DataCollection collection = DataCollections.FirstOrDefault(d => d.Name == collectionName);
+
+            var collection = DataCollections.FirstOrDefault(d => d.Name == collectionName);
 
             if (collection != null)
             {
                 if (!isCover)
                 {
-                    foreach (IFreeDocument computeable in source)
+                    foreach (var computeable in source)
                     {
                         collection.ComputeData.Add(computeable);
                     }
@@ -689,7 +689,7 @@ namespace Hawk.ETL.Managements
             {
                 return DataCollections.First().ComputeData.ToList();
             }
-            DataCollection p = DataCollections.FirstOrDefault(rc => rc.Name == name);
+            var p = DataCollections.FirstOrDefault(rc => rc.Name == name);
             return p?.ComputeData;
         }
 
@@ -699,13 +699,15 @@ namespace Hawk.ETL.Managements
             {
                 return null;
             }
-            return string.IsNullOrWhiteSpace(name) ? DataCollections.FirstOrDefault() : DataCollections.FirstOrDefault(rc => rc.Name == name);
+            return string.IsNullOrWhiteSpace(name)
+                ? DataCollections.FirstOrDefault()
+                : DataCollections.FirstOrDefault(rc => rc.Name == name);
         }
 
 
         public void SaveFile(string dataCollectionName, string path = null, string format = null)
         {
-            DataCollection data = DataCollections.FirstOrDefault(d => d.Name == dataCollectionName);
+            var data = DataCollections.FirstOrDefault(d => d.Name == dataCollectionName);
             if (data == null)
                 return;
             SaveFile(data, path, format);
@@ -727,27 +729,28 @@ namespace Hawk.ETL.Managements
             {
                 return;
             }
-            IList<IFreeDocument> data = dataCollection.ComputeData;
+            var data = dataCollection.ComputeData;
 
 
             exporter.FileName = path;
-            processManager.CurrentProcessTasks.Add(TemporaryTask.AddTempTask(dataCollection + "导出数据任务", exporter.WriteData(data), null, result =>
-            {
-                if (MainDescription.IsUIForm && string.IsNullOrEmpty(exporter.FileName) == false)
+            processManager.CurrentProcessTasks.Add(TemporaryTask.AddTempTask(dataCollection + "导出数据任务",
+                exporter.WriteData(data), null, result =>
                 {
-                    if (MessageBox.Show("文件导出成功，是否要打开查看?", "提示信息", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                    if (MainDescription.IsUIForm && string.IsNullOrEmpty(exporter.FileName) == false)
                     {
-                        try
+                        if (MessageBox.Show("文件导出成功，是否要打开查看?", "提示信息", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                         {
-                            System.Diagnostics.Process.Start(exporter.FileName);
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("打开文件失败：" + ex.Message);
+                            try
+                            {
+                                System.Diagnostics.Process.Start(exporter.FileName);
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("打开文件失败：" + ex.Message);
+                            }
                         }
                     }
-                }
-            }, data.Count,notifyInterval:1000));
+                }, data.Count, notifyInterval: 1000));
         }
 
         #endregion
@@ -783,7 +786,7 @@ namespace Hawk.ETL.Managements
 
         private void OnDataSourceChanged(EventArgs e)
         {
-            EventHandler handler = DataSourceChanged;
+            var handler = DataSourceChanged;
             if (handler != null)
             {
                 handler(this, e);
@@ -801,7 +804,5 @@ namespace Hawk.ETL.Managements
         }
 
         #endregion
-
-        //AddFreeDocument
     }
 }

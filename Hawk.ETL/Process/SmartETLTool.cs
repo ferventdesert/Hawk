@@ -26,7 +26,7 @@ using MessageBox = System.Windows.MessageBox;
 namespace Hawk.ETL.Process
 {
     [XFrmWork("数据清洗", "可方便的对表格数据整理，分组，筛选和排序"
-        , groupName: "数据采集和处理")]
+        ,url:"nyan",  groupName: "数据采集和处理")]
     public class SmartETLTool : AbstractProcessMethod, IView
     {
         #region Constructors and Destructors
@@ -849,7 +849,7 @@ namespace Hawk.ETL.Process
             all_columns.Clear();
             dataView.Columns.Clear();
 
-            ///AddColumn("", alltools);
+            AddColumn("", alltools);
             var temptask = TemporaryTask.AddTempTask(Name + "_转换",
                 func(new List<IFreeDocument>()).Take(SampleMount),
                 data =>

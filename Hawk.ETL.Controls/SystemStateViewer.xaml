@@ -6,7 +6,8 @@
              xmlns:mvvm="clr-namespace:Hawk.Core.Utils.MVVM;assembly=Hawk.Core"
          
              xmlns:Hawk_Core_Connectors="clr-namespace:Hawk.Core.Connectors;assembly=Hawk.Core"
-         
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+
              x:Class="Hawk.ETL.Controls.SystemStateViewer"
              mc:Ignorable="d" 
              d:DesignHeight="678.667" d:DesignWidth="262">
@@ -24,6 +25,7 @@
 			<Setter Property="ItemContainerStyle"  Value="{StaticResource {x:Type MenuItem}}"/>
 				<Setter Property="DataContext"  Value="{Binding Data, Source={StaticResource BindingProxy}}"/>
 		</Style>
+		   	<system:Double x:Key="LargeFont">14.667</system:Double>
           <Style x:Key="GroupContainerStyle" TargetType="{x:Type GroupItem}">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -54,8 +56,14 @@
             </Style>
 		<DataTemplate x:Key="DataTemplate1">
             <StackPanel Orientation="Horizontal" mvvm:ListItemDoubleClick.Property="Commands[2].ChildActions[2]" >
-				<TextBlock TextWrapping="Wrap" Text="{Binding Name}"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,1" />
-				<TextBlock TextWrapping="Wrap" Text="{Binding Count}" VerticalAlignment="Center" HorizontalAlignment="Stretch"  Margin="20,0,0,0"/>
+            		<Rectangle Width="15" Height="15" Margin="0,0,10,0" >
+					<Rectangle.Fill>
+						<VisualBrush Stretch="Fill"
+							Visual="{Binding ConverterParameter=paper, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+					</Rectangle.Fill>
+				</Rectangle>
+				<TextBlock TextWrapping="Wrap" Text="{Binding Name}"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,1" FontSize="{DynamicResource LargeFont}" />
+				<TextBlock TextWrapping="Wrap" Text="{Binding Count}" VerticalAlignment="Center" HorizontalAlignment="Stretch"  Margin="20,0,0,0" FontSize="{DynamicResource LargeFont}"/>
 			</StackPanel>
 		</DataTemplate>
 		
@@ -81,7 +89,13 @@
          
 			<DataTemplate x:Key="DataTemplate2">
 			<StackPanel Orientation="Horizontal">
-                <TextBlock TextWrapping="Wrap" Text="{Binding Name}"  mvvm:ListItemDoubleClick.Property="BindingCommands.ChildActions[4].ChildActions[3]"  VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="30,1,5,1">
+				<Rectangle Width="15" Height="15" Margin="0,0,10,0" >
+					<Rectangle.Fill>
+						<VisualBrush Stretch="Fill"
+							Visual="{Binding LogoURL, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+					</Rectangle.Fill>
+				</Rectangle>
+                <TextBlock TextWrapping="Wrap" Text="{Binding Name}"  mvvm:ListItemDoubleClick.Property="BindingCommands.ChildActions[4].ChildActions[3]"  VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,1,5,1" FontSize="{DynamicResource LargeFont}">
                      <mvvm:DropHelper.DropSupport>
                 <mvvm:DropSupportData BindingPath="BaseCommands[1]"/>
             </mvvm:DropHelper.DropSupport>
@@ -124,12 +138,11 @@
 			</ListBox>
 			<StackPanel   DataContext="{Binding PluginDictionary[模块管理].BindingCommands.ChildActions[4].ChildActions}"  HorizontalAlignment="Right" Margin="0,0,12,0" Orientation="Horizontal" VerticalAlignment="Bottom">
 			  
+				<Button Style="{DynamicResource miniButton}" DataContext="{Binding [5]}" />
 				<Button Style="{DynamicResource miniButton}" DataContext="{Binding [0]}" />
-				<Button Style="{DynamicResource miniButton}" DataContext="{Binding [1]}" />
-                <Button Style="{DynamicResource miniButton}" DataContext="{Binding [5]}" />
+                <Button Style="{DynamicResource miniButton}" DataContext="{Binding [1]}" />
                 <Button Style="{DynamicResource miniButton}" DataContext="{Binding [2]}" />
-			 	
-				<Button Style="{DynamicResource miniButton}" DataContext="{Binding [6]}" />  
+				<Button Style="{DynamicResource miniButton}" DataContext="{Binding [4]}" />  
 							
 			</StackPanel>
 			<StackPanel HorizontalAlignment="Left" Margin="0,0,-3,0" Orientation="Horizontal" VerticalAlignment="Top" d:LayoutOverrides="GridBox">

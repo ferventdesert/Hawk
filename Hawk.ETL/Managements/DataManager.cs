@@ -83,7 +83,6 @@ namespace Hawk.ETL.Managements
         private IDockableManager dockableManager;
 
 
-        private XFrmWorkPropertyGrid propertyGridWindow;
 
         #endregion
 
@@ -297,7 +296,7 @@ namespace Hawk.ETL.Managements
 
                         AddDataCollection(d, GetNewName());
                     };
-                    propertyGridWindow.SetObjectView(query);
+                    PropertyGridFactory.GetPropertyWindow(query).ShowDialog();
                 }, obj => obj != null, "magnify"));
             dbaction.ChildActions.Add(
                 new Command("删除连接", obj =>
@@ -407,7 +406,7 @@ namespace Hawk.ETL.Managements
 
                         AddDataCollection(d, GetNewName());
                     };
-                    propertyGridWindow.SetObjectView(query);
+                    PropertyGridFactory.GetPropertyWindow(query).ShowDialog();
                 }, obj => obj != null, "magnify"));
 
 
@@ -510,7 +509,7 @@ namespace Hawk.ETL.Managements
                 "配置", obj =>
                 {
                     var collection = GetCollection(obj);
-                    if (collection != null) propertyGridWindow.SetObjectView(collection);
+                    if (collection != null) PropertyGridFactory.GetPropertyWindow(collection).ShowDialog();
                 }, obj => true, "settings"));
             dataaction.ChildActions.Add(new Command(
                 "删除", obj =>
@@ -600,7 +599,6 @@ namespace Hawk.ETL.Managements
             if (MainDescription.IsUIForm)
             {
                 ConfigUI = PropertyGridFactory.GetInstance(_dbConnections.FirstOrDefault());
-                propertyGridWindow = MainFrmUI.PluginDictionary["属性配置器"] as XFrmWorkPropertyGrid;
             }
 
             var changed = DataCollections as INotifyCollectionChanged;

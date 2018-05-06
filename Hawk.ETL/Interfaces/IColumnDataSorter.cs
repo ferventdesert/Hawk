@@ -141,7 +141,7 @@ namespace Hawk.ETL.Interfaces
             catch (Exception ex)
             {
                 res = ex.Message;
-                XLogSys.Print.Error(ex.ToString());
+                XLogSys.Print.Error($"位于{ge.ETLIndex}， 作用在{ge.Column}的模块 {ge.TypeName} 转换出错, 信息{res}");
             }
 
             if (ge.OneOutput)

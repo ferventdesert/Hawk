@@ -25,8 +25,8 @@ using MessageBox = System.Windows.MessageBox;
 
 namespace Hawk.ETL.Process
 {
-    [XFrmWork("数据清洗", "可方便的对表格数据整理，分组，筛选和排序"
-        ,url:"nyan",  groupName: "数据采集和处理")]
+    [XFrmWork("数据清洗", "对数据筛选转换和合并，并导出到数据库中"
+        ,url: "diagram",  groupName: "数据采集和处理")]
     public class SmartETLTool : AbstractProcessMethod, IView
     {
         #region Constructors and Destructors
@@ -798,7 +798,7 @@ namespace Hawk.ETL.Process
                         {
                             if (
                                 (oldProp.IsEqual(process.UnsafeDictSerializePlus()) == false && IsAutoRefresh).SafeCheck
-                                    ("检查模块参数是否修改"))
+                                    ("检查模块参数是否修改",LogType.Debug))
                                 RefreshSamples();
                         };
                         window.ShowDialog();
@@ -859,6 +859,7 @@ namespace Hawk.ETL.Process
                         foreach (var key in data.GetKeys().Where(d => all_columns.Contains(d) == false).OrderBy(d => d))
                         {
                             AddColumn(key, alltools);
+                            DeleteColumn("");
                             all_columns.Add(key);
                         }
 
@@ -926,6 +927,11 @@ namespace Hawk.ETL.Process
 
         public static int CellWidth = 155;
 
+        private void DeleteColumn(string key)
+        {
+            SmartGroupCollection.RemoveElementsNoReturn(d=>d.Name==key);
+            dataView.Columns.RemoveElementsNoReturn(d=>d.Header.ToString()==key);
+        }
         private void AddColumn(string key, IEnumerable<IColumnProcess> alltools)
         {
             if (dataView == null)

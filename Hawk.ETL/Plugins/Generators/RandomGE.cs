@@ -9,7 +9,7 @@ using Hawk.ETL.Interfaces;
 
 namespace Hawk.ETL.Plugins.Generators
 {
-    [XFrmWork("生成随机数", "生成某范围内和指定数量的随机数")]
+    [XFrmWork("生成随机数", "生成某范围内和指定数量的随机数","share")]
     public class RandomGE : GeneratorBase
     {
         Random random= new Random();

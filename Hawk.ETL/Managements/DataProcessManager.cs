@@ -5,7 +5,9 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.WpfPropertyGrid;
 using System.Windows.Data;
+using System.Windows.Input;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
@@ -174,7 +176,7 @@ namespace Hawk.ETL.Managements
                 System.Diagnostics.Process.Start(url);
             }){Description = "作者沙漠君的博客", Icon = "tower"};
          
-            var pluginCommands = new BindingAction("帮助");
+            var pluginCommands = new BindingAction("帮助") {Icon = "magnify"};
             pluginCommands.ChildActions.Add(mainlink);
             pluginCommands.ChildActions.Add(helplink);
         
@@ -232,6 +234,10 @@ namespace Hawk.ETL.Managements
             taskAction1.ChildActions.Add(new Command("执行任务脚本",
              (obj=>(obj as ProcessTask).EvalScript()),
              obj =>(obj is ProcessTask)&& CurrentProcessCollections.FirstOrDefault(d => d.Name == (obj as ProcessTask).Name) != null));
+            taskAction1.ChildActions.Add(new Command("配置",obj=>PropertyGridFactory.GetPropertyWindow(obj).ShowDialog()
+            ));
+
+
 
             BindingCommands.ChildActions.Add(taskAction1);
             var taskAction2 = new BindingAction("任务列表2");
@@ -454,10 +460,16 @@ namespace Hawk.ETL.Managements
             }
 
             var file = MainFrmUI.CommandCollection.FirstOrDefault(d => d.Text == "文件");
-            file.ChildActions.Add(new BindingAction("新建项目", obj => CreateNewProject()));
-            file.ChildActions.Add(new BindingAction("加载项目", obj => LoadProject()));
-            file.ChildActions.Add(new BindingAction("保存项目", obj => SaveCurrentProject()));
-            file.ChildActions.Add(new BindingAction("项目另存为", obj => SaveCurrentProject(false)));
+            file.ChildActions.Add(new BindingAction("新建项目", obj => CreateNewProject()) {Icon = "add"});
+            file.ChildActions.Add(new BindingAction("加载项目", obj => LoadProject()) {Icon = "inbox_out"});
+            file.ChildActions.Add(new BindingAction("保存项目", obj => SaveCurrentProject()) {Icon = "save"});
+            file.ChildActions.Add(new BindingAction("项目另存为", obj => SaveCurrentProject(false)) {Icon = "save"});
+            file.ChildActions.Add(new BindingAction("最近打开的文件")
+            {
+                Icon = "save",
+                ChildActions =  new ObservableCollection<ICommand>(config.Projects.Select(d=>new BindingAction(d.SavePath, obj => LoadProject(d.SavePath) ) {Icon = "folder"}))
+           
+            });
             return true;
         }
 
@@ -488,9 +500,9 @@ namespace Hawk.ETL.Managements
         public ListCollectionView ProcessCollectionView { get; set; }
         public ListCollectionView ProjectTaskList { get; set; }
 
-        private void LoadProject()
+        private void LoadProject(string path=null)
         {
-            var project = Project.Load();
+            var project = Project.Load(path);
             if (project != null)
             {
                 var config = ConfigFile.GetConfig<DataMiningConfig>();
@@ -557,12 +569,12 @@ namespace Hawk.ETL.Managements
 
         public IEnumerable<IDataProcess> GetRevisedTasks()
         {
-            foreach (var process in CurrentProcessCollections)
+            foreach (var process in CurrentProcessCollections.OfType<AbstractProcessMethod>())
             {
                 var task = CurrentProject.Tasks.FirstOrDefault(d => d.Name == process.Name);
                 if (task == null)
                     yield return process;
-                if (!task.ProcessToDo.IsEqual(process.UnsafeDictSerialize()))
+                if (!task.ProcessToDo.IsEqual(process.DictSerialize()))
                 {
                     yield return process;
                 }

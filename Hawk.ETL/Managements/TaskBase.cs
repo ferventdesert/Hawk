@@ -190,4 +190,6 @@ namespace Hawk.ETL.Managements
         protected CancellationTokenSource CancellationToken { get; set; }
 
     }
+
+
 }

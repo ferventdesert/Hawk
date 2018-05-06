@@ -137,7 +137,7 @@ namespace Hawk
             {
                 List<IDataProcess> revisedTasks;
                 var processmanager = PluginDictionary["模块管理"] as DataProcessManager;
-                revisedTasks = processmanager.CurrentProcessCollections.ToList();
+                revisedTasks = processmanager.GetRevisedTasks().ToList();
                 if (!revisedTasks.Any())
                 {
                     if (MessageBox.Show(Core.Properties.Resources.Closing, Core.Properties.Resources.Tips, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
@@ -318,7 +318,7 @@ namespace Hawk
                     case FrmState.Large:
                         layout = Factory(name, thisControl);
                         documentMain.Children.Add(layout);
-
+                      
                         layout.IsActive = true;
                         break;
                     case FrmState.Buttom:
@@ -365,12 +365,15 @@ namespace Hawk
 
                         layout = Factory(name, thisControl);
 
-                        dockablePane1.Children.Add(layout);
+                        documentMain.Children.Add(layout);
 
                         layout.Float();
                                     
                         break;
                 }
+                var canNotClose= new string[] {"模块管理","系统状态视图","调试信息窗口"};
+                if (canNotClose.Contains(name))
+                    if (layout != null) layout.CanClose = false;
                 viewitem.Container = layout;
             }
             catch (Exception ex)

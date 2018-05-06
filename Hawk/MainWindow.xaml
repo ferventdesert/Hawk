@@ -39,7 +39,7 @@
 
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="24"/>
+            <RowDefinition Height="28"/>
             <RowDefinition Height="0.95*"/>
             <RowDefinition Height="24"/>
 
@@ -63,7 +63,7 @@
                             <Avalondock:LayoutAnchorable/>
                         </Avalondock:LayoutAnchorablePane>
                     </Avalondock:LayoutPanel>
-                    <Avalondock:LayoutPanel  Orientation="Vertical" DockWidth="2*" >
+                    <Avalondock:LayoutPanel  Orientation="Vertical" DockWidth="1.5*" >
                         <Avalondock:LayoutAnchorablePane  x:Name="dockablePane1">
                             <Avalondock:LayoutAnchorable/>
                         </Avalondock:LayoutAnchorablePane>

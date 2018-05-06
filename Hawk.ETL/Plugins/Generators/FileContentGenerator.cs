@@ -17,7 +17,7 @@ using EncodingType = Hawk.Core.Utils.EncodingType;
 
 namespace Hawk.ETL.Plugins.Generators
 {
-    [XFrmWork("读取文件文本", "获取文件中的全部纯文本内容，注意与【读取文件数据】区别")]
+    [XFrmWork("读取文件文本", "获取文件中的全部纯文本内容，注意与【读取文件数据】区别","clipboard_file")]
     public class ReadFileTextGE : GeneratorBase 
     {
         private readonly BuffHelper<IFreeDocument> buffHelper = new BuffHelper<IFreeDocument>(50);
@@ -93,7 +93,7 @@ namespace Hawk.ETL.Plugins.Generators
     }
 
 
-    [XFrmWork("读取文件数据", "从文件中读取数据内容，为了保证正确读取，需配置文件格式和读取属性")]
+    [XFrmWork("读取文件数据", "从文件中读取数据内容，为了保证正确读取，需配置文件格式和读取属性","clipboard_file")]
     public class ReadFileGe : ReadFileTextGE
     {
         private readonly BuffHelper<List<FreeDocument>> buffHelper =new BuffHelper<List<FreeDocument>>(50);

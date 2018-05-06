@@ -135,15 +135,16 @@ namespace Hawk.Core.Connectors
             ColumnInfos=new List<ColumnInfo>();
         }
 
-        [LocalizedDisplayName("列特性")]
+        [Browsable(false)]
         public List<ColumnInfo> ColumnInfos { get; set; }
-
+        [PropertyOrder(1)]
         [LocalizedDisplayName("表大小")]
         public int Size { get; set; }
 
+        [PropertyOrder(0)]
         [LocalizedDisplayName("名称")]
         public string Name { get; set; }
-
+        [PropertyOrder(2)]
         [LocalizedDisplayName("描述")]
         public string Description { get; set; }
 

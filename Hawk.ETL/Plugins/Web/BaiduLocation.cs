@@ -24,7 +24,7 @@ namespace Hawk.ETL.Plugins.Web
         }
     }
 
-    [XFrmWork("搜索位置","通过百度API获取当前地标的经纬度坐标，需要拖入代表地名的列")]
+    [XFrmWork("搜索位置","通过百度API获取当前地标的经纬度坐标，需要拖入代表地名的列","location")]
     public class BaiduLocation : BaiduSDKBase
     {
         public BaiduLocation()

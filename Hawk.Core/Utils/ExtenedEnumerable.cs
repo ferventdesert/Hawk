@@ -724,28 +724,11 @@ namespace Hawk.Core.Utils
             }
         }
 
-        public static bool IsEqual(this IFreeDocument value, IFreeDocument content)
+        public static bool IsEqual(this FreeDocument value, FreeDocument content)
         {
-            var dic1 = value;
-            var dic2 = content;
-            foreach (var o in dic1)
-            {
-                object res;
-                if (dic2.TryGetValue(o.Key, out res))
-                {
-                    if (res == null && o.Value != null)
-                        return false;
-                    if (res!=null&&res.Equals(o.Value)==false)
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            return true;
+            var ignore= new List<string>() { "Description", "ScriptPath" };
+            value.RemoveElements(d=>ignore.Contains(d));
+          return  FileConnectorXML.GetString(value) == FileConnectorXML.GetString(content);
         }
 
 

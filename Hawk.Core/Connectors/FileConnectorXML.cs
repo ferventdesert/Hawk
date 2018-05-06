@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using Hawk.Core.Utils;
@@ -18,7 +19,7 @@ namespace Hawk.Core.Connectors
         /// </summary>
         /// <param name="xmlDoc"></param>
         /// <returns></returns>
-        public string ConvertXmlToString(XmlDocument xmlDoc)
+        public static  string ConvertXmlToString(XmlDocument xmlDoc)
         {
             var stream = new MemoryStream();
             var writer = new XmlTextWriter(stream, null);
@@ -115,12 +116,12 @@ namespace Hawk.Core.Connectors
             return ReadText(xdoc, alreadyGetSize);
         }
 
-        private void Node2XML(IEnumerable<KeyValuePair<string, object>> data, XmlNode node, XmlDocument docu)
+        public static  void Node2XML(IEnumerable<KeyValuePair<string, object>> data, XmlNode node, XmlDocument docu)
         {
             var doc = data as FreeDocument;
             if (doc != null)
             {
-                foreach (var item in doc.DataItems)
+                foreach (var item in doc.DataItems.OrderBy(d=>d.Key))
                 {
                     if (item.Value is IDictionary<string, object>)
                     {
@@ -187,6 +188,16 @@ namespace Hawk.Core.Connectors
 
         }
 
+        public static string GetString(FreeDocument data)
+        {
+            var doc = new XmlDocument(); // 创建dom对象
+            XmlElement root = doc.CreateElement("root");
+            XmlElement newNode = doc.CreateElement(data == null ? "Element" : data.Name);
+            Node2XML(data, newNode, doc);
+            root.AppendChild(newNode);
+            doc.AppendChild(root);
+            return ConvertXmlToString(doc);
+        }
         public override string GetString(IEnumerable<IFreeDocument> datas)
         {
             var doc = new XmlDocument(); // 创建dom对象

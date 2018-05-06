@@ -6,7 +6,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Plugins.Filters
 {
-    [XFrmWork("数量范围选择","选择一定数量的行，如跳过前100条，选取50条" )]
+    [XFrmWork("数量范围选择","选择一定数量的行，如跳过前100条，选取50条","filter_alphabetical" )]
     public class NumRangeFT : NullFT
     {
         private int skip;

@@ -136,8 +136,8 @@
             				<TextBox Grid.Column="1" Margin="8,42.5,80,0" TextWrapping="Wrap" Text="{Binding SelectText}" wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" VerticalAlignment="Top"/>
             				<TextBlock Margin="8,78,0,0" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top"><Run Language="zh-cn" Text="结果XPath"/></TextBlock>
             				<TextBox Grid.Column="1" Margin="8,76,3.509,0" TextWrapping="Wrap" Text="{Binding SelectXPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="40.907" VerticalAlignment="Top"/>
-            				<Button   DataContext="{Binding Commands2[0]}"   Content="{Binding Text}" Command="{Binding}" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Right" Width="50.733" Height="20" Margin="0,132.359,3.509,0"/>
-            				<Button  DataContext="{Binding Commands2[1]}"   Content="{Binding Text}" Command="{Binding}"  Margin="0,40.5,3.509,0" VerticalAlignment="Top" Grid.Column="1" Height="20" HorizontalAlignment="Right" Width="50"/>
+            				<Button   DataContext="{Binding Commands2[0]}"   Content="{Binding Text}" Command="{Binding}" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Right" Width="50" Height="25" Margin="0,132.359,3.509,0"/>
+            				<Button  DataContext="{Binding Commands2[1]}"   Content="{Binding Text}" Command="{Binding}"  Margin="0,40.5,3.509,0" VerticalAlignment="Top" Grid.Column="1" Height="25" HorizontalAlignment="Right" Width="50"/>
             				<TextBlock Margin="8,132.361,0,0" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top"><Run Language="zh-cn" Text="新增属性"/></TextBlock>
             				<TextBox Grid.Column="1" Margin="8,132.364,80,0" TextWrapping="Wrap" Text="{Binding SelectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
             				<TextBlock Margin="8,8,0,0" TextWrapping="Wrap" Text="工作模式" VerticalAlignment="Top" HorizontalAlignment="Left"/>

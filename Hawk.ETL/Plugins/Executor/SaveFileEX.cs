@@ -13,7 +13,7 @@ using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Plugins.Executor
 {
-    [XFrmWork("保存超链接文件", "目标列需要为超链接类型，会保存链接的文件，如图片，视频等")]
+    [XFrmWork("保存超链接文件", "目标列需要为超链接类型，会保存链接的文件，如图片，视频等","save")]
     public class SaveFileEX : DataExecutorBase
     {
         private string _crawlerSelector;

@@ -167,6 +167,7 @@
     <Compile Include="Utils\MVVM\ListSelector.cs" />
     <Compile Include="Utils\MVVM\WPFOperate.cs" />
     <Compile Include="Utils\Permutation.cs" />
+    <Compile Include="Utils\Plugins\LayoutManager.cs" />
     <Compile Include="Utils\Plugins\XPropertyGrid.cs" />
     <Compile Include="Utils\SafeObservable.cs" />
     <Compile Include="Connectors\SQLServerConnector.cs" />

@@ -13,7 +13,7 @@ using TableInfo = Hawk.Core.Connectors.TableInfo;
 
 namespace Hawk.ETL.Plugins.Generators
 {
-    [XFrmWork("从数据库生成","从数据库读取内容，需提前在数据视图中配置连接" )]
+    [XFrmWork("从数据库生成","从数据库读取内容，需提前在数据视图中配置连接","database" )]
     public class DbGE : GeneratorBase
     {
         private IDataManager dataManager;

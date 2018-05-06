@@ -11,7 +11,6 @@ using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Crawlers;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Process;
 
@@ -33,6 +32,7 @@ namespace Hawk.ETL.Plugins.Transformers
         [LocalizedDescription("本模块要处理的列的名称")]
         public TextEditSelector ColumnSelector { get; set; }
 
+      
         public virtual void Finish()
         {
         }
@@ -67,7 +67,6 @@ namespace Hawk.ETL.Plugins.Transformers
                     ColumnSelector.SelectItem = value;
                     OnPropertyChanged("Column");
                 }
-             
             }
         }
 

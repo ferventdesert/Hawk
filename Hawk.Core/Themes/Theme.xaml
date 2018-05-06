@@ -2729,8 +2729,6 @@
                                     Opacity="0" x:Name="HoverBorder" CornerRadius="1,1,1,1" />
                             <Border Grid.ColumnSpan="4" Background="{DynamicResource HoverShineBrush}" Opacity="0"
                                     x:Name="HoverShineBorder" CornerRadius="1,1,1,1" />
-                            <ContentPresenter Margin="4,0,6,0" x:Name="Icon" VerticalAlignment="Center"
-                                              ContentSource="Icon" />
                             <Grid Visibility="Hidden" Margin="4,0,6,0" x:Name="GlyphPanel" VerticalAlignment="Center">
                                 <Path x:Name="GlyphPanelpath" VerticalAlignment="Center"
                                       Fill="{TemplateBinding Foreground}"
@@ -2757,6 +2755,12 @@
                                     <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                                 </Grid>
                             </Popup>
+                            <Rectangle Width="15" Height="15" x:Name="Icon" Margin="0,0,10,0" >
+                            	<Rectangle.Fill>
+                            		<VisualBrush Stretch="Fill"
+                            			Visual="{Binding Icon, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+                            	</Rectangle.Fill>
+                            </Rectangle>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -2785,9 +2789,7 @@
                         <Trigger Property="IsSuspendingPopupAnimation" Value="true">
                             <Setter Property="PopupAnimation" Value="None" TargetName="SubMenuPopup" />
                         </Trigger>
-                        <Trigger Property="Icon" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="Icon" />
-                        </Trigger>
+                 
                         <Trigger Property="IsChecked" Value="true">
                             <Setter Property="Visibility" Value="Visible" TargetName="GlyphPanel" />
                             <Setter Property="Visibility" Value="Collapsed" TargetName="Icon" />

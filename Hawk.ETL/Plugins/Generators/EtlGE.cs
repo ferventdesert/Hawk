@@ -443,7 +443,7 @@ namespace Hawk.ETL.Plugins.Generators
         }
     }
 
-    [XFrmWork("矩阵转置", "将列数据转换为行数据，拖入的列为key")]
+    [XFrmWork("矩阵转置", "将列数据转换为行数据，拖入的列为key","transform_rotate_right")]
     public class DictTF : TransformerBase
     {
         public override bool Init(IEnumerable<IFreeDocument> docus)

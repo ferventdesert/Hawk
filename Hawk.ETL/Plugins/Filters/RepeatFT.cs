@@ -9,7 +9,7 @@ using Hawk.ETL.Plugins.Transformers;
 
 namespace Hawk.ETL.Plugins.Filters
 {
-    [XFrmWork("重复项合并", "对重复的数据行，进行合并操作")]
+    [XFrmWork("重复项合并", "对重复的数据行，进行合并操作","repeat")]
     public class MergeRepeatTF : TransformerBase
     {
         private SortedDictionary<string, IFreeDocument> dictionary;

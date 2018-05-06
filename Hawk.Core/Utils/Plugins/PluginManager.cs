@@ -47,7 +47,7 @@ namespace Hawk.Core.Utils.Plugins
         public BindingAction FileCommands => new BindingAction("文件")
         {
             ChildActions =
-                new ObservableCollection<ICommand> (),
+                new ObservableCollection<ICommand> (),Icon = "disk"
         };
 
         public FrmState FrmState => FrmState.Mini;
@@ -91,8 +91,9 @@ namespace Hawk.Core.Utils.Plugins
             if (PluginLoadControllor.IsNormalLoaded == false)
             {
                 PluginLoadControllor.Instance.AddBuildLogic<IXPlugin>(plugins);
+                PluginProvider.SaveConfigFile();
             }
-            PluginProvider.SaveConfigFile();
+      
 
             XLogSys.Print.Info("开始对插件字典中的插件进行初始化");
             //var pluginCommands = new BindingAction("插件");
@@ -229,6 +230,7 @@ namespace Hawk.Core.Utils.Plugins
             
                 rc.Value.SaveConfigFile();
             }
+            if(!PluginLoadControllor.IsNormalLoaded)
             PluginProvider.SaveConfigFile();
         }
 

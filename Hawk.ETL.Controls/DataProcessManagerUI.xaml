@@ -58,7 +58,7 @@
             </Style>
 
             <DataTemplate x:Key="DataTemplateList">
-            	<StackPanel Orientation="Horizontal" Width="300">
+            	<StackPanel Orientation="Horizontal" Width="300" Margin="0,4">
             		        	  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
                                 <Rectangle.Fill>
                                     <VisualBrush Stretch="Fill"
@@ -161,17 +161,32 @@
 		 
         <TextBlock TextWrapping="Wrap" FontSize="21.333" VerticalAlignment="Top"  Grid.Row="2" HorizontalAlignment="Left" Grid.Column="1"><Run Language="zh-cn" Text="保存的任务" /></TextBlock>
        </StackPanel>
-		  <StackPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0,5.76,30,0" Orientation="Vertical" Grid.Row="2" VerticalAlignment="Top">
-		  	<TextBlock TextWrapping="Wrap" HorizontalAlignment="Left"><Run Language="zh-cn" Text="快速检索" /></TextBlock>
-		  	<TextBox TextWrapping="Wrap" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="70.237" Height="19"/>
+		  <StackPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0,5.76,30,0" Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Top">
+		  	  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
+                                <Rectangle.Fill>
+                                    <VisualBrush Stretch="Fill"
+                                                 Visual="{Binding ConverterParameter=magnify, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+                                </Rectangle.Fill>
+                            </Rectangle>
+		  	<StackPanel Orientation="Vertical" d:LayoutOverrides="Width">
+		  		<TextBlock TextWrapping="Wrap" HorizontalAlignment="Left"><Run Language="zh-cn" Text="快速检索" /></TextBlock>
+		  		<TextBox TextWrapping="Wrap" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="70.237" Height="19"/>
+		  	</StackPanel>
 		  </StackPanel>
         <TreeView DataContext="{Binding MainFrmUI.PluginDictionary[数据管理]}" ToolTip="右键可新建数据源"  Margin="30,40,30,20"  x:Name="treeView"  ItemsSource="{Binding CurrentConnectors}" Grid.Row="3">
             <TreeView.Resources>
 
             	<HierarchicalDataTemplate DataType="{x:Type Connectors:DBConnectorBase}"
             		ItemsSource="{Binding TableNames.Collection}"  >
+            		<StackPanel Orientation="Horizontal" >
+            				  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
+                                <Rectangle.Fill>
+                                    <VisualBrush Stretch="Fill"
+                                                 Visual="{Binding ConverterParameter=database, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+                                </Rectangle.Fill>
+                            </Rectangle>
             		<TextBlock Text="{Binding Name}"   mvvm:TreeViewItemDoubleClick.Property="{Binding Data.Commands[0].ChildActions[0], Source={StaticResource BindingProxy}}"
-            			AllowDrop="True"   FontSize="16"   ToolTip="{Binding TypeName}" VerticalAlignment="Center">
+            			AllowDrop="True"   FontSize="{DynamicResource LargeFont}"   ToolTip="{Binding TypeName}" VerticalAlignment="Center">
             			<mvvm:DropHelper.DropSupport>
             				<mvvm:DropSupportData BindingPath="Commands[0]"  />
             			</mvvm:DropHelper.DropSupport>
@@ -179,15 +194,22 @@
             				<ContextMenu ItemsSource="{Binding MainFrmUI.PluginDictionary[数据管理].Commands[0].ChildActions}" />
             			</TextBlock.ContextMenu>
             		</TextBlock>
-
-
+					</StackPanel>
             	</HierarchicalDataTemplate>
             	<HierarchicalDataTemplate DataType="{x:Type Connectors:TableInfo}"  >
+            		<StackPanel Orientation="Horizontal" >
+            				  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
+                                <Rectangle.Fill>
+                                    <VisualBrush Stretch="Fill"
+                                             Visual="{Binding ConverterParameter=paper, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+                                </Rectangle.Fill>
+                            </Rectangle>
             		<TextBlock Text="{Binding Name}" AllowDrop="True" ToolTip="{Binding Description}" FontSize="13"  mvvm:TreeViewItemDoubleClick.Property="Commands[1].ChildActions[0]">
             			<TextBlock.ContextMenu>
             				<ContextMenu  ItemsSource="{Binding MainFrmUI.PluginDictionary[数据管理].Commands[1].ChildActions}"/>
             			</TextBlock.ContextMenu>
             		</TextBlock>
+					</StackPanel>
             	</HierarchicalDataTemplate>
             </TreeView.Resources>
             <TreeView.ContextMenu>
@@ -199,7 +221,7 @@
         	  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
                                 <Rectangle.Fill>
                                     <VisualBrush Stretch="Fill"
-                                                 Visual="{Binding ConverterParameter=add, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+                                                 Visual="{Binding ConverterParameter=paper, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
                                 </Rectangle.Fill>
                             </Rectangle>
 		 

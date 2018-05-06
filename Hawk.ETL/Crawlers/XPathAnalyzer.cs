@@ -457,33 +457,41 @@ namespace Hawk.ETL.Crawlers
 
         public static HtmlNode SelectSingleNodePlus(this HtmlNode node, string xpath, SelectorFormat format)
         {
-            if (string.IsNullOrEmpty(xpath))
-                return null;
-            if (format == SelectorFormat.CssSelecor)
-                return node.CssSelect(xpath).FirstOrDefault();
-            if (!xpath.Contains("#"))
-                return node.SelectSingleNode(xpath);
-            var lasts = xpath.Split('/');
-            var lastOne = lasts.LastOrDefault();
-            if (lastOne == null)
-                return null;
-            var splits = lastOne.Split(new[] {'[', ']'}, StringSplitOptions.RemoveEmptyEntries);
-            if (splits.Length > 2 || splits.Length == 0)
+            try
             {
+                if (string.IsNullOrEmpty(xpath))
+                    return null;
+                if (format == SelectorFormat.CssSelecor)
+                    return node.CssSelect(xpath).FirstOrDefault();
+                if (!xpath.Contains("#"))
+                    return node.SelectSingleNode(xpath);
+                var lasts = xpath.Split('/');
+                var lastOne = lasts.LastOrDefault();
+                if (lastOne == null)
+                    return null;
+                var splits = lastOne.Split(new[] {'[', ']'}, StringSplitOptions.RemoveEmptyEntries);
+                if (splits.Length > 2 || splits.Length == 0)
+                {
+                    return null;
+                }
+                var index = 1;
+                var nodetype = splits[0];
+                if (splits.Length == 2)
+                    int.TryParse(splits[1], out index);
+                var newfather_path = xpath.Replace("/" + lastOne, "");
+                var father = node.SelectSingleNode(newfather_path);
+                if (father == null)
+                    return null;
+                var nodes = father.ChildNodes.Where(d => d.Name == nodetype).ToList();
+                if (nodes.Count < index)
+                    return null;
+                return nodes[index - 1];
+            }
+            catch (Exception ex)
+            {
+                XLogSys.Print.Error($"{format}路径 {xpath} 解析有误，返回空节点");
                 return null;
             }
-            var index = 1;
-            var nodetype = splits[0];
-            if (splits.Length == 2)
-                int.TryParse(splits[1], out index);
-            var newfather_path = xpath.Replace("/" + lastOne, "");
-            var father = node.SelectSingleNode(newfather_path);
-            if (father == null)
-                return null;
-            var nodes = father.ChildNodes.Where(d => d.Name == nodetype).ToList();
-            if (nodes.Count < index)
-                return null;
-            return nodes[index - 1];
         }
 
         private static bool CompareString(string text1, string text2)
@@ -1131,7 +1139,7 @@ namespace Hawk.ETL.Crawlers
                         target.Html = rootNode.InnerHtml;
                         target.Text = rootNode.InnerText;
                         target.RootNode = doc2;
-                        target.WorkMode= ScriptWorkMode.List;
+                        target.WorkMode = ScriptWorkMode.List;
                         target.NodeCount = doc2.SelectNodes(keyValuePair.Key).Count;
                         target.Score = keyValuePair.Value;
                         target.ColumnCount = items.Count;
@@ -1205,7 +1213,7 @@ namespace Hawk.ETL.Crawlers
                     var valuePath = XPath.TakeOff(existItem.XPath, root);
                     var xpaths = childNodes.Select(d => d.XPath + (valuePath == "/" ? "" : valuePath));
                     var count = 0;
-                    var target= 
+                    var target =
                         getCrawTarget(xpaths.Select(d => new CrawlItem {XPath = d, Name = "属性_" + count++}).ToList(), "")
                         ;
                     target.RootNode = doc2;

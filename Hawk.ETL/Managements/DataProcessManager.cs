@@ -573,11 +573,15 @@ namespace Hawk.ETL.Managements
             {
                 var task = CurrentProject.Tasks.FirstOrDefault(d => d.Name == process.Name);
                 if (task == null)
+                {
                     yield return process;
+                    continue;
+                }
                 if (!task.ProcessToDo.IsEqual(process.DictSerialize()))
                 {
                     yield return process;
                 }
+
 
             }
         } 

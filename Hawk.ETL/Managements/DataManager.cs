@@ -458,7 +458,8 @@ namespace Hawk.ETL.Managements
 
                     dynamic generator = PluginProvider.GetObjectByType<IColumnProcess>("TableGE");
                     generator.Father = plugin;
-                    generator.TableSelector.SelectItem = collection;
+
+                    generator.TableSelector.SelectItem = collection.Name;
                     plugin.CurrentETLTools.Add(generator);
                     plugin.ETLMount++;
                     plugin.Init();
@@ -570,7 +571,7 @@ namespace Hawk.ETL.Managements
             commands.Add(otherDataAction);
             var dblistAction = new BindingAction("数据库管理");
 
-            var addnew = new BindingAction("增加新连接");
+            var addnew = new BindingAction("增加新连接") { Icon="add"};
             dblistAction.ChildActions.Add(addnew);
             foreach (var item in PluginProvider.GetPluginCollection(typeof (IDataBaseConnector)))
             {
@@ -582,7 +583,7 @@ namespace Hawk.ETL.Managements
                         con.Name = item.Name;
 
                         _dbConnections.Add(con);
-                    }
+                    },Icon="connect"
                 });
             }
             commands.Add(dblistAction);

@@ -42,6 +42,32 @@ namespace Hawk.ETL.Plugins.Transformers
 
             return null;
         }
+
+        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        {
+            foreach (var data in datas)
+            {
+                var v = data[Column];
+                if (v == null)
+                    continue;
+
+                var ps = regex.Split(v.ToString());
+
+            
+                foreach (var p in ps)
+                {
+                    var doc = new FreeDocument();
+                  
+                    doc.MergeQuery(data, NewColumn);
+                    doc.Set(Column, p);
+                    yield return doc;
+
+                }
+
+            }
+           
+        }
+       
     }
 
     [XFrmWork("分页", "根据总页数和每页数量进行分页操作，拖入列为总页数，相比于使用Python转换器，可极大地简化操作")]

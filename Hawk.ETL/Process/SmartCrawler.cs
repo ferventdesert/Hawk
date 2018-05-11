@@ -542,9 +542,9 @@ namespace Hawk.ETL.Process
                         if (string.IsNullOrEmpty(RootXPath))
                             RootFormat = SelectorFormat.XPath;
                         RootXPath = crawTarget.RootXPath;
-                        if (IsMultiData == ScriptWorkMode.List)
-                            CrawlItems.Clear();
-                        CrawlItems.AddRange(crawTarget.CrawItems.Where(r => r.IsEnabled));
+
+                      
+                        CrawlItems.AddRange(crawTarget.CrawItems.Where(r => r.IsEnabled&&CrawlItems.FirstOrDefault(d2=>d2.XPath==r.XPath)==null));
                     }
                 });
 
@@ -750,6 +750,7 @@ namespace Hawk.ETL.Process
                     path = XPath.TakeOffPlus(node.XPath, root.XPath);
                     if (attr != "")
                         path += "/@" + attr + "[1]";
+                  
                 }
 
             }

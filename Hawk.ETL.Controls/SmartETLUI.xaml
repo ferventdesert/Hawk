@@ -430,8 +430,8 @@
 						VerticalAlignment="Center">
 						<TextBlock TextWrapping="Wrap" Margin="0"
 							VerticalAlignment="Center" ><Run Language="zh-cn" Text="采样量"/></TextBlock>
-						<TextBox Width="30" TextWrapping="Wrap" Text="{Binding SampleMount}" ToolTip="设置获取数据表的前n行" VerticalAlignment="Center"
-							FontSize="16" />
+						<TextBox TextWrapping="Wrap" Text="{Binding SampleMount}" ToolTip="设置获取数据表的前n行" VerticalAlignment="Center"
+							FontSize="16" MinWidth="30" />
 						<CheckBox Content="自动刷新" IsChecked="{Binding IsAutoRefresh}" VerticalAlignment="Center" Margin="15,0,0,0" />
 						<CheckBox Content="调试详情" IsChecked="{Binding DisplayDetail}" VerticalAlignment="Center" Margin="15,0,0,0" />
 					</StackPanel>
@@ -538,7 +538,7 @@
             				Visual="{Binding ConverterParameter=hourglass, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
             		</Rectangle.Fill>
             	</Rectangle>
-            	<ComboBox Width="120" ItemsSource="{attributes:EnumValues {x:Type connectors:GenerateMode}}" SelectedItem="{Binding GenerateMode}" d:LayoutOverrides="Height" VerticalAlignment="Center"/>
+            	<ComboBox ItemsSource="{attributes:EnumValues {x:Type connectors:GenerateMode}}" SelectedItem="{Binding GenerateMode}" d:LayoutOverrides="Height" VerticalAlignment="Center"/>
             	<TextBlock TextWrapping="Wrap" Text="线程数" VerticalAlignment="Center" Margin="8,0,0,0" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter}}" />
             	<TextBox TextWrapping="Wrap" Text="{Binding MaxThreadCount}" VerticalAlignment="Center" Margin="8,0,0,0" Width="40" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter}}" />
             	<Button DataContext="{Binding Commands3[0]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Center" Width="80" Margin="10,0,0,0"/>

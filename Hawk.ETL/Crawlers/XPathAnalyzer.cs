@@ -182,7 +182,7 @@ namespace Hawk.ETL.Crawlers
         {
             var paths = path.Split('/');
             var last = paths[paths.Length - 1];
-            attrName = null;
+            attrName = "";
             attrValue = "";
             if (last.Any() && last.Contains("@") && last.Contains("[1]")) //标签数据
             {
@@ -195,6 +195,14 @@ namespace Hawk.ETL.Crawlers
                 }
                 return true;
             }
+            if (last.Any() && last.Contains("#") && last.Contains("[1]")) //标签数据
+            {
+
+                return false;
+
+
+            }
+
 
             return false;
         }

@@ -356,9 +356,12 @@ namespace Hawk.Core.Connectors
         [PropertyOrder(2)]
         public  virtual string DBName { get; set; }
 
+       
 
         public virtual bool CreateTable(IFreeDocument example, string name)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new Exception("数据库表名不能为空");
             FreeDocument txt = example.DictSerialize(Scenario.Database);
             var sb = string.Join(",", txt.Select(d => $"{d.Key} {DataTypeConverter.ToType(d.Value)}"));
             string sql = $"CREATE TABLE {GetTableName(name)} ({sb})";

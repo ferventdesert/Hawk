@@ -36,6 +36,11 @@ namespace Hawk.ETL.Plugins.Web
         [LocalizedDescription("通过地市进行信息检索")]
         public string Region { get; set; }
 
+
+        [LocalizedDisplayName("标签")]
+        [LocalizedDescription("如医院，美食等")]
+        public string Tag { get; set; }
+
         public override object TransformData(IFreeDocument datas)
         {
             //初始化方案信息实体类。
@@ -52,8 +57,9 @@ namespace Hawk.ETL.Plugins.Web
 
 
                     var r = datas.Query(Region);
+                    var tag = datas.Query(Tag);
                     var apiUrl =
-                        $"http://api.map.baidu.com/place/v2/search?q={item}&region={r}&output={format}&ak={apikey}";
+                        $"http://api.map.baidu.com/place/v2/search?q={item}&region={r}&tag={tag}&output={format}&ak={apikey}";
 
 
                     //初始化方案信息实体类。

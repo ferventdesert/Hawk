@@ -26,9 +26,9 @@ namespace Hawk.ETL.Plugins.Generators
          
             ConnectorSelector=new ExtendSelector<IDataBaseConnector>();
             ConnectorSelector.GetItems = () => dataManager.CurrentConnectors.ToList();
-            TableNames=new ExtendSelector<TableInfo>();
+            TableNames=new ExtendSelector<string>();
             Mount = -1;
-            ConnectorSelector.SelectChanged += (s, e) => TableNames.SetSource(ConnectorSelector.SelectItem.RefreshTableNames());
+            ConnectorSelector.SelectChanged += (s, e) => TableNames.SetSource(ConnectorSelector.SelectItem.RefreshTableNames().Select(d=>d.Name));
             TableNames.SelectChanged += (s, e) => { this.InformPropertyChanged("TableNames"); };
         }
         [LocalizedCategory("参数设置")]
@@ -41,7 +41,7 @@ namespace Hawk.ETL.Plugins.Generators
         [LocalizedCategory("参数设置")]
         [LocalizedDisplayName("2.操作表名")]
         [PropertyOrder(2)]
-        public ExtendSelector<TableInfo> TableNames { get; set; }
+        public ExtendSelector<string> TableNames { get; set; }
 
 
         [LocalizedCategory("参数设置")]
@@ -58,7 +58,7 @@ namespace Hawk.ETL.Plugins.Generators
             var mount = 0;
             if (Mount < 0)
                 mount = int.MaxValue;
-            TableInfo table = TableNames.SelectItem;
+            var table =  this.ConnectorSelector.SelectItem?.RefreshTableNames().FirstOrDefault(d=>d.Name== TableNames.SelectItem);
             if (table != null)
             {
                 var con = new VirtualDataCollection(table.GetVirtualProvider<IFreeDocument>());
@@ -83,7 +83,7 @@ namespace Hawk.ETL.Plugins.Generators
             }
             if (TableNames.SelectItem != null)
             {
-                dict.Add("Table", TableNames.SelectItem.Name);
+                dict.Add("Table", TableNames.SelectItem);
             }
           
             return dict;
@@ -97,7 +97,7 @@ namespace Hawk.ETL.Plugins.Generators
                 dataManager.CurrentConnectors.FirstOrDefault(d => d.Name == docu["Connector"].ToString());
 
             TableNames.SelectItem =
-                ConnectorSelector.SelectItem.RefreshTableNames().FirstOrDefault(d => d.Name == docu["Table"].ToString());
+                docu["Table"].ToString();
         }
     }
 }

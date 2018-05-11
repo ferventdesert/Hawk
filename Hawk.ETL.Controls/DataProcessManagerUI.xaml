@@ -111,8 +111,8 @@
     </UserControl.Resources>
     <Grid>
     	<Grid.RowDefinitions>
-    		<RowDefinition Height="150"/>
-    		<RowDefinition Height="50"/>
+    		<RowDefinition Height="100"/>
+    		<RowDefinition Height="0"/>
     		 
     		<RowDefinition Height="0.339*"/>
     		<RowDefinition Height="0.661*"/>
@@ -238,9 +238,8 @@
 		 
         <TextBlock TextWrapping="Wrap" FontSize="21.333" VerticalAlignment="Top"  Grid.Row="2" HorizontalAlignment="Left" Grid.Column="1"><Run Language="zh-cn" Text="数据库配置" /></TextBlock>
        </StackPanel>
-        <TextBlock TextWrapping="Wrap" Margin="22,18,0,0" HorizontalAlignment="Left" FontSize="64" Opacity="0.175" VerticalAlignment="Top" Foreground="Black"><Run Text="Hawk"/></TextBlock>
-        <TextBlock TextWrapping="Wrap" Margin="20,15.333,0,39.887" HorizontalAlignment="Left" FontSize="64" d:LayoutOverrides="Height"><Run Language="zh-cn" Text="H"/><Run Text="awk"/><Run Foreground="#FF10AB8B" Language="zh-cn" Text=" 3"/></TextBlock>
-        <TextBlock TextWrapping="Wrap" Margin="20,129.473,0,0" HorizontalAlignment="Left" FontSize="16" Foreground="#FFA1A1A1" VerticalAlignment="Top"><Run Text="数据处理革命"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" Margin="34,20,0,20" HorizontalAlignment="Left" FontSize="64" Opacity="0.175" VerticalAlignment="Bottom" Foreground="Black"><Run Text="Hawk"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="64" Margin="30,0,0,20" VerticalAlignment="Bottom"><Run Language="zh-cn" Text="H"/><Run Text="awk"/><Run Foreground="#FF10AB8B" Language="zh-cn" Text=" 3"/></TextBlock>
         <StackPanel Grid.Column="2" HorizontalAlignment="Left" Margin="30,8,0,0" Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Top">
         	  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
                                 <Rectangle.Fill>
@@ -251,8 +250,11 @@
 			<TextBlock TextWrapping="Wrap" Margin="0,0,-0.001,0" FontSize="{DynamicResource UltraFont}" d:LayoutOverrides="Width, GridBox"><Run Language="zh-cn" Text="快速链接"/></TextBlock>
         </StackPanel>
         <ListBox Grid.Column="2" Margin="30,40,30,20" Grid.Row="2" ItemTemplate="{DynamicResource DataTemplateHelp}" ItemsSource="{Binding MainFrmUI.CommandCollection[1].ChildActions}" Grid.RowSpan="2"/>
-        <TextBlock TextWrapping="Wrap" Margin="20,105.153,0,0" HorizontalAlignment="Left" FontSize="16" Foreground="#FFA1A1A1" VerticalAlignment="Top"><Run Text="Smart ETL Crawler Engine"/></TextBlock>
-        <TextBlock TextWrapping="Wrap" Margin="30,105.153,0,0" HorizontalAlignment="Left" FontSize="26.667"   VerticalAlignment="Top" Grid.Column="2"><Run Language="zh-cn" Text="欢迎使用Hawk!"/></TextBlock>
+        <StackPanel Grid.Column="1" d:LayoutOverrides="Width" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="30,20,0,20">
+        	<TextBlock TextWrapping="Wrap" FontSize="16" Foreground="#FFA1A1A1" HorizontalAlignment="Left"><Run Text="数据处理革命"/></TextBlock>
+        	<TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="16" Foreground="#FFA1A1A1" Margin="0,8,0,0"><Run Text="Smart ETL Crawler Engine"/></TextBlock>
+        </StackPanel>
+        <TextBlock TextWrapping="Wrap" Margin="30,20,0,20" HorizontalAlignment="Left" FontSize="26.667"   VerticalAlignment="Bottom" Grid.Column="2"><Run Language="zh-cn" Text="欢迎使用Hawk!"/></TextBlock>
 
     </Grid>
 </UserControl>

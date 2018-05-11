@@ -210,7 +210,7 @@ namespace Hawk.Core.Utils
 
         }
         public static IEnumerable<T> BatchDo<T>(this IEnumerable<T> documents,
-            Func<T,bool> initFunc, Action<List<T> > batchFunc, Action endFunc = null, int batchMount = 1000) 
+            Func<T,bool> initFunc, Action<List<T> > batchFunc, Action endFunc = null, int batchMount = 100) 
         {
             
             var i = 0;
@@ -230,7 +230,7 @@ namespace Hawk.Core.Utils
                     }
                     catch (Exception ex)
                     {
-                        XLogSys.Print.Warn("Batch action failed", ex);
+                        XLogSys.Print.Warn($"批量插入错误{ex.Message}");
                     }
 
                     list = new List<T>();

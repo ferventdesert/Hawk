@@ -60,7 +60,7 @@ namespace Hawk.ETL.Crawlers
         } 
         public static string GetAttributeName(string path)
         {
-            return path.Replace("@", "").Replace("[1]", "");
+            return path.Replace("@", "").Replace("#","").Replace("[1]", "");
         }
 
         public static string  SubXPath(string path,int t)

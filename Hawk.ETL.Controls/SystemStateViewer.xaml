@@ -110,8 +110,8 @@
     		<RowDefinition Height="0.4*"/>
     		<RowDefinition Height="0.3*"/>
     	</Grid.RowDefinitions>
-		<Grid Margin="8,0,8,8" MinHeight="200" d:LayoutOverrides="Height">
-			<ListBox x:Name="processListBox" ToolTip="当前加载的所有算法模块" SelectedItem="{Binding SelectedProcess}" Margin="0,38,0,30" MouseMove="processListBox_MouseMove" DataContext="{Binding PluginDictionary[模块管理]}" ItemsSource="{Binding ProcessCollectionView}"  ItemTemplate="{DynamicResource DataTemplate2}"  >
+		<Grid Margin="8,0" MinHeight="200" d:LayoutOverrides="Height">
+			<ListBox x:Name="processListBox" ToolTip="当前加载的所有算法模块" SelectedItem="{Binding SelectedProcess}" Margin="0,30,0,20" MouseMove="processListBox_MouseMove" DataContext="{Binding PluginDictionary[模块管理]}" ItemsSource="{Binding ProcessCollectionView}"  ItemTemplate="{DynamicResource DataTemplate2}"  >
 				<ListBox.Resources>
 					<ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding PluginDictionary[模块管理].BindingCommands.ChildActions[4].ChildActions}"/>
 
@@ -156,7 +156,7 @@
 				<TextBlock TextWrapping="Wrap" FontSize="21.333" VerticalAlignment="Top"  Grid.Row="2" HorizontalAlignment="Left" Grid.Column="1"><Run Language="zh-cn" Text="已加载任务" /></TextBlock>
 			</StackPanel>
 		</Grid>
-		<Grid Margin="8" MinHeight="200" Grid.Row="1" d:LayoutOverrides="Height">
+		<Grid Margin="8,0" MinHeight="200" Grid.Row="1" d:LayoutOverrides="Height">
 			  <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="0" Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Top">
         	  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
                                 <Rectangle.Fill>
@@ -170,7 +170,7 @@
 	   
 	   
 		 
-			<ListBox x:Name="dataListBox" ToolTip="当前加载的所有数据，可在此进行管理" SelectedItem="{Binding SelectedDataCollection}" MouseMove="ListBox_MouseMove_1" DataContext="{Binding PluginDictionary[数据管理]}" ItemsSource="{Binding DataCollections}" ItemTemplate="{DynamicResource DataTemplate1}" Margin="0,38,0,30">
+			<ListBox x:Name="dataListBox" ToolTip="当前加载的所有数据，可在此进行管理" SelectedItem="{Binding SelectedDataCollection}" MouseMove="ListBox_MouseMove_1" DataContext="{Binding PluginDictionary[数据管理]}" ItemsSource="{Binding DataCollections}" ItemTemplate="{DynamicResource DataTemplate1}" Margin="0,30,0,20">
 				<ListBox.Resources>
 					<ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding PluginDictionary[数据管理].Commands[2].ChildActions}"/>
 					<Style TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource {x:Type ListBoxItem}}">
@@ -195,9 +195,9 @@
 			</StackPanel>
 		</Grid>
 	 
-			<Grid Margin="8"  DataContext="{Binding PluginDictionary[模块管理]}" MinHeight="200" Grid.Row="2" >
+			<Grid Margin="8,0"  DataContext="{Binding PluginDictionary[模块管理]}" MinHeight="150" Grid.Row="2" >
 				 
-				<ListView   ItemsSource="{Binding CurrentProcessTasks}" Margin="8,38,8,20">
+				<ListView   ItemsSource="{Binding CurrentProcessTasks}" Margin="8,30,8,20">
     	
 					<ListView.View>
 						<GridView>
@@ -209,19 +209,7 @@
 								</GridViewColumn.CellTemplate>
 								<!--脑残的xaml-->        
 							</GridViewColumn>
-							<GridViewColumn Header="名称" DisplayMemberBinding="{Binding Name}" />
-							<GridViewColumn Header="百分比">
-								<GridViewColumn.CellTemplate>
-									<DataTemplate>
-										<StackPanel Orientation="Horizontal">
-											<ProgressBar Value="{Binding Percent}" Width="100" Margin="0,0,5,0"/>   
-    							 
-										</StackPanel>
-									</DataTemplate>
-								</GridViewColumn.CellTemplate>
-								<!--脑残的xaml-->        
-							</GridViewColumn>
-							<GridViewColumn Header="暂停">
+								<GridViewColumn Header="暂停">
 								<GridViewColumn.CellTemplate>
 									<DataTemplate>
 										<CheckBox IsChecked="{Binding IsPause}"/>	 
@@ -229,7 +217,22 @@
 								</GridViewColumn.CellTemplate>
 								<!--脑残的xaml-->        
 							</GridViewColumn>
+							
+							<GridViewColumn Header="名称" DisplayMemberBinding="{Binding Name}" />
 							<GridViewColumn Header="位置" DisplayMemberBinding="{Binding CurrentIndex}" />
+							<GridViewColumn Header="百分比">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel Orientation="Horizontal">
+											<ProgressBar Value="{Binding Percent}" Width="50" Margin="0,0,5,0"/>   
+    							 
+										</StackPanel>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+								<!--脑残的xaml-->        
+							</GridViewColumn>
+						
+							
 						</GridView>
 					</ListView.View> 	           	 
 				</ListView>

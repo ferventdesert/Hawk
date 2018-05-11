@@ -56,7 +56,7 @@ namespace Hawk.Core.Connectors
                     string value = "";
                     if (cell != null)
                         value = cell.ToString();
-                    dict.Add(title, value);
+                    dict.Set(title, value);
                 }
 
                 if (data != null)

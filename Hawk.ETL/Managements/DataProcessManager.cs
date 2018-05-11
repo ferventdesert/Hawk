@@ -298,7 +298,7 @@ namespace Hawk.ETL.Managements
 
 
 
-            processAction.ChildActions.Add(new Command("新建数据清洗", obj =>
+            processAction.ChildActions.Add(new Command("新建或复制数据清洗", obj =>
             {
                 if (obj != null)
                 {
@@ -328,11 +328,33 @@ namespace Hawk.ETL.Managements
 
             }, obj => true, "add"));
 
-            processAction.ChildActions.Add(new Command("新建网页采集器", obj =>
+            processAction.ChildActions.Add(new Command("新建或复制采集器", obj =>
             {
-                var plugin = this.GetOneInstance("SmartCrawler", true, true, true) as SmartCrawler;
-                plugin.Init();
-                ControlExtended.DockableManager.ActiveModelContent(plugin);
+                if (obj == null)
+                {
+                    var plugin = this.GetOneInstance("SmartCrawler", true, true, true) as SmartCrawler;
+                    plugin.Init();
+                    ControlExtended.DockableManager.ActiveModelContent(plugin);
+                }
+                else
+                {
+                    var process = GetProcess(obj);
+                    if (process == null) return;
+                    var old = obj as IDataProcess;
+                    if (old == null)
+                        return;
+
+                    //ProcessCollection.Remove(old);
+                    var name = process.GetType().ToString().Split('.').Last();
+
+                    var item = GetOneInstance(name, true, true);
+                    (process as IDictionarySerializable).DictCopyTo(item as IDictionarySerializable);
+                    item.Init();
+                    item.Name = old.Name + "_copy";
+                    ProcessCollection.Add(item);
+                }
+               
+               
 
             }, obj => true, "cloud_add"));
 
@@ -346,7 +368,7 @@ namespace Hawk.ETL.Managements
                     foreach (var target in CurrentProcessCollections)
                     {
                         SaveTask(target, false);
-                        XLogSys.Print.Warn($"任务 {target.Name} 已经成功保存");
+                    
                     }
                 }
                 else
@@ -493,6 +515,7 @@ namespace Hawk.ETL.Managements
                 }
 
                 task.ProcessToDo = configDocument;
+                XLogSys.Print.Warn($"任务 {task.Name} 已经成功保存");
             }
         }
 

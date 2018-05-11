@@ -69,7 +69,7 @@ namespace Hawk.ETL.Plugins.Transformers
                 foreach (var p in r)
                 {
                     var doc=new FreeDocument();
-                    doc.Add("regex",p);
+                    doc.Add(Column,p);
                     yield return doc.MergeQuery( data, NewColumn);
                 
                 }

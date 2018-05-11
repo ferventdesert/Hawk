@@ -121,8 +121,8 @@ namespace Hawk.ETL.Plugins.Executor
             ConnectorSelector.SelectItem =
                 dataManager.CurrentConnectors.FirstOrDefault(d => d.Name == docu["Connector"].ToString());
 
-            TableNames.SelectItem =
-                ConnectorSelector.SelectItem?.RefreshTableNames().FirstOrDefault(d => d.Name == docu["Table"].ToString())?.Name;
+            TableNames.SelectItem = docu["Table"].ToString();
+               // ConnectorSelector.SelectItem?.RefreshTableNames().FirstOrDefault(d => d.Name == docu["Table"].ToString())?.Name;
         }
     }
 }

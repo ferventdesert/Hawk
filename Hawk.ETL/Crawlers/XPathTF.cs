@@ -63,10 +63,12 @@ namespace Hawk.ETL.Crawlers
             return p2.Select(node =>
             {
                 var doc = new FreeDocument();
-                doc.Add("Text", node.GetNodeText());
-                doc.Add("HTML", node.InnerHtml);
-                doc.Add("OHTML", node.OuterHtml);
-                return doc.MergeQuery(data, NewColumn);
+               
+                 doc.MergeQuery(data, NewColumn);
+                doc.Set("Text", node.GetNodeText());
+                doc.Set("HTML", node.InnerHtml);
+                doc.Set("OHTML", node.OuterHtml);
+                return doc;
             });
         }
 

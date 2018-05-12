@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -51,6 +52,8 @@ namespace Hawk.ETL.Process
 
                 ETLToolsView.GroupDescriptions.Add(new PropertyGroupDescription("Self", new GroupConverter()));
                 ETLToolsView.SortDescriptions.Add(new SortDescription("GroupName",ListSortDirection.Ascending));
+                ETLToolsView.CustomSort =  new NameComparer();
+                
             }
         }
 
@@ -65,7 +68,7 @@ namespace Hawk.ETL.Process
 
         private ListView currentToolList;
         private ScrollViewer scrollViewer;
-        private string searchText;
+        private string searchText = "常用";
 
         #endregion
 
@@ -1010,6 +1013,31 @@ namespace Hawk.ETL.Process
         Edit
     }
 
+    public class NameComparer : IComparer
+    {
+     
+        public int Compare(object x, object y)
+        {
+            var x1 = x as XFrmWorkAttribute;
+            var y1 = y as XFrmWorkAttribute;
+            var key = "常用";
+            if (x1.Description.Contains(key))
+            {
+                if (y1.Description.Contains(key))
+                    return x1.Name.CompareTo(y1.Name);
+                return -1;
+
+            }
+            if (y1.Description.Contains(key))
+            {
+                return 1;
+
+            }
+           return x1.Name.CompareTo(y1.Name);
+
+
+        }
+    }
     public class SmartGroup : PropertyChangeNotifier
     {
         private GroupType _groupType;

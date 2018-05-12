@@ -1239,8 +1239,14 @@ namespace Hawk.ETL.Crawlers
                     if (subPath2 == subPath1)
                         continue;
 
-                    yield return GetCrawTargetOne(childNodes, crawlItem, existItem);
-                    yield return GetCrawTargetOne(childNodes, existItem, crawlItem);
+                   var item= GetCrawTargetOne(childNodes, crawlItem, existItem);
+                    item.RootNode = doc2;
+                    item.WorkMode = ScriptWorkMode.One;
+                    yield return item;
+                    item= GetCrawTargetOne(childNodes, existItem, crawlItem);
+                    item.RootNode = doc2;
+                    item.WorkMode = ScriptWorkMode.One;
+                    yield return item;
                 }
             }
         }
@@ -1257,6 +1263,7 @@ namespace Hawk.ETL.Crawlers
             var crawlItems = names.Zip(xpaths,
                 (a, b) => new CrawlItem {Name = a, XPath = b, CrawlType = valueItem.CrawlType}).ToList();
             var target = getCrawTarget(crawlItems, "");
+            
             return target;
         }
 

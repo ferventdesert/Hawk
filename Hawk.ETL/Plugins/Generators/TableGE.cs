@@ -10,7 +10,7 @@ using Hawk.ETL.Interfaces;
 
 namespace Hawk.ETL.Plugins.Generators
 {
-    [XFrmWork("从数据表生成","从数据管理中已有的数据表中生成" )]
+    [XFrmWork("从数据表生成","从数据管理中已有的数据表中生成，常用" )]
     public class TableGE : GeneratorBase
     {
         private readonly IDataManager dataManager;

@@ -168,21 +168,21 @@
         </ItemsPanelTemplate>
 
         <DataTemplate x:Key="DataTemplateList">
-            <StackPanel Orientation="Horizontal" Margin="0,4" >
-                <Rectangle Width="20" Height="20" Margin="0,0,20,0" >
-                    <Rectangle.Fill>
-                        <VisualBrush Stretch="Fill"
-							Visual="{Binding  Converter={StaticResource ModuleMetroConverter}, Mode=OneWay}"  />
-                    </Rectangle.Fill>
-                </Rectangle>
-                <StackPanel HorizontalAlignment="Stretch" Height="Auto" Width="Auto" Orientation="Vertical">
-                    <Label Content="{Binding Name}" Margin="0" Height="Auto" VerticalAlignment="Stretch" FontSize="{DynamicResource LargeFont}"
-            			d:LayoutOverrides="GridBoX" HorizontalAlignment="Left" Width="Auto" />
-                    <Label Content="{Binding Description}" Margin="0" Height="Auto" VerticalAlignment="Stretch"
-            			HorizontalAlignment="Left" Width="Auto" Opacity="0.8" />
+            <Grid Height="Auto" Margin="0,4" Width="Auto">
+        		<Rectangle Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" >
+        			<Rectangle.Fill>
+        				<VisualBrush Stretch="Fill"
+        					Visual="{Binding Converter={StaticResource ModuleMetroConverter}, Mode=OneWay}"  />
+        			</Rectangle.Fill>
+        		</Rectangle>
+        		<StackPanel Height="Auto" Width="Auto" Orientation="Vertical" d:LayoutOverrides="Width, Height" Margin="30,0,0,0">
+        			<Label Content="{Binding Name}" ToolTip="{Binding Description}" Margin="0" Height="Auto" VerticalAlignment="Stretch" FontSize="{DynamicResource LargeFont}"
+        				d:LayoutOverrides="GridBoX" HorizontalAlignment="Left" Width="Auto" />
+        			<TextBlock Text="{Binding Description}" Margin="0" Height="Auto" VerticalAlignment="Stretch"
+        				HorizontalAlignment="Left" Width="Auto" Opacity="0.6" TextWrapping="WrapWithOverflow" />
 
-                </StackPanel>
-            </StackPanel>
+        		</StackPanel>
+        	</Grid>
             <DataTemplate.Triggers>
                 <EventTrigger RoutedEvent="Mouse.MouseEnter" />
                 <EventTrigger RoutedEvent="Mouse.MouseLeave" />
@@ -354,7 +354,7 @@
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal"
 					d:LayoutOverrides="Height" VerticalAlignment="Center">
                     <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"><Run Language="zh-cn" Text="任务名称"/></TextBlock>
-                    <TextBox TextWrapping="Wrap" Text="{Binding Name}" System_Windows_Controls_WpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" VerticalAlignment="Center" Margin="8,0,30,0" FontSize="16" MinWidth="100"/>
+                    <TextBox TextWrapping="Wrap" Text="{Binding Name}" System_Windows_Controls_WpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" VerticalAlignment="Center" Margin="8,0,25,0" FontSize="16" MinWidth="100"/>
                     <TextBlock TextWrapping="Wrap" Text="模块"
                 		VerticalAlignment="Center" />
                     <TextBox Width="50" TextWrapping="Wrap" Text="{Binding ETLMount}" VerticalAlignment="Center"
@@ -433,9 +433,11 @@
                     <TextBlock TextWrapping="Wrap" Margin="0"
 							VerticalAlignment="Center" ><Run Language="zh-cn" Text="采样量"/></TextBlock>
                     <TextBox TextWrapping="Wrap" Text="{Binding SampleMount}" ToolTip="设置获取数据表的前n行" VerticalAlignment="Center"
-							FontSize="16" MinWidth="30" />
-                    <CheckBox Content="自动刷新" IsChecked="{Binding IsAutoRefresh}" VerticalAlignment="Center" Margin="15,0,0,0" />
-                    <CheckBox Content="调试详情" IsChecked="{Binding DisplayDetail}" VerticalAlignment="Center" Margin="15,0,0,0" />
+							FontSize="16" MinWidth="30" Margin="0,0,30,0" />
+                    <StackPanel>
+                    	<CheckBox Content="自动刷新" IsChecked="{Binding IsAutoRefresh}" VerticalAlignment="Center" />
+                    	<CheckBox Content="调试详情" IsChecked="{Binding DisplayDetail}" VerticalAlignment="Center" />
+                    </StackPanel>
                 </StackPanel>
 
             </Grid>
@@ -477,7 +479,7 @@
                 </Grid>
             </ScrollViewer>
         </Grid>
-        <StackPanel Height="17.24" Margin="20,12.835,29.75,0" Orientation="Horizontal" VerticalAlignment="Top" d:LayoutOverrides="Width">
+        <StackPanel Margin="20,12.835,29.75,0" Orientation="Horizontal" VerticalAlignment="Top" d:LayoutOverrides="Width">
             <Rectangle Width="15" Height="15" Margin="0,0,10,0" >
                 <Rectangle.Fill>
                     <VisualBrush Stretch="Fill"
@@ -502,9 +504,7 @@
                     <GroupStyle ContainerStyle="{StaticResource GroupContainerStyle}">
                         <GroupStyle.HeaderTemplate>
                             <DataTemplate>
-
                                 <TextBlock Text="{Binding Name}"  />
-
                             </DataTemplate>
                         </GroupStyle.HeaderTemplate>
                     </GroupStyle>
@@ -513,7 +513,6 @@
             <GridSplitter HorizontalAlignment="Stretch" Height="3" VerticalAlignment="Bottom" Margin="0,0,0,-1.25" d:LayoutOverrides="VerticalAlignment, GridBox" />
             <ListView  x:FieldModifier="public" x:Name="CurrentETLToolList"  SelectedItem="{Binding CurrentTool, Mode=OneWay}"  Grid.Row="1" Margin="0,8,0,0" SelectionMode="Single" DataContext="{Binding}"
 				ItemsSource="{Binding CurrentETLTools}" >
-
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="启用">
@@ -526,7 +525,6 @@
                         <GridViewColumn Header="位置" DisplayMemberBinding="{Binding ETLIndex}" />
                         <GridViewColumn Header="类型" DisplayMemberBinding="{Binding Attribute, Converter={StaticResource GroupConverter}}" />
                         <GridViewColumn Header="名称" DisplayMemberBinding="{Binding TypeName}" />
-
                     </GridView>
 
                 </ListView.View>

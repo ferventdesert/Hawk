@@ -258,7 +258,7 @@
 			<TextBlock TextWrapping="Wrap" Margin="0,0,-0.001,0" FontSize="{DynamicResource UltraFont}" d:LayoutOverrides="Width, GridBox"><Run Language="zh-cn" Text="快速链接"/></TextBlock>
         </StackPanel>
         <ListBox Grid.Column="2" Margin="30,40,30,20" Grid.Row="2" ItemTemplate="{DynamicResource DataTemplateHelp}" ItemsSource="{Binding MainFrmUI.CommandCollection[1].ChildActions}" Grid.RowSpan="2"/>
-        <StackPanel Grid.Column="1" d:LayoutOverrides="Width" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="30,20,0,20">
+        <StackPanel VerticalAlignment="Bottom" Margin="270,0,0,30" HorizontalAlignment="Left" Width="235.283" Grid.ColumnSpan="2">
         	<TextBlock TextWrapping="Wrap" FontSize="16" Foreground="#FFA1A1A1" HorizontalAlignment="Left"><Run Text="数据处理革命"/></TextBlock>
         	<TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="16" Foreground="#FFA1A1A1" Margin="0,8,0,0"><Run Text="Smart ETL Crawler Engine"/></TextBlock>
         </StackPanel>

@@ -10,7 +10,7 @@ using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("合并多列", "将多个列组合成同一列，形如'http:\\{0}:{1},{2}...'输入列的序号为0，之后的1,2分别代表【其他项】的第0和第1个值")]
+    [XFrmWork("合并多列", "将多个列组合成同一列，形如'http:\\{0}:{1},{2}...'输入列的序号为0，之后的1,2分别代表【其他项】的第0和第1个值，常用")]
     public class MergeTF : TransformerBase
     {
 

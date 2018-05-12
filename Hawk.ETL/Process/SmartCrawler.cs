@@ -48,7 +48,8 @@ namespace Hawk.ETL.Process
         private IEnumerator<string> currentXPaths;
         public bool enableRefresh = true;
         private bool hasInit;
-        public HtmlDocument HtmlDoc = new HtmlDocument();
+
+        public HtmlDocument HtmlDoc { get; set; }
         private TextBox htmlTextBox;
         private bool isBusy;
 
@@ -70,6 +71,7 @@ namespace Hawk.ETL.Process
             CrawlItems = new ObservableCollection<CrawlItem>();
             helper = new HttpHelper();
             URL = "";
+            HtmlDoc=new HtmlDocument();
             SelectText = "";
             IsMultiData = ScriptWorkMode.List;
             IsAttribute = true;
@@ -916,7 +918,10 @@ namespace Hawk.ETL.Process
                     {
                         dynamic invoke = control.View;
                         if (IsSuperMode == false)
+                        {
                             invoke.UpdateHtml(URLHTML);
+                            OnPropertyChanged("HtmlDoc");
+                        }
                         else
                         {
                             invoke.UpdateHtml("超级模式下内置浏览器不展示内容，请查看左侧的文本内容");

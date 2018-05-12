@@ -88,7 +88,7 @@ namespace Hawk.ETL.Managements
         }
 
 
-        public static TemporaryTask AddTempTask<T>(string taskName, IEnumerable<T> enumable, Func<IEnumerable<T>,IEnumerable<T>> action,
+        public static TemporaryTask AddTempTask<T>(string taskName, IEnumerable<T> source, Func<IEnumerable<T>,IEnumerable<T>> action,
           Action<int> contineAction = null, int count = -1, bool autoStart = true, int notifyInterval = 1,
           Func<int> delayFunc = null)
         {
@@ -100,12 +100,12 @@ namespace Hawk.ETL.Managements
                 notifyInterval = 1;
             tempTask.TaskAction = () =>
             {
-                if (enumable is ICollection<T>)
+                if (source is ICollection<T>)
                 {
-                    count = ((ICollection<T>)enumable).Count;
+                    count = ((ICollection<T>)source).Count;
                 }
 
-                foreach (var r in action!=null?action(enumable):enumable)
+                foreach (var r in action!=null?action(source):source)
                 {
                  
 

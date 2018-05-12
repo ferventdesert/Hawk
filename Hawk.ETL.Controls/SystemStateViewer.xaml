@@ -54,6 +54,14 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+			
+			 <DataTemplate x:Key="ListViewTemplate">
+            <Grid Height="Auto" Width="Auto">
+			 		<Border BorderBrush="Black" BorderThickness="1"/>
+			 		<ProgressBar Height="Auto"   Value="{Binding Percent}" VerticalAlignment="Stretch" Opacity="0.2"/>
+			 		<TextBlock  Text="{Binding Name}"  d:LayoutOverrides="Width, Height"  />
+			 	</Grid>
+        </DataTemplate>
 		<DataTemplate x:Key="DataTemplate1">
             <StackPanel Orientation="Horizontal" mvvm:ListItemDoubleClick.Property="Commands[2].ChildActions[2]" >
             		<Rectangle Width="15" Height="15" Margin="0,0,10,0" >
@@ -197,7 +205,7 @@
 	 
 			<Grid Margin="8,0"  DataContext="{Binding PluginDictionary[模块管理]}" MinHeight="150" Grid.Row="2" >
 				 
-				<ListView   ItemsSource="{Binding CurrentProcessTasks}" Margin="8,30,8,20">
+				<ListView   ItemsSource="{Binding CurrentProcessTasks}" Margin="0,30,0,20">
     	
 					<ListView.View>
 						<GridView>
@@ -218,21 +226,11 @@
 								<!--脑残的xaml-->        
 							</GridViewColumn>
 							
-							<GridViewColumn Header="名称" DisplayMemberBinding="{Binding Name}" />
-							<GridViewColumn Header="位置" DisplayMemberBinding="{Binding CurrentIndex}" />
-							<GridViewColumn Header="百分比">
-								<GridViewColumn.CellTemplate>
-									<DataTemplate>
-										<StackPanel Orientation="Horizontal">
-											<ProgressBar Value="{Binding Percent}" Width="50" Margin="0,0,5,0"/>   
-    							 
-										</StackPanel>
-									</DataTemplate>
-								</GridViewColumn.CellTemplate>
-								<!--脑残的xaml-->        
+							<GridViewColumn Header="名称" CellTemplate="{StaticResource ListViewTemplate}"  >
+								
 							</GridViewColumn>
-						
-							
+							<GridViewColumn Header="位置" DisplayMemberBinding="{Binding CurrentIndex}" />
+						 
 						</GridView>
 					</ListView.View> 	           	 
 				</ListView>
@@ -256,6 +254,8 @@
     	 
             
 			</Grid>
+			<GridSplitter Height="1" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" d:LayoutOverrides="VerticalAlignment, GridBox"/>
+			<GridSplitter Height="1" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0" Grid.Row="2"/>
             
 		
 	</Grid>

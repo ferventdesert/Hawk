@@ -135,13 +135,13 @@ namespace Hawk.ETL.Crawlers
         {
             if (node2 == null && node1 != null && node1.XPath.Contains("#") == false)
             {
-                // paths.Add(node1.XPath);
+                // paths.Set(node1.XPath);
                 return false;
             }
 
             if (node1 == null && node2 != null && node2.XPath.Contains("#") == false)
             {
-                // paths.Add(node2.XPath);
+                // paths.Set(node2.XPath);
                 return false;
             }
             if (node1 == null || node2 == null)

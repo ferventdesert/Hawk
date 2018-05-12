@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
+using NPOI.SS.Formula.Functions;
 
 namespace Hawk.Core.Utils
 {
@@ -68,6 +70,10 @@ namespace Hawk.Core.Utils
 
             return documents;
         }
+        public static String RemoveSpecialCharacter(String hexData)
+        {
+            return Regex.Replace(hexData, "[ \\[ \\] \\^ \\-*×――(^)$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”-]", "").ToUpper();
+        }
     }
 
 
@@ -83,6 +89,8 @@ namespace Hawk.Core.Utils
             collection.Add(instance);
             return instance;
         }
+
+
 
         /// <summary>
         ///     添加一个新实例
@@ -209,6 +217,9 @@ namespace Hawk.Core.Utils
             }
 
         }
+
+       
+
         public static IEnumerable<T> BatchDo<T>(this IEnumerable<T> documents,
             Func<T,bool> initFunc, Action<List<T> > batchFunc, Action endFunc = null, int batchMount = 100) 
         {

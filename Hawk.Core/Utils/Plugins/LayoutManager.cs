@@ -49,16 +49,17 @@ namespace XFrmWork.UI.Controls
             {
                 return this.commands ??
                        (this.commands =
-                        new BindingAction("布局",obj => this.RefreshLayoutView())
+                        new BindingAction("布局")
                         {
                             ChildActions =
                                     new ObservableCollection<ICommand>
                                         {
-                                       //     new BindingAction("保存当前布局", obj => this.SaveCurrentLayout()) {Icon = "save"},
+                                        //     new BindingAction("保存当前布局", obj => this.SaveCurrentLayout()) {Icon = "save"},
                                         //    new BindingAction("加载布局", obj => this.UpdateLayouts()) {Icon = "inbox_out"},
-                                            this.viewMenu,
-                                         
-                                        },Icon = "layout"
+
+                                            new BindingAction("刷新", obj => this.RefreshLayoutView()){Icon="refresh"},
+                                        this.viewMenu,
+            },Icon = "layout"
                         });
             }
         }
@@ -73,9 +74,11 @@ namespace XFrmWork.UI.Controls
         public override bool Init()
         {
             this.manager = this.MainFrmUI as IDockableManager;
-            this.viewMenu = new BindingAction("视图", obj => this.RefreshLayoutView());
+
+            this.viewMenu = new BindingAction("视图", obj => this.RefreshLayoutView()){Icon = "layout"};
 
             this.UpdateLayouts();
+            RefreshLayoutView();
 
             return true;
         }

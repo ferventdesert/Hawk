@@ -106,7 +106,7 @@ namespace Hawk.ETL.Crawlers
                                     item.DictCopyTo(newItem);
                                     CrawlItems.Add(newItem);
                                 }
-                            }, null, "copy"),
+                            }, null, "page_add"),
                         new Command("删除",
                             d =>
                             {

@@ -32,7 +32,7 @@ namespace Hawk.ETL.Plugins.Generators
         //{
         //    var dict = base.DictSerialize(scenario);
         //    if(TableSelector.SelectItem!=null)
-        //      dict.Add("Table", TableSelector.SelectItem);
+        //      dict.Set("Table", TableSelector.SelectItem);
              
         //    return dict;
         //}

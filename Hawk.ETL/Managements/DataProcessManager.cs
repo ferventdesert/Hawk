@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
+using System.Resources;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.WpfPropertyGrid;
@@ -15,6 +17,9 @@ using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Process;
+using log4net;
+using log4net.Core;
+using log4net.Repository.Hierarchy;
 
 namespace Hawk.ETL.Managements
 {
@@ -176,15 +181,68 @@ namespace Hawk.ETL.Managements
                 System.Diagnostics.Process.Start(url);
             }){Description = "作者沙漠君的博客", Icon = "tower"};
          
-            var pluginCommands = new BindingAction("帮助") {Icon = "magnify"};
-            pluginCommands.ChildActions.Add(mainlink);
-            pluginCommands.ChildActions.Add(helplink);
+            var helpCommands = new BindingAction("帮助") {Icon = "magnify"};
+            helpCommands.ChildActions.Add(mainlink);
+            helpCommands.ChildActions.Add(helplink);
         
-            pluginCommands.ChildActions.Add(feedback);
-            pluginCommands.ChildActions.Add(giveme);
-            pluginCommands.ChildActions.Add(blog);
-            pluginCommands.ChildActions.Add(aboutAuthor);
-            MainFrmUI.CommandCollection.Add(pluginCommands);
+            helpCommands.ChildActions.Add(feedback);
+            helpCommands.ChildActions.Add(giveme);
+            helpCommands.ChildActions.Add(blog);
+            helpCommands.ChildActions.Add(aboutAuthor);
+            MainFrmUI.CommandCollection.Add(helpCommands);
+
+            Hierarchy hierarchy = (Hierarchy)LogManager.GetRepository();
+            var debugCommand= new BindingAction("调试")
+            {
+                ChildActions = new ObservableCollection<ICommand>()
+                {
+                    new BindingAction("级别设置")
+                    {
+                        ChildActions =
+                            new ObservableCollection<ICommand>()
+                            {
+                                new BindingAction("Debug",obj=>hierarchy.Root.Level=Level.Debug),
+                                new BindingAction("Info",obj=>hierarchy.Root.Level=Level.Info),
+                                new BindingAction("Warn",obj=>hierarchy.Root.Level=Level.Warn),
+                                new BindingAction("Error",obj=>hierarchy.Root.Level=Level.Error),
+                                new BindingAction("Fatal",obj=>hierarchy.Root.Level=Level.Fatal),
+                            }
+                    }
+                },
+
+                Icon = ""
+            };
+
+            MainFrmUI.CommandCollection.Add(debugCommand);
+            debugCommand?.ChildActions.Add(new BindingAction("Web请求统计", obj =>
+            {
+
+                if (debugGrid == null)
+                {
+                    debugGrid = PropertyGridFactory.GetInstance(RequestManager.Instance);
+                }
+                else
+                {
+                    debugGrid.SetObjectView(RequestManager.Instance);
+                }
+               
+                dynamic control =
+                    (this.MainFrmUI as IDockableManager).ViewDictionary.FirstOrDefault(d => d.View == debugGrid)
+                    ?.Container;
+                if (control != null)
+                {
+                    control.Show();
+                }
+
+                else
+                {
+                    (this.MainFrmUI as IDockableManager).AddDockAbleContent(FrmState.Mini, debugGrid, "Web请求统计");
+                }
+
+
+                
+
+            }){Icon = "graph_line"});
             ProcessCollection = new ObservableCollection<IDataProcess>();
 
 
@@ -448,7 +506,7 @@ namespace Hawk.ETL.Managements
                     new ListCollectionView(PluginProvider.GetPluginCollection(typeof (IDataProcess)).ToList());
 
                 ProgramNameFilterView.GroupDescriptions.Clear();
-                ProgramNameFilterView.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
+                             ProgramNameFilterView.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
                 var taskView = PluginProvider.GetObjectInstance<ICustomView>("工作线程视图");
                 var userControl = taskView as UserControl;
                 if (userControl != null)
@@ -616,6 +674,7 @@ namespace Hawk.ETL.Managements
 
         private Project currentProject;
         private TaskBase _selectedTask;
+        private WPFPropertyGrid debugGrid;
 
 
         public IDataProcess GetOneInstance(string name, bool isAddToList = true, bool newOne = false,
@@ -748,5 +807,20 @@ namespace Hawk.ETL.Managements
         }
 
         #endregion
+        
+    }
+
+
+    public class ProcessGroupConverter:IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return "haha";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

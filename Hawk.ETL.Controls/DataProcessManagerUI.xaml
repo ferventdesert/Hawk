@@ -7,12 +7,14 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
 
 
-             xmlns:Connectors="clr-namespace:Hawk.Core.Connectors;assembly=Hawk.Core" xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Hawk.ETL.Controls.DataProcessManagerUI"
+             xmlns:Connectors="clr-namespace:Hawk.Core.Connectors;assembly=Hawk.Core" xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:Hawk_Core_Themes="clr-namespace:Hawk.Core.Themes;assembly=Hawk.Core" x:Class="Hawk.ETL.Controls.DataProcessManagerUI"
 
 
              mc:Ignorable="d"  d:DesignWidth="972.666" d:DesignHeight="465.502">
     <UserControl.Resources>
         <ResourceDictionary>
+
+        	<Hawk_Core_Themes:TaskMetroConverter x:Key="TaskMetroConverter"/>
 
    <Style x:Key="GroupContainerStyle" TargetType="{x:Type GroupItem}">
                 <Setter Property="Template">
@@ -66,7 +68,7 @@
                                 </Rectangle.Fill>
                             </Rectangle>
 		 
-            		<StackPanel  Height="Auto"  mvvm:ListItemDoubleClick.Property="BindingCommands.ChildActions[6].ChildActions[0]" d:DesignWidth="210.332" d:DesignHeight="136.471" Margin="0" Width="Auto">
+            		<StackPanel  Height="Auto"  mvvm:ListItemDoubleClick.Property="BindingCommands.ChildActions[6].ChildActions[0]" Margin="0" Width="Auto">
             			<TextBlock Margin="0,0,0,8" TextWrapping="Wrap" Text="{Binding Name}"  d:LayoutOverrides="Width" FontSize="{DynamicResource LargeFont}" FontWeight="Normal"/>
             			<TextBlock TextWrapping="Wrap"   Text="{Binding Description}"  />
             		</StackPanel>
@@ -79,11 +81,17 @@
 
 
 
-
+          
 
             <DataTemplate x:Key="DataTemplate2">
                 <StackPanel   mvvm:ListItemDoubleClick.Property="BindingCommands.ChildActions[1].ChildActions[0]"  HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Stretch" Width="Auto" Orientation="Horizontal"   >
-                    <Label Content="{Binding Name}" ToolTip="{Binding Description}" Margin="5,5,0,5" VerticalAlignment="Center"  FontSize="14.667" HorizontalAlignment="Left" Width="Auto" />
+                    <Rectangle Width="20" Height="20" VerticalAlignment="Center" Margin="0,0,10,0" >
+                		<Rectangle.Fill>
+                			<VisualBrush Stretch="Fill"
+                				Visual="{Binding ProcessToDo[Type], Converter={StaticResource TaskMetroConverter}, Mode=OneWay}"  />
+                		</Rectangle.Fill>
+                	</Rectangle>
+                	<Label Content="{Binding Name}" ToolTip="{Binding Description}" Margin="5,5,0,5" VerticalAlignment="Center"  FontSize="14.667" HorizontalAlignment="Left" Width="Auto" />
                 </StackPanel>
             </DataTemplate>
         	<System:Double x:Key="LargeFont">14.667</System:Double>
@@ -95,10 +103,10 @@
                                                  Visual="{Binding Icon, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
                                 </Rectangle.Fill>
                             </Rectangle>
-            	<StackPanel d:DesignWidth="56.5" Margin="0,6" Width="300">
-            		<StackPanel d:DesignWidth="56.5"  Width="300" Orientation="Horizontal">
+            	<StackPanel Margin="0,6" Width="300">
+            		<StackPanel  Width="300" Orientation="Horizontal">
             				<TextBlock   Margin="0,0,8,8"  Text="{Binding Text}"   d:LayoutOverrides="Width" FontSize="{DynamicResource LargeFont}" FontWeight="Normal" VerticalAlignment="Center"/>
-            		         <TextBlock VerticalAlignment="Center"><Hyperlink Command="{Binding}"><Run>访问</Run></Hyperlink></TextBlock>
+            		         <TextBlock VerticalAlignment="Center"><Hyperlink Command="{Binding}"><Run Text="访问"/></Hyperlink></TextBlock>
 						 </StackPanel>
             		<TextBlock TextWrapping="Wrap"   Text="{Binding Description}"  />
             	</StackPanel>
@@ -118,9 +126,9 @@
     		<RowDefinition Height="0.661*"/>
     	</Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.284*"/>
-            <ColumnDefinition Width="0.307*"/>
-            <ColumnDefinition Width="0.409*"/>
+        	<ColumnDefinition Width="0.400*"/>
+        	<ColumnDefinition Width="0.400*"/>
+        	<ColumnDefinition Width="0.3*"/>
         </Grid.ColumnDefinitions>
         <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="3" Grid.RowSpan="4"/>
 

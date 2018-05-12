@@ -5,6 +5,7 @@ using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 
@@ -79,7 +80,12 @@ namespace Hawk.ETL.Plugins.Executor
                     return connector.WriteData(documents);
                 }
                 return
-                    documents.BatchDo(InitTable, list => ConnectorSelector.SelectItem.BatchInsert(list, tableName));
+                    documents.BatchDo(InitTable, list =>
+                    {
+                        
+                        ConnectorSelector.SelectItem.BatchInsert(list, tableName);
+                        XLogSys.Print.Info($"向数据库{ConnectorSelector.SelectItem.Name}，表名{TableNames.SelectItem}成功写入{list.Count}条数据");
+                    });
             }
             return
                 documents.Init(InitTable).Select(

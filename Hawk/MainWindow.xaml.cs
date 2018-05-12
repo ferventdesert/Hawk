@@ -85,7 +85,7 @@ namespace Hawk
 
             XmlConfigurator.Configure(new FileInfo("log4net.config"));
 
-
+       
             string icon = ConfigurationManager.AppSettings["Icon"];
             try
             {
@@ -365,7 +365,7 @@ namespace Hawk
 
                         layout = Factory(name, thisControl);
 
-                        documentMain.Children.Add(layout);
+                        dockablePane1.Children.Add(layout);
 
                         layout.Float();
                                     

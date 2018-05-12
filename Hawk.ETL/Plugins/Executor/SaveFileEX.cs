@@ -106,7 +106,9 @@ namespace Hawk.ETL.Plugins.Executor
                     path = folder.ToString();
                     if (path.EndsWith("/") == false)
                         path += "/";
-                    path += getFileName(url);
+                    path += url;
+                    path = getFileName(path);
+                    //path += getFileName(url);
                 }
                 if (File.Exists(path))
                     {

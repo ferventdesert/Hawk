@@ -59,7 +59,7 @@ namespace Hawk.ETL.Plugins.Transformers
                     var doc = new FreeDocument();
                   
                     doc.MergeQuery(data, NewColumn);
-                    doc.Set(Column, p);
+                    doc.SetValue(Column, p);
                     yield return doc;
 
                 }
@@ -157,8 +157,8 @@ namespace Hawk.ETL.Plugins.Transformers
         //    public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         //    {
         //        var dict = base.DictSerialize(scenario);
-        //        dict.Add("Source", SourceType.SelectItem);
-        //        dict.Add("Target", TargetType.SelectItem);
+        //        dict.Set("Source", SourceType.SelectItem);
+        //        dict.Set("Target", TargetType.SelectItem);
         //        return dict;
         //    }
 

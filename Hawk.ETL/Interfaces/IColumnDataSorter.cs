@@ -6,6 +6,7 @@ using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Managements;
 using Hawk.ETL.Plugins.Transformers;
 using Hawk.ETL.Process;
 
@@ -120,7 +121,7 @@ namespace Hawk.ETL.Interfaces
         }
 
         public static IFreeDocument Transform(this IColumnDataTransformer ge,
-            IFreeDocument item)
+            IFreeDocument item,AnalyzeItem analyzeItem)
         {
             if (item == null)
                 return new FreeDocument();
@@ -132,6 +133,7 @@ namespace Hawk.ETL.Interfaces
             {
                 if (ge.OneOutput && dict[ge.Column] == null)
                 {
+                    analyzeItem.EmptyInput++;
                 }
                 else
                 {
@@ -141,6 +143,7 @@ namespace Hawk.ETL.Interfaces
             catch (Exception ex)
             {
                 res = ex.Message;
+                analyzeItem.Error++;
                 XLogSys.Print.Error($"位于{ge.ETLIndex}， 作用在{ge.Column}的模块 {ge.TypeName} 转换出错, 信息{res}");
             }
 
@@ -163,15 +166,18 @@ namespace Hawk.ETL.Interfaces
             return dict;
         }
 
-        public static EnumerableFunc FuncAdd(this IColumnProcess tool, EnumerableFunc func, bool isexecute)
+        public static EnumerableFunc FuncAdd(this IColumnProcess tool, EnumerableFunc func, bool isexecute,Analyzer analyzer)
         {
+            AnalyzeItem analyzeItem = null;
+                analyzeItem=analyzer?.Set(tool);
             try
             {
                 tool.SetExecute(isexecute);
-                tool.Init(new List<IFreeDocument>());
+                if (analyzeItem != null) analyzeItem.HasInit = tool.Init(new List<IFreeDocument>());
             }
             catch (Exception ex)
             {
+                if (analyzeItem != null) analyzeItem.HasInit = false;
                 XLogSys.Print.Error($"位于{tool.Column}列的{tool.TypeName}模块在初始化时出现异常：{ex},请检查任务参数");
                 return func;
             }
@@ -181,14 +187,14 @@ namespace Hawk.ETL.Interfaces
             {
                 var ge = tool as IColumnDataTransformer;
                 var func1 = func;
-                func = d =>
+                func = source =>
                 {
+                   var  source2 = func1(source).CountInput(analyzeItem);
                     if (ge.IsMultiYield)
                     {
-                        return ge.TransformManyData(func1(d));
-                    }
-                    var r = func1(d);
-                    return r.Select(d2 => Transform(ge, d2));
+                        return ge.TransformManyData(source2).CountOutput(analyzeItem);
+                    };
+                    return source2.Select(input => Transform(ge, input,analyzeItem)).CountOutput(analyzeItem);
                 };
             }
 
@@ -201,17 +207,17 @@ namespace Hawk.ETL.Interfaces
                 {
                     case MergeType.Append:
 
-                        func = d => d.ConcatPlus(func1, ge);
+                        func = source => source.CountInput(analyzeItem).ConcatPlus(func1, ge).CountOutput(analyzeItem);
                         break;
                     case MergeType.Cross:
-                        func = d => func1(d).Cross(ge.Generate);
+                        func = source => func1(source.CountInput(analyzeItem)).Cross(ge.Generate).CountOutput(analyzeItem);
                         break;
 
                     case MergeType.Merge:
-                        func = d => func1(d).MergeAll(ge.Generate());
+                        func = source => func1(source.CountInput(analyzeItem)).MergeAll(ge.Generate()).CountOutput(analyzeItem);
                         break;
                     case MergeType.Mix:
-                        func = d => func1(d).Mix(ge.Generate());
+                        func = source => func1(source.CountInput(analyzeItem)).Mix(ge.Generate()).CountOutput(analyzeItem);
                         break;
                 }
             }
@@ -221,7 +227,7 @@ namespace Hawk.ETL.Interfaces
             {
                 var ge = tool as IDataExecutor;
                 var func1 = func;
-                func = d => ge.Execute(func1(d));
+                func = source => ge.Execute(func1(source.CountInput(analyzeItem))).CountOutput(analyzeItem);
             }
             else if (tool is IColumnDataFilter)
             {
@@ -231,24 +237,26 @@ namespace Hawk.ETL.Interfaces
                 {
                     dynamic range = t;
                     var func1 = func;
-                    func = d => func1(d).Skip((int) range.Skip).Take((int) range.Take);
+                    func = source => func1(source.CountInput(analyzeItem)).Skip((int) range.Skip).Take((int) range.Take).CountOutput(analyzeItem);
                 }
                 else
 
                 {
                     var func1 = func;
-                    func = d => func1(d).Where(t.FilteData);
+                    func = source => func1(source.CountInput(analyzeItem)).Where(t.FilteData).CountOutput(analyzeItem);
                 }
             }
             return func;
         }
 
-        public static EnumerableFunc Aggregate(this IEnumerable<IColumnProcess> tools, EnumerableFunc func=null,  bool isexecute=false)
+        public static EnumerableFunc Aggregate(this IEnumerable<IColumnProcess> tools, EnumerableFunc func=null,  bool isexecute=false,Analyzer analyzer=null)
 
         {
             if (func == null)
                 func = d => d;
-            return tools.Aggregate(func, (current, tool) => FuncAdd(tool, current, isexecute));
+            if(analyzer!=null)
+                analyzer.Items.Clear();
+            return tools.Aggregate(func, (current, tool) => FuncAdd(tool, current, isexecute,analyzer));
         }
 
         public static IEnumerable<IFreeDocument> Generate(this IEnumerable<IColumnProcess> processes, bool isexecute,

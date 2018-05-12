@@ -849,18 +849,21 @@ namespace Hawk.ETL.Process
         public IEnumerable<FreeDocument> CrawlData(string url, out HtmlDocument doc, out HttpStatusCode code,
             string post = null)
         {
+            RequestManager.Instance.RequestCount++;
             var content = GetHtml(url, out code, post);
             try
             {
                 var datas = CrawlHtmlData(content, out doc);
                 if (!datas.Any())
                 {
+                    RequestManager.Instance.ParseErrorCount++;
                     XLogSys.Print.InfoFormat("HTML抽取数据失败，url:{0}", url);
                 }
                 return datas;
             }
             catch (Exception ex)
             {
+                    RequestManager.Instance.ParseErrorCount++;
                 doc = new HtmlDocument();
                 XLogSys.Print.ErrorFormat("HTML抽取数据失败，url:{0}, 异常为{1}", url, ex.Message);
                 return new List<FreeDocument>();
@@ -890,6 +893,7 @@ namespace Hawk.ETL.Process
             URLHTML = await MainFrm.RunBusyWork(() =>
             {
                 HttpStatusCode code;
+               RequestManager.Instance.RequestCount++;
                 return GetHtml(URL, out code);
             });
             if (URLHTML.Contains("尝试自动重定向") &&

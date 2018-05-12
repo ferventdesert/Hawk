@@ -69,7 +69,8 @@ namespace Hawk.ETL.Plugins.Transformers
                 foreach (var p in r)
                 {
                     var doc=new FreeDocument();
-                    doc.Add(Column,p);
+                    doc.MergeQuery(data, NewColumn);
+                    doc.SetValue(Column,p);
                     yield return doc.MergeQuery( data, NewColumn);
                 
                 }

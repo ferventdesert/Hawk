@@ -89,6 +89,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="AnalyzerUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SmartCrawlerUI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -127,6 +131,9 @@
     </Compile>
     <Compile Include="FeelLuckPanel.xaml.cs">
       <DependentUpon>FeelLuckPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AnalyzerUI.xaml.cs">
+      <DependentUpon>AnalyzerUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="SmartCrawlerUI.xaml.cs">
       <DependentUpon>SmartCrawlerUI.xaml</DependentUpon>

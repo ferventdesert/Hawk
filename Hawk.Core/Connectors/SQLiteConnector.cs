@@ -138,7 +138,7 @@ namespace Hawk.Core.Connectors
         [PropertyOrder(2)]
         public override string DBName
         {
-            get => _dbName;
+            get { return _dbName; }
             set
             {
                 if (_dbName != value)

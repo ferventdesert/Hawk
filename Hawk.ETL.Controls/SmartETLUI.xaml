@@ -18,7 +18,7 @@
     mc:Ignorable="d"
     d:DesignHeight="855.5" d:DesignWidth="1576">
     <UserControl.Resources>
-    	<Utils:GeneratorConverter x:Key="GeneratorConverter"/>
+        <Utils:GeneratorConverter x:Key="GeneratorConverter"/>
         <Utils:GroupConverter x:Key="GroupConverter"/>
         <local:GroupColorConverter x:Key="GroupColorConverter" />
         <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
@@ -27,14 +27,14 @@
 
         <ContextMenu x:Key="resourceContextMenu"
         					DataContext="{Binding Data.Commands, Source={StaticResource BindingProxy}}">
-                            <MenuItem DataContext="{Binding [0]}" Style="{DynamicResource CommandMenuItem}" />
+            <MenuItem DataContext="{Binding [0]}" Style="{DynamicResource CommandMenuItem}" />
             <MenuItem DataContext="{Binding [1]}" Style="{DynamicResource CommandMenuItem}" />
             <MenuItem DataContext="{Binding [3]}" Style="{DynamicResource CommandMenuItem}" />
             <MenuItem DataContext="{Binding [4]}" Style="{DynamicResource CommandMenuItem}" />
             <MenuItem DataContext="{Binding [5]}" Style="{DynamicResource CommandMenuItem}" />
             <MenuItem DataContext="{Binding [6]}" Style="{DynamicResource CommandMenuItem}" />
-			            <MenuItem DataContext="{Binding [7]}" Style="{DynamicResource CommandMenuItem}" />
-                        </ContextMenu>
+            <MenuItem DataContext="{Binding [7]}" Style="{DynamicResource CommandMenuItem}" />
+        </ContextMenu>
         <Style TargetType="{x:Type ListViewItem}">
             <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
             <Setter Property="FocusVisualStyle" Value="{StaticResource ListViewItemFocusVisual}" />
@@ -162,26 +162,26 @@
 
             </Style.Triggers>
         </Style>
-         <system:Double x:Key="LargeFont">14.667</system:Double>
-     <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
+        <system:Double x:Key="LargeFont">14.667</system:Double>
+        <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
             <WrapPanel />
         </ItemsPanelTemplate>
- 
+
         <DataTemplate x:Key="DataTemplateList">
             <StackPanel Orientation="Horizontal" Margin="0,4" >
-            		<Rectangle Width="20" Height="20" Margin="0,0,20,0" >
-					<Rectangle.Fill>
-						<VisualBrush Stretch="Fill"
+                <Rectangle Width="20" Height="20" Margin="0,0,20,0" >
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"
 							Visual="{Binding  Converter={StaticResource ModuleMetroConverter}, Mode=OneWay}"  />
-					</Rectangle.Fill>
-				</Rectangle>
-            	<StackPanel HorizontalAlignment="Stretch" Height="Auto" Width="Auto" Orientation="Vertical">
-            		<Label Content="{Binding Name}" Margin="0" Height="Auto" VerticalAlignment="Stretch" FontSize="{DynamicResource LargeFont}"
+                    </Rectangle.Fill>
+                </Rectangle>
+                <StackPanel HorizontalAlignment="Stretch" Height="Auto" Width="Auto" Orientation="Vertical">
+                    <Label Content="{Binding Name}" Margin="0" Height="Auto" VerticalAlignment="Stretch" FontSize="{DynamicResource LargeFont}"
             			d:LayoutOverrides="GridBoX" HorizontalAlignment="Left" Width="Auto" />
-            		<Label Content="{Binding Description}" Margin="0" Height="Auto" VerticalAlignment="Stretch"
+                    <Label Content="{Binding Description}" Margin="0" Height="Auto" VerticalAlignment="Stretch"
             			HorizontalAlignment="Left" Width="Auto" Opacity="0.8" />
-            	
-            	</StackPanel>
+
+                </StackPanel>
             </StackPanel>
             <DataTemplate.Triggers>
                 <EventTrigger RoutedEvent="Mouse.MouseEnter" />
@@ -200,7 +200,7 @@
         			ScrollViewer.VerticalScrollBarVisibility="Auto" MinHeight="200"
         			VerticalContentAlignment="Stretch" Margin="1,0" Height="249.312">
                     <ListBox.Resources>
-                     
+
                         <Style TargetType="{x:Type ListBoxItem}">
 
                             <Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />
@@ -342,11 +342,11 @@
             <RowDefinition Height="0.264*" />
             <RowDefinition Height="0.736*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Column="1" Grid.RowSpan="2">
+        <Grid Grid.Column="1" Grid.RowSpan="2" Margin="8,0,0,0" d:LayoutOverrides="GridBox">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="40" />
-            
+
             </Grid.RowDefinitions>
             <StackPanel HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Center" Margin="0,0,10,0"/>
             <Grid Grid.Row="1">
@@ -354,90 +354,92 @@
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal"
 					d:LayoutOverrides="Height" VerticalAlignment="Center">
                     <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"><Run Language="zh-cn" Text="任务名称"/></TextBlock>
-                	<TextBox TextWrapping="Wrap" Text="{Binding Name}" System_Windows_Controls_WpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" VerticalAlignment="Center" Margin="8,0,30,0" FontSize="16" MinWidth="100"/>
-                	<TextBlock TextWrapping="Wrap" Text="模块"
+                    <TextBox TextWrapping="Wrap" Text="{Binding Name}" System_Windows_Controls_WpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" VerticalAlignment="Center" Margin="8,0,30,0" FontSize="16" MinWidth="100"/>
+                    <TextBlock TextWrapping="Wrap" Text="模块"
                 		VerticalAlignment="Center" />
-                	<TextBox Width="50" TextWrapping="Wrap" Text="{Binding ETLMount}" VerticalAlignment="Center"
+                    <TextBox Width="50" TextWrapping="Wrap" Text="{Binding ETLMount}" VerticalAlignment="Center"
                 		FontSize="16" />
-                	<TextBlock TextWrapping="Wrap" Text="/" VerticalAlignment="Center"
+                    <TextBlock TextWrapping="Wrap" Text="/" VerticalAlignment="Center"
                 		FontSize="16" />
-                	<TextBlock TextWrapping="Wrap" Text="{Binding AllETLMount}"
+                    <TextBlock TextWrapping="Wrap" Text="{Binding AllETLMount}"
                 		VerticalAlignment="Center" FontSize="16" />
-                    </StackPanel>
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-						<Button Style="{DynamicResource middleButton2}" DataContext="{Binding Commands5[4]}" Width="35"
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Style="{DynamicResource middleButton2}" DataContext="{Binding Commands5[4]}" Width="35"
 							Height="35" HorizontalAlignment="Left" d:LayoutOverrides="Height">
-							<Viewbox Width="20" Height="20">
-								<Canvas RenderTransformOrigin="0.5,0.5" Width="50" Height="50">
+                        <Viewbox Width="20" Height="20">
+                            <Canvas RenderTransformOrigin="0.5,0.5" Width="50" Height="50">
 
-									<Path Stretch="Fill" StrokeLineJoin="Round" Stroke="Black" Fill="White"
+                                <Path Stretch="Fill" StrokeLineJoin="Round" Stroke="Black" Fill="White"
 										Data="F1 M -66.7518,-348.017L 183.248,-168.017L -60.7518,3.98303L -66.7518,-348.017 Z "
 										Height="50.08" Width="42.519" RenderTransformOrigin="0.5,0.5" Canvas.Left="-5.331"
 										Canvas.Top="-0.021">
-										<Path.RenderTransform>
-											<TransformGroup>
-												<ScaleTransform ScaleX="-1" />
-												<SkewTransform />
-												<RotateTransform />
-												<TranslateTransform />
-											</TransformGroup>
-										</Path.RenderTransform>
-									</Path>
-									<Rectangle Fill="White" Height="51.333" Canvas.Left="42.056" Stroke="Black"
+                                    <Path.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="-1" />
+                                            <SkewTransform />
+                                            <RotateTransform />
+                                            <TranslateTransform />
+                                        </TransformGroup>
+                                    </Path.RenderTransform>
+                                </Path>
+                                <Rectangle Fill="White" Height="51.333" Canvas.Left="42.056" Stroke="Black"
 										StrokeLineJoin="Round" Canvas.Top="-0.135" Width="14" />
-								</Canvas>
-							</Viewbox>
-						</Button>
-						<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[2]}" Width="35"
+                            </Canvas>
+                        </Viewbox>
+                    </Button>
+                    <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[2]}" Width="35"
 							Height="35" Margin="15,0,0,0" HorizontalAlignment="Left" d:LayoutOverrides="Height, Margin" />
-						<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[0]}" Width="35"
+                    <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[0]}" Width="35"
 							Height="35" Margin="15,0,0,0" HorizontalAlignment="Left" d:LayoutOverrides="Height, Margin" />
-						<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[3]}" Width="35"
+                    <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[3]}" Width="35"
 							Height="35" Margin="15,0,0,0" HorizontalAlignment="Left" d:LayoutOverrides="Height, Margin" />
-						<Button Style="{DynamicResource middleButton2}" DataContext="{Binding Commands5[5]}" Width="35"
+                    <Button Style="{DynamicResource middleButton2}" DataContext="{Binding Commands5[5]}" Width="35"
 							Height="35" Margin="25,0,0,0" HorizontalAlignment="Left" d:LayoutOverrides="Height, HorizontalMargin">
-							<Viewbox Width="20" Height="20">
-								<Canvas RenderTransformOrigin="0.5,0.5" Width="50" Height="50">
-									<Canvas.RenderTransform>
-										<TransformGroup>
-											<ScaleTransform ScaleX="-1" />
-											<SkewTransform />
-											<RotateTransform />
-											<TranslateTransform />
-										</TransformGroup>
-									</Canvas.RenderTransform>
-									<Path Stretch="Fill" StrokeLineJoin="Round" Stroke="Black" Fill="White"
+                        <Viewbox Width="20" Height="20">
+                            <Canvas RenderTransformOrigin="0.5,0.5" Width="50" Height="50">
+                                <Canvas.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="-1" />
+                                        <SkewTransform />
+                                        <RotateTransform />
+                                        <TranslateTransform />
+                                    </TransformGroup>
+                                </Canvas.RenderTransform>
+                                <Path Stretch="Fill" StrokeLineJoin="Round" Stroke="Black" Fill="White"
 										Data="F1 M -66.7518,-348.017L 183.248,-168.017L -60.7518,3.98303L -66.7518,-348.017 Z "
 										Height="50.08" Width="42.519" RenderTransformOrigin="0.5,0.5" Canvas.Left="-5.331"
 										Canvas.Top="-0.021">
-										<Path.RenderTransform>
-											<TransformGroup>
-												<ScaleTransform ScaleX="-1" />
-												<SkewTransform />
-												<RotateTransform />
-												<TranslateTransform />
-											</TransformGroup>
-										</Path.RenderTransform>
-									</Path>
-									<Rectangle Fill="White" Height="51.333" Canvas.Left="42.056" Stroke="Black"
+                                    <Path.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="-1" />
+                                            <SkewTransform />
+                                            <RotateTransform />
+                                            <TranslateTransform />
+                                        </TransformGroup>
+                                    </Path.RenderTransform>
+                                </Path>
+                                <Rectangle Fill="White" Height="51.333" Canvas.Left="42.056" Stroke="Black"
 										StrokeLineJoin="Round" Canvas.Top="-0.135" Width="14" />
-								</Canvas>
-							</Viewbox>
-						</Button>
-						
-					</StackPanel>
-					<StackPanel HorizontalAlignment="Right" Orientation="Horizontal"
+                            </Canvas>
+                        </Viewbox>
+                    </Button>
+                    <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[6]}" Width="35"
+							Height="35" Margin="30,2.5,0,2.5" HorizontalAlignment="Left" BorderBrush="#FFFF4242" />
+
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"
 						VerticalAlignment="Center">
-						<TextBlock TextWrapping="Wrap" Margin="0"
+                    <TextBlock TextWrapping="Wrap" Margin="0"
 							VerticalAlignment="Center" ><Run Language="zh-cn" Text="采样量"/></TextBlock>
-						<TextBox TextWrapping="Wrap" Text="{Binding SampleMount}" ToolTip="设置获取数据表的前n行" VerticalAlignment="Center"
+                    <TextBox TextWrapping="Wrap" Text="{Binding SampleMount}" ToolTip="设置获取数据表的前n行" VerticalAlignment="Center"
 							FontSize="16" MinWidth="30" />
-						<CheckBox Content="自动刷新" IsChecked="{Binding IsAutoRefresh}" VerticalAlignment="Center" Margin="15,0,0,0" />
-						<CheckBox Content="调试详情" IsChecked="{Binding DisplayDetail}" VerticalAlignment="Center" Margin="15,0,0,0" />
-					</StackPanel>
-               
-                 </Grid>
-                             <ScrollViewer x:FieldModifier="public" x:Name="ScrollViewer" Margin="0"
+                    <CheckBox Content="自动刷新" IsChecked="{Binding IsAutoRefresh}" VerticalAlignment="Center" Margin="15,0,0,0" />
+                    <CheckBox Content="调试详情" IsChecked="{Binding DisplayDetail}" VerticalAlignment="Center" Margin="15,0,0,0" />
+                </StackPanel>
+
+            </Grid>
+            <ScrollViewer x:FieldModifier="public" x:Name="ScrollViewer" Margin="0"
 				ScrollViewer.HorizontalScrollBarVisibility="Auto"
 				ScrollViewer.VerticalScrollBarVisibility="Disabled">
 
@@ -476,21 +478,21 @@
             </ScrollViewer>
         </Grid>
         <StackPanel Height="17.24" Margin="20,12.835,29.75,0" Orientation="Horizontal" VerticalAlignment="Top" d:LayoutOverrides="Width">
-        	 	  <Rectangle Width="15" Height="15" Margin="0,0,10,0" >
-                                <Rectangle.Fill>
-                                    <VisualBrush Stretch="Fill"
+            <Rectangle Width="15" Height="15" Margin="0,0,10,0" >
+                <Rectangle.Fill>
+                    <VisualBrush Stretch="Fill"
                                                  Visual="{Binding ConverterParameter=magnify, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
-                                </Rectangle.Fill>
-                            </Rectangle>
-        	<TextBlock Margin="0,3.498,0,0" TextWrapping="Wrap" VerticalAlignment="Center"><Run Language="zh-cn" Text="快速检索:" /></TextBlock>
-        	<TextBox x:Name="SearchBox" TextWrapping="Wrap"
+                </Rectangle.Fill>
+            </Rectangle>
+            <TextBlock Margin="0,3.498,0,0" TextWrapping="Wrap" VerticalAlignment="Center"><Run Language="zh-cn" Text="快速检索:" /></TextBlock>
+            <TextBox x:Name="SearchBox" TextWrapping="Wrap"
         		Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="193.1" d:LayoutOverrides="Height" MinWidth="150" />
         </StackPanel>
         <Grid Margin="8,8,8,0" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.5*" />
                 <RowDefinition Height="0.6*" />
-				  <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
             </Grid.RowDefinitions>
             <ListBox x:Name="ETLToolList" x:FieldModifier="public" Margin="0,27,0,8"
 				ItemsSource="{Binding ETLToolsView}" ItemTemplate="{DynamicResource DataTemplateList}"
@@ -500,9 +502,9 @@
                     <GroupStyle ContainerStyle="{StaticResource GroupContainerStyle}">
                         <GroupStyle.HeaderTemplate>
                             <DataTemplate>
-                          
-                                    <TextBlock Text="{Binding Name}"  />
-                         
+
+                                <TextBlock Text="{Binding Name}"  />
+
                             </DataTemplate>
                         </GroupStyle.HeaderTemplate>
                     </GroupStyle>
@@ -521,27 +523,26 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-						   <GridViewColumn Header="位置" DisplayMemberBinding="{Binding ETLIndex}" />
+                        <GridViewColumn Header="位置" DisplayMemberBinding="{Binding ETLIndex}" />
                         <GridViewColumn Header="类型" DisplayMemberBinding="{Binding Attribute, Converter={StaticResource GroupConverter}}" />
                         <GridViewColumn Header="名称" DisplayMemberBinding="{Binding TypeName}" />
-                        <GridViewColumn Header="输入" DisplayMemberBinding="{Binding Column}"  Width="60"/>
-                        <GridViewColumn Header="输出" DisplayMemberBinding="{Binding NewColumn}" />
+
                     </GridView>
 
                 </ListView.View>
-				  
+
             </ListView>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,0,0,7" VerticalAlignment="Bottom" Grid.Row="2">
-            	<Rectangle Width="20" Height="20" d:LayoutOverrides="Height" Margin="0,0,10,0" >
-            		<Rectangle.Fill>
-            			<VisualBrush Stretch="Fill"
+                <Rectangle Width="20" Height="20" d:LayoutOverrides="Height" Margin="0,0,10,0" >
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"
             				Visual="{Binding ConverterParameter=hourglass, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
-            		</Rectangle.Fill>
-            	</Rectangle>
-            	<ComboBox ItemsSource="{attributes:EnumValues {x:Type connectors:GenerateMode}}" SelectedItem="{Binding GenerateMode}" d:LayoutOverrides="Height" VerticalAlignment="Center"/>
-            	<TextBlock TextWrapping="Wrap" Text="线程数" VerticalAlignment="Center" Margin="8,0,0,0" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter}}" />
-            	<TextBox TextWrapping="Wrap" Text="{Binding MaxThreadCount}" VerticalAlignment="Center" Margin="8,0,0,0" Width="40" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter}}" />
-            	<Button DataContext="{Binding Commands3[0]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Center" Width="80" Margin="10,0,0,0"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <ComboBox ItemsSource="{attributes:EnumValues {x:Type connectors:GenerateMode}}" SelectedItem="{Binding GenerateMode}" d:LayoutOverrides="Height" VerticalAlignment="Center"/>
+                <TextBlock TextWrapping="Wrap" Text="线程数" VerticalAlignment="Center" Margin="8,0,0,0" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter}}" />
+                <TextBox TextWrapping="Wrap" Text="{Binding MaxThreadCount}" VerticalAlignment="Center" Margin="8,0,0,0" Width="40" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter}}" />
+                <Button DataContext="{Binding Commands3[0]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Center" Width="80" Margin="10,0,0,0"/>
             </StackPanel>
         </Grid>
         <GridSplitter Margin="0,0,-2.438,0" Width="5" Grid.RowSpan="2" />

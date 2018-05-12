@@ -72,19 +72,19 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="178*"/>
         </Grid.RowDefinitions>
-        <StackPanel Margin="0,10,8,12.38" Orientation="Horizontal" d:LayoutOverrides="Width">
+        <Grid Margin="0,10,8,12.38" d:LayoutOverrides="Width">
 
-    		<Label Content="请键入URL:" VerticalAlignment="Center"/>
-    		<TextBox 	wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" Text="{Binding URL, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" VerticalAlignment="Center" Width="607" Margin="8,0,0,0"/>
-    		<StackPanel Orientation="Horizontal" Width="242.5" d:LayoutOverrides="HorizontalAlignment" Margin="16,0,0,0">
+    		<Label Content="请键入URL:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+    		<TextBox 	wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" Text="{Binding URL, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" VerticalAlignment="Center" Margin="79.84,0,248.16,0"/>
+    		<StackPanel Orientation="Horizontal" Width="220" Margin="0,0,12.16,0" HorizontalAlignment="Right" d:LayoutOverrides="HorizontalAlignment">
 
-    			<Button DataContext="{Binding Commands3[0]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="60" Margin="0,0,16,0"/>
-    			<Button DataContext="{Binding Commands2[2]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="60" Margin="0,0,8,0"/>
-    			<Button DataContext="{Binding Commands2[3]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="60" Margin="0,0,8,0"/>
+    			<Button DataContext="{Binding Commands3[0]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="70" Margin="0,0,16,0"/>
+    			<Button DataContext="{Binding Commands2[2]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="70" Margin="0,0,8,0"/>
+    			<Button DataContext="{Binding Commands2[3]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Top" Width="70" Margin="0,0,8,0"/>
 
 
     		</StackPanel>
-    	</StackPanel>
+    	</Grid>
         <Grid Margin="0,4,5,0" Grid.Row="1">
         	<Grid.ColumnDefinitions>
         		<ColumnDefinition Width="0.5*"/>

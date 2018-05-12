@@ -155,7 +155,7 @@ namespace Hawk.Core.Utils.Plugins
             foreach (IXPlugin plugin in orderdPlugins)
             {
                 var rc3 = plugin as IMainFrmMenu;
-                if (rc3 != null)
+                if (rc3 != null &&rc3.BindingCommands!=null)
                 {
                     this.MainFrmUI.CommandCollection.Add(rc3.BindingCommands);
                 }

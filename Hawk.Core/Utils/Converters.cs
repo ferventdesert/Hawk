@@ -28,6 +28,9 @@ namespace Hawk.Core.Utils
             if (s == null)
                 return unknown;
             var p = s.MyType;
+            string[] usualStrings = "从爬虫转换 生成区间数 合并多列 写入数据表 从文本生成 空对象过滤器 删除该列 列名修改器 XPath筛选器".Split(' ');
+            if (usualStrings.Contains(s.Name))
+                return ".常用";
             if(p==null)
                 return unknown;
             foreach (var item in map)

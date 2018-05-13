@@ -1,0 +1,160 @@
+﻿<UserControl x:Name="userControl" x:Class="Hawk.ETL.Controls.FeelLuckPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hawk.ETL.Controls"
+             xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
+             xmlns:attributes="clr-namespace:System.Windows.Controls.WpfPropertyGrid.Attributes;assembly=System.Windows.Controls.WpfPropertyGrid"
+             xmlns:connectors="clr-namespace:Hawk.Core.Connectors;assembly=Hawk.Core"
+             mc:Ignorable="d" 
+             d:DesignHeight="659" d:DesignWidth="916" Background="{DynamicResource NormalBorderBrush}">
+    <UserControl.Resources>
+    	<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Style x:Key="DataRowStyle1" TargetType="{x:Type xcdg:DataRow}">
+            <Setter Property="Background" Value="{DynamicResource NormalBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        </Style>
+        <DataTemplate x:Key="DataTemplate1">
+        	<StackPanel Orientation="Horizontal" Width="Auto">
+        		<CheckBox   Margin="0" IsChecked="{Binding IsEnabled}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        		<TextBlock TextWrapping="Wrap" Text="名称" VerticalAlignment="Center" Margin="20,0,0,0"/>
+        		<TextBox ToolTip="名称" Text="{Binding Name}" Margin="5,0,0,0" TextWrapping="Wrap"   Width="120" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        		<TextBlock TextWrapping="Wrap" Text="XPath" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,0,0,0"/>
+        		<TextBox ToolTip="XPath" MinWidth="200" Text="{Binding XPath}" Margin="5,0,0,0" TextWrapping="Wrap"   Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        	</StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+    	 
+    	<Grid.RowDefinitions>
+    		<RowDefinition Height="0.392*"/>
+    		<RowDefinition Height="0.038*"/>
+    		<RowDefinition Height="0.37*"/>
+    	</Grid.RowDefinitions>
+        <xcdg:DataGridControl Name="DataGridControl"  x:FieldModifier="public"  Background="{DynamicResource NormalBrush}"      AllowDrop="True"  ItemsSource="{Binding}"    SelectedItem="{Binding SelectedItem}"   ItemContainerStyle="{DynamicResource DataRowStyle1}" ScrollViewer.HorizontalScrollBarVisibility="Visible" AutoCreateColumns="False" Margin="8,0" Grid.ColumnSpan="2" />
+        <Grid Grid.Row="1" Height="25" VerticalAlignment="Top" Grid.ColumnSpan="2">
+        	<Border BorderBrush="Black" BorderThickness="1" Background="#FF2D2D2D"/>
+        	<StackPanel HorizontalAlignment="Left" Margin="2.25,0,0,0" Orientation="Horizontal" d:LayoutOverrides="Height">
+        		<TextBlock TextWrapping="Wrap" Text="位置:" d:LayoutOverrides="Width" Margin="5,0,10,0" VerticalAlignment="Center"/>
+        		<TextBox Width="50" TextWrapping="Wrap" Text="{Binding Position}" VerticalAlignment="Center" FontSize="16"/>
+        		<TextBlock TextWrapping="Wrap" Text="/" d:LayoutOverrides="Width" VerticalAlignment="Center" FontSize="16"/>
+        		<TextBlock TextWrapping="Wrap" Text="{Binding Total}" d:LayoutOverrides="Width" VerticalAlignment="Center" FontSize="16"/>
+        	</StackPanel>
+        	<ScrollBar SmallChange="1" Value="{Binding Position}" Maximum="{Binding Total}" Orientation="Horizontal" Margin="131.334,4,0,4" Background="#FF292929" BorderBrush="White"/>
+        </Grid>
+        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+        	<Grid.ColumnDefinitions>
+        		<ColumnDefinition Width="0.74*"/>
+        		<ColumnDefinition Width="0.426*"/>
+        	</Grid.ColumnDefinitions>
+        	<TabControl  DataContext="{Binding CurrentTarget}" Margin="8">
+        		<TabItem Header="XPath">
+        			<Grid Margin="0,0,6,-5">
+        				 <ListView Margin="8,30" SelectionMode="Single" DataContext="{Binding}"
+				ItemsSource="{Binding CrawItems}" d:LayoutOverrides="GridBox" >
+
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="选择">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsSelected}"  HorizontalAlignment="Center" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+						 <GridViewColumn Header="名称" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Name}"  MinWidth="120" HorizontalAlignment="Center" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+					    <GridViewColumn Header="选择器" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox  ItemsSource="{attributes:EnumValues {x:Type connectors:SelectorFormat}}" SelectedItem="{Binding Format}" HorizontalAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="路径"  Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding XPath}" MinWidth="180" HorizontalAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+					      <GridViewColumn Header="启用">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsEnabled}"  HorizontalAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                
+						    <GridViewColumn Header="获取策略">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                      <ComboBox ItemsSource="{attributes:EnumValues {x:Type connectors:CrawlType}}" SelectedItem="{Binding CrawlType}" HorizontalAlignment="Center" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+						 
+						 
+                    </GridView>
+
+                </ListView.View>
+				</ListView>
+				    <StackPanel VerticalAlignment="Bottom"   DataContext="{Binding DataContext.CrawlItemCommands, ElementName=userControl}" Orientation="Horizontal" Margin="0" d:LayoutOverrides="GridBox" Height="30" HorizontalAlignment="Right">
+
+            <Button Style="{DynamicResource miniButton}" DataContext="{Binding [0]}" />
+            <Button Style="{DynamicResource miniButton}" DataContext="{Binding [1]}" />
+            <Button Style="{DynamicResource miniButton}" DataContext="{Binding [2]}" />
+            <Button Style="{DynamicResource miniButton}" DataContext="{Binding [3]}" />
+            <Button Style="{DynamicResource miniButton}" DataContext="{Binding [4]}" />
+        </StackPanel>
+        				<TextBlock HorizontalAlignment="Left" Margin="8,8,0,0" TextWrapping="Wrap" Text="根节点" VerticalAlignment="Top"/>
+        				<TextBox Margin="124.199,8,8,0" TextWrapping="Wrap" Text="{Binding RootXPath}" VerticalAlignment="Top"/>
+        				<ComboBox Margin="44,4.76,0,0"   ItemsSource="{attributes:EnumValues {x:Type connectors:SelectorFormat}}" SelectedItem="{Binding RootFormat}"  ToolTip="  可选择完整XPath,或只根据id或class名称进行检索，如选择class,值填【name】，就是查找所有class=name的节点" VerticalAlignment="Top" HorizontalAlignment="Left" Width="66.999" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment"/>
+        			</Grid>
+        		</TabItem>
+        		<TabItem Header="HTML">
+        			 <ScrollViewer VerticalContentAlignment="Stretch">
+        				<TextBlock Text="{Binding Html}" TextWrapping="WrapWithOverflow" />
+        			</ScrollViewer>
+        		</TabItem>
+				<TabItem Header="Text">
+        			 <ScrollViewer VerticalContentAlignment="Stretch">
+						<TextBlock Text="{Binding Text}" TextWrapping="WrapWithOverflow"  />
+					</ScrollViewer>
+        		</TabItem>
+				<TabItem Header="其他信息">
+        			<Grid>
+        					<TextBlock HorizontalAlignment="Left" Margin="8,8,0,0" TextWrapping="Wrap" Text="子节点数量" VerticalAlignment="Top"/>
+        				<TextBlock Margin="94.999,8,8,0" TextWrapping="Wrap" Text="{Binding NodeCount}" VerticalAlignment="Top"/>
+        				<TextBlock HorizontalAlignment="Left" Margin="8,27.24,0,0" TextWrapping="Wrap" Text="评估分数" VerticalAlignment="Top"/>
+        				<TextBlock Margin="94.999,27.24,8,0" TextWrapping="Wrap" Text="{Binding Score}" VerticalAlignment="Top"/>   			
+					</Grid>
+        		</TabItem>
+        	</TabControl>
+        	<StackPanel Grid.Column="1" Orientation="Vertical" d:LayoutOverrides="Height" HorizontalAlignment="Center" VerticalAlignment="Center">
+        		<TextBlock Visibility="{Binding CanChange, Converter={StaticResource BooleanToVisibilityConverter}}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Center" Margin="0,3"><Run Text="左右切换选择所需的数据，左方可修改列名，"/><Run Language="zh-cn" Text="点击“刷新“可刷新结果   "/><Run Text="点击“确认结果”即可提交"/></TextBlock>
+        		<StackPanel Visibility="{Binding CanChange, Converter={StaticResource BooleanToVisibilityConverter}}"  Orientation="Horizontal" Margin="0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
+        			<TextBlock TextWrapping="Wrap" Text="排序策略"/>
+                    <ComboBox   ItemsSource="{attributes:EnumValues {x:Type connectors:SortMethod}}" SelectedItem="{Binding SortMethod}"  Width="120" Margin="10,0,0,0"/>
+        		</StackPanel>
+        		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,3" Height="46.172" VerticalAlignment="Center">
+        			<Button Visibility="{Binding CanChange, Converter={StaticResource BooleanToVisibilityConverter}}"  Style="{DynamicResource middleButton}" DataContext="{Binding Commands[1]}" Width="35" Height="35" Margin="15,0,0,0" />
+         
+        			<Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands[0]}" Width="35" Height="35" Margin="15,0,0,0" />
+        			<Button Visibility="{Binding CanChange, Converter={StaticResource BooleanToVisibilityConverter}}"  Style="{DynamicResource middleButton}" DataContext="{Binding Commands[2]}" Width="35" Height="35" Margin="15,5.586,0,5.586" />
+        		</StackPanel>
+        		<StackPanel Orientation="Horizontal" Height="46.172" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,3">
+        			<Button  DataContext="{Binding Commands[3]}" Content="{Binding Text}" Command="{Binding}" Margin="15,0,0,0" />
+         
+        			<Button  DataContext="{Binding Commands[4]}" Content="{Binding Text}" Command="{Binding}" Margin="15,0,0,0" />
+        		</StackPanel>
+        	</StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

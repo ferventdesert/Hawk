@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="Hawk.ETL.Controls.SubTaskView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hawk.ETL.Controls"
+			     xmlns:mvvm="clr-namespace:Hawk.Core.Utils.MVVM;assembly=Hawk.Core"
+             mc:Ignorable="d" 
+             d:DesignHeight="321.5" d:DesignWidth="549"  Background="{DynamicResource NormalBrush}">
+    <UserControl.Resources>
+        <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
+        <ContextMenu x:Key="resourceContextMenu"
+        					DataContext="{Binding Data.Commands, Source={StaticResource BindingProxy}}">
+
+            <MenuItem DataContext="{Binding [4]}" Style="{DynamicResource CommandMenuItem}" />
+
+        </ContextMenu>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.274*"/>
+            <ColumnDefinition Width="0.285*"/>
+
+        </Grid.ColumnDefinitions>
+        <TextBlock Margin="8,8,8,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Height="34.887"><Run Language="zh-cn" Text="步骤1：设置主任务调用子任务的模块区间"/><LineBreak/><Run Language="zh-cn"/></TextBlock>
+        <GridSplitter Margin="0,0,-2,0" Width="4"/>
+        <Slider x:Name="sliderStart" Margin="53.81,46.887,3.389,0" Value="{Binding RangeStart}" VerticalAlignment="Top" Maximum="{Binding Value, ElementName=slider}" SmallChange="1"/>
+        <Slider x:Name="slider"  Value="{Binding RangeEnd}" Margin="53.81,68.887,3.389,0" Maximum="{Binding SubTask.CurrentETLTools.Count}" VerticalAlignment="Top" SmallChange="1"/>
+        <TextBlock HorizontalAlignment="Left" Margin="0,47.646,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="zh-cn" Text="起始"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="0,69.548,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="zh-cn" Text="结束"/></TextBlock>
+        <ListView Margin="8,100,8,40"  AlternationCount="{Binding Path=Count}"   DataContext="{Binding SubTask.CurrentETLTools}" ItemsSource="{Binding}">
+            <ListView.Resources>
+                <local:OpacityConverter x:Key="OpacityConverter" />
+                <Style TargetType="{x:Type ListViewItem}"  BasedOn="{StaticResource {x:Type ListViewItem}}">
+                    <Setter Property="Opacity">
+                        <Setter.Value>
+                            <MultiBinding Converter="{StaticResource OpacityConverter}">
+                                <Binding    Path="ItemsControl.AlternationIndex" />
+                                <Binding Path="Value" ElementName="sliderStart"/>
+                                <Binding Path="Value" ElementName="slider"/>
+                            </MultiBinding>
+                        </Setter.Value>
+                    </Setter>
+
+                </Style>
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+
+                    <GridViewColumn Header="位置" DisplayMemberBinding="{Binding ETLIndex}" />
+                    <GridViewColumn Header="名称" DisplayMemberBinding="{Binding TypeName}" />
+                    <GridViewColumn Header="输入" DisplayMemberBinding="{Binding Column}"  Width="60"/>
+                    <GridViewColumn Header="输出" DisplayMemberBinding="{Binding NewColumn}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <TextBlock Margin="8.2,8,7.8,0" TextWrapping="Wrap" Grid.Column="1" Height="61" VerticalAlignment="Top"><Run Text="步骤2：设置主任务属性列对应到子任务的属性名，下拉菜单仅参考，可直接编辑文本框"/><LineBreak/><Run/><LineBreak/><Run/><LineBreak/>></TextBlock>
+        <ListView DataContext="{Binding MappingPairs}" ItemsSource="{Binding}" Margin="8,100,8,40" Grid.Column="1">
+            <ListView.Resources>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />
+                </Style>
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+
+                    <GridViewColumn Header="主任务属性" Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox DataContext="{Binding Source}"  IsEditable="True" Width="180" ItemsSource="{Binding Collection}" SelectedItem="{Binding  _SelectItem}" Text="{Binding SelectItem}"  HorizontalAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="子任务属性" Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox DataContext="{Binding Target}" IsEditable="True"  Width="180" ItemsSource="{Binding Collection}" SelectedItem="{Binding  _SelectItem}" Text="{Binding SelectItem}" HorizontalAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                </GridView>
+
+            </ListView.View>
+        </ListView>
+        <TextBox HorizontalAlignment="Left" Margin="28,47.646,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Value, ElementName=sliderStart}" Width="25.81"/>
+        <TextBox HorizontalAlignment="Left" Margin="28,68.887,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Value, ElementName=slider}" Width="25.81"/>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Grid.Column="2" d:LayoutOverrides="Width" HorizontalAlignment="Center" Margin="0,0,0,8">
+            <Button  DataContext="{Binding Commands[1]}" Content="{Binding Text}" Command="{Binding}" Margin="15,0,0,0" />
+            <Button  DataContext="{Binding Commands[2]}" Content="{Binding Text}" Command="{Binding}" Margin="15,0,0,0" />
+        </StackPanel>
+        <Button   DataContext="{Binding Commands[3]}"   Content="{Binding Text}" Command="{Binding}" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Right" Width="50.733" Height="20" Margin="0,68.887,18.509,0" d:LayoutOverrides="VerticalAlignment"/>
+
+    </Grid>
+</UserControl>

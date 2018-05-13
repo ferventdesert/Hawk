@@ -3,4 +3,8 @@ bin/
 obj/
 *.pdb
 *.xml
+*.dll
+packages/
 .suo
+.DS_Store
+.vs/

@@ -12,6 +12,13 @@ Hawk: Advanced Crawler& ETL tool written in C#/WPF
 
 项目主页： https://ferventdesert.github.io/Hawk/
 
+下载地址: 
+
+[Github](https://github.com/ferventdesert/Hawk/releases/download/Hawk3/Hawk3_Release.zip)
+
+[国内博客园](https://files.cnblogs.com/files/buptzym/Hawk3_Release.zip)
+
+
 ## 1.介绍
 
 Hawk的含义为“鹰”，能够高效，准确地捕杀猎物。它的思想来源于Lisp语言，功能模仿了Linux工具awk。

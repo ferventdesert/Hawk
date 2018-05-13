@@ -401,8 +401,11 @@ namespace Hawk.ETL.Process
                                 htmlTextBox.SelectionStart = node.StreamPosition;
                                 htmlTextBox.SelectionLength = node.OuterHtml.Length;
                                 var line = htmlTextBox.GetLineIndexFromCharacterIndex(node.StreamPosition); //返回指定字符串索引所在的行号
-                                                                                                            //Debug.WriteLine(rows + ",," + line);
-                                htmlTextBox.ScrollToLine(line + 1); //滚动到视图中指定行索引
+                                if (line > 0)
+                                {
+                                    htmlTextBox.ScrollToLine(line + 1); //滚动到视图中指定行索引
+                                }
+                            
                             });
 
                         

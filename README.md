@@ -57,7 +57,7 @@ GitHub地址：https://github.com/ferventdesert/Hawk
 
 - Hawk3
 
-[Hawk3视频教学字幕版-新功能展示][http://v.qq.com/x/page/d0660sxbebu.html]
+[Hawk3视频教学字幕版-新功能展示][8]
 
 - Hawk1
 
@@ -69,9 +69,9 @@ GitHub地址：https://github.com/ferventdesert/Hawk
 
 - Hawk2
 
-[抓取动态页面][https://v.qq.com/x/page/a03878tihmx.html]
+[抓取动态页面][6]
 
-[Hawk答疑][https://v.qq.com/x/page/n0387axmgg5.html]
+[Hawk答疑][7]
 
 
 
@@ -80,3 +80,6 @@ GitHub地址：https://github.com/ferventdesert/Hawk
   [3]: http://v.qq.com/page/w/9/2/w0189607h92.html
   [4]: http://v.qq.com/page/c/s/n/c0189jwd2sn.html
   [5]: http://v.qq.com/page/z/g/h/z01891n1rgh.html
+  [6]: https://v.qq.com/x/page/a03878tihmx.html
+  [7]: https://v.qq.com/x/page/n0387axmgg5.html
+  [8]: http://v.qq.com/x/page/d0660sxbebu.html

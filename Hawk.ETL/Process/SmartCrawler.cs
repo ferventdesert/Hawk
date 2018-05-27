@@ -109,13 +109,13 @@ namespace Hawk.ETL.Process
                         }
 
                         var datas =
-                            HtmlDoc.DocumentNode.GetDataFromXPath(CrawlItems, IsMultiData, RootXPath, RootFormat)
+                            HtmlDoc.DocumentNode.GetDataFromXPath(CrawlItems, IsMultiData, RootXPath, RootFormat).Take(20)
                                 .ToList();
                         var view = PluginProvider.GetObjectInstance<IDataViewer>("可编辑列表");
 
                         var r = view.SetCurrentView(datas);
                         ControlExtended.DockableManager.AddDockAbleContent(
-                            FrmState.Custom, r, "提取数据测试结果");
+                            FrmState.Custom, r, "提取数据测试结果(显示前20条)");
 
                         var rootPath =
                             XPath.GetMaxCompareXPath(CrawlItems.Select(d => d.XPath));

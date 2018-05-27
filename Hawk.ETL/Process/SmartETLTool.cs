@@ -27,7 +27,7 @@ using MessageBox = System.Windows.MessageBox;
 namespace Hawk.ETL.Process
 {
     [XFrmWork("数据清洗", "对数据筛选转换和合并，并导出到数据库中"
-        ,url: "diagram",  groupName: "数据采集和处理")]
+        , "diagram", "数据采集和处理")]
     public class SmartETLTool : AbstractProcessMethod, IView
     {
         #region Constructors and Destructors
@@ -51,9 +51,8 @@ namespace Hawk.ETL.Process
                 ETLToolsView.GroupDescriptions.Clear();
 
                 ETLToolsView.GroupDescriptions.Add(new PropertyGroupDescription("Self", new GroupConverter()));
-                ETLToolsView.SortDescriptions.Add(new SortDescription("GroupName",ListSortDirection.Ascending));
-                ETLToolsView.CustomSort =  new NameComparer();
-                
+                ETLToolsView.SortDescriptions.Add(new SortDescription("GroupName", ListSortDirection.Ascending));
+                ETLToolsView.CustomSort = new NameComparer();
             }
         }
 
@@ -132,12 +131,15 @@ namespace Hawk.ETL.Process
                         }, obj => obj != null, "arrow_down"),
                         new Command("调试到该步", obj => { ETLMount = CurrentETLTools.IndexOf(obj as IColumnProcess); },
                             obj => obj != null, "tag"),
-                              new Command("删除下游节点", obj =>
-                              {
-                                  var index= CurrentETLTools.IndexOf(obj as IColumnProcess);
-                                  CurrentETLTools.KeepRange(0,index+1);
-                                  ETLMount = index + 1;
-                              },
+                        new Command("删除下游节点", obj =>
+                        {
+                            if (MessageBox.Show("确实要删除所有下游吗?", "提示信息", MessageBoxButton.OKCancel) !=
+                                MessageBoxResult.OK)
+                                return;
+                            var index = CurrentETLTools.IndexOf(obj as IColumnProcess);
+                            CurrentETLTools.KeepRange(0, index);
+                            ETLMount = index + 1;
+                        },
                             obj => obj != null, "tag")
                     });
             }
@@ -245,7 +247,7 @@ namespace Hawk.ETL.Process
         {
             var view = PluginProvider.GetObjectInstance<ICustomView>("调试分析面板") as UserControl;
             view.DataContext = Analyzer;
-             
+
             ControlExtended.DockableManager.AddDockAbleContent(
                 FrmState.Custom, view, "调试分析 ");
         }
@@ -468,7 +470,6 @@ namespace Hawk.ETL.Process
         }
 
 
-      
         public void ExecuteDatas()
         {
             var etls = CurrentETLTools.Take(ETLMount).Where(d => d.Enabled).ToList();
@@ -477,7 +478,7 @@ namespace Hawk.ETL.Process
 
             if (GenerateMode == GenerateMode.串行模式)
             {
-                var realfunc3 = etls.Aggregate(isexecute:  true,analyzer:Analyzer);
+                var realfunc3 = etls.Aggregate(isexecute: true, analyzer: Analyzer);
                 var task = TemporaryTask.AddTempTask(Name + "串行任务", realfunc3.Invoke(),
                     null);
                 task.IsSelected = true;
@@ -493,7 +494,7 @@ namespace Hawk.ETL.Process
                 {
                     index = etls.IndexOf(tolistTransformer);
 
-                    var beforefunc = etls.Take(index).Aggregate(isexecute:  true, analyzer: Analyzer);
+                    var beforefunc = etls.Take(index).Aggregate(isexecute: true, analyzer: Analyzer);
                     var taskbuff = new List<IFreeDocument>();
                     paratask = TemporaryTask.AddTempTask("并行任务", beforefunc(new List<IFreeDocument>())
                         ,
@@ -519,7 +520,7 @@ namespace Hawk.ETL.Process
 
                             var rcount = -1;
                             int.TryParse(countstr, out rcount);
-                            var afterfunc = etls.Skip(index + 1).Aggregate(isexecute:true);
+                            var afterfunc = etls.Skip(index + 1).Aggregate(isexecute: true);
                             var task = TemporaryTask.AddTempTask(name, afterfunc(newtaskbuff), d => { },
                                 null, rcount, false);
                             if (tolistTransformer.DisplayProgress)
@@ -676,8 +677,6 @@ namespace Hawk.ETL.Process
         }
 
 
-    
-
         [PropertyOrder(1)]
         [LocalizedCategory("1.执行")]
         [LocalizedDisplayName("工作模式")]
@@ -722,7 +721,6 @@ namespace Hawk.ETL.Process
 
         private int _etlMount;
 
- 
 
         private bool mudoleHasInit;
         private int _maxThreadCount;
@@ -735,7 +733,6 @@ namespace Hawk.ETL.Process
 
         public void RefreshSamples(bool canGetDatas = true)
         {
-       
             if (shouldUpdate == false)
                 return;
 
@@ -810,7 +807,7 @@ namespace Hawk.ETL.Process
                         {
                             if (
                                 (oldProp.IsEqual(process.UnsafeDictSerializePlus()) == false && IsAutoRefresh).SafeCheck
-                                    ("检查模块参数是否修改",LogType.Debug))
+                                    ("检查模块参数是否修改", LogType.Debug))
                                 RefreshSamples();
                         };
                         window.ShowDialog();
@@ -845,7 +842,7 @@ namespace Hawk.ETL.Process
             Analyzer.Items.Clear();
 
             var alltools = CurrentETLTools.Take(ETLMount).ToList();
-            var func = alltools.Aggregate(isexecute: false,analyzer: Analyzer);
+            var func = alltools.Aggregate(isexecute: false, analyzer: Analyzer);
             if (!canGetDatas)
                 return;
             SmartGroupCollection.Clear();
@@ -942,9 +939,10 @@ namespace Hawk.ETL.Process
 
         private void DeleteColumn(string key)
         {
-            SmartGroupCollection.RemoveElementsNoReturn(d=>d.Name==key);
-            dataView.Columns.RemoveElementsNoReturn(d=>d.Header.ToString()==key);
+            SmartGroupCollection.RemoveElementsNoReturn(d => d.Name == key);
+            dataView.Columns.RemoveElementsNoReturn(d => d.Header.ToString() == key);
         }
+
         private void AddColumn(string key, IEnumerable<IColumnProcess> alltools)
         {
             if (dataView == null)
@@ -1015,7 +1013,6 @@ namespace Hawk.ETL.Process
 
     public class NameComparer : IComparer
     {
-     
         public int Compare(object x, object y)
         {
             var x1 = x as XFrmWorkAttribute;
@@ -1026,18 +1023,15 @@ namespace Hawk.ETL.Process
                 if (y1.Description.Contains(key))
                     return x1.Name.CompareTo(y1.Name);
                 return -1;
-
             }
             if (y1.Description.Contains(key))
             {
                 return 1;
-
             }
-           return x1.Name.CompareTo(y1.Name);
-
-
+            return x1.Name.CompareTo(y1.Name);
         }
     }
+
     public class SmartGroup : PropertyChangeNotifier
     {
         private GroupType _groupType;

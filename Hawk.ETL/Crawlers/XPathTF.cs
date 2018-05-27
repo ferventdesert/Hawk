@@ -18,6 +18,7 @@ namespace Hawk.ETL.Crawlers
     {
         public XPathTF()
         {
+            XPath = "";
             IsManyData = ScriptWorkMode.One;
             SelectorFormat= SelectorFormat.XPath;
         }

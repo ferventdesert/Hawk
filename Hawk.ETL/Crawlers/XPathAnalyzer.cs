@@ -374,6 +374,11 @@ namespace Hawk.ETL.Crawlers
                         XPath = result.Count%2 == 0 ? node1.XPath : node2.XPath
                     };
                     result.Add(crawlItem);
+                    if (result.Count > 50)
+                    {
+                       throw  new Exception("本根节点通过手气不错检测出的属性数超过100个，继续查找下一个根节点");
+                    }
+               
                     buffers.Add(row);
                     return true;
                 }
@@ -471,6 +476,8 @@ namespace Hawk.ETL.Crawlers
                     return null;
                 if (format == SelectorFormat.CssSelecor)
                     return node.CssSelect(xpath).FirstOrDefault();
+                if (node.XPath == xpath)
+                    return node;
                 if (!xpath.Contains("#"))
                     return node.SelectSingleNode(xpath);
                 var lasts = xpath.Split('/');
@@ -1011,7 +1018,17 @@ namespace Hawk.ETL.Crawlers
             var nodes3 = nodes.ToList(); // .Where(d => d.Name.Contains("#") == false).ToList();
             if (nodes3.Count > 1)
             {
-                GetDiffNodes(nodes3, crawlItems, buffers, isAttrEnabled);
+                try
+                {
+                    GetDiffNodes(nodes3, crawlItems, buffers, isAttrEnabled);
+                }
+                catch (Exception ex)
+                {
+                    
+                    XLogSys.Print.Error($"手气不错有误 {ex.Message}");
+                    return crawlItems;
+                }
+       
             }
             if (exists != null)
             {
@@ -1465,9 +1482,12 @@ namespace Hawk.ETL.Crawlers
             {
                 get
                 {
-                    return RootNode.GetDataFromXPath(CrawItems.Where(d => d.IsEnabled).ToList(),
+                    var items = CrawItems.Where(d => d.IsEnabled).ToList();
+                    if(string.IsNullOrEmpty(RootXPath)&&items.Count()<2&&WorkMode==ScriptWorkMode.List)
+                        return new List<FreeDocument>();
+                    return RootNode.GetDataFromXPath(items,
                         WorkMode,
-                        RootXPath, RootFormat).ToList();
+                        RootXPath, RootFormat).Take(20).ToList();
                 }
             }
 

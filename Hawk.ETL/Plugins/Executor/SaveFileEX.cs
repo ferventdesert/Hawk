@@ -13,7 +13,7 @@ using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Plugins.Executor
 {
-    [XFrmWork("保存超链接文件", "目标列需要为超链接类型，会保存链接的文件，如图片，视频等")]
+    [XFrmWork("保存超链接文件", "目标列需要为超链接类型，会保存链接的文件，如图片，视频等","save")]
     public class SaveFileEX : DataExecutorBase
     {
         private string _crawlerSelector;
@@ -106,7 +106,9 @@ namespace Hawk.ETL.Plugins.Executor
                     path = folder.ToString();
                     if (path.EndsWith("/") == false)
                         path += "/";
-                    path += getFileName(url);
+                    path += url;
+                    path = getFileName(path);
+                    //path += getFileName(url);
                 }
                 if (File.Exists(path))
                     {
@@ -167,7 +169,7 @@ namespace Hawk.ETL.Plugins.Executor
                 str = path;
             else
                 str = path.Substring(pos + 1);
-            var chars = @"\/:*?""< >|";
+            var chars = @"/\/:*?""< >|\t";
             foreach (var item in chars)
             {
                 str = str.Replace(item.ToString(), "");

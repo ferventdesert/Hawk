@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
@@ -9,6 +10,7 @@ using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
+using Hawk.ETL.Managements;
 using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Interfaces
@@ -25,6 +27,33 @@ namespace Hawk.ETL.Interfaces
         private static Type lastType;
         private static PropertyInfo[] propertys;
         private static readonly string _static_name = "模块管理";
+
+
+
+        public static IEnumerable<T> CountOutput<T>(this IEnumerable<T> documents, AnalyzeItem analyzer=null)
+        {
+            return documents.Select(d =>
+            {
+                if (analyzer != null)
+                    ++analyzer.Output;
+                return d;
+            });
+        }
+
+        public static IEnumerable<T> CountInput<T>(this IEnumerable<T> documents, AnalyzeItem analyzer = null)
+
+        {
+            if(documents==null)
+                yield break;
+            foreach (var document in documents)
+            {
+                if (analyzer != null) ++analyzer.Input;
+                yield return document;
+            }
+        }
+
+
+      
 
         public static async Task<T> RunBusyWork<T>(this IMainFrm manager, Func<T> func, string title = "系统正忙",
             string message = "正在处理长时间操作")

@@ -7,7 +7,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("添加新列","为数据集添加新列，值为某固定值")]
+    [XFrmWork("添加新列","为数据集添加新列，值为某固定值","list")]
     public class AddNewTF : TransformerBase
     {
         public AddNewTF()

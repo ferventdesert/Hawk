@@ -9,7 +9,7 @@ using Hawk.ETL.Interfaces;
 namespace Hawk.ETL.Plugins.Generators
 
 {
-    [XFrmWork("生成区间时间", "生成某范围内的日期和时间")]
+    [XFrmWork("生成区间时间", "生成某范围内的日期和时间","timer_rewind")]
     internal class DateRangeGE : GeneratorBase
     {
         private readonly string staticDateFormat = "yyyy-MM-dd HH:mm:ss:ffff";

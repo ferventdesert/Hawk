@@ -135,15 +135,16 @@ namespace Hawk.Core.Connectors
             ColumnInfos=new List<ColumnInfo>();
         }
 
-        [LocalizedDisplayName("列特性")]
+        [Browsable(false)]
         public List<ColumnInfo> ColumnInfos { get; set; }
-
+        [PropertyOrder(1)]
         [LocalizedDisplayName("表大小")]
         public int Size { get; set; }
 
+        [PropertyOrder(0)]
         [LocalizedDisplayName("名称")]
         public string Name { get; set; }
-
+        [PropertyOrder(2)]
         [LocalizedDisplayName("描述")]
         public string Description { get; set; }
 
@@ -215,6 +216,7 @@ namespace Hawk.Core.Connectors
 
 
             TableNames = new ExtendSelector<TableInfo>();
+            TableNames.SetSource(new List<TableInfo>());
             AutoConnect = false;
         }
 
@@ -355,11 +357,14 @@ namespace Hawk.Core.Connectors
         [PropertyOrder(2)]
         public  virtual string DBName { get; set; }
 
+       
 
         public virtual bool CreateTable(IFreeDocument example, string name)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new Exception("数据库表名不能为空");
             FreeDocument txt = example.DictSerialize(Scenario.Database);
-            var sb = string.Join(",", txt.Select(d => $"{d.Key} {DataTypeConverter.ToType(d.Value)}"));
+            var sb = string.Join(",", txt.Select(d => $"{ ScriptHelper.RemoveSpecialCharacter(d.Key)} {DataTypeConverter.ToType(d.Value)}"));
             string sql = $"CREATE TABLE {GetTableName(name)} ({sb})";
             ExecuteNonQuery(sql);
             RefreshTableNames();
@@ -546,7 +551,7 @@ namespace Hawk.Core.Connectors
 
         protected virtual string GetTableName(string tableName)
         {
-            return tableName.Replace(" ", "");
+            return  ScriptHelper.RemoveSpecialCharacter(tableName);
         }
 
         protected virtual DataTable GetDataTable(string sql)

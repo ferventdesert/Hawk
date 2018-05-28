@@ -106,7 +106,7 @@ namespace Hawk.ETL.Crawlers
                                     item.DictCopyTo(newItem);
                                     CrawlItems.Add(newItem);
                                 }
-                            }, null, "copy"),
+                            }, null, "page_add"),
                         new Command("删除",
                             d =>
                             {
@@ -174,10 +174,7 @@ namespace Hawk.ETL.Crawlers
 
         private void Refresh()
         {
-            CurrentTarget.Datas =
-                HtmlDoc.DocumentNode.GetDataFromXPath(CurrentTarget.CrawItems.Where(d => d.IsEnabled).ToList(),
-                    this.ScriptWorkMode,
-                    CurrentTarget.RootXPath, CurrentTarget.RootFormat).ToList();
+           
             if (View != null)
                 View.SetContent(CurrentTarget.Datas);
         }

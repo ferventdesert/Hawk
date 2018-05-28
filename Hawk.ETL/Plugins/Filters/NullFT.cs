@@ -6,7 +6,7 @@ using Hawk.ETL.Plugins.Transformers;
 
 namespace Hawk.ETL.Plugins.Filters
 {
-    [XFrmWork("空对象过滤器", "检查文本是否为空白符或null")]
+    [XFrmWork("空对象过滤器", "检查文本是否为空白符或null，常用")]
     public class NullFT : ToolBase, IColumnDataFilter
     {
         #region Constructors and Destructors

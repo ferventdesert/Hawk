@@ -8,7 +8,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Plugins.Web
 {
-    [XFrmWork("检索附近","获取当前经纬度某一半径范围内的所有地物，需要拖入的为代表经度的列")]
+    [XFrmWork("检索附近","获取当前经纬度某一半径范围内的所有地物，需要拖入的为代表经度的列","map")]
     public class NearbySearch : BaiduSDKBase
     {
         public NearbySearch()

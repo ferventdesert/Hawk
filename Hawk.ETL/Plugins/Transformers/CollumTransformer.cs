@@ -8,7 +8,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("列名修改器", "对列名进行修改")]
+    [XFrmWork("列名修改器", "对列名进行修改,常用","page_edit")]
     public class RenameTF : TransformerBase
     {
         public override bool Init(IEnumerable<IFreeDocument> docus)
@@ -44,7 +44,7 @@ namespace Hawk.ETL.Plugins.Transformers
         }
     }
 
-    [XFrmWork("删除该列")]
+    [XFrmWork("删除该列","不用解释了吧，常用","delete")]
     public class DeleteTF : RenameTF
     {
         public override object TransformData(IFreeDocument document)

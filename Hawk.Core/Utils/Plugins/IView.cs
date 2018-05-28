@@ -17,6 +17,13 @@
 
     }
 
+    public enum GenerateMode
+    {
+        串行模式,
+        并行模式
+    }
+
+
     /// <summary>
     /// 显示位置
     /// </summary>

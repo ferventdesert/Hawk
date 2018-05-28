@@ -13,7 +13,7 @@ namespace Hawk.ETL.Plugins.Generators
 {
    
 
-    [XFrmWork("获取文件夹文件","获取文件夹下的所有文件" )]
+    [XFrmWork("获取文件夹文件","获取文件夹下的所有文件" ,"folder_open")]
     public class FolderGE : GeneratorBase
     {
         private List<string> fileList;

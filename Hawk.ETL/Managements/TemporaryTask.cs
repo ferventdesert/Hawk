@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Hawk.Core.Utils;
@@ -25,12 +26,12 @@ namespace Hawk.ETL.Managements
       
 
         public static TemporaryTask AddTempTask<T>(string taskName, IEnumerable<T> enumable, Action<T> action,
-            Action<int> contineAction = null, int count = -1, bool autoStart = true, int notifyInterval = 1,
+            Action<int> continueAction = null, int count = -1, bool autoStart = true, int notifyInterval = 1,
             Func<int> delayFunc = null)
         {
             var tempTask = new TemporaryTask {Name = taskName};
             // start a task with a means to do a hard abort (unsafe!)
-          
+            tempTask.ContinueAction = continueAction;
             var index = 0;
             if (notifyInterval <= 0)
                 notifyInterval = 1;
@@ -74,9 +75,9 @@ namespace Hawk.ETL.Managements
                     XLogSys.Print.Debug($"任务【{tempTask.Name}】已经成功完成");
                     tempTask.Percent = 100;
                 }
-                if (contineAction != null)
+                if (continueAction != null)
                 {
-                    ControlExtended.UIInvoke(() => contineAction(tempTask.CurrentIndex));
+                    ControlExtended.UIInvoke(() => continueAction(tempTask.CurrentIndex));
                 }
             };
 
@@ -88,11 +89,12 @@ namespace Hawk.ETL.Managements
         }
 
 
-        public static TemporaryTask AddTempTask<T>(string taskName, IEnumerable<T> enumable, Func<IEnumerable<T>,IEnumerable<T>> action,
-          Action<int> contineAction = null, int count = -1, bool autoStart = true, int notifyInterval = 1,
+        public static TemporaryTask AddTempTask<T>(string taskName, IEnumerable<T> source, Func<IEnumerable<T>,IEnumerable<T>> action,
+          Action<int> continueAction = null, int count = -1, bool autoStart = true, int notifyInterval = 1,
           Func<int> delayFunc = null)
         {
             var tempTask = new TemporaryTask { Name = taskName };
+            tempTask.ContinueAction = continueAction;
             // start a task with a means to do a hard abort (unsafe!)
 
             var index = 0;
@@ -100,12 +102,12 @@ namespace Hawk.ETL.Managements
                 notifyInterval = 1;
             tempTask.TaskAction = () =>
             {
-                if (enumable is ICollection<T>)
+                if (source is ICollection<T>)
                 {
-                    count = ((ICollection<T>)enumable).Count;
+                    count = ((ICollection<T>)source).Count;
                 }
 
-                foreach (var r in action(enumable))
+                foreach (var r in action!=null?action(source):source)
                 {
                  
 
@@ -138,9 +140,9 @@ namespace Hawk.ETL.Managements
                     XLogSys.Print.Debug($"任务【{tempTask.Name}】已经成功完成");
                     tempTask.Percent = 100;
                 }
-                if (contineAction != null)
+                if (continueAction != null)
                 {
-                    ControlExtended.UIInvoke(() => contineAction(tempTask.CurrentIndex));
+                    ControlExtended.UIInvoke(() => continueAction(tempTask.CurrentIndex));
                 }
             };
 
@@ -151,6 +153,8 @@ namespace Hawk.ETL.Managements
             return tempTask;
         }
 
+        [Browsable(false)]
+        public Action<int> ContinueAction { get; set; }
 
 
         public override void Start()
@@ -189,7 +193,9 @@ namespace Hawk.ETL.Managements
                     {
                         XLogSys.Print.Warn("任务已经强行被终止");
                         IsStart = false;
+                        ControlExtended.UIInvoke(()=>this.ContinueAction?.Invoke(this.CurrentIndex));
                         WasAborted = true;
+                    
                     }
                     catch (Exception ex)
                     {

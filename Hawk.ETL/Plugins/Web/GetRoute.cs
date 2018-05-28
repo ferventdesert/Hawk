@@ -9,7 +9,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Plugins.Web
 {
-    [XFrmWork("获取路径信息","从当前地名，运动到对应坐标所需的时间")]
+    [XFrmWork("获取路径信息","从当前地名，运动到对应坐标所需的时间","map")]
     public  class GetRoute : BaiduSDKBase
     {
 

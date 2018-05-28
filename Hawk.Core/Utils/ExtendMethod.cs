@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
+using NPOI.SS.Formula.Functions;
 
 namespace Hawk.Core.Utils
 {
@@ -68,6 +70,10 @@ namespace Hawk.Core.Utils
 
             return documents;
         }
+        public static String RemoveSpecialCharacter(String hexData)
+        {
+            return Regex.Replace(hexData, "[ \\[ \\] \\^ \\-*×――(^)$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”-]", "").ToUpper();
+        }
     }
 
 
@@ -84,6 +90,8 @@ namespace Hawk.Core.Utils
             return instance;
         }
 
+
+
         /// <summary>
         ///     添加一个新实例
         /// </summary>
@@ -95,6 +103,7 @@ namespace Hawk.Core.Utils
             collection.Add(instance);
         }
 
+      
         /// <summary>
         ///     添加一个新实例
         /// </summary>
@@ -186,10 +195,13 @@ namespace Hawk.Core.Utils
 
         public static IEnumerable<FreeDocument> CacheDo(this IEnumerable<FreeDocument> documents,IList<FreeDocument> cache=null,int maxCount=100 )
         {
-            if (cache == null)
+            if (cache == null||cache.Count==0)
             {
+
                 foreach (var document in documents)
                 {
+                    if(cache?.Count<maxCount)
+                        cache.Add(document.Clone());
                     yield return document;
                 }
                 yield break;
@@ -200,23 +212,26 @@ namespace Hawk.Core.Utils
                 {
                     yield return item;
                 }
-                foreach (var document in documents)
-                {
-                    if(cache.Count<maxCount)
-                        cache.Add(document.Clone());
-                    yield return document;
-                }
+                yield break;
+            
             }
 
         }
+
+       
+
         public static IEnumerable<T> BatchDo<T>(this IEnumerable<T> documents,
-            Func<T,bool> initFunc, Action<List<T> > batchFunc, Action endFunc = null, int batchMount = 1000)
+            Func<T,bool> initFunc, Action<List<T> > batchFunc, Action endFunc = null, int batchMount = 100) 
         {
             
             var i = 0;
             var list = new List<T>();
             foreach (var document in documents)
             {
+                if(document==null)
+                    continue;
+
+// list.Add(document.Clone());
                 list.Add(document);
                 if (list.Count == batchMount)
                 {
@@ -226,7 +241,7 @@ namespace Hawk.Core.Utils
                     }
                     catch (Exception ex)
                     {
-                        XLogSys.Print.Warn("Batch action failed", ex);
+                        XLogSys.Print.Warn($"批量插入错误{ex.Message}");
                     }
 
                     list = new List<T>();

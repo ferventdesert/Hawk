@@ -62,6 +62,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Hawk\Includes\Jint.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Includes\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Dynamic, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Includes\Microsoft.Dynamic.dll</HintPath>
@@ -136,6 +140,7 @@
     <Compile Include="Interfaces\IDataManager.cs" />
     <Compile Include="Interfaces\IDataProcess.cs" />
     <Compile Include="Interfaces\IProcessManager.cs" />
+    <Compile Include="Managements\Analyzer.cs" />
     <Compile Include="Managements\DataMiningConfig.cs" />
     <Compile Include="Managements\DataManager.cs" />
     <Compile Include="Managements\DataProcessManager.cs" />

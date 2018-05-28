@@ -16,7 +16,7 @@
 
     <!-- Main Colors -->
     <themes:MetroConverter x:Key="MetroConverter" />
-    <Color x:Key="MainColor">#FC595959</Color>
+    <Color x:Key="MainColor">#FC213643</Color>
     <Color x:Key="HoverColor">#FF393939</Color>
     <Color x:Key="DefaultColor">#FF9BB1C5</Color>
     <SolidColorBrush x:Key="LightBrush" Color="#FF333333" />
@@ -56,7 +56,7 @@
     <SolidColorBrush x:Key="DisabledForegroundBrush" Color="#888" />
     <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#FF787878" />
     <SolidColorBrush x:Key="DisabledBorderBrush" Color="#AAA" />
-    <SolidColorBrush x:Key="MainBackBrush" Color="Black" />
+    <SolidColorBrush x:Key="MainBackBrush" Color="Black"/>
     <!--<BitmapImage x:Key="MainBackBrush">background.jpg</BitmapImage>-->
     <!-- EXPRESSION COMMON VALUES -->
 
@@ -97,8 +97,8 @@
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
-                                    <TextBlock Text="{Binding Name}" FontSize="20" />
-                                    <TextBlock Text="{Binding ItemCount, StringFormat=(共\{0\}项)}" FontSize="20" />
+                                    <TextBlock Text="{Binding Name}"  />
+                                    <TextBlock Text="{Binding ItemCount, StringFormat=(共\{0\}项)}"  />
                                 </StackPanel>
                                 <Line Grid.Column="1" SnapsToDevicePixels="true" X1="0" X2="1" Stretch="Fill"
                                       StrokeThickness="1" />
@@ -203,11 +203,7 @@
 
     <Style TargetType="{x:Type Button}" BasedOn="{x:Null}">
         <Setter Property="FocusVisualStyle" Value="{DynamicResource NuclearButtonFocusVisual}" />
-        <Setter Property="Background">
-            <Setter.Value>
-                <SolidColorBrush Color="#FC183A58" />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Background" Value="{DynamicResource NormalBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource NormalBorderBrush}" />
         <Setter Property="Template">
@@ -2733,8 +2729,6 @@
                                     Opacity="0" x:Name="HoverBorder" CornerRadius="1,1,1,1" />
                             <Border Grid.ColumnSpan="4" Background="{DynamicResource HoverShineBrush}" Opacity="0"
                                     x:Name="HoverShineBorder" CornerRadius="1,1,1,1" />
-                            <ContentPresenter Margin="4,0,6,0" x:Name="Icon" VerticalAlignment="Center"
-                                              ContentSource="Icon" />
                             <Grid Visibility="Hidden" Margin="4,0,6,0" x:Name="GlyphPanel" VerticalAlignment="Center">
                                 <Path x:Name="GlyphPanelpath" VerticalAlignment="Center"
                                       Fill="{TemplateBinding Foreground}"
@@ -2761,6 +2755,12 @@
                                     <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                                 </Grid>
                             </Popup>
+                            <Rectangle Width="15" Height="15" x:Name="Icon" Margin="0,0,10,0" >
+                            	<Rectangle.Fill>
+                            		<VisualBrush Stretch="Fill"
+                            			Visual="{Binding Icon, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+                            	</Rectangle.Fill>
+                            </Rectangle>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -2789,9 +2789,7 @@
                         <Trigger Property="IsSuspendingPopupAnimation" Value="true">
                             <Setter Property="PopupAnimation" Value="None" TargetName="SubMenuPopup" />
                         </Trigger>
-                        <Trigger Property="Icon" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="Icon" />
-                        </Trigger>
+                 
                         <Trigger Property="IsChecked" Value="true">
                             <Setter Property="Visibility" Value="Visible" TargetName="GlyphPanel" />
                             <Setter Property="Visibility" Value="Collapsed" TargetName="Icon" />

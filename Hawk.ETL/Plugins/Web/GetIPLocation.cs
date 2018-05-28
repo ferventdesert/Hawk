@@ -6,7 +6,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Plugins.Web
 {
-    [XFrmWork("获取IP的坐标","获取某一ip地址的经纬度坐标")]
+    [XFrmWork("获取IP的坐标","获取某一ip地址的经纬度坐标", "location")]
     public class GetIPLocation : BaiduSDKBase
     {
         public override object TransformData(IFreeDocument datas)

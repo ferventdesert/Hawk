@@ -10,7 +10,7 @@ using Hawk.ETL.Interfaces;
 
 namespace Hawk.ETL.Plugins.Generators
 {
-     [XFrmWork("从文本生成","每行一条数据" )]
+     [XFrmWork("从文本生成","每行一条数据，常用" )]
     public class TextGE : GeneratorBase
     {
          List<string> argsList=new List<string>();

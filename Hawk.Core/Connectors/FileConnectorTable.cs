@@ -175,7 +175,7 @@ namespace Hawk.Core.Connectors
                 var comma = false;
                 var array = strline.ToCharArray();
                 var values = new List<string>();
-                var length = array.Length - 1;
+                var length = array.Length;
                 var index = 0;
                 while (index < length)
                 {

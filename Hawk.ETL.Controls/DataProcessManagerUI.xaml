@@ -7,14 +7,43 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
 
 
-             xmlns:Connectors="clr-namespace:Hawk.Core.Connectors;assembly=Hawk.Core" x:Class="Hawk.ETL.Controls.DataProcessManagerUI"
+             xmlns:Connectors="clr-namespace:Hawk.Core.Connectors;assembly=Hawk.Core" xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:Hawk_Core_Themes="clr-namespace:Hawk.Core.Themes;assembly=Hawk.Core" x:Class="Hawk.ETL.Controls.DataProcessManagerUI"
 
 
              mc:Ignorable="d"  d:DesignWidth="972.666" d:DesignHeight="465.502">
     <UserControl.Resources>
         <ResourceDictionary>
 
+        	<Hawk_Core_Themes:TaskMetroConverter x:Key="TaskMetroConverter"/>
 
+   <Style x:Key="GroupContainerStyle" TargetType="{x:Type GroupItem}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                            <Expander IsExpanded="True">
+                                <Expander.Header>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                                            <TextBlock Text="{Binding Name}"  />
+                                    
+                                        </StackPanel>
+                                        <Line Grid.Column="1" SnapsToDevicePixels="true" X1="0" X2="1" Stretch="Fill"
+                                          StrokeThickness="1" />
+                                    </Grid>
+                                </Expander.Header>
+                                <ItemsPresenter />
+                            </Expander>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
 
 
@@ -31,95 +60,210 @@
             </Style>
 
             <DataTemplate x:Key="DataTemplateList">
-                <Grid HorizontalAlignment="Stretch" ToolTip="{Binding Description}" Height="65" Width="Auto" d:DesignWidth="210.332" d:DesignHeight="136.471">
-                    <Rectangle Stroke="Black"    RadiusX="13" RadiusY="3" StrokeThickness="0" Width="45" Height="45" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,0,10.334" Opacity="0.5">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.3,0">
-                                <GradientStop Color="#FF3B3B3B" Offset="0.418"/>
-                                <GradientStop Color="#FF818181" Offset="0.125"/>
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <Label Content="{Binding Name}" Height="Auto"  mvvm:ListItemDoubleClick.Property="BindingCommands.ChildActions[6].ChildActions[0]" VerticalAlignment="Center" FontSize="21.333" d:LayoutOverrides="GridBoX" HorizontalAlignment="Stretch" Width="Auto" Margin="60,0,0,0"/>
-                </Grid>
-                <DataTemplate.Triggers>
-                    <EventTrigger RoutedEvent="Mouse.MouseEnter"/>
-                    <EventTrigger RoutedEvent="Mouse.MouseLeave"/>
-                </DataTemplate.Triggers>
+            	<StackPanel Orientation="Horizontal" Width="300" Margin="0,4">
+            		        	  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
+                                <Rectangle.Fill>
+                                    <VisualBrush Stretch="Fill"
+                                                 Visual="{Binding LogoURL, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+                                </Rectangle.Fill>
+                            </Rectangle>
+		 
+            		<StackPanel  Height="Auto"  mvvm:ListItemDoubleClick.Property="BindingCommands.ChildActions[6].ChildActions[0]" Margin="0" Width="Auto">
+            			<TextBlock Margin="0,0,0,8" TextWrapping="Wrap" Text="{Binding Name}"  d:LayoutOverrides="Width" FontSize="{DynamicResource LargeFont}" FontWeight="Normal"/>
+            			<TextBlock TextWrapping="Wrap"   Text="{Binding Description}"  />
+            		</StackPanel>
+				
+				 
+            	</StackPanel>
+				
+				 
             </DataTemplate>
 
 
 
-
+          
 
             <DataTemplate x:Key="DataTemplate2">
-                <StackPanel   mvvm:ListItemDoubleClick.Property="BindingCommands.ChildActions[1].ChildActions[0]"  HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" Orientation="Horizontal"   >
-                    <Label Content="{Binding Name}" Margin="5,5,0,5" VerticalAlignment="Center"  FontSize="14.667" HorizontalAlignment="Left" Width="Auto" />
-                    <Label Content="{Binding ProcessToDo[Type]}" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Width="Auto" Height="Auto" />
+                <StackPanel   mvvm:ListItemDoubleClick.Property="BindingCommands.ChildActions[1].ChildActions[0]"  HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Stretch" Width="Auto" Orientation="Horizontal"   >
+                    <Rectangle Width="20" Height="20" VerticalAlignment="Center" Margin="0,0,10,0" >
+                		<Rectangle.Fill>
+                			<VisualBrush Stretch="Fill"
+                				Visual="{Binding ProcessToDo[Type], Converter={StaticResource TaskMetroConverter}, Mode=OneWay}"  />
+                		</Rectangle.Fill>
+                	</Rectangle>
+                	<Label Content="{Binding Name}" ToolTip="{Binding Description}" Margin="5,5,0,5" VerticalAlignment="Center"  FontSize="14.667" HorizontalAlignment="Left" Width="Auto" />
                 </StackPanel>
             </DataTemplate>
-            <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
-                <WrapPanel/>
-            </ItemsPanelTemplate>
+        	<System:Double x:Key="LargeFont">14.667</System:Double>
+            <DataTemplate x:Key="DataTemplateHelp">
+            	<StackPanel Orientation="Horizontal">
+            		  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
+                                <Rectangle.Fill>
+                                    <VisualBrush Stretch="Fill"
+                                                 Visual="{Binding Icon, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+                                </Rectangle.Fill>
+                            </Rectangle>
+            	<StackPanel Margin="0,6" Width="300">
+            		<StackPanel  Width="300" Orientation="Horizontal">
+            				<TextBlock   Margin="0,0,8,8"  Text="{Binding Text}"   d:LayoutOverrides="Width" FontSize="{DynamicResource LargeFont}" FontWeight="Normal" VerticalAlignment="Center"/>
+            		         <TextBlock VerticalAlignment="Center"><Hyperlink Command="{Binding}"><Run Text="访问"/></Hyperlink></TextBlock>
+						 </StackPanel>
+            		<TextBlock TextWrapping="Wrap"   Text="{Binding Description}"  />
+            	</StackPanel>
+				</StackPanel>
+            </DataTemplate>
+            <System:Double x:Key="UltraFont">21.333</System:Double>
+          
 
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
+    	<Grid.RowDefinitions>
+    		<RowDefinition Height="100"/>
+    		<RowDefinition Height="0"/>
+    		 
+    		<RowDefinition Height="0.339*"/>
+    		<RowDefinition Height="0.661*"/>
+    	</Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="575*"/>
-            <ColumnDefinition Width="398*"/>
+        	<ColumnDefinition Width="0.400*"/>
+        	<ColumnDefinition Width="0.400*"/>
+        	<ColumnDefinition Width="0.3*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="listboxProcessMethodList" ToolTip="双击图标以新建任务" ItemsSource="{Binding ProgramNameFilterView}"  x:FieldModifier="public"   Margin="20,46,20,0"     ItemsPanel="{DynamicResource ItemsPanelTemplate1}"  ItemTemplate="{DynamicResource DataTemplateList}" Height="112" VerticalAlignment="Top"/>
-        <GridSplitter Width="5" Grid.Column="1" HorizontalAlignment="Left"/>
-        <ListBox x:Name="listBox"  DataContext="{Binding}" ToolTip="双击可加载任务，右键可对任务进行删除等操作"  SelectedItem="{Binding SelectedTask}" ItemsSource="{Binding ProjectTaskList}"  HorizontalContentAlignment="Stretch" Margin="20,205,20,20"    ItemTemplate="{DynamicResource DataTemplate2}"  >
-            <ListBox.Resources>
-                <ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding BindingCommands.ChildActions[1].ChildActions}"/>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="3" Grid.RowSpan="4"/>
 
-                <Style TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                    <Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />
+        <ListBox x:Name="listBox"  DataContext="{Binding}" ToolTip="双击可加载任务，右键可对任务进行删除等操作"  SelectedItem="{Binding SelectedTask}" ItemsSource="{Binding ProjectTaskList}"  HorizontalContentAlignment="Stretch" Margin="30,40,30,20"    ItemTemplate="{DynamicResource DataTemplate2}" Grid.Row="2" Grid.Column="1" Grid.RowSpan="2"  >
+		    <ListBox.Resources>
+		    	<ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding BindingCommands.ChildActions[1].ChildActions}"/>
 
-                </Style>
+		    	<Style TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource {x:Type ListBoxItem}}">
+		    		<Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />
+
+		    	</Style>
             </ListBox.Resources>
 
 
 
-        </ListBox>
-        <TextBlock TextWrapping="Wrap" FontSize="21.333" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="23,172,0,0" Width="239"><Run Language="zh-cn" Text="保存的任务" /></TextBlock>
-        <TextBox TextWrapping="Wrap" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="186,182,0,0" Width="76" Height="19" d:LayoutOverrides="HorizontalAlignment"/>
-        <TextBlock TextWrapping="Wrap"  Height="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="135,182,0,0" Width="50"><Run Language="zh-cn" Text="快速检索" /></TextBlock>
+            <ListBox.GroupStyle>
+            	<GroupStyle ContainerStyle="{StaticResource GroupContainerStyle}">
+            		<GroupStyle.HeaderTemplate>
+            			<DataTemplate>
+            				<Border BorderBrush="Black" BorderThickness="1" Height="30">
+            					<TextBlock Text="{Binding Name}"  FontWeight="Bold" />
+            				</Border>
+            			</DataTemplate>
+            		</GroupStyle.HeaderTemplate>
+            	</GroupStyle>
+            </ListBox.GroupStyle>
 
-        <TextBlock VerticalAlignment="Top" TextWrapping="Wrap" Margin="22,11,0,0" HorizontalAlignment="Left" FontSize="21.333" Grid.Column="1" Height="28" Width="97"><Run Text="数据"/><Run Text="源"/></TextBlock>
-        <TreeView DataContext="{Binding MainFrmUI.PluginDictionary[数据管理]}" ToolTip="右键可新建数据源"  Margin="20,48,20,20"  x:Name="treeView"  ItemsSource="{Binding CurrentConnectors}" Grid.Column="1">
+
+
+        </ListBox>
+		  <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="30,8,0,0" Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Top">
+        	  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
+                                <Rectangle.Fill>
+                                    <VisualBrush Stretch="Fill"
+                                                 Visual="{Binding ConverterParameter=disk, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+                                </Rectangle.Fill>
+                            </Rectangle>
+		 
+        <TextBlock TextWrapping="Wrap" FontSize="21.333" VerticalAlignment="Top"  Grid.Row="2" HorizontalAlignment="Left" Grid.Column="1"><Run Language="zh-cn" Text="保存的任务" /></TextBlock>
+       </StackPanel>
+		  <StackPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0,5.76,30,0" Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Top">
+		  	  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
+                                <Rectangle.Fill>
+                                    <VisualBrush Stretch="Fill"
+                                                 Visual="{Binding ConverterParameter=magnify, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+                                </Rectangle.Fill>
+                            </Rectangle>
+		  	<StackPanel Orientation="Vertical" d:LayoutOverrides="Width">
+		  		<TextBlock TextWrapping="Wrap" HorizontalAlignment="Left"><Run Language="zh-cn" Text="快速检索" /></TextBlock>
+		  		<TextBox TextWrapping="Wrap" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="70.237" Height="19"/>
+		  	</StackPanel>
+		  </StackPanel>
+        <TreeView DataContext="{Binding MainFrmUI.PluginDictionary[数据管理]}" ToolTip="右键可新建数据源"  Margin="30,40,30,20"  x:Name="treeView"  ItemsSource="{Binding CurrentConnectors}" Grid.Row="3">
             <TreeView.Resources>
 
-                <HierarchicalDataTemplate DataType="{x:Type Connectors:DBConnectorBase}"
-					ItemsSource="{Binding TableNames.Collection}"  >
-                    <TextBlock Text="{Binding Name}"   mvvm:TreeViewItemDoubleClick.Property="{Binding Data.Commands[0].ChildActions[0], Source={StaticResource BindingProxy}}"
-					  AllowDrop="True"   FontSize="16"   ToolTip="{Binding TypeName}" VerticalAlignment="Center">
-						<mvvm:DropHelper.DropSupport>
-							<mvvm:DropSupportData BindingPath="Commands[0]"  />
-						</mvvm:DropHelper.DropSupport>
-                        <TextBlock.ContextMenu>
-                            <ContextMenu ItemsSource="{Binding MainFrmUI.PluginDictionary[数据管理].Commands[0].ChildActions}" />
-                        </TextBlock.ContextMenu>
-                    </TextBlock>
-
-
-                </HierarchicalDataTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type Connectors:TableInfo}"  >
-                    <TextBlock Text="{Binding Name}" AllowDrop="True" ToolTip="{Binding Description}" FontSize="13"  mvvm:TreeViewItemDoubleClick.Property="Commands[1].ChildActions[0]">
-                        <TextBlock.ContextMenu>
-                            <ContextMenu  ItemsSource="{Binding MainFrmUI.PluginDictionary[数据管理].Commands[1].ChildActions}"/>
-                        </TextBlock.ContextMenu>
-                    </TextBlock>
-                </HierarchicalDataTemplate>
+            	<HierarchicalDataTemplate DataType="{x:Type Connectors:DBConnectorBase}"
+            		ItemsSource="{Binding TableNames.Collection}"  >
+            		<StackPanel Orientation="Horizontal" >
+            				  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
+                                <Rectangle.Fill>
+                                    <VisualBrush Stretch="Fill"
+                                                 Visual="{Binding ConverterParameter=database, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+                                </Rectangle.Fill>
+                            </Rectangle>
+            		<TextBlock Text="{Binding Name}"   mvvm:TreeViewItemDoubleClick.Property="{Binding Data.Commands[0].ChildActions[0], Source={StaticResource BindingProxy}}"
+            			AllowDrop="True"   FontSize="{DynamicResource LargeFont}"   ToolTip="{Binding TypeName}" VerticalAlignment="Center">
+            			<mvvm:DropHelper.DropSupport>
+            				<mvvm:DropSupportData BindingPath="Commands[0]"  />
+            			</mvvm:DropHelper.DropSupport>
+            			<TextBlock.ContextMenu>
+            				<ContextMenu ItemsSource="{Binding MainFrmUI.PluginDictionary[数据管理].Commands[0].ChildActions}" />
+            			</TextBlock.ContextMenu>
+            		</TextBlock>
+					</StackPanel>
+            	</HierarchicalDataTemplate>
+            	<HierarchicalDataTemplate DataType="{x:Type Connectors:TableInfo}"  >
+            		<StackPanel Orientation="Horizontal" >
+            				  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
+                                <Rectangle.Fill>
+                                    <VisualBrush Stretch="Fill"
+                                             Visual="{Binding ConverterParameter=paper, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+                                </Rectangle.Fill>
+                            </Rectangle>
+            		<TextBlock Text="{Binding Name}" AllowDrop="True" ToolTip="{Binding Description}" FontSize="13"  mvvm:TreeViewItemDoubleClick.Property="Commands[1].ChildActions[0]">
+            			<TextBlock.ContextMenu>
+            				<ContextMenu  ItemsSource="{Binding MainFrmUI.PluginDictionary[数据管理].Commands[1].ChildActions}"/>
+            			</TextBlock.ContextMenu>
+            		</TextBlock>
+					</StackPanel>
+            	</HierarchicalDataTemplate>
             </TreeView.Resources>
             <TreeView.ContextMenu>
                 <ContextMenu   ItemsSource="{Binding MainFrmUI.PluginDictionary[数据管理].Commands[4].ChildActions}"/>
 
             </TreeView.ContextMenu>
         </TreeView>
-        <TextBlock VerticalAlignment="Top" TextWrapping="Wrap" Margin="23,10,0,0" HorizontalAlignment="Left" FontSize="21.333" Height="28" Width="97"><Run Text="新建任务"/></TextBlock>
+        <StackPanel Grid.Column="0" HorizontalAlignment="Left" Margin="30,8,0,0" Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Top">
+        	  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
+                                <Rectangle.Fill>
+                                    <VisualBrush Stretch="Fill"
+                                                 Visual="{Binding ConverterParameter=paper, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+                                </Rectangle.Fill>
+                            </Rectangle>
+		 
+        <TextBlock TextWrapping="Wrap" FontSize="21.333" VerticalAlignment="Top"  Grid.Row="2" HorizontalAlignment="Left" Grid.Column="1"><Run Language="zh-cn" Text="新建任务" /></TextBlock>
+       </StackPanel>
+        <ListBox x:Name="listboxProcessMethodList" ToolTip="双击图标以新建任务" ItemsSource="{Binding ProgramNameFilterView}"  x:FieldModifier="public"      ItemTemplate="{DynamicResource DataTemplateList}" Margin="30,40,30,0" Grid.Row="2" VerticalAlignment="Top"/>
+          <StackPanel Grid.Column="0" HorizontalAlignment="Left" Margin="30,8,0,0" Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Top">
+        	  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
+                                <Rectangle.Fill>
+                                    <VisualBrush Stretch="Fill"
+                                                 Visual="{Binding ConverterParameter=connect, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+                                </Rectangle.Fill>
+                            </Rectangle>
+		 
+        <TextBlock TextWrapping="Wrap" FontSize="21.333" VerticalAlignment="Top"  Grid.Row="2" HorizontalAlignment="Left" Grid.Column="1"><Run Language="zh-cn" Text="数据库配置" /></TextBlock>
+       </StackPanel>
+        <TextBlock TextWrapping="Wrap" Margin="34,20,0,20" HorizontalAlignment="Left" FontSize="64" Opacity="0.175" VerticalAlignment="Bottom" Foreground="Black"><Run Text="Hawk"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="64" Margin="30,0,0,20" VerticalAlignment="Bottom"><Run Language="zh-cn" Text="H"/><Run Text="awk"/><Run Foreground="#FF10AB8B" Language="zh-cn" Text=" 3"/></TextBlock>
+        <StackPanel Grid.Column="2" HorizontalAlignment="Left" Margin="30,8,0,0" Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Top">
+        	  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
+                                <Rectangle.Fill>
+                                    <VisualBrush Stretch="Fill"
+                                                 Visual="{Binding ConverterParameter=rss, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+                                </Rectangle.Fill>
+                            </Rectangle>
+			<TextBlock TextWrapping="Wrap" Margin="0,0,-0.001,0" FontSize="{DynamicResource UltraFont}" d:LayoutOverrides="Width, GridBox"><Run Language="zh-cn" Text="快速链接"/></TextBlock>
+        </StackPanel>
+        <ListBox Grid.Column="2" Margin="30,40,30,20" Grid.Row="2" ItemTemplate="{DynamicResource DataTemplateHelp}" ItemsSource="{Binding MainFrmUI.CommandCollection[1].ChildActions}" Grid.RowSpan="2"/>
+        <StackPanel VerticalAlignment="Bottom" Margin="270,0,0,30" HorizontalAlignment="Left" Width="235.283" Grid.ColumnSpan="2">
+        	<TextBlock TextWrapping="Wrap" FontSize="16" Foreground="#FFA1A1A1" HorizontalAlignment="Left"><Run Text="数据处理革命"/></TextBlock>
+        	<TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="16" Foreground="#FFA1A1A1" Margin="0,8,0,0"><Run Text="Smart ETL Crawler Engine"/></TextBlock>
+        </StackPanel>
+        <TextBlock TextWrapping="Wrap" Margin="30,20,0,20" HorizontalAlignment="Left" FontSize="26.667"   VerticalAlignment="Bottom" Grid.Column="2"><Run Language="zh-cn" Text="欢迎使用Hawk!"/></TextBlock>
 
     </Grid>
 </UserControl>
+

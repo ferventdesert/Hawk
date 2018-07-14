@@ -17,6 +17,7 @@ namespace Hawk.Core.Connectors.Vitural
 
         protected string openfile = "打开新文件";
         [LocalizedCategory("数据表列表")]
+        [LocalizedDisplayName("曾打开的文件")]
         public ObservableCollection<TableInfo> CurrentTables { get; set; }
 
         public override List<TableInfo> RefreshTableNames()

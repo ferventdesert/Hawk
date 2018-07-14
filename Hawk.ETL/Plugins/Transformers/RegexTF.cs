@@ -23,16 +23,17 @@ namespace Hawk.ETL.Plugins.Transformers
             IsManyData=ScriptWorkMode.One;
         }
        
-
+        [PropertyOrder(0)]
         [LocalizedDisplayName("工作模式")]
         [LocalizedDescription("当要输出多个结果时选List，否则选One或None,参考“网页采集器”")]
         public ScriptWorkMode IsManyData { get; set; }
 
+        [PropertyOrder(2)]
         [LocalizedDisplayName("匹配编号")]
         [LocalizedDescription("当值为小于0时，可同时匹配多个值")]
         public int Index { get; set; }
 
-        
+        [PropertyOrder(1)]
         [LocalizedDisplayName("表达式")]
         [PropertyEditor("DynamicScriptEditor")]
         public string Script { get; set; }
@@ -68,7 +69,8 @@ namespace Hawk.ETL.Plugins.Transformers
                 foreach (var p in r)
                 {
                     var doc=new FreeDocument();
-                    doc.Add("regex",p);
+                    doc.MergeQuery(data, NewColumn);
+                    doc.SetValue(Column,p);
                     yield return doc.MergeQuery( data, NewColumn);
                 
                 }

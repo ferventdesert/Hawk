@@ -97,6 +97,11 @@ namespace Hawk.ETL.Interfaces
         [Browsable(false)]
         public string TypeName => AttributeHelper.GetCustomAttribute(GetType()).Name;
 
+        [Browsable(false)]
+       public string LogoURL => AttributeHelper.GetCustomAttribute(GetType()).LogoURL;
+
+
+
         #endregion
 
         #region Implemented Interfaces

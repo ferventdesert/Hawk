@@ -35,7 +35,8 @@ namespace Hawk.ETL.Plugins.Transformers
         [LocalizedDescription("要获取的响应头的名称，多个之间用空格分割，不区分大小写")]
         public virtual string HeaderFilter { get; set; }
 
-        protected SmartCrawler crawler
+        [Browsable(false)]
+        public SmartCrawler Crawler
         {
             get { return _crawler; }
             set
@@ -43,7 +44,7 @@ namespace Hawk.ETL.Plugins.Transformers
                 if (_crawler != value)
                 {
                     if (_crawler != null)
-                        crawler.PropertyChanged -= CrawlerPropertyChangedHandler;
+                        Crawler.PropertyChanged -= CrawlerPropertyChangedHandler;
                     value.PropertyChanged += CrawlerPropertyChangedHandler;
                     _crawler = value;
                 }
@@ -58,10 +59,10 @@ namespace Hawk.ETL.Plugins.Transformers
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
             OneOutput = false;
-            crawler = GetCrawler(CrawlerSelector.SelectItem);
-            if (string.IsNullOrEmpty(CrawlerSelector.SelectItem) && crawler != null)
-                CrawlerSelector.SelectItem = crawler.Name;
-            return crawler != null && base.Init(datas);
+            Crawler = GetCrawler(CrawlerSelector.SelectItem);
+            if (string.IsNullOrEmpty(CrawlerSelector.SelectItem) && Crawler != null)
+                CrawlerSelector.SelectItem = Crawler.Name;
+            return Crawler != null && base.Init(datas);
         }
 
         public override
@@ -74,7 +75,7 @@ namespace Hawk.ETL.Plugins.Transformers
             WebHeaderCollection responseHeader;
             HttpStatusCode code;
 
-            var content = helper.GetHtml(crawler.Http, out responseHeader, out code, url);
+            var content = helper.GetHtml(Crawler.Http, out responseHeader, out code, url);
             var keys = responseHeader.AllKeys;
             if (!string.IsNullOrEmpty(HeaderFilter))
             {

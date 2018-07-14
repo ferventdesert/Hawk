@@ -9,35 +9,45 @@ using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Plugins.Transformers;
 using HtmlAgilityPack;
+using ScrapySharp.Extensions;
 
 namespace Hawk.ETL.Crawlers
 {
-    [XFrmWork("XPath筛选器", "通过XPath选取html中的子节点文档")]
+    [XFrmWork("XPath筛选器", "通过XPath选取html中的子节点文档， 也可通过CssSelector选取html中的子节点文档，相比XPath更简单 ")]
     public class XPathTF : TransformerBase
     {
         public XPathTF()
         {
             IsManyData = ScriptWorkMode.One;
+            SelectorFormat= SelectorFormat.XPath;
         }
-
-        [LocalizedDisplayName("XPath路径")]
+        [PropertyOrder(3)]
+        [LocalizedDisplayName("路径")]
         public string XPath { get; set; }
 
+        [PropertyOrder(2)]
         [LocalizedDisplayName("工作模式")]
         [LocalizedDescription("当要获取符合XPath语法的多个结果时选List，只获取一条选One,其行为可参考“网页采集器”")]
         public ScriptWorkMode IsManyData { get; set; }
 
+        [LocalizedCategory("高级选项")]
         [LocalizedDisplayName("获取正文")]
         [LocalizedDescription("勾选此项后，会自动提取新闻正文，XPath路径可为空")]
         public bool GetText { get; set; }
 
-        [LocalizedDisplayName("获取正文HTML")]
-        [LocalizedDescription("勾选此项后，会自动提取新闻正文的HTML，XPath路径可为空")]
-        public bool GetTextHtml { get; set; }
 
-        [LocalizedDisplayName("获取节点数量")]
-        [LocalizedDescription("获取符合XPath语法的节点的数量")]
-        public bool GetCount { get; set; }
+        [PropertyOrder(0)]
+        [LocalizedDisplayName("选择器")]
+        [LocalizedDescription("")]
+
+        public SelectorFormat SelectorFormat { get; set; }
+
+        [PropertyOrder(1)]
+        [LocalizedDisplayName("抓取目标")]
+        [LocalizedDescription("")]
+        public CrawlType CrawlType { get; set; }
+
+     
 
         protected override IEnumerable<IFreeDocument> InternalTransformManyData(IFreeDocument data)
         {
@@ -45,16 +55,20 @@ namespace Hawk.ETL.Crawlers
             var docu = new HtmlDocument();
 
             docu.LoadHtml(item.ToString());
-            var p2 = docu.DocumentNode.SelectNodes(XPath);
+           var  path = data.Query(XPath);
+
+            var p2 = docu.DocumentNode.SelectNodes(path, this.SelectorFormat);
             if (p2 == null)
                 return new List<IFreeDocument>();
             return p2.Select(node =>
             {
                 var doc = new FreeDocument();
-                doc.Add("Text", node.GetNodeText());
-                doc.Add("HTML", node.InnerHtml);
-                doc.Add("OHTML", node.OuterHtml);
-                return doc.MergeQuery(data, NewColumn);
+               
+                 doc.MergeQuery(data, NewColumn);
+                doc.SetValue("Text", node.GetNodeText());
+                doc.SetValue("HTML", node.InnerHtml);
+                doc.SetValue("OHTML", node.OuterHtml);
+                return doc;
             });
         }
 
@@ -75,35 +89,23 @@ namespace Hawk.ETL.Crawlers
             var docu = new HtmlDocument();
 
             docu.LoadHtml(item.ToString());
+            string path;
             if (GetText)
             {
-                var path = docu.DocumentNode.GetTextNode();
-                var textnode = docu.DocumentNode.SelectSingleNodePlus(path,SelectorFormat.XPath);
-                if (textnode != null)
-                    return textnode.GetNodeText();
+                 path = docu.DocumentNode.GetTextNode();
+                return docu.DocumentNode.GetDataFromXPath(path, CrawlType);
             }
-            if (GetTextHtml)
+            else
             {
-                var path = docu.DocumentNode.GetTextNode();
-                var textnode = docu.DocumentNode.SelectSingleNodePlus(path,SelectorFormat.XPath);
-                if (textnode != null)
-                    return textnode.InnerHtml;
-            }
-            if (GetCount)
-            {
-                var textnode = docu.DocumentNode.SelectNodes(XPath);
-                return textnode.Count;
-            }
+                 path = document.Query(XPath);
+                return docu.DocumentNode.GetDataFromXPath(path, CrawlType, SelectorFormat);
 
-            var res = docu.DocumentNode.GetDataFromXPath(document.Query(XPath));
-            if (res == null)
-            {
+
             }
-            return res;
+          
         }
     }
-
-
+  
     [XFrmWork("门类枚举", "要拖入HTML文本列,可将页面中的门类，用Cross模式组合起来，适合于爬虫无法抓取全部页面，但可以按分类抓取的情况。需调用网页采集器，具体参考文档-门类枚举")]
     public class XPathTF2 : ResponseTF
     {
@@ -115,10 +117,10 @@ namespace Hawk.ETL.Crawlers
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {
             base.Init(docus);
-            if (crawler == null)
+            if (Crawler == null)
                 return false;
             IsMultiYield = true;
-            xpaths = crawler.CrawlItems.GroupBy(d => d.Name).Select(d =>
+            xpaths = Crawler.CrawlItems.GroupBy(d => d.Name).Select(d =>
             {
                 var column = d.Key;
                 var path = XPath.GetMaxCompareXPath(d.Select(d2 => d2.XPath).ToList());

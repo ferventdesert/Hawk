@@ -546,6 +546,12 @@ namespace Hawk.Core.Utils
                 var r = GetHttpRequestData(request, requestitem,out responseHeaders, out code);
                 if (!IsSuccess(code))
                 {
+                    if(code==HttpStatusCode.Forbidden)
+                        RequestManager.Instance.ForbidCount++;
+                     if(code==HttpStatusCode.RequestTimeout||code==HttpStatusCode.GatewayTimeout)
+
+                        RequestManager.Instance.TimeoutCount++;
+                    
                     XLogSys.Print.Warn($"HTTP Request Failed {code} | {requestitem.URL} ");
                     return "HTTP错误，类型:" + code;
 

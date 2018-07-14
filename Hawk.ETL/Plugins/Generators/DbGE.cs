@@ -13,7 +13,7 @@ using TableInfo = Hawk.Core.Connectors.TableInfo;
 
 namespace Hawk.ETL.Plugins.Generators
 {
-    [XFrmWork("从连接器生成","从数据管理的连接器中生成序列" )]
+    [XFrmWork("从数据库生成","从数据库读取内容，需提前在数据视图中配置连接","database" )]
     public class DbGE : GeneratorBase
     {
         private IDataManager dataManager;
@@ -26,24 +26,27 @@ namespace Hawk.ETL.Plugins.Generators
          
             ConnectorSelector=new ExtendSelector<IDataBaseConnector>();
             ConnectorSelector.GetItems = () => dataManager.CurrentConnectors.ToList();
-            TableNames=new ExtendSelector<TableInfo>();
+            TableNames=new ExtendSelector<string>();
             Mount = -1;
-            ConnectorSelector.SelectChanged += (s, e) => TableNames.SetSource(ConnectorSelector.SelectItem.RefreshTableNames());
+            ConnectorSelector.SelectChanged += (s, e) => TableNames.SetSource(ConnectorSelector.SelectItem.RefreshTableNames().Select(d=>d.Name));
+            TableNames.SelectChanged += (s, e) => { this.InformPropertyChanged("TableNames"); };
         }
-
-        [LocalizedDisplayName("连接器")]
+        [LocalizedCategory("参数设置")]
+        [LocalizedDisplayName("1.连接器")]
         [LocalizedDescription("选择所要连接的数据库服务")]
         [PropertyOrder(1)]
         public ExtendSelector<IDataBaseConnector> ConnectorSelector { get; set; }
 
 
         [LocalizedCategory("参数设置")]
-        [LocalizedDisplayName("操作表名")]
-        public ExtendSelector<TableInfo> TableNames { get; set; }
+        [LocalizedDisplayName("2.操作表名")]
+        [PropertyOrder(2)]
+        public ExtendSelector<string> TableNames { get; set; }
 
 
         [LocalizedCategory("参数设置")]
-        [LocalizedDisplayName("数量")]
+        [LocalizedDisplayName("3.数量")]
+        [PropertyOrder(3)]
         public int Mount { get; set; }
 
  
@@ -55,12 +58,13 @@ namespace Hawk.ETL.Plugins.Generators
             var mount = 0;
             if (Mount < 0)
                 mount = int.MaxValue;
-            TableInfo table = TableNames.SelectItem;
+            var table =  this.ConnectorSelector.SelectItem?.RefreshTableNames().FirstOrDefault(d=>d.Name== TableNames.SelectItem);
             if (table != null)
             {
                 var con = new VirtualDataCollection(table.GetVirtualProvider<IFreeDocument>());
-                foreach (var item in con.ComputeData.Take(mount).Select(d => d.DictSerialize()))
+                foreach (var item in con.ComputeData.Take(mount))
                 {
+                    if(item!=null)
                     yield return item;
                 }
             }
@@ -79,7 +83,7 @@ namespace Hawk.ETL.Plugins.Generators
             }
             if (TableNames.SelectItem != null)
             {
-                dict.Add("Table", TableNames.SelectItem.Name);
+                dict.Add("Table", TableNames.SelectItem);
             }
           
             return dict;
@@ -93,7 +97,7 @@ namespace Hawk.ETL.Plugins.Generators
                 dataManager.CurrentConnectors.FirstOrDefault(d => d.Name == docu["Connector"].ToString());
 
             TableNames.SelectItem =
-                ConnectorSelector.SelectItem.RefreshTableNames().FirstOrDefault(d => d.Name == docu["Table"].ToString());
+                docu["Table"].ToString();
         }
     }
 }

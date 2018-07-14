@@ -94,7 +94,16 @@ namespace Hawk.ETL.Plugins.Generators
             }
         }
 
-        public string ETLRange => $"{RangeStart}:{RangeEnd}";
+        public string ETLRange
+        {
+            get
+            {
+                int end = RangeEnd;
+                if (end >= this.SubTask.CurrentETLTools.Count)
+                    end = 300; 
+                return $"{RangeStart}:{end}";
+            }
+        }
 
         public string MappingSet
         {
@@ -251,6 +260,7 @@ namespace Hawk.ETL.Plugins.Generators
         [PropertyOrder(3)]
         [LocalizedDescription("源属性:目标属性列 多个映射中间用空格分割，例如A:B C:D, 表示主任务中的A,B属性列会以C,D的名称传递到子任务中")]
         public string MappingSet { get; set; }
+     
 
         protected SmartETLTool etl { get; set; }
 
@@ -298,6 +308,8 @@ namespace Hawk.ETL.Plugins.Generators
             {
                 var kv = item.Split(':');
                 if (kv.Length != 2)
+                    continue;
+                if(kv[0]==kv[1])
                     continue;
                 if (newdoc.Keys.Contains(kv[0]))
                 {
@@ -365,7 +377,7 @@ namespace Hawk.ETL.Plugins.Generators
             if (document != null)
                 documents.Add(MappingDocument(document));
 
-            return etl.Generate(process, IsExecute, documents);
+            return process.Generate( IsExecute, documents);
         }
 
         public int? GenerateCount()
@@ -395,7 +407,7 @@ namespace Hawk.ETL.Plugins.Generators
         {
             base.Init(datas);
             var process = GetProcesses().ToList();
-            func = etl.Aggregate(d => d, process, true);
+            func = process.Aggregate(isexecute: true);
             return true;
         }
 
@@ -431,7 +443,7 @@ namespace Hawk.ETL.Plugins.Generators
         }
     }
 
-    [XFrmWork("矩阵转置", "将列数据转换为行数据，拖入的列为key")]
+    [XFrmWork("矩阵转置", "将列数据转换为行数据，拖入的列为key","transform_rotate_right")]
     public class DictTF : TransformerBase
     {
         public override bool Init(IEnumerable<IFreeDocument> docus)
@@ -508,7 +520,7 @@ namespace Hawk.ETL.Plugins.Generators
         {
             base.Init(datas);
             process = GetProcesses();
-            func = etl.Aggregate(d => d, process, IsExecute);
+            func = process.Aggregate(isexecute: IsExecute);
             return true;
         }
 
@@ -535,7 +547,7 @@ namespace Hawk.ETL.Plugins.Generators
                     while (string.IsNullOrEmpty(newdata[Column].ToString()) == false)
                     {
                         var result =
-                            etl.Generate(process, IsExecute, new List<IFreeDocument> {newdata.Clone()}).FirstOrDefault();
+                            process.Generate( IsExecute, new List<IFreeDocument> {newdata.Clone()}).FirstOrDefault();
                         if (result == null)
                             break;
                         yield return result.Clone();
@@ -544,7 +556,7 @@ namespace Hawk.ETL.Plugins.Generators
                 }
                 else
                 {
-                    var result = etl.Generate(process, IsExecute, new List<IFreeDocument> {doc});
+                    var result = process.Generate( IsExecute, new List<IFreeDocument> {doc});
                     foreach (var item in result)
                     {
                         yield return item.MergeQuery(data, NewColumn);

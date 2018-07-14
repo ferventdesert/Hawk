@@ -52,7 +52,11 @@ namespace Hawk.Core.Connectors
                 for (var index = 0; index < titles.Count; index++)
                 {
                     var title = titles[index];
-                    dict.Add(title, row.GetCell(index).ToString());
+                    var cell = row.GetCell(index);
+                    string value = "";
+                    if (cell != null)
+                        value = cell.ToString();
+                    dict.Set(title, value);
                 }
 
                 if (data != null)
@@ -72,7 +76,7 @@ namespace Hawk.Core.Connectors
         public override IEnumerable<IFreeDocument> WriteData(IEnumerable<IFreeDocument> datas)
         {
             var xssfWb = new XSSFWorkbook();
-            var wb = new SXSSFWorkbook(xssfWb, 100);
+            var wb = new SXSSFWorkbook(xssfWb, 1000);
 // IWorkbook workbook = new XSSFWorkbook();
             var sheet1 = xssfWb.CreateSheet("Sheet1");
             var sw = File.Create(FileName);

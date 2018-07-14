@@ -8,7 +8,7 @@
              xmlns:attributes="clr-namespace:System.Windows.Controls.WpfPropertyGrid.Attributes;assembly=System.Windows.Controls.WpfPropertyGrid"
              xmlns:connectors="clr-namespace:Hawk.Core.Connectors;assembly=Hawk.Core"
              mc:Ignorable="d" 
-             d:DesignHeight="659" d:DesignWidth="916" Background="{DynamicResource NormalBrush}">
+             d:DesignHeight="659" d:DesignWidth="916" Background="{DynamicResource NormalBorderBrush}">
     <UserControl.Resources>
     	<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <Style x:Key="DataRowStyle1" TargetType="{x:Type xcdg:DataRow}">

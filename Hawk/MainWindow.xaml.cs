@@ -85,7 +85,7 @@ namespace Hawk
 
             XmlConfigurator.Configure(new FileInfo("log4net.config"));
 
-
+       
             string icon = ConfigurationManager.AppSettings["Icon"];
             try
             {
@@ -102,7 +102,7 @@ namespace Hawk
             Dispatcher.UnhandledException += (s, e) =>
             {
 
-                if (MessageBox.Show("是否保存当前工程的内容？您只有一次机会这样做，", "警告信息", MessageBoxButton.YesNoCancel) ==
+                if (MessageBox.Show("是否保存当前工程的内容？您只有一次机会这样做，", "Hawk由于内部异常而崩溃", MessageBoxButton.YesNoCancel) ==
                     MessageBoxResult.Yes)
                 {
                     dynamic process = PluginDictionary["模块管理"];
@@ -137,7 +137,7 @@ namespace Hawk
             {
                 List<IDataProcess> revisedTasks;
                 var processmanager = PluginDictionary["模块管理"] as DataProcessManager;
-                revisedTasks = processmanager.CurrentProcessCollections.ToList();
+                revisedTasks = processmanager.GetRevisedTasks().ToList();
                 if (!revisedTasks.Any())
                 {
                     if (MessageBox.Show(Core.Properties.Resources.Closing, Core.Properties.Resources.Tips, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
@@ -155,7 +155,8 @@ namespace Hawk
                 {
 
                     var result =
-                        MessageBox.Show(string.Format(Core.Properties.Resources.Closing2," ".Join(revisedTasks.Select(d=>d.Name).ToArray())), Core.Properties.Resources.Tips,
+                        MessageBox.Show(
+                            $"【{" ".Join(revisedTasks.Select(d => d.Name).ToArray())}】任务可能还没有保存，\n【是】:保存任务并退出, \n【否】：不保存退出，\n【取消】:取消退出", Core.Properties.Resources.Tips,
                             MessageBoxButton.YesNoCancel);
                     if(result==MessageBoxResult.Yes || result==MessageBoxResult.No)
                     {
@@ -317,7 +318,7 @@ namespace Hawk
                     case FrmState.Large:
                         layout = Factory(name, thisControl);
                         documentMain.Children.Add(layout);
-
+                      
                         layout.IsActive = true;
                         break;
                     case FrmState.Buttom:
@@ -330,28 +331,28 @@ namespace Hawk
                         }
 
                         documentButtom.Children.Add(layout);
-
+                        documentButtom.Children.RemoveElementsNoReturn(d => d.Content == null);
                         layout.IsActive = true;
-                        break;
+                        break;  
                     case FrmState.Middle:
                         layout = Factory(name, thisControl);
                         viewitem.Container = layout;
                         dockablePane1.Children.Add(layout);
-
+                        dockablePane1.Children.RemoveElementsNoReturn(d=>d.Content==null);
                         layout.IsActive = true;
-                        break;
+                        break;                
                     case FrmState.Mini:
                         layout = Factory(name, thisControl);
                         viewitem.Container = layout;
-                        dockablePane2.Children.Add(layout);
-
+                        dockablePane1.Children.Add(layout);
+                        dockablePane1.Children.RemoveElementsNoReturn(d => d.Content == null);
                         layout.IsActive = true;
                         break;
                     case FrmState.Mini2:
                         layout = Factory(name, thisControl);
                         viewitem.Container = layout;
-                        dockablePane3.Children.Add(layout);
-
+                        dockablePane1.Children.Add(layout);
+                        dockablePane1.Children.RemoveElementsNoReturn(d => d.Content == null);
                         layout.IsActive = true;
                         break;
                     case FrmState.Custom:
@@ -364,12 +365,15 @@ namespace Hawk
 
                         layout = Factory(name, thisControl);
 
-                        dockablePane2.Children.Add(layout);
+                        dockablePane1.Children.Add(layout);
 
                         layout.Float();
                                     
                         break;
                 }
+                var canNotClose= new string[] {"模块管理","系统状态视图","调试信息窗口"};
+                if (canNotClose.Contains(name))
+                    if (layout != null) layout.CanClose = false;
                 viewitem.Container = layout;
             }
             catch (Exception ex)

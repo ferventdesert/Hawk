@@ -9,7 +9,7 @@ using Hawk.ETL.Interfaces;
 
 namespace Hawk.ETL.Plugins.Executor
 {
-    [XFrmWork("写入数据表", "将数据保存至软件的数据管理器中，之后可方便进行其他处理，拖入到任意一列皆可")]
+    [XFrmWork("写入数据表", "将数据保存至软件的数据管理器中，之后可方便进行其他处理，拖入到任意一列皆可，常用", "column_three")]
     public class TableEX : DataExecutorBase
     {
         private readonly IDataManager dataManager;

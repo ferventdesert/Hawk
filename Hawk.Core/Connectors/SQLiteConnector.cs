@@ -1,34 +1,66 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data.SqlClient;
+using System.Data;
+using System.Data.SQLite;
+using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Forms;
 using System.Windows.Input;
-using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 
-namespace XFrmWork.DataVisualization
+namespace Hawk.Core.Connectors
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Data.SQLite;
-    using System.Linq;
-    using System.Text;
-
- 
-
-    [XFrmWork("SQLite数据库",  "提供SQLite交互的数据库服务", "")]
+    [XFrmWork("SQLite数据库", "提供SQLite交互的数据库服务", "")]
     public class SQLiteDatabase : DBConnectorBase
     {
         private string _dbName;
 
-        #region Constants and Fields
+        #region Methods
 
+        /// <summary>
+        ///     Allows the programmer to run a query against the Database.
+        /// </summary>
+        /// <param name="sql">The SQL to run</param>
+        /// <returns>A DataTable containing the result set.</returns>
+        protected override DataTable GetDataTable(string sql)
+        {
+            var dt = new DataTable();
+
+            try
+            {
+                var cnn = new SQLiteConnection(ConnectionString);
+
+                cnn.Open();
+
+                var mycommand = new SQLiteCommand(cnn);
+
+                mycommand.CommandText = sql;
+
+                var reader = mycommand.ExecuteReader();
+
+                dt.Load(reader);
+
+                reader.Close();
+
+                cnn.Close();
+            }
+
+            catch (Exception e)
+            {
+                XLogSys.Print.Error("SQLLite连接器异常", e);
+            }
+
+            return dt;
+        }
+
+        #endregion
+
+        #region Constants and Fields
 
         #endregion
 
@@ -47,6 +79,7 @@ namespace XFrmWork.DataVisualization
         [LocalizedCategory("1.连接管理")]
         [PropertyOrder(2)]
         public override string Server { get; set; }
+
         [Browsable(false)]
         [LocalizedDisplayName("用户名")]
         [LocalizedCategory("1.连接管理")]
@@ -62,44 +95,41 @@ namespace XFrmWork.DataVisualization
 
         [LocalizedCategory("1.连接管理")]
         [LocalizedDisplayName("浏览路径")]
-
         [PropertyOrder(3)]
-        public ReadOnlyCollection<ICommand> Commands2 {
+        public ReadOnlyCollection<ICommand> Commands2
+        {
             get
             {
                 return CommandBuilder.GetCommands(
-                     this,
-                     new[]
-                     {
-                     
-                        new Command("加载", obj => LoadOldDB(),icon:"disk"),
-                            new Command("新建", obj => CreateNewDB(),icon:"add"),
-                     });
+                    this,
+                    new[]
+                    {
+                        new Command("加载", obj => LoadOldDB(), icon: "disk"),
+                        new Command("新建", obj => CreateNewDB(), icon: "add")
+                    });
             }
         }
 
         private void CreateNewDB()
         {
-            SaveFileDialog saveTifFileDialog = new SaveFileDialog();
-            saveTifFileDialog.OverwritePrompt = true;//询问是否覆盖
+            var saveTifFileDialog = new SaveFileDialog();
+            saveTifFileDialog.OverwritePrompt = true; //询问是否覆盖
             saveTifFileDialog.Filter = "*.db|*.db";
-            saveTifFileDialog.DefaultExt = "db";//缺省默认后缀名
+            saveTifFileDialog.DefaultExt = "db"; //缺省默认后缀名
             if (saveTifFileDialog.ShowDialog() == DialogResult.OK)
-            {
                 DBName = saveTifFileDialog.FileName;
-            }
+            SafeConnectDB();
         }
 
         private void LoadOldDB()
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Multiselect = false;//该值确定是否可以选择多个文件
+            var dialog = new OpenFileDialog();
+            dialog.Multiselect = false; //该值确定是否可以选择多个文件
             dialog.Title = "请选择sqlite数据库文件";
             dialog.Filter = "所有文件(*.*)|*.db";
             if (dialog.ShowDialog() == DialogResult.OK)
-            {
                 DBName = dialog.FileName;
-            }
+            SafeConnectDB();
         }
 
         [LocalizedCategory("1.连接管理")]
@@ -129,25 +159,24 @@ namespace XFrmWork.DataVisualization
                     this,
                     new[]
                     {
-                        new Command("连接数据库", obj =>
-                        {
-
-                            ControlExtended.SafeInvoke(() => ConnectDB(), LogType.Important, "连接数据库");
-                            if (IsUseable)
-                            {
-                                RefreshTableNames();
-                            }
-                        }, obj => IsUseable == false,"connect"),
-                        new Command("关闭连接", obj => CloseDB(), obj => IsUseable,"close"),
+                        new Command("连接数据库", obj => { SafeConnectDB(); }, obj => IsUseable == false, "connect"),
+                        new Command("关闭连接", obj => CloseDB(), obj => IsUseable, "close")
                     });
             }
         }
 
+        private void SafeConnectDB()
+        {
+            ControlExtended.SafeInvoke(() => ConnectDB(), LogType.Important, "连接数据库");
+            if (IsUseable)
+                RefreshTableNames();
+        }
+
         protected override string GetConnectString()
         {
-
-            return  "data source="+this.DBName;
+            return "data source=" + DBName;
         }
+
         protected override void ConnectStringToOtherInfos()
         {
             var connectstrs = ConnectionString.Split('=');
@@ -159,27 +188,29 @@ namespace XFrmWork.DataVisualization
 
         #region Public Methods
 
-        public override void BatchInsert(IEnumerable<IFreeDocument>source, string dbTableName)
+        public override void BatchInsert(IEnumerable<IFreeDocument> source, string dbTableName)
         {
-            var cnn = new SQLiteConnection(this.ConnectionString);
-            cnn.Open();
-
-            try
+            using (var cnn = new SQLiteConnection(ConnectionString))
             {
+                cnn.Open();
 
-
-                using (SQLiteTransaction mytrans = cnn.BeginTransaction())
+                using (var mytrans = cnn.BeginTransaction())
                 {
                     foreach (var data in source.Init(d =>
                     {
-                        if(this.TableNames.Collection.FirstOrDefault(d2=>d2.Name==dbTableName)==null)
-                             CreateTable(d, dbTableName);
+                        if (TableNames.Collection.FirstOrDefault(d2 => d2.Name == dbTableName) == null)
+                        {
+                            var txt = d.DictSerialize(Scenario.Database);
+                            var sb = string.Join(",",
+                                txt.Select(d2 => $"{d2.Key} {DataTypeConverter.ToType(d2.Value)}"));
+                            var sql = $"CREATE TABLE {GetTableName(dbTableName)} ({sb})";
+                            ExecuteNonQuery(sql, cnn );
+                        }
                         return true;
                     }))
-                    {
                         try
                         {
-                            var sql = this.Insert(data, dbTableName);
+                            var sql = Insert(data, dbTableName);
                             var mycommand = new SQLiteCommand(sql, cnn, mytrans);
                             mycommand.CommandTimeout = 180;
                             mycommand.ExecuteNonQuery();
@@ -189,58 +220,53 @@ namespace XFrmWork.DataVisualization
                             XLogSys.Print.Warn($"insert sqllite database error {ex.Message}");
                         }
 
-                    }
-
                     mytrans.Commit();
 
                     cnn.Close();
                 }
-
-            }
-
-         
-
-            finally
-            {
-
-
-                cnn.Close();
             }
         }
-
-
-
 
 
         public override bool CloseDB()
         {
             IsUseable = false;
-            
+
             return true;
         }
+
         public override bool ConnectDB()
         {
             ConnectionString = GetConnectString();
-            var cnn = new SQLiteConnection(this.ConnectionString);
+            var cnn = new SQLiteConnection(ConnectionString);
 
             try
             {
                 cnn.Open();
-                this.IsUseable = true;
+                IsUseable = true;
                 cnn.Close();
                 return true;
             }
             catch (Exception ex)
             {
-                this.IsUseable = false;
+                IsUseable = false;
                 XLogSys.Print.Debug($"connect database error {ex}");
                 return false;
             }
         }
 
-        
+        public override bool CreateTable(IFreeDocument example, string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new Exception("数据库表名不能为空");
+            var txt = example.DictSerialize(Scenario.Database);
+            var sb = string.Join(",", txt.Select(d => $"{d.Key} {DataTypeConverter.ToType(d.Value)}"));
+            var sql = $"CREATE TABLE {GetTableName(name)} ({sb})";
+            ExecuteNonQuery(sql);
+            RefreshTableNames();
+            return true;
+        }
 
-        
 
         /// <summary>
         ///     Allows the programmer to interact with the database for purposes other than a query.
@@ -249,59 +275,64 @@ namespace XFrmWork.DataVisualization
         /// <returns>An Integer containing the number of rows updated.</returns>
         protected override int ExecuteNonQuery(string sql)
         {
-            int col = 0;
-            var cnn = new SQLiteConnection(ConnectionString);
-            cnn.Open();
-
-            using (SQLiteTransaction mytrans = cnn.BeginTransaction())
+            var col = 0;
+            using (var cnn = new SQLiteConnection(ConnectionString))
             {
-                var mycommand = new SQLiteCommand(sql, cnn);
+                cnn.Open();
 
-                try
+                using (var mytrans = cnn.BeginTransaction())
                 {
-                    mycommand.CommandTimeout = 180;
-
-                   col= mycommand.ExecuteNonQuery();
-
-                    mytrans.Commit();
-
-                 
-
-                    cnn.Close();
-                }
-
-                catch (Exception e)
-                {
-                    XLogSys.Print.Warn($"sql执行错误 {e.Message}  sql= {sql} ");
-                    mytrans.Rollback();
-                }
-
-                finally
-                {
-                    mycommand.Dispose();
-
-                    cnn.Close();
+                    return ExecuteNonQuery(sql, cnn );
                 }
             }
 
             return col;
         }
 
-        public override List<FreeDocument> QueryEntities(string querySQL,out int count, string tableName=null)
+
+        protected int ExecuteNonQuery(string sql, SQLiteConnection cnn)
+        {
+            var col = 0;
+
+
+            var mycommand = new SQLiteCommand(sql, cnn);
+
+            try
+            {
+                mycommand.CommandTimeout = 180;
+
+                col = mycommand.ExecuteNonQuery();
+
+            }
+
+            catch (Exception e)
+            {
+                XLogSys.Print.Warn($"sql执行错误 {e.Message}  sql= {sql} ");
+            }
+
+            finally
+            {
+                mycommand.Dispose();
+            }
+            return col;
+        }
+
+
+        public override List<FreeDocument> QueryEntities(string querySQL, out int count, string tableName = null)
         {
             var table = GetDataTable(querySQL);
-            var datas = Table2Data(table );
+            var datas = Table2Data(table);
             count = datas.Count;
             return datas;
-
         }
+
         public bool ExecuteNonQuery(string sql, IList<SQLiteParameter> cmdparams)
         {
-            bool successState = false;
-            var cnn = new SQLiteConnection(this.ConnectionString);
+            var successState = false;
+            var cnn = new SQLiteConnection(ConnectionString);
             cnn.Open();
 
-            using (SQLiteTransaction mytrans = cnn.BeginTransaction())
+            using (var mytrans = cnn.BeginTransaction())
             {
                 var mycommand = new SQLiteCommand(sql, cnn, mytrans);
 
@@ -346,7 +377,6 @@ namespace XFrmWork.DataVisualization
         /// <returns>A string.</returns>
         public string ExecuteScalar(string sql)
         {
-
             /* this.cnn.Open();
 
              var mycommand = new SQLiteCommand(this.cnn);
@@ -372,7 +402,7 @@ namespace XFrmWork.DataVisualization
 
             try
             {
-                var cnn = new SQLiteConnection(this.ConnectionString);
+                var cnn = new SQLiteConnection(ConnectionString);
 
                 cnn.Open();
 
@@ -384,7 +414,7 @@ namespace XFrmWork.DataVisualization
 
                 mycommand.CommandTimeout = 180;
 
-                SQLiteDataReader reader = mycommand.ExecuteReader();
+                var reader = mycommand.ExecuteReader();
 
                 dt.Load(reader);
 
@@ -402,44 +432,34 @@ namespace XFrmWork.DataVisualization
         }
 
 
-
-        public override IEnumerable<FreeDocument> GetEntities(string tableName,int mount = 0, int skip = 0)
+        public override IEnumerable<FreeDocument> GetEntities(string tableName, int mount = 0, int skip = 0)
         {
             string sql = null;
             if (mount == 0)
-            {
                 sql = $"Select * from {tableName}";
-            }
             else
-            {
                 sql = $"Select * from {tableName} LIMIT {mount} OFFSET {skip}";
-            }
 
 
             var data = GetDataTable(sql);
             return Table2Data(data);
-
         }
 
-   
- 
 
         public override List<TableInfo> RefreshTableNames()
         {
-
             var items = GetDataTable("select name from sqlite_master where type='table' order by name");
-            List<TableInfo> res = new List<TableInfo>();
+            var res = new List<TableInfo>();
             foreach (DataRow dr in items.Rows)
             {
-
-
-                res.Add( new TableInfo(dr.ItemArray[0].ToString(),this));
+                var name = dr.ItemArray[0].ToString();
+                var size = GetDataTable($"select count(*) from  {name}").Rows[0].ItemArray[0];
+                res.Add(new TableInfo(name, this) {Size = int.Parse(size.ToString())});
             }
             TableNames.SetSource(res);
             return res;
         }
 
-       
 
         /// <summary>
         ///     Allows the programmer to easily update rows in the DB.
@@ -448,11 +468,11 @@ namespace XFrmWork.DataVisualization
         /// <param name="data">A dictionary containing Column names and their new values.</param>
         /// <param name="where">The where clause for the update statement.</param>
         /// <returns>A boolean true or false to signify success or failure.</returns>
-        public bool Update(String tableName, Dictionary<String, String> data, String where)
+        public bool Update(string tableName, Dictionary<string, string> data, string where)
         {
-            String vals = "";
+            var vals = "";
 
-            Boolean returnCode = true;
+            var returnCode = true;
 
             if (data.Count >= 1)
             {
@@ -463,7 +483,7 @@ namespace XFrmWork.DataVisualization
 
             try
             {
-                this.ExecuteNonQuery($"update {tableName} set {vals} where {@where};");
+                ExecuteNonQuery($"update {tableName} set {vals} where {where};");
             }
 
             catch
@@ -472,47 +492,6 @@ namespace XFrmWork.DataVisualization
             }
 
             return returnCode;
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        ///     Allows the programmer to run a query against the Database.
-        /// </summary>
-        /// <param name="sql">The SQL to run</param>
-        /// <returns>A DataTable containing the result set.</returns>
-        protected  override  DataTable GetDataTable(string sql)
-        {
-
-            var dt = new DataTable();
-
-            try
-            {
-                var cnn = new SQLiteConnection(this.ConnectionString);
-
-                cnn.Open();
-
-                var mycommand = new SQLiteCommand(cnn);
-
-                mycommand.CommandText = sql;
-
-                SQLiteDataReader reader = mycommand.ExecuteReader();
-
-                dt.Load(reader);
-
-                reader.Close();
-
-                cnn.Close();
-            }
-
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-
-            return dt;
         }
 
         #endregion

@@ -10,6 +10,7 @@ namespace Hawk.Core.Utils.MVVM
     {
         private string text;
         private string _icon;
+        private string description;
 
         public Command(string text = null, Action<object> execute = null, Predicate<object> canExecute = null,
             string icon = null)
@@ -51,6 +52,19 @@ namespace Hawk.Core.Utils.MVVM
                 {
                     text = value;
                     OnPropertyChanged("Text");
+                }
+            }
+        }
+
+        public string Description
+        {
+            get { return description; }
+            set
+            {
+                if (description != value)
+                {
+                    description = value;
+                    OnPropertyChanged("Description");
                 }
             }
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Windows.Controls;
@@ -69,6 +70,10 @@ namespace Hawk.Core.Utils.Logs
             }
         }
 
+        private string lastString;
+        private DateTime lastTime;
+        private int lastSameCount;
+
         private static IAppender[] GetAppenders()
         {
             var appenders = new ArrayList();
@@ -78,7 +83,7 @@ namespace Hawk.Core.Utils.Logs
             foreach (var log in LogManager.GetCurrentLoggers())
                 appenders.AddRange(((Logger) log.Logger).Appenders);
 
-            return (IAppender[]) appenders.ToArray(typeof(IAppender));
+            return (IAppender[]) appenders.ToArray(typeof (IAppender));
         }
 
 
@@ -89,22 +94,37 @@ namespace Hawk.Core.Utils.Logs
             Layout.Format(writer, rcloggingevent);
 
             var rc = new Run(writer.ToString());
-            var notiinfo = writer.ToString().Split('\n')[0];
+            var message = writer.ToString().Split('\n')[0];
+            if (lastString == message)
+            {
+                lastSameCount++;
+                if (lastSameCount >= 4 && DateTime.Now - lastTime < TimeSpan.FromSeconds(5))
+                {
+                    lastTime = DateTime.Now;
+                    return;
+                }
+                lastTime = DateTime.Now;
+            }
+            else
+            {
+                lastString = message;
+                lastSameCount = 0;
+            }
             switch (rcloggingevent.Level.ToString())
             {
                 case "INFO":
 
                     break;
                 case "WARN":
-                    notifier?.ShowWarning(notiinfo);
+                    notifier?.ShowWarning(message);
                     rc.Foreground = Brushes.Yellow;
                     break;
                 case "ERROR":
-                    notifier?.ShowError(notiinfo);
+                    notifier?.ShowError(message);
                     rc.Foreground = Brushes.Orange;
                     break;
                 case "FATAL":
-                    notifier?.ShowError(notiinfo);
+                    notifier?.ShowError(message);
                     rc.Foreground = Brushes.DarkOrange;
                     break;
                 case "DEBUG":
@@ -114,12 +134,9 @@ namespace Hawk.Core.Utils.Logs
                     rc.Foreground = Brushes.White;
                     break;
             }
-            if (statusBar != null)
-            {
-                var bar = statusBar.Items.GetItemAt(0) as StatusBarItem;
-                if (bar != null)
-                    bar.Content = rc.Text;
-            }
+            var bar = statusBar?.Items.GetItemAt(0) as StatusBarItem;
+            if (bar != null)
+                bar.Content = rc.Text;
             if (RichTextBox == null)
                 return;
             var rc2 = RichTextBox.Document.Blocks.ElementAt(0) as Paragraph;

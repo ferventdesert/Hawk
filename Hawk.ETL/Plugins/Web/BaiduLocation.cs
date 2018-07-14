@@ -24,7 +24,7 @@ namespace Hawk.ETL.Plugins.Web
         }
     }
 
-    [XFrmWork("搜索位置","通过百度API获取当前地标的经纬度坐标，需要拖入代表地名的列")]
+    [XFrmWork("搜索位置","通过百度API获取当前地标的经纬度坐标，需要拖入代表地名的列","location")]
     public class BaiduLocation : BaiduSDKBase
     {
         public BaiduLocation()
@@ -35,6 +35,11 @@ namespace Hawk.ETL.Plugins.Web
         [LocalizedDisplayName("所属地市")]
         [LocalizedDescription("通过地市进行信息检索")]
         public string Region { get; set; }
+
+
+        [LocalizedDisplayName("标签")]
+        [LocalizedDescription("如医院，美食等")]
+        public string Tag { get; set; }
 
         public override object TransformData(IFreeDocument datas)
         {
@@ -52,8 +57,9 @@ namespace Hawk.ETL.Plugins.Web
 
 
                     var r = datas.Query(Region);
+                    var tag = datas.Query(Tag);
                     var apiUrl =
-                        $"http://api.map.baidu.com/place/v2/search?q={item}&region={r}&output={format}&ak={apikey}";
+                        $"http://api.map.baidu.com/place/v2/search?q={item}&region={r}&tag={tag}&output={format}&ak={apikey}";
 
 
                     //初始化方案信息实体类。
@@ -79,10 +85,13 @@ namespace Hawk.ETL.Plugins.Web
         {
             var first = info["results"][0];
             var newlocation = new FreeDocument();
-
-            newlocation["pos_name"] = first["name"];
+            foreach (var item in first)
+            {
+                newlocation[item.Key] = item.Value;
+            }
             newlocation["pos_lat"] = first["location"]["lat"];
             newlocation["pos_lng"] = first["location"]["lng"];
+
             return newlocation;
         }
     }

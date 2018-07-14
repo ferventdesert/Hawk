@@ -89,6 +89,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="AnalyzerUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SmartCrawlerUI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -127,6 +131,9 @@
     </Compile>
     <Compile Include="FeelLuckPanel.xaml.cs">
       <DependentUpon>FeelLuckPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AnalyzerUI.xaml.cs">
+      <DependentUpon>AnalyzerUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="SmartCrawlerUI.xaml.cs">
       <DependentUpon>SmartCrawlerUI.xaml</DependentUpon>
@@ -176,6 +183,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Themes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\微信公众平台.jpg" />
+    <Resource Include="Images\支付宝捐赠.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

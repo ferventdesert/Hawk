@@ -5,15 +5,23 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Hawk.ETL.Controls.DataViewers"
              mc:Ignorable="d" 
-              Foreground="White" d:DesignHeight="381.035" d:DesignWidth="544.828" Background="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}">
+              Foreground="White" d:DesignHeight="441.702" d:DesignWidth="685.495" Background="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}">
     <Grid>
-        <Grid >
-            <TextBlock Text="感谢使用 HAWK" Margin="29,10,282,335" FontSize="24" FontWeight="Bold"></TextBlock>
-            <TextBlock Text="如果你有任何问题和反馈，欢迎联系我：" Margin="29,73,160,278" FontSize="16"/>
-            <TextBlock Text="buptzym@qq.com" Margin="29,108,160,243" FontSize="16" FontWeight="Bold"/>
-            <TextBlock Margin="29,143,160,208" FontSize="16"><Run Text="欢迎关注微信公共号：《"/><Run FontWeight="Bold" Text="沙漠之鹰"/><Run Text="》"/></TextBlock>
-            <TextBlock Text="如果软件帮到了你，可以为开发者捐赠" Margin="29,193,160,158" FontSize="16"/>
-            <TextBlock Text="版本： 3.0" Margin="268,10,43,335" FontSize="24" FontWeight="Bold"/>
-        </Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.568*"/>
+            <RowDefinition Height="0.432*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.493*"/>
+            <ColumnDefinition Width="0.507*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="感谢使用 HAWK" FontSize="24" FontWeight="Bold" Margin="30,13,127,0" VerticalAlignment="Top"/>
+        <TextBlock Text="如果你有任何问题和反馈，欢迎联系我：" Margin="30,73,160,87.185" FontSize="16" Grid.ColumnSpan="2" d:LayoutOverrides="VerticalAlignment"/>
+        <TextBlock Text="buptzym@qq.com" Margin="29,108,160,52.185" FontSize="16" FontWeight="Bold" Grid.ColumnSpan="2" d:LayoutOverrides="VerticalAlignment"/>
+        <TextBlock Margin="29,0,10,17" FontSize="16" VerticalAlignment="Bottom"><Run Text="欢迎关注微信公共号：《"/><Run FontWeight="Bold" Text="沙漠之鹰"/><Run Text="》"/></TextBlock>
+        <TextBlock Text="如果软件帮到了你，可以为开发者捐赠" Margin="10,0,10,17" FontSize="16" VerticalAlignment="Bottom" Grid.Column="1"/>
+        <TextBlock Text="版本： 3.0" Margin="222.342,13,0,0" FontSize="24" FontWeight="Bold" d:LayoutOverrides="GridBox" HorizontalAlignment="Left" Height="46.702" VerticalAlignment="Top"/>
+        <Image Grid.Row="1" Source="../Images/微信公众平台.jpg" Margin="80,22.407,80,18.408"/>
+        <Image Grid.Row="1" Source="../Images/支付宝捐赠.png" Margin="90.692,22.407,106.854,18.408" Grid.Column="1"/>
     </Grid>
 </UserControl>

@@ -13,7 +13,7 @@ using Hawk.ETL.Plugins.Generators;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("从爬虫转换", "使用网页采集器获取网页数据，拖入的列需要为超链接")]
+    [XFrmWork("从爬虫转换", "使用网页采集器获取网页数据，拖入的列需要为超链，常用","carema")]
     public class CrawlerTF : ResponseTF
     {
         private BfsGE generator;
@@ -43,21 +43,21 @@ namespace Hawk.ETL.Plugins.Transformers
         {
             base.Init(datas);
 
-            IsMultiYield = crawler?.IsMultiData == ScriptWorkMode.List && crawler.CrawlItems.Count > 0;
+            IsMultiYield = Crawler?.IsMultiData == ScriptWorkMode.List && Crawler.CrawlItems.Count > 0;
 
-            return crawler != null;
+            return Crawler != null;
         }
 
         private IEnumerable<FreeDocument> GetDatas(IFreeDocument data)
         {
             var p = data[Column];
-            if (p == null || crawler == null)
+            if (p == null || Crawler == null)
                 return new List<FreeDocument>();
             var url = p.ToString();
             var bufkey = url;
             var post = data.Query(PostData);
 
-            if (crawler.Http.Method == MethodType.POST)
+            if (Crawler.Http.Method == MethodType.POST)
             {
                 bufkey += post;
             }
@@ -72,7 +72,7 @@ namespace Hawk.ETL.Plugins.Transformers
                 var count = 0;
                 while (count < maxcount)
                 {
-                  var   docs = crawler.CrawlData(url, out htmldoc, out code, post);
+                  var   docs = Crawler.CrawlData(url, out htmldoc, out code, post);
                     if (HttpHelper.IsSuccess(code))
                     {
                         buffHelper.Set(bufkey, htmldoc);
@@ -84,7 +84,7 @@ namespace Hawk.ETL.Plugins.Transformers
             }
             else
             {
-                return crawler.CrawlData(htmldoc.DocumentNode);
+                return Crawler.CrawlData(htmldoc.DocumentNode);
             }
             return new List<FreeDocument>(); 
 

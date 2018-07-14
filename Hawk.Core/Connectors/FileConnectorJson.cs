@@ -124,7 +124,7 @@ namespace Hawk.Core.Connectors
 
         }
 
-        private object Node2Item(object dic)
+        private static  object Node2Item(object dic)
         {
             JsonObject js = new JsonObject();
             if (dic is IFreeDocument)
@@ -155,7 +155,7 @@ namespace Hawk.Core.Connectors
             return js;
         }
 
-        protected JsonObject GetJsonObject(IFreeDocument data)
+        public static JsonObject GetJsonObject(IFreeDocument data)
         {
             IEnumerable<KeyValuePair<string, object>> dicts =
                           data.DictSerialize();

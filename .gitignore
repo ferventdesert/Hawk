@@ -7,3 +7,5 @@ packages/
 .suo
 .DS_Store
 .vs/
+*.suo
+Hawk.Core/Hawk.Core.suo

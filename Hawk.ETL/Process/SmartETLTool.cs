@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,8 +27,7 @@ using MessageBox = System.Windows.MessageBox;
 
 namespace Hawk.ETL.Process
 {
-    [XFrmWork("数据清洗", "对数据筛选转换和合并，并导出到数据库中"
-        ,url: "diagram",  groupName: "数据采集和处理")]
+    [XFrmWork("key_201", "SmartETLTool_desc" ,url: "diagram",  groupName: "数据采集和处理")]
     public class SmartETLTool : AbstractProcessMethod, IView
     {
         #region Constructors and Destructors
@@ -68,15 +68,15 @@ namespace Hawk.ETL.Process
 
         private ListView currentToolList;
         private ScrollViewer scrollViewer;
-        private string searchText = "常用";
+        private string searchText = GlobalHelper.Get("key_110");
 
         #endregion
 
         #region Properties
 
-        [LocalizedDisplayName("命令")]
+        [LocalizedDisplayName("key_677")]
         [PropertyOrder(3)]
-        [LocalizedCategory("1.执行")]
+        [LocalizedCategory("key_678")]
         public ReadOnlyCollection<ICommand> Commands3
         {
             get
@@ -85,7 +85,7 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("执行", obj => ExecuteAllExecutors(), icon: "play")
+                        new Command(GlobalHelper.Get("key_34"), obj => ExecuteAllExecutors(), icon: "play")
                     });
             }
         }
@@ -100,9 +100,9 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("配置属性", obj => DropAction("Click", obj), obj => obj != null, "settings"),
-                        new Command("删除节点", obj => DropAction("Delete", obj), obj => obj != null, "delete"),
-                        new Command("清空所有工具", obj =>
+                        new Command(GlobalHelper.Get("key_631"), obj => DropAction("Click", obj), obj => obj != null, "settings"),
+                        new Command(GlobalHelper.Get("key_679"), obj => DropAction("Delete", obj), obj => obj != null, "delete"),
+                        new Command(GlobalHelper.Get("key_680"), obj =>
                         {
                             var item = obj as SmartGroup;
                             foreach (var ColumnProcess in item.Value)
@@ -111,28 +111,28 @@ namespace Hawk.ETL.Process
                             }
                             RefreshSamples();
                         }, obj => obj != null, "clear"),
-                        new Command("拷贝模块", obj =>
+                        new Command(GlobalHelper.Get("key_681"), obj =>
                         {
                             var item = obj as IColumnProcess;
                             var newitem = PluginProvider.GetObjectInstance<IColumnProcess>(item.TypeName);
                             item.DictCopyTo(newitem);
                             CurrentETLTools.Insert(CurrentETLTools.IndexOf(item), newitem);
                         }, obj => obj != null, "clipboard_file"),
-                        new Command("上移", obj =>
+                        new Command(GlobalHelper.Get("key_682"), obj =>
                         {
                             var item = obj as IColumnProcess;
                             var index = CurrentETLTools.IndexOf(item);
                             CurrentETLTools.Move(index, index - 1);
                         }, obj => obj != null, "arrow_up"),
-                        new Command("下移", obj =>
+                        new Command(GlobalHelper.Get("key_683"), obj =>
                         {
                             var item = obj as IColumnProcess;
                             var index = CurrentETLTools.IndexOf(item);
                             CurrentETLTools.Move(index, index + 1);
                         }, obj => obj != null, "arrow_down"),
-                        new Command("调试到该步", obj => { ETLMount = CurrentETLTools.IndexOf(obj as IColumnProcess); },
+                        new Command(GlobalHelper.Get("key_684"), obj => { ETLMount = CurrentETLTools.IndexOf(obj as IColumnProcess); },
                             obj => obj != null, "tag"),
-                              new Command("删除下游节点", obj =>
+                              new Command(GlobalHelper.Get("key_685"), obj =>
                               {
                                   var index= CurrentETLTools.IndexOf(obj as IColumnProcess);
                                   CurrentETLTools.KeepRange(0,index+1);
@@ -188,10 +188,10 @@ namespace Hawk.ETL.Process
 
 
         [Browsable(false)]
-        [LocalizedCategory("3.调试")]
+        [LocalizedCategory("key_686")]
         [PropertyOrder(1)]
-        [LocalizedDisplayName("采样量")]
-        [LocalizedDescription("只获取数据表的前n行")]
+        [LocalizedDisplayName("key_687")]
+        [LocalizedDescription("key_688")]
         public int SampleMount
         {
             get { return _SampleMount; }
@@ -218,24 +218,24 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("刷新", obj => { RefreshSamples(true); }, icon: "refresh"),
-                        new Command("弹出样例", obj => { RefreshSamples(); }, icon: "calendar"),
-                        new Command("上一步", obj =>
+                        new Command(GlobalHelper.Get("key_142"), obj => { RefreshSamples(true); }, icon: "refresh"),
+                        new Command(GlobalHelper.Get("key_689"), obj => { RefreshSamples(); }, icon: "calendar"),
+                        new Command(GlobalHelper.Get("key_690"), obj =>
                         {
                             if (ETLMount > 0)
                                 ETLMount--;
                         }, obj => ETLMount > 0, "arrow_left"),
-                        new Command("下一步", obj =>
+                        new Command(GlobalHelper.Get("key_691"), obj =>
                         {
                             ETLMount++;
                             if (CurrentTool != null)
                             {
-                                XLogSys.Print.Info("插入工作模块，名称:" + CurrentTool?.ToString());
+                                XLogSys.Print.Info(GlobalHelper.Get("key_692") + CurrentTool?.ToString());
                             }
                         }, obj => ETLMount < CurrentETLTools.Count, "arrow_right"),
-                        new Command("回退到开头", obj => { ETLMount = 0; }, icon: "align_left"),
-                        new Command("跳到最后", obj => { ETLMount = CurrentETLTools.Count; }, icon: "align_right"),
-                        new Command("调试与探查", obj => { EnterAnalyzer(); }, icon: "magnify_add")
+                        new Command(GlobalHelper.Get("key_693"), obj => { ETLMount = 0; }, icon: "align_left"),
+                        new Command(GlobalHelper.Get("key_694"), obj => { ETLMount = CurrentETLTools.Count; }, icon: "align_right"),
+                        new Command(GlobalHelper.Get("key_695"), obj => { EnterAnalyzer(); }, icon: "magnify_add")
                     }
                     );
             }
@@ -243,11 +243,11 @@ namespace Hawk.ETL.Process
 
         private void EnterAnalyzer()
         {
-            var view = PluginProvider.GetObjectInstance<ICustomView>("调试分析面板") as UserControl;
+            var view = PluginProvider.GetObjectInstance<ICustomView>(GlobalHelper.Get("key_696")) as UserControl;
             view.DataContext = Analyzer;
              
             ControlExtended.DockableManager.AddDockAbleContent(
-                FrmState.Custom, view, "调试分析 ");
+                FrmState.Custom, view, GlobalHelper.Get("key_697"));
         }
 
         private WPFPropertyGrid debugGrid;
@@ -283,7 +283,7 @@ namespace Hawk.ETL.Process
 
                     else
                     {
-                        (MainFrm as IDockableManager).AddDockAbleContent(FrmState.Float, debugGrid, "调试模块属性");
+                        (MainFrm as IDockableManager).AddDockAbleContent(FrmState.Float, debugGrid, GlobalHelper.Get("key_698"));
                     }
                 }
                 else
@@ -329,9 +329,9 @@ namespace Hawk.ETL.Process
         public dynamic etls => CurrentETLTools;
 
         [Browsable(false)]
-        [LocalizedCategory("2.清洗流程")]
-        [LocalizedDisplayName("已加载")]
-        [LocalizedDescription("当前位于工作流中的的所有工作模块")]
+        [LocalizedCategory("key_699")]
+        [LocalizedDisplayName("key_700")]
+        [LocalizedDescription("key_701")]
         public ObservableCollection<IColumnProcess> CurrentETLTools { get; set; }
 
 
@@ -344,11 +344,11 @@ namespace Hawk.ETL.Process
         private void ExecuteAllExecutors()
         {
             var has_execute = CurrentETLTools.FirstOrDefault(d => d is IDataExecutor) != null;
-            var info = "确定启动执行?";
+            var info = GlobalHelper.Get("key_702");
             if (!has_execute)
-                info = info + "没有在本任务中发现任何执行器。";
+                info = info + GlobalHelper.Get("key_703");
             if (MainDescription.IsUIForm &&
-                ControlExtended.UserCheck(info, "警告信息"))
+                ControlExtended.UserCheck(info, GlobalHelper.Get("key_151")))
 
             {
                 ExecuteDatas();
@@ -478,7 +478,7 @@ namespace Hawk.ETL.Process
             if (GenerateMode == GenerateMode.串行模式)
             {
                 var realfunc3 = etls.Aggregate(isexecute:  true,analyzer:Analyzer);
-                var task = TemporaryTask.AddTempTask(Name + "串行任务", realfunc3.Invoke(),
+                var task = TemporaryTask.AddTempTask(Name + GlobalHelper.Get("key_704"), realfunc3.Invoke(),
                     null);
                 task.IsSelected = true;
                 SysProcessManager.CurrentProcessTasks.Add(task);
@@ -487,7 +487,7 @@ namespace Hawk.ETL.Process
             {
                 var timer = new DispatcherTimer();
                 TemporaryTask paratask = null;
-                var tolistTransformer = etls.FirstOrDefault(d => d.TypeName == "启动并行") as ToListTF;
+                var tolistTransformer = etls.FirstOrDefault(d => d.TypeName == GlobalHelper.Get("ToListTF")) as ToListTF;
 
                 if (tolistTransformer != null)
                 {
@@ -495,7 +495,7 @@ namespace Hawk.ETL.Process
 
                     var beforefunc = etls.Take(index).Aggregate(isexecute:  true, analyzer: Analyzer);
                     var taskbuff = new List<IFreeDocument>();
-                    paratask = TemporaryTask.AddTempTask("并行任务", beforefunc(new List<IFreeDocument>())
+                    paratask = TemporaryTask.AddTempTask(GlobalHelper.Get("key_705"), beforefunc(new List<IFreeDocument>())
                         ,
                         d2 =>
                         {
@@ -515,7 +515,7 @@ namespace Hawk.ETL.Process
                             var countstr = d2.Query(tolistTransformer.MountColumn);
                             var name = d2.Query(tolistTransformer.IDColumn);
                             if (name == null)
-                                name = "任务";
+                                name = GlobalHelper.Get("key_706");
 
                             var rcount = -1;
                             int.TryParse(countstr, out rcount);
@@ -535,7 +535,7 @@ namespace Hawk.ETL.Process
                     if (generator == null)
                         return;
                     var afterfunc = etls.Skip(paraPoint).Aggregate(isexecute: true);
-                    paratask = TemporaryTask.AddTempTask("并行任务", beforefunc(new List<IFreeDocument>()),
+                    paratask = TemporaryTask.AddTempTask(GlobalHelper.Get("key_705"), beforefunc(new List<IFreeDocument>()),
                         d =>
                         {
                             if (paratask.IsPause == false &&
@@ -544,7 +544,7 @@ namespace Hawk.ETL.Process
                                 iswait = true;
                                 paratask.IsPause = true;
                             }
-                            var task = TemporaryTask.AddTempTask("子任务", afterfunc(new List<IFreeDocument> {d}),
+                            var task = TemporaryTask.AddTempTask(GlobalHelper.Get("key_707"), afterfunc(new List<IFreeDocument> {d}),
                                 d2 => { },
                                 null, 1, false);
                             ControlExtended.UIInvoke(() => SysProcessManager.CurrentProcessTasks.Add(task));
@@ -642,7 +642,7 @@ namespace Hawk.ETL.Process
             }
             if (sender != "Delete") return true;
             var a = attr as IColumnProcess;
-            if (MessageBox.Show($"确实要删除{a.TypeName}吗?", "提示信息", MessageBoxButton.OKCancel) !=
+            if (MessageBox.Show(String.Format(GlobalHelper.Get("key_708"),a.TypeName), GlobalHelper.Get("key_99"), MessageBoxButton.OKCancel) !=
                 MessageBoxResult.OK) return true;
 
             CurrentETLTools.Remove(a);
@@ -679,8 +679,8 @@ namespace Hawk.ETL.Process
     
 
         [PropertyOrder(1)]
-        [LocalizedCategory("1.执行")]
-        [LocalizedDisplayName("工作模式")]
+        [LocalizedCategory("key_678")]
+        [LocalizedDisplayName("key_188")]
         public GenerateMode GenerateMode
         {
             get { return _generateMode; }
@@ -695,9 +695,9 @@ namespace Hawk.ETL.Process
 
 
         [PropertyOrder(2)]
-        [LocalizedCategory("1.执行")]
-        [LocalizedDescription("在并行模式工作时，线程池所承载的最大线程数")]
-        [LocalizedDisplayName("最大线程数")]
+        [LocalizedCategory("key_678")]
+        [LocalizedDescription("key_709")]
+        [LocalizedDisplayName("key_710")]
         [NumberRange(1, 20, 1)]
         public int MaxThreadCount
         {
@@ -709,7 +709,7 @@ namespace Hawk.ETL.Process
                     if (value > 30)
                     {
                         value = 30;
-                        XLogSys.Print.Warn("最大线程数的数值范围为0-30");
+                        XLogSys.Print.Warn(GlobalHelper.Get("key_711"));
                     }
                     if (value <= 0)
                         value = 1;
@@ -748,23 +748,23 @@ namespace Hawk.ETL.Process
             var tasks = SysProcessManager.CurrentProcessTasks.Where(d => d.Publisher == this).ToList();
             if (tasks.Any())
             {
-                var str = $"{Name}已经有任务在执行，由于调整参数，是否要取消当前任务重新执行？\n 【取消】:【不再提醒】";
+                var str = String.Format("task_run",Name);
                 if (isErrorRemind == false)
                 {
-                    XLogSys.Print.Warn($"{Name}已经有任务在执行，请在任务管理器中取消该任务后再刷新");
+                    XLogSys.Print.Warn(string.Format(GlobalHelper.Get("key_712"),Name));
                     return;
                 }
                 if (!MainDescription.IsUIForm)
                     return;
                 var result =
-                    MessageBox.Show(str, "提示信息", MessageBoxButton.YesNoCancel);
+                    MessageBox.Show(str, GlobalHelper.Get("key_99"), MessageBoxButton.YesNoCancel);
                 if (result == MessageBoxResult.Yes)
                 {
                     foreach (var item in tasks)
                     {
                         item.Remove();
                     }
-                    XLogSys.Print.Warn(str + "  已经取消");
+                    XLogSys.Print.Warn(str + GlobalHelper.Get("key_713"));
                 }
                 else if (result == MessageBoxResult.Cancel)
                 {
@@ -810,7 +810,7 @@ namespace Hawk.ETL.Process
                         {
                             if (
                                 (oldProp.IsEqual(process.UnsafeDictSerializePlus()) == false && IsAutoRefresh).SafeCheck
-                                    ("检查模块参数是否修改",LogType.Debug))
+                                    (GlobalHelper.Get("key_714"),LogType.Debug))
                                 RefreshSamples();
                         };
                         window.ShowDialog();
@@ -863,7 +863,7 @@ namespace Hawk.ETL.Process
             dataView.Columns.Clear();
 
             AddColumn("", alltools);
-            var temptask = TemporaryTask.AddTempTask(Name + "_转换",
+            var temptask = TemporaryTask.AddTempTask(Name + "_"+ GlobalHelper.Get("key_108"),
                 func(new List<IFreeDocument>()).Take(SampleMount),
                 data =>
                 {
@@ -976,13 +976,13 @@ namespace Hawk.ETL.Process
                 if (e.PropertyName == "Name")
                 {
                     var last = alltools.LastOrDefault() as IColumnDataTransformer;
-                    if (last != null && last.TypeName == "列名修改器" && last.NewColumn == key)
+                    if (last != null && last.TypeName == GlobalHelper.Get("RenameTF") && last.NewColumn == key)
                     {
                         last.NewColumn = group.Name;
                     }
                     else
                     {
-                        last = PluginProvider.GetObjectInstance("列名修改器") as IColumnDataTransformer;
+                        last = PluginProvider.GetObjectInstance(GlobalHelper.Get("RenameTF")) as IColumnDataTransformer;
                         last.NewColumn = group.Name;
                         last.Column = key;
                         InsertModule(last);
@@ -1020,7 +1020,7 @@ namespace Hawk.ETL.Process
         {
             var x1 = x as XFrmWorkAttribute;
             var y1 = y as XFrmWorkAttribute;
-            var key = "常用";
+            var key = GlobalHelper.Get("key_110");
             if (x1.Description.Contains(key))
             {
                 if (y1.Description.Contains(key))

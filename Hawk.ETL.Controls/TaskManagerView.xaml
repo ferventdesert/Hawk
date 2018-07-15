@@ -26,7 +26,7 @@
     	
     		<ListView.View>
     			<GridView>
-    				<GridViewColumn Header="选择">
+    				<GridViewColumn Header="{DynamicResource key_746}">
     					<GridViewColumn.CellTemplate>
     						<DataTemplate>
     							<CheckBox IsChecked="{Binding IsSelected}"/>	 
@@ -34,8 +34,8 @@
     					</GridViewColumn.CellTemplate>
     					<!--脑残的xaml-->        
     				</GridViewColumn>
-    				<GridViewColumn Header="名称" DisplayMemberBinding="{Binding Name}" />
-    				<GridViewColumn Header="百分比">
+    				<GridViewColumn Header="{DynamicResource key_18}" DisplayMemberBinding="{Binding Name}" />
+    				<GridViewColumn Header="{DynamicResource key_799}">
     					<GridViewColumn.CellTemplate>
     						<DataTemplate>
     							<StackPanel Orientation="Horizontal">
@@ -46,7 +46,7 @@
     					</GridViewColumn.CellTemplate>
     					<!--脑残的xaml-->        
     				</GridViewColumn>
-    				<GridViewColumn Header="暂停">
+    				<GridViewColumn Header="{DynamicResource key_291}">
     					<GridViewColumn.CellTemplate>
     						<DataTemplate>
     							<CheckBox IsChecked="{Binding IsPause}"/>	 
@@ -54,7 +54,7 @@
     					</GridViewColumn.CellTemplate>
     					<!--脑残的xaml-->        
     				</GridViewColumn>
-    				<GridViewColumn Header="位置" DisplayMemberBinding="{Binding CurrentIndex}" />
+    				<GridViewColumn Header="{DynamicResource key_715}" DisplayMemberBinding="{Binding CurrentIndex}" />
     			</GridView>
     		</ListView.View> 	           	 
     	</ListView>

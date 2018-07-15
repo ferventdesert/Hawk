@@ -33,7 +33,7 @@ namespace Hawk.ETL.Controls
     /// <summary>
     ///     SubTaskView.xaml 的交互逻辑
     /// </summary>
-    [XFrmWork("子任务面板")]
+    [XFrmWork("key_417")]
     public partial class SubTaskView : UserControl, ICustomView
     {
         public SubTaskView()

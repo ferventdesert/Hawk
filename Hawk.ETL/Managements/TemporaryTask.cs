@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -71,7 +72,7 @@ namespace Hawk.ETL.Managements
                 }
                 if (!tempTask.WasCanceled)
                 {
-                    XLogSys.Print.Debug($"任务【{tempTask.Name}】已经成功完成");
+                    XLogSys.Print.Debug(string.Format(GlobalHelper.Get("key_338"),tempTask.Name));
                     tempTask.Percent = 100;
                 }
                 if (contineAction != null)
@@ -135,7 +136,7 @@ namespace Hawk.ETL.Managements
                 }
                 if (!tempTask.WasCanceled)
                 {
-                    XLogSys.Print.Debug($"任务【{tempTask.Name}】已经成功完成");
+                    XLogSys.Print.Debug(string.Format(GlobalHelper.Get("key_338"),tempTask.Name));
                     tempTask.Percent = 100;
                 }
                 if (contineAction != null)
@@ -187,14 +188,14 @@ namespace Hawk.ETL.Managements
                     }
                     catch (ThreadAbortException)
                     {
-                        XLogSys.Print.Warn("任务已经强行被终止");
+                        XLogSys.Print.Warn(GlobalHelper.Get("key_339"));
                         IsStart = false;
                         WasAborted = true;
                     }
                     catch (Exception ex)
                     {
 
-                        XLogSys.Print.Error("任务已经出错：" + ex);
+                        XLogSys.Print.Error(GlobalHelper.Get("key_340") + ex);
                         IsStart = false;
                     }
 

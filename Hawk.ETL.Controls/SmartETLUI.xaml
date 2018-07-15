@@ -229,7 +229,7 @@
         			TextWrapping="Wrap" Text="{Binding TypeName}"  Width="Auto"
         			HorizontalAlignment="Left" VerticalAlignment="Center" />
                 <CheckBox Content="" IsChecked="{Binding Enabled}" VerticalAlignment="Center"
-        			HorizontalAlignment="Center" ToolTip="是否激活" />
+        			HorizontalAlignment="Center" ToolTip="{DynamicResource key_771}" />
             </StackPanel>
         </DataTemplate>
         <SolidColorBrush x:Key="{x:Static DataGrid.FocusBorderBrushKey}" Color="#FF000000" />
@@ -353,9 +353,9 @@
                 <Border BorderBrush="Black" BorderThickness="1" Background="#FF2D2D2D" />
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal"
 					d:LayoutOverrides="Height" VerticalAlignment="Center">
-                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"><Run Language="zh-cn" Text="任务名称"/></TextBlock>
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"><Run Language="zh-cn" Text="{DynamicResource key_762}"/></TextBlock>
                     <TextBox TextWrapping="Wrap" Text="{Binding Name}" System_Windows_Controls_WpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" VerticalAlignment="Center" Margin="8,0,25,0" FontSize="16" MinWidth="100"/>
-                    <TextBlock TextWrapping="Wrap" Text="模块"
+                    <TextBlock TextWrapping="Wrap" Text="{DynamicResource key_301}"
                 		VerticalAlignment="Center" />
                     <TextBox Width="50" TextWrapping="Wrap" Text="{Binding ETLMount}" VerticalAlignment="Center"
                 		FontSize="16" />
@@ -431,12 +431,12 @@
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"
 						VerticalAlignment="Center">
                     <TextBlock TextWrapping="Wrap" Margin="0"
-							VerticalAlignment="Center" ><Run Language="zh-cn" Text="采样量"/></TextBlock>
-                    <TextBox TextWrapping="Wrap" Text="{Binding SampleMount}" ToolTip="设置获取数据表的前n行" VerticalAlignment="Center"
+							VerticalAlignment="Center" ><Run Language="zh-cn" Text="{DynamicResource key_687}"/></TextBlock>
+                    <TextBox TextWrapping="Wrap" Text="{Binding SampleMount}" ToolTip="{DynamicResource key_772}" VerticalAlignment="Center"
 							FontSize="16" MinWidth="30" Margin="0,0,30,0" />
                     <StackPanel>
-                    	<CheckBox Content="自动刷新" IsChecked="{Binding IsAutoRefresh}" VerticalAlignment="Center" />
-                    	<CheckBox Content="调试详情" IsChecked="{Binding DisplayDetail}" VerticalAlignment="Center" />
+                    	<CheckBox Content="{DynamicResource key_773}" IsChecked="{Binding IsAutoRefresh}" VerticalAlignment="Center" />
+                    	<CheckBox Content="{DynamicResource key_774}" IsChecked="{Binding DisplayDetail}" VerticalAlignment="Center" />
                     </StackPanel>
                 </StackPanel>
 
@@ -486,7 +486,7 @@
                                                  Visual="{Binding ConverterParameter=magnify, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
                 </Rectangle.Fill>
             </Rectangle>
-            <TextBlock Margin="0,3.498,0,0" TextWrapping="Wrap" VerticalAlignment="Center"><Run Language="zh-cn" Text="快速检索:" /></TextBlock>
+            <TextBlock Margin="0,3.498,0,0" TextWrapping="Wrap" VerticalAlignment="Center"><Run Language="zh-cn" Text="{DynamicResource key_775}" /></TextBlock>
             <TextBox x:Name="SearchBox" TextWrapping="Wrap"
         		Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="193.1" d:LayoutOverrides="Height" MinWidth="150" />
         </StackPanel>
@@ -515,16 +515,16 @@
 				ItemsSource="{Binding CurrentETLTools}" >
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="启用">
+                        <GridViewColumn Header="{DynamicResource key_568}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <CheckBox IsChecked="{Binding Enabled}" HorizontalAlignment="Center" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="位置" DisplayMemberBinding="{Binding ETLIndex}" />
-                        <GridViewColumn Header="类型" DisplayMemberBinding="{Binding Attribute, Converter={StaticResource GroupConverter}}" />
-                        <GridViewColumn Header="名称" DisplayMemberBinding="{Binding TypeName}" />
+                        <GridViewColumn Header="{DynamicResource key_715}" DisplayMemberBinding="{Binding ETLIndex}" />
+                        <GridViewColumn Header="{DynamicResource key_12}" DisplayMemberBinding="{Binding Attribute, Converter={StaticResource GroupConverter}}" />
+                        <GridViewColumn Header="{DynamicResource key_18}" DisplayMemberBinding="{Binding TypeName}" />
                     </GridView>
 
                 </ListView.View>
@@ -538,7 +538,7 @@
                     </Rectangle.Fill>
                 </Rectangle>
                 <ComboBox ItemsSource="{attributes:EnumValues {x:Type connectors:GenerateMode}}" SelectedItem="{Binding GenerateMode}" d:LayoutOverrides="Height" VerticalAlignment="Center"/>
-                <TextBlock TextWrapping="Wrap" Text="线程数" VerticalAlignment="Center" Margin="8,0,0,0" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter}}" />
+                <TextBlock TextWrapping="Wrap" Text="{DynamicResource key_777}" VerticalAlignment="Center" Margin="8,0,0,0" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter}}" />
                 <TextBox TextWrapping="Wrap" Text="{Binding MaxThreadCount}" VerticalAlignment="Center" Margin="8,0,0,0" Width="40" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter}}" />
                 <Button DataContext="{Binding Commands3[0]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Center" Width="80" Margin="10,0,0,0"/>
             </StackPanel>

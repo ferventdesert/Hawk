@@ -5,7 +5,7 @@ namespace Hawk.ETL.Interfaces
     /// <summary>
     ///  数据处理方法的公共基接口
     /// </summary>
-    [Interface("基本计算模块" )]
+    [Interface("IDataProcess" )]
     public interface IDataProcess : IProcess
     {
         #region Properties

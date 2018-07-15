@@ -13,7 +13,7 @@ using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Plugins.Executor
 {
-    [XFrmWork("保存超链接文件", "目标列需要为超链接类型，会保存链接的文件，如图片，视频等","save")]
+    [XFrmWork("SaveFileEX", "SaveFileEX_desc","save")]
     public class SaveFileEX : DataExecutorBase
     {
         private string _crawlerSelector;
@@ -33,15 +33,15 @@ namespace Hawk.ETL.Plugins.Executor
             };
         }
 
-        [LocalizedDisplayName("保存位置")]
-        [LocalizedDescription("路径或文件名，例如D:\\file.txt, 可通过'[]'引用其他列， \n 若为目录名，必须显式以/结束，文件名将会通过url自动解析")]
+        [LocalizedDisplayName("key_357")]
+        [LocalizedDescription("key_358")]
         public string SavePath { get; set; }
 
-        [LocalizedDisplayName("爬虫选择")]
-        [LocalizedDescription("填写采集器或模块的名称")]
+        [LocalizedDisplayName("key_359")]
+        [LocalizedDescription("key_360")]
         public TextEditSelector CrawlerSelector { get; set; }
 
-        [LocalizedDisplayName("是否异步")]
+        [LocalizedDisplayName("key_361")]
         public bool IsAsync { get; set; }
 
         private SmartCrawler crawler { get; set; }

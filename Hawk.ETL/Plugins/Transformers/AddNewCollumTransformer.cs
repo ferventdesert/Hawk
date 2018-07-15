@@ -7,7 +7,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("添加新列","为数据集添加新列，值为某固定值","list")]
+    [XFrmWork("AddNewTF","AddNew_desc","list")]
     public class AddNewTF : TransformerBase
     {
         public AddNewTF()
@@ -16,7 +16,7 @@ namespace Hawk.ETL.Plugins.Transformers
             NewColumn = "NewColumn";
         }
 
-        [LocalizedDisplayName("生成值")]
+        [LocalizedDisplayName("key_469")]
         public string NewValue { get; set; }
 
         public override object TransformData(IFreeDocument free)

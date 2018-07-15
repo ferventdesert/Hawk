@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -30,7 +31,7 @@ namespace Hawk.ETL.Managements
         public QueryEntity()
         {
             commands = new List<ICommand>();
-            commands.Add(new Command("执行查询", async obj =>
+            commands.Add(new Command(GlobalHelper.Get("key_213"), async obj =>
             {
                 List<FreeDocument> datas = null;
                 try
@@ -43,7 +44,7 @@ namespace Hawk.ETL.Managements
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("查询出现异常" + ex.Message);
+                    MessageBox.Show(GlobalHelper.Get("key_214") + ex.Message);
                     XLogSys.Print.Error(ex);
                     return;
                 }
@@ -55,27 +56,27 @@ namespace Hawk.ETL.Managements
             }, obj => string.IsNullOrEmpty(SQL) == false, "page_search"));
         }
 
-        [LocalizedDisplayName("当前表")]
+        [LocalizedDisplayName("key_215")]
         [PropertyOrder(1)]
         public TableInfo TableInfo { get; set; }
 
-        [LocalizedDisplayName("当前连接")]
+        [LocalizedDisplayName("key_216")]
         [PropertyOrder(0)]
         public IDataBaseConnector Connector { get; set; }
 
-        [LocalizedDisplayName("查询字符串")]
-        [LocalizedDescription("根据数据库的不同，可在此处输入JS（MongoDB）和标准SQL")]
+        [LocalizedDisplayName("key_217")]
+        [LocalizedDescription("key_218")]
         [StringEditor("SQL")]
         [PropertyOrder(2)]
         [PropertyEditor("DynamicScriptEditor")]
         public string SQL { get; set; }
 
         [PropertyOrder(3)]
-        [LocalizedDisplayName("执行")]
+        [LocalizedDisplayName("key_34")]
         public ReadOnlyCollection<ICommand> Commands => new ReadOnlyCollection<ICommand>(commands);
     }
 
-    [XFrmWork("数据管理", "查看和分析数据", "")]
+    [XFrmWork("DataManager", "DataManager_desc", "")]
     public class DataManager : AbstractPlugIn, IDataManager, IView
     {
         #region Constants and Fields
@@ -175,7 +176,7 @@ namespace Hawk.ETL.Managements
                     vir = new DataBaseVirtualProvider<IFreeDocument>(tableInfo.Connector, tableInfo.Name);
                 }
                 var count = 1000;
-                if (connector.TypeName == "网页爬虫连接器")
+                if (connector.TypeName == GlobalHelper.Get("key_221"))
                     count = 100;
                 var col = new VirtualDataCollection(vir, count)
                 {
@@ -204,7 +205,7 @@ namespace Hawk.ETL.Managements
             var table = db.RefreshTableNames().FirstOrDefault(d => d.Name == dataName);
             var dataAll = new List<IFreeDocument>();
 
-            var task = TemporaryTask.AddTempTask(dataName + "数据导入",
+            var task = TemporaryTask.AddTempTask(dataName + GlobalHelper.Get("key_222"),
                 db.GetEntities(dataName, mount), dataAll.Add, null, table != null ? table.Size : -1,
                 notifyInterval: 1000);
             processManager.CurrentProcessTasks.Add(task);
@@ -228,8 +229,10 @@ namespace Hawk.ETL.Managements
         }
 
 
-        private string GetNewName(string name = "新建数据集")
+        private string GetNewName(string name =null)
         {
+            if (name == null)
+                name = GlobalHelper.Get("key_239");
             if (DataCollections.Any(d => d.Name == name))
             {
                 var item =
@@ -254,12 +257,12 @@ namespace Hawk.ETL.Managements
                 DataCollections = new SafeObservable<DataCollection>();
                 dockableManager = MainFrmUI as IDockableManager;
 
-                var view = PluginProvider.GetObjectInstance<ICustomView>("系统状态视图");
+                var view = PluginProvider.GetObjectInstance<ICustomView>(GlobalHelper.Get("key_223"));
                 var userControl = view as UserControl;
                 if (userControl != null)
                 {
                     userControl.DataContext = MainFrmUI;
-                    dockableManager.AddDockAbleContent(FrmState.Mini, view, "系统状态视图");
+                    dockableManager.AddDockAbleContent(FrmState.Mini, view, GlobalHelper.Get("key_223"));
                 }
             }
 
@@ -268,12 +271,12 @@ namespace Hawk.ETL.Managements
                 DataCollections = new ObservableCollection<DataCollection>();
             }
 
-            processManager = MainFrmUI.PluginDictionary["模块管理"] as IProcessManager;
+            processManager = MainFrmUI.PluginDictionary["DataProcessManager"] as IProcessManager;
 
 
             commands = new List<ICommand>();
             var dbaction = new BindingAction();
-            dbaction.ChildActions.Add(new Command("配置连接",
+            dbaction.ChildActions.Add(new Command(GlobalHelper.Get("key_224"),
                 obj =>
                 {
                     var w = PropertyGridFactory.GetPropertyWindow(obj);
@@ -281,9 +284,9 @@ namespace Hawk.ETL.Managements
                 },
                 obj => obj != null, "edit"));
             dbaction.ChildActions.Add(
-                new Command("刷新", obj => RefreshConnect(obj as IDataBaseConnector), obj => obj != null, "refresh"));
+                new Command(GlobalHelper.Get("key_142"), obj => RefreshConnect(obj as IDataBaseConnector), obj => obj != null, "refresh"));
             dbaction.ChildActions.Add(
-                new Command("执行查询", obj =>
+                new Command(GlobalHelper.Get("key_213"), obj =>
                 {
                     var query = new QueryEntity();
                     query.Connector = obj as IDataBaseConnector;
@@ -299,9 +302,9 @@ namespace Hawk.ETL.Managements
                     PropertyGridFactory.GetPropertyWindow(query).ShowDialog();
                 }, obj => obj != null, "magnify"));
             dbaction.ChildActions.Add(
-                new Command("删除连接", obj =>
+                new Command(GlobalHelper.Get("key_225"), obj =>
                 {
-                    if (MessageBox.Show("确定要删除该连接吗？", "提示信息", MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
+                    if (MessageBox.Show(GlobalHelper.Get("key_226"), GlobalHelper.Get("key_99"), MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
                     {
                         var con = obj as DBConnectorBase;
                         _dbConnections.Remove(con);
@@ -312,7 +315,7 @@ namespace Hawk.ETL.Managements
 
             var tableAction = new BindingAction();
             tableAction.ChildActions.Add(new Command(
-                "查看",
+                GlobalHelper.Get("key_227"),
                 async obj =>
                 {
                     var items = obj as TableInfo;
@@ -325,14 +328,14 @@ namespace Hawk.ETL.Managements
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("文件打开失败" + ex.Message);
+                        MessageBox.Show(GlobalHelper.Get("key_228") + ex.Message);
                         return;
                     }
 
 
                     if (dataAll == null || dataAll.Count == 0)
                     {
-                        XLogSys.Print.Warn("没有在表中的发现可用的数据");
+                        XLogSys.Print.Warn(GlobalHelper.Get("key_229"));
                         return;
                     }
                     if (items.Connector is FileManager)
@@ -342,7 +345,7 @@ namespace Hawk.ETL.Managements
                         AddDataCollection(dataAll, name);
                         return;
                     }
-                    var excel = PluginProvider.GetObjectInstance<IDataViewer>("可编辑列表");
+                    var excel = PluginProvider.GetObjectInstance<IDataViewer>(GlobalHelper.Get("key_230"));
                     if (excel == null)
                         return;
                     var view = excel.SetCurrentView(dataAll.Select(d => d).ToList());
@@ -355,7 +358,7 @@ namespace Hawk.ETL.Managements
                 },
                 obj => obj != null));
             tableAction.ChildActions.Add(new Command(
-                "添加到数据集",
+                GlobalHelper.Get("key_231"),
                 async obj =>
                 {
                     var items = obj as TableInfo;
@@ -366,7 +369,7 @@ namespace Hawk.ETL.Managements
                 },
                 obj => obj != null, "add"));
             tableAction.ChildActions.Add(new Command(
-                "添加虚拟数据集",
+                GlobalHelper.Get("key_232"),
                 obj =>
                 {
                     var con = obj as TableInfo;
@@ -374,7 +377,7 @@ namespace Hawk.ETL.Managements
                 },
                 obj => obj != null, "layer_add"));
             tableAction.ChildActions.Add(new Command(
-                "删除表",
+                GlobalHelper.Get("key_233"),
                 obj =>
                 {
                     var items = obj as TableInfo;
@@ -383,7 +386,7 @@ namespace Hawk.ETL.Managements
                 },
                 obj => obj != null, "delete"));
             tableAction.ChildActions.Add(new Command(
-                "查看属性",
+                GlobalHelper.Get("key_234"),
                 obj =>
                 {
                     var w = PropertyGridFactory.GetPropertyWindow(obj);
@@ -391,7 +394,7 @@ namespace Hawk.ETL.Managements
                 },
                 obj => obj != null, "edit"));
             tableAction.ChildActions.Add(new Command(
-                "执行查询",
+                GlobalHelper.Get("key_213"),
                 obj =>
                 {
                     var query = new QueryEntity();
@@ -410,7 +413,7 @@ namespace Hawk.ETL.Managements
                 }, obj => obj != null, "magnify"));
 
 
-            var visitData = new BindingAction("浏览方式");
+            var visitData = new BindingAction(GlobalHelper.Get("key_235"));
 
             var visitCommands = PluginProvider.GetPluginCollection(typeof (IDataViewer)).Select(
                 d =>
@@ -422,7 +425,7 @@ namespace Hawk.ETL.Managements
 
                         if (data.Count == 0)
                         {
-                            MessageBox.Show("不存在任何数据", "提示信息");
+                            MessageBox.Show(GlobalHelper.Get("key_236"), GlobalHelper.Get("key_99"));
                             return;
                         }
 
@@ -442,14 +445,14 @@ namespace Hawk.ETL.Managements
                     };
                     return comm;
                 });
-            visitData.Execute = obj => visitCommands.FirstOrDefault(d => d.Text == "可编辑列表").Execute(obj);
+            visitData.Execute = obj => visitCommands.FirstOrDefault(d => d.Text == GlobalHelper.Get("key_230")).Execute(obj);
             foreach (var visitCommand in visitCommands)
             {
                 visitData.ChildActions.Add(visitCommand);
             }
 
             dataaction.ChildActions.Add(new Command(
-                "数据清洗", obj =>
+                GlobalHelper.Get("key_201"), obj =>
                 {
                     var collection = GetCollection(obj);
                     if (collection == null) return;
@@ -468,7 +471,7 @@ namespace Hawk.ETL.Managements
                     ControlExtended.DockableManager.ActiveModelContent(plugin);
                 }, obj => true, "new"));
 
-            var saveData = new Command("另存为", d =>
+            var saveData = new Command(GlobalHelper.Get("key_237"), d =>
             {
                 var collection = GetCollection(d);
                 if (collection == null)
@@ -486,7 +489,7 @@ namespace Hawk.ETL.Managements
             dataaction.ChildActions.Add(saveData);
             dataaction.ChildActions.Add(visitData);
             dataaction.ChildActions.Add(new Command(
-                "新建或拷贝",
+                GlobalHelper.Get("key_238"),
                 obj =>
                 {
                     if (obj != null)
@@ -501,40 +504,40 @@ namespace Hawk.ETL.Managements
                     {
                         DataCollections.Add(new DataCollection(new List<IFreeDocument>())
                         {
-                            Name = GetNewName("新建数据集")
+                            Name = GetNewName(GlobalHelper.Get("key_239"))
                         });
                     }
                     ;
                 }, obj => true, "add"));
             dataaction.ChildActions.Add(new Command(
-                "配置", obj =>
+                GlobalHelper.Get("key_240"), obj =>
                 {
                     var collection = GetCollection(obj);
                     if (collection != null) PropertyGridFactory.GetPropertyWindow(collection).ShowDialog();
                 }, obj => true, "settings"));
             dataaction.ChildActions.Add(new Command(
-                "删除", obj =>
+                GlobalHelper.Get("key_169"), obj =>
                 {
                     var collection = GetCollection(obj);
                     if (collection != null) DataCollections.Remove(collection);
                 }, obj => true, "delete"));
 
-            var convert = new BindingAction("转换表类型");
+            var convert = new BindingAction(GlobalHelper.Get("key_241"));
             dataaction.ChildActions.Add(convert);
-            convert.ChildActions.Add(new Command("转为非虚拟数据集", obj =>
+            convert.ChildActions.Add(new Command(GlobalHelper.Get("key_242"), obj =>
             {
                 var coll = GetCollection(obj);
                 if (coll.Count > 500000)
                 {
                     if (
-                        MessageBox.Show("本集合数据量较大，转换可能会占用较高的内存和导致程序崩溃，确定继续吗?", "提示信息", MessageBoxButton.YesNoCancel) !=
+                        MessageBox.Show(GlobalHelper.Get("key_243"), GlobalHelper.Get("key_99"), MessageBoxButton.YesNoCancel) !=
                         MessageBoxResult.Yes)
                     {
                         return;
                     }
                 }
                 var docuts = new List<IFreeDocument>();
-                var task = TemporaryTask.AddTempTask("转为非虚拟数据集", coll.ComputeData, d =>
+                var task = TemporaryTask.AddTempTask(GlobalHelper.Get("key_242"), coll.ComputeData, d =>
                 {
                     if (d != null)
                         docuts.Add(d);
@@ -546,13 +549,13 @@ namespace Hawk.ETL.Managements
                 });
                 processManager.CurrentProcessTasks.Add(task);
             }));
-            var insertdb = new BindingAction("保存到数据库");
+            var insertdb = new BindingAction(GlobalHelper.Get("key_244"));
             insertdb.SetChildActionSource(() =>
             {
                 return _dbConnections.Select(dataBaseConnector => new Command(dataBaseConnector.Name, obj =>
                 {
                     var data = obj as DataCollection;
-                    processManager.CurrentProcessTasks.Add(TemporaryTask.AddTempTask(data.Name + "插入到数据库",
+                    processManager.CurrentProcessTasks.Add(TemporaryTask.AddTempTask(data.Name + GlobalHelper.Get("key_245"),
                         dataBaseConnector.InserDataCollection(data), result => dataBaseConnector.RefreshTableNames(),
                         count: data.Count/1000));
                 }, icon: "database")).Cast<ICommand>().ToList();
@@ -561,7 +564,7 @@ namespace Hawk.ETL.Managements
 
             dataaction.ChildActions.Add(insertdb);
             var otherDataAction = new BindingAction();
-            otherDataAction.ChildActions.Add(new Command("清空数据", obj => CleanData(), obj => DataCollections.Count > 0,
+            otherDataAction.ChildActions.Add(new Command(GlobalHelper.Get("key_132"), obj => CleanData(), obj => DataCollections.Count > 0,
                 "clear"));
 
 
@@ -569,9 +572,9 @@ namespace Hawk.ETL.Managements
             commands.Add(tableAction);
             commands.Add(dataaction);
             commands.Add(otherDataAction);
-            var dblistAction = new BindingAction("数据库管理");
+            var dblistAction = new BindingAction(GlobalHelper.Get("key_246"));
 
-            var addnew = new BindingAction("增加新连接") { Icon="add"};
+            var addnew = new BindingAction(GlobalHelper.Get("key_247")) { Icon="add"};
             dblistAction.ChildActions.Add(addnew);
             foreach (var item in PluginProvider.GetPluginCollection(typeof (IDataBaseConnector)))
             {
@@ -624,11 +627,11 @@ namespace Hawk.ETL.Managements
                 var db = (DBConnectorBase) dataBaseConnector;
                 if (db.ConnectDB() == false)
                 {
-                    XLogSys.Print.Error(db.Name + "的数据库连接服务失效");
+                    XLogSys.Print.Error(db.Name + GlobalHelper.Get("key_248"));
                 }
                 else
                 {
-                    XLogSys.Print.Info(db.Name + "的数据连接服务成功！");
+                    XLogSys.Print.Info(db.Name + GlobalHelper.Get("key_249"));
 
                     db.RefreshTableNames();
                 }
@@ -646,7 +649,7 @@ namespace Hawk.ETL.Managements
         {
             if (collectionName == null)
             {
-                collectionName = "数据集" + DateTime.Now.ToShortTimeString();
+                collectionName = GlobalHelper.Get("key_250") + DateTime.Now.ToShortTimeString();
             }
 
             var collection = DataCollections.FirstOrDefault(d => d.Name == collectionName);
@@ -663,7 +666,7 @@ namespace Hawk.ETL.Managements
                 }
                 else
                 {
-                    XLogSys.Print.Warn(collectionName + "数据源已经存在，不进行覆盖，没有保存");
+                    XLogSys.Print.Warn(collectionName + GlobalHelper.Get("key_251"));
                 }
                 return collection;
             }
@@ -732,12 +735,12 @@ namespace Hawk.ETL.Managements
 
 
             exporter.FileName = path;
-            processManager.CurrentProcessTasks.Add(TemporaryTask.AddTempTask(dataCollection + "导出数据任务",
+            processManager.CurrentProcessTasks.Add(TemporaryTask.AddTempTask(dataCollection + GlobalHelper.Get("key_252"),
                 exporter.WriteData(data), null, result =>
                 {
                     if (MainDescription.IsUIForm && string.IsNullOrEmpty(exporter.FileName) == false)
                     {
-                        if (MessageBox.Show("文件导出成功，是否要打开查看?", "提示信息", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                        if (MessageBox.Show(GlobalHelper.Get("key_253"), GlobalHelper.Get("key_99"), MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                         {
                             try
                             {
@@ -745,7 +748,7 @@ namespace Hawk.ETL.Managements
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show("打开文件失败：" + ex.Message);
+                                MessageBox.Show(GlobalHelper.Get("key_254") + ex.Message);
                             }
                         }
                     }
@@ -760,13 +763,13 @@ namespace Hawk.ETL.Managements
 
         private void CleanData()
         {
-            if (MessageBox.Show("确定删除内存数据么？", "警告信息", MessageBoxButton.OKCancel, MessageBoxImage.Question) ==
+            if (MessageBox.Show(GlobalHelper.Get("key_255"), GlobalHelper.Get("key_151"), MessageBoxButton.OKCancel, MessageBoxImage.Question) ==
                 MessageBoxResult.Cancel)
             {
                 return;
             }
             DataCollections.Clear();
-            XLogSys.Print.Info("当前内存数据已经被清除");
+            XLogSys.Print.Info(GlobalHelper.Get("key_256"));
         }
 
 
@@ -774,7 +777,7 @@ namespace Hawk.ETL.Managements
         {
             if (
                 MessageBox.Show(
-                    "确定对数据表" + dataName + "执行删除操作吗？", "警告信息", MessageBoxButton.YesNo) ==
+                    GlobalHelper.Get("key_257") + dataName + GlobalHelper.Get("key_258"), GlobalHelper.Get("key_151"), MessageBoxButton.YesNo) ==
                 MessageBoxResult.Yes)
             {
                 connector.DropTable(dataName);
@@ -796,7 +799,7 @@ namespace Hawk.ETL.Managements
         {
             if (!connector.ConnectDB())
             {
-                MessageBox.Show(connector.Name + "强制刷新连接失败");
+                MessageBox.Show(connector.Name + GlobalHelper.Get("key_259"));
                 return;
             }
             connector.RefreshTableNames();

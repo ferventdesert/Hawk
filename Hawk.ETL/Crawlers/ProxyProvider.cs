@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -58,7 +59,7 @@ namespace Hawk.ETL.Crawlers
     /// </summary>
     public class ProxyProvider : PropertyChangeNotifier, IDictionarySerializable
     {
-        [LocalizedDisplayName("代理列表")]
+        [LocalizedDisplayName("key_176")]
         public ObservableCollection<Proxy> Proxies { get; set; }
         private int count;
 
@@ -75,27 +76,27 @@ namespace Hawk.ETL.Crawlers
                 ParaGenerator.Column = "ProxyIp";
                 OnPropertyChanged("ParaGenerator");
             };
-            ParaGeneratorSelector.SelectItem = ParaGeneratorSelector.Collection.FirstOrDefault(d => d.Name == "从文本生成");
+            ParaGeneratorSelector.SelectItem = ParaGeneratorSelector.Collection.FirstOrDefault(d => d.Name == GlobalHelper.Get("key_177"));
         }
 
-        [LocalizedDisplayName(("生成器"))]
+        [LocalizedDisplayName(("key_178"))]
         [TypeConverter(typeof (ExpandableObjectConverter))]
         public IColumnGenerator ParaGenerator { get; set; }
 
-        [LocalizedDisplayName("代理策略")]
+        [LocalizedDisplayName("key_179")]
         public ProxyStrategy ProxyStrategy { get; set; }
 
 
-        [LocalizedDisplayName("最大访问次数")]
+        [LocalizedDisplayName("key_180")]
         public int MaxVisitCount { get; set; }
 
 
         [PropertyOrder(4)]
-        [LocalizedDisplayName("生成器类型")]
+        [LocalizedDisplayName("key_181")]
         public ExtendSelector<XFrmWorkAttribute> ParaGeneratorSelector { get; set; }
 
 
-        [LocalizedDisplayName("当前代理索引")]
+        [LocalizedDisplayName("key_182")]
         public int CurrentAgentIndex { get; set; }
 
         public FreeDocument DictSerialize(Scenario scenario = Scenario.Database)

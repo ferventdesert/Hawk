@@ -120,7 +120,7 @@ namespace HawkScheduler
             Console.WriteLine("project file: {0} ...", options.ProjectFile);
             var container = new CommandLineContainer();
 
-            var processManager = container.PluginDictionary["模块管理"] as DataProcessManager;
+            var processManager = container.PluginDictionary["DataProcessManager"] as DataProcessManager;
             var project = ProjectItem.LoadProject(options.ProjectFile);
 
             XmlConfigurator.Configure(new FileInfo("log4net_cmd.config"));

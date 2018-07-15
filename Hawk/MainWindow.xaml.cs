@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
@@ -34,6 +35,7 @@ using Path = System.IO.Path;
 
 namespace Hawk
 {
+
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary
@@ -93,7 +95,7 @@ namespace Hawk
             }
             catch (Exception ex)
             {
-                XLogSys.Print.Error(Core.Properties.Resources.IconNotExist);
+                XLogSys.Print.Error(GlobalHelper.Get("IconNotExist"));
 
             }
           
@@ -102,14 +104,14 @@ namespace Hawk
             Dispatcher.UnhandledException += (s, e) =>
             {
 
-                if (MessageBox.Show("是否保存当前工程的内容？您只有一次机会这样做，", "Hawk由于内部异常而崩溃", MessageBoxButton.YesNoCancel) ==
+                if (MessageBox.Show(GlobalHelper.Get("key_0"), GlobalHelper.Get("key_1"), MessageBoxButton.YesNoCancel) ==
                     MessageBoxResult.Yes)
                 {
-                    dynamic process = PluginDictionary["模块管理"];
+                    dynamic process = PluginDictionary["DataProcessManager"];
                     process.SaveCurrentTasks();
                 }
 
-                MessageBox.Show("系统出现异常" + e.Exception);
+                MessageBox.Show(GlobalHelper.Get("key_2") + e.Exception);
                 XLogSys.Print.Fatal(e.Exception);
             };
 #endif
@@ -122,6 +124,9 @@ namespace Hawk
             //  this.myDebugSystemUI.Init();
 
             PluginManager.Init(new[] { MainStartUpLocation });
+         
+          
+          
             PluginManager.LoadPlugins();
             PluginManager.LoadView();
 
@@ -130,17 +135,17 @@ namespace Hawk
             {
                 SetCommandKeyBinding(action);
             }
-            XLogSys.Print.Info(Title +Core.Properties.Resources.Start);
+            XLogSys.Print.Info(Title +GlobalHelper.Get("Start"));
 
   
             Closing += (s, e) =>
             {
                 List<IDataProcess> revisedTasks;
-                var processmanager = PluginDictionary["模块管理"] as DataProcessManager;
+                var processmanager = PluginDictionary["DataProcessManager"] as DataProcessManager;
                 revisedTasks = processmanager.GetRevisedTasks().ToList();
                 if (!revisedTasks.Any())
                 {
-                    if (MessageBox.Show(Core.Properties.Resources.Closing, Core.Properties.Resources.Tips, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                    if (MessageBox.Show(GlobalHelper.Get("Closing"), GlobalHelper.Get("Tips"), MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                     {
                         PluginManager.Close();
                         PluginManager.SaveConfigFile();
@@ -155,9 +160,8 @@ namespace Hawk
                 {
 
                     var result =
-                        MessageBox.Show(
-                            $"【{" ".Join(revisedTasks.Select(d => d.Name).ToArray())}】任务可能还没有保存，\n【是】:保存任务并退出, \n【否】：不保存退出，\n【取消】:取消退出", Core.Properties.Resources.Tips,
-                            MessageBoxButton.YesNoCancel);
+                        MessageBox.Show(GlobalHelper.FormatArgs(
+                            "RemaindSave", " ".Join(revisedTasks.Select(d => d.Name).ToArray())), GlobalHelper.Get("Tips"),MessageBoxButton.YesNoCancel);
                     if(result==MessageBoxResult.Yes || result==MessageBoxResult.No)
                     {
                         if (result == MessageBoxResult.Yes)
@@ -221,8 +225,8 @@ namespace Hawk
                     this,
                     new[]
                     {
-                        new Command(Core.Properties.Resources.DataMgmt, obj => ActiveThisContent(Core.Properties.Resources.DataMgmt)) ,
-                        new Command(Core.Properties.Resources.ModuleMgmt, obj => ActiveThisContent(Core.Properties.Resources.ModuleMgmt)) 
+                        new Command(GlobalHelper.Get("DataMgmt"), obj => ActiveThisContent(GlobalHelper.Get("DataMgmt"))) ,
+                        new Command(GlobalHelper.Get("ModuleMgmt"), obj => ActiveThisContent(GlobalHelper.Get("ModuleMgmt"))) 
                     });
             }
         }
@@ -371,22 +375,24 @@ namespace Hawk
                                     
                         break;
                 }
-                var canNotClose= new string[] {"模块管理","系统状态视图","调试信息窗口"};
+                var canNotClose= new string[] {GlobalHelper.Get("ModuleMgmt"),GlobalHelper.Get("SysState"),GlobalHelper.Get("DebugView")};
                 if (canNotClose.Contains(name))
                     if (layout != null) layout.CanClose = false;
                 viewitem.Container = layout;
             }
             catch (Exception ex)
             {
-                XLogSys.Print.ErrorFormat("{0}{1},{2}",Core.Properties.Resources.ControlLoad,Core.Properties.Resources.Error , ex.Message);
+                XLogSys.Print.ErrorFormat("{0}{1},{2}",GlobalHelper.Get("ControlLoad"),GlobalHelper.Get("Error") , ex.Message);
             }
         }
 
-        public  void SetBusy(bool isBusyValue, string title = "系统正忙", string message =null,
+        public  void SetBusy(bool isBusyValue, string title = null, string message =null,
             int percent = -1)
         {
+            if (title == null)
+                title=GlobalHelper.Get("key_3");
             if (message == null)
-                message = Core.Properties.Resources.LongTask;
+                message = GlobalHelper.Get("LongTask");
             BusyIndicator.IsBusy = isBusyValue;
 
             BusyIndicator.BusyContent = message;
@@ -396,7 +402,7 @@ namespace Hawk
         }
         private void DebugText_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            ActiveThisContent("调试信息窗口");
+            ActiveThisContent(GlobalHelper.Get("key_4"));
         }
 
     }

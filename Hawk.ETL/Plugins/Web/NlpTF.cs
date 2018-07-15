@@ -18,7 +18,7 @@ namespace Hawk.ETL.Plugins.Web
         语义角色标注
     }
 
-    [XFrmWork("自然语言处理","通过语言云获取的自然语言处理功能，包括分词，词性标注，主题提取等")]
+    [XFrmWork("NlpTF","通过语言云获取的NlpTF功能，包括分词，词性标注，主题提取等")]
     public class NlpTF : TransformerBase
     {
         public NlpTF()

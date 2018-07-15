@@ -5,7 +5,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("正则替换", "通过正则表达式替换数值")]
+    [XFrmWork("ReReplaceTF", "ReReplaceTF_desc")]
     public class ReReplaceTF : RegexTF
     {
         public ReReplaceTF()
@@ -16,7 +16,7 @@ namespace Hawk.ETL.Plugins.Transformers
 
   
 
-        [LocalizedDisplayName("替换为")]
+        [LocalizedDisplayName("key_526")]
         [PropertyEditor("CodeEditor")]
         public string ReplaceText { get; set; }
 

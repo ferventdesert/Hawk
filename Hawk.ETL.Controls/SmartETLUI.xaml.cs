@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Hawk.Core.Utils;
 using System.Windows.Data;
 using System.Windows.Media;
 using Hawk.Core.Utils.Logs;
@@ -40,7 +41,7 @@ namespace Hawk.ETL.Controls
     /// <summary>
     /// ETLSmartView.xaml 的交互逻辑
     /// </summary>
-    [XFrmWork("数据清洗" )]
+    [XFrmWork("SmartETLTool")]
     public partial class ETLSmartView : UserControl, ICustomView, IRemoteInvoke
     {
         public ETLSmartView()
@@ -58,7 +59,7 @@ namespace Hawk.ETL.Controls
                 {
                     return;
                 }
-                MessageBox.Show("可将图标拖入右侧数据列的上方空白列表处，为该列添加ETL模块");
+                MessageBox.Show(GlobalHelper.Get("key_779"));
 
             }
         }
@@ -117,7 +118,7 @@ namespace Hawk.ETL.Controls
         {
             if (e.ClickCount ==1)
             {
-                XLogSys.Print.Warn("可将图标拖入右侧数据列的上方空白列表处，为该列添加模块");
+                XLogSys.Print.Warn(GlobalHelper.Get("key_780"));
             }
         }
     }

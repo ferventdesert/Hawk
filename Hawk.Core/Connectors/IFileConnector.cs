@@ -5,7 +5,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Core.Connectors
 {
-    [Interface( "文件导入导出基本接口" )]
+    [Interface( "IFileConnector:IDictionarySerializable" )]
     public interface IFileConnector:IDictionarySerializable 
     {
         #region Properties

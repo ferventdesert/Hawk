@@ -9,7 +9,7 @@ using Hawk.ETL.Interfaces;
 
 namespace Hawk.ETL.Plugins.Executor
 {
-    [XFrmWork("写入数据表", "将数据保存至软件的数据管理器中，之后可方便进行其他处理，拖入到任意一列皆可，常用", "column_three")]
+    [XFrmWork("TableEX", "TableEX_desc", "column_three")]
     public class TableEX : DataExecutorBase
     {
         private readonly IDataManager dataManager;
@@ -17,11 +17,11 @@ namespace Hawk.ETL.Plugins.Executor
 
         public TableEX()
         {
-            dataManager = MainDescription.MainFrm.PluginDictionary["数据管理"] as IDataManager;
+            dataManager = MainDescription.MainFrm.PluginDictionary["DataManager"] as IDataManager;
         }
 
 
-        [LocalizedDisplayName("表名")]
+        [LocalizedDisplayName("key_22")]
         public string Table { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> datas)

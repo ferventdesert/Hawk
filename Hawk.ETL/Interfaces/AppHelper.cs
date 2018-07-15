@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -26,7 +27,6 @@ namespace Hawk.ETL.Interfaces
 
         private static Type lastType;
         private static PropertyInfo[] propertys;
-        private static readonly string _static_name = "模块管理";
 
 
 
@@ -55,8 +55,7 @@ namespace Hawk.ETL.Interfaces
 
       
 
-        public static async Task<T> RunBusyWork<T>(this IMainFrm manager, Func<T> func, string title = "系统正忙",
-            string message = "正在处理长时间操作")
+        public static async Task<T> RunBusyWork<T>(this IMainFrm manager, Func<T> func, string title = "系统正忙", string message = "正在处理长时间操作")
         {
             var dock = manager as IDockableManager;
             ControlExtended.UIInvoke(() => dock?.SetBusy(true, title, message));
@@ -69,7 +68,7 @@ namespace Hawk.ETL.Interfaces
 
         public static Func<List<string>> GetAllCrawlerNames(this IColumnProcess process)
         {
-            var processManager = MainDescription.MainFrm.PluginDictionary[_static_name] as IProcessManager;
+            var processManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
             return delegate
             {
                 var item=
@@ -86,19 +85,19 @@ namespace Hawk.ETL.Interfaces
 
         public static T GetModule<T>(this IColumnProcess process, string name) where T : class
         {
-            var moduleName = (typeof(T) == typeof(SmartETLTool)) ? "数据清洗" : "网页采集器";
+            var moduleName = (typeof(T) == typeof(SmartETLTool)) ? GlobalHelper.Get("key_201") : GlobalHelper.Get("key_202");
             if (string.IsNullOrEmpty(name))
                 return null;
             var process_name = process?.TypeName;
             if (process_name!=null&& string.IsNullOrEmpty(name))
 
             {
-                XLogSys.Print.Error($"您没有填写“{process_name}”的对应参数。");
+                XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_203"),process_name));
 
 
                 return default(T);
             }
-            var processManager = MainDescription.MainFrm.PluginDictionary[_static_name] as IProcessManager;
+            var processManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
             var module =
                 processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == name) as T;
             if (module != null)
@@ -111,7 +110,7 @@ namespace Hawk.ETL.Interfaces
 
             {
                
-                XLogSys.Print.Error($"没有找到名称为'{name}'的{moduleName}，请检查“{process_name}”是否填写错误");
+                XLogSys.Print.Error(string.Format(GlobalHelper.Get("not_find_module"),name,moduleName,process_name));
                 throw new NullReferenceException($"can't find a ETL Module named {name}");
             }
 
@@ -137,11 +136,11 @@ namespace Hawk.ETL.Interfaces
                 if (item.Key == "ScriptWorkMode")
                 {
                     var str = item.Value.ToString();
-                    if (str == "不进行转换")
+                    if (str == GlobalHelper.Get("key_204"))
                         value = "NoTransform";
-                    else if (str == "文档列表")
+                    else if (str == GlobalHelper.Get("key_205"))
                         value = "List";
-                    else if (str == "单文档")
+                    else if (str == GlobalHelper.Get("key_206"))
                     {
                         value = "One";
                     }
@@ -179,7 +178,7 @@ namespace Hawk.ETL.Interfaces
         }
         public static Func<List<string>> GetAllETLNames(this IColumnProcess process)
         {
-            var processManager = MainDescription.MainFrm.PluginDictionary[_static_name] as IProcessManager;
+            var processManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
             return () => processManager.CurrentProcessCollections.Where(d => d is SmartETLTool)
                 .Select(d => d.Name)
                  .Concat(

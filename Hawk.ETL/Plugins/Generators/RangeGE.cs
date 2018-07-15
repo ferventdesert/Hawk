@@ -9,7 +9,7 @@ using Hawk.ETL.Interfaces;
 
 namespace Hawk.ETL.Plugins.Generators
 {
-    [XFrmWork("生成区间数","生成某范围内的数值列")]
+    [XFrmWork("RangeGE","RangeGE_desc")]
     public class RangeGE : GeneratorBase
     {
         public RangeGE()
@@ -19,15 +19,15 @@ namespace Hawk.ETL.Plugins.Generators
             Column = "id";
         }
 
-        [LocalizedDisplayName("最小值")]
+        [LocalizedDisplayName("key_375")]
         public string MinValue { get; set; }
 
-        [LocalizedDisplayName("最大值")]
-        [LocalizedDescription("除了填写数字，还可以用方括号表达式，如[a]表示从a列获取值作为本参数的真实值")]
+        [LocalizedDisplayName("key_374")]
+        [LocalizedDescription("key_457")]
         public string MaxValue { get; set; }
 
-        [LocalizedDisplayName("间隔")]
-        [LocalizedDescription("如需生成数组1,3,5,7,9，则间隔为2")]
+        [LocalizedDisplayName("key_399")]
+        [LocalizedDescription("key_458")]
         public string Interval { get; set; }
 
     

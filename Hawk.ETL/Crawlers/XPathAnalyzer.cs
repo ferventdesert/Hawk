@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +11,7 @@ using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Interfaces;
 using HtmlAgilityPack;
 using ScrapySharp.Extensions;
 
@@ -364,7 +366,7 @@ namespace Hawk.ETL.Crawlers
                     .Where(d => d != null).Select(d => d.InnerText.Trim()).ToList();
                 if (row.Any(d => CompareString(d, node1.InnerText) == false))
                 {
-                    var name = node1.SearchPropertyName(result) ?? "属性" + result.Count;
+                    var name = node1.SearchPropertyName(result) ?? GlobalHelper.Get("key_55") + result.Count;
                     if (buffers.Any(d => ListEqual(d, row)))
                         return true;
                     var crawlItem = new CrawlItem
@@ -426,7 +428,7 @@ namespace Hawk.ETL.Crawlers
                     }
                     catch (Exception ex)
                     {
-                        XLogSys.Print.Error("XPath表达式编写错误： " + d.XPath);
+                        XLogSys.Print.Error(GlobalHelper.Get("key_183") + d.XPath);
                         return null;
                     }
                 })
@@ -443,7 +445,7 @@ namespace Hawk.ETL.Crawlers
                         name += '_' + attribute.Name;
                     else
                     {
-                        name = "属性" + result.Count;
+                        name = GlobalHelper.Get("key_55") + result.Count;
                     }
 
                     var craw = new CrawlItem {Name = name, SampleData1 = attr1, XPath = attribute.XPath};
@@ -455,7 +457,7 @@ namespace Hawk.ETL.Crawlers
                 var first = nodes.FirstOrDefault();
                 if (nodes.Any(d => d.InnerText != first.InnerText))
                 {
-                    var name = "属性" + result.Count;
+                    var name = GlobalHelper.Get("key_55") + result.Count;
                     var craw = new CrawlItem {Name = name, SampleData1 = first.InnerText, XPath = first.XPath};
                     result.Add(craw);
                 }
@@ -497,7 +499,7 @@ namespace Hawk.ETL.Crawlers
             }
             catch (Exception ex)
             {
-                XLogSys.Print.Error($"{format}路径 {xpath} 解析有误，返回空节点");
+                XLogSys.Print.Error(GlobalHelper.Get("key_184")+ xpath);
                 return null;
             }
         }
@@ -696,10 +698,6 @@ namespace Hawk.ETL.Crawlers
             var leafCount = avanode.Last().GetLeafNodeCount();
             var value = (childCount*PM25 + leafCount)*(v == 0 ? 2 : (Math.Log10((100 - v)/100)));
 
-            if (xpath.Contains("你"))
-            {
-                Console.WriteLine(xpath);
-            }
             dict.SetValue(xpath, value);
         }
 
@@ -999,7 +997,7 @@ namespace Hawk.ETL.Crawlers
             }
             catch (Exception ex)
             {
-                XLogSys.Print.Error(ex.Message + "  可能XPath表达式有误");
+                XLogSys.Print.Error(ex.Message + GlobalHelper.Get("XPathExpError"));
                 return new List<CrawlItem>();
             }
 
@@ -1412,7 +1410,7 @@ namespace Hawk.ETL.Crawlers
                     else
                     {
                         if (string.IsNullOrEmpty(rootXPath))
-                            throw new Exception($"提取模式{ScriptWorkMode.List}且选择器为{SelectorFormat.CssSelecor}，必须设定根节点路径");
+                            throw new Exception(GlobalHelper.Get("key_185"));
                         var nodes = doc2.CssSelect(rootXPath);
                         foreach (var node in nodes)
                         {

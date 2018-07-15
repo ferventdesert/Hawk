@@ -3,7 +3,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Core.Connectors
 {
-    [Interface( "配置文件接口")]
+    [Interface( "IConfigFile")]
     public interface IConfigFile : INotifyPropertyChanged, IDictionarySerializable
     {
         #region Properties

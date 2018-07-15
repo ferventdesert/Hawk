@@ -32,7 +32,6 @@
                                         </Grid.RowDefinitions>
                                         <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
                                             <TextBlock Text="{Binding Name}"  />
-                                    
                                         </StackPanel>
                                         <Line Grid.Column="1" SnapsToDevicePixels="true" X1="0" X2="1" Stretch="Fill"
                                           StrokeThickness="1" />
@@ -106,7 +105,7 @@
             	<StackPanel Margin="0,6" Width="300">
             		<StackPanel  Width="300" Orientation="Horizontal">
             				<TextBlock   Margin="0,0,8,8"  Text="{Binding Text}"   d:LayoutOverrides="Width" FontSize="{DynamicResource LargeFont}" FontWeight="Normal" VerticalAlignment="Center"/>
-            		         <TextBlock VerticalAlignment="Center"><Hyperlink Command="{Binding}"><Run Text="访问"/></Hyperlink></TextBlock>
+            		         <TextBlock VerticalAlignment="Center"><Hyperlink Command="{Binding}"><Run Text="{DynamicResource key_724}"/></Hyperlink></TextBlock>
 						 </StackPanel>
             		<TextBlock TextWrapping="Wrap"   Text="{Binding Description}"  />
             	</StackPanel>
@@ -132,7 +131,7 @@
         </Grid.ColumnDefinitions>
         <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="3" Grid.RowSpan="4"/>
 
-        <ListBox x:Name="listBox"  DataContext="{Binding}" ToolTip="双击可加载任务，右键可对任务进行删除等操作"  SelectedItem="{Binding SelectedTask}" ItemsSource="{Binding ProjectTaskList}"  HorizontalContentAlignment="Stretch" Margin="30,40,30,20"    ItemTemplate="{DynamicResource DataTemplate2}" Grid.Row="2" Grid.Column="1" Grid.RowSpan="2"  >
+        <ListBox x:Name="listBox"  DataContext="{Binding}" ToolTip="{DynamicResource key_725}"  SelectedItem="{Binding SelectedTask}" ItemsSource="{Binding ProjectTaskList}"  HorizontalContentAlignment="Stretch" Margin="30,40,30,20"    ItemTemplate="{DynamicResource DataTemplate2}" Grid.Row="2" Grid.Column="1" Grid.RowSpan="2"  >
 		    <ListBox.Resources>
 		    	<ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding BindingCommands.ChildActions[1].ChildActions}"/>
 
@@ -166,8 +165,7 @@
                                                  Visual="{Binding ConverterParameter=disk, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
                                 </Rectangle.Fill>
                             </Rectangle>
-		 
-        <TextBlock TextWrapping="Wrap" FontSize="21.333" VerticalAlignment="Top"  Grid.Row="2" HorizontalAlignment="Left" Grid.Column="1"><Run Language="zh-cn" Text="保存的任务" /></TextBlock>
+            <TextBlock TextWrapping="Wrap" FontSize="21.333" VerticalAlignment="Top"  Grid.Row="2" HorizontalAlignment="Left" Grid.Column="1"><Run Language="zh-cn" Text="{DynamicResource key_729}" /></TextBlock>
        </StackPanel>
 		  <StackPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0,5.76,30,0" Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Top">
 		  	  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
@@ -177,11 +175,11 @@
                                 </Rectangle.Fill>
                             </Rectangle>
 		  	<StackPanel Orientation="Vertical" d:LayoutOverrides="Width">
-		  		<TextBlock TextWrapping="Wrap" HorizontalAlignment="Left"><Run Language="zh-cn" Text="快速检索" /></TextBlock>
+		  		<TextBlock TextWrapping="Wrap" HorizontalAlignment="Left"><Run Language="zh-cn" Text="{DynamicResource key_730}" /></TextBlock>
 		  		<TextBox TextWrapping="Wrap" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="70.237" Height="19"/>
 		  	</StackPanel>
 		  </StackPanel>
-        <TreeView DataContext="{Binding MainFrmUI.PluginDictionary[数据管理]}" ToolTip="右键可新建数据源"  Margin="30,40,30,20"  x:Name="treeView"  ItemsSource="{Binding CurrentConnectors}" Grid.Row="3">
+        <TreeView DataContext="{Binding MainFrmUI.PluginDictionary[DataManager]}" ToolTip="{DynamicResource rightclick_new}"  Margin="30,40,30,20"  x:Name="treeView"  ItemsSource="{Binding CurrentConnectors}" Grid.Row="3">
             <TreeView.Resources>
 
             	<HierarchicalDataTemplate DataType="{x:Type Connectors:DBConnectorBase}"
@@ -199,7 +197,7 @@
             				<mvvm:DropSupportData BindingPath="Commands[0]"  />
             			</mvvm:DropHelper.DropSupport>
             			<TextBlock.ContextMenu>
-            				<ContextMenu ItemsSource="{Binding MainFrmUI.PluginDictionary[数据管理].Commands[0].ChildActions}" />
+                                <ContextMenu ItemsSource="{Binding MainFrmUI.PluginDictionary[DataManager].Commands[0].ChildActions}" />
             			</TextBlock.ContextMenu>
             		</TextBlock>
 					</StackPanel>
@@ -214,14 +212,14 @@
                             </Rectangle>
             		<TextBlock Text="{Binding Name}" AllowDrop="True" ToolTip="{Binding Description}" FontSize="13"  mvvm:TreeViewItemDoubleClick.Property="Commands[1].ChildActions[0]">
             			<TextBlock.ContextMenu>
-            				<ContextMenu  ItemsSource="{Binding MainFrmUI.PluginDictionary[数据管理].Commands[1].ChildActions}"/>
+                                <ContextMenu  ItemsSource="{Binding MainFrmUI.PluginDictionary[DataManager].Commands[1].ChildActions}"/>
             			</TextBlock.ContextMenu>
             		</TextBlock>
 					</StackPanel>
             	</HierarchicalDataTemplate>
             </TreeView.Resources>
             <TreeView.ContextMenu>
-                <ContextMenu   ItemsSource="{Binding MainFrmUI.PluginDictionary[数据管理].Commands[4].ChildActions}"/>
+                <ContextMenu   ItemsSource="{Binding MainFrmUI.PluginDictionary[DataManager].Commands[4].ChildActions}"/>
 
             </TreeView.ContextMenu>
         </TreeView>
@@ -232,10 +230,9 @@
                                                  Visual="{Binding ConverterParameter=paper, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
                                 </Rectangle.Fill>
                             </Rectangle>
-		 
-        <TextBlock TextWrapping="Wrap" FontSize="21.333" VerticalAlignment="Top"  Grid.Row="2" HorizontalAlignment="Left" Grid.Column="1"><Run Language="zh-cn" Text="新建任务" /></TextBlock>
+            <TextBlock TextWrapping="Wrap" FontSize="21.333" VerticalAlignment="Top"  Grid.Row="2" HorizontalAlignment="Left" Grid.Column="1"><Run Language="zh-cn" Text="{DynamicResource key_736}" /></TextBlock>
        </StackPanel>
-        <ListBox x:Name="listboxProcessMethodList" ToolTip="双击图标以新建任务" ItemsSource="{Binding ProgramNameFilterView}"  x:FieldModifier="public"      ItemTemplate="{DynamicResource DataTemplateList}" Margin="30,40,30,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <ListBox x:Name="listboxProcessMethodList" ToolTip="{DynamicResource doubleclick_new}" ItemsSource="{Binding ProgramNameFilterView}"  x:FieldModifier="public"      ItemTemplate="{DynamicResource DataTemplateList}" Margin="30,40,30,0" Grid.Row="2" VerticalAlignment="Top"/>
           <StackPanel Grid.Column="0" HorizontalAlignment="Left" Margin="30,8,0,0" Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Top">
         	  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
                                 <Rectangle.Fill>
@@ -243,8 +240,7 @@
                                                  Visual="{Binding ConverterParameter=connect, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
                                 </Rectangle.Fill>
                             </Rectangle>
-		 
-        <TextBlock TextWrapping="Wrap" FontSize="21.333" VerticalAlignment="Top"  Grid.Row="2" HorizontalAlignment="Left" Grid.Column="1"><Run Language="zh-cn" Text="数据库配置" /></TextBlock>
+                <TextBlock TextWrapping="Wrap" FontSize="21.333" VerticalAlignment="Top"  Grid.Row="2" HorizontalAlignment="Left" Grid.Column="1"><Run Language="zh-cn" Text="{DynamicResource key_739}" /></TextBlock>
        </StackPanel>
         <TextBlock TextWrapping="Wrap" Margin="34,20,0,20" HorizontalAlignment="Left" FontSize="64" Opacity="0.175" VerticalAlignment="Bottom" Foreground="Black"><Run Text="Hawk"/></TextBlock>
         <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="64" Margin="30,0,0,20" VerticalAlignment="Bottom"><Run Language="zh-cn" Text="H"/><Run Text="awk"/><Run Foreground="#FF10AB8B" Language="zh-cn" Text=" 3"/></TextBlock>
@@ -255,14 +251,14 @@
                                                  Visual="{Binding ConverterParameter=rss, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
                                 </Rectangle.Fill>
                             </Rectangle>
-			<TextBlock TextWrapping="Wrap" Margin="0,0,-0.001,0" FontSize="{DynamicResource UltraFont}" d:LayoutOverrides="Width, GridBox"><Run Language="zh-cn" Text="快速链接"/></TextBlock>
+			<TextBlock TextWrapping="Wrap" Margin="0,0,-0.001,0" FontSize="{DynamicResource UltraFont}" d:LayoutOverrides="Width, GridBox"><Run Language="zh-cn" Text="{DynamicResource key_740}"/></TextBlock>
         </StackPanel>
         <ListBox Grid.Column="2" Margin="30,40,30,20" Grid.Row="2" ItemTemplate="{DynamicResource DataTemplateHelp}" ItemsSource="{Binding MainFrmUI.CommandCollection[1].ChildActions}" Grid.RowSpan="2"/>
         <StackPanel VerticalAlignment="Bottom" Margin="270,0,0,30" HorizontalAlignment="Left" Width="235.283" Grid.ColumnSpan="2">
-        	<TextBlock TextWrapping="Wrap" FontSize="16" Foreground="#FFA1A1A1" HorizontalAlignment="Left"><Run Text="数据处理革命"/></TextBlock>
+            <TextBlock TextWrapping="Wrap" FontSize="16" Foreground="#FFA1A1A1" HorizontalAlignment="Left"><Run Text="{DynamicResource key_741}"/></TextBlock>
         	<TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="16" Foreground="#FFA1A1A1" Margin="0,8,0,0"><Run Text="Smart ETL Crawler Engine"/></TextBlock>
         </StackPanel>
-        <TextBlock TextWrapping="Wrap" Margin="30,20,0,20" HorizontalAlignment="Left" FontSize="26.667"   VerticalAlignment="Bottom" Grid.Column="2"><Run Language="zh-cn" Text="欢迎使用Hawk!"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" Margin="30,20,0,20" HorizontalAlignment="Left" FontSize="26.667"   VerticalAlignment="Bottom" Grid.Column="2"><Run Language="zh-cn" Text="{DynamicResource key_743}"/></TextBlock>
 
     </Grid>
 </UserControl>

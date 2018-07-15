@@ -9,7 +9,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Core.Connectors
 {
-    [XFrmWork("XML导入导出器",  "输出和输入XML文件", "")]
+    [XFrmWork("FileConnectorXML",  "FileConnectorXML_desc", "")]
     public class FileConnectorXML : FileConnector
     {
         public override string ExtentFileName => ".xml";

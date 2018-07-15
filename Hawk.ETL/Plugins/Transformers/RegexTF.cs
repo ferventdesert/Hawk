@@ -10,7 +10,7 @@ using Hawk.ETL.Crawlers;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("正则转换器",  "通过正则表达式提取内容")]
+    [XFrmWork("RegexTF",  "RegexTF_desc")]
     public class RegexTF : TransformerBase
     {
         protected Regex regex;
@@ -24,24 +24,24 @@ namespace Hawk.ETL.Plugins.Transformers
         }
        
         [PropertyOrder(0)]
-        [LocalizedDisplayName("工作模式")]
-        [LocalizedDescription("当要输出多个结果时选List，否则选One或None,参考“网页采集器”")]
+        [LocalizedDisplayName("key_188")]
+        [LocalizedDescription("key_516")]
         public ScriptWorkMode IsManyData { get; set; }
 
         [PropertyOrder(2)]
-        [LocalizedDisplayName("匹配编号")]
-        [LocalizedDescription("当值为小于0时，可同时匹配多个值")]
+        [LocalizedDisplayName("key_517")]
+        [LocalizedDescription("key_518")]
         public int Index { get; set; }
 
         [PropertyOrder(1)]
-        [LocalizedDisplayName("表达式")]
+        [LocalizedDisplayName("key_380")]
         [PropertyEditor("DynamicScriptEditor")]
         public string Script { get; set; }
 
-        [LocalizedCategory("1.基本选项")]
+        [LocalizedCategory("key_211")]
         [PropertyOrder(2)]
-        [LocalizedDisplayName("输出列")]
-        [LocalizedDescription("若编号为小于0且匹配出多个新列，多个列名可用空格分割，若该列不需要添加，可用_表示，如'_ 匹配1 _'")]
+        [LocalizedDisplayName("key_433")]
+        [LocalizedDescription("key_519")]
         public override string NewColumn { get; set; }
 
 

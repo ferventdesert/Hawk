@@ -16,7 +16,7 @@ namespace Hawk.ETL.Plugins.Transformers
         OneRepeat,
         ListRepeat,
     }
-    [XFrmWork("重复当前值", "对当前行进行重复性生成")]
+    [XFrmWork("RepeatTF", "RepeatTF_desc")]
     public class RepeatTF : TransformerBase
     {
         public RepeatTF()
@@ -24,10 +24,10 @@ namespace Hawk.ETL.Plugins.Transformers
             RepeatCount = "1";
         }
 
-        [LocalizedDisplayName("重复模式")]
+        [LocalizedDisplayName("key_522")]
         public RepeatType RepeatType { get; set; }
 
-        [LocalizedDisplayName("重复次数")]
+        [LocalizedDisplayName("key_523")]
         public string RepeatCount { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> docus)

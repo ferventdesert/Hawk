@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,7 +14,7 @@ using ScrapySharp.Extensions;
 
 namespace Hawk.ETL.Crawlers
 {
-    [XFrmWork("XPath筛选器", "通过XPath选取html中的子节点文档， 也可通过CssSelector选取html中的子节点文档，相比XPath更简单 ")]
+    [XFrmWork("XPathTF", "XPathTF_desc")]
     public class XPathTF : TransformerBase
     {
         public XPathTF()
@@ -22,28 +23,28 @@ namespace Hawk.ETL.Crawlers
             SelectorFormat= SelectorFormat.XPath;
         }
         [PropertyOrder(3)]
-        [LocalizedDisplayName("路径")]
+        [LocalizedDisplayName("key_163")]
         public string XPath { get; set; }
 
         [PropertyOrder(2)]
-        [LocalizedDisplayName("工作模式")]
-        [LocalizedDescription("当要获取符合XPath语法的多个结果时选List，只获取一条选One,其行为可参考“网页采集器”")]
+        [LocalizedDisplayName("key_188")]
+        [LocalizedDescription("key_189")]
         public ScriptWorkMode IsManyData { get; set; }
 
-        [LocalizedCategory("高级选项")]
-        [LocalizedDisplayName("获取正文")]
-        [LocalizedDescription("勾选此项后，会自动提取新闻正文，XPath路径可为空")]
+        [LocalizedCategory("key_190")]
+        [LocalizedDisplayName("key_191")]
+        [LocalizedDescription("key_192")]
         public bool GetText { get; set; }
 
 
         [PropertyOrder(0)]
-        [LocalizedDisplayName("选择器")]
+        [LocalizedDisplayName("key_162")]
         [LocalizedDescription("")]
 
         public SelectorFormat SelectorFormat { get; set; }
 
         [PropertyOrder(1)]
-        [LocalizedDisplayName("抓取目标")]
+        [LocalizedDisplayName("key_193")]
         [LocalizedDescription("")]
         public CrawlType CrawlType { get; set; }
 
@@ -106,7 +107,7 @@ namespace Hawk.ETL.Crawlers
         }
     }
   
-    [XFrmWork("门类枚举", "要拖入HTML文本列,可将页面中的门类，用Cross模式组合起来，适合于爬虫无法抓取全部页面，但可以按分类抓取的情况。需调用网页采集器，具体参考文档-门类枚举")]
+    [XFrmWork("XPathTF2", "xpath2_desc")]
     public class XPathTF2 : ResponseTF
     {
         private Dictionary<string, string> xpaths;
@@ -139,12 +140,12 @@ namespace Hawk.ETL.Crawlers
             }
             catch (Exception ex)
             {
-                XLogSys.Print.Warn("XPath表达式错误: " + xpath);
+                XLogSys.Print.Warn(GlobalHelper.Get("key_196") + xpath);
                 return source;
             }
             if (nodes.Count == 0)
             {
-                XLogSys.Print.Warn("XPath表达式: " + xpath + "获取的节点数量为0");
+                XLogSys.Print.Warn(GlobalHelper.Get("key_197") + xpath + GlobalHelper.Get("key_198"));
                 return source;
             }
             var new_docs = nodes.Select(node =>

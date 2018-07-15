@@ -8,7 +8,7 @@
     <Grid>
     	<RichTextBox x:Name="richtextBox" x:FieldModifier="public">
     		<FlowDocument>
-    			<Paragraph><Run Text="欢迎使用Hawk3"/></Paragraph>
+    			<Paragraph><Run Text="{DynamicResource key_743}"/></Paragraph>
     		</FlowDocument>
     	</RichTextBox>
     </Grid>

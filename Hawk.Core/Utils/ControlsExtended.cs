@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -36,8 +37,11 @@ namespace Hawk.Core.Utils
             }
         }
 
-        public static bool UserCheck(string message, string title = "提示信息")
+        public static bool UserCheck(string message, string title = null)
+
         {
+            if (title == null)
+                title = GlobalHelper.Get("key_99");
             return MessageBox.Show(message, title, MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes;
         }
 
@@ -75,19 +79,19 @@ namespace Hawk.Core.Utils
             {
                 if (type > LogType.Important)
                 {
-                    XLogSys.Print.Info(name + "  执行成功");
+                    XLogSys.Print.Info(name + GlobalHelper.Get("key_97"));
                 }
             }
             else
             {
-                name = name + "  执行失败";
+                name = name + GlobalHelper.Get("key_98");
                 if (type > LogType.Debug)
                 {
                     XLogSys.Print.Warn(name);
                 }
                 if (type > LogType.Info)
                 {
-                    UIInvoke(() => { MessageBox.Show(name, "提示信息"); });
+                    UIInvoke(() => { MessageBox.Show(name, GlobalHelper.Get("key_99")); });
                 }
             }
             return res;
@@ -99,7 +103,7 @@ namespace Hawk.Core.Utils
         {
             if (name == null)
             {
-                name = "该操作";
+                name = GlobalHelper.Get("key_100");
             }
             try
             {
@@ -110,19 +114,19 @@ namespace Hawk.Core.Utils
                     action();
                 }
 
-                var str = name + "已经执行成功";
+                var str = name + GlobalHelper.Get("key_101");
                 if (type >= LogType.Important)
                 {
                     XLogSys.Print.Info(str);
                 }
                 if (type >= LogType.Vital)
                 {
-                    UIInvoke(() => { MessageBox.Show(str, "提示信息"); });
+                    UIInvoke(() => { MessageBox.Show(str, GlobalHelper.Get("key_99")); });
                 }
             }
             catch (Exception ex)
             {
-                var str = name + "  执行失败,错误信息  {0}";
+                var str = name + GlobalHelper.Get("key_102");
                 switch (type)
                 {
                     case LogType.Debug:
@@ -133,11 +137,11 @@ namespace Hawk.Core.Utils
                         break;
                     case LogType.Important:
                         XLogSys.Print.ErrorFormat(str, ex.ToString());
-                        UIInvoke(() => { MessageBox.Show(string.Format(str, ex.Message), "错误信息"); });
+                        UIInvoke(() => { MessageBox.Show(string.Format(str, ex.Message), GlobalHelper.Get("key_103")); });
                         break;
                     case LogType.Vital:
                         XLogSys.Print.Fatal(str, ex);
-                        UIInvoke(() => { MessageBox.Show(string.Format(str, ex), "错误信息"); });
+                        UIInvoke(() => { MessageBox.Show(string.Format(str, ex), GlobalHelper.Get("key_103")); });
                         break;
                 }
             }
@@ -148,26 +152,26 @@ namespace Hawk.Core.Utils
         {
             if (name == null)
             {
-                name = "该操作";
+                name = GlobalHelper.Get("key_100");
             }
             try
             {
                 var res = isUIAction == false ? action() : UIInvoke(action);
-                var str = name + "已经执行成功";
+                var str = name + GlobalHelper.Get("key_101");
                 if (type >= LogType.Important)
                 {
                     XLogSys.Print.Info(str);
                 }
                 if (type >= LogType.Vital)
                 {
-                    UIInvoke(() => { MessageBox.Show(str, "提示信息"); });
+                    UIInvoke(() => { MessageBox.Show(str, GlobalHelper.Get("key_99")); });
                 }
                 result = res;
                 return true;
             }
             catch (Exception ex)
             {
-                var str = name + "  执行失败,错误信息  {0}";
+                var str = name + GlobalHelper.Get("key_102");
                 switch (type)
                 {
                     case LogType.Debug:
@@ -178,11 +182,11 @@ namespace Hawk.Core.Utils
                         break;
                     case LogType.Important:
                         XLogSys.Print.ErrorFormat(str, ex.ToString());
-                        UIInvoke(() => { MessageBox.Show(string.Format(str, ex.Message), "错误信息"); });
+                        UIInvoke(() => { MessageBox.Show(string.Format(str, ex.Message), GlobalHelper.Get("key_103")); });
                         break;
                     case LogType.Vital:
                         XLogSys.Print.Fatal(str, ex);
-                        UIInvoke(() => { MessageBox.Show(string.Format(str, ex), "错误信息"); });
+                        UIInvoke(() => { MessageBox.Show(string.Format(str, ex), GlobalHelper.Get("key_103")); });
                         break;
                 }
             }
@@ -232,8 +236,12 @@ namespace Hawk.Core.Utils
             return true;
         }
 
-        public static void SetBusy(bool isBusy, string title = "系统正忙", string message = "正在处理长时间操作", int percent = 0)
+        public static void SetBusy(bool isBusy, string title = null, string message = null, int percent = 0)
         {
+            if (title == null)
+                title = GlobalHelper.Get("key_3");
+            if (message == null)
+                message = GlobalHelper.Get("LongTask");
             if (Application.Current == null)
                 return;
             var item = Application.Current.MainWindow as IDockableManager;

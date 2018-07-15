@@ -6,7 +6,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("自增键生成",  "自动生成一个从起始索引开始的自增新列")]
+    [XFrmWork("AutoIndexTF",  "AutoIndexTF_desc")]
     public class AutoIndexTF : TransformerBase
     {
 
@@ -18,7 +18,7 @@ namespace Hawk.ETL.Plugins.Transformers
             return base.Init(docus);
             
         }
-         [LocalizedDisplayName("起始索引")]
+         [LocalizedDisplayName("key_472")]
         public int StartIndex { get; set; }
         
         public override object TransformData(IFreeDocument document)

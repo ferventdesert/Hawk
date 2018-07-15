@@ -21,12 +21,11 @@ namespace Hawk.Core.Utils.Plugins
 
         #region Constructors and Destructors
 
-        public XFrmWorkAttribute(
-            string name,  string description = "", string url = "", string groupName = "默认分组",int order=0)
+        public XFrmWorkAttribute(string name,  string description = "", string url = "", string groupName = "默认分组",int order=0)
         {
-            this.Name = name;
+            this.Name =  GlobalHelper.Get(name);
             this.GroupName = groupName;
-            this.Description = description;
+            this.Description = GlobalHelper.Get(description);
             this.LogoURL = url;
             this.Order = order;
         }

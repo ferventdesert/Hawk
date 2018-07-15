@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -140,7 +141,7 @@ namespace Hawk.Core.Utils
                 }
             }
 
-            return new XFrmWorkAttribute("不存在定义", "NULL", "NULL", "无定义资源");
+            return new XFrmWorkAttribute(GlobalHelper.Get("key_95"), "NULL", "NULL", GlobalHelper.Get("key_96"));
         }
 
         /// <summary>

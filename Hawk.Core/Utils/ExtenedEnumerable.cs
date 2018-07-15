@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -926,7 +927,7 @@ namespace Hawk.Core.Utils
                 }
                 catch (Exception ex)
                 {
-                    XLogSys.Print.Error("字典序列化失败" + ex);
+                    XLogSys.Print.Error(GlobalHelper.Get("key_112") + ex);
                     return null;
                 }
 
@@ -979,7 +980,7 @@ namespace Hawk.Core.Utils
                 }
                 catch (Exception ex)
                 {
-                    XLogSys.Print.Error("字典序列化失败" + ex);
+                    XLogSys.Print.Error(GlobalHelper.Get("key_112") + ex);
                     return default(T);
                 }
 

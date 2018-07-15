@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -553,7 +554,7 @@ namespace Hawk.Core.Utils
                         RequestManager.Instance.TimeoutCount++;
                     
                     XLogSys.Print.Warn($"HTTP Request Failed {code} | {requestitem.URL} ");
-                    return "HTTP错误，类型:" + code;
+                    return GlobalHelper.Get("key_113") + code;
 
                 }
                 XLogSys.Print.Debug($"HTTP Request Success {code} | {requestitem.URL} ");
@@ -590,7 +591,7 @@ namespace Hawk.Core.Utils
                 var request = SetRequest(requestitem, url, post);
                 var r = GetHttpRequestFile(request, requestitem, out code);
                 if (!IsSuccess(code))
-                    XLogSys.Print.ErrorFormat("HTTP错误，URL:{0},类型:{1}", url, code.ToString());
+                    XLogSys.Print.ErrorFormat(GlobalHelper.Get("key_114"), url, code.ToString());
                 return r;
             }
             catch (Exception ex)

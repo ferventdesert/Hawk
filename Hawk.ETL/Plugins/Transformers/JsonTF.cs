@@ -18,7 +18,7 @@ using HtmlAgilityPack;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("转换为Json", "从字符串转换为json（数组或字典类型）")]
+    [XFrmWork("JsonTF", "JsonTF_desc")]
     public class JsonTF : TransformerBase
     {
         private readonly JavaScriptSerializer serialier;
@@ -31,8 +31,8 @@ namespace Hawk.ETL.Plugins.Transformers
             OneOutput = false;
         }
 
-        [LocalizedDisplayName("工作模式")]
-        [LocalizedDescription("文档列表：[{}],转换为多个数据行构成的列表；单文档：{},将结果的键值对附加到本行；不进行转换：直接将值放入到新列")]
+        [LocalizedDisplayName("key_188")]
+        [LocalizedDescription("key_501")]
         public ScriptWorkMode ScriptWorkMode { get; set; }
 
 

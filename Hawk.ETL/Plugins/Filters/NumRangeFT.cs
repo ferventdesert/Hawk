@@ -6,7 +6,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Plugins.Filters
 {
-    [XFrmWork("数量范围选择","选择一定数量的行，如跳过前100条，选取50条","filter_alphabetical" )]
+    [XFrmWork("key_210","NumRangeFT_desc","filter_alphabetical" )]
     public class NumRangeFT : NullFT
     {
         private int skip;
@@ -15,7 +15,7 @@ namespace Hawk.ETL.Plugins.Filters
 
         private int index = 0;
 
-        [LocalizedDisplayName("跳过")]
+        [LocalizedDisplayName("key_370")]
         public int Skip
         {
             get { return skip; }
@@ -44,7 +44,7 @@ namespace Hawk.ETL.Plugins.Filters
         }
 
 
-        [LocalizedDisplayName("获取")]
+        [LocalizedDisplayName("key_371")]
         public int Take
         {
             get { return take; }

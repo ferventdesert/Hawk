@@ -8,7 +8,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Plugins.Web
 {
-    [XFrmWork("检索附近","获取当前经纬度某一半径范围内的所有地物，需要拖入的为代表经度的列","map")]
+    [XFrmWork("NearbySearch","NearbySearch_desc","map")]
     public class NearbySearch : BaiduSDKBase
     {
         public NearbySearch()
@@ -23,19 +23,19 @@ namespace Hawk.ETL.Plugins.Web
 
         }
 
-        [LocalizedDisplayName("查询地物")]
-        [LocalizedDescription("如公园，车站等")]
+        [LocalizedDisplayName("key_592")]
+        [LocalizedDescription("key_593")]
         public string Query { get; set; }
 
-        [LocalizedDisplayName("纬度列")]
-        [LocalizedDescription("代表纬度所在的列")]
+        [LocalizedDisplayName("key_594")]
+        [LocalizedDescription("key_595")]
         public string Lng { get; set; }
 
-        [LocalizedDisplayName("搜索半径")]
+        [LocalizedDisplayName("key_596")]
         public int Radius { get; set; }
 
 
-        [LocalizedDisplayName("所有结果")]
+        [LocalizedDisplayName("key_597")]
         public bool AllResult { get; set; }
 
         public override object TransformData(IFreeDocument datas)

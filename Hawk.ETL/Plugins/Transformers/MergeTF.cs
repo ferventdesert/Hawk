@@ -10,7 +10,7 @@ using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("合并多列", "将多个列组合成同一列，形如'http:\\{0}:{1},{2}...'输入列的序号为0，之后的1,2分别代表【其他项】的第0和第1个值，常用")]
+    [XFrmWork("MergeTF", "MergeTF_desc")]
     public class MergeTF : TransformerBase
     {
 
@@ -32,17 +32,17 @@ namespace Hawk.ETL.Plugins.Transformers
             };
         }
 
-        [LocalizedDisplayName("其他项")]
-        [LocalizedDescription("写入多个列名，中间使用空格分割，若合并输入列，则可以为空")]
+        [LocalizedDisplayName("key_502")]
+        [LocalizedDescription("key_503")]
         public string MergeWith { get; set; }
 
         [PropertyEditor("CodeEditor")]
-        [LocalizedDisplayName("格式")]
-        [LocalizedDescription("形如'http:\\{0}:{1},{2}...'输入列的序号为0，之后的1,2分别代表【其他项】的第0和第1个值")]
+        [LocalizedDisplayName("key_504")]
+        [LocalizedDescription("MergeTF_format")]
         public string Format { get; set; }
 
-        [LocalizedDisplayName("参考格式")]
-        [LocalizedDescription("为了方便用户，下拉菜单中提供了已有网页采集器配置的url，可修改后使用")]
+        [LocalizedDisplayName("key_505")]
+        [LocalizedDescription("key_506")]
         public ExtendSelector<string> ReferFormat { get; set; }
 
         public override object TransformData(IFreeDocument datas)

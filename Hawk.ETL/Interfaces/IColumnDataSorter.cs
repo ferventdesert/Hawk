@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
@@ -19,7 +20,7 @@ namespace Hawk.ETL.Interfaces
         DescendSort
     }
 
-    [Interface("ETL模块接口")]
+    [Interface("IColumnProcess")]
     public interface IColumnProcess : IDictionarySerializable
     {
         #region Properties
@@ -144,7 +145,7 @@ namespace Hawk.ETL.Interfaces
             {
                 res = ex.Message;
                 analyzeItem.Error++;
-                XLogSys.Print.Error($"位于{ge.ETLIndex}， 作用在{ge.Column}的模块 {ge.TypeName} 转换出错, 信息{res}");
+                XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), ge.ETLIndex,ge.TypeName,res));
             }
 
             if (ge.OneOutput)
@@ -178,7 +179,7 @@ namespace Hawk.ETL.Interfaces
             catch (Exception ex)
             {
                 if (analyzeItem != null) analyzeItem.HasInit = false;
-                XLogSys.Print.Error($"位于{tool.Column}列的{tool.TypeName}模块在初始化时出现异常：{ex},请检查任务参数");
+                XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_209"),tool.Column,tool.TypeName,ex));
                 return func;
             }
             if (!tool.Enabled)
@@ -233,7 +234,7 @@ namespace Hawk.ETL.Interfaces
             {
                 var t = tool as IColumnDataFilter;
 
-                if (t.TypeName == "数量范围选择")
+                if (t.TypeName == GlobalHelper.Get("key_210"))
                 {
                     dynamic range = t;
                     var func1 = func;
@@ -307,8 +308,8 @@ namespace Hawk.ETL.Interfaces
             yield break;
         }
 
-        [LocalizedCategory("1.基本选项")]
-        [LocalizedDisplayName("工作模式")]
+        [LocalizedCategory("key_211")]
+        [LocalizedDisplayName("key_188")]
         public MergeType MergeType { get; set; }
 
         public virtual int? GenerateCount()

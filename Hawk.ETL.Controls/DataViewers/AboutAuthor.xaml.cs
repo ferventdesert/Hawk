@@ -18,7 +18,7 @@ namespace Hawk.ETL.Controls.DataViewers
     /// <summary>
     /// AboutAuthor.xaml 的交互逻辑
     /// </summary>
-     [XFrmWork("关于作者")]
+     [XFrmWork("key_263")]
     public partial class AboutAuthor : UserControl, ICustomView
     {
         public AboutAuthor()

@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -41,13 +42,13 @@ namespace Hawk.Core.Connectors
         public virtual bool ShouldConfig => false;
 
 
-        [LocalizedDisplayName("后缀名")]
+        [LocalizedDisplayName("key_38")]
         public virtual string ExtentFileName => ".txt";
 
         [Browsable(false)]
         public string FileName { get; set; }
 
-        [LocalizedDisplayName("文件编码")]
+        [LocalizedDisplayName("key_39")]
         public EncodingType EncodingType { get; set; }
 
 
@@ -180,7 +181,7 @@ namespace Hawk.Core.Connectors
 
         public virtual string GetString(IEnumerable<IFreeDocument> datas)
         {
-            return "不支持此功能";
+            return GlobalHelper.Get("key_40");
         }
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -86,7 +87,7 @@ namespace Hawk.Core.Utils.MVVM
 
         void ICommand.Execute(object parameter)
         {
-            ControlExtended.SafeInvoke(() => Execute?.Invoke(parameter),LogType.Info,"点击按钮: "+this.Text);
+            ControlExtended.SafeInvoke(() => Execute?.Invoke(parameter),LogType.Info,GlobalHelper.Get("key_133")+this.Text);
 
         }
 

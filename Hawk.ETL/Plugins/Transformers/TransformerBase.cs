@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,8 +29,8 @@ namespace Hawk.ETL.Plugins.Transformers
             ColumnSelector.SelectChanged += (s, e) => Column = ColumnSelector.SelectItem;
         }
 
-        [LocalizedCategory("1.基本选项"), PropertyOrder(1), DisplayName("输入列")]
-        [LocalizedDescription("本模块要处理的列的名称")]
+        [LocalizedCategory("key_211"), PropertyOrder(1), LocalizedDisplayName("key_717")]
+        [LocalizedDescription("key_566")]
         public TextEditSelector ColumnSelector { get; set; }
 
       
@@ -70,7 +71,7 @@ namespace Hawk.ETL.Plugins.Transformers
             }
         }
 
-        [LocalizedDisplayName("介绍")]
+        [LocalizedDisplayName("key_567")]
         [PropertyOrder(100)]
         [PropertyEditor("CodeEditor")]
         public string Description
@@ -89,8 +90,8 @@ namespace Hawk.ETL.Plugins.Transformers
             IsExecute = value;
         }
 
-        [LocalizedCategory("1.基本选项")]
-        [LocalizedDisplayName("启用")]
+        [LocalizedCategory("key_211")]
+        [LocalizedDisplayName("key_568")]
         [PropertyOrder(5)]
         public bool Enabled
         {
@@ -120,8 +121,8 @@ namespace Hawk.ETL.Plugins.Transformers
             }
         }
 
-        [LocalizedCategory("1.基本选项")]
-        [LocalizedDisplayName("类型")]
+        [LocalizedCategory("key_211")]
+        [LocalizedDisplayName("key_12")]
         [PropertyOrder(0)]
         public string TypeName
         {
@@ -165,7 +166,7 @@ namespace Hawk.ETL.Plugins.Transformers
             NewColumn = "";
             Enabled = true;
             IsMultiYield = false;
-            processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
+            processManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
         }
 
 
@@ -191,10 +192,10 @@ namespace Hawk.ETL.Plugins.Transformers
 
         #region Properties
 
-        [LocalizedCategory("1.基本选项")]
+        [LocalizedCategory("key_211")]
         [PropertyOrder(2)]
-        [LocalizedDisplayName("输出列")]
-        [LocalizedDescription("结果要输出到的列的名称")]
+        [LocalizedDisplayName("key_433")]
+        [LocalizedDescription("key_569")]
         public virtual string NewColumn
         {
             get { return _newColumn; }
@@ -262,8 +263,8 @@ namespace Hawk.ETL.Plugins.Transformers
                             {
                                 var result =
                                     MessageBox.Show(
-                                        $"作用在列名`{Column}`的 模块`{TypeName}` 已经连续 {5} 次没有成功获取数据，可能需要重新修改参数 \n 【是】：【进入调试模式】 \n 【否】：【取消当前任务】 \n 【取消】：【不再提示】",
-                                        "参数设置可能有误",
+                                        String.Format("fail_remind", Column, TypeName),
+                                        GlobalHelper.Get("key_570"),
                                         MessageBoxButton.YesNoCancel);
                                 if (result == MessageBoxResult.Yes)
                                 {

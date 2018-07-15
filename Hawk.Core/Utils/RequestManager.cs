@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -20,7 +21,7 @@ namespace Hawk.Core.Utils
         }
 
         [PropertyOrder(0)]
-        [DisplayName("总请求数")]
+        [LocalizedDisplayName("key_126")]
         public int RequestCount
         {
             get { return _requestCount; }
@@ -36,7 +37,7 @@ namespace Hawk.Core.Utils
 
 
         [PropertyOrder(1)]
-        [DisplayName("禁止数")]
+        [LocalizedDisplayName("key_127")]
         public int ForbidCount
         {
             get { return _forbidCount; }
@@ -52,7 +53,7 @@ namespace Hawk.Core.Utils
 
 
         [PropertyOrder(2)]
-        [DisplayName("最大禁止数")]
+        [LocalizedDisplayName("key_128")]
         public int MaxForbidCount
         {
             get { return _maxForbidCount; }
@@ -67,7 +68,7 @@ namespace Hawk.Core.Utils
         }
 
         [PropertyOrder(3)]
-        [DisplayName("解析错误数")]
+        [LocalizedDisplayName("key_129")]
         public int ParseErrorCount
         {
             get { return _parseErrorCount; }
@@ -99,7 +100,7 @@ namespace Hawk.Core.Utils
         }
 
         [PropertyOrder(4)]
-        [DisplayName("超时数")]
+        [LocalizedDisplayName("key_130")]
         public int TimeoutCount
         {
             get { return _timeoutCount; }
@@ -118,7 +119,7 @@ namespace Hawk.Core.Utils
 
 
         [PropertyOrder(5)]
-        [DisplayName("操作")]
+        [LocalizedDisplayName("key_131")]
         public ReadOnlyCollection<ICommand> Commands
         {
             get
@@ -127,7 +128,7 @@ namespace Hawk.Core.Utils
                     this,
                     new[]
                     {
-                        new Command("清空数据", obj => { TimeoutCount = 0;
+                        new Command(GlobalHelper.Get("key_132"), obj => { TimeoutCount = 0;
                             ForbidCount = 0;
                             RequestCount = 0;
                             ParseErrorCount = 0;

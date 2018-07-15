@@ -10,21 +10,21 @@ using Hawk.ETL.Interfaces;
 
 namespace Hawk.ETL.Plugins.Generators
 {
-    [XFrmWork("从数据表生成","从数据管理中已有的数据表中生成，常用" )]
+    [XFrmWork("TableGE","TableGE_desc" )]
     public class TableGE : GeneratorBase
     {
         private readonly IDataManager dataManager;
 
         public TableGE()
         {
-            dataManager = MainDescription.MainFrm.PluginDictionary["数据管理"] as IDataManager;
+            dataManager = MainDescription.MainFrm.PluginDictionary["DataManager"] as IDataManager;
             TableSelector = new ExtendSelector<string>();
             TableSelector.GetItems = () => dataManager.DataCollections.Select(d=>d.Name).ToList();
             TableSelector.SelectChanged +=(s,e)=> this.InformPropertyChanged("TableSelector");
         }
 
-        [LocalizedDisplayName("数据表")]
-        [LocalizedDescription("选择所要连接的数据表")]
+        [LocalizedDisplayName("key_461")]
+        [LocalizedDescription("key_462")]
         [PropertyOrder(1)]
         public ExtendSelector<string> TableSelector { get; set; }
 

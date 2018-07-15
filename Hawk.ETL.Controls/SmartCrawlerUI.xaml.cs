@@ -8,7 +8,7 @@ namespace Hawk.ETL.Controls
     /// <summary>
     ///     SmartCrawlerUI.xaml 的交互逻辑
     /// </summary>
-    [XFrmWork("网页采集器")]
+    [XFrmWork("SmartCrawlerUI")]
     public partial class SmartCrawlerUI : UserControl, ICustomView
     {
         private readonly WebBrowser browser;

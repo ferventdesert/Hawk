@@ -6,7 +6,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Plugins.Filters
 {
-    [XFrmWork("数值范围过滤器","从数值列中筛选出从最小值到最大值范围的文档")]
+    [XFrmWork("RangeFT","RangeFT_desc")]
     public class RangeFT : NullFT
     {
         #region Constants and Fields
@@ -17,10 +17,10 @@ namespace Hawk.ETL.Plugins.Filters
 
         #region Properties
 
-        [LocalizedDisplayName("最大值")]
+        [LocalizedDisplayName("key_374")]
         public string Max { get; set; }
 
-        [LocalizedDisplayName("最小值")]
+        [LocalizedDisplayName("key_375")]
         public string Min { get; set; }
 
         #endregion

@@ -25,28 +25,28 @@ namespace Hawk.Core.Utils
         }
 
         [PropertyEditor("CodeEditor")]
-        [LocalizedCategory("1.请求设置")]
-        [LocalizedDisplayName("Header")]
+        [LocalizedCategory("key_115")]
+        [LocalizedDisplayName("key_116")]
         [PropertyOrder(5)]
         public string Parameters { get; set; }
 
-        [LocalizedCategory("2.代理设置")]
-        [LocalizedDisplayName("代理IP")]
+        [LocalizedCategory("key_117")]
+        [LocalizedDisplayName("key_118")]
         [PropertyOrder(1)]
         public string ProxyIP { get; set; }
 
-        [LocalizedCategory("2.代理设置")]
-        [LocalizedDisplayName("端口")]
+        [LocalizedCategory("key_117")]
+        [LocalizedDisplayName("key_119")]
         [PropertyOrder(2)]
         public int ProxyPort { get; set; }
 
-        [LocalizedCategory("2.代理设置")]
-        [LocalizedDisplayName("用户名")]
+        [LocalizedCategory("key_117")]
+        [LocalizedDisplayName("key_25")]
         [System.Windows.Controls.WpfPropertyGrid.Attributes.PropertyOrder(3)]
         public string ProxyUserName { get; set; }
 
-        [LocalizedCategory("2.代理设置")]
-        [LocalizedDisplayName("密码")]
+        [LocalizedCategory("key_117")]
+        [LocalizedDisplayName("key_26")]
         [PropertyOrder(4)]
         public string ProxyPassword { get; set; }
 
@@ -134,16 +134,16 @@ namespace Hawk.Core.Utils
         /// <summary>
         ///     请求方式默认为GET方式
         /// </summary>
-        [LocalizedCategory("1.请求设置")]
-        [LocalizedDisplayName("请求方法")]
+        [LocalizedCategory("key_115")]
+        [LocalizedDisplayName("key_120")]
         [PropertyOrder(1)]
         public MethodType Method { get; set; }
 
         /// <summary>
         ///     默认请求超时时间
         /// </summary>
-        [LocalizedCategory("1.请求设置")]
-        [LocalizedDisplayName("超时时间")]
+        [LocalizedCategory("key_115")]
+        [LocalizedDisplayName("key_121")]
         [PropertyOrder(3)]
         public int Timeout { get; set; }
 
@@ -161,9 +161,9 @@ namespace Hawk.Core.Utils
         /// <summary>
         ///     返回数据编码默认为NUll,可以自动识别
         /// </summary>
-        [LocalizedCategory("1.请求设置")]
-        [LocalizedDisplayName("请求编码")]
-        [LocalizedDescription("当页面出现乱码时，可选择切换UTF-8或GBK")]
+        [LocalizedCategory("key_115")]
+        [LocalizedDisplayName("key_122")]
+        [LocalizedDescription("key_123")]
         [PropertyOrder(3)]
         public EncodingType Encoding { get; set; }
 
@@ -173,8 +173,8 @@ namespace Hawk.Core.Utils
         ///     Post请求时要发送的Post数据
         /// </summary>
         /// 
-        [LocalizedCategory("1.请求设置")]
-        [LocalizedDisplayName("Post参数")]
+        [LocalizedCategory("key_115")]
+        [LocalizedDisplayName("key_124")]
         [PropertyOrder(7)]
         [PropertyEditor("CodeEditor")]
         public string Postdata { get; set; }
@@ -189,8 +189,8 @@ namespace Hawk.Core.Utils
         ///     支持跳转页面，查询结果将是跳转后的页面
         /// </summary>
         /// 
-        [LocalizedCategory("1.请求设置")]
-        [LocalizedDisplayName("自动重定向")]
+        [LocalizedCategory("key_115")]
+        [LocalizedDisplayName("key_125")]
         [PropertyOrder(6)]
         public bool Allowautoredirect { get; set; }
 

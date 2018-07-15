@@ -10,14 +10,14 @@ using Hawk.ETL.Interfaces;
 
 namespace Hawk.ETL.Plugins.Generators
 {
-     [XFrmWork("从文本生成","每行一条数据，常用" )]
+     [XFrmWork("key_177","TextGE_desc" )]
     public class TextGE : GeneratorBase
     {
          List<string> argsList=new List<string>();
 
       
-         [LocalizedDisplayName("文本")]
-         [LocalizedDescription("每行一条")]
+         [LocalizedDisplayName("key_464")]
+         [LocalizedDescription("key_465")]
          [PropertyOrder(2)]
          [PropertyEditor("CodeEditor")]
          public string Content { get; set; }

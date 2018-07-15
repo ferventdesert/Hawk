@@ -8,7 +8,7 @@ namespace Hawk.ETL.Controls
     /// <summary>
     /// SystemStateViewer.xaml 的交互逻辑
     /// </summary>
-    [XFrmWork("系统状态视图" )]
+    [XFrmWork("key_223" )]
     public partial class SystemStateViewer : UserControl, ICustomView
     {
         #region Constructors and Destructors

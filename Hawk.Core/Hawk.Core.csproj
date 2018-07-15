@@ -131,16 +131,6 @@
     <Compile Include="Connectors\MongoDBConnector.cs" />
     <Compile Include="Connectors\MySQLConnector.cs" />
     <Compile Include="Connectors\SQLiteConnector.cs" />
-    <Compile Include="Properties\Resources.en.Designer.cs">
-      <DependentUpon>Resources.en.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Themes\MetroConverter.cs" />
     <Compile Include="Utils\Converters.cs" />
     <Compile Include="Utils\CookieAwareWebClient.cs">
@@ -149,6 +139,7 @@
     <Compile Include="Utils\CustomSerializer.cs" />
     <Compile Include="Utils\DragAdorner.cs" />
     <Compile Include="Utils\ForceLazy.cs" />
+    <Compile Include="Utils\GlobalHelper.cs" />
     <Compile Include="Utils\ListViewDragDropManager.cs" />
     <Compile Include="Utils\MouseUtilities.cs" />
     <Compile Include="Utils\MVVM\BindingEvaluator.cs" />
@@ -222,17 +213,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.en.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.en.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

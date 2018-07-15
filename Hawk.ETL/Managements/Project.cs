@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -16,16 +17,16 @@ namespace Hawk.ETL.Managements
 {
     public class ProjectItem : PropertyChangeNotifier, IDictionarySerializable
     {
-        [LocalizedDisplayName("保存路径")]
+        [LocalizedDisplayName("key_329")]
         public string SavePath { get; set; }
 
-        [LocalizedDisplayName("名称")]
+        [LocalizedDisplayName("key_18")]
         public string Name { get; set; }
 
-        [LocalizedDisplayName("描述")]
+        [LocalizedDisplayName("key_16")]
         public string Description { get; set; }
 
-        [LocalizedDisplayName("版本")]
+        [LocalizedDisplayName("key_330")]
         public int Version { get; set; }
 
 
@@ -50,7 +51,7 @@ namespace Hawk.ETL.Managements
         public static Project LoadProject(string path)
         {
             if (File.Exists(path) == false)
-                throw new Exception("当前工程文件的路径不存在，生成新工程");
+                throw new Exception(GlobalHelper.Get("key_331"));
             var xml = new FileConnectorXML {FileName = path};
             var r = xml.ReadFile().FirstOrDefault();
             var project = new Project();
@@ -79,14 +80,14 @@ namespace Hawk.ETL.Managements
 
 
 
-        [LocalizedDisplayName("数据库连接")]
+        [LocalizedDisplayName("key_332")]
         public ObservableCollection<IDataBaseConnector> DBConnections { get; set; }
 
 
         /// <summary>
         ///     在工程中保存的所有任务
         /// </summary>
-        [LocalizedDisplayName("任务列表")]
+        [LocalizedDisplayName("key_333")]
         public ObservableCollection<ProcessTask> Tasks { get; set; }
 
 
@@ -125,7 +126,7 @@ namespace Hawk.ETL.Managements
             {
                 if (!File.Exists(connector.FileName))
                 {
-                    XLogSys.Print.Error($"文件{connector.FileName}不存在");
+                    XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_334"),connector.FileName));
                     return null;
                 }
              
@@ -192,9 +193,9 @@ namespace Hawk.ETL.Managements
                 }
 
             }
-            if (DBConnections.FirstOrDefault(d => d.TypeName == "文件管理") == null)
+            if (DBConnections.FirstOrDefault(d => d.TypeName == GlobalHelper.Get("FileManager")) == null)
             {
-                var filemanager = new FileManager() {Name = "最近打开的文件"};
+                var filemanager = new FileManager() {Name = GlobalHelper.Get("key_310")};
                 DBConnections.Add(filemanager);
             }
             if (DBConnections.FirstOrDefault(d => d.TypeName == "MongoDB") == null)
@@ -204,9 +205,9 @@ namespace Hawk.ETL.Managements
                 DBConnections.Add(mongo);
 
             }
-            if (DBConnections.FirstOrDefault(d => d.TypeName == "SQLite数据库") == null)
+            if (DBConnections.FirstOrDefault(d => d.TypeName == GlobalHelper.Get("SQLiteDatabase")) == null)
             {
-                var sqlite = new SQLiteDatabase() { Name = "SQLite数据库" };
+                var sqlite = new SQLiteDatabase() { Name = GlobalHelper.Get("SQLiteDatabase") };
                 sqlite.DBName = "hawk-sqlite";
                 DBConnections.Add(sqlite);
 

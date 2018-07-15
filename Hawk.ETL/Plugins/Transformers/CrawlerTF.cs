@@ -13,7 +13,7 @@ using Hawk.ETL.Plugins.Generators;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("从爬虫转换", "使用网页采集器获取网页数据，拖入的列需要为超链，常用","carema")]
+    [XFrmWork("CrawlerTF", "CrawlerTF_desc","carema")]
     public class CrawlerTF : ResponseTF
     {
         private BfsGE generator;
@@ -28,15 +28,15 @@ namespace Hawk.ETL.Plugins.Transformers
         [Browsable(false)]
         public override string HeaderFilter { get; set; }
 
-        [LocalizedCategory("高级设置")]
-        [LocalizedDisplayName("最大重复次数")]
+        [LocalizedCategory("key_67")]
+        [LocalizedDisplayName("key_480")]
         public string MaxTryCount { get; set; }
 
-        [LocalizedCategory("高级设置")]
-        [LocalizedDisplayName("错误延时时间")]
+        [LocalizedCategory("key_67")]
+        [LocalizedDisplayName("key_481")]
         public int ErrorDelay { get; set; }
 
-        [LocalizedDisplayName("Post数据")]
+        [LocalizedDisplayName("key_482")]
         public string PostData { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> datas)

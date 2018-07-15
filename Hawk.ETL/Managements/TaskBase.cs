@@ -22,7 +22,7 @@ namespace Hawk.ETL.Managements
         protected TaskBase()
         {
             autoReset = new AutoResetEvent(false);
-            ProcessManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
+            ProcessManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
 
            
         }
@@ -60,8 +60,8 @@ namespace Hawk.ETL.Managements
             autoReset.WaitOne();
             return true;
         }
-        [LocalizedCategory("遍历状态")]
-        [LocalizedDisplayName("当前位置")]
+        [LocalizedCategory("key_335")]
+        [LocalizedDisplayName("key_336")]
         public int CurrentIndex
         {
             get { return currentIndex; }
@@ -72,14 +72,14 @@ namespace Hawk.ETL.Managements
                 OnPropertyChanged("CurrentIndex");
             }
         }
-        [LocalizedDisplayName("分组")]
+        [LocalizedDisplayName("key_337")]
         [PropertyOrder(4)]
         public string Group { get; set; }
 
         /// <summary>
         ///     该计算任务的介绍
         /// </summary>
-        [LocalizedDisplayName("任务描述")]
+        [LocalizedDisplayName("key_314")]
         [PropertyOrder(3)]
         [PropertyEditor("CodeEditor")]
         public string Description { get; set; }
@@ -87,7 +87,7 @@ namespace Hawk.ETL.Managements
      
     
 
-        [LocalizedDisplayName("名称")]
+        [LocalizedDisplayName("key_18")]
         [PropertyOrder(1)]
         public string Name
         {

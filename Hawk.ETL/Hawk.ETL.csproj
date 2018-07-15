@@ -134,7 +134,6 @@
     <Compile Include="Crawlers\XPathTF.cs" />
     <Compile Include="Interfaces\AbstractProcessMethod.cs" />
     <Compile Include="Interfaces\AppHelper.cs" />
-    <Compile Include="Interfaces\GlobalHelper.cs" />
     <Compile Include="Interfaces\IColumnDataFilter.cs" />
     <Compile Include="Interfaces\IColumnDataSorter.cs" />
     <Compile Include="Interfaces\ICollumDataTransformer.cs" />

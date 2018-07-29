@@ -637,8 +637,12 @@ namespace Hawk.ETL.Managements
 
             var probase = new ProjectItem();
             pro.DictCopyTo(probase);
+
             ConfigFile.GetConfig<DataMiningConfig>().Projects.Insert(0, probase);
             currentProject = pro;
+                var filemanager = new FileManager() { Name = GlobalHelper.Get("key_310") };
+                CurrentProject.DBConnections.Add(filemanager);
+
             NotifyCurrentProjectChanged();
         }
 

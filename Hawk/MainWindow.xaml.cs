@@ -2,10 +2,12 @@
 using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -39,7 +41,7 @@ namespace Hawk
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary
-    public partial class MainWindow : Window, IMainFrm, IDockableManager
+    public partial class MainWindow : Window, IMainFrm, IDockableManager,INotifyPropertyChanged
     {
         public Dictionary<string, IXPlugin> PluginDictionary { get; set; }
         public event EventHandler<ProgramEventArgs> ProgramEvent;
@@ -348,15 +350,15 @@ namespace Hawk
                     case FrmState.Mini:
                         layout = Factory(name, thisControl);
                         viewitem.Container = layout;
-                        dockablePane1.Children.Add(layout);
-                        dockablePane1.Children.RemoveElementsNoReturn(d => d.Content == null);
+                        dockablePane2.Children.Add(layout);
+                        dockablePane2.Children.RemoveElementsNoReturn(d => d.Content == null);
                         layout.IsActive = true;
                         break;
                     case FrmState.Mini2:
                         layout = Factory(name, thisControl);
                         viewitem.Container = layout;
-                        dockablePane1.Children.Add(layout);
-                        dockablePane1.Children.RemoveElementsNoReturn(d => d.Content == null);
+                        dockablePane3.Children.Add(layout);
+                        dockablePane3.Children.RemoveElementsNoReturn(d => d.Content == null);
                         layout.IsActive = true;
                         break;
                     case FrmState.Custom:
@@ -405,5 +407,12 @@ namespace Hawk
             ActiveThisContent(GlobalHelper.Get("key_4"));
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

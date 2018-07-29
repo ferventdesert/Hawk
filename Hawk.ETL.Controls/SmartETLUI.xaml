@@ -357,12 +357,31 @@
                     <TextBox TextWrapping="Wrap" Text="{Binding Name}" System_Windows_Controls_WpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" VerticalAlignment="Center" Margin="8,0,25,0" FontSize="16" MinWidth="100"/>
                     <TextBlock TextWrapping="Wrap" Text="{DynamicResource key_301}"
                 		VerticalAlignment="Center" />
-                    <TextBox Width="50" TextWrapping="Wrap" Text="{Binding ETLMount}" VerticalAlignment="Center"
-                		FontSize="16" />
-                    <TextBlock TextWrapping="Wrap" Text="/" VerticalAlignment="Center"
-                		FontSize="16" />
-                    <TextBlock TextWrapping="Wrap" Text="{Binding AllETLMount}"
-                		VerticalAlignment="Center" FontSize="16" />
+                    <Grid>
+                    	<StackPanel Orientation="Horizontal" d:LayoutOverrides="Width">
+                    		<TextBox x:Name="posText" TextWrapping="Wrap" Text="{Binding ETLMount}" VerticalAlignment="Center"
+                    			FontSize="16" Width="50" />
+                    		<TextBlock TextWrapping="Wrap" Text="/" VerticalAlignment="Center"
+                    			FontSize="16" />
+                    		<TextBlock x:Name="totalText" TextWrapping="Wrap" Text="{Binding AllETLMount}"
+                    			VerticalAlignment="Center" FontSize="16" />
+                    	</StackPanel>
+                    	<Border BorderBrush="Red" BorderThickness="3" Margin="-1">
+                    		         <Border.Resources>
+                                <local:DebugRemindConverter x:Key="DebugRemindConverter" />
+                            </Border.Resources>
+                    		 <Border.Visibility>
+                   
+                            <MultiBinding Converter="{StaticResource DebugRemindConverter}">
+                         
+                                <Binding Path="Text" ElementName="posText"/>
+                                <Binding Path="Text" ElementName="totalText"/>
+                            </MultiBinding>
+                        </Border.Visibility>
+					
+                               	
+						</Border>
+                    </Grid>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Style="{DynamicResource middleButton2}" DataContext="{Binding Commands5[4]}" Width="35"

@@ -29,10 +29,8 @@ namespace Hawk.Core.Utils.Plugins
                 return item;
             var desc = AttributeHelper.GetAttributes<DescriptionAttribute>(type).FirstOrDefault();
             var des = desc == null ? type.ToString() : desc.Description;
-            return new XFrmWorkAttribute
+            return new XFrmWorkAttribute(type.Name, des) 
             {
-                Name = type.Name,
-                Description = des,
                 MyType = type
             };
         }

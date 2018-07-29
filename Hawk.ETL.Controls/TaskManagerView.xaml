@@ -16,56 +16,51 @@
 			<Setter Property="ItemContainerStyle"  Value="{StaticResource {x:Type MenuItem}}"/>
 				<Setter Property="DataContext"  Value="{Binding Data, Source={StaticResource BindingProxy}}"/>
 		</Style>
+		<DataTemplate x:Key="ListViewTemplate">
+			<Grid Height="Auto" Width="Auto">
+				<Border BorderBrush="Black" BorderThickness="1"/>
+				<ProgressBar Height="Auto"   Value="{Binding Percent}" VerticalAlignment="Stretch" Opacity="0.2"/>
+				<TextBlock  Text="{Binding Name}"  d:LayoutOverrides="Width, Height"  />
+			</Grid>
+		</DataTemplate>
 	</UserControl.Resources>
-    <Grid>
-    	<Grid.RowDefinitions>
-    		<RowDefinition Height="0.858*"/>
-    		<RowDefinition Height="18"/>
-    	</Grid.RowDefinitions>
-    	<ListView   ItemsSource="{Binding CurrentProcessTasks}" Margin="8">
+	<Grid Margin="0"   MinHeight="150" >
+				 
+		<ListView   ItemsSource="{Binding CurrentProcessTasks}" Margin="0,0,0,20">
     	
-    		<ListView.View>
-    			<GridView>
-    				<GridViewColumn Header="{DynamicResource key_746}">
-    					<GridViewColumn.CellTemplate>
-    						<DataTemplate>
-    							<CheckBox IsChecked="{Binding IsSelected}"/>	 
-    						</DataTemplate>
-    					</GridViewColumn.CellTemplate>
-    					<!--脑残的xaml-->        
-    				</GridViewColumn>
-    				<GridViewColumn Header="{DynamicResource key_18}" DisplayMemberBinding="{Binding Name}" />
-    				<GridViewColumn Header="{DynamicResource key_799}">
-    					<GridViewColumn.CellTemplate>
-    						<DataTemplate>
-    							<StackPanel Orientation="Horizontal">
-    								<ProgressBar Value="{Binding Percent}" Width="100" Margin="0,0,5,0"/>   
-    							 
-    							</StackPanel>
-    						</DataTemplate>
-    					</GridViewColumn.CellTemplate>
-    					<!--脑残的xaml-->        
-    				</GridViewColumn>
-    				<GridViewColumn Header="{DynamicResource key_291}">
-    					<GridViewColumn.CellTemplate>
-    						<DataTemplate>
-    							<CheckBox IsChecked="{Binding IsPause}"/>	 
-    						</DataTemplate>
-    					</GridViewColumn.CellTemplate>
-    					<!--脑残的xaml-->        
-    				</GridViewColumn>
-    				<GridViewColumn Header="{DynamicResource key_715}" DisplayMemberBinding="{Binding CurrentIndex}" />
-    			</GridView>
-    		</ListView.View> 	           	 
-    	</ListView>
-    	<StackPanel VerticalAlignment="Top"   DataContext="{Binding BindingCommands.ChildActions[2].ChildActions}"  HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="1" Margin="20,0,0,0">
-    		<Button Style="{DynamicResource miniButton}" DataContext="{Binding [0]}" />
-    		<Button Style="{DynamicResource miniButton}" DataContext="{Binding [1]}" />
-    		<Button Style="{DynamicResource miniButton}" DataContext="{Binding [2]}" />
-    		<Button Style="{DynamicResource miniButton}" DataContext="{Binding [3]}" />  	
+			<ListView.View>
+				<GridView>
+					<GridViewColumn Header="{DynamicResource key_746}">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<CheckBox IsChecked="{Binding IsSelected}"/>	 
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+						<!--脑残的xaml-->        
+					</GridViewColumn>
+					<GridViewColumn Header="{DynamicResource key_291}">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<CheckBox IsChecked="{Binding IsPause}"/>	 
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+						<!--脑残的xaml-->        
+					</GridViewColumn>
+							
+					<GridViewColumn Header="{DynamicResource key_18}" CellTemplate="{StaticResource ListViewTemplate}"  />
+					<GridViewColumn Header="{DynamicResource key_715}" DisplayMemberBinding="{Binding CurrentIndex}" />
+						 
+				</GridView>
+			</ListView.View> 	           	 
+		</ListView>
+		<StackPanel VerticalAlignment="Bottom"   DataContext="{Binding BindingCommands.ChildActions[2].ChildActions}"  HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="1" Margin="20,0,0,0">
+			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [0]}" />
+			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [1]}" />
+			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [2]}" />
+			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [3]}" />  	
 			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [4]}" />  	
-    	</StackPanel>
+		</StackPanel>
     	 
             
-    </Grid>
+	</Grid>
 </UserControl>

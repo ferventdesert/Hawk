@@ -21,6 +21,7 @@ namespace Hawk.ETL.Crawlers
         {
             IsManyData = ScriptWorkMode.One;
             SelectorFormat= SelectorFormat.XPath;
+            XPath = "";
         }
         [PropertyOrder(3)]
         [LocalizedDisplayName("key_163")]

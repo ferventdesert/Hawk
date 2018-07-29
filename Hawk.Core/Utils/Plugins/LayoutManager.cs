@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 using Hawk.Core.Utils;
@@ -140,6 +141,11 @@ namespace XFrmWork.UI.Controls
             {
                 Application.Current.Resources.MergedDictionaries.RemoveElementsNoReturn(d => d.Keys.Count>800);
                 Application.Current.Resources.MergedDictionaries.Add(langRd);
+                var notify = Application.Current.MainWindow as INotifyPropertyChanged;
+                if(notify==null)
+                    return;
+                dynamic dn = notify;
+                dn.OnPropertyChanged("");    
             }
 
 

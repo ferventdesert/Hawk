@@ -1,5 +1,4 @@
 ﻿using System;
-using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -82,8 +81,6 @@ namespace Hawk.ETL.Managements
         #region Constants and Fields
 
         private IDockableManager dockableManager;
-
-
 
         #endregion
 
@@ -229,7 +226,7 @@ namespace Hawk.ETL.Managements
         }
 
 
-        private string GetNewName(string name =null)
+        private string GetNewName(string name = null)
         {
             if (name == null)
                 name = GlobalHelper.Get("key_239");
@@ -256,13 +253,38 @@ namespace Hawk.ETL.Managements
             {
                 DataCollections = new SafeObservable<DataCollection>();
                 dockableManager = MainFrmUI as IDockableManager;
-
-                var view = PluginProvider.GetObjectInstance<ICustomView>(GlobalHelper.Get("key_223"));
-                var userControl = view as UserControl;
-                if (userControl != null)
+                var views = "223:Mini 794:Middle";
+                foreach (var item in views.Split(' '))
                 {
-                    userControl.DataContext = MainFrmUI;
-                    dockableManager.AddDockAbleContent(FrmState.Mini, view, GlobalHelper.Get("key_223"));
+                    var item2 = item.Split(':');
+                    var name = item2[0];
+                    var control = FrmState.Mini;
+                    Enum.TryParse(item2[1], out control);
+                    var itemName = "key_" + name;
+                    itemName = GlobalHelper.Get(itemName);
+                    var view = PluginProvider.GetObjectInstance<ICustomView>(GlobalHelper.Get(itemName));
+                    var userControl = view as UserControl;
+                    if (userControl != null)
+                    {
+                        userControl.DataContext = MainFrmUI;
+                        dockableManager.AddDockAbleContent(control, view, itemName);
+                    }
+                }
+                var debugGrid = PropertyGridFactory.GetInstance(RequestManager.Instance);
+                debugGrid.SetObjectView(RequestManager.Instance);
+
+                dynamic control2 =
+                    (MainFrmUI as IDockableManager).ViewDictionary.FirstOrDefault(d => d.View == debugGrid)
+                        ?.Container;
+                if (control2 != null)
+                {
+                    control2.Show();
+                }
+
+                else
+                {
+                    (MainFrmUI as IDockableManager).AddDockAbleContent(FrmState.Mini2, debugGrid,
+                        GlobalHelper.Get("key_278"));
                 }
             }
 
@@ -284,7 +306,8 @@ namespace Hawk.ETL.Managements
                 },
                 obj => obj != null, "edit"));
             dbaction.ChildActions.Add(
-                new Command(GlobalHelper.Get("key_142"), obj => RefreshConnect(obj as IDataBaseConnector), obj => obj != null, "refresh"));
+                new Command(GlobalHelper.Get("key_142"), obj => RefreshConnect(obj as IDataBaseConnector),
+                    obj => obj != null, "refresh"));
             dbaction.ChildActions.Add(
                 new Command(GlobalHelper.Get("key_213"), obj =>
                 {
@@ -304,7 +327,9 @@ namespace Hawk.ETL.Managements
             dbaction.ChildActions.Add(
                 new Command(GlobalHelper.Get("key_225"), obj =>
                 {
-                    if (MessageBox.Show(GlobalHelper.Get("key_226"), GlobalHelper.Get("key_99"), MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
+                    if (
+                        MessageBox.Show(GlobalHelper.Get("key_226"), GlobalHelper.Get("key_99"),
+                            MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
                     {
                         var con = obj as DBConnectorBase;
                         _dbConnections.Remove(con);
@@ -445,7 +470,8 @@ namespace Hawk.ETL.Managements
                     };
                     return comm;
                 });
-            visitData.Execute = obj => visitCommands.FirstOrDefault(d => d.Text == GlobalHelper.Get("key_230")).Execute(obj);
+            visitData.Execute =
+                obj => visitCommands.FirstOrDefault(d => d.Text == GlobalHelper.Get("key_230")).Execute(obj);
             foreach (var visitCommand in visitCommands)
             {
                 visitData.ChildActions.Add(visitCommand);
@@ -530,7 +556,8 @@ namespace Hawk.ETL.Managements
                 if (coll.Count > 500000)
                 {
                     if (
-                        MessageBox.Show(GlobalHelper.Get("key_243"), GlobalHelper.Get("key_99"), MessageBoxButton.YesNoCancel) !=
+                        MessageBox.Show(GlobalHelper.Get("key_243"), GlobalHelper.Get("key_99"),
+                            MessageBoxButton.YesNoCancel) !=
                         MessageBoxResult.Yes)
                     {
                         return;
@@ -555,16 +582,18 @@ namespace Hawk.ETL.Managements
                 return _dbConnections.Select(dataBaseConnector => new Command(dataBaseConnector.Name, obj =>
                 {
                     var data = obj as DataCollection;
-                    processManager.CurrentProcessTasks.Add(TemporaryTask.AddTempTask(data.Name + GlobalHelper.Get("key_245"),
-                        dataBaseConnector.InserDataCollection(data), result => dataBaseConnector.RefreshTableNames(),
-                        count: data.Count/1000));
+                    processManager.CurrentProcessTasks.Add(
+                        TemporaryTask.AddTempTask(data.Name + GlobalHelper.Get("key_245"),
+                            dataBaseConnector.InserDataCollection(data), result => dataBaseConnector.RefreshTableNames(),
+                            count: data.Count/1000));
                 }, icon: "database")).Cast<ICommand>().ToList();
             });
 
 
             dataaction.ChildActions.Add(insertdb);
             var otherDataAction = new BindingAction();
-            otherDataAction.ChildActions.Add(new Command(GlobalHelper.Get("key_132"), obj => CleanData(), obj => DataCollections.Count > 0,
+            otherDataAction.ChildActions.Add(new Command(GlobalHelper.Get("key_132"), obj => CleanData(),
+                obj => DataCollections.Count > 0,
                 "clear"));
 
 
@@ -574,7 +603,7 @@ namespace Hawk.ETL.Managements
             commands.Add(otherDataAction);
             var dblistAction = new BindingAction(GlobalHelper.Get("key_246"));
 
-            var addnew = new BindingAction(GlobalHelper.Get("key_247")) { Icon="add"};
+            var addnew = new BindingAction(GlobalHelper.Get("key_247")) {Icon = "add"};
             dblistAction.ChildActions.Add(addnew);
             foreach (var item in PluginProvider.GetPluginCollection(typeof (IDataBaseConnector)))
             {
@@ -586,7 +615,8 @@ namespace Hawk.ETL.Managements
                         con.Name = item.Name;
 
                         _dbConnections.Add(con);
-                    },Icon="connect"
+                    },
+                    Icon = "connect"
                 });
             }
             commands.Add(dblistAction);
@@ -735,24 +765,27 @@ namespace Hawk.ETL.Managements
 
 
             exporter.FileName = path;
-            processManager.CurrentProcessTasks.Add(TemporaryTask.AddTempTask(dataCollection + GlobalHelper.Get("key_252"),
-                exporter.WriteData(data), null, result =>
-                {
-                    if (MainDescription.IsUIForm && string.IsNullOrEmpty(exporter.FileName) == false)
+            processManager.CurrentProcessTasks.Add(
+                TemporaryTask.AddTempTask(dataCollection + GlobalHelper.Get("key_252"),
+                    exporter.WriteData(data), null, result =>
                     {
-                        if (MessageBox.Show(GlobalHelper.Get("key_253"), GlobalHelper.Get("key_99"), MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                        if (MainDescription.IsUIForm && string.IsNullOrEmpty(exporter.FileName) == false)
                         {
-                            try
+                            if (
+                                MessageBox.Show(GlobalHelper.Get("key_253"), GlobalHelper.Get("key_99"),
+                                    MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                             {
-                                System.Diagnostics.Process.Start(exporter.FileName);
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(GlobalHelper.Get("key_254") + ex.Message);
+                                try
+                                {
+                                    System.Diagnostics.Process.Start(exporter.FileName);
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(GlobalHelper.Get("key_254") + ex.Message);
+                                }
                             }
                         }
-                    }
-                }, data.Count, notifyInterval: 1000));
+                    }, data.Count, notifyInterval: 1000));
         }
 
         #endregion
@@ -763,7 +796,9 @@ namespace Hawk.ETL.Managements
 
         private void CleanData()
         {
-            if (MessageBox.Show(GlobalHelper.Get("key_255"), GlobalHelper.Get("key_151"), MessageBoxButton.OKCancel, MessageBoxImage.Question) ==
+            if (
+                MessageBox.Show(GlobalHelper.Get("key_255"), GlobalHelper.Get("key_151"), MessageBoxButton.OKCancel,
+                    MessageBoxImage.Question) ==
                 MessageBoxResult.Cancel)
             {
                 return;
@@ -777,7 +812,8 @@ namespace Hawk.ETL.Managements
         {
             if (
                 MessageBox.Show(
-                    GlobalHelper.Get("key_257") + dataName + GlobalHelper.Get("key_258"), GlobalHelper.Get("key_151"), MessageBoxButton.YesNo) ==
+                    GlobalHelper.Get("key_257") + dataName + GlobalHelper.Get("key_258"), GlobalHelper.Get("key_151"),
+                    MessageBoxButton.YesNo) ==
                 MessageBoxResult.Yes)
             {
                 connector.DropTable(dataName);

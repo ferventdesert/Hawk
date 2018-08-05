@@ -1,14 +1,20 @@
 ﻿using System;
 using Hawk.Core.Utils;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
+using System.Windows.Input;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
+using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
+using Hawk.ETL.Plugins.Generators;
 using Hawk.ETL.Plugins.Transformers;
 using HtmlAgilityPack;
 using ScrapySharp.Extensions;
@@ -50,12 +56,57 @@ namespace Hawk.ETL.Crawlers
         [LocalizedDescription("")]
         public CrawlType CrawlType { get; set; }
 
-     
 
+        [PropertyOrder(1)]
+        [LocalizedDisplayName("key_410")]
+        public ReadOnlyCollection<ICommand> Commands
+        {
+            get
+            {
+                return CommandBuilder.GetCommands(
+                    this,
+                    new[]
+                    {
+                        new Command(GlobalHelper.Get("key_240"), obj => SetConfig(), obj => this.SelectorFormat==SelectorFormat.XPath,
+                            "refresh")
+                    }
+                    );
+            }
+        }
+
+
+
+        private void SetConfig()
+        {
+
+           dynamic  view = PluginProvider.GetObjectInstance<ICustomView>(GlobalHelper.Get("xpath_detector")) as UserControl;
+
+            var name = GlobalHelper.Get("xpath_detector_desc");
+            var window = new Window { Title = name };
+            window.Content = view;
+            var textBox=view.HtmlTextBox;
+            var xPathDetectorModel = new XPathDetectorModel(htmls.FirstOrDefault(),this.IsManyData,window,textBox);
+            view.DataContext = xPathDetectorModel;
+            window.Activate();
+            window.ShowDialog();
+
+            if (window.DialogResult == true)
+
+            {
+                XPath = xPathDetectorModel.XPath;
+                OnPropertyChanged("XPath");
+                OnPropertyChanged("MappingSet");
+            }
+        }
+
+        private List<string> htmls=new List<string>(); 
         protected override IEnumerable<IFreeDocument> InternalTransformManyData(IFreeDocument data)
         {
             var item = data[Column];
             var docu = new HtmlDocument();
+            if(htmls.Count<5)
+                htmls.Add(item.ToString());
+            
 
             docu.LoadHtml(item.ToString());
            var  path = data.Query(XPath);
@@ -78,6 +129,7 @@ namespace Hawk.ETL.Crawlers
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {
             IsMultiYield = IsManyData==ScriptWorkMode.List;
+            htmls = new List<string>();
             return base.Init(docus);
         }
 

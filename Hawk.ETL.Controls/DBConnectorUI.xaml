@@ -12,7 +12,15 @@
     
 
 	<UserControl.Resources>
-		<System:Double x:Key="LargeFont">14.667</System:Double>
+        <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
+        <Style    TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+            <Setter Property="Header" Value="{Binding Text}" />
+            <Setter Property="Command" Value="{Binding}" />
+
+            <Setter Property="ItemsSource" Value="{Binding ChildActions}" />
+            <Setter Property="CommandParameter" Value="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}, Mode=FindAncestor}}"/>
+        </Style>
+        <System:Double x:Key="LargeFont">14.667</System:Double>
 		<DataTemplate x:Key="DataTemplate1">
 			<StackPanel Orientation="Horizontal" mvvm:ListItemDoubleClick.Property="Commands[2].ChildActions[2]" >
 				<Rectangle Width="15" Height="15" Margin="0,0,10,0" >
@@ -25,8 +33,11 @@
 				<TextBlock TextWrapping="Wrap" Text="{Binding Count}" VerticalAlignment="Center" HorizontalAlignment="Stretch"  Margin="20,0,0,0" FontSize="{DynamicResource LargeFont}"/>
 			</StackPanel>
 		</DataTemplate>
-		
-	</UserControl.Resources>
+        <Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource {x:Type ContextMenu}}">
+            <Setter Property="ItemContainerStyle"  Value="{StaticResource {x:Type MenuItem}}"/>
+            <Setter Property="DataContext"  Value="{Binding Data, Source={StaticResource BindingProxy}}"/>
+        </Style>
+    </UserControl.Resources>
     
 
  
@@ -36,13 +47,13 @@
 
 		<ListBox x:Name="dataListBox" ToolTip="{DynamicResource key_795}"  SelectedItem="{Binding SelectedDataCollection}" MouseMove="ListBox_MouseMove_1" DataContext="{Binding PluginDictionary[DataManager]}" ItemsSource="{Binding DataCollections}" ItemTemplate="{DynamicResource DataTemplate1}" Margin="0,0,0,20">
 			<ListBox.Resources>
-				<ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding PluginDictionary[DataProcessManager].Commands[2].ChildActions}"  />
+                <ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding PluginDictionary[DataManager].Commands[2].ChildActions}"  />
 				<Style TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource {x:Type ListBoxItem}}">
 					<Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />
 				</Style>
 			</ListBox.Resources>
 			<ListBox.ContextMenu>
-				<ContextMenu   ItemsSource="{Binding Commands[3].ChildActions}"/>
+                <ContextMenu   ItemsSource="{Binding PluginDictionary[DataManager].Commands[3].ChildActions}"/>
 
 			</ListBox.ContextMenu>
 		</ListBox>
@@ -57,6 +68,12 @@
 			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [5]}" />
 			
 		</StackPanel>
+		<Rectangle Opacity="0.2" Width="80" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="80" Margin="0,0,0,20" >
+			<Rectangle.Fill>
+				<VisualBrush Stretch="Fill"
+					Visual="{Binding ConverterParameter=column_three, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+			</Rectangle.Fill>
+		</Rectangle>
 	</Grid>
   
 </UserControl>

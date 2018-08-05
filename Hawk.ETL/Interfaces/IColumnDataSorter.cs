@@ -135,7 +135,8 @@ namespace Hawk.ETL.Interfaces
             {
                 if (ge.OneOutput && dict[ge.Column] == null)
                 {
-                    analyzeItem.EmptyInput++;
+                    if(analyzeItem!=null)
+                    analyzeItem.EmptyInput+=1;
                 }
                 else
                 {
@@ -145,9 +146,13 @@ namespace Hawk.ETL.Interfaces
             catch (Exception ex)
             {
                 res = ex.Message;
+                if (analyzeItem != null)
+                {
+                    
                 analyzeItem.Error++;
-                
                 analyzeItem.Analyzer.AddErrorLog(item,ex,ge); 
+                }
+                
                 XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), ge.ETLIndex,ge.TypeName,ge.Column,res));
             }
 

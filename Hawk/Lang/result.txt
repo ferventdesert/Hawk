@@ -1,0 +1,840 @@
+key	chs	eng
+Closing	是否确定离开Hawk?	Is it sure to leave Hawk?
+ConfigNull	不包含任何有关配置文件的任何信息，请检查	Do not contain any information about configuration files, please check.
+ControlLoad	控件加载	Control loading
+Closing2	【{0}】任务可能还没有保存，\\n【是】:保存任务并退出， \\n【否】：不保存退出，\\n【取消】:取消退出	[{0}] the task may not have been saved yet. \\n [is]: save the task and exit, \\n [no]: do not save exit, \\n [Cancel]: cancel exit
+DataMgmt	数据管理	data management
+SysState	系统状态视图	System state view
+DebugView	调试信息窗口	Debug information window
+Error	失败	fail
+IconNotExist	系统图标文件不存在	The system icon file does not exist
+LongTask	正在处理长时间操作	Handling long - time operations
+ModuleMgmt	模块管理	Module management
+Source	来源	source
+Start	已正常启动	Normal start
+Tips	提示信息	Hint information
+XPathExpError	可能XPath表达式有误	Maybe the XPath expression is wrong
+RemaindSave	【{0}】任务可能还没有保存，\n【是】:保存任务并退出， \n【否】：不保存退出，\n【取消】:取消退出	[{0}] the task may not have been saved yet. \n [is]: save the task and exit, \n [no]: do not save exit, \n [Cancel]: cancel exit
+key_560	子线程数量	The number of Zi Xiancheng
+key_750	可选择完整XPath，或只根据id或class名称进行检索，如选择class，值填【name】，就是查找所有class=name的节点	You can select a complete XPath, or only retrieve it based on ID or class name. For example, select class and fill in [name], which is to find all class=name nodes.
+key_718	正常初始化	Normal initialization
+key_258	执行删除操作吗？	Do you execute the delete operation?
+key_641	3.动态请求嗅探	3. dynamic requests for sniffing
+key_370	跳过	skip
+key_580	标签	Label
+key_505	参考格式	Reference format
+key_69	启用自增主键写入	Enable self - added primary key write
+key_89	sql=	sql=
+key_0	是否保存当前工程的内容？您只有一次机会这样做，	Do you save the content of the current project? You have only one chance to do this.
+key_67	高级设置	advanced setting
+key_85	请选择sqlite数据库文件	Please select the SQLite database file
+key_739	数据库配置	Database configuration
+key_765	结果XPath	xpath result
+SplitPageTF	分页	paging
+key_497	导入列	Import column
+NullFT_desc	检查文本是否为空白符或null，常用	Check whether the text is blank or null, commonly used
+DataProcessManagerUI	DataProcessManager	DataProcessManager
+key_374	最大值	Maximum value
+key_120	请求方法	Request method
+key_614	阿拉伯语	Arabic
+key_292	恢复	recovery
+StrExtractTF	字符首尾抽取	Character first and end extraction
+key_201	数据清洗	Data cleaning
+JoinDBTF_desc	用于完成与数据库的join操作和匹配，目前测试不完善	It is used to complete the join operation and matching with the database.
+key_350	向数据库{0}，表名{1}成功写入{2}条数据	Write {2} entries to database {0} and table name {1} successfully.
+key_405	1.连接器	1. connector
+key_23	服务器地址	server address
+key_677	命令	command
+key_164	可用	available
+IFileConnector:IDictionarySerializable	文件导入导出基本接口	File import and export basic interface
+key_91	枚举虚拟化	Enumeration virtualization
+key_277	级别设置	Level setting
+key_777	线程数	Thread number
+key_395	延时时间	Delay Time
+DataGridViewer_desc	IDataViewer	IDataViewer
+key_107	过滤	filter
+FolderGE	获取文件夹文件	Get a folder file
+SmartCrawlerUI	SmartCrawler	SmartCrawler
+key_523	重复次数	Repetitions
+key_180	最大访问次数	Maximum number of access times
+key_711	最大线程数的数值范围为0-30	The numerical range of the maximum number of threads is 0-30
+key_167	反选	Reverse selection
+MergeRepeatTF	重复项合并	Duplication combination
+key_779	可将图标拖入右侧数据列的上方空白列表处，为该列添加ETL模块	You can drag the icon into the upper blank list of the right data column to add the ETL module to the column.
+key_96	无定义资源	Undefined resources
+key_210	数量范围选择	Quantitative range selection
+FileConnectorXML	XML导入导出器	XML import and export
+key_3	系统正忙	The system is busy
+key_411	子任务-选择	Subtask - Selection
+key_649	已经成功复制到剪贴板	It has been successfully copied to the clipboard
+key_101	已经执行成功	Have been successful
+key_443	读取配置	Read configuration
+key_629	刷新网页	Refresh the web page
+key_143	视图	view
+key_128	最大禁止数	Maximum prohibition
+GetIPLocation_desc	获取某一ip地址的经纬度坐标	Obtain the latitude and longitude coordinates of a IP address
+key_34	执行	implement
+key_197	XPath表达式:	Xpath exp
+ICustomClass	一项弱类型的简化接口，用于不指定强功能的插件集合	A weak type of simplified interface for the collection of plug-ins that do not specify strong functions.
+key_301	模块	Modular
+key_752	子节点数量	Number of subnodes
+key_700	已加载	Have been loaded
+key_730	快速检索	Fast retrieval
+NlpTF	自然语言处理	natural language processing
+key_769	动态请求嗅探	Dynamic request sniffing
+EtlGE	子任务-生成	Subtask - generation
+key_579	通过地市进行信息检索	Information retrieval through the city
+key_74	MongoDB数据库不在本地，无法启动自动数据库修复	MongoDB database is not local, unable to start automatic database repair.
+EtlEX	子任务-执行	Subtask - Execution
+FileConnectorTable_desc	输出制表符文本文件	Output tabs text file
+key_368	调试时启用	Enabled when debugging
+key_9	数据描述	data description
+key_108	转换	Transformation
+key_749	{attributes:EnumValues {x:Type connectors:SelectorFormat}}	{attributes:EnumValues {x:Type connectors:SelectorFormat}}
+key_791	DataContext=	DataContext =
+key_153	插件	Plug-in unit
+key_226	确定要删除该连接吗？	Are you sure you want to delete the connection?
+key_334	文件{0}不存在	File {0} does not exist
+key_625	属性数量不能为空	The number of attributes can not be empty
+JoinDBTF	数据库匹配	Database matching
+key_438	编码	Code
+key_269	反馈问题	Feedback problem
+key_719	流入数据量	Inflow of data
+key_285	删除任务	Delete task
+key_745	位置:	Position:
+key_82	浏览路径	Browse path
+key_304	工作线程视图	Working thread view
+key_162	选择器	selector
+key_627	提取数据测试结果	Extracting data test results
+key_754	{Binding CanChange， Converter={StaticResource BooleanToVisibilityConverter}}	{Binding CanChange， Converter={StaticResource BooleanToVisibilityConverter}}
+key_178	生成器	generator
+key_156	开始加载程序集	Start loading a set of programs
+key_767	属性管理	Attribute management
+key_146	插件管理器已加载	The plug-in manager has been loaded
+key_616	自动检测	automatic detection
+key_279	运行	Function
+key_204	不进行转换	No conversion
+key_256	当前内存数据已经被清除	The current memory data has been cleared
+key_756	排序策略	Sorting strategy
+key_354	单位为毫秒，也可使用方括号语法，例如[a]表示从a列中读取延时长度	The unit is milliseconds, and the square brackets syntax can also be used, such as [a], to read the delay length from the a column.
+key_152	当前类型在插件集合没有被发现，	The current type is not found in the plug-in collection,
+key_148	插件类型重复，请检查配置文件	The plug-in type is repeated, please check the configuration file
+DbEX_desc	进行数据库操作，包括写入，删除和更新，拖入的列为表的主键	Perform database operations, including writing, deleting and updating, and dragged columns are the primary keys of the table.
+key_132	清空数据	wipe data
+EtlTF_desc	调用所选的子任务作为转换器，有关子任务，请参考相关文档	Call the selected subtasks as the converter, refer to the relevant documents for subtasks.
+key_83	加载	Load
+key_785	输出	output
+ReReplaceTF	正则替换	Regular replacement
+DbGE_desc	从数据库读取内容，需提前在数据视图中配置连接	To read the contents from the database, you need to configure the connection in the data view ahead of time.
+key_768	当设置该值后，所有属性Path都应该为父节点的子path，而不能是完整的xpath路径	When this value is set, all attributes Path should be the child path of the parent node, rather than the complete XPath path.
+key_124	Post参数	Post parameters
+key_465	每行一条	One line per line
+key_252	导出数据任务	Exporting data tasks
+key_347	必填，若数据库不存在该表，则会根据第一条数据的列自动创建表	If a database does not exist, it will automatically create tables based on columns of the first data.
+key_687	采样量	Sampling amount
+key_345	选择数据库	Select database
+key_727	Grid.RowSpan=	Grid.RowSpan=
+key_228	文件打开失败	File open failure
+key_740	快速链接	Fast link
+RangeGE_desc	生成某范围内的数值列	Generating a numerical column within a certain range
+key_242	转为非虚拟数据集	Turn to a non virtual dataset
+key_317	保存当前工程	Save the current project
+key_448	筛选模式	Screening model
+key_248	的数据库连接服务失效	Failure of database connection service
+key_482	Post数据	Post data
+key_594	纬度列	Latitudinal column
+key_98	执行失败	Failure to execute
+AddNewTF_desc	为数据集添加新列，值为某固定值	Add a new column to a dataset with a value of a fixed value
+key_244	保存到数据库	Save to the database
+TableGE_desc	从数据管理中已有的数据表中生成，常用	Generated from data tables in data management, commonly used
+BfsGE	请求队列	Request queue
+key_264	Hawk版本与检查更新	Hawk version and check update
+IDataViewer	展示数据	Display data
+SaveFileEX_desc	目标列需要为超链接类型，会保存链接的文件，如图片，视频等	The target column needs to be a hyperlink type, which saves the linked files, such as pictures, videos, etc.
+key_431	递归到下列	Recursion to the following
+key_481	错误延时时间	Error delay time
+key_367	将结果取反后返回	Return the result back to return
+AutoIndexTF	自增键生成	Self increasing key generation
+key_76	修复失败，您是否没有安装MongoDB数据库	Repair failed. Did you install MongoDB database?
+key_442	文件格式	file format
+RandomGE	生成随机数	Generating random number
+RepeatTF	重复当前值	Repeat the current value
+key_712	{0}已经有任务在执行，请在任务管理器中取消该任务后再刷新	{0} already has tasks in execution. Please cancel the task in the task manager and refresh it.
+key_274	作者沙漠君的博客	Author Sha Mojun's blog
+key_268	这里有使用Hawk的案例与完整教程	There are cases and complete tutorials for using Hawk
+key_581	如医院，美食等	Like a hospital, a gourmet food, etc
+key_418	设置子任务调用属性	Setting the subtask call property
+key_518	当值为小于0时，可同时匹配多个值	When the equivalent value is less than 0, multiple values can be matched at the same time
+key_71	打开帮助链接	Open the help link
+key_104	排序	sort
+FileConnectorCSV_desc	输出文本型CSV逗号分隔文件	Output text type CSV comma delimited file
+key_337	分组	Grouping
+key_125	自动重定向	redirect automatically
+key_573	清除中间空格	Clear the middle space
+DataProcessManager_desc	对算法模块实现管理和组装，但不提供界面	Manage and assemble the algorithm modules, but do not provide interface.
+key_371	获取	Obtain
+key_656	查询XPath时在内部发生异常:{0}	An exception occurs internally when querying XPath: {0}
+FolderGE_desc	获取文件夹下的所有文件	Get all the files under the folder
+RenameTF	列名修改器	Column name modifier
+key_196	XPath表达式错误:	XPath expression error:
+key_177	从文本生成	From text generation
+FileConnectorJson	Json导入导出器	Json import and export
+key_166	全选	Total selection
+key_652	继续搜索	Continue to search
+key_772	设置获取数据表的前n行	Setting the front n rows to get the data table
+key_686	3.调试	3. debug
+key_674	超级模式下内置浏览器不展示内容，请查看左侧的文本内容	In the super mode, the built-in browser does not display the contents. Please check the text on the left side.
+key_758	样例	Sample
+key_344	选择数据库的操作，如插入，删除，更新等	Select database operations, such as insert, delete, update, etc.
+key_628	检测到列表的根节点为:{0}，是否设置根节点路径？ 此操作有建议有经验用户使用，小白用户请点【否】	The root node of the list is detected: {0}. Does the root node path be set? This operation is recommended by experienced users.
+key_20	表大小	Table size
+key_360	填写采集器或模块的名称	Fill in the name of the collector or module
+key_314	任务描述	Task description
+key_776	{Binding Attribute， Converter={StaticResource GroupConverter}}	{Binding Attribute， Converter={StaticResource GroupConverter}}
+key_287	任务列表2	Task list 2
+key_240	配置	To configure
+key_695	调试与探查	Debugging and exploration
+key_464	文本	text
+key_192	勾选此项后，会自动提取新闻正文，XPath路径可为空	After selecting this item, the news text is automatically extracted, and the XPath path can be empty.
+key_617	意大利语	Italian
+key_181	生成器类型	Generator type
+key_558	子线程名称	The name of Zi Xiancheng
+key_753	评估分数	Evaluation score
+key_688	只获取数据表的前n行	Get the front n lines of the data table only
+key_537	除了直接填写数值，还可通过方括号表达式从其他列传入	In addition to directly filling in numeric values, it can also be imported from other columns by square brackets.
+key_200	模块名称	Module name
+ReadFileTextGE_desc	获取文件中的全部纯文本内容，注意与【读取文件数据】区别	Get all the plain text content in the file, note the difference with [read file data]
+IDataProcess	基本计算模块	Basic calculation module
+key_735	Grid.Row=	Grid.Row=
+key_781	步骤1：设置主任务调用子任务的模块区间	Step 1: set the module interval of the main task submission.
+DateRangeGE	生成区间时间	Generation interval time
+key_88	sql执行错误:	SQL execution error:
+key_717	输入列	Input column
+not_find_key	在该网页中找不到关键字 `{0}`，可能是动态请求，\n 【是】：【{1}】，并将浏览器页面翻到包含该关键字的位置\n 【否】:【不嗅探】，\n 【取消】:【不再提醒】	The keyword `{0}` can not be found in the web page, which may be a dynamic request, \n [{1}], and turn the browser page to the location containing the keyword, \n [no]: [cancelling]: [no longer reminded]
+rightclick_new	右键可新建数据源	Right key can build a new data source
+doubleclick_new	双击图标以新建任务	Double click the icon to create a new task
+brower_view	浏览器视图	Browser view
+remind_10	请填写包含在页面中的关键字信息：【2.属性提取】->【搜索字符】	Please fill in the keyword information contained in the page: [2. attribute extraction] - > search character]
+step2	步骤2：设置主任务属性列对应到子任务的属性名，下拉菜单仅参考，可直接编辑文本框	Step 2: set the main task attribute column to the attribute name of the sub task. The drop-down menu only refers to it, and can edit the text box directly.
+task_run	{0}已经有任务在执行，由于调整参数，是否要取消当前任务重新执行？\n 【取消】:【不再提醒】	{0} already has tasks in execution. Is it necessary to cancel the current tasks due to tuning parameters? \n [cancellation]: [no more reminding]
+success_get	已经成功获取嗅探字段！ 真实请求地址:\n{0}，\n已自动配置了网页采集器，请求类型为{1}\n {2}已经刷新了网页采集器的内容	The sniffer field has been successfully obtained! The real request address: \n{0}, \n has automatically configured the webpage collector, the request type is {1}\n {2}, has refreshed the content of the webpage collector.
+fail_remind	作用在列名`{0}`的 模块`{1}` 已经连续5次没有成功获取数据，可能需要重新修改参数 \n 【是】：【进入调试模式】 \n 【否】：【取消当前任务】 \n 【取消】：【不再提示】	The module `{1}`, which acts on the column name `{0}`, has not successfully acquired the data 5 times in a row, and may need to revise the parameter \n [yes] \n [no]: [cancel the current task] \n [Cancel]: [no longer prompt]
+key_191	获取正文	Get the text
+key_320	到当前列表	To the current list
+RegexSplitTF	正则分割	Regular segmentation
+key_155	不需要获取插件接口名称，已经进行缓存，随时可进行修改	No need to get the plug-in interface name, it has been cached and can be modified at any time.
+JsonTF	转换为Json	Convert to Json
+key_402	可参考C# DateTime Format相关方法， 例如yyyy-MM-dd等	Refer to C# DateTime Format related methods, such as yyyy-MM-dd, etc.
+key_704	串行任务	Serial task
+key_662	{0}  不能被识别为正确的{1}表达式，请检查	{0} cannot be recognized as the correct {1} expression. Please check.
+key_332	数据库连接	Database connection
+key_154	接口	Interface
+key_595	代表纬度所在的列	Columns representing latitudes
+key_790	当前加载的所有算法模块	All of the algorithm modules that are currently loaded
+key_726	Grid.Column=	Grid.Column=
+key_253	文件导出成功，是否要打开查看?	The file export is successful, do you want to open the view?
+key_550	尾串	Tail string
+key_361	是否异步	Whether or not asynchronous
+key_450	是否递归	Whether or not recursion
+FileConnectorExcel	EXCEL导入导出器	EXCEL import and export
+key_707	子任务	Subtask
+XPathTF2_desc	要拖入HTML文本列，可将页面中的门类，用Cross模式组合起来，适合于爬虫无法抓取全部页面，但可以按分类抓取的情况。需调用网页采集器，具体参考文档-门类枚举	To drag into the HTML text column, you can combine the classes in the page with the Cross mode, which is suitable for the crawler to capture all the pages, but can be captured by classification. Need to call webpage collector, specific reference document - class enumeration
+key_626	列表模式下，属性数量不能少于2个	In list mode, the number of attributes should not be less than 2
+key_592	查询地物	Inquiries
+Time2StrTF_desc	将时间类型转换为特定格式的字符串	A string that converts a time type to a specific format
+key_217	查询字符串	Query string
+key_495	选择所要连接的表	Select the table to connect
+key_610	荷兰语	Dutch
+key_778	{Binding GenerateMode， Converter={StaticResource GeneratorConverter}}	{Binding GenerateMode， Converter={StaticResource GeneratorConverter}}
+key_655	是否启用自动嗅探	Whether automatic sniffing is enabled
+key_293	取消	cancel
+key_340	任务已经出错：	The task has gone wrong.
+key_602	中文	Chinese
+IColumnProcess	ETL模块接口	ETL module interface
+key_633	是否确定清除所有属性?	Is it sure that all properties are cleared?
+EtlTF	子任务-转换	Subtask - conversion
+key_653	找不到其他符合条件的节点，搜索器已经返回开头	No other eligible nodes could be found. The searcher has returned to the beginning.
+key_399	间隔	interval
+key_797	Margin=	Edge =
+key_390	填入空格分割的列名，对本模块所在列的值相同的所有属性分别进行纵向求和	Fill in the column names separated by spaces, and lengthwise summation of all attributes with the same value in the module.
+key_8	总数据量	Total amount of data
+DbEX	写入数据库	Write to the database
+XPathTF	XPath筛选器	XPath filter
+key_295	新建或复制采集器	New or replicated collector
+key_381	最小匹配数	Minimum matching number
+key_318	另存为当前工程	Save as the current project
+key_313	存在同名任务，将覆盖该任务	There is a same name task that will cover the task
+XFrmWorkPropertyGrid_desc	属性配置选项	Property configuration options
+key_254	打开文件失败：	Failed to open the file:
+key_70	安装使用说明	Instructions for installation and use
+key_123	当页面出现乱码时，可选择切换UTF-8或GBK	When the page appears garbled, you can choose to switch UTF-8 or GBK.
+key_385	延迟输出	Delay output
+CrawlerTF	从爬虫转换	From the reptilian
+key_439	请选择要读取的文件	Please select the file to read
+key_208	位于， 作用在{0}的模块 {1} 转换出错， 信息{2}	Located in {0} module {1} conversion error, information {2}
+key_685	删除下游节点	Delete downstream nodes
+key_46	已经导入数量:	The number that has been imported:
+key_437	选择文件	Select the file
+key_346	选择所要连接的数据库服务，如果该项无法选择，请配置【模块管理】->【数据源】，并点击右键创建新的数据库连接器	Select the database service that you want to connect to, if this item can't be selected, configure [module management] - > [data source], and click right to create a new database connector
+key_353	延时值	Delay value
+key_250	数据集	data set
+key_336	当前位置	current location
+RegexFT_desc	编写正则表达式来过滤文本	Writing regular expressions to filter text
+key_709	在并行模式工作时，线程池所承载的最大线程数	The maximum number of threads carried by thread pools when working in parallel mode
+EtlEX_desc	调用其他任务，作为执行器块	Call other tasks as an executor block
+key_183	XPath表达式编写错误：	XPath expression is written in error:
+key_231	添加到数据集	Add to the dataset
+key_151	警告信息	Warning information
+DataProcessManager_name	模块管理	Module management
+key_31	连接名称	Connection name
+key_623	手气不错	Good hands
+key_451	即是否获取子文件夹的子文件	Whether or not to get a subfile of a subfolder
+key_690	上一步	The last step
+key_133	点击按钮:	Click the button:
+key_90	数据库虚拟化	Database virtualization
+key_2	系统出现异常	Abnormality of the system
+key_751	其他信息	Other information
+key_501	文档列表：[{}]，转换为多个数据行构成的列表；单文档：{}，将结果的键值对附加到本行；不进行转换：直接将值放入到新列	A list of documents: [{}], converted to a list of multiple rows of data; a single document: {}, attach the result's key value pair to the line; do not convert: put the value directly into a new column.
+key_275	帮助	Help
+key_4	调试信息窗口	Debug information window
+key_245	插入到数据库	Insert into the database
+key_542	将原文本每个字符直接分割开	Divide each character in the original text directly
+key_517	匹配编号	Matching number
+key_221	网页爬虫连接器	Web crawler connector
+key_16	描述	describe
+key_783	结束	End
+key_736	新建任务	New task
+key_130	超时数	Timeout number
+key_552	返回的结果里是否包含首串和尾串	Whether the first string and the tail string are included in the return result
+key_706	任务	task
+key_283	确定保存所有算法模块么？	Do you decide to save all the algorithm modules?
+key_485	转换选项	Conversion options
+key_691	下一步	Next step
+key_11	数据集名称	Dataset name
+key_299	由于任务{0} 已经被删除， 相关任务{1} 也已经被强行取消	Because the task {0} has been deleted, the related task {1} has been forcibly cancelled.
+key_705	并行任务	Parallel task
+key_218	根据数据库的不同，可在此处输入JS（MongoDB）和标准SQL	Depending on the database, you can enter JS (MongoDB) and standard SQL here.
+key_526	替换为	Replace
+key_604	日语	Japanese
+DelayTF_desc	在工作流中插入延时，可休眠固定长度避免爬虫被封禁，单位为ms	Insert delay in workflow, can sleep fixed length to avoid reptiles being banned, the unit is Ms.
+key_169	删除	delete
+key_270	出现bug或者问题了？欢迎反馈	Is there a bug or a problem? Welcome feedback
+key_36	关闭连接	Close connection
+key_714	检查模块参数是否修改	Check whether the module parameters are modified
+NumberTF	提取数字	Digits
+key_804	如果软件帮到了你，可以为开发者捐赠	If the software helps you, you can donate for the developer.
+key_748	根节点	root node
+key_665	使用当前子节点XPath，在文档中找不到任何子节点	Using the current child node XPath, no child nodes can be found in the document.
+key_327	加载{0}任务	Load the {0} task
+HtmlTF_desc	删除HTML标签和转义符号	Delete the HTML label and the escape symbol
+key_603	英语	English
+key_382	只有正则表达式匹配该文本的结果数量大于等于该值时，才会保留，默认为1	Only regular expressions match the result of the text to more than or equal to that value. The default is 1.
+key_643	停止	Stop it
+key_21	参数设置	Parameter setting
+key_593	如公园，车站等	Like a park, a station, etc
+SmartCrawler_desc	从单个网页中配置和嗅探所需数据	Configuring and sniffing the required data from a single web page
+key_519	若编号为小于0且匹配出多个新列，多个列名可用空格分割，若该列不需要添加，可用_表示，如'_ 匹配1 _'	If the number is less than 0 and matches a number of new columns, multiple column names can be separated by spaces. If the column does not need to be added, it can be represented by "","" such as ""matching 1"".
+key_605	西班牙语	Spanish
+key_176	代理列表	Proxy list
+SQLiteDatabase_desc	提供SQLite交互的数据库服务	A database service that provides SQLite interaction
+key_149	已成功初始化	Successfully initialized
+key_634	2.请求参数	2. request parameters
+key_18	名称	Name
+FileManager	文件管理	file management
+key_516	当要输出多个结果时选List，否则选One或None，参考“网页采集器”	When you want to export multiple results, select List, otherwise choose One or None, refer to webpage collector.
+key_262	关于	about
+key_805	版本： 3.0	Version: 3
+key_529	响应头	Response head
+ReadFileTextGE	读取文件文本	Read the file text
+key_734	ItemsSource=	itemssource.
+key_646	该模式能够强力解析网页内容，但是消耗资源，且会修改原始Html内容	This mode can strongly analyze web content, but consumes resources, and will modify the original Html content.
+key_53	列分割符	Column Division
+key_466	排序方式	sort order
+key_241	转换表类型	Conversion table type
+key_728	HorizontalAlignment=	horizontalalignment =
+BaiduLocation_desc	通过百度API获取当前地标的经纬度坐标，需要拖入代表地名的列	To get the latitude and longitude coordinates of the current landmarks by Baidu API, we need to drag them into the columns representing the geographical names.
+key_290	任务列表命令	Task list command
+key_296	保存任务	Save task
+key_205	文档列表	Document list
+key_415	属性映射	Attribute mapping
+RepeatFT_desc	以拖入的列为唯一主键，自动去重，仅保留重复出现的第一项	The column that is dragged is the unique primary key, which automatically restores the weight and keeps only the first item repeated.
+key_511	执行脚本	Execution script
+key_272	你的支持是作者更新Hawk的动力	Your support is the author's motivation to update Hawk
+key_25	用户名	User name
+key_475	列名不能以数字开头，否则将导致无法正确显示该列	Column names cannot start with numbers, otherwise they will fail to display the column correctly.
+BaiduLocation	搜索位置	Search location
+key_1	Hawk由于内部异常而崩溃	Hawk collapse due to internal anomalies
+HtmlTF	HTML字符转义	HTML character escape
+key_189	当要获取符合XPath语法的多个结果时选List，只获取一条选One，其行为可参考“网页采集器”	When you want to get multiple results that conform to the XPath syntax, select List and get only one selected One, which can be referred to as webpage collector.
+PythonTF_desc	执行特定的python代码或脚本，最后一行需要为值类型，作为该列的返回值	To execute a specific Python code or script, the last line needs to be a value type, which is the return value of the column.
+key_732	Margin=	Edge =
+key_325	脚本已经成功执行	The script has been successfully executed
+key_94	曾打开的文件	A document that had been opened
+key_757	选中	Select
+key_73	插入数据失败	Insert data failure
+SplitPageTF_desc	根据总页数和每页数量进行分页操作，拖入列为总页数，相比于使用Python转换器，可极大地简化操作	Paging operation is based on the total number of pages and the number of pages per page, and the total number of pages is dragged into columns. Compared with the use of Python converters, the operation can be greatly simplified.
+key_689	弹出样例	Ejection sample
+key_188	工作模式	Working mode
+key_339	任务已经强行被终止	The task has been forced to be terminated
+key_615	文言文	Classical Chinese
+key_578	所属地市	Local city
+key_251	数据源已经存在，不进行覆盖，没有保存	The data source already exists, does not cover, and does not save.
+key_708	确实要删除{0}吗?	Do you really want to delete {0}?
+DictTF	矩阵转置	Matrix transposed
+key_419	子任务范围表达式错误，请检查:	Subtask range expression error, please check:
+key_213	执行查询	Execute the query
+key_6	默认来源	Default source
+key_636	设置Cookie和其他访问选项	Setting up Cookie and other access options
+FileManager_desc	提供与历史文件交互的数据库服务	Providing database services that interact with historical files
+key_794	已加载任务	Loaded task
+key_701	当前位于工作流中的的所有工作模块	All work modules currently in the workflow
+key_724	访问	Visit
+TransTF_desc	从当前语言翻译为目标语言	Translation from the current language to the target language
+XPathTF_desc	通过XPath选取html中的子节点文档， 也可通过CssSelector选取html中的子节点文档，相比XPath更简单	Through XPath to select the child node document in HTML, you can also select the child node document in HTML through CssSelector, which is simpler than XPath.
+key_32	自动连接	Automatic connection
+key_13	该数据的类型	The type of the data
+key_410	图形化配置	Graphical configuration
+key_632	清空属性	Emptying property
+XFrmWorkPropertyGrid	属性配置器	Attribute Configurator
+key_789	子任务属性	Subtask attributes
+key_472	起始索引	Start index
+key_329	保存路径	Save path
+key_300	打开欢迎页面	Open the welcome page
+key_380	表达式	Expression
+key_608	粤语	Cantonese
+key_607	俄罗斯语	Russian
+key_493	字符串匹配，如like，contains等，符合sql标准语法	String matching, such as like, contains, etc., is in line with SQL standard syntax.
+key_398	按类似yyyy-MM-dd HH:mm:ss:ffff格式进行填写	Fill in the form of yyyy-MM-dd HH:mm:ss:ffff format.
+key_222	数据导入	Data import
+key_561	每个子线程将要获取的数量，用于显示进度条，可不填	The number of threads that each child will acquire is used to display progress bars, but not to fill in.
+key_586	目标位置	Target location
+key_40	不支持此功能	This function is not supported
+key_209	位于{0}列的{1}模块在初始化时出现异常：{2}，请检查任务参数	The {1} module in the {0} column has an exception at initialization: {2}, please check the task parameters.
+EtlGE_desc	调用其他任务作为生成器，使用类似于“生成区间数”	Calling other tasks as generators is similar to generating interval numbers.
+key_343	操作类型	Operation type
+TransTF	语言翻译转换	Translation of language
+key_172	确认结果	Confirmation result
+key_699	2.清洗流程	2. cleaning process
+key_801	如果你有任何问题和反馈，欢迎联系我：	If you have any questions and feedback, please contact me:
+key_618	希腊语	Greek language
+key_630	复制到剪切板	Copy to the shear plate
+key_759	请键入URL:	Please type URL:
+key_119	端口	port
+key_713	已经取消	Have been cancelled
+key_349	创建名字为{0}的表失败	Create a table failure named {0}
+key_642	开始	start
+key_237	另存为	Save as
+key_792	ItemsSource=	itemssource.
+key_715	位置	position
+key_731	ToolTip=	tooltip =
+key_60	编码方式	Encoding method
+key_246	数据库管理	Database management
+key_741	数据处理革命	Data processing revolution
+key_775	快速检索:	Fast retrieval:
+key_570	参数设置可能有误	Parameter settings may be mistaken
+key_255	确定删除内存数据么？	Do you make sure that the memory data is deleted?
+key_645	超级模式	Supermodel
+key_147	开始对插件字典中的插件进行初始化	Initialization of the plug-in in the plug-in dictionary
+key_116	Header	Header
+key_39	文件编码	File encoding
+key_17	虚拟值	Virtual value
+key_298	移除	remove
+RandomGE_desc	生成某范围内和指定数量的随机数	Generating a certain range and a specified number of random numbers
+key_110	常用	Commonly used
+FileConnectorJson_desc	输出文本型JSON文件	Output text type JSON file
+key_14	权重	weight
+key_38	后缀名	Suffix name
+key_198	获取的节点数量为0	The number of nodes obtained is 0
+key_115	1.请求设置	1. request settings
+ResponseTF	获取请求响应	Obtaining request response
+key_214	查询出现异常	Query exception
+key_449	符合windows的文件通配符筛选规范	Windows - based file wildcard screening specification
+key_755	左右切换选择所需的数据，左方可修改列名，	Left and right toggle to select the required data, and the left side can modify column names.
+key_263	关于作者	About the author
+key_737	双击图标以新建任务	Double click the icon to create a new task
+FreeDocument_desc	可存储键值对形式的自由文档	Free documents that can store the form of a key value pair
+SplitTF	字符串分割	String segmentation
+key_330	版本	Edition
+RangeFT_desc	从数值列中筛选出从最小值到最大值范围的文档	From the numeric column, the document from the minimum to the maximum value is selected.
+key_357	保存位置	Save position
+key_743	欢迎使用Hawk3	Welcome to use Hawk3
+key_774	调试详情	Debug details
+key_492	匹配方式	Matching method
+key_666	当前XPath所在节点不是父节点的后代，请检查对应的XPath，是否依然要添加?	The current XPath node is not the descendant of the parent node. Please check the corresponding XPath. Do you still want to add it?
+key_45	请填写Excel的表头信息	Please fill out the Excel header information
+key_457	除了填写数字，还可以用方括号表达式，如[a]表示从a列获取值作为本参数的真实值	In addition to filling in numbers, you can also use square brackets, such as [a], to get values from a columns as the true values of this parameter.
+key_609	德语	German
+key_498	join成功后倒入哪些列	Which columns are inverted after join's success
+key_309	项目另存为	Items are deposited as
+key_648	填写拥有正确cookie的采集器名称，为空时不起作用，该功能还会获取代理IP等属性，避免重复设置网页采集器	Fill in the name of the collector with the correct cookie. It doesn't work for empty time. This function also gets the properties of agent IP and so on, avoiding duplication of web page collector.
+key_388	填入空格分割的列名，对本模块所在列的值相同的所有属性分别进行纵向合并数组	Fill in the column names separated by spaces, and vertically merge arrays for all attributes with the same value in the module.
+key_541	按字符直接分割	Direct segmentation by character
+key_312	将新建任务	New tasks will be set up
+key_407	2.操作表名	2. operation table name
+GetRoute	获取路径信息	Access to path information
+key_387	合并到集合的属性	Attributes merged into a collection
+property	属性	attribute
+key_681	拷贝模块	Copy module
+key_265	项目主页	Project Home
+xpath2_desc	要拖入HTML文本列，可将页面中的门类，用Cross模式组合起来，适合于爬虫无法抓取全部页面，但可以按分类抓取的情况。需调用网页采集器，具体参考文档-XPathTF2	To drag into the HTML text column, you can combine the classes in the page with the Cross mode, which is suitable for the crawler to capture all the pages, but can be captured by classification. Need to call webpage collector, specific reference document -XPathTF2
+key_303	加载默认工程	Load the default project
+key_417	子任务面板	Subtask panel
+key_660	没有检查到任何可选的列表页面	No optional list page was checked
+key_19	可空	Vacant
+key_348	数据库连接器不能为空	Database connector can not be empty
+key_414	设定调用子任务的模块范围，例如2:30表示被调用任务的第2个到第30个子模块将会启用，其他模块忽略，2:-1表示从第2个到倒数第二个启用，符合python的slice语法，为空则默认全部调用	Set the module scope of the call subtask, for example at 2:30 that second or thirtieth sub modules that are called will be enabled, the other modules are ignored, the 2:-1 representation is from second to the countdown second, consistent with the python slice syntax, and the default is all invoked for the empty.
+key_606	泰语	Thai
+key_111	批量插入错误	Batch insertion error
+key_675	解析html文档	Parsing HTML documents
+key_315	任务 {0} 已经成功保存	Task {0} has been successfully saved
+key_100	该操作	The operation
+key_230	可编辑列表	Editable list
+key_333	任务列表	task list
+key_624	提取测试	Extraction test
+DeleteTF	删除该列	Delete the column
+key_12	类型	type
+key_673	，通常原因是网站对请求合法性做了检查， 建议填写关键字对网页内容进行自动嗅探	The reason is that the website has checked the validity of the request. It is recommended to fill in the keyword to automatically sniff the web page content.
+key_215	当前表	Current table
+key_512	Python库路径	Python library path
+AddNewTF	添加新列	Add a new column
+CrawlerTF_desc	使用网页采集器获取网页数据，拖入的列需要为超链，常用	Using web collectors to get web page data, dragged columns need to be hyperlinks, commonly used.
+key_185	提取模式为List且选择器为CssSelecor时，必须设定根节点路径	When the extraction mode is List and the selector is CssSelecor, the root node path must be set.
+key_117	2.代理设置	2. proxy settings
+key_678	1.执行	1. implementation
+key_696	调试分析面板	Debug analysis panel
+NearbySearch_desc	获取当前经纬度某一半径范围内的所有地物，需要拖入的为代表经度的列	To get all the objects in the radius of a latitude and longitude, we need to drag in a column representing longitude.
+GetRoute_desc	从当前地名，运动到对应坐标所需的时间	The time needed to move from the current place name to the corresponding coordinates.
+DebugManagerUI	DebugManager	DebugManager
+NumRangeFT_desc	选择一定数量的行，如跳过前100条，选取50条	Select a certain number of lines, such as skip the first 100, and select 50.
+key_326	不能重复加载该任务	The task cannot be reloaded repeatedly
+key_179	代理策略	Proxy strategy
+key_27	数据库类型	Database type
+key_375	最小值	minimum value
+key_746	选择	Choice
+key_647	共享源	Shared source
+key_394	BFS起始位置	BFS starting position
+RegexTF	正则转换器	Regular converter
+key_335	遍历状态	Ergodic state
+key_29	数据库表名不能为空	Database table name can not be empty
+key_338	任务【{0}】已经成功完成	The task [{0}] has been successfully completed
+key_234	查看属性	View properties
+key_764	搜索字符	Search character
+key_522	重复模式	Duplication pattern
+key_694	跳到最后	Jump to the end
+key_175	尝试转换为json出错：	Try converting to JSON error:
+key_622	搜索	search
+key_799	百分比	Percentage
+key_671	尝试自动重定向	Try automatic redirection
+key_389	求和属性	Summation attribute
+key_294	新建或复制数据清洗	New or duplicated data cleaning
+key_54	包含头信息	Header information
+key_323	加载{0}工程时未发现对应的脚本文件{1}	No corresponding script file {1} was found when loading {0} project.
+key_738	VerticalAlignment=	VerticalAlignment=
+key_720	流出数据量	Outflow data
+PythonTF	Python转换器	Python converter
+JsonTF_desc	从字符串转换为json（数组或字典类型）	Convert from string to JSON (array or dictionary type)
+key_75	数据库连接失败，请检查数据库配置，或手动设定MongoDB数据库的安装路径以方便自动修复	Database connection failed. Please check database configuration or manually set up MongoDB database installation path to facilitate automatic repair.
+key_650	正在查询XPath	Query XPath
+key_667	已经存在同名的属性，是否依然添加?	Has the property of the same name already existed, is it still added?
+ToListTF	启动并行	Start parallel
+key_289	取消任务	Cancel the task
+key_103	错误信息	error message
+key_28	数据库名称	Database name
+key_400	按类似1'h '3'm '5's'格式进行填写	Fill in the 1'h'3'm'5's'format
+key_422	生成模式	Generation mode
+key_81	SQLLite连接器异常	SQLLite connector exception
+key_321	已经成功覆盖任务	The task has been successfully covered
+key_324	编译错误：{0}，位置在{1}行，从{2}到{3}	Compile error: {0}, located in {1} row, from {2} to {3}
+DelayTF	延时	delayed
+key_171	下一个	Next
+not_find_module	没有找到名称为'{0}'的{1}，请检查“{2}”是否填写错误	The {1} named'{0}'was not found. Please check if ""{2}"" has filled in the error.
+key_613	葡萄牙语	Portuguese
+key_716	{Binding Process.Attribute， Converter={StaticResource GroupConverter}}	{Binding Process.Attribute， Converter={StaticResource GroupConverter}}
+key_359	爬虫选择	Reptilian selection
+key_227	查看	See
+TrimTF	清除空白符	Clear the blank
+key_232	添加虚拟数据集	Add a virtual dataset
+FileConnectorCSV	CSV导入导出器	CSV import and export
+key_697	调试分析	Debug analysis
+key_99	提示信息	Hint information
+key_297	显示并配置	Display and configure
+key_462	选择所要连接的数据表	Select the data table that you want to connect to
+ToListTF_desc	该模块在执行时，会将本模块之前的流实例化，转换为实际的list，用于提高并行性能	When executed, the module will instantiate the flow before this module and convert it to the actual list to improve the parallel performance.
+NullFT	空对象过滤器	Empty object filter
+key_278	Web请求统计	Web request statistics
+key_93	数据表列表	List of data tables
+key_202	网页采集器	Webpage collector
+key_638	2.属性提取	2. attribute extraction
+key_506	为了方便用户，下拉菜单中提供了已有网页采集器配置的url，可修改后使用	To facilitate users, the URL in the drop-down menu is provided with the existing webpage collector, which can be modified and used.
+key_461	数据表	Data sheet
+key_771	是否激活	Is it activated
+key_310	最近打开的文件	Recently opened files
+key_494	连接器	Connector
+key_469	生成值	Generated value
+key_432	当要输出多个结果时选List，否则选One，参考“网页采集器”	When you want to export multiple results, select List, otherwise choose One, refer to webpage collector.
+key_35	连接数据库	Connection database
+key_131	操作	operation
+key_562	分组并行数量	Packet parallel number
+key_577	北京	Beijing
+key_243	本集合数据量较大，转换可能会占用较高的内存和导致程序崩溃，确定继续吗?	The volume of data in this collection is large. Conversion may occupy higher memory and cause the program to crash. Do you want to continue?
+key_680	清空所有工具	Emptying all the tools
+GetIPLocation	获取IP的坐标	Get the coordinates of the IP
+key_412	输入或选择调用的子任务的名称	The name of the subtask that is entered or selected for the call
+key_773	自动刷新	auto refresh
+key_68	自增主键名称	Self increasing primary key name
+key_276	调试	debugging
+key_161	目标内容	Target content
+key_612	法语	French
+key_798	工作线程	Working thread
+key_366	求反	Seek inverse
+key_670	HTML抽取数据失败，url:{0}， 异常为{1}	HTML has failed to extract data, url:{0}, and an exception of {1}
+Time2StrTF	时间转字符串	Time string
+key_163	路径	Route
+key_538	每页数量	Transactions per page
+key_247	增加新连接	Add a new connection
+key_796	ItemTemplate=	itemtemplate =
+ReadFileGe	读取文件数据	Read file data
+key_559	对每个子线程起的名称	The name of each child thread
+AddNew_desc	为数据集AddNewTF，值为某固定值	For the data set AddNewTF, the value is a fixed value
+MergeTF	合并多列	Merge multi column
+MergeTF_format	形如'http:\\{0}:{1}，{2}...'输入列的序号为0，之后的1，2分别代表【其他项】的第0和第1个值	It is like'http:\\{0}: {1}, {2}... ""The ordinal number of the input column is 0, followed by 1 and 2 represent zeroth and first values of other items, respectively.
+MergeTF_desc	将多个列组合成同一列，形如'http:\\{0}:{1}，{2}...'输入列的序号为0，之后的1，2分别代表【其他项】的第0和第1个值，常用	The multiple columns are combined into the same column, such as'http:\\{0}: {1}, {2}... 'the sequence number of the input column is 0, then the 1, and 2 represents zeroth and first values of the other items, which are commonly used.
+ResponseTF_desc	使用网页采集器获取网页数据，得到响应字段的值并添加到对应的属性中	Using web collectors to get web page data, get the value of the response field and add it to the corresponding attribute.
+key_105	顾问	adviser
+RegexSplitTF_desc	使用正则表达式分割字符串	Using regular expressions to split strings
+key_225	删除连接	Delete connection
+DebugManager_desc	输出调试信息	Output debug information
+FileExistFT	路径是否存在	Does the path exist
+key_159	启动缓存	Start caching
+key_211	1.基本选项	1. basic options
+key_784	输入	input
+key_288	开始任务	Start the task
+XPathTF2	门类枚举	Class enumeration
+key_47	总共	In total
+key_795	当前加载的所有数据，可在此进行管理	All data currently loaded can be managed here.
+DictTF_desc	将列数据转换为行数据，拖入的列为key	The column data is converted to row data, and the column drawn is key.
+DbGE	从数据库生成	From database generation
+key_568	启用	Enable
+key_224	配置连接	configure connections
+key_259	强制刷新连接失败	Forced refresh connection failure
+key_236	不存在任何数据	No data exists
+IDataBaseConnector	数据库连接器接口	Database connector interface
+FileConnectorXML_desc	输出和输入XML文件	Output and input XML files
+StrExtractTF_desc	提取字符串中，从首串到尾串中间的文本内容	Extract the text content from the first string to the tail string in the string.
+key_679	删除节点	Delete node
+key_233	删除表	Delete table
+key_544	若想获取分割后的第0个元素，则填入0，获取倒数第一个元素，则填入-1 \n可输入多个匹配编号，中间以空格分割，【输出列】也需要与之一对应\n	If you want to get the zeroth elements after the division, fill in 0, get the first element of the countdown, then fill in -1 \n to enter multiple matching numbers, split the middle in space, and [output column] need to correspond to one of the \n
+key_118	代理IP	Proxy IP
+key_182	当前代理索引	Current proxy index
+key_174	超级模式解析失败	Super schema parsing failure
+key_271	捐赠	donation
+key_546	多个分隔符用空格分割，换行符用\\t，制表符用\\t	Multiple separators are separated by spaces, line breaks with \\t, tabs using \\t.
+RegexFT	正则筛选器	Regular filter
+key_692	插入工作模块，名称:	Insert the work module, name:
+ICustomView	可实现自助替换界面的接口	The interface of self-service replacement can be realized
+key_513	若需要引用第三方Python库，则可指定库的路径，一行一条	If you need to refer to the third party Python library, you can specify the path of the library, one line, one line.
+key_239	新建数据集	New dataset
+key_669	HTML抽取数据失败，url:{0}	HTML has failed to extract data, url:{0}
+key_664	检查子节点XPath正确性	Check the XPath correctness of the child node
+key_747	获取策略	Acquisition strategy
+key_302	添加	Add to
+key_657	手气不错面板	A good hand panel
+key_22	表名	Table name
+key_72	插入失败	Insert failure
+key_307	加载项目	Load project
+key_193	抓取目标	Capture the target
+FreeDocument	自由文档	Free document
+FileConnectorExcel_desc	输出标准EXCEL文件，效率较低	Output standard EXCEL file, low efficiency
+SplitTF_desc	通过字符分割字符串	Character segmentation string
+WriteFileTextTF_desc	写入文件中的文本，由于在并行模式下同时写入文件可能会导致问题，因此尽量使用串行模式	Writing text in a file, because writing files in parallel mode may cause problems, try to use serial mode as much as possible.
+key_413	调用范围	Call range
+NumberTF_desc	提取当前列中出现的数值	Extract the number that appears in the current column
+key_503	写入多个列名，中间使用空格分割，若合并输入列，则可以为空	Write multiple column names, use spaces in the middle to segment them, and merge the input columns.
+DateRangeGE_desc	生成某范围内的日期和时间	Generate a range of dates and times
+key_639	自动嗅探	Automatic sniffing
+key_502	其他项	Other items
+key_698	调试模块属性	Debug module properties
+key_565	是否将每个子线程插入到任务队列中，从而显示进度	Whether each child thread is inserted into the task queue to display progress
+key_165	样例1	Sample 1
+key_702	确定启动执行?	Determine startup execution?
+key_409	2.调用选项	2. call options
+key_173	退出	Sign out
+key_331	当前工程文件的路径不存在，生成新工程	The current path of the project file does not exist, generating new projects.
+key_416	源属性:目标属性列 多个映射中间用空格分割，例如A:B C:D， 表示主任务中的A，B属性列会以C，D的名称传递到子任务中	Source property: the target attribute is divided into multiple maps with space, such as A:B C:D, representing the A in the main task, and the B attribute column will be passed to the subtask with the name of C, D
+key_766	新增属性	New attributes
+key_729	保存的任务	Saved tasks
+key_433	输出列	Output column
+key_621	属性0	Property 0
+key_114	HTTP错误，URL:{0}，类型:{1}	HTTP error, URL:{0}, type: {1}
+RepeatTF_desc	对当前行进行重复性生成	Repeating the generation of the current line
+key_722	因输入为空跳过	Skip because of the input
+key_587	源城市	Source city
+MongoDBConnector_desc	提供MongoDB交互的数据库服务	A database service that provides MongoDB interaction
+key_311	是否确定保存任务?	Do you determine the saving task?
+key_651	属性{0}	Attribute {0}
+key_693	回退到开头	Back to the beginning
+key_319	已经成功添加	Have been added successfully
+key_549	首串	First string
+key_257	确定对数据表	Determine the pair of data tables
+key_249	的数据连接服务成功！	The data connection service is successful!
+key_121	超时时间	timeout
+key_267	使用文档	Using documents
+key_127	禁止数	Prohibition
+NlpTF_desc	通过语言云获取的自然语言处理功能，包括分词，词性标注，主题提取等	Natural Language Processing's functions are acquired through language cloud, including word segmentation, part of speech tagging, topic extraction, etc.
+key_760	源码视图	Source view
+key_787	步骤2：设置主任务属性列对应到子任务的属性名，下拉菜单仅参考，可直接编辑文本框	Step 2: set the main task attribute column to the attribute name of the sub task. The drop-down menu only refers to it, and can edit the text box directly.
+key_533	倒序	Reverse order
+RenameTF_desc	对列名进行修改，常用	Modifying the names of the columns is often used
+key_684	调试到该步	Debug this step
+key_611	韩语	Korean
+key_199	1.基本信息	1. basic information
+key_454	数量	Number
+key_637	提取标签	Extract label
+key_793	ItemTemplate=	itemtemplate =
+key_145	，插件配置文件有错误，已经重建	The plug-in configuration file has been erroneous and has been rebuilt
+key_788	主任务属性	Primary task attributes
+key_84	新建	Newly build
+key_763	属性提取	Attribute extraction
+key_426	勾选后，本子任务会添加到任务管理器中	After the check, the task will be added to the task manager.
+key_106	生成	generate
+key_386	不勾选此选项使用枚举式迭代，需保证在本模块之后没有其他操作，否则请勾选该选项	Use this enumeration iteration to ensure that there is no other operation after this module, otherwise check this option.
+key_24	1.连接管理	1. connection management
+MongoDBConnector	MongoDB	MongoDB
+key_619	应用中心账号	Application center account
+WriteFileTextTF	写入文件文本	Write the file text
+key_144	布局文件已经成功保存为	The layout file has been successfully saved to
+key_150	在运行时卸载插件可能造成程序崩溃，确定继续？	Uninstalling the plug-in at runtime can cause the program to crash.
+ReReplaceTF_desc	通过正则表达式替换数值	Replacing numeric values with regular expressions
+key_286	执行任务脚本	Executing task scripts
+key_640	保存请求	Save the request
+RepeatFT	删除重复项	Delete duplicate items
+key_7	列特性	Column characteristics
+key_273	博客	Blog
+key_141	布局	layout
+key_102	执行失败，错误信息  {0}	Failure to execute, error message {0}
+key_682	上移	Move up
+key_238	新建或拷贝	New or copy
+key_654	在该网页中找不到关键字 {0}，可能是动态请求，可以启用【{1}】，并将浏览器页面翻到包含该关键字的位置	The keyword {0} is not found in the web page, it may be dynamic request, {1} can be enabled, and the browser page can be turned to the location containing the keyword.
+key_490	查询多数据	Query multiple data
+key_122	请求编码	Request coding
+key_644	参数配置	Parameter configuration
+key_280	清空任务列表	Emptying task list
+key_762	任务名称	Task name
+key_491	启用该项时，会查询多个满足条件的项，同时将同一列保存为数组	When this item is enabled, it queries multiple qualified items and saves the same column as an array.
+key_543	空格分割	Space segmentation
+key_672	网站提示:	Website prompts:
+key_786	Height=	Height=
+MergeRepeatTF_desc	对重复的数据行，进行合并操作	For repeated data rows, merge operations
+RangeFT	数值范围过滤器	Numerical range filter
+key_659	网页结构计算中	Web page structure calculation
+key_281	确定清空所有算法模块么？	Do you want to clear all the algorithm modules?
+key_129	解析错误数	Parse error number
+key_112	字典序列化失败	Dictionary serialization failure
+key_170	上一个	The previous
+key_168	复制	copy
+key_97	执行成功	Implementation success
+key_92	打开新文件	Open a new file
+TableEX	写入数据表	Write a data table
+key_113	HTTP错误，类型:	HTTP error, type:
+TableEX_desc	将数据保存至软件的数据管理器中，之后可方便进行其他处理，拖入到任意一列皆可，常用	The data is saved to the data manager of the software, and then it can be easily processed.
+key_551	包含首尾串	Include the first and the end string
+key_721	错误数	Error number
+key_631	配置属性	Configuration properties
+TrimTF_desc	清除字符串前后和中间的空白符	Clear the blank character before and after the string and in the middle
+key_803	沙漠之鹰	Desert Eagle
+key_87	例如d:\\test\\mydb.sqlite	For example, d:\\test\\mydb.sqlite
+key_723	本页面展示了所有模块的执行次数，流入流出数据数，一般上游的流出等于下游流入，若有红色框选模块，则提示该模块配置可能有问题	This page shows the number of executions of all modules, the flow of outflow data, the general upstream outflow is equal to the downstream inflow, and if there is a red box selection module, it suggests that the module configuration may be problematic.
+key_658	属性配置	Attribute configuration
+key_566	本模块要处理的列的名称	The name of the column to be processed by this module
+key_55	属性	attribute
+key_229	没有在表中的发现可用的数据	Data that is not available in the table
+key_316	当前工程中没有包含任何任务，请在任务管理页中，将要保存的任务插入到当前工程中	There are no tasks in the current project. Please insert the tasks you want to save in the task management page to the current project.
+FileConnectorTable	文本导入导出器	Text import and export
+RegexTF_desc	通过正则表达式提取内容	Extracting content through regular expressions
+key_223	系统状态视图	System state view
+key_589	运动方案	Motion scheme
+key_10	虚拟化数据集	Virtualized dataset
+key_668	成功添加属性	Successfully add properties
+key_266	访问Hawk的开源项目地址	Access to the open source project address of Hawk
+key_401	生成时间格式	Generation time format
+MySQLConnector_desc	IDataBaseConnector	IDataBaseConnector
+FileExistFT_desc	判断某一个文件是否已经在指定路径上	Determine whether a file is already on the specified path.
+key_282	保存全部任务	Save the whole task
+MySQLConnector	MySQL数据库	MySQL database
+key_683	下移	Move down
+key_308	保存项目	Save the project
+SaveFileEX	保存超链接文件	Save hyperlink file
+key_190	高级选项	Advanced options
+UrlTF	URL字符转义	URL character escape
+key_574	空白符替换为空格	The blank character is replaced by a space
+DeleteTF_desc	不用解释了吧，常用	You don't have to explain it.
+SQLiteDatabase	SQLite数据库	SQLite database
+key_569	结果要输出到的列的名称	The name of the column that you want to output
+key_95	不存在定义	No definition
+key_588	目标城市	Target city
+key_534	勾选此项后，选择从后数的第n项	When this item is checked, select the next number of item n
+DataManager_desc	查看和分析数据	View and analyze data
+key_126	总请求数	Total number of requests
+key_661	启动嗅探服务	Start sniffer service
+RangeGE	生成区间数	Generated interval number
+NearbySearch	检索附近	Search the neighborhood
+key_322	加载工程文件，位置为{0}	Load the project file, the location is {0}
+key_802	d:LayoutOverrides=	d:LayoutOverrides=
+key_545	分割字符	Split character
+key_555	转换格式	Conversion format
+key_305	文件	file
+key_26	密码	Password
+key_284	加载本任务	Load this task
+key_596	搜索半径	Search radius
+key_306	新建项目	New project
+key_635	请求详情	Request details
+DataManager	数据管理	data management
+key_663	使用当前父节点{0} {1}，在文档中找不到任何父节点	Using the current parent node {0} {1}, no parent node can be found in the document.
+key_15	主键	Primary key
+IConfigFile	配置文件接口	Configuration file interface
+key_710	最大线程数	Maximum number of threads
+key_504	格式	format
+key_782	起始	Start
+key_480	最大重复次数	Maximum repetitions
+key_434	从原任务中传递到子任务的列，多个列用空格分割	The column is passed from the original task to the sub task, and multiple columns are separated by spaces.
+key_597	所有结果	All results
+key_50	文件不是合法的Json文件	The file is not a legitimate Json file
+key_216	当前连接	Current connection
+UrlTF_desc	对超链接url生成URL编码后的字符串，用以进行远程访问	Generate URL encoded strings for hyperlink URL for remote access.
+IXPlugin	XFrmWork基本插件接口	XFrmWork basic plug-in interface
+AutoIndexTF_desc	自动生成一个从起始索引开始的自增新列	Automatically generates a self added new column from the start index.
+key_406	选择所要连接的数据库服务	Select the database services that you want to connect to
+key_425	添加到任务	Add to the task
+key_530	要获取的响应头的名称，多个之间用空格分割，不区分大小写	The name of the response head to be obtained is divided by spaces, and is not case sensitive.
+key_800	感谢使用 HAWK	Thank you for using HAWK
+key_458	如需生成数组1，3，5，7，9，则间隔为2	If you want to generate arrays 1, 3, 5, 7, 9, the interval is 2.
+key_5	来源	source
+key_780	可将图标拖入右侧数据列的上方空白列表处，为该列添加模块	You can drag the icon into the upper blank list of the right data column to add a module to the column.
+key_184	路径解析有误，返回空节点:	The path parsing is incorrect and returns to the empty node:
+key_496	表主键	Table primary key
+SmartETLTool_desc	对数据筛选转换和合并，并导出到数据库中	Filter, transform and merge data, and export them to the database.
+key_564	显示独立任务	Display independent tasks
+LayoutManager	布局管理器	Layout manager
+key_291	暂停	suspend
+key_33	数据库删除失败:	Database deletion failed:
+key_30	连接状态	Connection state
+key_563	将多个种子合并为一个任务执行，这对于小型种子任务可有效提升效率	Combining multiple seeds into one task execution can effectively improve the efficiency of small seed tasks.
+ReadFileGe_desc	从文件中读取数据内容，为了保证正确读取，需配置文件格式和读取属性	Data content is read from file. To ensure correct reading, file format and read attribute need to be configured.
+key_203	您没有填写对应参数:{0}	You did not fill out the corresponding parameters: {0}
+key_725	双击可加载任务，右键可对任务进行删除等操作	Double click to load tasks, right button can delete tasks, and other operations.
+TextGE_desc	每行一条数据，常用	A piece of data per line, commonly used
+key_703	没有在本任务中发现任何执行器。	No executor was found in this task.
+key_86	数据库路径	Database path
+key_37	创建新库	Create a new library
+key_567	介绍	introduce
+key_109	未知	Unknown
+key_408	3.数量	3. quantity
+key_328	脚本路径	Script path
+key_160	属性名称	Attribute name
+click_refresh	点击“刷新“可刷新结果	Click ""Refresh"" to refresh the result
+click_commit	点击“确认结果”即可提交	Click ""confirmation result"" to submit
+key_142	刷新	Refresh
+TableGE	从数据表生成	From data table generation
+key_358	路径或文件名，例如D:\\file.txt， 可通过'[]'引用其他列， \n 若为目录名，必须显式以/结束，文件名将会通过url自动解析	The path or file name, such as D:\\file.txt, can be referenced by '[]' 'to the other columns, and if \n is a directory name, it must be explicitly / end, and the file name will be automatically parsed through URL
+key_235	浏览方式	Browsing mode
+key_206	单文档	Single document

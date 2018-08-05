@@ -785,7 +785,7 @@
         写入数据库
     </system:String>
     <system:String x:Key="XPathTF">
-        XPath筛选器
+        XPath转换器
     </system:String>
     <system:String x:Key="key_295">
         新建或复制采集器
@@ -2536,4 +2536,11 @@
     <system:String x:Key="SupplierTF_desc">
       尝试对已有错误日志重跑补数据，错误日志需包含错误所在的任务名和模块名
     </system:String>
+    <system:String x:Key="xpath_detector">
+            XPath检索
+      </system:String>
+    <system:String x:Key="xpath_detector_desc">
+          可通过搜索快速定位所需文本的XPath
+    </system:String>
+
 </ResourceDictionary>

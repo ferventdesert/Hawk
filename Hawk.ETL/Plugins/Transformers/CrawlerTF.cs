@@ -65,9 +65,6 @@ namespace Hawk.ETL.Plugins.Transformers
 
             if (htmldoc == null)
             {
-                var random= new Random();
-                if(random.Next(0,100)>50)
-                    throw  new Exception("网络请求错误");
                 HttpStatusCode code;
 
                 var count = 0;

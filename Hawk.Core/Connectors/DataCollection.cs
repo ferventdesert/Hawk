@@ -25,6 +25,7 @@ namespace Hawk.Core.Connectors
         {
             return Name;
         }
+        [Browsable(false)]
 
         #endregion
 
@@ -36,7 +37,6 @@ namespace Hawk.Core.Connectors
             RealData = new List<IFreeDocument>(data)
                ;
         }
-
         #endregion
 
         #region Properties

@@ -193,6 +193,7 @@
     <Compile Include="Plugins\Transformers\ToListTF.cs" />
     <Compile Include="Plugins\Transformers\TransformerBase.cs" />
     <Compile Include="Plugins\Transformers\TrimTF.cs" />
+    <Compile Include="Plugins\Transformers\XPathDetectorModel.cs" />
     <Compile Include="Plugins\Web\BaiduLocation.cs" />
     <Compile Include="Plugins\Web\GetIPLocation.cs" />
     <Compile Include="Plugins\Web\GetRoute.cs" />

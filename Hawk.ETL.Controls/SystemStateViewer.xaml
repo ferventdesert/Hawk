@@ -113,6 +113,12 @@
 		</DataTemplate>
 	</UserControl.Resources>
 	<Grid Margin="0" MinHeight="200" d:LayoutOverrides="Height">
+		<Rectangle Width="80" Height="80" Margin="0,0,0,20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Opacity="0.2" >
+			<Rectangle.Fill>
+				<VisualBrush Stretch="Fill"
+					Visual="{Binding ConverterParameter=layout, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+			</Rectangle.Fill>
+		</Rectangle>
 		<ListBox x:Name="processListBox" ToolTip="{DynamicResource key_790}" SelectedItem="{Binding SelectedProcess}" Margin="0,0,0,20" MouseMove="processListBox_MouseMove" DataContext="{Binding PluginDictionary[DataProcessManager]}" ItemsSource="{Binding ProcessCollectionView}"  ItemTemplate="{DynamicResource DataTemplate2}"  >
 			<ListBox.Resources>
 				<ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding PluginDictionary[DataProcessManager].BindingCommands.ChildActions[4].ChildActions}"/>

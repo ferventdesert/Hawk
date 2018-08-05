@@ -53,7 +53,33 @@ namespace Hawk.ETL.Interfaces
         }
 
 
-      
+        public static string Query(this IFreeDocument document, string input)
+        {
+            if (input == null)
+                return null;
+            var query = input.Trim();
+            if (query.StartsWith("[") && query.EndsWith("]"))
+            {
+                var len = query.Length;
+                query = query.Substring(1, len - 2);
+                var result = document?[query];
+                return result?.ToString();
+            }
+            if (query.StartsWith("{") && query.EndsWith("}"))
+            {
+                var len = query.Length;
+                query = query.Substring(1, len - 2);
+                var proj = MainDescription.MainFrm?.PluginDictionary["DataProcessManager"] as IProcessManager;
+                if (proj != null)
+                {
+                    string value = "";
+                    if (proj.CurrentProject.Parameters.TryGetValue(query, out value))
+                        return value;
+
+                }
+            }
+            return input;
+        }
 
         public static async Task<T> RunBusyWork<T>(this IMainFrm manager, Func<T> func, string title = "系统正忙", string message = "正在处理长时间操作")
         {
@@ -78,7 +104,6 @@ namespace Hawk.ETL.Interfaces
                         processManager.CurrentProject.Tasks.Where(d => d.ProcessToDo["Type"].ToString() == "SmartCrawler")
                             .Select(d => d.Name)).
                     Distinct().ToList();
-
                 return item;
             };
         }
@@ -86,20 +111,31 @@ namespace Hawk.ETL.Interfaces
         public static T GetModule<T>(this IColumnProcess process, string name) where T : class
         {
             var moduleName = (typeof(T) == typeof(SmartETLTool)) ? GlobalHelper.Get("key_201") : GlobalHelper.Get("key_202");
-            if (string.IsNullOrEmpty(name))
+            if (String.IsNullOrEmpty(name))
                 return null;
             var process_name = process?.TypeName;
-            if (process_name!=null&& string.IsNullOrEmpty(name))
+            if (process_name!=null&& String.IsNullOrEmpty(name))
 
             {
-                XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_203"),process_name));
+                XLogSys.Print.Error(String.Format(GlobalHelper.Get("key_203"),process_name));
 
 
                 return default(T);
             }
             var processManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
+            var module= processManager.GetModule<T>(name);
+            if (module == null)
+            {
+                XLogSys.Print.Error(String.Format(GlobalHelper.Get("not_find_module"), name, moduleName, process_name));
+                throw new NullReferenceException($"can't find a ETL Module named {name}");
+            }
+            return module;
+        }
+
+        public static T GetModule<T>(this IProcessManager processManager, string name) where T : class
+        {
             var module =
-                processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == name) as T;
+               processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == name) as T;
             if (module != null)
             {
                 return module;
@@ -109,9 +145,8 @@ namespace Hawk.ETL.Interfaces
             if (task == null)
 
             {
-               
-                XLogSys.Print.Error(string.Format(GlobalHelper.Get("not_find_module"),name,moduleName,process_name));
-                throw new NullReferenceException($"can't find a ETL Module named {name}");
+
+                return null;
             }
 
             ControlExtended.UIInvoke(() => { task.Load(false); });
@@ -119,7 +154,6 @@ namespace Hawk.ETL.Interfaces
                 processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == name) as T;
             return module;
         }
-
         /// <summary>
         /// 高版本配置向低版本兼容
         /// </summary>
@@ -159,7 +193,7 @@ namespace Hawk.ETL.Interfaces
                     if (key != null && key == item.Key)
                     {
                         bool real_value;
-                        if (old_dict.TryGetValue(key, out value) && value!=null&&bool.TryParse(value.ToString(), out real_value))
+                        if (old_dict.TryGetValue(key, out value) && value!=null&&Boolean.TryParse(value.ToString(), out real_value))
                         {
                             var new_value = real_value ? ScriptWorkMode.List : ScriptWorkMode.One;
                             new_dic.Add(key, new_value);

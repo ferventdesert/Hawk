@@ -177,6 +177,7 @@
     <Compile Include="Plugins\Transformers\JoinDBTF.cs" />
     <Compile Include="Plugins\Transformers\RepeatTF.cs" />
     <Compile Include="Plugins\Transformers\ResponseTF.cs" />
+    <Compile Include="Plugins\Transformers\SupplierTF.cs" />
     <Compile Include="Plugins\Transformers\Time2StrTF.cs" />
     <Compile Include="Plugins\Generators\EtlGE.cs" />
     <Compile Include="Plugins\Transformers\HtmlTF.cs" />

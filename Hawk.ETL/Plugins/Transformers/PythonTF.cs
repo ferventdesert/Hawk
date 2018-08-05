@@ -8,6 +8,7 @@ using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
+using Hawk.ETL.Managements;
 using IronPython.Hosting;
 using IronPython.Runtime;
 using Microsoft.Scripting.Hosting;
@@ -62,16 +63,27 @@ namespace Hawk.ETL.Plugins.Transformers
             return true;
         }
 
-        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas, AnalyzeItem analyzer)
         {
             foreach (var data in datas)
             {
-                var d = eval(data);
+                object d;
+                try
+                {
+                    d = eval(data);
+                    
+                }
+                catch (Exception ex)
+                {
+                    analyzer.Analyzer.AddErrorLog(data, ex, this);
+                   continue; 
+                }
                 foreach (var item2 in ScriptHelper.ToDocuments(d))
                 {
                     var item3 = item2;
                     yield return item3.MergeQuery(data, NewColumn);
                 }
+
             }
         }
 

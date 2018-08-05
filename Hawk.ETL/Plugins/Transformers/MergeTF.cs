@@ -6,7 +6,9 @@ using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Interfaces;
 using Hawk.ETL.Process;
+using System.Text.RegularExpressions;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
@@ -31,7 +33,7 @@ namespace Hawk.ETL.Plugins.Transformers
              
             };
         }
-
+        Regex rgx = new Regex(@"\[[^\s\b\]{},!?'""]{1,10}\]|\{[^\s\b\]{},!?'""]{1,10}\}");
         [LocalizedDisplayName("key_502")]
         [LocalizedDescription("key_503")]
         public string MergeWith { get; set; }
@@ -54,6 +56,11 @@ namespace Hawk.ETL.Plugins.Transformers
             if (string.IsNullOrEmpty(Format))
                 return item;
             var format = datas.Query(Format);
+            var exps=rgx.Matches(format);
+            foreach (Match exp in exps)
+            {
+                format = format.Replace(exp.Value,datas.Query(exp.Value));
+            }
             var columns = MergeWith.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries);
             strs.AddRange(columns.Select(key =>
             {

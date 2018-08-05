@@ -436,7 +436,7 @@ namespace Hawk.ETL.Managements
                     };
                     PropertyGridFactory.GetPropertyWindow(query).ShowDialog();
                 }, obj => obj != null, "magnify"));
-
+           
 
             var visitData = new BindingAction(GlobalHelper.Get("key_235"));
 

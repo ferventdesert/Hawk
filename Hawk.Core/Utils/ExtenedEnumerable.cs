@@ -111,20 +111,21 @@ namespace Hawk.Core.Utils
             return document;
         }
 
-        public static string Query(this IFreeDocument document, string query)
+        public static Dictionary<string, string> ToDict(string parameter, char split=' ')
         {
-            if (query == null)
-                return null;
-            query = query.Trim();
-            if (query.StartsWith("[") && query.EndsWith("]"))
+            var dict=new Dictionary<string,string>();
+            if (string.IsNullOrEmpty(parameter))
+                return dict; 
+            foreach (var item in parameter.Split('\n'))
             {
-                var len = query.Length;
-                query = query.Substring(1, len - 2);
-                var result = document?[query];
-                return result?.ToString();
+                var items = item.Split(split);
+                if(items.Length!=2)
+                    continue;
+                dict[items[0]] = dict[items[1]];
             }
-            return query;
-        }
+            return dict;
+        } 
+       
 
         public static IEnumerable<IFreeDocument> Cross(this IEnumerable<IFreeDocument> datas,
             IEnumerable<IFreeDocument> target)

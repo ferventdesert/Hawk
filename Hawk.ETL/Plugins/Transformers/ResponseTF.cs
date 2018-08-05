@@ -62,7 +62,7 @@ namespace Hawk.ETL.Plugins.Transformers
             Crawler = GetCrawler(CrawlerSelector.SelectItem);
             if (string.IsNullOrEmpty(CrawlerSelector.SelectItem) && Crawler != null)
                 CrawlerSelector.SelectItem = Crawler.Name;
-            return Crawler != null && base.Init(datas);
+            return  base.Init(datas);
         }
 
         public override

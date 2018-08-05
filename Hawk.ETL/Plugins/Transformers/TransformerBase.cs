@@ -13,6 +13,7 @@ using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
+using Hawk.ETL.Managements;
 using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Plugins.Transformers
@@ -132,6 +133,8 @@ namespace Hawk.ETL.Plugins.Transformers
                 return item == null ? GetType().ToString() : item.Name;
             }
         }
+        [LocalizedCategory("key_211")]
+        public string ObjectID { get; set; }
 
         [Browsable(false)]
         public XFrmWorkAttribute Attribute => AttributeHelper.GetCustomAttribute(GetType());
@@ -242,14 +245,24 @@ namespace Hawk.ETL.Plugins.Transformers
         private bool isErrorRemind = true;
         private string _newColumn;
 
-        public virtual IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        public virtual IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas,AnalyzeItem analyzer=null)
 
         {
             var olddatas = datas;
             var errorCounter = 0;
             foreach (var data in datas)
             {
-                var newdatas = InternalTransformManyData(data);
+                IEnumerable<IFreeDocument> newdatas = null;
+                try
+                {
+                    newdatas = InternalTransformManyData(data);
+                }
+                catch (Exception ex)
+                {
+                    analyzer?.Analyzer.AddErrorLog(data, ex, this);
+                    
+                }
+            
                 if (MainDescription.IsUIForm)
                 {
                     if (((olddatas is IList) == false || !olddatas.Any()) && newdatas is IList &&
@@ -263,7 +276,7 @@ namespace Hawk.ETL.Plugins.Transformers
                             {
                                 var result =
                                     MessageBox.Show(
-                                        String.Format("fail_remind", Column, TypeName),
+                                        String.Format(GlobalHelper.Get("fail_remind"), Column, TypeName),
                                         GlobalHelper.Get("key_570"),
                                         MessageBoxButton.YesNoCancel);
                                 if (result == MessageBoxResult.Yes)
@@ -296,7 +309,7 @@ namespace Hawk.ETL.Plugins.Transformers
                     }
                 }
                 if (newdatas == null)
-                    yield break;
+                   continue; 
                 foreach (var newdata in newdatas)
                 {
                     yield return newdata;

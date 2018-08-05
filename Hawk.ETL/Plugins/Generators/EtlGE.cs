@@ -451,7 +451,7 @@ namespace Hawk.ETL.Plugins.Generators
             return base.Init(docus);
         }
 
-        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas, AnalyzeItem analyzer)
         {
             if (string.IsNullOrEmpty(Column))
             {
@@ -535,7 +535,7 @@ namespace Hawk.ETL.Plugins.Generators
         [Browsable(false)]
         public bool IsMultiYield => IsManyData == ScriptWorkMode.List;
 
-        public IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        public IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas, AnalyzeItem analyzer)
         {
             foreach (var data in datas)
             {

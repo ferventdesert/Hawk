@@ -13,6 +13,7 @@ using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
 using Hawk.ETL.Interfaces;
+using Hawk.ETL.Managements;
 using Hawk.ETL.Process;
 using HtmlAgilityPack;
 
@@ -77,7 +78,7 @@ namespace Hawk.ETL.Plugins.Transformers
             return null;
         }
 
-        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas,AnalyzeItem analyzer)
         {
             foreach (var data in datas)
             {

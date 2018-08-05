@@ -5,6 +5,7 @@ using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Managements;
 using Hawk.ETL.Plugins.Transformers;
 
 namespace Hawk.ETL.Plugins.Filters
@@ -42,7 +43,7 @@ namespace Hawk.ETL.Plugins.Filters
 
         //TODO: 此处不能使用枚举式迭代，除非在本模块之后没有其他操作
 
-        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas, AnalyzeItem analyzer)
         {
             var collColum = CollectionColumns.Split(' ').Select(d => d.Trim()).ToList();
             var sumColum = SumColumns.Split(' ').Select(d => d.Trim()).ToList();

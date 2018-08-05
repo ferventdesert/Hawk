@@ -29,20 +29,20 @@
 	</UserControl.Resources>
     
 
-<Grid>
+ 
 	<Grid MinHeight="200" d:LayoutOverrides="Width">
 
 
 
 		<ListBox x:Name="dataListBox" ToolTip="{DynamicResource key_795}"  SelectedItem="{Binding SelectedDataCollection}" MouseMove="ListBox_MouseMove_1" DataContext="{Binding PluginDictionary[DataManager]}" ItemsSource="{Binding DataCollections}" ItemTemplate="{DynamicResource DataTemplate1}" Margin="0,0,0,20">
 			<ListBox.Resources>
-				<ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding PluginDictionary[DataManager].Commands[2].ChildActions}"/>
+				<ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding PluginDictionary[DataProcessManager].Commands[2].ChildActions}"  />
 				<Style TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource {x:Type ListBoxItem}}">
 					<Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />
 				</Style>
 			</ListBox.Resources>
 			<ListBox.ContextMenu>
-				<ContextMenu   ItemsSource="{Binding PluginDictionary[DataManager].Commands[3].ChildActions}"/>
+				<ContextMenu   ItemsSource="{Binding Commands[3].ChildActions}"/>
 
 			</ListBox.ContextMenu>
 		</ListBox>
@@ -58,6 +58,5 @@
 			
 		</StackPanel>
 	</Grid>
-     
-    </Grid>
+  
 </UserControl>

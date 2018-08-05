@@ -36,6 +36,7 @@ namespace Hawk.ETL.Interfaces
         string Description { get; }
         string TypeName { get; }
 
+        string ObjectID { get; set; }
         XFrmWorkAttribute Attribute { get; }
 
         #endregion
@@ -145,7 +146,9 @@ namespace Hawk.ETL.Interfaces
             {
                 res = ex.Message;
                 analyzeItem.Error++;
-                XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), ge.ETLIndex,ge.TypeName,res));
+                
+                analyzeItem.Analyzer.AddErrorLog(item,ex,ge); 
+                XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), ge.ETLIndex,ge.TypeName,ge.Column,res));
             }
 
             if (ge.OneOutput)
@@ -193,7 +196,7 @@ namespace Hawk.ETL.Interfaces
                    var  source2 = func1(source).CountInput(analyzeItem);
                     if (ge.IsMultiYield)
                     {
-                        return ge.TransformManyData(source2).CountOutput(analyzeItem);
+                        return ge.TransformManyData(source2,analyzeItem).CountOutput(analyzeItem);
                     };
                     return source2.Select(input => Transform(ge, input,analyzeItem)).CountOutput(analyzeItem);
                 };
@@ -261,12 +264,12 @@ namespace Hawk.ETL.Interfaces
         }
 
         public static IEnumerable<IFreeDocument> Generate(this IEnumerable<IColumnProcess> processes, bool isexecute,
-            IEnumerable<IFreeDocument> source = null)
+            IEnumerable<IFreeDocument> source = null,Analyzer analyzer=null)
 
         {
             if (source == null)
                 source = new List<IFreeDocument>();
-            var func = processes.Aggregate(d => d,  isexecute);
+            var func = processes.Aggregate(d => d,  isexecute,analyzer);
             return func(source);
         }
     }

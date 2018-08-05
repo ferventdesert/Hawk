@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Net;
@@ -6,31 +7,27 @@ using System.Threading;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
-using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Crawlers;
+using Hawk.ETL.Interfaces;
 using Hawk.ETL.Plugins.Generators;
+using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("CrawlerTF", "CrawlerTF_desc","carema")]
+    [XFrmWork("CrawlerTF", "CrawlerTF_desc", "carema")]
     public class CrawlerTF : ResponseTF
     {
         private BfsGE generator;
 
         public CrawlerTF()
         {
-            MaxTryCount = "1";
             ErrorDelay = 3000;
             PropertyChanged += (s, e) => { buffHelper.Clear(); };
         }
+        static  SmartCrawler defaultCrawler=new SmartCrawler();
 
         [Browsable(false)]
         public override string HeaderFilter { get; set; }
-
-        [LocalizedCategory("key_67")]
-        [LocalizedDisplayName("key_480")]
-        public string MaxTryCount { get; set; }
 
         [LocalizedCategory("key_67")]
         [LocalizedDisplayName("key_481")]
@@ -44,8 +41,7 @@ namespace Hawk.ETL.Plugins.Transformers
             base.Init(datas);
 
             IsMultiYield = Crawler?.IsMultiData == ScriptWorkMode.List && Crawler.CrawlItems.Count > 0;
-
-            return Crawler != null;
+            return true;
         }
 
         private IEnumerable<FreeDocument> GetDatas(IFreeDocument data)
@@ -56,8 +52,12 @@ namespace Hawk.ETL.Plugins.Transformers
             var url = p.ToString();
             var bufkey = url;
             var post = data.Query(PostData);
-
-            if (Crawler.Http.Method == MethodType.POST)
+            var crawler = Crawler;
+            if (crawler == null)
+            {
+                crawler = defaultCrawler;
+            }
+            if (crawler.Http.Method == MethodType.POST)
             {
                 bufkey += post;
             }
@@ -65,29 +65,22 @@ namespace Hawk.ETL.Plugins.Transformers
 
             if (htmldoc == null)
             {
+                var random= new Random();
+                if(random.Next(0,100)>50)
+                    throw  new Exception("网络请求错误");
                 HttpStatusCode code;
-                var maxcount = 1;
-                int.TryParse(data.Query(MaxTryCount), out maxcount);
 
                 var count = 0;
-                while (count < maxcount)
+                var docs = crawler.CrawlData(url, out htmldoc, out code, post);
+                if (HttpHelper.IsSuccess(code))
                 {
-                  var   docs = Crawler.CrawlData(url, out htmldoc, out code, post);
-                    if (HttpHelper.IsSuccess(code))
-                    {
-                        buffHelper.Set(bufkey, htmldoc);
-                        return docs;
-                    }
-                    Thread.Sleep(ErrorDelay);
-                    count++;
+                    buffHelper.Set(bufkey, htmldoc);
+                    return docs;
                 }
+                Thread.Sleep(ErrorDelay);
+                throw new Exception("Web Request Error:" + code);
             }
-            else
-            {
-                return Crawler.CrawlData(htmldoc.DocumentNode);
-            }
-            return new List<FreeDocument>(); 
-
+            return crawler.CrawlData(htmldoc.DocumentNode);
         }
 
         protected override IEnumerable<IFreeDocument> InternalTransformManyData(IFreeDocument data)
@@ -100,7 +93,7 @@ namespace Hawk.ETL.Plugins.Transformers
         {
             var docs = GetDatas(datas);
             var first = docs.FirstOrDefault();
-            if (first!=null)
+            if (first != null)
             {
                 first.DictCopyTo(datas);
             }

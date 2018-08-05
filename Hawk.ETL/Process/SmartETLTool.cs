@@ -42,6 +42,7 @@ namespace Hawk.ETL.Process
             MaxThreadCount = 20;
             IsUISupport = true;
             Analyzer = new Analyzer();
+       
             IsAutoRefresh = true;
             AllETLTools.AddRange(
                 PluginProvider.GetPluginCollection(typeof (IColumnProcess)));
@@ -402,6 +403,7 @@ namespace Hawk.ETL.Process
         public override bool Init()
         {
             mudoleHasInit = true;
+            Analyzer.DataManager = this.SysDataManager;
             RefreshSamples();
             CurrentETLTools.CollectionChanged += (s, e) =>
             {
@@ -474,9 +476,10 @@ namespace Hawk.ETL.Process
             var etls = CurrentETLTools.Take(ETLMount).Where(d => d.Enabled).ToList();
             var index = 0;
 
-
+            Analyzer.Start(this.Name);
             if (GenerateMode == GenerateMode.串行模式)
             {
+                
                 var realfunc3 = etls.Aggregate(isexecute:  true,analyzer:Analyzer);
                 var task = TemporaryTask.AddTempTask(Name + GlobalHelper.Get("key_704"), realfunc3.Invoke(),
                     null);
@@ -614,6 +617,7 @@ namespace Hawk.ETL.Process
                     shouldUpdate = false;
                     InsertModule(item);
                     shouldUpdate = true;
+                    item.ObjectID = String.Format("{0}_{1}_{2}", item.TypeName, item.Column, this.CurrentETLTools.Count);
                     if (NeedConfig(item))
                     {
                         var window = PropertyGridFactory.GetPropertyWindow(item);
@@ -748,7 +752,7 @@ namespace Hawk.ETL.Process
             var tasks = SysProcessManager.CurrentProcessTasks.Where(d => d.Publisher == this).ToList();
             if (tasks.Any())
             {
-                var str = String.Format("task_run",Name);
+                var str = String.Format(GlobalHelper.Get("task_run"),Name);
                 if (isErrorRemind == false)
                 {
                     XLogSys.Print.Warn(string.Format(GlobalHelper.Get("key_712"),Name));

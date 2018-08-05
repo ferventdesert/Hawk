@@ -656,171 +656,171 @@
     </system:String>
     <system:String x:Key="task_run">
         {0}已经有任务在执行，由于调整参数，是否要取消当前任务重新执行？\n 【取消】:【不再提醒】
-    </system:String>
-    <system:String x:Key="success_get">
+    </system:string>
+    <system:string x:key="success_get">
         已经成功获取嗅探字段！ 真实请求地址:\n{0}，\n已自动配置了网页采集器，请求类型为{1}\n {2}已经刷新了网页采集器的内容
-    </system:String>
-    <system:String x:Key="fail_remind">
+    </system:string>
+    <system:string x:key="fail_remind">
         作用在列名`{0}`的 模块`{1}` 已经连续5次没有成功获取数据，可能需要重新修改参数 \n 【是】：【进入调试模式】 \n 【否】：【取消当前任务】 \n 【取消】：【不再提示】
-    </system:String>
-    <system:String x:Key="key_191">
+    </system:string>
+    <system:string x:key="key_191">
         获取正文
-    </system:String>
-    <system:String x:Key="key_320">
+    </system:string>
+    <system:string x:key="key_320">
         到当前列表
-    </system:String>
-    <system:String x:Key="RegexSplitTF">
+    </system:string>
+    <system:string x:key="regexsplittf">
         正则分割
-    </system:String>
-    <system:String x:Key="key_155">
+    </system:string>
+    <system:string x:key="key_155">
         不需要获取插件接口名称，已经进行缓存,随时可进行修改
-    </system:String>
-    <system:String x:Key="JsonTF">
-        转换为Json
-    </system:String>
-    <system:String x:Key="key_402">
-        可参考C# DateTime Format相关方法， 例如yyyy-MM-dd等
-    </system:String>
-    <system:String x:Key="key_704">
+    </system:string>
+    <system:string x:key="jsontf">
+        转换为json
+    </system:string>
+    <system:string x:key="key_402">
+        可参考c# datetime format相关方法， 例如yyyy-mm-dd等
+    </system:string>
+    <system:string x:key="key_704">
         串行任务
-    </system:String>
-    <system:String x:Key="key_662">
+    </system:string>
+    <system:string x:key="key_662">
         {0}  不能被识别为正确的{1}表达式，请检查
-    </system:String>
-    <system:String x:Key="key_332">
+    </system:string>
+    <system:string x:key="key_332">
         数据库连接
-    </system:String>
-    <system:String x:Key="key_154">
+    </system:string>
+    <system:string x:key="key_154">
         接口
-    </system:String>
-    <system:String x:Key="key_595">
+    </system:string>
+    <system:string x:key="key_595">
         代表纬度所在的列
-    </system:String>
-    <system:String x:Key="key_790">
+    </system:string>
+    <system:string x:key="key_790">
         当前加载的所有算法模块
-    </system:String>
-    <system:String x:Key="key_726">
-        Grid.Column=
-    </system:String>
-    <system:String x:Key="key_253">
+    </system:string>
+    <system:string x:key="key_726">
+        grid.column=
+    </system:string>
+    <system:string x:key="key_253">
         文件导出成功，是否要打开查看?
-    </system:String>
-    <system:String x:Key="key_550">
+    </system:string>
+    <system:string x:key="key_550">
         尾串
-    </system:String>
-    <system:String x:Key="key_361">
+    </system:string>
+    <system:string x:key="key_361">
         是否异步
-    </system:String>
-    <system:String x:Key="key_450">
+    </system:string>
+    <system:string x:key="key_450">
         是否递归
-    </system:String>
-    <system:String x:Key="FileConnectorExcel">
-        EXCEL导入导出器
-    </system:String>
-    <system:String x:Key="key_707">
+    </system:string>
+    <system:string x:key="fileconnectorexcel">
+        excel导入导出器
+    </system:string>
+    <system:string x:key="key_707">
         子任务
-    </system:String>
-    <system:String x:Key="XPathTF2_desc">
-        要拖入HTML文本列,可将页面中的门类，用Cross模式组合起来，适合于爬虫无法抓取全部页面，但可以按分类抓取的情况。需调用网页采集器，具体参考文档-门类枚举
-    </system:String>
-    <system:String x:Key="key_626">
+    </system:string>
+    <system:string x:key="xpathtf2_desc">
+        要拖入html文本列,可将页面中的门类，用cross模式组合起来，适合于爬虫无法抓取全部页面，但可以按分类抓取的情况。需调用网页采集器，具体参考文档-门类枚举
+    </system:string>
+    <system:string x:key="key_626">
         列表模式下，属性数量不能少于2个
-    </system:String>
-    <system:String x:Key="key_592">
+    </system:string>
+    <system:string x:key="key_592">
         查询地物
-    </system:String>
-    <system:String x:Key="Time2StrTF_desc">
+    </system:string>
+    <system:string x:key="time2strtf_desc">
         将时间类型转换为特定格式的字符串
-    </system:String>
-    <system:String x:Key="key_217">
+    </system:string>
+    <system:string x:key="key_217">
         查询字符串
-    </system:String>
-    <system:String x:Key="key_495">
+    </system:string>
+    <system:string x:key="key_495">
         选择所要连接的表
-    </system:String>
-    <system:String x:Key="key_610">
+    </system:string>
+    <system:string x:key="key_610">
         荷兰语
-    </system:String>
-    <system:String x:Key="key_778">
-        {Binding GenerateMode, Converter={StaticResource GeneratorConverter}}
-    </system:String>
-    <system:String x:Key="key_655">
+    </system:string>
+    <system:string x:key="key_778">
+        {binding generatemode, converter={staticresource generatorconverter}}
+    </system:string>
+    <system:string x:key="key_655">
         是否启用自动嗅探
-    </system:String>
-    <system:String x:Key="key_293">
+    </system:string>
+    <system:string x:key="key_293">
         取消
-    </system:String>
-    <system:String x:Key="key_340">
+    </system:string>
+    <system:string x:key="key_340">
         任务已经出错：
-    </system:String>
-    <system:String x:Key="key_602">
+    </system:string>
+    <system:string x:key="key_602">
         中文
-    </system:String>
-    <system:String x:Key="IColumnProcess">
-        ETL模块接口
-    </system:String>
-    <system:String x:Key="key_633">
+    </system:string>
+    <system:string x:key="icolumnprocess">
+        etl模块接口
+    </system:string>
+    <system:string x:key="key_633">
         是否确定清除所有属性?
-    </system:String>
-    <system:String x:Key="EtlTF">
+    </system:string>
+    <system:string x:key="etltf">
         子任务-转换
-    </system:String>
-    <system:String x:Key="key_653">
+    </system:string>
+    <system:string x:key="key_653">
         找不到其他符合条件的节点，搜索器已经返回开头
-    </system:String>
-    <system:String x:Key="key_399">
+    </system:string>
+    <system:string x:key="key_399">
         间隔
-    </system:String>
-    <system:String x:Key="key_797">
-        Margin=
-    </system:String>
-    <system:String x:Key="key_390">
+    </system:string>
+    <system:string x:key="key_797">
+        margin=
+    </system:string>
+    <system:string x:key="key_390">
         填入空格分割的列名，对本模块所在列的值相同的所有属性分别进行纵向求和
-    </system:String>
-    <system:String x:Key="key_8">
+    </system:string>
+    <system:string x:key="key_8">
         总数据量
-    </system:String>
-    <system:String x:Key="DbEX">
+    </system:string>
+    <system:string x:key="dbex">
         写入数据库
-    </system:String>
-    <system:String x:Key="XPathTF">
-        XPath筛选器
-    </system:String>
-    <system:String x:Key="key_295">
+    </system:string>
+    <system:string x:key="xpathtf">
+        xpath筛选器
+    </system:string>
+    <system:string x:key="key_295">
         新建或复制采集器
-    </system:String>
-    <system:String x:Key="key_381">
+    </system:string>
+    <system:string x:key="key_381">
         最小匹配数
-    </system:String>
-    <system:String x:Key="key_318">
+    </system:string>
+    <system:string x:key="key_318">
         另存为当前工程
-    </system:String>
-    <system:String x:Key="key_313">
+    </system:string>
+    <system:string x:key="key_313">
         存在同名任务，将覆盖该任务
-    </system:String>
-    <system:String x:Key="XFrmWorkPropertyGrid_desc">
+    </system:string>
+    <system:string x:key="xfrmworkpropertygrid_desc">
         属性配置选项
-    </system:String>
-    <system:String x:Key="key_254">
+    </system:string>
+    <system:string x:key="key_254">
         打开文件失败：
-    </system:String>
-    <system:String x:Key="key_70">
+    </system:string>
+    <system:string x:key="key_70">
         安装使用说明
-    </system:String>
-    <system:String x:Key="key_123">
-        当页面出现乱码时，可选择切换UTF-8或GBK
-    </system:String>
-    <system:String x:Key="key_385">
+    </system:string>
+    <system:string x:key="key_123">
+        当页面出现乱码时，可选择切换utf-8或gbk
+    </system:string>
+    <system:string x:key="key_385">
         延迟输出
-    </system:String>
-    <system:String x:Key="CrawlerTF">
+    </system:string>
+    <system:string x:key="crawlertf">
         从爬虫转换
-    </system:String>
-    <system:String x:Key="key_439">
+    </system:string>
+    <system:string x:key="key_439">
         请选择要读取的文件
-    </system:String>
-    <system:String x:Key="key_208">
-        位于， 作用在{0}的模块 {1} 转换出错, 信息{2}
+    </system:string>
+    <system:string x:key="key_208">
+        位于{0}, 作用在{1}的模块 {2} 转换出错, 信息{3}
     </system:String>
     <system:String x:Key="key_685">
         删除下游节点

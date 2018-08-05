@@ -48,21 +48,7 @@ namespace Hawk.ETL.Managements
             SavePath = docu.Set("SavePath", SavePath);
         }
 
-        public static Project LoadProject(string path)
-        {
-            if (File.Exists(path) == false)
-                throw new Exception(GlobalHelper.Get("key_331"));
-            var xml = new FileConnectorXML {FileName = path};
-            var r = xml.ReadFile().FirstOrDefault();
-            var project = new Project();
-
-            if (r != null)
-            {
-                project.DictDeserialize(r.DictSerialize());
-            }
-            project.SavePath = path;
-            return project;
-        }
+     
     }
 
     /// <summary>
@@ -74,11 +60,11 @@ namespace Hawk.ETL.Managements
         {
             Tasks = new ObservableCollection<ProcessTask>();
             DBConnections = new ObservableCollection<IDataBaseConnector>();
-            ;
+            Parameters=new Dictionary<string, string>();
 
         }
-
-
+        [Browsable(false)]
+        public List<DataCollection> DataCollections { get; set; }
 
         [LocalizedDisplayName("key_332")]
         public ObservableCollection<IDataBaseConnector> DBConnections { get; set; }
@@ -89,11 +75,24 @@ namespace Hawk.ETL.Managements
         /// </summary>
         [LocalizedDisplayName("key_333")]
         public ObservableCollection<ProcessTask> Tasks { get; set; }
+        
+        [Browsable(false)]
+        public Dictionary<string, string> Parameters { get; set; }
+                          
 
+        [LocalizedDisplayName("key_21")]
+        [PropertyEditor("CodeEditor")]
+        public string ParameterString
+        {
+            get
+            {
+                return "\n".Join( Parameters.Select(d=>d.Key+":"+d.Value));
+                
+            }
+            set { Parameters = ExtendEnumerable.ToDict(value); }
+        }
 
-     
-
-        public void Save()
+        public void Save(IEnumerable<DataCollection>collections=null)
         {
             var connector = new FileConnectorXML();
             if (SavePath != null && File.Exists(SavePath))
@@ -107,12 +106,20 @@ namespace Hawk.ETL.Managements
                 SavePath = connector.FileName;
             }
 
+            var dict = DictSerialize();
+            if (collections != null)
+            {
+                dict["DataCollections"] = new FreeDocument()
+                {
+                    Children = collections.Where(d => d.Count < 100000).Select(d => d.DictSerialize()).ToList()
+                };
+            }
             connector.WriteAll(
-                new List<IFreeDocument> {DictSerialize()}
+                new List<IFreeDocument> {dict}
                 );
         }
 
-        public static Project Load(string path = null)
+        public static Project Load( string path = null)
         {
             var connector = new FileConnectorXML();
             connector.FileName = path;
@@ -131,15 +138,28 @@ namespace Hawk.ETL.Managements
                 }
              
             }
-            var proj = connector.ReadFile().FirstOrDefault();
+            var projfile = connector.ReadFile().FirstOrDefault();
 
-            if (proj == null)
+            if (projfile == null)
                 return null;
-            var proj2 = new Project();
-            proj.DictCopyTo(proj2);
-            proj2.SavePath = connector.FileName;
+            var proj = new Project();
+            projfile.DictCopyTo(proj);
 
-            return proj2;
+            object collectionObj = null;
+            if(projfile.TryGetValue("DataCollections",out collectionObj))
+            {
+
+                List<FreeDocument> collectionDocs = (collectionObj as FreeDocument)?.Children as List<FreeDocument>;
+                proj.DataCollections = collectionDocs?.Select(d =>
+                {
+                    var doc = new DataCollection();
+                    doc.DictDeserialize(d);
+                    return doc;
+                }).ToList();
+            }
+            proj.SavePath = connector.FileName;
+
+            return proj;
         }
 
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
@@ -151,7 +171,6 @@ namespace Hawk.ETL.Managements
             {
                 Children = DBConnections.Select(d => (d as IDictionarySerializable).DictSerialize()).ToList()
             };
-            ;
             dict.Add("DBConnections", connecots);
             return dict;
         }

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using CommandLine;
 using CommandLine.Text;
+using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Managements;
@@ -121,13 +122,16 @@ namespace HawkScheduler
             var container = new CommandLineContainer();
 
             var processManager = container.PluginDictionary["DataProcessManager"] as DataProcessManager;
-            var project = ProjectItem.LoadProject(options.ProjectFile);
-
+            var project = Project.Load(options.ProjectFile);
+            var dataManager = container.PluginDictionary["DataManager"] as DataManager;
+            project.DataCollections.Execute(d=>dataManager.AddDataCollection(d));
             XmlConfigurator.Configure(new FileInfo("log4net_cmd.config"));
             processManager.CurrentProject = project;
             var task = project.Tasks.FirstOrDefault(d => d.Name == options.TaskName);
+            
             if (task == null)
             {
+                
                 Console.WriteLine("task not in project, project task lists:");
                 foreach (var _task in project.Tasks)
                 {

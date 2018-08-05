@@ -7,6 +7,7 @@ using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
+using Hawk.ETL.Managements;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
@@ -53,13 +54,14 @@ namespace Hawk.ETL.Plugins.Transformers
             return base.Init(docu);
 
         }
-        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas, AnalyzeItem analyzer)
 
         {
          
             foreach (var data in datas)
 
             {
+                
                 object item = data[Column];
                 if (string.IsNullOrEmpty(Script)) 
                     break;

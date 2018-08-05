@@ -23,6 +23,7 @@
     <system:String x:Key="DebugView">
         调试信息窗口
     </system:String>
+   
     <system:String x:Key="Error">
         失败
     </system:String>
@@ -992,6 +993,9 @@
     </system:String>
     <system:String x:Key="key_382">
         只有正则表达式匹配该文本的结果数量大于等于该值时，才会保留，默认为1
+    </system:String>
+    <system:String x:Key="defaultCrawler">
+        默认采集器
     </system:String>
     <system:String x:Key="key_643">
         停止
@@ -2526,5 +2530,10 @@
     <system:String x:Key="key_206">
         单文档
     </system:String>
-
+    <system:String x:Key="SupplierTF">
+        重试补数据
+    </system:String>
+    <system:String x:Key="SupplierTF_desc">
+      尝试对已有错误日志重跑补数据，错误日志需包含错误所在的任务名和模块名
+    </system:String>
 </ResourceDictionary>

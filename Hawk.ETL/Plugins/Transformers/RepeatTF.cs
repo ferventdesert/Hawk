@@ -8,6 +8,8 @@ using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Interfaces;
+using Hawk.ETL.Managements;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
@@ -36,7 +38,7 @@ namespace Hawk.ETL.Plugins.Transformers
             return base.Init(docus);
         }
 
-        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas, AnalyzeItem analyzer)
         {
             switch (RepeatType)
             {

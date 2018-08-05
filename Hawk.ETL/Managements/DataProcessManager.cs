@@ -495,7 +495,8 @@ namespace Hawk.ETL.Managements
                 {
                     ControlExtended.SafeInvoke(() =>
                     {
-                        currentProject = ProjectItem.LoadProject(project.SavePath);
+                        currentProject = Project.Load(project.SavePath);
+                        currentProject.DataCollections.Execute(d=>dataManager.AddDataCollection(d));
                         NotifyCurrentProjectChanged();
                     }, LogType.Info, GlobalHelper.Get("key_303"));
                 }
@@ -599,7 +600,11 @@ namespace Hawk.ETL.Managements
                     first = new ProjectItem();
                     project.DictCopyTo(first);
                 }
+                if (project.DataCollections?.Count > 0)
+                {//TODO: 添加名称重名？
 
+                    project.DataCollections.Execute(d => dataManager.AddDataCollection(d));
+                }
                 config.Projects.Insert(0, first);
 
                 currentProject = project;
@@ -618,14 +623,14 @@ namespace Hawk.ETL.Managements
             }
             if (isDefaultPosition)
             {
-                ControlExtended.SafeInvoke(() => currentProject.Save(), LogType.Important, GlobalHelper.Get("key_317"));
+                ControlExtended.SafeInvoke(() => currentProject.Save(dataManager.DataCollections), LogType.Important, GlobalHelper.Get("key_317"));
                 var pro = ConfigFile.GetConfig<DataMiningConfig>().Projects.FirstOrDefault();
                 if (pro != null) pro.SavePath = currentProject.SavePath;
             }
             else
             {
                 currentProject.SavePath = null;
-                ControlExtended.SafeInvoke(() => currentProject.Save(), LogType.Important, GlobalHelper.Get("key_318"));
+                ControlExtended.SafeInvoke(() => currentProject.Save(dataManager.DataCollections), LogType.Important, GlobalHelper.Get("key_318"));
             }
             ConfigFile.Config.SaveConfig();
         }
@@ -635,10 +640,10 @@ namespace Hawk.ETL.Managements
             var pro = new Project();
             pro.Save();
 
-            var probase = new ProjectItem();
-            pro.DictCopyTo(probase);
+            var newProj = new ProjectItem();
+            pro.DictCopyTo(newProj);
 
-            ConfigFile.GetConfig<DataMiningConfig>().Projects.Insert(0, probase);
+            ConfigFile.GetConfig<DataMiningConfig>().Projects.Insert(0, newProj);
             currentProject = pro;
                 var filemanager = new FileManager() { Name = GlobalHelper.Get("key_310") };
                 CurrentProject.DBConnections.Add(filemanager);
@@ -648,7 +653,7 @@ namespace Hawk.ETL.Managements
 
         public override void SaveConfigFile()
         {
-            CurrentProject?.Save();
+            CurrentProject?.Save(dataManager.DataCollections);
 
             ConfigFile.GetConfig().SaveConfig();
         }

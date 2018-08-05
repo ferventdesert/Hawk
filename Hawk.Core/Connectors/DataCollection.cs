@@ -98,13 +98,18 @@ namespace Hawk.Core.Connectors
         {
             var dict = new FreeDocument();
             dict.Add("Name", Name);
-            dict.Add("Count", Count);
-            dict.Add("Source", Source);
+            dict.Children= RealData.Select(d=>d as FreeDocument).ToList();
             return dict;
         }
 
         public void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
         {
+            Name=docu.Set("Name", Name);
+
+            var doc = docu as FreeDocument;
+            var res= doc?.Children?.Select(d=>d as IFreeDocument).ToList();
+            if (res != null)
+                RealData = res;
         }
 
         public DataCollection Clone(bool isdeep)

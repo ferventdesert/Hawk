@@ -17,6 +17,8 @@ namespace Hawk.ETL.Plugins.Transformers
             NewColumn = "NewColumn";
         }
 
+        [Browsable(false)]
+        public override string KeyConfig => NewValue; 
         [LocalizedDisplayName("key_469")]
         public string NewValue { get; set; }
 

@@ -18,7 +18,8 @@ namespace Hawk.ETL.Plugins.Transformers
         public UrlTF()
         {
         }
-
+        [Browsable(false)]
+        public override string KeyConfig => ConvertType.ToString();
         [LocalizedDisplayName("key_485")]
         public ConvertType ConvertType { get; set; }
 
@@ -45,6 +46,8 @@ namespace Hawk.ETL.Plugins.Transformers
         [LocalizedDisplayName("key_485")]
         public ConvertType ConvertType { get; set; }
 
+        [Browsable(false)]
+        public override string KeyConfig => ConvertType.ToString(); 
         public override object TransformData(IFreeDocument document)
         {
             object item = document[Column];

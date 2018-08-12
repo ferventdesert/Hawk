@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
@@ -46,6 +47,8 @@ namespace Hawk.ETL.Plugins.Executor
 
         private SmartCrawler crawler { get; set; }
 
+        [Browsable(false)]
+        public override string KeyConfig => SavePath;
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
             crawler =

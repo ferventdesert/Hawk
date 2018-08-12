@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
@@ -33,11 +34,15 @@ namespace Hawk.ETL.Plugins.Transformers
              
             };
         }
+
+        [Browsable(false)]
+        public override string KeyConfig => Format;
+
         Regex rgx = new Regex(@"\[[^\s\b\]{},!?'""]{1,10}\]|\{[^\s\b\]{},!?'""]{1,10}\}");
         [LocalizedDisplayName("key_502")]
         [LocalizedDescription("key_503")]
         public string MergeWith { get; set; }
-
+       
         [PropertyEditor("CodeEditor")]
         [LocalizedDisplayName("key_504")]
         [LocalizedDescription("MergeTF_format")]

@@ -28,6 +28,8 @@ namespace Hawk.ETL.Plugins.Generators
         [LocalizedDisplayName("key_374")]
         public string MaxValue { get; set; }
 
+        [Browsable(false)]
+        public override string KeyConfig => String.Format("{0}:{1}", MinValue, MaxValue);
 
         [LocalizedDisplayName("key_454")]
         public string Count { get; set; }

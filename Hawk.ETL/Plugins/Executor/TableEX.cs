@@ -19,7 +19,8 @@ namespace Hawk.ETL.Plugins.Executor
         {
             dataManager = MainDescription.MainFrm.PluginDictionary["DataManager"] as IDataManager;
         }
-
+        [Browsable(false)]
+        public override string KeyConfig => Table;
 
         [LocalizedDisplayName("key_22")]
         public string Table { get; set; }

@@ -220,11 +220,11 @@ namespace Hawk.ETL.Managements
 
                 if (debugGrid == null)
                 {
-                    debugGrid = PropertyGridFactory.GetInstance(RequestManager.Instance);
+                    debugGrid = PropertyGridFactory.GetInstance(ConfigFile.GetConfig<DataMiningConfig>());
                 }
                 else
                 {
-                    debugGrid.SetObjectView(RequestManager.Instance);
+                    debugGrid.SetObjectView(ConfigFile.GetConfig<DataMiningConfig>());
                 }
                
                 dynamic control =

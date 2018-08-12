@@ -270,8 +270,8 @@ namespace Hawk.ETL.Managements
                         dockableManager.AddDockAbleContent(control, view, itemName);
                     }
                 }
-                var debugGrid = PropertyGridFactory.GetInstance(RequestManager.Instance);
-                debugGrid.SetObjectView(RequestManager.Instance);
+                var debugGrid = PropertyGridFactory.GetInstance(ConfigFile.GetConfig<DataMiningConfig>());
+                debugGrid.SetObjectView(ConfigFile.GetConfig<DataMiningConfig>());
 
                 dynamic control2 =
                     (MainFrmUI as IDockableManager).ViewDictionary.FirstOrDefault(d => d.View == debugGrid)

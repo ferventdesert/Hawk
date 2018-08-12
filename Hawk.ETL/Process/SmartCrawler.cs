@@ -814,9 +814,6 @@ namespace Hawk.ETL.Process
                 if (crawler != null)
                 {
                     Http.ProxyIP = crawler.Http.ProxyIP;
-                    Http.ProxyPassword = crawler.Http.ProxyPassword;
-                    Http.ProxyUserName = crawler.Http.ProxyUserName;
-                    Http.ProxyPort = crawler.Http.ProxyPort;
                     if (Http.Parameters != crawler.Http.Parameters)
                     {
                         var cookie = crawler.Http.GetHeaderParameter().Get<string>("Cookie");
@@ -854,21 +851,21 @@ namespace Hawk.ETL.Process
         public IEnumerable<FreeDocument> CrawlData(string url, out HtmlDocument doc, out HttpStatusCode code,
             string post = null)
         {
-            RequestManager.Instance.RequestCount++;
+            ConfigFile.GetConfig<DataMiningConfig>().RequestCount++;
             var content = GetHtml(url, out code, post);
             try
             {
                 var datas = CrawlHtmlData(content, out doc);
                 if (!datas.Any())
                 {
-                    RequestManager.Instance.ParseErrorCount++;
+                    ConfigFile.GetConfig<DataMiningConfig>().ParseErrorCount++;
                     XLogSys.Print.InfoFormat(GlobalHelper.Get("key_669"), url);
                 }
                 return datas;
             }
             catch (Exception ex)
             {
-                    RequestManager.Instance.ParseErrorCount++;
+                ConfigFile.GetConfig<DataMiningConfig>().ParseErrorCount++;
                 doc = new HtmlDocument();
                 XLogSys.Print.ErrorFormat(GlobalHelper.Get("key_670"), url, ex.Message);
                 return new List<FreeDocument>();
@@ -898,7 +895,7 @@ namespace Hawk.ETL.Process
             URLHTML = await MainFrm.RunBusyWork(() =>
             {
                 HttpStatusCode code;
-               RequestManager.Instance.RequestCount++;
+                ConfigFile.GetConfig<DataMiningConfig>().RequestCount++;
                 return GetHtml(URL, out code);
             });
             if (URLHTML.Contains(GlobalHelper.Get("key_671")) &&

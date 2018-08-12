@@ -62,6 +62,8 @@ namespace Hawk.ETL.Managements
             param["__SysTime"] = DateTime.Now.ToString();
             ControlExtended.UIInvoke(() =>
             {
+                if(!ConfigFile.GetConfig<DataMiningConfig>().IsAddErrorCollection)
+                    return;
                 errorCollection?.ComputeData.Add(param);
                 errorCollection?.OnPropertyChanged("Count");
             });

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
@@ -37,7 +38,8 @@ namespace Hawk.ETL.Plugins.Generators
         [PropertyOrder(1)]
         public ExtendSelector<IDataBaseConnector> ConnectorSelector { get; set; }
 
-
+        [Browsable(false)]
+        public override string KeyConfig => String.Format("{0}, {1}", ConnectorSelector?.SelectItem, TableNames.SelectItem);
         [LocalizedCategory("key_21")]
         [LocalizedDisplayName("key_407")]
         [PropertyOrder(2)]

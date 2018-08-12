@@ -13,6 +13,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 
@@ -328,21 +329,27 @@ namespace Hawk.Core.Utils
         {
             var docu = item.GetHeaderParameter();
             // 设置代理
-            if (item.ProxyPort == 0 || string.IsNullOrEmpty(item.ProxyIP))
+            if (string.IsNullOrEmpty(item.ProxyIP))
             {
                 //不需要设置
             }
             else
             {
                 //设置代理服务器
-                var myProxy = new WebProxy(item.ProxyIP, item.ProxyPort);
+                string username, password,url;
+                if (HttpItem.GetProxyInfo(item.ProxyIP, out username, out password, out url))
+                {
 
-                //建议连接
-                myProxy.Credentials = new NetworkCredential(item.ProxyUserName, item.ProxyPassword);
-                //给当前请求对象
-                request.Proxy = myProxy;
-                //设置安全凭证
-                request.Credentials = CredentialCache.DefaultNetworkCredentials;
+
+                    var myProxy = new WebProxy(url);
+
+                    //建议连接
+                    myProxy.Credentials = new NetworkCredential(username,password);
+                    //给当前请求对象
+                    request.Proxy = myProxy;
+                    //设置安全凭证
+                    request.Credentials = CredentialCache.DefaultNetworkCredentials;
+                }
             }
             //请求方式Get或者Post
             request.Method = item.Method.ToString();
@@ -548,10 +555,10 @@ namespace Hawk.Core.Utils
                 if (!IsSuccess(code))
                 {
                     if(code==HttpStatusCode.Forbidden)
-                        RequestManager.Instance.ForbidCount++;
+                        ConfigFile.GetConfig().Increase("ForbidCount");
                      if(code==HttpStatusCode.RequestTimeout||code==HttpStatusCode.GatewayTimeout)
 
-                        RequestManager.Instance.TimeoutCount++;
+                        ConfigFile.GetConfig().Increase("TimeoutCount");
                     
                     XLogSys.Print.Warn($"HTTP Request Failed {code} | {requestitem.URL} ");
                     return GlobalHelper.Get("key_113") + code;

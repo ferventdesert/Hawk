@@ -821,7 +821,7 @@
         请选择要读取的文件
     </system:String>
     <system:String x:Key="key_208">
-        位于， 作用在{0}的模块 {1} 转换出错, 信息{2}
+        作用在{0}的模块 {1} 转换出错, 信息{2}
     </system:String>
     <system:String x:Key="key_685">
         删除下游节点
@@ -1694,7 +1694,7 @@
         空对象过滤器
     </system:String>
     <system:String x:Key="key_278">
-        Web请求统计
+        系统设置与状态统计
     </system:String>
     <system:String x:Key="key_93">
         数据表列表
@@ -1885,7 +1885,7 @@
         若想获取分割后的第0个元素，则填入0，获取倒数第一个元素，则填入-1 \n可输入多个匹配编号，中间以空格分割，【输出列】也需要与之一对应\n
     </system:String>
     <system:String x:Key="key_118">
-        代理IP
+        代理配置
     </system:String>
     <system:String x:Key="key_182">
         当前代理索引
@@ -2378,7 +2378,7 @@
         新建项目
     </system:String>
     <system:String x:Key="key_635">
-        请求详情
+        Http请求详情
     </system:String>
     <system:String x:Key="DataManager">
         数据管理
@@ -2541,6 +2541,47 @@
       </system:String>
     <system:String x:Key="xpath_detector_desc">
           可通过搜索快速定位所需文本的XPath
+    </system:String>
+     <system:String x:Key="is_generate_error_collection">
+            生成错误集合
+    </system:String>
+    <system:String x:Key="is_generate_error_collection_desc">
+         用于记录任务中产生的错误，进而回补错误丢失的数据集
+    </system:String>
+    <system:String x:Key="is_display_desc">
+           显示模块描述
+    </system:String>
+    <system:String x:Key="serial_mode">
+        串行模式 
+    </system:String>
+    <system:String x:Key="parallel_mode">
+        并行模式
+    </system:String>
+    <system:String x:Key="merge_append">
+        按行纵向合并
+    </system:String>
+    <system:String x:Key="merge_merge">
+        按列横向合并
+    </system:String>
+    <system:String x:Key="merge_cross">
+        笛卡尔交叉
+    </system:String>
+    <system:String x:Key="merge_mix">
+        交错交叉
+    </system:String>
+    <system:String x:Key="merge_outputonly">
+        直接输出
+    </system:String>
+    <system:String x:Key="proxy_setting_desc">
+        一行一条，参考python proxy代理的设置方法,例如:
+        包含用户名密码：http://username:password@121.193.143.249:80/ 
+        不包含:http://121.193.143.249:80/
+    </system:String>
+    <system:String x:Key="proxyge">
+        添加代理
+    </system:String>
+    <system:String x:Key="proxyge_desc">
+        
     </system:String>
 
 </ResourceDictionary>

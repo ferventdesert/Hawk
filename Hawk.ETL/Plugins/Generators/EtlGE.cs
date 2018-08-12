@@ -207,7 +207,27 @@ namespace Hawk.ETL.Plugins.Generators
             public TextEditSelector Source { get; set; }
             public TextEditSelector Target { get; set; }
         }
+        
     }
+
+    public class ETLSpliter
+    {
+        //public List<IColumnProcess> GetSplit(IList<IColumnProcess> etls, IColumnProcess splitPos,bool isBefore,out List<IColumnProcess>subETL)
+        //{
+        //    subETL = null;
+        //    var pos = etls.IndexOf(splitPos);
+        //    if(pos==-1)
+        //        throw new  ArgumentException("module not exists");
+        //    if (isBefore)
+        //    {
+        //        subETL = etls.Take(pos).ToList();
+                 
+        //    }
+           
+            
+        //} 
+    }
+
 
     public class ETLBase : ToolBase, INotifyPropertyChanged
     {
@@ -224,6 +244,8 @@ namespace Hawk.ETL.Plugins.Generators
             MappingSet = "";
         }
 
+        [Browsable(false)]
+        public override string KeyConfig =>ETLSelector?.SelectItem;
         [LocalizedCategory("key_409")]
         [PropertyOrder(1)]
         [LocalizedDisplayName("key_410")]

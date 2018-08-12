@@ -37,7 +37,8 @@ namespace Hawk.ETL.Plugins.Transformers
         public ScriptWorkMode ScriptWorkMode { get; set; }
 
 
-
+        [Browsable(false)]
+        public override string KeyConfig => ScriptWorkMode.ToString();
 
         private SmartCrawler selector;
         private bool crawlerEnabled = false;

@@ -22,8 +22,9 @@ namespace Hawk.ETL.Plugins.Generators
          [PropertyEditor("CodeEditor")]
          public string Content { get; set; }
 
-
-         public TextGE()
+         [Browsable(false)]
+         public override string KeyConfig => Content?.Substring(Math.Min(100,Content.Length)); 
+        public TextGE()
          {
              Column = "text";
              Content = "";

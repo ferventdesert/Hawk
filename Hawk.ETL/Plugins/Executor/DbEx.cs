@@ -1,6 +1,7 @@
 ﻿using System;
 using Hawk.Core.Utils;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
@@ -8,6 +9,7 @@ using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Crawlers;
 using Hawk.ETL.Interfaces;
 
 namespace Hawk.ETL.Plugins.Executor
@@ -29,7 +31,8 @@ namespace Hawk.ETL.Plugins.Executor
                 (s, e) => TableNames.SetSource(ConnectorSelector.SelectItem.RefreshTableNames().Select(d=>d.Name));
             TableNames.SelectChanged += (s, e) => { InformPropertyChanged("TableNames"); };
         }
-
+        [Browsable(false)]
+        public override string KeyConfig => ExecuteType+":"+TableNames?.SelectItem;
         [LocalizedDisplayName("key_343")]
         [PropertyOrder(3)]
         [LocalizedDescription("key_344")]

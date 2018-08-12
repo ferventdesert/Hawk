@@ -21,8 +21,10 @@
         <Utils:GeneratorConverter x:Key="GeneratorConverter"/>
         <Utils:GroupConverter x:Key="GroupConverter"/>
         <local:GroupColorConverter x:Key="GroupColorConverter" />
+        <BooleanToVisibilityConverter x:Key="boolVisualConverter" />
         <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
         <themes:MetroConverter x:Key="MetroConverter" />
+		    <System_Windows_Controls_WpfPropertyGrid:EnumValueConverter x:Key="enumValueConverter" />
         <themes:ModuleMetroConverter x:Key="ModuleMetroConverter" />
 
         <ContextMenu x:Key="resourceContextMenu"
@@ -188,6 +190,22 @@
                 <EventTrigger RoutedEvent="Mouse.MouseLeave" />
             </DataTemplate.Triggers>
         </DataTemplate>
+		 <DataTemplate x:Key="DataTemplateIcon">
+            <StackPanel Height="60" Margin="4" Width="60" ToolTip="{Binding Descrption}">
+		 		<Rectangle Width="30"  Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" >
+		 			<Rectangle.Fill>
+		 				<VisualBrush Stretch="Fill"
+		 					Visual="{Binding Converter={StaticResource ModuleMetroConverter}, Mode=OneWay}"  />
+		 			</Rectangle.Fill>
+		 		</Rectangle>
+		 		<Label Content="{Binding Name}" ToolTip="{Binding Description}" Margin="0,8,0,0" Height="Auto" VerticalAlignment="Bottom"
+		 			d:LayoutOverrides="GridBox" HorizontalAlignment="Center" Width="Auto" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" />
+		 	</StackPanel>
+            <DataTemplate.Triggers>
+                <EventTrigger RoutedEvent="Mouse.MouseEnter" />
+                <EventTrigger RoutedEvent="Mouse.MouseLeave" />
+            </DataTemplate.Triggers>
+        </DataTemplate>
         <DataTemplate x:Key="DataTemplate1">
             <StackPanel Height="Auto" Width="150" d:DesignWidth="42.438" d:DesignHeight="251.312">
                 <TextBox Text="{Binding Name, Mode=TwoWay}"
@@ -330,10 +348,13 @@
                 </Popup>
             </Grid>
         </ControlTemplate>
+        <ItemsPanelTemplate x:Key="ItemsPanelTemplate2">
+        	<VirtualizingStackPanel IsItemsHost="True"/>
+        </ItemsPanelTemplate>
 
 
     </UserControl.Resources>
-    <Grid>
+    <Grid x:Name="grid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.216*" />
             <ColumnDefinition Width="0.684*" />
@@ -507,7 +528,8 @@
             </Rectangle>
             <TextBlock Margin="0,3.498,0,0" TextWrapping="Wrap" VerticalAlignment="Center"><Run Language="zh-cn" Text="{DynamicResource key_775}" /></TextBlock>
             <TextBox x:Name="SearchBox" TextWrapping="Wrap"
-        		Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="193.1" d:LayoutOverrides="Height" MinWidth="150" />
+        		Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:LayoutOverrides="Height" MinWidth="150" />
+            <CheckBox x:Name="StyleCheckbox" Content="{DynamicResource is_display_desc}" IsChecked="{Binding Config.IsDisplayDetail}" Margin="10,0,0,0" VerticalAlignment="Center"/>
         </StackPanel>
         <Grid Margin="8,8,8,0" Grid.RowSpan="2">
             <Grid.RowDefinitions>
@@ -516,9 +538,9 @@
                 <RowDefinition Height="40" />
             </Grid.RowDefinitions>
             <ListBox x:Name="ETLToolList" x:FieldModifier="public" Margin="0,27,0,8"
-				ItemsSource="{Binding ETLToolsView}" ItemTemplate="{DynamicResource DataTemplateList}"
+				ItemsSource="{Binding ETLToolsView}" ItemTemplate="{DynamicResource DataTemplateList}" 
 			 
-				ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+				ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsPanel="{DynamicResource ItemsPanelTemplate2}">
                 <ListBox.GroupStyle>
                     <GroupStyle ContainerStyle="{StaticResource GroupContainerStyle}">
                         <GroupStyle.HeaderTemplate>
@@ -541,9 +563,16 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{DynamicResource key_715}" DisplayMemberBinding="{Binding ETLIndex}" />
+                  
                         <GridViewColumn Header="{DynamicResource key_12}" DisplayMemberBinding="{Binding Attribute, Converter={StaticResource GroupConverter}}" />
                         <GridViewColumn Header="{DynamicResource key_18}" DisplayMemberBinding="{Binding TypeName}" />
+						      <GridViewColumn Header="{DynamicResource key_16}"  Width="200">
+						         <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding KeyConfig}" Visibility="{Binding DataContext.Config.IsDisplayDetail, ElementName=grid, Converter={StaticResource boolVisualConverter}}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+							  </GridViewColumn>
                     </GridView>
 
                 </ListView.View>
@@ -556,9 +585,17 @@
             				Visual="{Binding ConverterParameter=hourglass, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
                     </Rectangle.Fill>
                 </Rectangle>
-                <ComboBox ItemsSource="{attributes:EnumValues {x:Type connectors:GenerateMode}}" SelectedItem="{Binding GenerateMode}" d:LayoutOverrides="Height" VerticalAlignment="Center"/>
-                <TextBlock TextWrapping="Wrap" Text="{DynamicResource key_777}" VerticalAlignment="Center" Margin="8,0,0,0" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter}}" />
-                <TextBox TextWrapping="Wrap" Text="{Binding MaxThreadCount}" VerticalAlignment="Center" Margin="8,0,0,0" Width="40" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter}}" />
+                <ComboBox ItemsSource="{attributes:EnumValues {x:Type connectors:GenerateMode}}" SelectedItem="{Binding GenerateMode}" d:LayoutOverrides="Height" VerticalAlignment="Center">
+                	 <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding ., Converter={StaticResource enumValueConverter}}" />
+                </DataTemplate>
+           				 </ComboBox.ItemTemplate>            
+				</ComboBox>
+                <TextBlock TextWrapping="Wrap" Text="{DynamicResource key_777}" VerticalAlignment="Center" Margin="8,0,0,0" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter} ,ConverterParameter=True}" />
+                <TextBox TextWrapping="Wrap" Text="{Binding MaxThreadCount}" VerticalAlignment="Center" Margin="8,0,0,0" Width="40" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter},ConverterParameter=True}" />
+                <TextBlock TextWrapping="Wrap" Text="{DynamicResource key_395}" VerticalAlignment="Center" Margin="8,0,0,0" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter} , ConverterParameter=False}" />
+                <TextBox TextWrapping="Wrap" Text="{Binding DelayTime}" VerticalAlignment="Center" Margin="8,0,0,0" Width="40" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter},  ConverterParameter=False}" />
                 <Button DataContext="{Binding Commands3[0]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Center" Width="80" Margin="10,0,0,0"/>
             </StackPanel>
         </Grid>

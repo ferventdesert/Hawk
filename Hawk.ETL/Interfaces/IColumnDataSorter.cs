@@ -32,7 +32,6 @@ namespace Hawk.ETL.Interfaces
         bool Enabled { get; set; }
 
         SmartETLTool Father { get; set; }
-        int ETLIndex { get; set; }
         string Description { get; }
         string TypeName { get; }
 
@@ -96,7 +95,35 @@ namespace Hawk.ETL.Interfaces
             }
         }
 
+        public static IList<IColumnProcess> AddModule(this IList<IColumnProcess> etls, Predicate<IColumnProcess> condition,
+            Func<IColumnProcess,IColumnProcess> addItem, bool isFront)
+        {
+            etls = etls.ToList();
+            int pos = 0;
+            while (pos<etls.Count)
+            {
+                var current = etls[pos];
+                if (condition(current))
+                {
+                    var newetl = addItem(current);
+                    if(isFront)
+                        etls.Insert(pos,newetl);
+                    else
+                    {
+                        if(pos+1<etls.Count)
+                         etls.Insert(pos+1,newetl);
+                        else
+                        {
+                            etls.Add(newetl);
+                        }
+                    }
+                    pos ++;
+                }
+                pos++;
 
+            }
+            return etls;
+        }
         public static int GetParallelPoint(this IList<IColumnProcess> etls)
 
         {
@@ -153,7 +180,7 @@ namespace Hawk.ETL.Interfaces
                 analyzeItem.Analyzer.AddErrorLog(item,ex,ge); 
                 }
                 
-                XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), ge.ETLIndex,ge.TypeName,ge.Column,res));
+                XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), ge.Column,ge.TypeName,res));
             }
 
             if (ge.OneOutput)
@@ -283,10 +310,15 @@ namespace Hawk.ETL.Interfaces
 
     public enum MergeType
     {
+        [LocalizedDescription("merge_append")]
         Append,
+        [LocalizedDescription("merge_merge")]
         Merge,
+        [LocalizedDescription("merge_cross")]
         Cross,
+        [LocalizedDescription("merge_mix")]
         Mix,
+        [LocalizedDescription("merge_outputonly")]
         OutputOnly
     }
 

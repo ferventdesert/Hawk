@@ -654,7 +654,7 @@
     <system:String x:Key="step2">
         步骤2：设置主任务属性列对应到子任务的属性名，下拉菜单仅参考，可直接编辑文本框
     </system:String>
-    <system:String x:Key="task_run">
+    <system:string x:Key="task_run">
         {0}已经有任务在执行，由于调整参数，是否要取消当前任务重新执行？\n 【取消】:【不再提醒】
     </system:string>
     <system:string x:key="success_get">

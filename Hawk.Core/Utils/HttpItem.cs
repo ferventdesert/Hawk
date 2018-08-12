@@ -21,7 +21,6 @@ namespace Hawk.Core.Utils
             Allowautoredirect = true;
             Encoding = EncodingType.Unknown;
             Parameters = "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36";
-            ProxyPort = 18888;
         }
 
         [PropertyEditor("CodeEditor")]
@@ -35,20 +34,31 @@ namespace Hawk.Core.Utils
         [PropertyOrder(1)]
         public string ProxyIP { get; set; }
 
-        [LocalizedCategory("key_117")]
-        [LocalizedDisplayName("key_119")]
-        [PropertyOrder(2)]
-        public int ProxyPort { get; set; }
 
-        [LocalizedCategory("key_117")]
-        [LocalizedDisplayName("key_25")]
-        [System.Windows.Controls.WpfPropertyGrid.Attributes.PropertyOrder(3)]
-        public string ProxyUserName { get; set; }
 
-        [LocalizedCategory("key_117")]
-        [LocalizedDisplayName("key_26")]
-        [PropertyOrder(4)]
-        public string ProxyPassword { get; set; }
+        public static bool GetProxyInfo(string proxy,out string url, out string username,out string password)
+        {
+            username = null;
+            password = null;
+            if (!proxy.Contains("@"))
+            {
+                url = proxy;
+                return true;
+            }
+            else
+            {
+                var pos0 = proxy.IndexOf("@");
+                var pos1 = proxy.LastIndexOf("//", 0, pos0);
+                var user_pass = proxy.Substring(pos1 + 2, pos0-pos1-2);
+                var items = user_pass.Split(':');
+                username = items[0];
+                if (items.Length > 1)
+                    password = items[1];
+                url = proxy.Replace(user_pass, "");
+                return true;
+            }
+        }
+
 
         public static  string HeaderToString(FreeDocument docu)
         {

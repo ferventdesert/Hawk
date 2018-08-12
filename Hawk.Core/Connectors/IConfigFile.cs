@@ -19,12 +19,12 @@ namespace Hawk.Core.Connectors
         T Get<T>(string item);
 
         bool Set<T>(string key, T value);
-        
+
         #endregion
 
         #region Public Methods
 
-
+        int Increase(string name);
         void RebuildConfig();
         void ReadConfig(string path = null);
 

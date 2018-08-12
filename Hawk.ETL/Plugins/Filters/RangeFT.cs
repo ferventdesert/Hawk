@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
@@ -28,7 +29,7 @@ namespace Hawk.ETL.Plugins.Filters
 
         #region Public Methods
 
-     
+        public override string KeyConfig => String.Format("min {0},max {1}", Min,Max);
 
         public override bool FilteDataBase(IFreeDocument data)
         {

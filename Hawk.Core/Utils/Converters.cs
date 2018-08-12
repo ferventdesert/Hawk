@@ -30,7 +30,7 @@ namespace Hawk.Core.Utils
             var p = s.MyType;
             if (s.Description.Contains(s.Name))
                 return "常用";
-            if(p==null)
+            if (p == null)
                 return unknown;
             foreach (var item in map)
             {
@@ -51,9 +51,12 @@ namespace Hawk.Core.Utils
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             GenerateMode mode;
+
             if (Enum.TryParse(value?.ToString(), out mode))
             {
-                return mode == GenerateMode.并行模式 ? Visibility.Visible : Visibility.Collapsed;
+                var param = parameter?.ToString() == "True";
+                if ((mode == GenerateMode.ParallelMode&&param)|| (mode == GenerateMode.SerialMode && param==false))
+                   return Visibility.Visible;
             }
             return Visibility.Collapsed;
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
@@ -39,6 +40,9 @@ namespace Hawk.ETL.Plugins.Generators
         [LocalizedDescription("key_402")]
         public string Format { get; set; }
 
+
+        [Browsable(false)]
+        public override string KeyConfig => String.Format("min:{0},max:{1}", MinValue, MaxValue);
         public override IEnumerable<IFreeDocument> Generate(IFreeDocument document = null)
         {
             //TODO

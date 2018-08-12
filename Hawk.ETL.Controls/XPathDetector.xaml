@@ -29,7 +29,12 @@
     		ScrollViewer.CanContentScroll="True" TextWrapping="WrapWithOverflow" Margin="8,46,8,8"
     		VerticalScrollBarVisibility="Auto"
     		Background="{DynamicResource NormalBorderBrush}" Grid.RowSpan="2" />
-        <ScrollViewer Grid.ColumnSpan="2" Grid.Column="1" Margin="8,13.568,12.487,0" Grid.RowSpan="2">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="46.177,0,0,8" VerticalAlignment="Bottom" Grid.Column="2" Grid.Row="1">
+        	<Button  DataContext="{Binding Commands[2]}" Content="{Binding Text}" Command="{Binding}" Margin="15,0,0,0" />
+
+        	<Button  DataContext="{Binding Commands[3]}" Content="{Binding Text}" Command="{Binding}" Margin="15,0,0,0" />
+        </StackPanel>
+        <ScrollViewer Grid.ColumnSpan="2" Grid.Column="1" Margin="8,13.568,13.487,32.25" Grid.RowSpan="2">
         	<StackPanel>
         		<Grid Height="25.672"  >
         			<TextBlock Margin="0,4.432,0,6" TextWrapping="Wrap" Text="{DynamicResource key_764}" HorizontalAlignment="Left" Width="84" d:LayoutOverrides="Height" VerticalAlignment="Center" />
@@ -48,12 +53,6 @@
         			<Button  DataContext="{Binding Commands[1]}" Content="{Binding Text}" Command="{Binding}" HorizontalAlignment="Right" Width="41.5" VerticalAlignment="Center" />
         		</Grid>
         		<ListBox     ItemsSource="{Binding ChildItems}" ItemTemplate="{DynamicResource DataTemplate1}" Margin="8"/>
-         
-        		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
-        			<Button  DataContext="{Binding Commands[2]}" Content="{Binding Text}" Command="{Binding}" Margin="15,0,0,0" />
-
-        			<Button  DataContext="{Binding Commands[3]}" Content="{Binding Text}" Command="{Binding}" Margin="15,0,0,0" />
-        		</StackPanel>
         	</StackPanel>
         </ScrollViewer>
         <TextBlock Margin="10,18,191,0" TextWrapping="Wrap" Text="{DynamicResource key_760}" VerticalAlignment="Top" />

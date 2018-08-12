@@ -2,6 +2,7 @@
 using Hawk.Core.Utils;
 using System.Windows.Data;
 using System.Windows.Media;
+using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 
@@ -48,8 +49,30 @@ namespace Hawk.ETL.Controls
         {
             this.InitializeComponent();
             this.ToolList.MouseDoubleClick += ToolList_MouseDoubleClick;
+            SetTemplate();
+            ConfigFile.GetConfig().PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == "IsDisplayDetail")
+                {
+                    SetTemplate();
+                }
+          
+            };
         }
 
+        void SetTemplate()
+        {
+            var isdetail = ConfigFile.GetConfig().Get<bool>("IsDisplayDetail");
+            var dataTemplate =
+                isdetail ? "DataTemplateList"
+                : "DataTemplateIcon";
+            var panelTempate =
+                isdetail ? "ItemsPanelTemplate2" : "ItemsPanelTemplate1";
+            ETLToolList.ItemTemplate = this.FindResource(dataTemplate) as DataTemplate;
+            ETLToolList.ItemsPanel = this.FindResource(panelTempate) as ItemsPanelTemplate;
+
+
+        }
         void ToolList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)

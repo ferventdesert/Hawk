@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
@@ -16,6 +17,8 @@ namespace Hawk.ETL.Plugins.Executor
         [LocalizedDescription("key_354")]
         public string DelayTime { get; set; }
 
+        [Browsable(false)]
+        public override string KeyConfig => DelayTime; 
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {
             IsMultiYield = true;

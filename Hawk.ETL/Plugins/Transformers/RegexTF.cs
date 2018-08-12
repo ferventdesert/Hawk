@@ -15,8 +15,8 @@ namespace Hawk.ETL.Plugins.Transformers
     public class RegexTF : TransformerBase
     {
         protected Regex regex;
-
-
+        [Browsable(false)]
+        public override string KeyConfig => Script.Substring(Math.Min(100, Script.Length));
         public RegexTF()
         {
             Index = 0;

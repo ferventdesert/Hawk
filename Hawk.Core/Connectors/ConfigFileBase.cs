@@ -8,6 +8,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Core.Connectors
 {
+    
     public abstract class ConfigFile : PropertyChangeNotifier, IConfigFile
     {
         #region Constants and Fields
@@ -109,6 +110,13 @@ namespace Hawk.Core.Connectors
             return Configs.Get<T>(item);
         }
 
+        public virtual int Increase(string name)
+        {
+            var v=Config.Get<int>(name);
+            v++;
+            Config.Set(name, v);
+            return v;
+        }
         public virtual void ReadConfig(string path = null)
         {
             if (path == null)

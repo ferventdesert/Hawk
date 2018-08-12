@@ -30,7 +30,8 @@ namespace Hawk.ETL.Plugins.Generators
         [LocalizedDescription("key_458")]
         public string Interval { get; set; }
 
-    
+        [Browsable(false)]
+        public override string KeyConfig => String.Format("{0}:{1}:{2}", MinValue, MaxValue,Interval);
 
         public override int? GenerateCount()
         {

@@ -21,7 +21,8 @@ namespace Hawk.ETL.Plugins.Transformers
         protected readonly ScriptEngine engine;
         protected readonly ScriptScope scope;
         private CompiledCode compiledCode;
-
+        [Browsable(false)]
+        public override string KeyConfig => Script.Substring(Math.Min(100, Script.Length));
         public PythonTF()
         {
             engine = Python.CreateEngine();

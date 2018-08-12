@@ -21,7 +21,6 @@ namespace Hawk.ETL.Plugins.Transformers
 
         public CrawlerTF()
         {
-            ErrorDelay = 3000;
             PropertyChanged += (s, e) => { buffHelper.Clear(); };
         }
         static  SmartCrawler defaultCrawler=new SmartCrawler();
@@ -29,10 +28,7 @@ namespace Hawk.ETL.Plugins.Transformers
         [Browsable(false)]
         public override string HeaderFilter { get; set; }
 
-        [LocalizedCategory("key_67")]
-        [LocalizedDisplayName("key_481")]
-        public int ErrorDelay { get; set; }
-
+        [PropertyOrder(1)]
         [LocalizedDisplayName("key_482")]
         public string PostData { get; set; }
 
@@ -43,7 +39,11 @@ namespace Hawk.ETL.Plugins.Transformers
             IsMultiYield = Crawler?.IsMultiData == ScriptWorkMode.List && Crawler.CrawlItems.Count > 0;
             return true;
         }
-
+        [PropertyOrder(2)]
+        [LocalizedDisplayName("key_118")]
+        public string Proxy { get; set; }
+        [Browsable(false)]
+        public override string KeyConfig => CrawlerSelector.SelectItem;
         private IEnumerable<FreeDocument> GetDatas(IFreeDocument data)
         {
             var p = data[Column];
@@ -74,7 +74,6 @@ namespace Hawk.ETL.Plugins.Transformers
                     buffHelper.Set(bufkey, htmldoc);
                     return docs;
                 }
-                Thread.Sleep(ErrorDelay);
                 throw new Exception("Web Request Error:" + code);
             }
             return crawler.CrawlData(htmldoc.DocumentNode);

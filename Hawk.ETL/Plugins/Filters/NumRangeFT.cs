@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
@@ -35,6 +36,8 @@ namespace Hawk.ETL.Plugins.Filters
             this.index = 0;
             return base.Init(datas);
         }
+        [Browsable(false)]
+        public override string KeyConfig => String.Format("skip {0},take {1}",Skip,Take);
 
         public override bool FilteDataBase(IFreeDocument data)
         {

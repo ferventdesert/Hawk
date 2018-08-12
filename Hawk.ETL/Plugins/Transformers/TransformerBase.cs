@@ -34,7 +34,12 @@ namespace Hawk.ETL.Plugins.Transformers
         [LocalizedDescription("key_566")]
         public TextEditSelector ColumnSelector { get; set; }
 
-      
+        [Browsable(false)]
+        public virtual string KeyConfig
+        {
+            get { return Column; }
+
+        }
         public virtual void Finish()
         {
         }
@@ -49,6 +54,12 @@ namespace Hawk.ETL.Plugins.Transformers
             this.UnsafeDictDeserializePlus(docu);
         }
 
+       
+        public virtual IEnumerable<string> InputColumns()
+        {
+                if (!string.IsNullOrEmpty(Column))
+                    yield return Column;
+        } 
         public virtual FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
             var dict = this.UnsafeDictSerializePlus();
@@ -107,22 +118,6 @@ namespace Hawk.ETL.Plugins.Transformers
 
         [Browsable(false)]
         public SmartETLTool Father { get; set; }
-
-        [Browsable(false)]
-        public int ETLIndex
-        {
-            get { return _etlIndex; }
-            set
-            {
-                if (_etlIndex != value)
-                {
-                    _etlIndex = value;
-                    OnPropertyChanged("ETLIndex");
-                }
-            }
-        }
-
-        [LocalizedCategory("key_211")]
         [LocalizedDisplayName("key_12")]
         [PropertyOrder(0)]
         public string TypeName

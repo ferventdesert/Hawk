@@ -21,7 +21,8 @@ namespace Hawk.ETL.Plugins.Transformers
             }
             return base.Init(docus);
         }
-
+        [Browsable(false)]
+        public override string KeyConfig => NewColumn;
         [Browsable(false)]
         public override object TransformData(IFreeDocument document)
         {
@@ -57,5 +58,8 @@ namespace Hawk.ETL.Plugins.Transformers
             }
             return null;
         }
+
+        [Browsable(false)]
+        public override string KeyConfig => Column;
     }
 }

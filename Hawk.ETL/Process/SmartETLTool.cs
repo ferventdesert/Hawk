@@ -20,6 +20,7 @@ using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
+using Hawk.ETL.Plugins.Executor;
 using Hawk.ETL.Plugins.Generators;
 using Hawk.ETL.Plugins.Transformers;
 using Xceed.Wpf.Toolkit;
@@ -59,6 +60,8 @@ namespace Hawk.ETL.Process
         }
 
         #endregion
+
+        public ConfigFile Config => ConfigFile.GetConfig<DataMiningConfig>();
 
         #region Constants and Fields
 
@@ -366,6 +369,7 @@ namespace Hawk.ETL.Process
             base.DictDeserialize(dicts, scenario);
             MaxThreadCount = dicts.Set("MaxThreadCount", MaxThreadCount);
             GenerateMode = dicts.Set("GenerateMode", GenerateMode);
+            DelayTime = dicts.Set("DelayTime", DelayTime);
             SampleMount = dicts.Set("SampleMount", SampleMount);
             var doc = dicts as FreeDocument;
             if (doc != null && doc.Children != null)
@@ -395,6 +399,7 @@ namespace Hawk.ETL.Process
             dict.Add("MaxThreadCount", MaxThreadCount);
             dict.Add("GenerateMode", GenerateMode);
             dict.Add("SampleMount", SampleMount);
+            dict.Add("DelayTime", DelayTime);
             dict.Children = new List<FreeDocument>();
             dict.Children.AddRange(CurrentETLTools.Select(d => d.DictSerialize(scenario)));
             return dict;
@@ -474,11 +479,17 @@ namespace Hawk.ETL.Process
         public void ExecuteDatas()
         {
             var etls = CurrentETLTools.Take(ETLMount).Where(d => d.Enabled).ToList();
+
             var index = 0;
 
             Analyzer.Start(this.Name);
-            if (GenerateMode == GenerateMode.串行模式)
+            if (GenerateMode == GenerateMode.SerialMode)
             {
+                if (DelayTime > 0)
+                {
+                    etls = etls.AddModule(d => d.GetType() == typeof (CrawlerTF),
+                        d => new DelayTF() {DelayTime = DelayTime.ToString()}, true).ToList();
+                }
                 
                 var realfunc3 = etls.Aggregate(isexecute:  true,analyzer:Analyzer);
                 var task = TemporaryTask.AddTempTask(Name + GlobalHelper.Get("key_704"), realfunc3.Invoke(),
@@ -723,6 +734,21 @@ namespace Hawk.ETL.Process
             }
         }
 
+        [LocalizedDescription("key_709")]
+        [LocalizedDisplayName("key_395")]
+        [NumberRange(1, 20, 1)]
+        public int DelayTime
+        {
+            get { return _delayTime; }
+            set
+            {
+                if (_delayTime != value)
+                {
+                    _delayTime = value;
+                    OnPropertyChanged("DelayTime");
+                }
+            }
+        }
 
         private int _etlMount;
 
@@ -736,6 +762,7 @@ namespace Hawk.ETL.Process
         private readonly List<string> all_columns = new List<string>();
         private bool _isAutoRefresh;
         private DateTime lastRefreshTime;
+        private int _delayTime;
 
         public void RefreshSamples(bool canGetDatas = true)
         {
@@ -856,10 +883,7 @@ namespace Hawk.ETL.Process
             Documents.Clear();
             shouldUpdate = false;
             var i = 0;
-            foreach (var currentEtlTool in CurrentETLTools)
-            {
-                (currentEtlTool).ETLIndex = i++;
-            }
+           
             shouldUpdate = true;
             if (!MainDescription.IsUIForm)
                 return;

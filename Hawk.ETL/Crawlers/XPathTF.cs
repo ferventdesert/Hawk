@@ -73,7 +73,8 @@ namespace Hawk.ETL.Crawlers
                     );
             }
         }
-
+        [Browsable(false)]
+        public override string KeyConfig => XPath;
 
 
         private void SetConfig()

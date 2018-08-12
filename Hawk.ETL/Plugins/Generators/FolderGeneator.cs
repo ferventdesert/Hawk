@@ -18,7 +18,8 @@ namespace Hawk.ETL.Plugins.Generators
     {
         private List<string> fileList;
         private string _folderPath;
-
+        [Browsable(false)]
+        public override string KeyConfig => FolderPath;
 
         public FolderGE() 
         {

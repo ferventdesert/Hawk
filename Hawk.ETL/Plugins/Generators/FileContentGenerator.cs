@@ -39,7 +39,8 @@ namespace Hawk.ETL.Plugins.Generators
                 }
             }
         }
-
+        [Browsable(false)]
+        public override string KeyConfig => FileName;
         [LocalizedDisplayName("key_34")]
         [PropertyOrder(3)]
         public ReadOnlyCollection<ICommand> Commands2
@@ -113,6 +114,8 @@ namespace Hawk.ETL.Plugins.Generators
             FileName = "";
         }
 
+        [Browsable(false)]
+        public override string KeyConfig => FileName; 
         [LocalizedDisplayName("key_163")]
         [LocalizedDescription("key_87")]
         [PropertyOrder(2)]
@@ -226,6 +229,8 @@ namespace Hawk.ETL.Plugins.Generators
             }
         }
 
+        [Browsable(false)]
+        public override string KeyConfig => FileName; 
         [LocalizedDisplayName("key_34")]
         [PropertyOrder(3)]
         public ReadOnlyCollection<ICommand> Commands2

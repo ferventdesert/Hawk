@@ -35,7 +35,8 @@ namespace Hawk.ETL.Plugins.Filters
             Script = "";
         }
 
-        
+        [Browsable(false)]
+        public override string KeyConfig => Script;
         [LocalizedDisplayName("key_380")]
         [PropertyEditor("CodeEditor")]
         public string Script { get; set; }

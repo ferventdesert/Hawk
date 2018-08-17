@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<item>
+    <version>3.0.0.0</version>
+    <url>https://github.com/ferventdesert/Hawk/releases/download/Hawk3/Hawk3_Release.zip</url>
+    <changelog>https://github.com/ferventdesert/Hawk/releases</changelog>
+    <mandatory>false</mandatory>
+</item>

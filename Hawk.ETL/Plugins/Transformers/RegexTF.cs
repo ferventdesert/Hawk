@@ -36,7 +36,7 @@ namespace Hawk.ETL.Plugins.Transformers
 
         [PropertyOrder(1)]
         [LocalizedDisplayName("key_380")]
-        [PropertyEditor("DynamicScriptEditor")]
+        [PropertyEditor("CodeEditor")]
         public string Script { get; set; }
 
         [LocalizedCategory("key_211")]

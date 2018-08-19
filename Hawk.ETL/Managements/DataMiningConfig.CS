@@ -47,6 +47,35 @@ namespace Hawk.ETL.Managements
 
         [PropertyOrder(1)]
         [LocalizedCategory("key_201")]
+        [LocalizedDisplayName("auto_save_time")]
+        [LocalizedDescription("auto_save_time_desc")]
+        public int AutoSaveTime
+        {
+            get { return this.Get<int>("AutoSaveTime"); }
+            set
+            {
+                this.Set<int>("AutoSaveTime", value);
+
+
+            }
+        }
+      [Browsable(false)] 
+        public string  Language
+        {
+            get { return this.Get<string>("Language"); }
+            set
+            {
+                this.Set<string>("Language", value);
+
+
+            }
+        }
+
+
+
+
+        [PropertyOrder(1)]
+        [LocalizedCategory("key_201")]
         [LocalizedDisplayName("is_generate_error_collection")]
         [LocalizedDescription("is_generate_error_collection_desc")]
         public bool IsAddErrorCollection
@@ -59,6 +88,8 @@ namespace Hawk.ETL.Managements
 
             }
         }
+
+
         [PropertyOrder(2)]
         [LocalizedCategory("key_201")]
         [LocalizedDisplayName("is_display_desc")]
@@ -197,6 +228,7 @@ namespace Hawk.ETL.Managements
         {
             MaxForbidCount = 10;
             IsAddErrorCollection = true;
+            AutoSaveTime = 60;
         }
 
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)

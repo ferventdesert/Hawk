@@ -834,7 +834,9 @@ namespace Hawk.Core.Utils
         public static void RemoveElementsNoReturn<TSource>(
             this IList<TSource> source, Func<TSource, bool> filter, Action<TSource> method = null)
         {
-            var indexs = (from d in source where filter(d) select source.IndexOf(d)).ToList();
+            var indexs = (from d in source where filter(d) select source.IndexOf(d))?.ToList();
+            if(!indexs.Any())
+                return;
             indexs.Sort();
             for (var i = indexs.Count - 1; i >= 0; i--)
             {

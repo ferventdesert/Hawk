@@ -1,8 +1,11 @@
 ﻿using System;
 using Hawk.Core.Utils;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Text;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
+using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
@@ -95,6 +98,98 @@ namespace Hawk.ETL.Interfaces
             }
         }
 
+        public static string GetAllMarkdownDoc()
+        {
+            StringBuilder sb=new StringBuilder();
+            var tools = PluginProvider.GetPluginCollection(typeof(IColumnProcess));
+            var groupConverter= new GroupConverter();
+            foreach (var toolgroup in tools.GroupBy(d=>groupConverter.Convert(d,null,null,null)))
+            {
+                sb.Append(string.Format("# {0}\n", toolgroup.Key));
+                foreach (var tool in toolgroup)
+                {
+                    
+                sb.Append(GetMarkdownScript(tool.MyType,true));
+                }
+            }
+            return sb.ToString();
+        }
+      
+        public static string GetMarkdownScript(Type tool, bool isHeader=false)
+        {
+            string tooldesc = "";
+            
+            var attribute = AttributeHelper.GetCustomAttribute(tool);
+            if (attribute != null)
+            {
+                tooldesc= GlobalHelper.Get(attribute.Description);
+            }
+            var instance = PluginProvider.GetObjectInstance(tool) as ToolBase;
+
+            StringBuilder sb = new StringBuilder();
+            if (isHeader)
+            {
+                string toolName = GlobalHelper.Get(attribute.Name);
+                sb.Append(string.Format("## {0}({1})\n", toolName,tool.Name));
+            }
+           
+            sb.Append(string.Format("{0}\n",tooldesc));
+             var    propertys =
+                    tool.GetProperties().Where(
+                        d => d.CanRead && d.CanWrite && AttributeHelper.IsEditableType(d.PropertyType)).ToArray();
+            foreach (var propertyInfo in propertys)
+            {
+                string name = propertyInfo.Name;
+                if(name== "NewColumn"||name=="ObjectID"||name=="Enabled"|| name=="ColumnSelector")
+                  continue;
+                var defaultValue = propertyInfo.GetValue(instance);
+                var typeName= propertyInfo.PropertyType.Name;
+                if (propertyInfo.PropertyType== typeof(ExtendSelector<string>))
+                {
+                    var selector = defaultValue as ExtendSelector<string>;
+                    defaultValue = selector?.SelectItem;
+                    typeName = GlobalHelper.Get("string_option");
+                }
+                if (propertyInfo.PropertyType==typeof(TextEditSelector))
+                {
+                    var selector = defaultValue as TextEditSelector;
+                    defaultValue = selector?.SelectItem;
+                    typeName = GlobalHelper.Get("edit_string_option");
+                }
+                
+                string desc = GlobalHelper.Get("no_desc");
+               // var fi =type.GetField(propertyInfo.Name);
+                var browseable = (BrowsableAttribute[])propertyInfo.GetCustomAttributes(typeof(BrowsableAttribute), false);
+                if(browseable.Length>0 && browseable[0].Browsable==false)
+                    continue;
+                var descriptionAttributes = (LocalizedDescriptionAttribute[])propertyInfo.GetCustomAttributes(typeof(LocalizedDescriptionAttribute), false);
+                var nameAttributes = (LocalizedDisplayNameAttribute[])propertyInfo.GetCustomAttributes(typeof(LocalizedDisplayNameAttribute), false);
+                if (nameAttributes.Length > 0)
+                    name =GlobalHelper.Get( nameAttributes[0].DisplayName);
+                if (descriptionAttributes.Length > 0)
+                    desc = GlobalHelper.Get(descriptionAttributes[0].Description);
+                desc = string.Join("\n", desc.Split('\n').Select(d => d.Trim(new []{'\t',' '}))); 
+                if (defaultValue != null && string.IsNullOrWhiteSpace(defaultValue.ToString()) == false)
+                    defaultValue = String.Format("{1}:{0}  ",defaultValue,GlobalHelper.Get("default"));
+                else
+                {
+                    defaultValue = "";
+                }
+                typeName = string.Format("{0}:{1} ",GlobalHelper.Get("key_12"), typeName);
+                //string options = "";
+                //if (propertyInfo.PropertyType.IsEnum)
+                //{
+                //    foreach (var e in Enum.GetValues( propertyInfo.PropertyType))
+                //    {
+                        
+                //    }
+                //}
+                sb.Append(string.Format("### {0}({3}):\n* {4}{2}\n* {1}\n",name,desc,defaultValue,propertyInfo.Name,typeName));
+
+            }
+            sb.Append("***\n");
+            return sb.ToString();
+        }
         public static IList<IColumnProcess> AddModule(this IList<IColumnProcess> etls, Predicate<IColumnProcess> condition,
             Func<IColumnProcess,IColumnProcess> addItem, bool isFront)
         {

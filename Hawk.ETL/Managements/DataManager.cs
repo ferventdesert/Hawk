@@ -67,7 +67,7 @@ namespace Hawk.ETL.Managements
         [LocalizedDescription("key_218")]
         [StringEditor("SQL")]
         [PropertyOrder(2)]
-        [PropertyEditor("DynamicScriptEditor")]
+        [PropertyEditor("CodeEditor")]
         public string SQL { get; set; }
 
         [PropertyOrder(3)]

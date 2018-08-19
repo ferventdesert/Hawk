@@ -40,16 +40,12 @@ namespace Hawk.Core.Utils.Plugins
 
         #region Properties
 
-     
+
 
         /// <summary>
         /// 文件命令菜单
         /// </summary>
-        public BindingAction FileCommands => new BindingAction(GlobalHelper.Get("key_305"))
-        {
-            ChildActions =
-                new ObservableCollection<ICommand> (),Icon = "disk"
-        };
+        public BindingAction FileCommands { get; set; }
 
         public FrmState FrmState => FrmState.Mini;
 
@@ -78,14 +74,21 @@ namespace Hawk.Core.Utils.Plugins
         public bool Init(IEnumerable<string> pluginFolders)
         {
             this.PluginFolders = pluginFolders.ToList();
+            FileCommands = new BindingAction(GlobalHelper.Get("key_305"))
+            {
+                ChildActions =
+                    new ObservableCollection<ICommand>(),
+                Icon = "disk"
+            };
             XLogSys.Print.Info(GlobalHelper.Get("key_146"));
             this.MainFrmUI.CommandCollection = new ObservableCollection<IAction> { this.FileCommands  };
 
             this.MainFrmUI.PluginDictionary = new Dictionary<string, IXPlugin>();
-
             PluginProvider.OrderedSearchFolder = this.PluginFolders.ToArray();
-            PluginProvider.MainConfigFolder = this.MainFrmUI.MainPluginLocation;
             PluginProvider.GetAllPluginName(false);
+          
+            PluginProvider.MainConfigFolder = this.MainFrmUI.MainPluginLocation;
+        ;
 
             PluginProvider.GetAllPlugins(false);
             List<XFrmWorkAttribute> plugins = PluginProvider.GetPluginCollection(typeof(IXPlugin));
@@ -135,6 +138,7 @@ namespace Hawk.Core.Utils.Plugins
         /// <returns></returns>
         public bool LoadPlugins(int minPriority = 1, int maxPriority = 99)
         {
+           
             IList<IXPlugin> plugins = new List<IXPlugin>();
             PluginProvider.LoadOrderedPlugins<IXPlugin>(
                 d => plugins.Add(this.AddNewPlugin(d)), minPriority, maxPriority);

@@ -10,6 +10,7 @@ using CommandLine.Text;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
 using Hawk.ETL.Process;
 using log4net.Config;
@@ -120,7 +121,7 @@ namespace HawkScheduler
             Console.WriteLine();
             Console.WriteLine("project file: {0} ...", options.ProjectFile);
             var container = new CommandLineContainer();
-
+          
             var processManager = container.PluginDictionary["DataProcessManager"] as DataProcessManager;
             var project = Project.Load(options.ProjectFile);
             var dataManager = container.PluginDictionary["DataManager"] as DataManager;
@@ -128,7 +129,8 @@ namespace HawkScheduler
             XmlConfigurator.Configure(new FileInfo("log4net_cmd.config"));
             processManager.CurrentProject = project;
             var task = project.Tasks.FirstOrDefault(d => d.Name == options.TaskName);
-            
+
+          
             if (task == null)
             {
                 

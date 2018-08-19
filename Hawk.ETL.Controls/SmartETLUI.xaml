@@ -29,7 +29,7 @@
 
         <ContextMenu x:Key="resourceContextMenu"
         					DataContext="{Binding Data.Commands, Source={StaticResource BindingProxy}}">
-            <MenuItem DataContext="{Binding [0]}" Style="{DynamicResource CommandMenuItem}" />
+                    <MenuItem DataContext="{Binding [0]}" Style="{DynamicResource CommandMenuItem}" />
             <MenuItem DataContext="{Binding [1]}" Style="{DynamicResource CommandMenuItem}" />
             <MenuItem DataContext="{Binding [3]}" Style="{DynamicResource CommandMenuItem}" />
             <MenuItem DataContext="{Binding [4]}" Style="{DynamicResource CommandMenuItem}" />
@@ -170,8 +170,8 @@
         </ItemsPanelTemplate>
 
         <DataTemplate x:Key="DataTemplateList">
-            <Grid Height="Auto" Margin="0,4" Width="Auto">
-        		<Rectangle Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" >
+            <Grid Height="Auto" Margin="0,4" Width="Auto"  ToolTip="{Binding Description}" >
+                <Rectangle Width="20" Height="20" HorizontalAlignment="Left"  ToolTip="{Binding Description}"  VerticalAlignment="Center" >
         			<Rectangle.Fill>
         				<VisualBrush Stretch="Fill"
         					Visual="{Binding Converter={StaticResource ModuleMetroConverter}, Mode=OneWay}"  />
@@ -192,7 +192,7 @@
         </DataTemplate>
 		 <DataTemplate x:Key="DataTemplateIcon">
             <StackPanel Height="60" Margin="4" Width="60" ToolTip="{Binding Descrption}">
-		 		<Rectangle Width="30"  Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <Rectangle Width="30"   ToolTip="{Binding Description}"   Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" >
 		 			<Rectangle.Fill>
 		 				<VisualBrush Stretch="Fill"
 		 					Visual="{Binding Converter={StaticResource ModuleMetroConverter}, Mode=OneWay}"  />
@@ -528,7 +528,7 @@
             </Rectangle>
             <TextBlock Margin="0,3.498,0,0" TextWrapping="Wrap" VerticalAlignment="Center"><Run Language="zh-cn" Text="{DynamicResource key_775}" /></TextBlock>
             <TextBox x:Name="SearchBox" TextWrapping="Wrap"
-        		Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:LayoutOverrides="Height" MinWidth="150" />
+        		Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:LayoutOverrides="Height" MinWidth="80" />
             <CheckBox x:Name="StyleCheckbox" Content="{DynamicResource is_display_desc}" IsChecked="{Binding Config.IsDisplayDetail}" Margin="10,0,0,0" VerticalAlignment="Center"/>
         </StackPanel>
         <Grid Margin="8,8,8,0" Grid.RowSpan="2">
@@ -552,7 +552,7 @@
                 </ListBox.GroupStyle>
             </ListBox>
             <GridSplitter HorizontalAlignment="Stretch" Height="3" VerticalAlignment="Bottom" Margin="0,0,0,-1.25" d:LayoutOverrides="VerticalAlignment, GridBox" />
-            <ListView  x:FieldModifier="public" x:Name="CurrentETLToolList"  SelectedItem="{Binding CurrentTool, Mode=OneWay}"  Grid.Row="1" Margin="0,8,0,0" SelectionMode="Single" DataContext="{Binding}"
+            <ListView  x:FieldModifier="public" x:Name="CurrentETLToolList"  SelectedItem="{Binding CurrentTool, Mode=OneWay}"  Grid.Row="1" Margin="0,8,0,0" DataContext="{Binding}"
 				ItemsSource="{Binding CurrentETLTools}" >
                 <ListView.View>
                     <GridView>
@@ -563,7 +563,8 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                  
+
+                        <GridViewColumn Header="{DynamicResource key_717}" DisplayMemberBinding="{Binding Column}" />
                         <GridViewColumn Header="{DynamicResource key_12}" DisplayMemberBinding="{Binding Attribute, Converter={StaticResource GroupConverter}}" />
                         <GridViewColumn Header="{DynamicResource key_18}" DisplayMemberBinding="{Binding TypeName}" />
 						      <GridViewColumn Header="{DynamicResource key_16}"  Width="200">

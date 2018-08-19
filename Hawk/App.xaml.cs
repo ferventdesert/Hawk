@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 
 namespace Hawk
@@ -22,36 +23,7 @@ namespace Hawk
            // LoadLanguage();
         }
 
-        private void LoadLanguage()
-        {
-            CultureInfo currentCultureInfo = CultureInfo.CurrentCulture;
-
-            ResourceDictionary langRd = null;
-
-            try
-            {
-                langRd =
-                    Application.LoadComponent(
-                             new Uri(@"Lang\" + currentCultureInfo.Name + ".xaml", UriKind.Relative))
-                    as ResourceDictionary;
-            }
-            catch
-            {
-            }
-
-            if (langRd != null)
-            {
-                if (this.Resources.MergedDictionaries.Count > 0)
-                {
-                    this.Resources.MergedDictionaries.RemoveElementsNoReturn(d=>d.Source.ToString().Contains("DefaultLanguage.xaml"));
-                    //this.Resources.MergedDictionaries.Clear();
-                }
-                this.Resources.MergedDictionaries.Add(langRd);
-            }
-
-
-        }
-
+      
 
 
     }

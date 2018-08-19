@@ -12,7 +12,8 @@
     mc:Ignorable="d"
     xmlns:themes="clr-namespace:Hawk.Core.Themes;assembly=Hawk.Core"
     xmlns:mvvm="clr-namespace:Hawk.Core.Utils.MVVM;assembly=Hawk.Core"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:themes1="clr-namespace:Markdown.Xaml;assembly=System.Windows.Controls.WpfPropertyGrid">
 
     <!-- Main Colors -->
     <themes:MetroConverter x:Key="MetroConverter" />
@@ -33,6 +34,13 @@
             <Setter Property="CommandParameter"
         		Value="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}, Mode=FindAncestor}}" />
         </Style>
+
+    <Style x:Key="CommandMenuItemMulti" TargetType="{x:Type MenuItem}">
+        <Setter Property="Header" Value="{Binding Text}" />
+        <Setter Property="Command" Value="{Binding}" />
+        <Setter Property="CommandParameter"
+                Value="{Binding PlacementTarget.SelectedItems, RelativeSource={RelativeSource AncestorLevel=2 AncestorType={x:Type ContextMenu}, Mode=FindAncestor}}" />
+    </Style>
     <SolidColorBrush x:Key="TextBrush" Color="White" />
     <SolidColorBrush x:Key="NormalBrush" Color="{StaticResource MainColor}" />
     <SolidColorBrush x:Key="NormalBorderBrush" Color="#FF333333" />
@@ -45,6 +53,126 @@
         <GradientStop Color="#4C000000" Offset="0.467" />
         <GradientStop Color="#26FFFFFF" Offset="0.479" />
     </LinearGradientBrush>
+ 
+
+    <Style TargetType="FlowDocument" x:Key="DocumentStyle">
+        <Setter Property="Foreground"
+                Value="{DynamicResource TextBrush}"></Setter>
+        <Setter Property="FontFamily"
+                Value="MS YaHei"></Setter>
+        <Setter Property="TextAlignment"
+                Value="Left" />
+        <Setter Property="FontSize"
+                Value="12" />
+    </Style>
+
+    <Style x:Key="H1Style"
+               TargetType="Paragraph">
+        <Setter Property="FontSize"
+                    Value="42" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource TextBrush}" />
+        <Setter Property="FontWeight"
+                    Value="Light" />
+    </Style>
+
+    <Style x:Key="H2Style"
+               TargetType="Paragraph">
+        <Setter Property="FontSize"
+                    Value="20" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource TextBrush}" />
+        <Setter Property="FontWeight"
+                    Value="Light" />
+    </Style>
+
+    <Style x:Key="H3Style"
+               TargetType="Paragraph">
+        <Setter Property="FontSize"
+                    Value="18" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource TextBrush}" />
+        <Setter Property="FontWeight"
+                    Value="Light" />
+    </Style>
+
+    <Style x:Key="H4Style"
+               TargetType="Paragraph">
+        <Setter Property="FontSize"
+                    Value="16" />
+        <Setter Property="Foreground"
+                    Value="{DynamicResource TextBrush}" />
+        <Setter Property="FontWeight"
+                    Value="Light" />
+    </Style>
+
+    <Style x:Key="LinkStyle"
+               TargetType="Hyperlink">
+        <Setter Property="TextDecorations"
+                    Value="None" />
+    </Style>
+
+    <Style x:Key="ImageStyle"
+               TargetType="Image">
+        <Setter Property="RenderOptions.BitmapScalingMode"
+                  Value="NearestNeighbor" />
+        <Style.Triggers>
+            <Trigger Property="Tag"
+                       Value="imageright">
+                <Setter Property="Margin" 
+                          Value="20,0,0,0" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="SeparatorStyle"
+             TargetType="Line">
+        <Setter Property="X2"
+                  Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=FlowDocumentScrollViewer}}" />
+        <Setter Property="Stroke"
+                  Value="#99000000" />
+        <Setter Property="StrokeThickness"
+                  Value="2" />
+    </Style>
+    <themes1:Markdown  x:Key="Markdown" 
+                       DocumentStyle="{StaticResource DocumentStyle}"
+                       Heading1Style="{StaticResource H1Style}"
+                       Heading2Style="{StaticResource H2Style}"
+                       Heading3Style="{StaticResource H3Style}"
+                       Heading4Style="{StaticResource H4Style}"
+                       LinkStyle="{StaticResource LinkStyle}"
+                       ImageStyle="{StaticResource ImageStyle}"
+                       SeparatorStyle="{StaticResource SeparatorStyle}"></themes1:Markdown>
+    <!--AssetPathRoot="{x:Static system:Environment.CurrentDirectory}"/>-->
+    <themes1:TextToFlowDocumentConverter x:Key="TextToFlowDocumentConverter"     
+                                         Markdown="{StaticResource Markdown}"/>
+    <Style    TargetType="ToolTip">
+        <Setter Property="Background" Value="{DynamicResource NormalBrush}"/>
+
+
+        <Setter Property ="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width ="Auto"/>
+                            <ColumnDefinition Width ="*"/>
+                        </Grid.ColumnDefinitions>
+                        <FlowDocumentScrollViewer Grid.Row="0"
+                                                  Grid.Column="1"  
+                                                  VerticalAlignment="Stretch"
+                                                  HorizontalAlignment="Stretch"
+                                                  Margin="1"
+                                                  Document="{TemplateBinding Content, Converter={StaticResource TextToFlowDocumentConverter}}" />
+
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+
+
+    </Style>
 
     <SolidColorBrush x:Key="ControlBackgroundBrush" Color="#4C000000" />
 
@@ -2829,9 +2957,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-    <Style TargetType="{x:Type ToolTip}">
-        <Setter Property="Background" Value="Black"></Setter>
     </Style>
     <Style TargetType="{x:Type TabControl}">
         <Setter Property="Template">

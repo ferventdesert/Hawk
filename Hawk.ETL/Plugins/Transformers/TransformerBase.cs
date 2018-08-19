@@ -82,10 +82,14 @@ namespace Hawk.ETL.Plugins.Transformers
                 }
             }
         }
-
         [LocalizedDisplayName("key_567")]
         [PropertyOrder(100)]
-        [PropertyEditor("CodeEditor")]
+        [PropertyEditor("MarkdownEditor")]
+        public string Document
+        {
+            get { return ETLHelper.GetMarkdownScript(this.GetType()); }
+        }
+     [Browsable(false)]
         public string Description
         {
             get

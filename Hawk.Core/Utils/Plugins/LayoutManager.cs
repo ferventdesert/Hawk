@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
+using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
@@ -21,6 +22,7 @@ namespace XFrmWork.UI.Controls
 
     [XFrmWork("LayoutManager", "LayoutManager_desc", "")]
     public class LayoutManager : AbstractPlugIn, IMainFrmMenu
+        
     {
         #region Constants and Fields
 
@@ -82,18 +84,18 @@ namespace XFrmWork.UI.Controls
             this.manager = this.MainFrmUI as IDockableManager;
 
             this.viewMenu = new BindingAction(GlobalHelper.Get("key_143"), obj => this.RefreshLayoutView()){Icon = "layout"};
-            this.languageMenu = new BindingAction(GlobalHelper.Get("key_lang"), obj => this.LoadLanguage()){Icon = "layout"};
+         
 
             this.UpdateLayouts();
             RefreshLayoutView();
-            LoadLanguage();
             return true;
         }
 
         public void RefreshLayoutView()
         {
             this.viewMenu.ChildActions.Clear();
-
+            if(manager.ViewDictionary==null)
+                return;
             foreach (var dict in manager.ViewDictionary)
             {
                 var ba = new BindingAction(dict.Name, obj => { this.manager.ActiveThisContent(dict.Name); }) {Icon = "layout"};
@@ -102,66 +104,8 @@ namespace XFrmWork.UI.Controls
             }
         }
 
-        private void LoadLanguage()
-        {
-
-            ResourceDictionary langRd = null;
-            var files = Directory.GetFiles("Lang");
-            foreach (var file in files)
-            {
-                var ba = new BindingAction(file, obj => { UpdateLanguage(file, files); }) { Icon = "layout" };
-
-                this.languageMenu.ChildActions.Add(ba);
-            }
-
-
-
-
-        }
-        private void UpdateLanguage(string name,string[] files)
-        {
-            CultureInfo currentCultureInfo = CultureInfo.CurrentCulture;
-
-            ResourceDictionary langRd = null;
-
-
-
-            try
-            {
-                langRd =
-                    Application.LoadComponent(
-                             new Uri(name, UriKind.Relative))
-                    as ResourceDictionary;
-            }
-            catch
-            {
-            }
-
-            if (langRd != null)
-            {
-                Application.Current.Resources.MergedDictionaries.RemoveElementsNoReturn(d => d.Keys.Count>800);
-                Application.Current.Resources.MergedDictionaries.Add(langRd);
-                var notify = Application.Current.MainWindow as INotifyPropertyChanged;
-                if(notify==null)
-                    return;
-                dynamic dn = notify;
-                dn.OnPropertyChanged("");    
-            }
-
-
-        }
-        public void RefreshLangView()
-        {
-            this.languageMenu.ChildActions.Clear();
-
-            foreach (var dict in manager.ViewDictionary)
-            {
-                var ba = new BindingAction(dict.Name, obj => { this.manager.ActiveThisContent(dict.Name); }) { Icon = "layout" };
-
-                this.viewMenu.ChildActions.Add(ba);
-            }
-        }
-
+  
+       
         #endregion
 
         #region Methods

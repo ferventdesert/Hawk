@@ -23,6 +23,7 @@ using AvalonDock.Layout;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
+using AutoUpdaterDotNET;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Controls;
 using Hawk.ETL.Interfaces;
@@ -59,6 +60,8 @@ namespace Hawk
 #endif
             InitializeComponent();
             MainDescription.MainFrm = this;
+
+
             this.notifier = new Notifier(cfg =>
             {
                 cfg.PositionProvider = new WindowPositionProvider(
@@ -73,8 +76,9 @@ namespace Hawk
 
                 cfg.Dispatcher = Application.Current.Dispatcher;
             });
-
-            Application.Current.Resources["ThemeDictionary"] = new ResourceDictionary();
+                ToolTipService.ShowDurationProperty.OverrideMetadata(
+                    typeof(DependencyObject), new FrameworkPropertyMetadata(60000));
+                Application.Current.Resources["ThemeDictionary"] = new ResourceDictionary();
             //   this.SetCurrentTheme("ShinyBlue");
         ;
             if (ConfigurationManager.AppSettings["PluginLocationRelative"] == "true")
@@ -88,7 +92,6 @@ namespace Hawk
             }
 
             XmlConfigurator.Configure(new FileInfo("log4net.config"));
-
        
             string icon = ConfigurationManager.AppSettings["Icon"];
             try
@@ -117,6 +120,7 @@ namespace Hawk
                 XLogSys.Print.Fatal(e.Exception);
             };
 #endif
+            AppHelper.LoadLanguage();
             ViewDictionary = new List<ViewItem>();
             Title = ConfigurationManager.AppSettings["Title"];
 
@@ -126,9 +130,8 @@ namespace Hawk
             //  this.myDebugSystemUI.Init();
 
             PluginManager.Init(new[] { MainStartUpLocation });
-         
-          
-          
+
+
             PluginManager.LoadPlugins();
             PluginManager.LoadView();
 
@@ -140,6 +143,7 @@ namespace Hawk
             XLogSys.Print.Info(Title +GlobalHelper.Get("Start"));
 
   
+            AutoUpdater.Start("https://raw.githubusercontent.com/ferventdesert/Hawk/global/Hawk/autoupdate.xml");
             Closing += (s, e) =>
             {
                 List<IDataProcess> revisedTasks;
@@ -182,6 +186,8 @@ namespace Hawk
                 }
               
             };
+           // var md = ETLHelper.GetAllMarkdownDoc();
+           // File.WriteAllText("HawkDoc.md", md);
             //  TestCode();
 #if !DEBUG
             }
@@ -272,8 +278,8 @@ namespace Hawk
             AddDockAbleContent(thisState, thisControl, objects[0]);
         }
 
-     
 
+   
 
         public void RemoveDockableContent(object model)
         {

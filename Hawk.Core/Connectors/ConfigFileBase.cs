@@ -74,7 +74,7 @@ namespace Hawk.Core.Connectors
             return instance;
         }
 
-        public static T GetConfig<T>(string name = null) where T : class, IConfigFile
+        public static T GetConfig<T>(string name = null) where T : class, IConfigFile, new()
         {
             if (name == null)
                 name = AttributeHelper.GetCustomAttribute(typeof(T)).Name;
@@ -86,6 +86,8 @@ namespace Hawk.Core.Connectors
 
             instance = PluginProvider.GetObjectInstance<IConfigFile>(name) ??
                        PluginProvider.GetObjectInstance(typeof (T)) as IConfigFile;
+            if (instance == null)
+                instance = new T() as IConfigFile;
             try
             {
                 instance.ReadConfig(instance.SavePath);
@@ -123,7 +125,7 @@ namespace Hawk.Core.Connectors
             {
                 path = SavePath;
             }
-            IFileConnector json = FileConnector.SmartGetExport(path);
+            IFileConnector json = new FileConnectorXML();
             json.FileName = path;
             IDictionarySerializable da = json.ReadFile().FirstOrDefault();
             DictDeserialize(da.DictSerialize());
@@ -140,10 +142,10 @@ namespace Hawk.Core.Connectors
             {
                 path = SavePath;
             }
-            IFileConnector json = FileConnector.SmartGetExport(path);
-
+            IFileConnector json = new FileConnectorXML();
+            json.FileName = path;
             var Datas = new List<IFreeDocument> {DictSerialize()};
-            json.WriteAll(Datas);
+            json?.WriteAll(Datas);
         }
 
         /// <summary>

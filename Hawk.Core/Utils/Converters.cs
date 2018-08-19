@@ -13,12 +13,12 @@ namespace Hawk.Core.Utils
     {
         public static Dictionary<string, string> map = new Dictionary<string, string>
         {
-            {"IColumnDataSorter", "排序"},
+            {"IColumnDataSorter", "key_104"},
             {"IColumnAdviser", "顾问"},
-            {"IColumnGenerator", "生成"},
-            {"IColumnDataFilter", "过滤"},
-            {"IColumnDataTransformer", "转换"},
-            {"IDataExecutor", "执行"}
+            {"IColumnGenerator", "key_106"},
+            {"IColumnDataFilter", "key_107"},
+            {"IColumnDataTransformer", "key_108"},
+            {"IDataExecutor", "key_34"}
         };
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -35,7 +35,7 @@ namespace Hawk.Core.Utils
             foreach (var item in map)
             {
                 if (p.GetInterface(item.Key) != null)
-                    return item.Value;
+                    return GlobalHelper.Get( item.Value);
             }
             return unknown;
         }

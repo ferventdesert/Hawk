@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
@@ -18,6 +19,8 @@ namespace Hawk.ETL.Plugins.Transformers
             IsMultiYield = true;
             InnerExecute = false;
         }
+        [PropertyOrder(2)]
+        [LocalizedDisplayName("exe_inner")]
         public bool InnerExecute { get; set; }
         private string[] checkKeys = "__SysObjectID __SysETL".Split(' ');
         protected override IEnumerable<IFreeDocument> InternalTransformManyData(IFreeDocument datas)

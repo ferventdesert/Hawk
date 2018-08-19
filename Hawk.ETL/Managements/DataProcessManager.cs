@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Resources;
 using System.Windows;
@@ -11,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.WpfPropertyGrid;
 using System.Windows.Data;
 using System.Windows.Input;
+using AutoUpdaterDotNET;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
@@ -181,7 +183,13 @@ namespace Hawk.ETL.Managements
                 var url = "http://www.cnblogs.com/buptzym/";
                 System.Diagnostics.Process.Start(url);
             }){Description = GlobalHelper.Get("key_274"), Icon = "tower"};
-         
+
+            var update = new BindingAction(GlobalHelper.Get("checkupgrade"), d =>
+                {
+                    AutoUpdater.Start("https://raw.githubusercontent.com/ferventdesert/Hawk/global/Hawk/autoupdate.xml");
+
+                })
+                { Description = GlobalHelper.Get("checkupgrade"), Icon = "arrow_up" };
             var helpCommands = new BindingAction(GlobalHelper.Get("key_275")) {Icon = "magnify"};
             helpCommands.ChildActions.Add(mainlink);
             helpCommands.ChildActions.Add(helplink);
@@ -190,6 +198,7 @@ namespace Hawk.ETL.Managements
             helpCommands.ChildActions.Add(giveme);
             helpCommands.ChildActions.Add(blog);
             helpCommands.ChildActions.Add(aboutAuthor);
+            helpCommands.ChildActions.Add(update);
             MainFrmUI.CommandCollection.Add(helpCommands);
 
             Hierarchy hierarchy = (Hierarchy)LogManager.GetRepository();
@@ -356,8 +365,18 @@ namespace Hawk.ETL.Managements
 
 
 
+      var  dataTimer = new System.Windows.Threading.DispatcherTimer();
+            var tickInterval = ConfigFile.GetConfig().Get<int>("AutoSaveTime");
+            if (tickInterval > 0)
+            {
+                dataTimer.Tick += new EventHandler(timeCycle);
+                dataTimer.Interval = new TimeSpan(0, 0, 0, tickInterval);
+                dataTimer.Start();
+            }
+    
 
-            processAction.ChildActions.Add(new Command(GlobalHelper.Get("key_294"), obj =>
+  
+    processAction.ChildActions.Add(new Command(GlobalHelper.Get("key_294"), obj =>
             {
                 if (obj != null)
                 {
@@ -541,17 +560,29 @@ namespace Hawk.ETL.Managements
                 OnPropertyChanged("ProjectTaskList");
             }
 
-            var file = MainFrmUI.CommandCollection.FirstOrDefault(d => d.Text == GlobalHelper.Get("key_305"));
-            file.ChildActions.Add(new BindingAction(GlobalHelper.Get("key_306"), obj => CreateNewProject()) {Icon = "add"});
-            file.ChildActions.Add(new BindingAction(GlobalHelper.Get("key_307"), obj => LoadProject()) {Icon = "inbox_out"});
-            file.ChildActions.Add(new BindingAction(GlobalHelper.Get("key_308"), obj => SaveCurrentProject()) {Icon = "save"});
-            file.ChildActions.Add(new BindingAction(GlobalHelper.Get("key_309"), obj => SaveCurrentProject(false)) {Icon = "save"});
-            file.ChildActions.Add(new BindingAction(GlobalHelper.Get("key_310"))
+            var fileCommand = MainFrmUI.CommandCollection.FirstOrDefault(d => d.Text == GlobalHelper.Get("key_305"));
+            fileCommand.ChildActions.Add(new BindingAction(GlobalHelper.Get("key_306"), obj => CreateNewProject()) {Icon = "add"});
+            fileCommand.ChildActions.Add(new BindingAction(GlobalHelper.Get("key_307"), obj => LoadProject()) {Icon = "inbox_out"});
+            fileCommand.ChildActions.Add(new BindingAction(GlobalHelper.Get("key_308"), obj => SaveCurrentProject()) {Icon = "save"});
+            fileCommand.ChildActions.Add(new BindingAction(GlobalHelper.Get("key_309"), obj => SaveCurrentProject(false)) {Icon = "save"});
+            fileCommand.ChildActions.Add(new BindingAction(GlobalHelper.Get("key_310"))
             {
                 Icon = "save",
                 ChildActions =  new ObservableCollection<ICommand>(config.Projects.Select(d=>new BindingAction(d.SavePath, obj => LoadProject(d.SavePath) ) {Icon = "folder"}))
            
             });
+            var languageMenu = new BindingAction(GlobalHelper.Get("key_lang")) { Icon = "layout" };
+
+            var files = Directory.GetFiles("Lang");
+            foreach (var f in files)
+            {
+                var ba = new BindingAction(f, obj => { AppHelper.LoadLanguage(f); }) { Icon = "layout" };
+
+                languageMenu.ChildActions.Add(ba);
+            }
+            helpCommands.ChildActions.Add(languageMenu);
+
+
             return true;
         }
 
@@ -582,6 +613,10 @@ namespace Hawk.ETL.Managements
         public ListCollectionView CurrentProcessView { get; set; }
         public ListCollectionView ProcessCollectionView { get; set; }
         public ListCollectionView ProjectTaskList { get; set; }
+       private void timeCycle(object sender, EventArgs e)
+        {
+            SaveCurrentProject(true);
+        }
 
         private void LoadProject(string path=null)
         {

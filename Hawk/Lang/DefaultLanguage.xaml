@@ -11,8 +11,11 @@
     <system:String x:Key="ControlLoad">
         控件加载
     </system:String>
-    <system:String x:Key="Closing2">
-        【{0}】任务可能还没有保存，\\n【是】:保存任务并退出, \\n【否】：不保存退出，\\n【取消】:取消退出
+    <system:String x:Key="Closing2" xml:space="preserve">
+        【{0}】任务可能还没有保存
+        【是】:保存任务并退出, 
+        【否】：不保存退出，
+        【取消】:取消退出
     </system:String>
     <system:String x:Key="DataMgmt">
         数据管理
@@ -48,8 +51,11 @@
     <system:String x:Key="XPathExpError">
         可能XPath表达式有误
     </system:String>
-    <system:String x:Key="RemaindSave">
-        【{0}】任务可能还没有保存，\n【是】:保存任务并退出, \n【否】：不保存退出，\n【取消】:取消退出"
+    <system:String x:Key="RemaindSave" xml:space="preserve">
+        【{0}】任务可能还没有保存，
+        【是】:保存任务并退出,
+        【否】：不保存退出
+        【取消】:取消退出"
     </system:String>
 
     <system:String x:Key="key_560">
@@ -452,7 +458,7 @@
         请求队列
     </system:String>
     <system:String x:Key="key_264">
-        Hawk版本与检查更新
+        Hawk版本
     </system:String>
     <system:String x:Key="IDataViewer">
         展示数据
@@ -637,8 +643,11 @@
     <system:String x:Key="key_717">
         输入列
     </system:String>
-    <system:String x:Key="not_find_key">
-        在该网页中找不到关键字 `{0}`,可能是动态请求，\n 【是】：【{1}】，并将浏览器页面翻到包含该关键字的位置\n 【否】:【不嗅探】,\n 【取消】:【不再提醒】
+    <system:String x:Key="not_find_key" xml:space="preserve">
+        在该网页中找不到关键字 `{0}`,可能是动态请求，
+        【是】：【{1}】，并将浏览器页面翻到包含该关键字的位置
+        【否】:【不嗅探】
+        【取消】:【不再提醒】
     </system:String>
     <system:String x:Key="rightclick_new">
         右键可新建数据源
@@ -655,14 +664,21 @@
     <system:String x:Key="step2">
         步骤2：设置主任务属性列对应到子任务的属性名，下拉菜单仅参考，可直接编辑文本框
     </system:String>
-    <system:String x:Key="task_run">
-        {0}已经有任务在执行，由于调整参数，是否要取消当前任务重新执行？\n 【取消】:【不再提醒】
+    <system:String x:Key="task_run" xml:space="preserve">
+        {0}已经有任务在执行，由于调整参数，是否要取消当前任务重新执行？
+        【取消】:【不再提醒】
     </system:String>
-    <system:String x:Key="success_get">
-        已经成功获取嗅探字段！ 真实请求地址:\n{0}，\n已自动配置了网页采集器，请求类型为{1}\n {2}已经刷新了网页采集器的内容
+    <system:String x:Key="success_get"  xml:space="preserve">
+        已经成功获取嗅探字段！ 真实请求地址:
+        {0}，
+        已自动配置了网页采集器，请求类型为{1}
+        {2}已经刷新了网页采集器的内容
     </system:String>
-    <system:String x:Key="fail_remind">
-        作用在列名`{0}`的 模块`{1}` 已经连续5次没有成功获取数据，可能需要重新修改参数 \n 【是】：【进入调试模式】 \n 【否】：【取消当前任务】 \n 【取消】：【不再提示】
+    <system:String x:Key="fail_remind"  xml:space="preserve">
+        作用在列名`{0}`的 模块`{1}` 已经连续5次没有成功获取数据，可能需要重新修改参数 
+        【是】：【进入调试模式】 
+        【否】：【取消当前任务】 
+        【取消】：【不再提示】
     </system:String>
     <system:String x:Key="key_191">
         获取正文
@@ -1801,12 +1817,18 @@
     <system:String x:Key="MergeTF">
         合并多列
     </system:String>
-    <system:String x:Key="MergeTF_format">
-        形如'http:\\{0}:{1},{2}...'输入列的序号为0，之后的1,2分别代表【其他项】的第0和第1个值
+    <system:String x:Key="MergeTF_format" >
+        形如'http:\\{0}:{1},{2}...'
+        输入列的序号为0，
+        之后的1,2分别代表【其他项】的第0和第1个值
     </system:String>
 
-    <system:String x:Key="MergeTF_desc">
-        将多个列组合成同一列，形如'http:\\{0}:{1},{2}...'输入列的序号为0，之后的1,2分别代表【其他项】的第0和第1个值，常用
+    <system:String x:Key="MergeTF_desc" xml:space="preserve">
+        将多个列组合成同一列，形如`http:\\{0}:{1},{2}...`
+        输入列的序号为0，之后的1,2分别代表【其他项】的第0和第1个值，常用
+        ```
+        c++ code
+        ```
     </system:String>
 
     <system:String x:Key="ResponseTF_desc">
@@ -1881,8 +1903,10 @@
     <system:String x:Key="key_233">
         删除表
     </system:String>
-    <system:String x:Key="key_544">
-        若想获取分割后的第0个元素，则填入0，获取倒数第一个元素，则填入-1 \n可输入多个匹配编号，中间以空格分割，【输出列】也需要与之一对应\n
+    <system:String x:Key="key_544" xml:space="preserve">
+        若想获取分割后的第0个元素，则填入0，获取倒数第一个元素，则填入-1 
+        可输入多个匹配编号，中间以空格分割，
+        【输出列】也需要与之一对应
     </system:String>
     <system:String x:Key="key_118">
         代理配置
@@ -2521,8 +2545,9 @@
     <system:String x:Key="TableGE">
         从数据表生成
     </system:String>
-    <system:String x:Key="key_358">
-        路径或文件名，例如D:\\file.txt, 可通过'[]'引用其他列， \n 若为目录名，必须显式以/结束，文件名将会通过url自动解析
+    <system:String x:Key="key_358" xml:space="preserve">
+        路径或文件名，例如D:\\file.txt, 可通过'[]'引用其他列，
+        若为目录名，必须显式以/结束，文件名将会通过url自动解析
     </system:String>
     <system:String x:Key="key_235">
         浏览方式
@@ -2572,7 +2597,7 @@
     <system:String x:Key="merge_outputonly">
         直接输出
     </system:String>
-    <system:String x:Key="proxy_setting_desc">
+    <system:String x:Key="proxy_setting_desc" xml:space="preserve">
         一行一条，参考python proxy代理的设置方法,例如:
         包含用户名密码：http://username:password@121.193.143.249:80/ 
         不包含:http://121.193.143.249:80/
@@ -2583,5 +2608,54 @@
     <system:String x:Key="proxyge_desc">
         
     </system:String>
+    <system:String x:Key="checkupgrade">
+        检查更新
+    </system:String>
+    <system:String x:Key="no_desc">
+        没有描述
+    </system:String>
+    <system:String x:Key="auto_save_time">
+        自动保存间隔
+    </system:String>
+     <system:String x:Key="auto_save_time_desc">
+        单位为秒，自动保存工程和数据，若不大于0则不会保存
+    </system:String>
 
+    <system:String x:Key="script_mode_list">
+        多文档
+    </system:String>
+    <system:String x:Key="script_mode_one">
+        单文档
+    </system:String>
+    <system:String x:Key="script_mode_no">
+        不进行转换
+    </system:String>
+    <system:String x:Key="SortByColumn">
+        按列数排序
+    </system:String>
+    <system:String x:Key="SortByRow">
+        按行数排序,
+    </system:String>
+    <system:String x:Key="SortByScore">
+        按分数排序,
+    </system:String>
+    <system:String x:Key="SortByArea">
+        按面积排序
+    </system:String>
+
+    <system:String x:Key="default">
+        默认值
+    </system:String>
+    <system:String x:Key="options">
+        可选项
+    </system:String>
+    <system:String x:Key="exe_inner">
+        使用原执行器
+    </system:String>
+    <system:String x:Key="string_option">
+        string选项
+    </system:String>
+    <system:String x:Key="edit_string_option">
+        可编辑选项
+    </system:String>
 </ResourceDictionary>

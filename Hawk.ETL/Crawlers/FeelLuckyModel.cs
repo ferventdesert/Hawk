@@ -25,7 +25,7 @@ namespace Hawk.ETL.Crawlers
            )
         {
             CrawTargets = crawTargets;
-            SortMethod = scriptWorkMode == ScriptWorkMode.List ? SortMethod.按面积排序 : SortMethod.按列数排序; ;
+            SortMethod = scriptWorkMode == ScriptWorkMode.List ? SortMethod.SortByArea : SortMethod.SortByColumn; ;
             var targets = CrawTargets.OrderByDescending(sortLogic)
                 ;
             this.ScriptWorkMode = scriptWorkMode;
@@ -150,15 +150,15 @@ namespace Hawk.ETL.Crawlers
         private double sortLogic(XPathAnalyzer.CrawTarget d)
         {
             var item = d.Score;
-            if (sortMethod == SortMethod.按行数排序)
+            if (sortMethod == SortMethod.SortByRow)
             {
                 return d.NodeCount;
             }
-            if (sortMethod == SortMethod.按列数排序)
+            if (sortMethod == SortMethod.SortByColumn)
             {
                 return d.ColumnCount;
             }
-            if (sortMethod == SortMethod.按面积排序)
+            if (sortMethod == SortMethod.SortByArea)
             {
                 return d.ColumnCount*d.NodeCount;
             }

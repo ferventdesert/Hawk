@@ -202,7 +202,7 @@ namespace Hawk.ETL.Plugins.Transformers
             /// </summary>
             [LocalizedDisplayName("key_545")]
             [StringEditor("C#")]
-            [PropertyEditor("DynamicScriptEditor")]
+            [PropertyEditor("CodeEditor")]
             [LocalizedDescription("key_546")]
             public string SplitChar { get; set; }
 

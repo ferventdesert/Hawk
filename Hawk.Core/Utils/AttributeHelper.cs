@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Core.Utils
@@ -76,6 +77,13 @@ namespace Hawk.Core.Utils
                 return true;
             return type == typeof(int) || type == typeof(bool) || type == typeof(DateTime) || type == typeof(TimeSpan) || type == typeof(double) ||   type == typeof(Single) || type == typeof(string) || type == typeof(short) ||
                    type == typeof(byte);
+        }
+
+        public static bool IsEditableType(Type type)
+        {
+            if (IsPOCOType(type))
+                return true;
+            return type==typeof(ExtendSelector<string>)|| type== typeof(TextEditSelector);
         }
 
         public static bool IsBaseType(Type a, Type baseType)

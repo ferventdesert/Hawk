@@ -11,6 +11,8 @@ namespace Hawk.Core.Utils
        public static string Get(string name)
        {
             object str = null;
+           if (Application.Current == null)
+               return name;
             str = Application.Current.TryFindResource(name);
             if (str == null)
                 return name;

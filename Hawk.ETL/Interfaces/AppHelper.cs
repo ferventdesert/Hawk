@@ -1,10 +1,12 @@
 ﻿using System;
 using Hawk.Core.Utils;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
@@ -29,6 +31,53 @@ namespace Hawk.ETL.Interfaces
         private static PropertyInfo[] propertys;
 
 
+        public static void LoadLanguage(string url = null)
+        {
+            ResourceDictionary langRd = null;
+
+            if (url == null)
+            {
+
+                var config = ConfigFile.GetConfig<DataMiningConfig>().Get<string>("Language");
+                if (string.IsNullOrEmpty(config))
+                {
+                    CultureInfo currentCultureInfo = CultureInfo.CurrentCulture;
+                    var info = currentCultureInfo.Name;
+                    url = @"Lang\" + info + ".xaml";
+
+                }
+                else
+                {
+                    url = config;
+                }
+
+            }
+
+            try
+            {
+                langRd =
+                    Application.LoadComponent(
+                            new Uri(url, UriKind.Relative))
+                        as ResourceDictionary;
+                ConfigFile.GetConfig().Set("Language", url);
+
+            }
+            catch (Exception e)
+            {
+            }
+
+            if (langRd != null)
+            {
+                if (Application.Current.Resources.MergedDictionaries.Count > 0)
+                {
+
+                    Application.Current.Resources.MergedDictionaries.RemoveElementsNoReturn(d => d.Source != null && d.Source.ToString().Contains("DefaultLanguage.xaml"));
+                }
+                Application.Current.Resources.MergedDictionaries.Add(langRd);
+            }
+
+
+        }
 
         public static IEnumerable<T> CountOutput<T>(this IEnumerable<T> documents, AnalyzeItem analyzer=null)
         {

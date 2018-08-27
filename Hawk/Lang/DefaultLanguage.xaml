@@ -1503,7 +1503,7 @@
     <system:String x:Key="key_265">
         项目主页
     </system:String>
-    <system:String x:Key="xpath2_desc" 
+    <system:String x:Key="xpath2_desc">
         要拖入HTML文本列,可将页面中的门类，用Cross模式组合起来，适合于爬虫无法抓取全部页面，但可以按分类抓取的情况。需调用网页采集器，具体参考文档-XPathTF2
     </system:String>
     <system:String x:Key="key_303">

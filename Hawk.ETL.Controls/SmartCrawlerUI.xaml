@@ -102,7 +102,7 @@
             <Label Content="{DynamicResource key_759}" VerticalAlignment="Center" HorizontalAlignment="Left" />
             <TextBox wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True"
                      Text="{Binding URL, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" VerticalAlignment="Center"
-                     Margin="80,0,300,0" />
+                     Margin="80,0,300,0" ToolTip="{DynamicResource crawler_url_desc}" //>
             <StackPanel Orientation="Horizontal" Margin="0,0,12.16,0" HorizontalAlignment="Right"
                         d:LayoutOverrides="HorizontalAlignment">
 
@@ -190,7 +190,7 @@
 
                         <TextBlock Margin="0,0,0,2" TextWrapping="Wrap" HorizontalAlignment="Left"
                                    d:LayoutOverrides="Height" VerticalAlignment="Center">
-                            <Run Language="zh-cn" Text="{DynamicResource key_762}" />
+                            <Run Text="{DynamicResource key_762}" />
                         </TextBlock>
                         <TextBox Margin="8,0,0,0" TextWrapping="Wrap" Text="{Binding Name}"
                                  wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" d:LayoutOverrides="Height"
@@ -259,7 +259,7 @@
                                        HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,60,0,0" />
                             <Button DataContext="{Binding Commands3[2]}" Content="{Binding Text}" Command="{Binding}"
                                     Height="25" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment"
-                                    HorizontalAlignment="Left" Width="80" Margin="8,60,0,0" Grid.Column="1" />
+                                    HorizontalAlignment="Left" Width="80" Margin="8,60,0,0" Grid.Column="1"/> 
                             <Button DataContext="{Binding Commands3[3]}" Content="{Binding Text}" Command="{Binding}"
                                     Height="25" VerticalAlignment="Top" Margin="136.8,60,0,0" Grid.Column="1"
                                     HorizontalAlignment="Left" Width="80" />
@@ -283,10 +283,10 @@
                                        HorizontalAlignment="Left" />
                             <CheckBox Margin="8,42.5,80,0" IsChecked="{Binding IsSuperMode}"
                                       ToolTip="{DynamicResource key_646}" VerticalAlignment="Top"
-                                      Grid.Column="1" />
+                                      Grid.Column="1"  ToolTip="{DynamicResource crawler_super_mode}"}/>
                             <Button DataContext="{Binding Commands[0]}" Content="{Binding Text}" Command="{Binding}"
                                     Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="80"
-                                    Margin="8,78,0,0" Grid.Column="1" />
+                                    Margin="8,78,0,0" Grid.Column="1" ToolTip="{DynamicResource crawler_dynamic_sniff}" />
                             <Button DataContext="{Binding Commands[1]}" Content="{Binding Text}" Command="{Binding}"
                                     Height="25" VerticalAlignment="Top" Margin="136.8,78,0,0" Grid.Column="1"
                                     HorizontalAlignment="Left" Width="80" />

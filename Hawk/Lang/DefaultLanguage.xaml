@@ -1036,7 +1036,99 @@
         网页采集器模拟了浏览器的设计，填入网址，点击刷新，即可获取对应地址的html源码。
         左侧的区域，显示了html源码和浏览器视图，可通过tab页切换。右侧配置区域，可对关键字进行搜索，并对面前所有的属性进行管理
         网页采集器不能单独工作，而是沟通网页采集器和数据清洗的桥梁。本质上说，网页采集器是针对获取网页而特别定制的`数据清洗模块`。
+        {{crawler_dynamic_sniff}}
+
+        {{crawler_super_mode}}
+
     </system:String>
+
+     <system:String x:Key="crawler_url_desc" xml:space="preserve">
+        以`http://`或`https://`开头的网页地址，Hawk也能支持类似`C://a.html`的本地文件，点击回车后即可刷新
+    </system:String>
+    <system:String x:Key="crawler_dynamic_sniff" xml:space="preserve">
+        该模式能处理动态页面，即动态瀑布流和ajax的页面，通常按需返回html和json.
+
+        ## 动态嗅探
+        ### 什么是动态页面？
+        老式网站在刷新时会返回页面的全部内容，但若只更新部分，即可大大节约带宽。该方式叫ajax，服务端传递xml或者json到浏览器，浏览器的js代码执行，并将数据渲染到页面上。
+        因此，获取数据的真实url，不一定显示在浏览器地址栏，而是隐藏在js调用中。本质上，javascript发起了新的隐藏http请求来获取数据，只要能模拟之，就能像真实浏览器一样获取所要数据。参考： 
+        > https://baike.baidu.com/item/ajax/8425?fr=aladdin
+
+        ### Hawk如何抓取动态页面
+        通过浏览器和抓包，可以获取这些隐藏请求，但需要对HTTP请求的原理比较熟悉，不适合于初学者。
+        Hawk简化了流程，采用自动嗅探的方式来进行。Hawk成为后端代理，会拦截和分析所有系统级Http请求，并将包含关键字的请求筛选出来 （基于fiddler）
+        
+        当搜索字符时，若没有在当前页面中找到该关键字，Hawk会有提示，“是否启动动态嗅探？”此时Hawk会弹出浏览器并打开所在网页。您可将页面拖到包含关键字的位置，Hawk会自动记录和过滤包含关键字的真实请求， 检索完毕后，Hawk会自动回弹。
+
+        ### 如果无法自动嗅探?
+        由于Hawk有拦截功能，会被浏览器认为不安全，有以下两种方案： 
+        可以修改浏览器安全设置。    TODO:  增加浏览器的安全设置
+        {{crawler_set_header}}
+    
+        ### 注意事项
+        1. 有时直接将url拷贝到Hawk，并使用手气不错时，也能获取到数据。这是因为很多网站对第一页和其他页分别作了不同的处理。第一页内容会跟着整体frame返回回来。但之后页面内容就通过ajax单独返回了。
+        有时针对第一页做了大量的XPath开发，却最后发现无法在其他页面使用，多半就是上面提到的问题（一脸懵逼）。因此经验上，建议翻到其他页面上再做请求。
+    </system:String>
+      <system:String x:Key="crawler_super_mode" xml:space="preserve">
+       超级模式能将网页中所有的javascript, json, xml都转换为HTML DOM树，从而实现属性提取和手气不错。
+       ## 超级模式 
+       为了能让动态网页也能使用`添加属性`和`手气不错`，Hawk在嗅探后默认会开启`超级模式`。 超级模式能将网页中所有的javascript, json, xml都转换为HTML DOM树，从而实现属性提取和手气不错。
+       超级模式极大的简化了动态请求的处理，但它依然可能有以下问题
+       - 性能较差，大量的字符解析，js模式树解析
+       - 兼容性一般：不是所有的文本都能转成树结构，因此必要时需要使用手动模式处理。
+     </system:String>
+      <system:String x:Key="crawler_xpath_root" xml:space="preserve">
+          ## 列表根路径
+          列表根路径是所有属性的XPath公共部分，能简化XPath编写，提升兼容性。只能在{{script_mode_list}}模式下工作。
+          你可以通过Hawk自动分析根路径，或手动设置。
+          ### 自动规约列表路径
+          以例子来说明，使用手气不错后，嗅探器会找到列表节点的父节点，以及挂载在父节点上的多个子节点，从而形成一个树状结构
+ - 父节点(/html/div[2]/div[3]/div[4])
+   - 子节点div[1]
+   - 子节点div[2]
+   ...
+
+每个节点要抽取下面的属性:
+   - 属性1(/a[1])
+   - 属性2(/a[2]/@href)
+   - ..
+
+为了能获取父节点下所有的div子节点，因此列表根路径就是`/html/div[2]/div[3]/div[4]/div`。 注意：父节点Path路径末尾是不带序号的，这样才能获取多个子节点。可以这么理解，列表根路径就是不带结尾数字的父节点路径。
+
+有时候，父节点的xpath是不稳定的，举个例子，北京上海的二手房页面，上海会在列表上面增加一个广告banner，从而真正的父节点就会发生变化，比如向后偏移了`div[1]变成了div[2]`。为了应对这种变化，通常的做法是手工修改【列表根路径】
+        ### 手动设置根路径
+        继续举例子，父节点的id为`house_list`，且在网页中全局唯一，你就可以使用另外一种父节点表示法`//*[@id='house_list']/li`（写法可以参考其他XPath教程），而子节点表达式不变。这样会让程序变得更加鲁棒。
+       </system:String>
+    <system:String x:Key="xpath_desc" xml:space="preserve">
+        ### XPath
+        关于XPath语法，可参考教程：
+        > http://www.w3school.com.cn/xpath/xpath_syntax.asp
+        XPath可以非常灵活，例如
+        - bookstore	选取 bookstore 元素的所有子节点。
+        - /bookstore	选取根元素 bookstore。注释：假如路径起始于正斜杠( / )，则此路径始终代表到某元素的绝对路径！
+        - bookstore/book	选取属于 bookstore 的子元素的所有 book 元素。
+        - //book	选取所有 book 子元素，而不管它们在文档中的位置。
+        - bookstore//book	选择属于 bookstore 元素的后代的所有 book 元素，而不管它们位于 bookstore 之下的什么位置。
+        - //@lang	选取名为 lang 的所有属性。
+        - //@src 可匹配所有src标签
+        - //title[@lang] 选取所有拥有名为 lang 的属性的 title 元素
+        还可以通过`|`对多个表达式进行混合，Hawk支持了完整的XPath语法，因此不论是`网页采集器`以及数据清洗的`XPath`转换器，都能极其灵活地实现各种需求。
+    </system:String>
+   <system:String x:Key="css_desc" xml:space="preserve">
+        ### CSSSelector
+        多数情况下，使用XPath就能解决问题，但是CSSSelector更简洁，且鲁棒性更强。关于它的介绍，可参考
+> http://www.w3school.com.cn/cssref/css_selectors.asp
+当然，大部分情况不需要那么复杂，只要记住以下几点：
+- `.name` 获取所有id为name的元素
+- `#name` 获取所有class为name的元素
+- `p` 获取所有p元素
+- `ul > li` 获取所有父节点是ul的li元素
+   </system:String>
+     <system:String x:Key="crawler_share_cookie" xml:space="preserve">
+     设置共享请求参数的采集器名称
+     为了抓取一个网站的不同数据，我们需要多个网页采集器。但是访问网站需要登录和cookie，难不成每个采集器都要设置对应的请求参数吗？
+采集器的属性对话框中，可以设置`共享源`,也就是要共享的网页采集器的名称。例如设置为`链家采集器`，那么本采集器的请求参数，都会在执行时，动态地从链家采集器中获得。这样就极大地简化了配置过程。
+
     <system:String x:Key="key_519">
         若编号为小于0且匹配出多个新列，多个列名可用空格分割，若该列不需要添加，可用_表示，如'_ 匹配1 _'
     </system:String>
@@ -1063,7 +1155,7 @@
         文件管理
     </system:String>
     <system:String x:Key="key_516">
-        当要输出多个结果时选List，否则选One或None,参考“网页采集器”
+        当要输出多个结果时选 {{script_mode_list}}，否则选One或None,参考“网页采集器”
     </system:String>
     <system:String x:Key="key_262">
         关于
@@ -1135,7 +1227,7 @@
         HTML字符转义
     </system:String>
     <system:String x:Key="key_189">
-        当要获取符合XPath语法的多个结果时选List，只获取一条选One,其行为可参考“网页采集器”
+        当要获取符合XPath语法的多个结果时选 {{script_mode_list}}，只获取一条选One,其行为可参考“网页采集器”
     </system:String>
     <system:String x:Key="PythonTF_desc"  xml:space="preserve">
         执行特定的python代码或脚本，最后一行需要为值类型，作为该列的返回值
@@ -1232,20 +1324,9 @@
     <system:String x:Key="XPathTF_desc" xml:space="preserve">
         通过XPath或CSS选取html中的子节点文档
         当输入的单元格内容为html文档，而又想提取其部分数据，用网页采集器又`杀鸡用牛刀`，则可以考虑使用它。
-        ### XPath
-        关于XPath语法，可参考教程：
-        > http://www.w3school.com.cn/xpath/xpath_syntax.asp
+        {{xpath_desc}}
 
-        - bookstore	选取 bookstore 元素的所有子节点。
-        - /bookstore	选取根元素 bookstore。注释：假如路径起始于正斜杠( / )，则此路径始终代表到某元素的绝对路径！
-        - bookstore/book	选取属于 bookstore 的子元素的所有 book 元素。
-        - //book	选取所有 book 子元素，而不管它们在文档中的位置。
-        - bookstore//book	选择属于 bookstore 元素的后代的所有 book 元素，而不管它们位于 bookstore 之下的什么位置。
-        - //@lang	选取名为 lang 的所有属性。
-
-        ### CSS Selector
-        TODO: 编写常用的脚本
-
+        {{css_desc}}
     </system:String>
     <system:String x:Key="key_32">
         自动连接
@@ -1570,7 +1651,7 @@
         使用网页采集器获取网页数据，拖入的列需要为超链，常用
     </system:String>
     <system:String x:Key="key_185">
-        提取模式为List且选择器为CssSelecor时，必须设定根节点路径
+        提取模式为{{}}且选择器为CssSelecor时，必须设定根节点路径
     </system:String>
     <system:String x:Key="key_117">
         2.代理设置
@@ -1812,7 +1893,7 @@
         生成值
     </system:String>
     <system:String x:Key="key_432">
-        当要输出多个结果时选List，否则选One,参考“网页采集器”
+        当要输出多个结果时选{{script_mode_list}}，否则选One,参考“网页采集器”
     </system:String>
     <system:String x:Key="key_35">
         连接数据库

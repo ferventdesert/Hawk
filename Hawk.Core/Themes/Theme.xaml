@@ -35,12 +35,7 @@
         		Value="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}, Mode=FindAncestor}}" />
         </Style>
 
-    <Style x:Key="CommandMenuItemMulti" TargetType="{x:Type MenuItem}">
-        <Setter Property="Header" Value="{Binding Text}" />
-        <Setter Property="Command" Value="{Binding}" />
-        <Setter Property="CommandParameter"
-                Value="{Binding PlacementTarget.SelectedItems, RelativeSource={RelativeSource AncestorLevel=2 AncestorType={x:Type ContextMenu}, Mode=FindAncestor}}" />
-    </Style>
+   
     <SolidColorBrush x:Key="TextBrush" Color="White" />
     <SolidColorBrush x:Key="NormalBrush" Color="{StaticResource MainColor}" />
     <SolidColorBrush x:Key="NormalBorderBrush" Color="#FF333333" />

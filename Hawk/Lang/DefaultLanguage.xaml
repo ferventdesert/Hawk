@@ -1128,7 +1128,7 @@
      设置共享请求参数的采集器名称
      为了抓取一个网站的不同数据，我们需要多个网页采集器。但是访问网站需要登录和cookie，难不成每个采集器都要设置对应的请求参数吗？
 采集器的属性对话框中，可以设置`共享源`,也就是要共享的网页采集器的名称。例如设置为`链家采集器`，那么本采集器的请求参数，都会在执行时，动态地从链家采集器中获得。这样就极大地简化了配置过程。
-
+   </system:String>
     <system:String x:Key="key_519">
         若编号为小于0且匹配出多个新列，多个列名可用空格分割，若该列不需要添加，可用_表示，如'_ 匹配1 _'
     </system:String>
@@ -1584,7 +1584,7 @@
     <system:String x:Key="key_265">
         项目主页
     </system:String>
-    <system:String x:Key="xpath2_desc" 
+    <system:String x:Key="xpath2_desc">
         要拖入HTML文本列,可将页面中的门类，用Cross模式组合起来，适合于爬虫无法抓取全部页面，但可以按分类抓取的情况。需调用网页采集器，具体参考文档-XPathTF2
     </system:String>
     <system:String x:Key="key_303">

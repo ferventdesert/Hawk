@@ -1648,8 +1648,20 @@
         添加新列
     </system:String>
     <system:String x:Key="CrawlerTF_desc">
-        使用网页采集器获取网页数据，拖入的列需要为超链，常用
+        使用网页采集器获取网页数据，拖入的列需要为超链接
+
     </system:String>
+      <system:String x:Key="transformer_type">
+    转换器有三种子类型：
+    - ColumnUDF: 单列->单列： 只对一个列有效，如`{{NumberTF}`,
+    - UDF:单文档->单文档：如删除该列，它仅涉及文档内部的修改，可能会影响多个列
+    - UDAF:单文档->多文档：典型的如`从爬虫转换`，每一行url都可能生成20个甚至更多的文档，它的行为cross(交叉)模式下的生成器。
+
+    ColumnUDF是UDF的特例， UDF是UDAF的特例（只产生一种）
+    绝大多数转换器都是UDF类型。但同一个转换器在不同的配置下，可能会有多种行为，例如`从爬虫转换`，如果选择的网页采集器为One(单文档)模式，则该转换器为UDF模式，若为List模式，则为UDAF模式。
+
+  </system:String>
+
     <system:String x:Key="key_185">
         提取模式为{{}}且选择器为CssSelecor时，必须设定根节点路径
     </system:String>
@@ -2646,6 +2658,61 @@
     </system:String>
     <system:String x:Key="SmartETLTool_desc">
         对数据筛选转换和合并，并导出到数据库中
+    </system:String>
+      <system:String x:Key="SmartETLTool_desc_detail" xml:space="preserve">
+        数据清洗是一种任务，包括几十个子模块， 这些子模块包含四类：生成， 转换， 过滤和执行。 
+        ![丰富的模块](https://images2018.cnblogs.com/blog/287060/201805/287060-20180506160120254-60486829.png)
+        数据清洗可以通过组合多个不同的子模块，生成多样的功能，通过拖拽构造出一个工作流，它能够产生一个有限或无限的文档序列。比如下面：
+        ![image_1auq4oooc1m8m9tc02sjv1j4o9.png-71.6kB](http://static.zybuluo.com/buptzym/gzr3u0z80478s31u9v1zdfw5/image_1auq4oooc1m8m9tc02sjv1j4o9.png)
+        拖入的模块顺序是非常重要的，一个常见问题是顺序不对，导致生成的数据不符合预期。数据清洗可通过 {{CrawlerTF}} 来调用网页采集器，也可以通过`子任务`来调用其他数据清洗，是组合各种模块和任务的工厂。
+    </system:String>
+      <system:String x:Key="SmartETLTool_debug" xml:space="preserve">
+        ### 调试模式
+        在编辑任务的过程中，处于**调试模式**，它具备如下特点：
+        - 所有执行器都不工作，避免副作用
+        - 点击下方中间的刷新按钮，或修改配置，展示的数据会自动刷新
+        - 只能运行在串行模式上
+        - 所见即所得，只显示一定数量的数据（通过采样量修改）
+        - 可以禁用或启用某些模块，观察效果
+        - 会加入web请求和读取文件的缓存， 来提升预览速度（可能会导致一些问题）
+        - 输入列和输出列会用不同的颜色进行表示
+
+        在调试时，{{CrawlerTF}}模块可能会请求web数据，为了提升性能，该模块对请求做了缓存。保证数据只需获取一次，如果想强制刷新数据，将{{CrawlerTF}}模块禁用，再启用，原始缓存数据就会被擦除。
+     </system:String>
+         <system:String x:Key="serial_mode_desc" xml:space="preserve">
+        ### {{serial_mode}}
+        只有点击**执行**时，才会切换到执行模式。执行时，可工作在{{serial_mode}}/{{parallel_mode}}
+        在{{serial_mode}}下， 所有任务串行执行，速度慢，但对网站压力小，不容易被封锁。为了进一步降低执行速度，可以设置延时时间，此时每次网络请求前，都会延时一定时间。
+        注意:
+        1. 当执行器包含类似"向文件中追加内容"的操作时，强烈建议使用串行模式，因为Hawk没有加入多线程锁，有可能会导致冲突。
+        2. 建议完成爬虫设计后，先进行{{serial_mode}}，初步观察是否正确，之后再设置并行模式大量抓取。
+     </system:String>
+           <system:String x:Key="parallel_mode_desc" xml:space="preserve">
+        ### {{parallel_mode}}
+       极大地加快了抓取速度，但很容易被封锁。 
+
+     </system:String>
+      <system:String x:Key="taskmanager_desc" xml:space="preserve">
+        ## 线程管理
+        不论是调试还是执行模式，系统都会在任务管理视图中增加一个或多个线程。
+        你可以勾选，或取消勾选部分或全部线程，暂停或取消它们。当网站限制抓取时，可以暂停所有线程，等恢复后再次执行。
+
+        注意:
+        1. 当工作流有误时（比如该列所有数据都空，却在该列添加了【空对象过滤器】，那么所有数据都会被过滤）可能不会产生任何数据输出。此时进度条并不会向前推进，产生卡死的假象。此时可强行将其删除
+        2. 线程删除的流程是：先安全将其取消，如果线程无响应，则会直接将其杀死
+
+      </system:String>
+
+    <system:String x:Key="SmartETLTool_step" xml:space="preserve">
+        ### 单步调试
+        Hawk模仿了播放器和调试器，在调试模式下有`步`的概念，例如所在位置是6/20， 则说明总共有20个模块，只生效前面6个模块。 可以通过左右单击，或直接回退到开头、末尾来进行调试。
+
+        左侧显示了当前所有的模块，顺序和它们的输入输出列，双击上面的模块可对其进行配置，右键可删除，上下移动这些模块。
+        ![上下拖拽，右键配置每一步的参数](https://images2018.cnblogs.com/blog/287060/201805/287060-20180506155928987-1522342347.png)
+
+        有时为了在单步调试过程中查看模块的属性，可勾选界面右下角的`调试详情`，此时可直接显示当前模块所在的属性。本质上，单步调试只是提取了工作流的一部分进行操作。
+        你可以在单步调试中，拖入新的模块。模块会自动插入在工作流中间。
+        ![模块数量](https://images2018.cnblogs.com/blog/287060/201805/287060-20180506160222760-1330008382.png)
     </system:String>
     <system:String x:Key="key_564">
         显示独立任务

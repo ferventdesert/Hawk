@@ -1006,7 +1006,7 @@
     <system:String x:Key="key_327">
         加载{0}任务
     </system:String>
-    <system:String x:Key="HtmlTF_desc">
+    <system:String x:Key="HtmlTF_desc"  xml:space="preserve">
         删除HTML标签和转义符号
         当页面包含HTML时，一些字符可能已经被转义了，例如空格成了`nsbp%`
         拖入到对应的列，即可将转义符号恢复为之前的表示
@@ -1031,18 +1031,18 @@
     <system:String x:Key="key_593">
         如公园，车站等
     </system:String>
-    <system:String x:Key="SmartCrawler_desc" xml:space="preserve">
+    <system:String x:Key="SmartCrawler_desc">
         从单个网页中采集和嗅探所需数据
-        网页采集器模拟了浏览器的设计，填入网址，点击刷新，即可获取对应地址的html源码。
+    </system:String>
+    <system:String x:Key="SmartCrawler_desc_detail" xml:space="preserve">
+    网页采集器模拟了浏览器的设计，填入网址，点击刷新，即可获取对应地址的html源码。
         左侧的区域，显示了html源码和浏览器视图，可通过tab页切换。右侧配置区域，可对关键字进行搜索，并对面前所有的属性进行管理
         网页采集器不能单独工作，而是沟通网页采集器和数据清洗的桥梁。本质上说，网页采集器是针对获取网页而特别定制的`数据清洗模块`。
         {{crawler_dynamic_sniff}}
-
         {{crawler_super_mode}}
 
     </system:String>
-
-     <system:String x:Key="crawler_url_desc" xml:space="preserve">
+    <system:String x:Key="crawler_url_desc" xml:space="preserve">
         以`http://`或`https://`开头的网页地址，Hawk也能支持类似`C://a.html`的本地文件，点击回车后即可刷新
     </system:String>
     <system:String x:Key="crawler_dynamic_sniff" xml:space="preserve">

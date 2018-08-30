@@ -38,7 +38,7 @@ namespace Hawk.ETL.Managements
         [XmlIgnore]
         [Browsable(false)]
 
-        public string TypeName => ProcessToDo?["Type"].ToString()=="SmartETLTool"?GlobalHelper.Get("key_201") :GlobalHelper.Get("key_202");
+        public string TypeName => ProcessToDo?["Type"].ToString()=="SmartETLTool"?GlobalHelper.Get("key_201") :GlobalHelper.Get("smartcrawler_name");
 
         #endregion
 

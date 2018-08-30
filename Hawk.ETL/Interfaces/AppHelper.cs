@@ -185,7 +185,7 @@ namespace Hawk.ETL.Interfaces
 
         public static T GetModule<T>(this IColumnProcess process, string name) where T : class
         {
-            var moduleName = (typeof(T) == typeof(SmartETLTool)) ? GlobalHelper.Get("key_201") : GlobalHelper.Get("key_202");
+            var moduleName = (typeof(T) == typeof(SmartETLTool)) ? GlobalHelper.Get("key_201") : GlobalHelper.Get("smartcrawler_name");
             if (String.IsNullOrEmpty(name))
                 return null;
             var process_name = process?.TypeName;

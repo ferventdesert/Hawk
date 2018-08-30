@@ -1,6 +1,6 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <system:String x:Key="Closing">
         是否确定离开Hawk?
@@ -26,7 +26,7 @@
     <system:String x:Key="DebugView">
         调试信息窗口
     </system:String>
-   
+
     <system:String x:Key="Error">
         失败
     </system:String>
@@ -61,8 +61,7 @@
     <system:String x:Key="key_560">
         子线程数量
     </system:String>
-    <system:String x:Key="key_750">
-        可填写完整XPath,或只根据id或class名称进行检索，如选择class，值填`name`，就是查找所有class=name的节点
+    <system:String x:Key="key_750"> 可填写完整XPath,或只根据id或class名称进行检索，如选择class，值填`name`，就是查找所有class=name的节点
     </system:String>
     <system:String x:Key="key_718">
         正常初始化
@@ -85,8 +84,7 @@
     <system:String x:Key="key_69">
         启用自增主键写入，会在数据表的额外一列上增加自增键
     </system:String>
-    <system:String x:Key="key_89">
-        sql=
+    <system:String x:Key="key_89"> sql=
     </system:String>
     <system:String x:Key="key_0">
         是否保存当前工程的内容？您只有一次机会这样做，
@@ -455,12 +453,12 @@
     <system:String x:Key="IDataViewer">
         展示数据
     </system:String>
-    <system:String x:Key="SaveFileEX_desc"  xml:space="preserve">
+    <system:String x:Key="SaveFileEX_desc" xml:space="preserve">
         保存对应链接的文件，如图片，视频等
         拖入的列为文件的超链接地址
         `保存位置`:可以使用方括号表达式，将某一列的内容传递过来
         注意:
-        > 一些网站必须要求登录以后才能下载内容。而如果你已经配置好能正常访问该网站的`网页采集器`，那么就可以在`共用采集器名`中填写这个采集器的名称，此时本模块会使用那个采集器的header进行抓取。
+        > 一些网站必须要求登录以后才能下载内容。而如果你已经配置好能正常访问该网站的` {{smartcrawler_name}} `，那么就可以在`共用采集器名`中填写这个采集器的名称，此时本模块会使用那个采集器的header进行抓取。
     </system:String>
     <system:String x:Key="key_431">
         递归到下列
@@ -655,7 +653,7 @@
     </system:String>
     <system:String x:Key="remind_10" xml:space="preserve">
         请填写包含在页面中的关键字信息，进而方便Hawk提取所需内容：
-        【2.属性提取】->【搜索字符】
+        【2.属性提取】-> {{key_764}}
     </system:String>
     <system:String x:Key="step2">
         步骤2：设置主任务属性列对应到子任务的属性名，下拉菜单仅参考，可直接编辑文本框
@@ -664,13 +662,13 @@
         {0}已经有任务在执行，由于调整参数，是否要取消当前任务重新执行？
         【取消】:【不再提醒】
     </system:String>
-    <system:String x:Key="success_get"  xml:space="preserve">
+    <system:String x:Key="success_get" xml:space="preserve">
         已经成功获取嗅探字段！ 真实请求地址:
         {0}，
-        已自动配置了网页采集器，请求类型为{1}
-        {2}已经刷新了网页采集器的内容
+        已自动配置了 {{smartcrawler_name}} ，请求类型为{1}
+        {2}已经刷新了 {{smartcrawler_name}} 的内容
     </system:String>
-    <system:String x:Key="fail_remind"  xml:space="preserve">
+    <system:String x:Key="fail_remind" xml:space="preserve">
         作用在列名`{0}`的 模块`{1}` 已经连续5次没有成功获取数据，可能需要重新修改参数 
         【是】：【进入调试模式】 
         【否】：【取消当前任务】 
@@ -734,7 +732,7 @@
     </system:String>
     <system:String x:Key="XPathTF2_desc" xml:space="preserve">
         可将页面中的门类，用笛卡尔交叉的模式组合起来，适合于爬虫无法抓取全部页面，但可以按分类抓取的情况。
-        需调用网页采集器，具体参考文档-门类枚举
+        需调用 {{smartcrawler_name}} ，具体参考文档-门类枚举
         //TODO:添加更详细的介绍
         要拖入HTML文本列
     </system:String>
@@ -797,7 +795,7 @@
         XPath转换器
     </system:String>
     <system:String x:Key="key_295">
-        新建或复制网页采集器
+        新建或复制 {{smartcrawler_name}} 
     </system:String>
     <system:String x:Key="key_381">
         最小匹配数
@@ -817,8 +815,8 @@
     <system:String x:Key="key_70">
         安装使用说明
     </system:String>
-    <system:String x:Key="key_123"  xml:space="preserve">
-        当页面出现乱码时，一般是编码问题，在`网页采集器`->`请求设置`->编码，切换UTF-8或GBK。
+    <system:String x:Key="key_123" xml:space="preserve">
+        当页面出现乱码时，一般是编码问题，在` {{smartcrawler_name}} `->`请求设置`->编码，切换UTF-8或GBK。
         极个别情况才需使用其他编码
     </system:String>
     <system:String x:Key="key_385">
@@ -1006,7 +1004,7 @@
     <system:String x:Key="key_327">
         加载{0}任务
     </system:String>
-    <system:String x:Key="HtmlTF_desc"  xml:space="preserve">
+    <system:String x:Key="HtmlTF_desc" xml:space="preserve">
         删除HTML标签和转义符号
         当页面包含HTML时，一些字符可能已经被转义了，例如空格成了`nsbp%`
         拖入到对应的列，即可将转义符号恢复为之前的表示
@@ -1035,11 +1033,22 @@
         从单个网页中采集和嗅探所需数据
     </system:String>
     <system:String x:Key="SmartCrawler_desc_detail" xml:space="preserve">
-    网页采集器模拟了浏览器的设计，填入网址，点击刷新，即可获取对应地址的html源码。
+     {{smartcrawler_name}} 模拟了浏览器的设计，填入网址，点击刷新，即可获取对应地址的html源码。
         左侧的区域，显示了html源码和浏览器视图，可通过tab页切换。右侧配置区域，可对关键字进行搜索，并对面前所有的属性进行管理
-        网页采集器不能单独工作，而是沟通网页采集器和数据清洗的桥梁。本质上说，网页采集器是针对获取网页而特别定制的`数据清洗模块`。
+         {{smartcrawler_name}} 不能单独工作，而是沟通 {{smartcrawler_name}} 和数据清洗的桥梁。本质上说， {{smartcrawler_name}} 是针对获取网页而特别定制的`数据清洗模块`。
         {{crawler_dynamic_sniff}}
         {{crawler_super_mode}}
+    </system:String>
+    <system:String x:Key="SmartCrawler_manual_mode" xml:space="preserve">
+        ### 手动模式
+        在{{TODO}}不能工作或不符合预期时，需要手工给定几个关键字， 让Hawk搜索关键字， 并获取在网页中所在的位置(XPath)。
+        填入{{key_764}，能够成功获取XPath, 编写属性名称，点击{{}}，即可添加一个属性。类似地，再填入30535，设置属性名称为“单价”，即可添加另外一个属性。
+
+        在`搜索属性`的文本框中，输入你要获取的关键字，由于关键字在网页中可能出现多次，可连续点击`继续搜索`，在多个结果间切换，左侧的html源码会对搜索的结果进行高亮。
+        > 请注意观察搜索的关键字在网页中的位置，是否符合预期，否则抓取数据可能会有问题。尤其在List模式。
+        > 如果需要抓取本页面的多块数据，可新建多个` {{smartcrawler_name}} `，分别进行配置。
+        如果发现有错误，可点击**编辑集合**，对属性进行删除，修改和排序。
+        你可以类似的将所有要抓取的特征字段添加进去，或是直接点击 {{key_623}} ，系统会根据目前的属性，推测其他属性。
 
     </system:String>
     <system:String x:Key="crawler_url_desc" xml:space="preserve">
@@ -1058,7 +1067,7 @@
         通过浏览器和抓包，可以获取这些隐藏请求，但需要对HTTP请求的原理比较熟悉，不适合于初学者。
         Hawk简化了流程，采用自动嗅探的方式来进行。Hawk成为后端代理，会拦截和分析所有系统级Http请求，并将包含关键字的请求筛选出来 （基于fiddler）
         
-        当搜索字符时，若没有在当前页面中找到该关键字，Hawk会有提示，“是否启动动态嗅探？”此时Hawk会弹出浏览器并打开所在网页。您可将页面拖到包含关键字的位置，Hawk会自动记录和过滤包含关键字的真实请求， 检索完毕后，Hawk会自动回弹。
+        当{{key_764}时，若没有在当前页面中找到该关键字，Hawk会有提示，“是否启动动态嗅探？”此时Hawk会弹出浏览器并打开所在网页。您可将页面拖到包含关键字的位置，Hawk会自动记录和过滤包含关键字的真实请求， 检索完毕后，Hawk会自动回弹。
 
         ### 如果无法自动嗅探?
         由于Hawk有拦截功能，会被浏览器认为不安全，有以下两种方案： 
@@ -1066,39 +1075,38 @@
         {{crawler_set_header}}
     
         ### 注意事项
-        1. 有时直接将url拷贝到Hawk，并使用手气不错时，也能获取到数据。这是因为很多网站对第一页和其他页分别作了不同的处理。第一页内容会跟着整体frame返回回来。但之后页面内容就通过ajax单独返回了。
+        1. 有时直接将url拷贝到Hawk，并使用{{key_623}}时，也能获取到数据。这是因为很多网站对第一页和其他页分别作了不同的处理。第一页内容会跟着整体frame返回回来。但之后页面内容就通过ajax单独返回了。
         有时针对第一页做了大量的XPath开发，却最后发现无法在其他页面使用，多半就是上面提到的问题（一脸懵逼）。因此经验上，建议翻到其他页面上再做请求。
     </system:String>
-      <system:String x:Key="crawler_super_mode" xml:space="preserve">
-       超级模式能将网页中所有的javascript, json, xml都转换为HTML DOM树，从而实现属性提取和手气不错。
+    <system:String x:Key="crawler_super_mode" xml:space="preserve">
+       超级模式能将网页中所有的javascript, json, xml都转换为HTML DOM树，从而实现属性提取和{{key_623}}。
        ## 超级模式 
-       为了能让动态网页也能使用`添加属性`和`手气不错`，Hawk在嗅探后默认会开启`超级模式`。 超级模式能将网页中所有的javascript, json, xml都转换为HTML DOM树，从而实现属性提取和手气不错。
+       为了能让动态网页也能使用`添加属性`和`{{key_623}}`，Hawk在嗅探后默认会开启`超级模式`。 超级模式能将网页中所有的javascript, json, xml都转换为HTML DOM树，从而实现属性提取和{{key_623}}。
        超级模式极大的简化了动态请求的处理，但它依然可能有以下问题
        - 性能较差，大量的字符解析，js模式树解析
        - 兼容性一般：不是所有的文本都能转成树结构，因此必要时需要使用手动模式处理。
-     </system:String>
-      <system:String x:Key="crawler_xpath_root" xml:space="preserve">
-          ## 列表根路径
-          列表根路径是所有属性的XPath公共部分，能简化XPath编写，提升兼容性。只能在{{script_mode_list}}模式下工作。
-          你可以通过Hawk自动分析根路径，或手动设置。
-          ### 自动规约列表路径
-          以例子来说明，使用手气不错后，嗅探器会找到列表节点的父节点，以及挂载在父节点上的多个子节点，从而形成一个树状结构
- - 父节点(/html/div[2]/div[3]/div[4])
-   - 子节点div[1]
-   - 子节点div[2]
-   ...
+    </system:String>
+    <system:String x:Key="crawler_xpath_root" xml:space="preserve">
+        ## 列表根路径
+        列表根路径是所有属性的XPath公共部分，能简化XPath编写，提升兼容性。只能在{{script_mode_list}}模式下工作。
+        你可以通过Hawk自动分析根路径，或手动设置。
+        ### 自动规约列表路径
+        以例子来说明，使用{{key_623}}后，嗅探器会找到列表节点的父节点，以及挂载在父节点上的多个子节点，从而形成一个树状结构
+        - 父节点(/html/div[2]/div[3]/div[4])
+            - 子节点div[1]
+            - 子节点div[2]
+        ...
 
-每个节点要抽取下面的属性:
-   - 属性1(/a[1])
-   - 属性2(/a[2]/@href)
-   - ..
+        每个节点要抽取下面的属性:
+            - 属性1(/a[1])
+            - 属性2(/a[2]/@href)
+            - ..
 
-为了能获取父节点下所有的div子节点，因此列表根路径就是`/html/div[2]/div[3]/div[4]/div`。 注意：父节点Path路径末尾是不带序号的，这样才能获取多个子节点。可以这么理解，列表根路径就是不带结尾数字的父节点路径。
+        为了能获取父节点下所有的div子节点，因此列表根路径就是`/html/div[2]/div[3]/div[4]/div`。 注意：父节点Path路径末尾是不带序号的，这样才能获取多个子节点。可以这么理解，列表根路径就是不带结尾数字的父节点路径。
 
-有时候，父节点的xpath是不稳定的，举个例子，北京上海的二手房页面，上海会在列表上面增加一个广告banner，从而真正的父节点就会发生变化，比如向后偏移了`div[1]变成了div[2]`。为了应对这种变化，通常的做法是手工修改【列表根路径】
-        ### 手动设置根路径
-        继续举例子，父节点的id为`house_list`，且在网页中全局唯一，你就可以使用另外一种父节点表示法`//*[@id='house_list']/li`（写法可以参考其他XPath教程），而子节点表达式不变。这样会让程序变得更加鲁棒。
-       </system:String>
+        有时候，父节点的xpath是不稳定的，举个例子，北京上海的二手房页面，上海会在列表上面增加一个广告banner，从而真正的父节点就会发生变化，比如向后偏移了`div[1]变成了div[2]`。为了应对这种变化，通常的做法是手工修改【列表根路径】
+        ### 手动设置根路径 继续举例子，父节点的id为`house_list`，且在网页中全局唯一，你就可以使用另外一种父节点表示法`//*[@id='house_list']/li`（写法可以参考其他XPath教程），而子节点表达式不变。这样会让程序变得更加鲁棒。
+    </system:String>
     <system:String x:Key="xpath_desc" xml:space="preserve">
         ### XPath
         关于XPath语法，可参考教程：
@@ -1112,9 +1120,9 @@
         - //@lang	选取名为 lang 的所有属性。
         - //@src 可匹配所有src标签
         - //title[@lang] 选取所有拥有名为 lang 的属性的 title 元素
-        还可以通过`|`对多个表达式进行混合，Hawk支持了完整的XPath语法，因此不论是`网页采集器`以及数据清洗的`XPath`转换器，都能极其灵活地实现各种需求。
+        还可以通过`|`对多个表达式进行混合，Hawk支持了完整的XPath语法，因此不论是` {{smartcrawler_name}} `以及数据清洗的`XPath`转换器，都能极其灵活地实现各种需求。
     </system:String>
-   <system:String x:Key="css_desc" xml:space="preserve">
+    <system:String x:Key="css_desc" xml:space="preserve">
         ### CSSSelector
         多数情况下，使用XPath就能解决问题，但是CSSSelector更简洁，且鲁棒性更强。关于它的介绍，可参考
 > http://www.w3school.com.cn/cssref/css_selectors.asp
@@ -1123,12 +1131,12 @@
 - `#name` 获取所有class为name的元素
 - `p` 获取所有p元素
 - `ul > li` 获取所有父节点是ul的li元素
-   </system:String>
-     <system:String x:Key="crawler_share_cookie" xml:space="preserve">
+    </system:String>
+    <system:String x:Key="crawler_share_cookie" xml:space="preserve">
      设置共享请求参数的采集器名称
-     为了抓取一个网站的不同数据，我们需要多个网页采集器。但是访问网站需要登录和cookie，难不成每个采集器都要设置对应的请求参数吗？
-采集器的属性对话框中，可以设置`共享源`,也就是要共享的网页采集器的名称。例如设置为`链家采集器`，那么本采集器的请求参数，都会在执行时，动态地从链家采集器中获得。这样就极大地简化了配置过程。
-   </system:String>
+     为了抓取一个网站的不同数据，我们需要多个 {{smartcrawler_name}} 。但是访问网站需要登录和cookie，难不成每个采集器都要设置对应的请求参数吗？
+采集器的属性对话框中，可以设置`共享源`,也就是要共享的 {{smartcrawler_name}} 的名称。例如设置为`链家采集器`，那么本采集器的请求参数，都会在执行时，动态地从链家采集器中获得。这样就极大地简化了配置过程。
+    </system:String>
     <system:String x:Key="key_519">
         若编号为小于0且匹配出多个新列，多个列名可用空格分割，若该列不需要添加，可用_表示，如'_ 匹配1 _'
     </system:String>
@@ -1155,7 +1163,7 @@
         文件管理
     </system:String>
     <system:String x:Key="key_516">
-        当要输出多个结果时选 {{script_mode_list}}，否则选One或None,参考“网页采集器”
+        当要输出多个结果时选 {{script_mode_list}}，否则选{{script_mode_one}}或None,参考“ {{smartcrawler_name}} ”
     </system:String>
     <system:String x:Key="key_262">
         关于
@@ -1182,8 +1190,7 @@
     <system:String x:Key="key_241">
         转换表类型
     </system:String>
-    <system:String x:Key="key_728">
-        HorizontalAlignment=
+    <system:String x:Key="key_728"> HorizontalAlignment=
     </system:String>
     <system:String x:Key="BaiduLocation_desc" xml:space="preserve">
         通过百度API获取当前地标的经纬度坐标，需要拖入代表地名的列
@@ -1227,21 +1234,25 @@
         HTML字符转义
     </system:String>
     <system:String x:Key="key_189">
-        当要获取符合XPath语法的多个结果时选 {{script_mode_list}}，只获取一条选One,其行为可参考“网页采集器”
+        当要获取符合XPath语法的多个结果时选 {{script_mode_list}}，只获取一条选{{script_mode_one},其行为可参考“ {{smartcrawler_name}} ”
     </system:String>
-    <system:String x:Key="PythonTF_desc"  xml:space="preserve">
+    <system:String x:Key="PythonTF_desc" xml:space="preserve">
         执行特定的python代码或脚本，最后一行需要为值类型，作为该列的返回值
         例如，有两列a和b, 要将它们按字符串相加:
-        a+b
+        `a+b`
         若希望按数值类型相加， 则需要提前将其转换
-        float(a)+float(b)
+        `float(a)+float(b)`
         也可以提前定义函数:
+        ```
         def add(x,y):
             return float(x)+float(y)
         add(a,b)
-        也可以使用lambda:
+        ```
+        也可以使用lambda: 
+        ```
         f= lambda a,b: a+b
         f(a,b)
+        ```
         
         ### 注意：
         1. 你可以在文本框中定义函数，但不建议太过复杂
@@ -1323,7 +1334,7 @@
     </system:String>
     <system:String x:Key="XPathTF_desc" xml:space="preserve">
         通过XPath或CSS选取html中的子节点文档
-        当输入的单元格内容为html文档，而又想提取其部分数据，用网页采集器又`杀鸡用牛刀`，则可以考虑使用它。
+        当输入的单元格内容为html文档，而又想提取其部分数据，用 {{smartcrawler_name}} 又`杀鸡用牛刀`，则可以考虑使用它。
         {{xpath_desc}}
 
         {{css_desc}}
@@ -1427,14 +1438,12 @@
     <system:String x:Key="key_237">
         另存为
     </system:String>
-    <system:String x:Key="key_792">
-        ItemsSource=
+    <system:String x:Key="key_792"> ItemsSource=
     </system:String>
     <system:String x:Key="key_715">
         位置
     </system:String>
-    <system:String x:Key="key_731">
-        ToolTip=
+    <system:String x:Key="key_731"> ToolTip=
     </system:String>
     <system:String x:Key="key_60">
         编码方式
@@ -1555,7 +1564,7 @@
         项目另存为
     </system:String>
     <system:String x:Key="key_648">
-        填写拥有正确cookie的采集器名称，为空时不起作用，该功能还会获取代理IP等属性，避免重复设置网页采集器
+        填写拥有正确cookie的采集器名称，为空时不起作用，该功能还会获取代理IP等属性，避免重复设置 {{smartcrawler_name}} 
     </system:String>
     <system:String x:Key="key_388">
         填入空格分割的列名，对本模块所在列的值相同的所有属性分别进行纵向合并数组
@@ -1585,7 +1594,7 @@
         项目主页
     </system:String>
     <system:String x:Key="xpath2_desc">
-        要拖入HTML文本列,可将页面中的门类，用Cross模式组合起来，适合于爬虫无法抓取全部页面，但可以按分类抓取的情况。需调用网页采集器，具体参考文档-XPathTF2
+        要拖入HTML文本列,可将页面中的门类，用Cross模式组合起来，适合于爬虫无法抓取全部页面，但可以按分类抓取的情况。需调用 {{smartcrawler_name}} ，具体参考文档-XPathTF2
     </system:String>
     <system:String x:Key="key_303">
         加载默认工程
@@ -1648,19 +1657,56 @@
         添加新列
     </system:String>
     <system:String x:Key="CrawlerTF_desc">
-        使用网页采集器获取网页数据，拖入的列需要为超链接
+        使用 {{smartcrawler_name}} 获取网页数据，拖入的列需要为超链接
 
     </system:String>
-      <system:String x:Key="transformer_type">
-    转换器有三种子类型：
-    - ColumnUDF: 单列->单列： 只对一个列有效，如`{{NumberTF}`,
-    - UDF:单文档->单文档：如删除该列，它仅涉及文档内部的修改，可能会影响多个列
-    - UDAF:单文档->多文档：典型的如`从爬虫转换`，每一行url都可能生成20个甚至更多的文档，它的行为cross(交叉)模式下的生成器。
+    <system:String x:Key="transformer_type" xml:space="preserve">
+        转换器有三种子类型：
+        - ColumnUDF: 单列->单列： 只对一个列有效，如`{{NumberTF}`,
+        - UDF:单文档->单文档：如删除该列，它仅涉及文档内部的修改，可能会影响多个列
+        - UDAF:单文档->多文档：典型的如`从爬虫转换`，每一行url都可能生成20个甚至更多的文档，它的行为cross(交叉)模式下的生成器。
+        
+        ColumnUDF是UDF的特例， UDF是UDAF的特例（只产生一种）
+        绝大多数转换器都是UDF类型。但同一个转换器在不同的配置下，可能会有多种行为，例如`从爬虫转换`，如果选择的 {{smartcrawler_name}} 为{{script_mode_one}(单文档)模式，则该转换器为UDF模式，若为List模式，则为UDAF模式。
+    </system:String>
+    <system:String x:Key="core_concept" xml:space="preserve">
+        ## Hawk的关键概念
+        - 任务： 系统仅仅提供了两种任务：  {{smartcrawler_name}} 和数据清洗，任务可以被新建，保存和加载。
+        - 模块： 一个任务会包含多个模块，例如数据清洗中会有`从文本生成`,`从爬虫转换`等
+        - 工程： 多个任务组成一个工程，工程可以以xml方式保存和加载
+        - 数据表：在内存中存储的数据表，速度快，但是容量有限，存储小型数据时使用
+        - 数据库(连接器)： Hawk通过连接器连接不同的数据库，如MongoDB，sqlite等。
+        - 列： 数据清洗里的列，可参考像Excel里的列，在 {{smartcrawler_name}} 里，一个属性对应一个列
+        - 文档： 可理解为数据清洗里的一行，它是键值对构成的字典，如`key1:value,key2:value2`
+        - 单元格 ： 文档中的一个单元格，就像Excel 那样
+        - 流:  多个文档的序列，可能是有限或无穷的，在早期版本的Hawk中，这个概念大量使用。
+        - 线程： 任务在启动时，会有一个(串行)或多个(并行)线程，可以在{{key_798}中对其进行暂停和删除管
+    </system:String>
+    <system:String x:Key="connector_helper" xml:space="preserve">
+        ## 连接器
+        能够添加来自不同数据源的连接器， 并对数据进行加载和管理：
+        在空白处，点击右键，可增加新的连接器。在连接器的数据表上，双击可查看样例，点击右键，可以将数据加载到内存中。
+        
+        ![连接器配置][http://static.zybuluo.com/buptzym/cympkkptyzq6r370ositd2dh/QQ%E6%88%AA%E5%9B%BE20160501105629.jpg]
+        
+        目前支持的连接器包括：
+            - MongoDB
+            - sqlite
+            - 文件读写
+            - MySql(测试不完全)
+        
+        使用sqlite非常简单，新建sqlite连接器后，点击新建，即可创建sqlite的db文件，即可直接使用。
+        在安装MongoDB之后，在空白位置点右键，即可选择插入一个`MongoDB连接器`，在服务器地址，用户名和密码，数据库名称上填写所需的字段，然后点击`连接数据库`即可。
+        如果你是小白用户，用上面的方法安装了MongoDB，则数据库地址填写`127.0.0.1`(代表本地)，用户名和密码为空，数据库名称填写你想要的任何名字皆可。
+    </system:String>
+    <system:String x:Key="datacollection_helper" xml:space="preserve">
+        当加载了数据集时，在本视图中，就可对其查看和编辑：
+        1.点击右键，可以对数据集进行删除，修改名称等
+        2.将数据集拖拽到下方的图标上，如拖到回收站，即可删除该模块。
+        3. 双击数据集可查看模块的内容。 将数据集拖拽到数据清洗图标上，可直接对本数据集做数据清洗。
+        ![数据集视图][http://static.zybuluo.com/buptzym/kfz2k0xfvbjtun5ah6hlxoph/QQ%E6%88%AA%E5%9B%BE20160501105734.jpg]
+    </system:String>
 
-    ColumnUDF是UDF的特例， UDF是UDAF的特例（只产生一种）
-    绝大多数转换器都是UDF类型。但同一个转换器在不同的配置下，可能会有多种行为，例如`从爬虫转换`，如果选择的网页采集器为One(单文档)模式，则该转换器为UDF模式，若为List模式，则为UDAF模式。
-
-  </system:String>
 
     <system:String x:Key="key_185">
         提取模式为{{}}且选择器为CssSelecor时，必须设定根节点路径
@@ -1757,8 +1803,7 @@
     <system:String x:Key="key_323">
         加载{0}工程时未发现对应的脚本文件{1}
     </system:String>
-    <system:String x:Key="key_738">
-        VerticalAlignment=
+    <system:String x:Key="key_738"> VerticalAlignment=
     </system:String>
     <system:String x:Key="key_720">
         流出数据量
@@ -1768,25 +1813,25 @@
     </system:String>
     <system:String x:Key="JsonTF_desc" xml:space="preserve">
         从字符串转换为json（数组或字典类型）
-        当输入字符串是Json时，可以通过Json转换器将文本转换为Json。其工作模式和python转换器一样，此处不赘述。
+        当输入字符串是Json时，可以通过Json转换器将文本转换为Json。其工作模式和{{PythonTF}}一样，此处不赘述。
         
         json转换器的转换结果，实际上是一个动态类型的python对象。例如如下json:
-```
-{
-  'key':[{}{}{}]
-  'value':
+        ```
         {
-          'key1':value
-          'key2':value
+        'key':[{}{}{}]
+        'value':
+                {
+                'key1':value
+                'key2':value
+                }
         }
-}
-```
-拖入json转换器到该列，如果工作模式是`不进行转换`，则你可以在转换结果列，拖入`Python转换器`,脚本内容填写`data[key]`,工作模式选择`转换为列表`，则key中的数组自动会被提取出来。
+        ```
+        拖入json转换器到该列，如果工作模式是`不进行转换`，则你可以在转换结果列，拖入`Python转换器`,脚本内容填写`data[key]`,工作模式选择`转换为列表`，则key中的数组自动会被提取出来。
 
-注意事项:
-1. python和json转换器配合使用，能够解决一大类ajax网页的问题。更详细的内容，可参考
-2. 网页的json格式并不标准，此时需要通过其他工具，对字符串进行预处理，方可转换为json。
-3. 如果json非常复杂，是不建议直接用Hawk做数据清洗的，正确的做法是将json保存成文本，之后用其他工具或手工编写代码后处理。
+        注意事项:
+        1. python和json转换器配合使用，能够解决一大类ajax网页的问题。更详细的内容，可参考
+        2. 网页的json格式并不标准，此时需要通过其他工具，对字符串进行预处理，方可转换为json。
+        3. 如果json非常复杂，是不建议直接用Hawk做数据清洗的，正确的做法是将json保存成文本，之后用其他工具或手工编写代码后处理。
     </system:String>
     <system:String x:Key="key_75">
         数据库连接失败，请检查数据库配置，或手动设定MongoDB数据库的安装路径以方便自动修复
@@ -1880,14 +1925,14 @@
     <system:String x:Key="key_93">
         数据表列表
     </system:String>
-    <system:String x:Key="key_202">
+    <system:String x:Key="smartcrawler_name">
         网页采集器
     </system:String>
     <system:String x:Key="key_638">
         2.属性提取
     </system:String>
     <system:String x:Key="key_506">
-        为了方便用户，下拉菜单中提供了已有网页采集器配置的url，可修改后使用
+        为了方便用户，下拉菜单中提供了已有 {{smartcrawler_name}} 配置的url，可修改后使用
     </system:String>
     <system:String x:Key="key_461">
         数据表
@@ -1905,7 +1950,7 @@
         生成值
     </system:String>
     <system:String x:Key="key_432">
-        当要输出多个结果时选{{script_mode_list}}，否则选One,参考“网页采集器”
+        当要输出多个结果时选{{script_mode_list}}，否则选{{script_mode_one},参考“ {{smartcrawler_name}} ”
     </system:String>
     <system:String x:Key="key_35">
         连接数据库
@@ -1967,8 +2012,7 @@
     <system:String x:Key="key_247">
         增加新连接
     </system:String>
-    <system:String x:Key="key_796">
-        ItemTemplate=
+    <system:String x:Key="key_796"> ItemTemplate=
     </system:String>
     <system:String x:Key="ReadFileGe">
         读取文件数据
@@ -1982,7 +2026,7 @@
     <system:String x:Key="MergeTF">
         合并多列
     </system:String>
-    <system:String x:Key="MergeTF_format" >
+    <system:String x:Key="MergeTF_format">
         形如'http:\\{0}:{1},{2}...'
         输入列的序号为0，
         之后的1,2分别代表【其他项】的第0和第1个值
@@ -2000,7 +2044,7 @@
     </system:String>
 
     <system:String x:Key="ResponseTF_desc">
-        使用网页采集器获取网页数据，得到响应字段的值并添加到对应的属性中
+        使用 {{smartcrawler_name}} 获取网页数据，得到响应字段的值并添加到对应的属性中
     </system:String>
     <system:String x:Key="key_105">
         顾问
@@ -2123,7 +2167,7 @@
         添加
     </system:String>
     <system:String x:Key="key_657">
-        手气不错面板
+        {{key_623}}面板
     </system:String>
     <system:String x:Key="key_22">
         表名
@@ -2284,8 +2328,7 @@
     <system:String x:Key="key_637">
         提取标签
     </system:String>
-    <system:String x:Key="key_793">
-        ItemTemplate=
+    <system:String x:Key="key_793"> ItemTemplate=
     </system:String>
     <system:String x:Key="key_145">
         ,插件配置文件有错误，已经重建
@@ -2383,8 +2426,7 @@
     <system:String x:Key="key_672">
         网站提示:
     </system:String>
-    <system:String x:Key="key_786">
-        Height=
+    <system:String x:Key="key_786"> Height=
     </system:String>
     <system:String x:Key="MergeRepeatTF_desc">
         对重复的数据行，进行合并操作
@@ -2474,7 +2516,7 @@
     <system:String x:Key="key_223">
         数据管理 
     </system:String>
-    
+
     <system:String x:Key="key_589">
         运动方案
     </system:String>
@@ -2557,8 +2599,7 @@
     <system:String x:Key="key_322">
         加载工程文件，位置为{0}
     </system:String>
-    <system:String x:Key="key_802">
-        d:LayoutOverrides=
+    <system:String x:Key="key_802"> d:LayoutOverrides=
     </system:String>
     <system:String x:Key="key_545">
         分割字符
@@ -2620,7 +2661,7 @@
     <system:String x:Key="key_216">
         当前连接
     </system:String>
-    <system:String x:Key="UrlTF_desc" >
+    <system:String x:Key="UrlTF_desc">
         对超链接url生成URL编码后的字符串，用以进行远程访问
     </system:String>
     <system:String x:Key="IXPlugin">
@@ -2659,14 +2700,14 @@
     <system:String x:Key="SmartETLTool_desc">
         对数据筛选转换和合并，并导出到数据库中
     </system:String>
-      <system:String x:Key="SmartETLTool_desc_detail" xml:space="preserve">
+    <system:String x:Key="SmartETLTool_desc_detail" xml:space="preserve">
         数据清洗是一种任务，包括几十个子模块， 这些子模块包含四类：生成， 转换， 过滤和执行。 
         ![丰富的模块](https://images2018.cnblogs.com/blog/287060/201805/287060-20180506160120254-60486829.png)
         数据清洗可以通过组合多个不同的子模块，生成多样的功能，通过拖拽构造出一个工作流，它能够产生一个有限或无限的文档序列。比如下面：
         ![image_1auq4oooc1m8m9tc02sjv1j4o9.png-71.6kB](http://static.zybuluo.com/buptzym/gzr3u0z80478s31u9v1zdfw5/image_1auq4oooc1m8m9tc02sjv1j4o9.png)
-        拖入的模块顺序是非常重要的，一个常见问题是顺序不对，导致生成的数据不符合预期。数据清洗可通过 {{CrawlerTF}} 来调用网页采集器，也可以通过`子任务`来调用其他数据清洗，是组合各种模块和任务的工厂。
+        拖入的模块顺序是非常重要的，一个常见问题是顺序不对，导致生成的数据不符合预期。数据清洗可通过 {{CrawlerTF}} 来调用 {{smartcrawler_name}} ，也可以通过`子任务`来调用其他数据清洗，是组合各种模块和任务的工厂。
     </system:String>
-      <system:String x:Key="SmartETLTool_debug" xml:space="preserve">
+    <system:String x:Key="SmartETLTool_debug" xml:space="preserve">
         ### 调试模式
         在编辑任务的过程中，处于**调试模式**，它具备如下特点：
         - 所有执行器都不工作，避免副作用
@@ -2678,21 +2719,26 @@
         - 输入列和输出列会用不同的颜色进行表示
 
         在调试时，{{CrawlerTF}}模块可能会请求web数据，为了提升性能，该模块对请求做了缓存。保证数据只需获取一次，如果想强制刷新数据，将{{CrawlerTF}}模块禁用，再启用，原始缓存数据就会被擦除。
-     </system:String>
-         <system:String x:Key="serial_mode_desc" xml:space="preserve">
+    </system:String>
+    <system:String x:Key="running_mode_desc" xml:space="preserve">
+       Hawk支持两种执行模式:
+       {{serial_mode_desc}}
+       {{parallel_mode_desc}}
+    </system:String>
+    <system:String x:Key="serial_mode_desc" xml:space="preserve">
         ### {{serial_mode}}
         只有点击**执行**时，才会切换到执行模式。执行时，可工作在{{serial_mode}}/{{parallel_mode}}
         在{{serial_mode}}下， 所有任务串行执行，速度慢，但对网站压力小，不容易被封锁。为了进一步降低执行速度，可以设置延时时间，此时每次网络请求前，都会延时一定时间。
         注意:
         1. 当执行器包含类似"向文件中追加内容"的操作时，强烈建议使用串行模式，因为Hawk没有加入多线程锁，有可能会导致冲突。
         2. 建议完成爬虫设计后，先进行{{serial_mode}}，初步观察是否正确，之后再设置并行模式大量抓取。
-     </system:String>
-           <system:String x:Key="parallel_mode_desc" xml:space="preserve">
+    </system:String>
+    <system:String x:Key="parallel_mode_desc" xml:space="preserve">
         ### {{parallel_mode}}
        极大地加快了抓取速度，但很容易被封锁。 
 
-     </system:String>
-      <system:String x:Key="taskmanager_desc" xml:space="preserve">
+    </system:String>
+    <system:String x:Key="taskmanager_desc" xml:space="preserve">
         ## 线程管理
         不论是调试还是执行模式，系统都会在任务管理视图中增加一个或多个线程。
         你可以勾选，或取消勾选部分或全部线程，暂停或取消它们。当网站限制抓取时，可以暂停所有线程，等恢复后再次执行。
@@ -2701,7 +2747,7 @@
         1. 当工作流有误时（比如该列所有数据都空，却在该列添加了【空对象过滤器】，那么所有数据都会被过滤）可能不会产生任何数据输出。此时进度条并不会向前推进，产生卡死的假象。此时可强行将其删除
         2. 线程删除的流程是：先安全将其取消，如果线程无响应，则会直接将其杀死
 
-      </system:String>
+    </system:String>
 
     <system:String x:Key="SmartETLTool_step" xml:space="preserve">
         ### 单步调试
@@ -2734,12 +2780,12 @@
     </system:String>
     <system:String x:Key="ReadFileGe_desc">
         从文件中读取数据内容，为了保证正确读取，需配置文件格式和读取属性
-除了一般的数据库导入导出，Hawk还支持从文件导入，支持的文件类型包括：
- - Excel
- - CSV(逗号分割文本文件)
- - TXT (制表符分割文本文件)
- - Json
- - xml
+        除了一般的数据库导入导出，Hawk还支持从文件导入，支持的文件类型包括：
+         - Excel
+         - CSV(逗号分割文本文件)
+         - TXT (制表符分割文本文件)
+         - Json
+         - xml
     </system:String>
     <system:String x:Key="key_203">
         您没有填写对应参数:{0}
@@ -2800,22 +2846,22 @@
         重试补数据
     </system:String>
     <system:String x:Key="SupplierTF_desc">
-      尝试对已有错误日志重跑补数据，错误日志需包含错误所在的任务名和模块名
+        尝试对已有错误日志重跑补数据，错误日志需包含错误所在的任务名和模块名
     </system:String>
     <system:String x:Key="xpath_detector">
-            XPath检索
-      </system:String>
-    <system:String x:Key="xpath_detector_desc">
-          可通过搜索快速定位所需文本的XPath
+        XPath检索
     </system:String>
-     <system:String x:Key="is_generate_error_collection">
-            生成错误集合
+    <system:String x:Key="xpath_detector_desc">
+        可通过搜索快速定位所需文本的XPath
+    </system:String>
+    <system:String x:Key="is_generate_error_collection">
+        生成错误集合
     </system:String>
     <system:String x:Key="is_generate_error_collection_desc">
-         用于记录任务中产生的错误，进而回补错误丢失的数据集
+        用于记录任务中产生的错误，进而回补错误丢失的数据集
     </system:String>
     <system:String x:Key="is_display_desc">
-           显示模块描述
+        显示模块描述
     </system:String>
     <system:String x:Key="serial_mode">
         串行模式 
@@ -2847,7 +2893,7 @@
         添加代理
     </system:String>
     <system:String x:Key="proxyge_desc">
-        
+
     </system:String>
     <system:String x:Key="checkupgrade">
         检查更新
@@ -2858,14 +2904,17 @@
     <system:String x:Key="auto_save_time">
         自动保存间隔
     </system:String>
-     <system:String x:Key="auto_save_time_desc">
+    <system:String x:Key="auto_save_time_desc">
         单位为秒，自动保存工程和数据，若不大于0则不会保存
     </system:String>
 
     <system:String x:Key="script_mode_list">
         多文档
     </system:String>
-    <system:String x:Key="script_mode_one">
+    <system:String x:Key="script_mode_list_desc" xml:space="preserve">
+        生成多条数据（文档）
+    </system:String>
+    <system:String x:Key="script_mode_one_desc">
         单文档
     </system:String>
     <system:String x:Key="script_mode_no">

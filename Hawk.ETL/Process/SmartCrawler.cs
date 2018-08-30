@@ -29,7 +29,7 @@ using ScrapySharp.Network;
 
 namespace Hawk.ETL.Process
 {
-    [XFrmWork("key_202", "SmartCrawler_desc", "camera","数据采集和处理")]
+    [XFrmWork("smartcrawler_name", "SmartCrawler_desc", "camera","数据采集和处理")]
     public class SmartCrawler : AbstractProcessMethod, IView
     {
         /// <summary>

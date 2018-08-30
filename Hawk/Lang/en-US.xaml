@@ -1,6 +1,6 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="key">
         eng
 
@@ -105,8 +105,7 @@
         Enable self - added primary key write
 
     </system:String>
-    <system:String x:Key="key_89">
-        sql=
+    <system:String x:Key="key_89"> sql=
 
     </system:String>
     <system:String x:Key="key_0">
@@ -537,8 +536,7 @@
         Select database
 
     </system:String>
-    <system:String x:Key="key_727">
-        Grid.RowSpan=
+    <system:String x:Key="key_727"> Grid.RowSpan=
 
     </system:String>
     <system:String x:Key="key_228">
@@ -824,8 +822,7 @@
         Basic calculation module
 
     </system:String>
-    <system:String x:Key="key_735">
-        Grid.Row=
+    <system:String x:Key="key_735"> Grid.Row=
 
     </system:String>
     <system:String x:Key="key_781">
@@ -928,8 +925,7 @@
         All of the algorithm modules that are currently loaded
 
     </system:String>
-    <system:String x:Key="key_726">
-        Grid.Column=
+    <system:String x:Key="key_726"> Grid.Column=
 
     </system:String>
     <system:String x:Key="key_253">
@@ -2120,8 +2116,7 @@
         No corresponding script file {1} was found when loading {0} project.
 
     </system:String>
-    <system:String x:Key="key_738">
-        VerticalAlignment=
+    <system:String x:Key="key_738"> VerticalAlignment=
 
     </system:String>
     <system:String x:Key="key_720">
@@ -2256,7 +2251,7 @@
         List of data tables
 
     </system:String>
-    <system:String x:Key="key_202">
+    <system:String x:Key="smartcrawler_name">
         Webpage collector
 
     </system:String>
@@ -2896,8 +2891,7 @@
         Website prompts:
 
     </system:String>
-    <system:String x:Key="key_786">
-        Height=
+    <system:String x:Key="key_786"> Height=
 
     </system:String>
     <system:String x:Key="MergeRepeatTF_desc">
@@ -3120,8 +3114,7 @@
         Load the project file, the location is {0}
 
     </system:String>
-    <system:String x:Key="key_802">
-        d:LayoutOverrides=
+    <system:String x:Key="key_802"> d:LayoutOverrides=
 
     </system:String>
     <system:String x:Key="key_545">

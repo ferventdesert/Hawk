@@ -15,7 +15,7 @@ using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
 using Hawk.ETL.Managements;
 using Hawk.ETL.Process;
-
+using System.Text.RegularExpressions;
 namespace Hawk.ETL.Interfaces
 {
     public static class AppHelper
@@ -27,9 +27,29 @@ namespace Hawk.ETL.Interfaces
             typeof (TextEditSelector)
         };
 
+        private static  string TemplateReplace(object key, ResourceDictionary dict)
+        {
+            if ((key is string) == false)
+                return null;
+
+            var value = dict[key];
+            if (value == null)
+                return null;
+            string rvalue = value.ToString();
+           var matchs= template.Matches(rvalue);
+            foreach (Match match in matchs)
+            {
+               var key2= match.Groups[1].Value;
+               var rvalue2 = TemplateReplace(key2, dict);
+               rvalue= rvalue.Replace(match.Groups[0].Value, rvalue2);
+                
+            }
+            dict[key] = rvalue;
+            return rvalue;
+        }
         private static Type lastType;
         private static PropertyInfo[] propertys;
-
+        static  Regex template=new Regex(@"\{\{([^}]{1,20})\}\}");
 
         public static void LoadLanguage(string url = null)
         {
@@ -59,7 +79,13 @@ namespace Hawk.ETL.Interfaces
                     Application.LoadComponent(
                             new Uri(url, UriKind.Relative))
                         as ResourceDictionary;
-                ConfigFile.GetConfig().Set("Language", url);
+                foreach (var key in langRd.Keys)
+                {
+                        TemplateReplace(key, langRd);
+
+                }
+                //ConfigFile.GetConfig().Set("Language", url);
+                
 
             }
             catch (Exception e)

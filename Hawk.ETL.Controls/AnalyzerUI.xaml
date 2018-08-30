@@ -10,7 +10,8 @@
 	<UserControl.Resources>
 		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 		<Hawk_Core_Utils:GroupConverter x:Key="GroupConverter"/>
-		 <DataTemplate x:Key="NameTemplate">
+        <Hawk_Core_Utils:IndexConverter x:Key="idxcvt"/>
+        <DataTemplate x:Key="NameTemplate">
             <Grid Height="Auto" Width="Auto">
 			 			<Border BorderBrush="Red" BorderThickness="2" Visibility="{Binding MightError, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0"/>
  
@@ -32,8 +33,11 @@
     						</DataTemplate>
     					</GridViewColumn.CellTemplate>
     				</GridViewColumn>
-    				<GridViewColumn Header="{DynamicResource key_715}" DisplayMemberBinding="{Binding Process.ETLIndex}" />
-    				<GridViewColumn Header="{DynamicResource key_12}" DisplayMemberBinding="{DynamicResource key_716}" />
+                    <GridViewColumn Header="{DynamicResource key_745}"   DisplayMemberBinding="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                         AncestorType={x:Type ListViewItem}}, 
+                                         Converter={StaticResource idxcvt}}" />
+                    <GridViewColumn Header="{DynamicResource key_715}" DisplayMemberBinding="{Binding Process.ETLIndex}" />
+                    <GridViewColumn Header="{DynamicResource key_12}" DisplayMemberBinding="{Binding Process.Attribute,Converter={StaticResource GroupConverter}}" />
     				<GridViewColumn Header="{DynamicResource key_18}"  CellTemplate="{StaticResource NameTemplate}"  >
     								
 					</GridViewColumn>

@@ -20,6 +20,7 @@
     <UserControl.Resources>
         <Utils:GeneratorConverter x:Key="GeneratorConverter"/>
         <Utils:GroupConverter x:Key="GroupConverter"/>
+        <Utils:IndexConverter x:Key="idxcvt"/>
         <local:GroupColorConverter x:Key="GroupColorConverter" />
         <BooleanToVisibilityConverter x:Key="boolVisualConverter" />
         <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
@@ -378,7 +379,7 @@
                     <TextBox TextWrapping="Wrap" Text="{Binding Name}" System_Windows_Controls_WpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" VerticalAlignment="Center" Margin="8,0,25,0" FontSize="16" MinWidth="100"/>
                     <TextBlock TextWrapping="Wrap" Text="{DynamicResource key_301}"
                 		VerticalAlignment="Center" />
-                    <Grid>
+                    <Grid ToolTip="{DynamicResource SmartETLTool_step}">
                     	<StackPanel Orientation="Horizontal" d:LayoutOverrides="Width">
                     		<TextBox x:Name="posText" TextWrapping="Wrap" Text="{Binding ETLMount}" VerticalAlignment="Center"
                     			FontSize="16" Width="50" />
@@ -563,7 +564,9 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-
+   <GridViewColumn Header="{DynamicResource key_745}"   DisplayMemberBinding="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                         AncestorType={x:Type ListViewItem}}, 
+                                         Converter={StaticResource idxcvt}}" />
                         <GridViewColumn Header="{DynamicResource key_717}" DisplayMemberBinding="{Binding Column}" />
                         <GridViewColumn Header="{DynamicResource key_12}" DisplayMemberBinding="{Binding Attribute, Converter={StaticResource GroupConverter}}" />
                         <GridViewColumn Header="{DynamicResource key_18}" DisplayMemberBinding="{Binding TypeName}" />
@@ -586,7 +589,7 @@
             				Visual="{Binding ConverterParameter=hourglass, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
                     </Rectangle.Fill>
                 </Rectangle>
-                <ComboBox ItemsSource="{attributes:EnumValues {x:Type connectors:GenerateMode}}" SelectedItem="{Binding GenerateMode}" d:LayoutOverrides="Height" VerticalAlignment="Center">
+                <ComboBox ToolTip="{DynamicResource running_mode_desc}" ItemsSource="{attributes:EnumValues {x:Type connectors:GenerateMode}}" SelectedItem="{Binding GenerateMode}" d:LayoutOverrides="Height" VerticalAlignment="Center">
                 	 <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding ., Converter={StaticResource enumValueConverter}}" />

@@ -95,6 +95,7 @@ namespace Hawk.ETL.Managements
         public void Save(IEnumerable<DataCollection>collections=null)
         {
             var connector = new FileConnectorXML();
+
             if (SavePath != null && File.Exists(SavePath))
             {
                 connector.FileName = SavePath;
@@ -105,7 +106,9 @@ namespace Hawk.ETL.Managements
                 if (result == false) return;
                 SavePath = connector.FileName;
             }
-
+            var ext = Path.GetExtension(SavePath);
+            if (ext != null && ext.Contains("hproj"))
+                connector.IsZip = true;
             var dict = DictSerialize();
             if (collections != null)
             {
@@ -122,6 +125,7 @@ namespace Hawk.ETL.Managements
         public static Project Load( string path = null)
         {
             var connector = new FileConnectorXML();
+          
             connector.FileName = path;
             if (connector.FileName == null)
             {
@@ -138,6 +142,9 @@ namespace Hawk.ETL.Managements
                 }
              
             }
+            var ext = Path.GetExtension(connector.FileName);
+            if (ext != null && ext.Contains("hproj"))
+                connector.IsZip = true;
             var projfile = connector.ReadFile().FirstOrDefault();
 
             if (projfile == null)

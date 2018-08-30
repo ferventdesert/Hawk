@@ -54,11 +54,11 @@
         <Setter Property="Foreground"
                 Value="{DynamicResource TextBrush}"></Setter>
         <Setter Property="FontFamily"
-                Value="MS YaHei"></Setter>
+                Value="Microsoft YaHei"></Setter>
         <Setter Property="TextAlignment"
                 Value="Left" />
         <Setter Property="FontSize"
-                Value="12" />
+                Value="16" />
     </Style>
 
     <Style x:Key="H1Style"
@@ -150,16 +150,13 @@
                 <DataTemplate>
 
                     <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width ="Auto"/>
-                            <ColumnDefinition Width ="*"/>
-                        </Grid.ColumnDefinitions>
+                      
                         <FlowDocumentScrollViewer Grid.Row="0"
                                                   Grid.Column="1"  
                                                   VerticalAlignment="Stretch"
                                                   HorizontalAlignment="Stretch"
                                                   Margin="1"
-                                                  Document="{TemplateBinding Content, Converter={StaticResource TextToFlowDocumentConverter}}" />
+                                                  Document="{TemplateBinding Content, Converter={StaticResource TextToFlowDocumentConverter}}" IsToolBarVisible="True" />
 
                     </Grid>
                 </DataTemplate>

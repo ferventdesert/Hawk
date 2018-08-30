@@ -203,7 +203,7 @@ namespace Hawk.Core.Utils
                     var ofd = new OpenFileDialog();
 
                     ofd.DefaultExt = connector.ExtentFileName;
-                    ofd.Filter = string.Format("(*{0})|*{0}", connector.ExtentFileName);
+                    ofd.Filter = String.Join("|", connector.ExtentFileName.Split(' ').Select(d => string.Format("(*{0})|*{0}", d)));
 
                     if (ofd.ShowDialog() == true)
                     {
@@ -218,8 +218,8 @@ namespace Hawk.Core.Utils
                 {
                     var ofd = new SaveFileDialog();
                     ofd.FileName = connector.FileName;
-                    ofd.DefaultExt = connector.ExtentFileName;
-                    ofd.Filter = string.Format("(*{0})|*{0}", connector.ExtentFileName);
+                    ofd.DefaultExt = connector.ExtentFileName.Split(' ')[0];
+                    ofd.Filter = String.Join("|",  connector.ExtentFileName.Split(' ').Select(d=> string.Format("(*{0})|*{0}",d)));
 
                     if (ofd.ShowDialog() == true)
                     {

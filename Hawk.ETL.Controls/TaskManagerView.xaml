@@ -26,7 +26,7 @@
 	</UserControl.Resources>
 	<Grid Margin="0"   MinHeight="150" >
 				 
-		<ListView   ItemsSource="{Binding CurrentProcessTasks}" Margin="0,0,0,20">
+		<ListView   ItemsSource="{Binding CurrentProcessTasks}" Margin="0,0,0,20" ToolTip="{DynamicResource taskmanager_desc}">
     	
 			<ListView.View>
 				<GridView>

@@ -2679,6 +2679,11 @@
 
         在调试时，{{CrawlerTF}}模块可能会请求web数据，为了提升性能，该模块对请求做了缓存。保证数据只需获取一次，如果想强制刷新数据，将{{CrawlerTF}}模块禁用，再启用，原始缓存数据就会被擦除。
      </system:String>
+       <system:String x:Key="running_mode_desc" xml:space="preserve">
+       Hawk支持两种执行模式:
+       {{serial_mode_desc}}
+       {{parallel_mode_desc}}
+        </system:String>
          <system:String x:Key="serial_mode_desc" xml:space="preserve">
         ### {{serial_mode}}
         只有点击**执行**时，才会切换到执行模式。执行时，可工作在{{serial_mode}}/{{parallel_mode}}
@@ -2705,7 +2710,7 @@
 
     <system:String x:Key="SmartETLTool_step" xml:space="preserve">
         ### 单步调试
-        Hawk模仿了播放器和调试器，在调试模式下有`步`的概念，例如所在位置是6/20， 则说明总共有20个模块，只生效前面6个模块。 可以通过左右单击，或直接回退到开头、末尾来进行调试。
+        Hawk模仿了播放器和调试器，在调试模式下有`步`的概念，例如所在位置是6/20， 则说明总共有20个模块，只生效前面6个模块。 可以通过左右单击，或直接回退到开头、末尾来进行调试。
 
         左侧显示了当前所有的模块，顺序和它们的输入输出列，双击上面的模块可对其进行配置，右键可删除，上下移动这些模块。
         ![上下拖拽，右键配置每一步的参数](https://images2018.cnblogs.com/blog/287060/201805/287060-20180506155928987-1522342347.png)

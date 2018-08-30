@@ -5,21 +5,24 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using Hawk.Core.Utils;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
+using ICSharpCode.SharpZipLib.Zip;
 
 namespace Hawk.Core.Connectors
 {
-    [XFrmWork("FileConnectorXML",  "FileConnectorXML_desc", "")]
+    [XFrmWork("FileConnectorXML", "FileConnectorXML_desc", "")]
     public class FileConnectorXML : FileConnector
     {
-        public override string ExtentFileName => ".xml";
+        public bool IsZip = false;
+        public override string ExtentFileName => ".xml .hproj";
 
         /// <summary>
         ///     将XmlDocument转化为string
         /// </summary>
         /// <param name="xmlDoc"></param>
         /// <returns></returns>
-        public static  string ConvertXmlToString(XmlDocument xmlDoc)
+        public static string ConvertXmlToString(XmlDocument xmlDoc)
         {
             var stream = new MemoryStream();
             var writer = new XmlTextWriter(stream, null);
@@ -28,7 +31,7 @@ namespace Hawk.Core.Connectors
 
             var sr = new StreamReader(stream, Encoding.UTF8);
             stream.Position = 0;
-            string xmlString = sr.ReadToEnd();
+            var xmlString = sr.ReadToEnd();
             sr.Close();
             stream.Close();
 
@@ -39,7 +42,7 @@ namespace Hawk.Core.Connectors
         {
             if (xnode.Attributes != null)
             {
-                for (int i = 0; i < xnode.Attributes.Count; i++)
+                for (var i = 0; i < xnode.Attributes.Count; i++)
                 {
                     dict.Add(xnode.Attributes[i].Name, xnode.Attributes[i].Value);
                 }
@@ -47,11 +50,11 @@ namespace Hawk.Core.Connectors
 
             if (xnode.HasChildNodes)
             {
-                for (int i = 0; i < xnode.ChildNodes.Count; i++)
+                for (var i = 0; i < xnode.ChildNodes.Count; i++)
                 {
                     var docu = new FreeDocument();
 
-                    XmlNode n = xnode.ChildNodes[i];
+                    var n = xnode.ChildNodes[i];
                     if (n.Name == "Children")
                     {
                         if (dict.Children == null)
@@ -82,14 +85,13 @@ namespace Hawk.Core.Connectors
             alreadyGetSize?.Invoke(xTable.ChildNodes.Count);
             foreach (XmlNode xnode in xTable)
             {
-
-                var data = new FreeDocument(); 
+                var data = new FreeDocument();
                 var dict = new FreeDocument();
                 dict.Name = xnode.Name;
                 XMLNode2Dict(xnode, dict);
 
                 data.DictDeserialize(dict.DictSerialize());
-                var doc = data as FreeDocument;
+                var doc = data;
                 if (doc != null)
                 {
                     doc.Children = dict.Children;
@@ -103,46 +105,65 @@ namespace Hawk.Core.Connectors
             var xdoc = new XmlDocument();
             xdoc.LoadXml(text);
             return ReadText(xdoc, alreadyGetSize);
-
         }
+
         public override IEnumerable<FreeDocument> ReadFile(Action<int> alreadyGetSize = null)
         {
-
             var xdoc = new XmlDocument();
+            Stream stream = new FileStream(FileName, FileMode.Open);
+            if (IsZip)
+            {
+                var zipstream = new ZipInputStream(stream);
+                ZipEntry zipEntry = null;
+                while ((zipEntry = zipstream.GetNextEntry()) != null)
+                {
+                    var fileName_zip = zipEntry.Name;
+                    var byteArrayOutputStream = new MemoryStream();
+                    zipstream.CopyTo(byteArrayOutputStream);
 
-            ControlExtended.SafeInvoke(() => xdoc.Load(FileName), Utils.Logs.LogType.Important);
-            
-           
+                    byte[] b = byteArrayOutputStream.ToArray();
+                    string xml = System.Text.Encoding.UTF8.GetString(b, 0, b.Length);
+                    ControlExtended.SafeInvoke(() => xdoc.LoadXml(xml) , LogType.Important);
+
+                    break;
+                }
+            }
+            else
+            {
+                ControlExtended.SafeInvoke(() => xdoc.Load(stream), LogType.Important);
+
+            }
+
             return ReadText(xdoc, alreadyGetSize);
         }
 
-        public static  void Node2XML(IEnumerable<KeyValuePair<string, object>> data, XmlNode node, XmlDocument docu)
+        public static void Node2XML(IEnumerable<KeyValuePair<string, object>> data, XmlNode node, XmlDocument docu)
         {
             var doc = data as FreeDocument;
             if (doc != null)
             {
-                foreach (var item in doc.DataItems.OrderBy(d=>d.Key))
+                foreach (var item in doc.DataItems.OrderBy(d => d.Key))
                 {
                     if (item.Value is IDictionary<string, object>)
                     {
                         var dict = item.Value as IDictionary<string, object>;
-                        XmlNode newNode = docu.CreateNode(XmlNodeType.Element, item.Key, "");
+                        var newNode = docu.CreateNode(XmlNodeType.Element, item.Key, "");
                         Node2XML(dict, newNode, docu);
                         node.AppendChild(newNode);
                     }
                     else
                     {
-                        XmlAttribute attr = docu.CreateAttribute(item.Key);
+                        var attr = docu.CreateAttribute(item.Key);
                         attr.InnerText = item.Value?.ToString() ?? "";
                         node.Attributes.Append(attr);
                     }
                 }
                 if (doc.Children == null)
                     return;
-                foreach (FreeDocument child in doc.Children)
+                foreach (var child in doc.Children)
                 {
                     child.Name = child.Name.Replace("#", "");
-                    XmlNode newNode = docu.CreateNode(XmlNodeType.Element, "Children", "");
+                    var newNode = docu.CreateNode(XmlNodeType.Element, "Children", "");
                     Node2XML(child, newNode, docu);
                     node.AppendChild(newNode);
                 }
@@ -153,7 +174,7 @@ namespace Hawk.Core.Connectors
                 {
                     foreach (var o in data)
                     {
-                        XmlAttribute attr = docu.CreateAttribute(o.Key);
+                        var attr = docu.CreateAttribute(o.Key);
                         attr.InnerText = o.Value?.ToString() ?? "";
 
                         node.Attributes.Append(attr);
@@ -164,20 +185,30 @@ namespace Hawk.Core.Connectors
 
         public override IEnumerable<IFreeDocument> WriteData(IEnumerable<IFreeDocument> datas)
         {
-
             var doc = new XmlDocument(); // 创建dom对象
-            XmlElement root = doc.CreateElement("root");
+            var root = doc.CreateElement("root");
             using (var dis = new DisposeHelper(() =>
             {
                 doc.AppendChild(root);
-                doc.Save(FileName);
+                Stream stream = new FileStream(FileName, FileMode.OpenOrCreate);
+                if (IsZip)
+                {
+                    var zipStream = new ZipOutputStream(stream);
+                    var ZipEntry = new ZipEntry(Path.GetFileName(FileName));
+                    zipStream.PutNextEntry(ZipEntry);
+                    zipStream.SetLevel(6);
+                    stream = zipStream;
+                }
+                doc.Save(stream);
+                stream.Flush();
+                stream.Close();
             }))
             {
-                foreach (IFreeDocument dictionarySerializable in datas)
+                foreach (var dictionarySerializable in datas)
                 {
                     var doc2 = dictionarySerializable.DictSerialize();
 
-                    XmlElement newNode = doc.CreateElement(doc2 == null ? "Element" : doc2.Name);
+                    var newNode = doc.CreateElement(doc2 == null ? "Element" : doc2.Name);
                     Node2XML(doc2, newNode, doc);
                     root.AppendChild(newNode);
                     yield return dictionarySerializable;
@@ -185,30 +216,30 @@ namespace Hawk.Core.Connectors
             }
 
             // 保存文件
-
         }
 
         public static string GetString(FreeDocument data)
         {
             var doc = new XmlDocument(); // 创建dom对象
-            XmlElement root = doc.CreateElement("root");
-            XmlElement newNode = doc.CreateElement(data == null ? "Element" : data.Name);
+            var root = doc.CreateElement("root");
+            var newNode = doc.CreateElement(data == null ? "Element" : data.Name);
             Node2XML(data, newNode, doc);
             root.AppendChild(newNode);
             doc.AppendChild(root);
             return ConvertXmlToString(doc);
         }
+
         public override string GetString(IEnumerable<IFreeDocument> datas)
         {
             var doc = new XmlDocument(); // 创建dom对象
-            XmlElement root = doc.CreateElement("root");
+            var root = doc.CreateElement("root");
             if (datas != null)
             {
-                foreach (IFreeDocument dictionarySerializable in datas)
+                foreach (var dictionarySerializable in datas)
                 {
                     var doc2 = dictionarySerializable.DictSerialize();
 
-                    XmlElement newNode = doc.CreateElement(doc2 == null ? "Element" : doc2.Name);
+                    var newNode = doc.CreateElement(doc2 == null ? "Element" : doc2.Name);
                     Node2XML(doc2, newNode, doc);
 
                     root.AppendChild(newNode);

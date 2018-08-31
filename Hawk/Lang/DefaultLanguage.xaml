@@ -61,7 +61,8 @@
     <system:String x:Key="key_560">
         子线程数量
     </system:String>
-    <system:String x:Key="key_750"> 可填写完整XPath,或只根据id或class名称进行检索，如选择class，值填`name`，就是查找所有class=name的节点
+    <system:String x:Key="key_750"> 
+        可填写完整XPath,或只根据id或class名称进行检索，如选择class，值填`name`，就是查找所有class=name的节点
     </system:String>
     <system:String x:Key="key_718">
         正常初始化
@@ -107,7 +108,7 @@
     <system:String x:Key="key_497">
         导入列
     </system:String>
-    <system:String x:Key="NullFT_desc">
+    <system:String x:Key="NullFT_desc"  xml:space="preserve">
         检查文本是否为空白符或null，常用
         可以过滤掉所有内容为空，或字符串全部都是空字符的情况
     </system:String>
@@ -343,7 +344,7 @@
         运行
     </system:String>
     <system:String x:Key="key_204">
-        不进行转换
+        {{script_mode_none}}
     </system:String>
     <system:String x:Key="key_256">
         当前内存的数据集已经被清除
@@ -435,8 +436,8 @@
         执行失败
     </system:String>
     <system:String x:Key="AddNewTF_desc" xml:space="preserve">
-        为数据表添加新列，值为固定值
-        示例场景：为数据的每一行增加要爬取的网页根地址，之后通过`合并多列`得到完整网址
+        为数据表{{AddNewTF}}，值为固定值
+        示例场景：为数据的每一行增加要爬取的网页根地址，之后通过`{{MergeTF}}`得到完整网址
     </system:String>
     <system:String x:Key="key_244">
         保存到数据库
@@ -458,7 +459,8 @@
         拖入的列为文件的超链接地址
         `保存位置`:可以使用方括号表达式，将某一列的内容传递过来
         注意:
-        > 一些网站必须要求登录以后才能下载内容。而如果你已经配置好能正常访问该网站的` {{smartcrawler_name}} `，那么就可以在`共用采集器名`中填写这个采集器的名称，此时本模块会使用那个采集器的header进行抓取。
+        
+        - 一些网站必须要求登录以后才能下载内容。而如果你已经配置好能正常访问该网站的` {{smartcrawler_name}} `，那么就可以在`共用采集器名`中填写这个采集器的名称，此时本模块会使用那个采集器的header进行抓取。
     </system:String>
     <system:String x:Key="key_431">
         递归到下列
@@ -855,20 +857,19 @@
     <system:String x:Key="RegexFT_desc" xml:space="preserve">
         编写正则表达式来过滤文本
         需要列名，输入正则表达式，和其最小匹配的内容数量，即可过滤内容。
-        有关正则表达式，可参考:
-        > https://www.jb51.net/tools/zhengze.html
+        有关正则表达式，可参考[这里](https://www.jb51.net/tools/zhengze.html)
     </system:String>
     <system:String x:Key="key_709" xml:space="preserve">
-        在并行模式工作时，线程池所承载的最大线程数
+        在{{parallel_mode}}工作时，线程池所承载的最大线程数
         当有线程运行完毕后，才会添加新的线程
     </system:String>
-    <system:String x:Key="EtlEX_desc">
+    <system:String x:Key="EtlEX_desc" xml:space="preserve">
         调用其他任务，作为执行器，一般位于任务的末尾。
 
         子任务是Hawk中高级但却非常重要的功能，可以实现例如多级跳转，采集详情页等等的功能，非常强大。
         所谓`子任务`，就是能先构造出一个任务，然后被其他任务调用。被调用的任务就是子任务。我们应该能够了解子任务其实就是函数，可以定义输入列和输出列，把整个子任务看成一个模块，从而方便重用。
 
-        使用`子任务-执行`的例子： 先设计构造获取某个页面全部图片的任务， 并创建主任务，在主任务中调用刚才创建的子任务。
+        使用{{EtlEX}}的例子： 先设计构造获取某个页面全部图片的任务， 并创建主任务，在主任务中调用刚才创建的子任务。
     </system:String>
     <system:String x:Key="key_183">
         XPath表达式编写错误：
@@ -885,7 +886,7 @@
     <system:String x:Key="key_31">
         连接名称
     </system:String>
-    <system:String x:Key="key_623">
+    <system:String x:Key="feellucky">
         手气不错
     </system:String>
     <system:String x:Key="key_451">
@@ -907,7 +908,7 @@
         其他信息
     </system:String>
     <system:String x:Key="key_501">
-        文档列表：[{}],转换为多个数据行构成的列表；单文档：{},将结果的键值对附加到本行；不进行转换：直接将值放入到新列
+        文档列表：[{}],转换为多个数据行构成的列表；单文档：{},将结果的键值对附加到本行；{{script_mode_none}}：直接将值放入到新列
     </system:String>
     <system:String x:Key="key_275">
         帮助
@@ -975,7 +976,7 @@
     <system:String x:Key="DelayTF_desc" xml:space="preserve">
         在工作流中插入延时，可休眠固定长度避免爬虫被封禁，单位为ms
         在不同的位置插入延时有不同的行为，例如在模块A之前插入延时，则A模块每次执行前都会延时固定长度。
-        除了拖入延时，在`串行模式`下填入延时时间，则会在每个web请求前插入指定的延时，更加方便。
+        除了拖入延时，在`{{serial_mode}}`下填入延时时间，则会在每个web请求前插入指定的延时，更加方便。
     </system:String>
     <system:String x:Key="key_169">
         删除
@@ -1008,8 +1009,10 @@
         删除HTML标签和转义符号
         当页面包含HTML时，一些字符可能已经被转义了，例如空格成了`nsbp%`
         拖入到对应的列，即可将转义符号恢复为之前的表示
+
         注意:
-        > Hawk的Web访问器比python更加智能，默认对带特殊符号和中文的URL进行编码，所以这个模块用的并不多。
+
+        - Hawk的Web访问器比python更加智能，默认对带特殊符号和中文的URL进行编码，所以这个模块用的并不多。
     </system:String>
     <system:String x:Key="key_603">
         英语
@@ -1044,15 +1047,16 @@
         在{{TODO}}不能工作或不符合预期时，需要手工给定几个关键字， 让Hawk搜索关键字， 并获取在网页中所在的位置(XPath)。
         填入{{key_764}，能够成功获取XPath, 编写属性名称，点击{{}}，即可添加一个属性。类似地，再填入30535，设置属性名称为“单价”，即可添加另外一个属性。
 
-        在`搜索属性`的文本框中，输入你要获取的关键字，由于关键字在网页中可能出现多次，可连续点击`继续搜索`，在多个结果间切换，左侧的html源码会对搜索的结果进行高亮。
-        >请注意观察搜索的关键字在网页中的位置，是否符合预期，否则抓取数据可能会有问题。尤其在List模式。
-        > 如果需要抓取本页面的多块数据，可新建多个` {{smartcrawler_name}} `，分别进行配置。
-        如果发现有错误，可点击**编辑集合**，对属性进行删除，修改和排序。
-        你可以类似的将所有要抓取的特征字段添加进去，或是直接点击 {{key_623}} ，系统会根据目前的属性，推测其他属性。
+        在`{{key_764}}`的文本框中，输入你要获取的关键字，由于关键字在网页中可能出现多次，可连续点击`继续搜索`，在多个结果间切换，左侧的html源码会对搜索的结果进行高亮。
+        
+        1. 请注意观察搜索的关键字在网页中的位置，是否符合预期，否则抓取数据可能会有问题。尤其在 {{script_mode_list}}模式。
+        2. 如果需要抓取本页面的多块数据，可新建多个` {{smartcrawler_name}} `，分别进行配置。
+        3. 如果发现有错误，可点击**编辑集合**，对属性进行删除，修改和排序。
+        4. 你可以类似的将所有要抓取的特征字段添加进去，或是直接点击 {{feellucky}} ，系统会根据目前的属性，推测其他属性。
 
     </system:String>
     <system:String x:Key="crawler_url_desc" xml:space="preserve">
-        以`http://`或`https://`开头的网页地址，Hawk也能支持类似`C://a.html`的本地文件，点击回车后即可刷新
+        以http或https开头的网页地址，Hawk也能支持类似C://a.html的本地文件，点击回车后即可刷新
     </system:String>
     <system:String x:Key="crawler_dynamic_sniff" xml:space="preserve">
         该模式能处理动态页面，即动态瀑布流和ajax的页面，通常按需返回html和json.
@@ -1060,8 +1064,7 @@
         ## 动态嗅探
         ### 什么是动态页面？
         老式网站在刷新时会返回页面的全部内容，但若只更新部分，即可大大节约带宽。该方式叫ajax，服务端传递xml或者json到浏览器，浏览器的js代码执行，并将数据渲染到页面上。
-        因此，获取数据的真实url，不一定显示在浏览器地址栏，而是隐藏在js调用中。本质上，javascript发起了新的隐藏http请求来获取数据，只要能模拟之，就能像真实浏览器一样获取所要数据。参考： 
-        > https://baike.baidu.com/item/ajax/8425?fr=aladdin
+        因此，获取数据的真实url，不一定显示在浏览器地址栏，而是隐藏在js调用中。本质上，javascript发起了新的隐藏http请求来获取数据，只要能模拟之，就能像真实浏览器一样获取所要数据。参考[百度百科的介绍](https://baike.baidu.com/item/ajax/8425?fr=aladdin)
 
         ### Hawk如何抓取动态页面
         通过浏览器和抓包，可以获取这些隐藏请求，但需要对HTTP请求的原理比较熟悉，不适合于初学者。
@@ -1075,13 +1078,28 @@
         {{crawler_set_header}}
     
         ### 注意事项
-        1. 有时直接将url拷贝到Hawk，并使用{{key_623}}时，也能获取到数据。这是因为很多网站对第一页和其他页分别作了不同的处理。第一页内容会跟着整体frame返回回来。但之后页面内容就通过ajax单独返回了。
+        1. 有时直接将url拷贝到Hawk，并使用{{feellucky}}时，也能获取到数据。这是因为很多网站对第一页和其他页分别作了不同的处理。第一页内容会跟着整体frame返回回来。但之后页面内容就通过ajax单独返回了。
         有时针对第一页做了大量的XPath开发，却最后发现无法在其他页面使用，多半就是上面提到的问题（一脸懵逼）。因此经验上，建议翻到其他页面上再做请求。
     </system:String>
+     <system:String x:Key="crawler_feellucky" xml:space="preserve">
+        ## 手气不错
+        这是Hawk最被人称赞的功能！在新的Hawk3中，该功能被极大地增强。
+
+        ### {{script_mode_list}下的手气不错
+        一般来说，输入网址加载页面后，点击{{feellucky}}即可，Hawk会自动按照优先级将列表数据抓取出来
+        ![手气不错配置](https://images2018.cnblogs.com/blog/287060/201805/287060-20180506160854095-924772830.png)
+
+        左右切换选择你想要的数据集，之后在下面的属性栏对结果进行微调。
+        添加一个属性，手气不错就能更准确地进行。添加两个属性，即可选定唯一区域。
+
+        ### {{script_mode_one}}模式的手气不错
+        Hawk3新增功能，当网页中包含多达几十种属性时，挨个添加会变得特别烦琐，这在某种商品属性页特别常见。
+        为了解决这个问题，将关键字加入到`{{key_764}}`中，此时不要将其添加到属性列表中，直接点击{{feellucky}}即可。   
+         </system:String>
     <system:String x:Key="crawler_super_mode" xml:space="preserve">
-       超级模式能将网页中所有的javascript, json, xml都转换为HTML DOM树，从而实现属性提取和{{key_623}}。
+       超级模式能将网页中所有的javascript, json, xml都转换为HTML DOM树，从而实现属性提取和{{feellucky}}。
        ## 超级模式 
-       为了能让动态网页也能使用`添加属性`和`{{key_623}}`，Hawk在嗅探后默认会开启`超级模式`。 超级模式能将网页中所有的javascript, json, xml都转换为HTML DOM树，从而实现属性提取和{{key_623}}。
+       为了能让动态网页也能使用`添加属性`和`{{feellucky}}`，Hawk在嗅探后默认会开启`超级模式`。 超级模式能将网页中所有的javascript, json, xml都转换为HTML DOM树，从而实现属性提取和{{feellucky}}。
        超级模式极大的简化了动态请求的处理，但它依然可能有以下问题
        - 性能较差，大量的字符解析，js模式树解析
        - 兼容性一般：不是所有的文本都能转成树结构，因此必要时需要使用手动模式处理。
@@ -1091,7 +1109,7 @@
         列表根路径是所有属性的XPath公共部分，能简化XPath编写，提升兼容性。只能在{{script_mode_list}}模式下工作。
         你可以通过Hawk自动分析根路径，或手动设置。
         ### 自动规约列表路径
-        以例子来说明，使用{{key_623}}后，嗅探器会找到列表节点的父节点，以及挂载在父节点上的多个子节点，从而形成一个树状结构
+        以例子来说明，使用{{feellucky}}后，嗅探器会找到列表节点的父节点，以及挂载在父节点上的多个子节点，从而形成一个树状结构
         - 父节点(/html/div[2]/div[3]/div[4])
             - 子节点div[1]
             - 子节点div[2]
@@ -1109,9 +1127,10 @@
     </system:String>
     <system:String x:Key="xpath_desc" xml:space="preserve">
         ### XPath
-        关于XPath语法，可参考教程：
-        > http://www.w3school.com.cn/xpath/xpath_syntax.asp
-        XPath可以非常灵活，例如
+        关于XPath语法，可参考[教程](http://www.w3school.com.cn/xpath/xpath_syntax.asp)
+
+        XPath可以非常灵活，例如：
+
         - bookstore	选取 bookstore 元素的所有子节点。
         - /bookstore	选取根元素 bookstore。注释：假如路径起始于正斜杠( / )，则此路径始终代表到某元素的绝对路径！
         - bookstore/book	选取属于 bookstore 的子元素的所有 book 元素。
@@ -1124,18 +1143,18 @@
     </system:String>
     <system:String x:Key="css_desc" xml:space="preserve">
         ### CSSSelector
-        多数情况下，使用XPath就能解决问题，但是CSSSelector更简洁，且鲁棒性更强。关于它的介绍，可参考
-> http://www.w3school.com.cn/cssref/css_selectors.asp
-当然，大部分情况不需要那么复杂，只要记住以下几点：
-- `.name` 获取所有id为name的元素
-- `#name` 获取所有class为name的元素
-- `p` 获取所有p元素
-- `ul > li` 获取所有父节点是ul的li元素
+        多数情况下，使用XPath就能解决问题，但是CSSSelector更简洁，且鲁棒性更强。关于它的介绍，可[参考教程](http://www.w3school.com.cn/cssref/css_selectors.asp)
+        当然，大部分情况不需要那么复杂，只要记住以下几点：
+
+        - `.name` 获取所有id为name的元素
+        - `#name` 获取所有class为name的元素
+        - `p` 获取所有p元素
+        - `ul > li` 获取所有父节点是ul的li元素
     </system:String>
     <system:String x:Key="crawler_share_cookie" xml:space="preserve">
-     设置共享请求参数的采集器名称
-     为了抓取一个网站的不同数据，我们需要多个 {{smartcrawler_name}} 。但是访问网站需要登录和cookie，难不成每个采集器都要设置对应的请求参数吗？
-采集器的属性对话框中，可以设置`共享源`,也就是要共享的 {{smartcrawler_name}} 的名称。例如设置为`链家采集器`，那么本采集器的请求参数，都会在执行时，动态地从链家采集器中获得。这样就极大地简化了配置过程。
+        设置共享请求参数的采集器名称
+        为了抓取一个网站的不同数据，我们需要多个 {{smartcrawler_name}} 。但是访问网站需要登录和cookie，难不成每个采集器都要设置对应的请求参数吗？
+        采集器的属性对话框中，可以设置`共享源`,也就是要共享的 {{smartcrawler_name}} 的名称。例如设置为`链家采集器`，那么本采集器的请求参数，都会在执行时，动态地从链家采集器中获得。这样就极大地简化了配置过程。
     </system:String>
     <system:String x:Key="key_519">
         若编号为小于0且匹配出多个新列，多个列名可用空格分割，若该列不需要添加，可用_表示，如'_ 匹配1 _'
@@ -1162,9 +1181,7 @@
     <system:String x:Key="FileManager">
         文件管理
     </system:String>
-    <system:String x:Key="key_516">
-        当要输出多个结果时选 {{script_mode_list}}，否则选{{script_mode_one}}或None,参考“ {{smartcrawler_name}} ”
-    </system:String>
+   
     <system:String x:Key="key_262">
         关于
     </system:String>
@@ -1177,10 +1194,7 @@
     <system:String x:Key="ReadFileTextGE">
         读取文件文本
     </system:String>
-    <system:String x:Key="key_646" xml:space="preserve"> 
-        该模式能够强力解析网页内容，将其内部的json,javascript都统一转换为HTML DOM树
-        但是消耗资源，且会修改原始Html内容，因此请按需使用
-    </system:String>
+   
     <system:String x:Key="key_53">
         列分割符
     </system:String>
@@ -1190,11 +1204,11 @@
     <system:String x:Key="key_241">
         转换表类型
     </system:String>
-    <system:String x:Key="key_728"> HorizontalAlignment=
-    </system:String>
+
     <system:String x:Key="BaiduLocation_desc" xml:space="preserve">
         通过百度API获取当前地标的经纬度坐标，需要拖入代表地名的列
         在Hawk 3之后的版本，需要在百度地图API中注册账户，并将token填入配置中，参考:
+
         > http://lbsyun.baidu.com/index.php?title=webapi
     </system:String>
     <system:String x:Key="key_290">
@@ -1233,28 +1247,31 @@
     <system:String x:Key="HtmlTF">
         HTML字符转义
     </system:String>
-    <system:String x:Key="key_189">
-        当要获取符合XPath语法的多个结果时选 {{script_mode_list}}，只获取一条选{{script_mode_one},其行为可参考“ {{smartcrawler_name}} ”
-    </system:String>
+ 
     <system:String x:Key="PythonTF_desc" xml:space="preserve">
         执行特定的python代码或脚本，最后一行需要为值类型，作为该列的返回值
         例如，有两列a和b, 要将它们按字符串相加:
+
         `a+b`
         若希望按数值类型相加， 则需要提前将其转换
+
         `float(a)+float(b)`
         也可以提前定义函数:
+
         ```
         def add(x,y):
             return float(x)+float(y)
         add(a,b)
         ```
         也可以使用lambda: 
+
         ```
         f= lambda a,b: a+b
         f(a,b)
         ```
         
         ### 注意：
+
         1. 你可以在文本框中定义函数，但不建议太过复杂
         2. 很难引入第三方库，这受限于C#使用的ironpython(一个C#和Python交互的模块)的功能, Hawk3中引入了调用第三方库的功能，通过编写库路径，从而能够在脚本中import库，但功能支持并不好。
         3. 不论操作如何，脚本的最后一行需要是个可求值的元素，传递给对应的列，比如
@@ -1529,7 +1546,7 @@
     <system:String x:Key="key_330">
         版本
     </system:String>
-    <system:String x:Key="RangeFT_desc">
+    <system:String x:Key="RangeFT_desc"  xml:space="preserve">
         从数值列中筛选出从最小值到最大值范围的文档
         可以填写最大值和最小值，只有本列的值处在该范围内的文档可被留下。若该单元格的内容不是数字，则会被忽略。
     </system:String>
@@ -1663,16 +1680,16 @@
     <system:String x:Key="transformer_type" xml:space="preserve">
         转换器有三种子类型：
         - ColumnUDF: 单列->单列： 只对一个列有效，如`{{NumberTF}`,
-        - UDF:单文档->单文档：如删除该列，它仅涉及文档内部的修改，可能会影响多个列
-        - UDAF:单文档->多文档：典型的如`从爬虫转换`，每一行url都可能生成20个甚至更多的文档，它的行为cross(交叉)模式下的生成器。
+        - UDF:单文档->单文档：如{{DeleteTF}}，它仅涉及文档内部的修改，可能会影响多个列
+        - UDAF:单文档->多文档：典型的如 {{}}，每一行url都可能生成20个甚至更多的文档，它的行为cross(交叉)模式下的生成器。
         
         ColumnUDF是UDF的特例， UDF是UDAF的特例（只产生一种）
-        绝大多数转换器都是UDF类型。但同一个转换器在不同的配置下，可能会有多种行为，例如`从爬虫转换`，如果选择的 {{smartcrawler_name}} 为{{script_mode_one}(单文档)模式，则该转换器为UDF模式，若为List模式，则为UDAF模式。
+        绝大多数转换器都是UDF类型。但同一个转换器在不同的配置下，可能会有多种行为，例如`{{CrawlerTF}}`，如果选择的 {{smartcrawler_name}} 为{{script_mode_one}(单文档)模式，则该转换器为UDF模式，若为 {{script_mode_list}}模式，则为UDAF模式。
     </system:String>
     <system:String x:Key="core_concept" xml:space="preserve">
         ## Hawk的关键概念
         - 任务： 系统仅仅提供了两种任务：  {{smartcrawler_name}} 和数据清洗，任务可以被新建，保存和加载。
-        - 模块： 一个任务会包含多个模块，例如数据清洗中会有`从文本生成`,`从爬虫转换`等
+        - 模块： 一个任务会包含多个模块，例如数据清洗中会有`从文本生成`,`{{CrawlerTF}}`等
         - 工程： 多个任务组成一个工程，工程可以以xml方式保存和加载
         - 数据表: 在内存中存储的数据表，速度快，但是容量有限，存储小型数据时使用
         - 数据库(连接器)： Hawk通过连接器连接不同的数据库，如MongoDB，sqlite等。
@@ -1732,7 +1749,9 @@
     <system:String x:Key="NumRangeFT_desc" xml:space="preserve">
         选择一定数量的行，如跳过前100行，再选取50条
         不需要列名，它可以跳过并选择部分文档，类似于sql语句中的skip和limit关键字。
-        > 注意，当skip数量过大，而目标数据是延迟执行时，skip会需要相当长的时间，而任务进度条没有任何反应，因此尽量避免这种设计
+        注意:
+
+        - 当skip数量过大，而目标数据是延迟执行时，skip会需要相当长的时间，而任务进度条没有任何反应，因此尽量避免这种设计
     </system:String>
     <system:String x:Key="key_326">
         不能重复加载该任务
@@ -1826,9 +1845,10 @@
                 }
         }
         ```
-        拖入json转换器到该列，如果工作模式是`不进行转换`，则你可以在转换结果列，拖入`Python转换器`,脚本内容填写`data[key]`,工作模式选择`转换为列表`，则key中的数组自动会被提取出来。
+        拖入json转换器到该列，如果工作模式是`{{script_mode_none}}`，则你可以在转换结果列，拖入`Python转换器`,脚本内容填写`data[key]`,工作模式选择`转换为列表`，则key中的数组自动会被提取出来。
 
         注意事项:
+
         1. python和json转换器配合使用，能够解决一大类ajax网页的问题。更详细的内容，可参考
         2. 网页的json格式并不标准，此时需要通过其他工具，对字符串进行预处理，方可转换为json。
         3. 如果json非常复杂，是不建议直接用Hawk做数据清洗的，正确的做法是将json保存成文本，之后用其他工具或手工编写代码后处理。
@@ -1911,9 +1931,11 @@
     <system:String x:Key="ToListTF_desc" xml:space="preserve">
         设置任务并行方式和参数
         该模块在执行时，会切分本模块前后的数据流，以前侧的数据为种子，后侧的任务为mapper执行
+
         注意:
+
         1. 该转换器在调试和串行执行模式不起任何作用，仅仅作为一个标志
-        2. 它能够在并行模式下，给执行引擎一个并行分叉的标志。
+        2. 它能够在{{parallel_mode}}下，给执行引擎一个并行分叉的标志。
         3. 还能设置为每个子线程分配多少个种子文档，并设置子线程的名称
     </system:String>
     <system:String x:Key="NullFT">
@@ -1949,8 +1971,28 @@
     <system:String x:Key="key_469">
         生成值
     </system:String>
-    <system:String x:Key="key_432">
-        当要输出多个结果时选{{script_mode_list}}，否则选{{script_mode_one},参考“ {{smartcrawler_name}} ”
+    <system:String x:Key="smartcrawler_script_mode">
+
+        ### {{script_mode_list}}
+        会输出多份文档，通常在网页的列表页中使用
+
+        ### {{script_mode_one}}
+        输出单份文档，一般在网页的详情页中使用
+        
+        ### {{script_mode_none}}
+        直接输出网页源代码，放置于Content列中
+
+        注意:
+        - 当在 {{script_mode_list}}或 {{script_mode_one}}模式，且属性数量为0时，也和 {{script_mode_none}}行为一致
+    </system:String>
+
+     <system:String x:Key="etl_script_mode">
+        ### {{script_mode_list}}
+        {{script_mode_list_desc}}
+        ### {{script_mode_one}}
+         {{script_mode_one_desc}}
+        ### {{script_mode_none}}
+        {{script_mode_none_desc}}
     </system:String>
     <system:String x:Key="key_35">
         连接数据库
@@ -2012,8 +2054,8 @@
     <system:String x:Key="key_247">
         增加新连接
     </system:String>
-    <system:String x:Key="key_796"> ItemTemplate=
-    </system:String>
+
+  
     <system:String x:Key="ReadFileGe">
         读取文件数据
     </system:String>
@@ -2021,7 +2063,7 @@
         对每个子线程起的名称
     </system:String>
     <system:String x:Key="AddNew_desc">
-        为数据集AddNewTF，值为某固定值
+        为数据集{{}}，值为某固定值
     </system:String>
     <system:String x:Key="MergeTF">
         合并多列
@@ -2167,7 +2209,7 @@
         添加
     </system:String>
     <system:String x:Key="key_657">
-        {{key_623}}面板
+        {{feellucky}}面板
     </system:String>
     <system:String x:Key="key_22">
         表名
@@ -2191,7 +2233,7 @@
         通过字符分割字符串
     </system:String>
     <system:String x:Key="WriteFileTextTF_desc">
-        写入文件中的文本，由于在并行模式下同时写入文件可能会导致问题，因此尽量使用串行模式
+        写入文件中的文本，由于在{{parallel_mode}}下同时写入文件可能会导致问题，因此尽量使用{{serial_mode}}
     </system:String>
     <system:String x:Key="key_413">
         调用范围
@@ -2308,7 +2350,7 @@
     <system:String x:Key="key_533">
         倒序
     </system:String>
-    <system:String x:Key="RenameTF_desc">
+    <system:String x:Key="RenameTF_desc" xml:space="preserve">
         对列名进行修改,常用
         拖入的列是要修改的列，填写`输出列`后，原始列被删除，内容转移到新列上
         除了手工拖入模块，也可直接在数据清洗列上的文本框中直接修改列名，按回撤提交，可达到同样效果。
@@ -2328,8 +2370,8 @@
     <system:String x:Key="key_637">
         提取标签
     </system:String>
-    <system:String x:Key="key_793"> ItemTemplate=
-    </system:String>
+
+   
     <system:String x:Key="key_145">
         ,插件配置文件有错误，已经重建
     </system:String>
@@ -2426,8 +2468,38 @@
     <system:String x:Key="key_672">
         网站提示:
     </system:String>
-    <system:String x:Key="key_786"> Height=
-    </system:String>
+  
+
+        <system:String x:Key="hawk_front_desc" xml:space="preserve">
+        # Hawk
+        Advanced Crawler  ETL tool written in C#/WPF
+
+        ***
+
+        欢迎使用Hawk! HAWK无需编程，可见即所得的图形化数据采集和清洗工具，依据GPL协议开源。
+
+        项目主页： https://ferventdesert.github.io/Hawk/
+
+        ## 1.介绍
+
+        Hawk的含义为“鹰”，能够高效，准确地捕杀猎物。它的思想来源于Lisp语言，功能模仿了Linux工具awk。
+
+        特点如下：
+        - 智能分析网页内容，无需编程
+        - 所见即所得，可视化拖拽，快地实现转换和过滤等数据清洗操作
+        - 能从各类数据库和文件实现导入导出
+        - 任务可以被保存和复用
+        - 其最适合的领域是爬虫和数据清洗，但其威力远超于此。
+
+        HAWK使用C# 编写，其前端界面使用WPF开发，因此只能运行于windows平台，但提供命令行入口供自动化部署。
+        以下介绍全部基于最新的Hawk3，请使用老版本的同学尽快通过下面的地址升级最新版。
+
+        ![2.gif-3330.9kB][http://static.zybuluo.com/buptzym/10kykg6qhqvsabbq8yj32pt0/2.gif]
+
+        以获取大众点评的所有北京美食为例，使用本软件可在10分钟内完成配置，在1小时之内**自动并行抓取**全部内容，并能监视任务工作情况。而手工编写代码，即使是使用python，一个熟练的程序员也可能需要一天以上：
+
+        ![1.gif-1001.8kB][http://static.zybuluo.com/buptzym/qkl0vavjn6cj007qfk2k3gqg/1.gif]
+ </system:String>
     <system:String x:Key="MergeRepeatTF_desc">
         对重复的数据行，进行合并操作
     </system:String>
@@ -2476,10 +2548,12 @@
     <system:String x:Key="key_631">
         配置属性
     </system:String>
-    <system:String x:Key="TrimTF_desc">
+    <system:String x:Key="TrimTF_desc" xml:space="preserve">
         清除字符串前后和中间的空白符
         默认能去掉文本前后的空白字符，也可以通过勾选内部选项，清除文本中间的空白符
-        > 使用`正则替换`也能实现类似的要求，只是本模块会更简单。
+        注意：
+
+        - 使用`正则替换`也能实现类似的要求，只是本模块会更简单。
     </system:String>
     <system:String x:Key="key_803">
         沙漠之鹰
@@ -2487,7 +2561,7 @@
     <system:String x:Key="key_87">
         例如d:\\test\\mydb.sqlite
     </system:String>
-    <system:String x:Key="key_723">
+    <system:String x:Key="debug_desc">
         本页面展示了所有模块的执行次数，流入流出数据数，一般上游的流出等于下游流入，若有红色框选模块，则提示该模块配置可能有问题
     </system:String>
     <system:String x:Key="key_658">
@@ -2599,8 +2673,7 @@
     <system:String x:Key="key_322">
         加载工程文件，位置为{0}
     </system:String>
-    <system:String x:Key="key_802"> d:LayoutOverrides=
-    </system:String>
+
     <system:String x:Key="key_545">
         分割字符
     </system:String>
@@ -2709,10 +2782,12 @@
     </system:String>
     <system:String x:Key="SmartETLTool_debug" xml:space="preserve">
         ### 调试模式
+
         在编辑任务的过程中，处于**调试模式**，它具备如下特点：
+        
         - 所有执行器都不工作，避免副作用
         - 点击下方中间的刷新按钮，或修改配置，展示的数据会自动刷新
-        - 只能运行在串行模式上
+        - 只能运行在{{serial_mode}}上
         - 所见即所得，只显示一定数量的数据（通过采样量修改）
         - 可以禁用或启用某些模块，观察效果
         - 会加入web请求和读取文件的缓存， 来提升预览速度（可能会导致一些问题）
@@ -2730,8 +2805,8 @@
         只有点击**执行**时，才会切换到执行模式。执行时，可工作在{{serial_mode}}/{{parallel_mode}}
         在{{serial_mode}}下， 所有任务串行执行，速度慢，但对网站压力小，不容易被封锁。为了进一步降低执行速度，可以设置延时时间，此时每次网络请求前，都会延时一定时间。
         注意:
-        1. 当执行器包含类似"向文件中追加内容"的操作时，强烈建议使用串行模式，因为Hawk没有加入多线程锁，有可能会导致冲突。
-        2. 建议完成爬虫设计后，先进行{{serial_mode}}，初步观察是否正确，之后再设置并行模式大量抓取。
+        1. 当执行器包含类似"向文件中追加内容"的操作时，强烈建议使用{{serial_mode}}，因为Hawk没有加入多线程锁，有可能会导致冲突。
+        2. 建议完成爬虫设计后，先进行{{serial_mode}}，初步观察是否正确，之后再设置{{parallel_mode}}大量抓取。
     </system:String>
     <system:String x:Key="parallel_mode_desc" xml:space="preserve">
         ### {{parallel_mode}}
@@ -2778,7 +2853,7 @@
     <system:String x:Key="key_563">
         将多个种子合并为一个任务执行，这对于小型种子任务可有效提升效率
     </system:String>
-    <system:String x:Key="ReadFileGe_desc">
+    <system:String x:Key="ReadFileGe_desc"  xml:space="preserve">
         从文件中读取数据内容，为了保证正确读取，需配置文件格式和读取属性
         除了一般的数据库导入导出，Hawk还支持从文件导入，支持的文件类型包括：
          - Excel
@@ -2864,10 +2939,10 @@
         显示模块描述
     </system:String>
     <system:String x:Key="serial_mode">
-        串行模式 
+        串行模式
     </system:String>
     <system:String x:Key="parallel_mode">
-        并行模式
+       并行模式
     </system:String>
     <system:String x:Key="merge_append">
         按行纵向合并
@@ -2911,13 +2986,16 @@
     <system:String x:Key="script_mode_list">
         多文档
     </system:String>
+        <system:String x:Key="script_mode_one">
+        多文档
+    </system:String>
     <system:String x:Key="script_mode_list_desc" xml:space="preserve">
         生成多条数据（文档）
     </system:String>
     <system:String x:Key="script_mode_one_desc">
         单文档
     </system:String>
-    <system:String x:Key="script_mode_no">
+    <system:String x:Key="script_mode_none">
         不进行转换
     </system:String>
     <system:String x:Key="SortByColumn">

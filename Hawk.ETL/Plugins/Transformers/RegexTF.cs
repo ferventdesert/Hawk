@@ -26,7 +26,7 @@ namespace Hawk.ETL.Plugins.Transformers
        
         [PropertyOrder(0)]
         [LocalizedDisplayName("key_188")]
-        [LocalizedDescription("key_516")]
+        [LocalizedDescription("etl_script_mode")]
         public ScriptWorkMode IsManyData { get; set; }
 
         [PropertyOrder(2)]

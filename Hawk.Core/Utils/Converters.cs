@@ -87,4 +87,24 @@ namespace Hawk.Core.Utils
             throw new NotImplementedException();
         }
     }
+
+    public class OnelineConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null)
+                return null;
+            var str = value.ToString();
+
+            return str.Split('\n').Select(d=>d.Trim()).FirstOrDefault(d => d!="");
+
+
+
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

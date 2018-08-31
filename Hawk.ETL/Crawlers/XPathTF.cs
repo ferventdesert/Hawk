@@ -36,7 +36,7 @@ namespace Hawk.ETL.Crawlers
 
         [PropertyOrder(2)]
         [LocalizedDisplayName("key_188")]
-        [LocalizedDescription("key_189")]
+        [LocalizedDescription("etl_script_mode")]
         public ScriptWorkMode IsManyData { get; set; }
 
         [LocalizedCategory("key_190")]

@@ -1148,7 +1148,7 @@
         Connection name
 
     </system:String>
-    <system:String x:Key="key_623">
+    <system:String x:Key="feellucky">
         Good hands
 
     </system:String>
@@ -2970,7 +2970,7 @@
         For example, d:\\test\\mydb.sqlite
 
     </system:String>
-    <system:String x:Key="key_723">
+    <system:String x:Key="debug_desc">
         This page shows the number of executions of all modules, the flow of outflow data, the general upstream outflow is equal to the downstream inflow, and if there is a red box selection module, it suggests that the module configuration may be problematic.
 
     </system:String>

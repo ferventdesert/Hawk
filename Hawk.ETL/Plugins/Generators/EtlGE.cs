@@ -526,7 +526,7 @@ namespace Hawk.ETL.Plugins.Generators
         public bool IsCycle { get; set; }
 
         [LocalizedDisplayName("key_188")]
-        [LocalizedDescription("key_432")]
+        [LocalizedDescription("etl_script_mode")]
         public ScriptWorkMode IsManyData { get; set; }
 
         [LocalizedCategory("key_211")]

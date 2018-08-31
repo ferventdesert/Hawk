@@ -89,7 +89,7 @@ namespace Hawk.ETL.Process
                     new Command(GlobalHelper.Get("key_622"), obj => GetXPathAsync(),
                         obj =>
                             currentXPaths != null, "magnify"),
-                    new Command(GlobalHelper.Get("key_623"),
+                    new Command(GlobalHelper.Get("feellucky"),
                         obj => FeelLucky(),
                         obj => IsMultiData != ScriptWorkMode.NoTransform && isBusy == false, "smiley_happy"
                         ),
@@ -331,7 +331,7 @@ namespace Hawk.ETL.Process
 
         [LocalizedCategory("key_634")]
         [LocalizedDisplayName("key_645")]
-        [LocalizedDescription("key_646")]
+       
         [PropertyOrder(9)]
         public bool IsSuperMode
         {
@@ -533,7 +533,7 @@ namespace Hawk.ETL.Process
                     var view = PluginProvider.GetObjectInstance<ICustomView>(GlobalHelper.Get("key_657")) as UserControl;
                     view.DataContext = luckModel;
 
-                    var name = GlobalHelper.Get("key_623");
+                    var name = GlobalHelper.Get("feellucky");
                     var window = new Window {Title = name};
                     window.WindowState = WindowState.Maximized;
                     window.Content = view;

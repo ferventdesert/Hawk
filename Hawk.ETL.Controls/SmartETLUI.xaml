@@ -18,6 +18,7 @@
     mc:Ignorable="d"
     d:DesignHeight="855.5" d:DesignWidth="1576">
     <UserControl.Resources>
+    	<Utils:OnelineConverter x:Key="OnelineConverter"/>
         <Utils:GeneratorConverter x:Key="GeneratorConverter"/>
         <Utils:GroupConverter x:Key="GroupConverter"/>
         <Utils:IndexConverter x:Key="idxcvt"/>
@@ -181,7 +182,7 @@
         		<StackPanel Height="Auto" Width="Auto" Orientation="Vertical" d:LayoutOverrides="Width, Height" Margin="30,0,0,0">
         			<Label Content="{Binding Name}" ToolTip="{Binding Description}" Margin="0" Height="Auto" VerticalAlignment="Stretch" FontSize="{DynamicResource LargeFont}"
         				d:LayoutOverrides="GridBoX" HorizontalAlignment="Left" Width="Auto" />
-        			<TextBlock Text="{Binding Description}" Margin="0" Height="Auto" VerticalAlignment="Stretch"
+        			<TextBlock Text="{Binding Description, Converter={StaticResource OnelineConverter}}" Margin="0" Height="Auto" VerticalAlignment="Stretch"
         				HorizontalAlignment="Left" Width="Auto" Opacity="0.6" TextWrapping="WrapWithOverflow" />
 
         		</StackPanel>
@@ -371,7 +372,7 @@
 
             </Grid.RowDefinitions>
             <StackPanel HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Center" Margin="0,0,10,0"/>
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" ToolTip="{DynamicResource SmartETLTool_debug}">
                 <Border BorderBrush="Black" BorderThickness="1" Background="#FF2D2D2D" />
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal"
 					d:LayoutOverrides="Height" VerticalAlignment="Center">
@@ -472,8 +473,8 @@
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"
 						VerticalAlignment="Center">
                     <TextBlock TextWrapping="Wrap" Margin="0"
-							VerticalAlignment="Center" ><Run Language="zh-cn" Text="{DynamicResource key_687}"/></TextBlock>
-                    <TextBox TextWrapping="Wrap" Text="{Binding SampleMount}" ToolTip="{DynamicResource key_772}" VerticalAlignment="Center"
+							VerticalAlignment="Center" ><Run Language="zh-cn"  ToolTip="{DynamicResource key_772}" Text="{DynamicResource key_687}"/></TextBlock>
+                    <TextBox TextWrapping="Wrap" Text="{Binding SampleMount}" VerticalAlignment="Center"
 							FontSize="16" MinWidth="30" Margin="0,0,30,0" />
                     <StackPanel>
                     	<CheckBox Content="{DynamicResource key_773}" IsChecked="{Binding IsAutoRefresh}" VerticalAlignment="Center" />

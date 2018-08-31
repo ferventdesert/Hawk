@@ -151,7 +151,7 @@
 
                     <Grid>
                       
-                        <FlowDocumentScrollViewer Grid.Row="0"
+                        <FlowDocumentScrollViewer  Grid.Row="0"
                                                   Grid.Column="1"  
                                                   VerticalAlignment="Stretch"
                                                   HorizontalAlignment="Stretch"

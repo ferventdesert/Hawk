@@ -1,840 +1,840 @@
 key	chs	eng
-Closing	ÊÇ·ñÈ·¶¨Àë¿ªHawk?	Is it sure to leave Hawk?
-ConfigNull	²»°üº¬ÈÎºÎÓĞ¹ØÅäÖÃÎÄ¼şµÄÈÎºÎĞÅÏ¢£¬Çë¼ì²é	Do not contain any information about configuration files, please check.
-ControlLoad	¿Ø¼ş¼ÓÔØ	Control loading
-Closing2	¡¾{0}¡¿ÈÎÎñ¿ÉÄÜ»¹Ã»ÓĞ±£´æ£¬\\n¡¾ÊÇ¡¿:±£´æÈÎÎñ²¢ÍË³ö£¬ \\n¡¾·ñ¡¿£º²»±£´æÍË³ö£¬\\n¡¾È¡Ïû¡¿:È¡ÏûÍË³ö	[{0}] the task may not have been saved yet. \\n [is]: save the task and exit, \\n [no]: do not save exit, \\n [Cancel]: cancel exit
-DataMgmt	Êı¾İ¹ÜÀí	data management
-SysState	ÏµÍ³×´Ì¬ÊÓÍ¼	System state view
-DebugView	µ÷ÊÔĞÅÏ¢´°¿Ú	Debug information window
-Error	Ê§°Ü	fail
-IconNotExist	ÏµÍ³Í¼±êÎÄ¼ş²»´æÔÚ	The system icon file does not exist
-LongTask	ÕıÔÚ´¦Àí³¤Ê±¼ä²Ù×÷	Handling long - time operations
-ModuleMgmt	Ä£¿é¹ÜÀí	Module management
-Source	À´Ô´	source
-Start	ÒÑÕı³£Æô¶¯	Normal start
-Tips	ÌáÊ¾ĞÅÏ¢	Hint information
-XPathExpError	¿ÉÄÜXPath±í´ïÊ½ÓĞÎó	Maybe the XPath expression is wrong
-RemaindSave	¡¾{0}¡¿ÈÎÎñ¿ÉÄÜ»¹Ã»ÓĞ±£´æ£¬\n¡¾ÊÇ¡¿:±£´æÈÎÎñ²¢ÍË³ö£¬ \n¡¾·ñ¡¿£º²»±£´æÍË³ö£¬\n¡¾È¡Ïû¡¿:È¡ÏûÍË³ö	[{0}] the task may not have been saved yet. \n [is]: save the task and exit, \n [no]: do not save exit, \n [Cancel]: cancel exit
-key_560	×ÓÏß³ÌÊıÁ¿	The number of Zi Xiancheng
-key_750	¿ÉÑ¡ÔñÍêÕûXPath£¬»òÖ»¸ù¾İid»òclassÃû³Æ½øĞĞ¼ìË÷£¬ÈçÑ¡Ôñclass£¬ÖµÌî¡¾name¡¿£¬¾ÍÊÇ²éÕÒËùÓĞclass=nameµÄ½Úµã	You can select a complete XPath, or only retrieve it based on ID or class name. For example, select class and fill in [name], which is to find all class=name nodes.
-key_718	Õı³£³õÊ¼»¯	Normal initialization
-key_258	Ö´ĞĞÉ¾³ı²Ù×÷Âğ£¿	Do you execute the delete operation?
-key_641	3.¶¯Ì¬ÇëÇóĞáÌ½	3. dynamic requests for sniffing
-key_370	Ìø¹ı	skip
-key_580	±êÇ©	Label
-key_505	²Î¿¼¸ñÊ½	Reference format
-key_69	ÆôÓÃ×ÔÔöÖ÷¼üĞ´Èë	Enable self - added primary key write
+Closing	ï¿½Ç·ï¿½È·ï¿½ï¿½ï¿½ë¿ªHawk?	Is it sure to leave Hawk?
+ConfigNull	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½Ğ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Do not contain any information about configuration files, please check.
+ControlLoad	ï¿½Ø¼ï¿½ï¿½ï¿½ï¿½ï¿½	Control loading
+Closing2	ï¿½ï¿½{0}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü»ï¿½Ã»ï¿½Ğ±ï¿½ï¿½æ£¬\\nï¿½ï¿½ï¿½Ç¡ï¿½:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½ï¿½ \\nï¿½ï¿½ï¿½ñ¡¿£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½ï¿½\\nï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½:È¡ï¿½ï¿½ï¿½Ë³ï¿½	[{0}] the task may not have been saved yet. \\n [is]: save the task and exit, \\n [no]: do not save exit, \\n [Cancel]: cancel exit
+DataMgmt	ï¿½ï¿½ï¿½İ¹ï¿½ï¿½ï¿½	data management
+SysState	ÏµÍ³×´Ì¬ï¿½ï¿½Í¼	System state view
+DebugView	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½	Debug information window
+Error	Ê§ï¿½ï¿½	fail
+IconNotExist	ÏµÍ³Í¼ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	The system icon file does not exist
+LongTask	ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½	Handling long - time operations
+ModuleMgmt	Ä£ï¿½ï¿½ï¿½ï¿½ï¿½	Module management
+Source	ï¿½ï¿½Ô´	source
+Start	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Normal start
+Tips	ï¿½ï¿½Ê¾ï¿½ï¿½Ï¢	Hint information
+XPathExpError	ï¿½ï¿½ï¿½ï¿½XPathï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½	Maybe the XPath expression is wrong
+RemaindSave	ï¿½ï¿½{0}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü»ï¿½Ã»ï¿½Ğ±ï¿½ï¿½æ£¬\nï¿½ï¿½ï¿½Ç¡ï¿½:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½ï¿½ \nï¿½ï¿½ï¿½ñ¡¿£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½ï¿½\nï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½:È¡ï¿½ï¿½ï¿½Ë³ï¿½	[{0}] the task may not have been saved yet. \n [is]: save the task and exit, \n [no]: do not save exit, \n [Cancel]: cancel exit
+key_560	ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½ï¿½ï¿½	The number of Zi Xiancheng
+key_750	ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½XPathï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½classï¿½ï¿½ï¿½Æ½ï¿½ï¿½Ğ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½classï¿½ï¿½Öµï¿½î¡¾nameï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½class=nameï¿½Ä½Úµï¿½	You can select a complete XPath, or only retrieve it based on ID or class name. For example, select class and fill in [name], which is to find all class=name nodes.
+key_718	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½	Normal initialization
+key_258	Ö´ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Do you execute the delete operation?
+key_641	3.ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì½	3. dynamic requests for sniffing
+key_370	ï¿½ï¿½ï¿½ï¿½	skip
+key_580	ï¿½ï¿½Ç©	Label
+key_505	ï¿½Î¿ï¿½ï¿½ï¿½Ê½	Reference format
+key_69	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½	Enable self - added primary key write
 key_89	sql=	sql=
-key_0	ÊÇ·ñ±£´æµ±Ç°¹¤³ÌµÄÄÚÈİ£¿ÄúÖ»ÓĞÒ»´Î»ú»áÕâÑù×ö£¬	Do you save the content of the current project? You have only one chance to do this.
-key_67	¸ß¼¶ÉèÖÃ	advanced setting
-key_85	ÇëÑ¡ÔñsqliteÊı¾İ¿âÎÄ¼ş	Please select the SQLite database file
-key_739	Êı¾İ¿âÅäÖÃ	Database configuration
-key_765	½á¹ûXPath	xpath result
-SplitPageTF	·ÖÒ³	paging
-key_497	µ¼ÈëÁĞ	Import column
-NullFT_desc	¼ì²éÎÄ±¾ÊÇ·ñÎª¿Õ°×·û»ònull£¬³£ÓÃ	Check whether the text is blank or null, commonly used
+key_0	ï¿½Ç·ñ±£´æµ±Ç°ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½ï¿½İ£ï¿½ï¿½ï¿½Ö»ï¿½ï¿½Ò»ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Do you save the content of the current project? You have only one chance to do this.
+key_67	ï¿½ß¼ï¿½ï¿½ï¿½ï¿½ï¿½	advanced setting
+key_85	ï¿½ï¿½Ñ¡ï¿½ï¿½sqliteï¿½ï¿½ï¿½İ¿ï¿½ï¿½Ä¼ï¿½	Please select the SQLite database file
+key_739	ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½ï¿½	Database configuration
+key_765	ï¿½ï¿½ï¿½XPath	xpath result
+SplitPageTF	ï¿½ï¿½Ò³	paging
+key_497	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Import column
+NullFT_desc	ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½Ç·ï¿½Îªï¿½Õ°×·ï¿½ï¿½ï¿½nullï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Check whether the text is blank or null, commonly used
 DataProcessManagerUI	DataProcessManager	DataProcessManager
-key_374	×î´óÖµ	Maximum value
-key_120	ÇëÇó·½·¨	Request method
-key_614	°¢À­²®Óï	Arabic
-key_292	»Ö¸´	recovery
-StrExtractTF	×Ö·ûÊ×Î²³éÈ¡	Character first and end extraction
-key_201	Êı¾İÇåÏ´	Data cleaning
-JoinDBTF_desc	ÓÃÓÚÍê³ÉÓëÊı¾İ¿âµÄjoin²Ù×÷ºÍÆ¥Åä£¬Ä¿Ç°²âÊÔ²»ÍêÉÆ	It is used to complete the join operation and matching with the database.
-key_350	ÏòÊı¾İ¿â{0}£¬±íÃû{1}³É¹¦Ğ´Èë{2}ÌõÊı¾İ	Write {2} entries to database {0} and table name {1} successfully.
-key_405	1.Á¬½ÓÆ÷	1. connector
-key_23	·şÎñÆ÷µØÖ·	server address
-key_677	ÃüÁî	command
-key_164	¿ÉÓÃ	available
-IFileConnector:IDictionarySerializable	ÎÄ¼şµ¼Èëµ¼³ö»ù±¾½Ó¿Ú	File import and export basic interface
-key_91	Ã¶¾ÙĞéÄâ»¯	Enumeration virtualization
-key_277	¼¶±ğÉèÖÃ	Level setting
-key_777	Ïß³ÌÊı	Thread number
-key_395	ÑÓÊ±Ê±¼ä	Delay Time
+key_374	ï¿½ï¿½ï¿½Öµ	Maximum value
+key_120	ï¿½ï¿½ï¿½ó·½·ï¿½	Request method
+key_614	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Arabic
+key_292	ï¿½Ö¸ï¿½	recovery
+StrExtractTF	ï¿½Ö·ï¿½ï¿½ï¿½Î²ï¿½ï¿½È¡	Character first and end extraction
+key_201	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´	Data cleaning
+JoinDBTF_desc	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½joinï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¥ï¿½ä£¬Ä¿Ç°ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ï¿½ï¿½	It is used to complete the join operation and matching with the database.
+key_350	ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½{0}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½{1}ï¿½É¹ï¿½Ğ´ï¿½ï¿½{2}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Write {2} entries to database {0} and table name {1} successfully.
+key_405	1.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	1. connector
+key_23	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·	server address
+key_677	ï¿½ï¿½ï¿½ï¿½	command
+key_164	ï¿½ï¿½ï¿½ï¿½	available
+IFileConnector:IDictionarySerializable	ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ëµ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½	File import and export basic interface
+key_91	Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½â»¯	Enumeration virtualization
+key_277	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Level setting
+key_777	ï¿½ß³ï¿½ï¿½ï¿½	Thread number
+key_395	ï¿½ï¿½Ê±Ê±ï¿½ï¿½	Delay Time
 DataGridViewer_desc	IDataViewer	IDataViewer
-key_107	¹ıÂË	filter
-FolderGE	»ñÈ¡ÎÄ¼ş¼ĞÎÄ¼ş	Get a folder file
+key_107	ï¿½ï¿½ï¿½ï¿½	filter
+FolderGE	ï¿½ï¿½È¡ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½	Get a folder file
 SmartCrawlerUI	SmartCrawler	SmartCrawler
-key_523	ÖØ¸´´ÎÊı	Repetitions
-key_180	×î´ó·ÃÎÊ´ÎÊı	Maximum number of access times
-key_711	×î´óÏß³ÌÊıµÄÊıÖµ·¶Î§Îª0-30	The numerical range of the maximum number of threads is 0-30
-key_167	·´Ñ¡	Reverse selection
-MergeRepeatTF	ÖØ¸´ÏîºÏ²¢	Duplication combination
-key_779	¿É½«Í¼±êÍÏÈëÓÒ²àÊı¾İÁĞµÄÉÏ·½¿Õ°×ÁĞ±í´¦£¬Îª¸ÃÁĞÌí¼ÓETLÄ£¿é	You can drag the icon into the upper blank list of the right data column to add the ETL module to the column.
-key_96	ÎŞ¶¨Òå×ÊÔ´	Undefined resources
-key_210	ÊıÁ¿·¶Î§Ñ¡Ôñ	Quantitative range selection
-FileConnectorXML	XMLµ¼Èëµ¼³öÆ÷	XML import and export
-key_3	ÏµÍ³ÕıÃ¦	The system is busy
-key_411	×ÓÈÎÎñ-Ñ¡Ôñ	Subtask - Selection
-key_649	ÒÑ¾­³É¹¦¸´ÖÆµ½¼ôÌù°å	It has been successfully copied to the clipboard
-key_101	ÒÑ¾­Ö´ĞĞ³É¹¦	Have been successful
-key_443	¶ÁÈ¡ÅäÖÃ	Read configuration
-key_629	Ë¢ĞÂÍøÒ³	Refresh the web page
-key_143	ÊÓÍ¼	view
-key_128	×î´ó½ûÖ¹Êı	Maximum prohibition
-GetIPLocation_desc	»ñÈ¡Ä³Ò»ipµØÖ·µÄ¾­Î³¶È×ø±ê	Obtain the latitude and longitude coordinates of a IP address
-key_34	Ö´ĞĞ	implement
-key_197	XPath±í´ïÊ½:	Xpath exp
-ICustomClass	Ò»ÏîÈõÀàĞÍµÄ¼ò»¯½Ó¿Ú£¬ÓÃÓÚ²»Ö¸¶¨Ç¿¹¦ÄÜµÄ²å¼ş¼¯ºÏ	A weak type of simplified interface for the collection of plug-ins that do not specify strong functions.
-key_301	Ä£¿é	Modular
-key_752	×Ó½ÚµãÊıÁ¿	Number of subnodes
-key_700	ÒÑ¼ÓÔØ	Have been loaded
-key_730	¿ìËÙ¼ìË÷	Fast retrieval
-NlpTF	×ÔÈ»ÓïÑÔ´¦Àí	natural language processing
-key_769	¶¯Ì¬ÇëÇóĞáÌ½	Dynamic request sniffing
-EtlGE	×ÓÈÎÎñ-Éú³É	Subtask - generation
-key_579	Í¨¹ıµØÊĞ½øĞĞĞÅÏ¢¼ìË÷	Information retrieval through the city
-key_74	MongoDBÊı¾İ¿â²»ÔÚ±¾µØ£¬ÎŞ·¨Æô¶¯×Ô¶¯Êı¾İ¿âĞŞ¸´	MongoDB database is not local, unable to start automatic database repair.
-EtlEX	×ÓÈÎÎñ-Ö´ĞĞ	Subtask - Execution
-FileConnectorTable_desc	Êä³öÖÆ±í·ûÎÄ±¾ÎÄ¼ş	Output tabs text file
-key_368	µ÷ÊÔÊ±ÆôÓÃ	Enabled when debugging
-key_9	Êı¾İÃèÊö	data description
-key_108	×ª»»	Transformation
+key_523	ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½	Repetitions
+key_180	ï¿½ï¿½ï¿½ï¿½ï¿½Ê´ï¿½ï¿½ï¿½	Maximum number of access times
+key_711	ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Î§Îª0-30	The numerical range of the maximum number of threads is 0-30
+key_167	ï¿½ï¿½Ñ¡	Reverse selection
+MergeRepeatTF	ï¿½Ø¸ï¿½ï¿½ï¿½Ï²ï¿½	Duplication combination
+key_779	ï¿½É½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½ï¿½Ï·ï¿½ï¿½Õ°ï¿½ï¿½Ğ±ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ETLÄ£ï¿½ï¿½	You can drag the icon into the upper blank list of the right data column to add the ETL module to the column.
+key_96	ï¿½Ş¶ï¿½ï¿½ï¿½ï¿½ï¿½Ô´	Undefined resources
+key_210	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î§Ñ¡ï¿½ï¿½	Quantitative range selection
+FileConnectorXML	XMLï¿½ï¿½ï¿½ëµ¼ï¿½ï¿½ï¿½ï¿½	XML import and export
+key_3	ÏµÍ³ï¿½ï¿½Ã¦	The system is busy
+key_411	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-Ñ¡ï¿½ï¿½	Subtask - Selection
+key_649	ï¿½Ñ¾ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	It has been successfully copied to the clipboard
+key_101	ï¿½Ñ¾ï¿½Ö´ï¿½Ğ³É¹ï¿½	Have been successful
+key_443	ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½	Read configuration
+key_629	Ë¢ï¿½ï¿½ï¿½ï¿½Ò³	Refresh the web page
+key_143	ï¿½ï¿½Í¼	view
+key_128	ï¿½ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½	Maximum prohibition
+GetIPLocation_desc	ï¿½ï¿½È¡Ä³Ò»ipï¿½ï¿½Ö·ï¿½Ä¾ï¿½Î³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Obtain the latitude and longitude coordinates of a IP address
+key_34	Ö´ï¿½ï¿½	implement
+key_197	XPathï¿½ï¿½ï¿½Ê½:	Xpath exp
+ICustomClass	Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÍµÄ¼ò»¯½Ó¿Ú£ï¿½ï¿½ï¿½ï¿½Ú²ï¿½Ö¸ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ÜµÄ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	A weak type of simplified interface for the collection of plug-ins that do not specify strong functions.
+key_301	Ä£ï¿½ï¿½	Modular
+key_752	ï¿½Ó½Úµï¿½ï¿½ï¿½ï¿½ï¿½	Number of subnodes
+key_700	ï¿½Ñ¼ï¿½ï¿½ï¿½	Have been loaded
+key_730	ï¿½ï¿½ï¿½Ù¼ï¿½ï¿½ï¿½	Fast retrieval
+NlpTF	ï¿½ï¿½È»ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½	natural language processing
+key_769	ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì½	Dynamic request sniffing
+EtlGE	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½	Subtask - generation
+key_579	Í¨ï¿½ï¿½ï¿½ï¿½ï¿½Ğ½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½	Information retrieval through the city
+key_74	MongoDBï¿½ï¿½ï¿½İ¿â²»ï¿½Ú±ï¿½ï¿½Ø£ï¿½ï¿½Ş·ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½Ş¸ï¿½	MongoDB database is not local, unable to start automatic database repair.
+EtlEX	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-Ö´ï¿½ï¿½	Subtask - Execution
+FileConnectorTable_desc	ï¿½ï¿½ï¿½ï¿½Æ±ï¿½ï¿½ï¿½Ä±ï¿½ï¿½Ä¼ï¿½	Output tabs text file
+key_368	ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½	Enabled when debugging
+key_9	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	data description
+key_108	×ªï¿½ï¿½	Transformation
 key_749	{attributes:EnumValues {x:Type connectors:SelectorFormat}}	{attributes:EnumValues {x:Type connectors:SelectorFormat}}
 key_791	DataContext=	DataContext =
-key_153	²å¼ş	Plug-in unit
-key_226	È·¶¨ÒªÉ¾³ı¸ÃÁ¬½ÓÂğ£¿	Are you sure you want to delete the connection?
-key_334	ÎÄ¼ş{0}²»´æÔÚ	File {0} does not exist
-key_625	ÊôĞÔÊıÁ¿²»ÄÜÎª¿Õ	The number of attributes can not be empty
-JoinDBTF	Êı¾İ¿âÆ¥Åä	Database matching
-key_438	±àÂë	Code
-key_269	·´À¡ÎÊÌâ	Feedback problem
-key_719	Á÷ÈëÊı¾İÁ¿	Inflow of data
-key_285	É¾³ıÈÎÎñ	Delete task
-key_745	Î»ÖÃ:	Position:
-key_82	ä¯ÀÀÂ·¾¶	Browse path
-key_304	¹¤×÷Ïß³ÌÊÓÍ¼	Working thread view
-key_162	Ñ¡ÔñÆ÷	selector
-key_627	ÌáÈ¡Êı¾İ²âÊÔ½á¹û	Extracting data test results
-key_754	{Binding CanChange£¬ Converter={StaticResource BooleanToVisibilityConverter}}	{Binding CanChange£¬ Converter={StaticResource BooleanToVisibilityConverter}}
-key_178	Éú³ÉÆ÷	generator
-key_156	¿ªÊ¼¼ÓÔØ³ÌĞò¼¯	Start loading a set of programs
-key_767	ÊôĞÔ¹ÜÀí	Attribute management
-key_146	²å¼ş¹ÜÀíÆ÷ÒÑ¼ÓÔØ	The plug-in manager has been loaded
-key_616	×Ô¶¯¼ì²â	automatic detection
-key_279	ÔËĞĞ	Function
-key_204	²»½øĞĞ×ª»»	No conversion
-key_256	µ±Ç°ÄÚ´æÊı¾İÒÑ¾­±»Çå³ı	The current memory data has been cleared
-key_756	ÅÅĞò²ßÂÔ	Sorting strategy
-key_354	µ¥Î»ÎªºÁÃë£¬Ò²¿ÉÊ¹ÓÃ·½À¨ºÅÓï·¨£¬ÀıÈç[a]±íÊ¾´ÓaÁĞÖĞ¶ÁÈ¡ÑÓÊ±³¤¶È	The unit is milliseconds, and the square brackets syntax can also be used, such as [a], to read the delay length from the a column.
-key_152	µ±Ç°ÀàĞÍÔÚ²å¼ş¼¯ºÏÃ»ÓĞ±»·¢ÏÖ£¬	The current type is not found in the plug-in collection,
-key_148	²å¼şÀàĞÍÖØ¸´£¬Çë¼ì²éÅäÖÃÎÄ¼ş	The plug-in type is repeated, please check the configuration file
-DbEX_desc	½øĞĞÊı¾İ¿â²Ù×÷£¬°üÀ¨Ğ´Èë£¬É¾³ıºÍ¸üĞÂ£¬ÍÏÈëµÄÁĞÎª±íµÄÖ÷¼ü	Perform database operations, including writing, deleting and updating, and dragged columns are the primary keys of the table.
-key_132	Çå¿ÕÊı¾İ	wipe data
-EtlTF_desc	µ÷ÓÃËùÑ¡µÄ×ÓÈÎÎñ×÷Îª×ª»»Æ÷£¬ÓĞ¹Ø×ÓÈÎÎñ£¬Çë²Î¿¼Ïà¹ØÎÄµµ	Call the selected subtasks as the converter, refer to the relevant documents for subtasks.
-key_83	¼ÓÔØ	Load
-key_785	Êä³ö	output
-ReReplaceTF	ÕıÔòÌæ»»	Regular replacement
-DbGE_desc	´ÓÊı¾İ¿â¶ÁÈ¡ÄÚÈİ£¬ĞèÌáÇ°ÔÚÊı¾İÊÓÍ¼ÖĞÅäÖÃÁ¬½Ó	To read the contents from the database, you need to configure the connection in the data view ahead of time.
-key_768	µ±ÉèÖÃ¸ÃÖµºó£¬ËùÓĞÊôĞÔPath¶¼Ó¦¸ÃÎª¸¸½ÚµãµÄ×Ópath£¬¶ø²»ÄÜÊÇÍêÕûµÄxpathÂ·¾¶	When this value is set, all attributes Path should be the child path of the parent node, rather than the complete XPath path.
-key_124	Post²ÎÊı	Post parameters
-key_465	Ã¿ĞĞÒ»Ìõ	One line per line
-key_252	µ¼³öÊı¾İÈÎÎñ	Exporting data tasks
-key_347	±ØÌî£¬ÈôÊı¾İ¿â²»´æÔÚ¸Ã±í£¬Ôò»á¸ù¾İµÚÒ»ÌõÊı¾İµÄÁĞ×Ô¶¯´´½¨±í	If a database does not exist, it will automatically create tables based on columns of the first data.
-key_687	²ÉÑùÁ¿	Sampling amount
-key_345	Ñ¡ÔñÊı¾İ¿â	Select database
+key_153	ï¿½ï¿½ï¿½	Plug-in unit
+key_226	È·ï¿½ï¿½ÒªÉ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Are you sure you want to delete the connection?
+key_334	ï¿½Ä¼ï¿½{0}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	File {0} does not exist
+key_625	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½	The number of attributes can not be empty
+JoinDBTF	ï¿½ï¿½ï¿½İ¿ï¿½Æ¥ï¿½ï¿½	Database matching
+key_438	ï¿½ï¿½ï¿½ï¿½	Code
+key_269	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Feedback problem
+key_719	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Inflow of data
+key_285	É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Delete task
+key_745	Î»ï¿½ï¿½:	Position:
+key_82	ï¿½ï¿½ï¿½Â·ï¿½ï¿½	Browse path
+key_304	ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½Í¼	Working thread view
+key_162	Ñ¡ï¿½ï¿½ï¿½ï¿½	selector
+key_627	ï¿½ï¿½È¡ï¿½ï¿½ï¿½İ²ï¿½ï¿½Ô½ï¿½ï¿½	Extracting data test results
+key_754	{Binding CanChangeï¿½ï¿½ Converter={StaticResource BooleanToVisibilityConverter}}	{Binding CanChangeï¿½ï¿½ Converter={StaticResource BooleanToVisibilityConverter}}
+key_178	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	generator
+key_156	ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ø³ï¿½ï¿½ï¿½	Start loading a set of programs
+key_767	ï¿½ï¿½ï¿½Ô¹ï¿½ï¿½ï¿½	Attribute management
+key_146	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¼ï¿½ï¿½ï¿½	The plug-in manager has been loaded
+key_616	ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½	automatic detection
+key_279	ï¿½ï¿½ï¿½ï¿½	Function
+key_204	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½	No conversion
+key_256	ï¿½ï¿½Ç°ï¿½Ú´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	The current memory data has been cleared
+key_756	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Sorting strategy
+key_354	ï¿½ï¿½Î»Îªï¿½ï¿½ï¿½ë£¬Ò²ï¿½ï¿½Ê¹ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï·¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[a]ï¿½ï¿½Ê¾ï¿½ï¿½aï¿½ï¿½ï¿½Ğ¶ï¿½È¡ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½	The unit is milliseconds, and the square brackets syntax can also be used, such as [a], to read the delay length from the a column.
+key_152	ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ğ±ï¿½ï¿½ï¿½ï¿½Ö£ï¿½	The current type is not found in the plug-in collection,
+key_148	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½	The plug-in type is repeated, please check the configuration file
+DbEX_desc	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ë£¬É¾ï¿½ï¿½ï¿½Í¸ï¿½ï¿½Â£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Perform database operations, including writing, deleting and updating, and dragged columns are the primary keys of the table.
+key_132	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	wipe data
+EtlTF_desc	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½	Call the selected subtasks as the converter, refer to the relevant documents for subtasks.
+key_83	ï¿½ï¿½ï¿½ï¿½	Load
+key_785	ï¿½ï¿½ï¿½	output
+ReReplaceTF	ï¿½ï¿½ï¿½ï¿½ï¿½æ»»	Regular replacement
+DbGE_desc	ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½È¡ï¿½ï¿½ï¿½İ£ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	To read the contents from the database, you need to configure the connection in the data view ahead of time.
+key_768	ï¿½ï¿½ï¿½ï¿½ï¿½Ã¸ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Pathï¿½ï¿½Ó¦ï¿½ï¿½Îªï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½pathï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xpathÂ·ï¿½ï¿½	When this value is set, all attributes Path should be the child path of the parent node, rather than the complete XPath path.
+key_124	Postï¿½ï¿½ï¿½ï¿½	Post parameters
+key_465	Ã¿ï¿½ï¿½Ò»ï¿½ï¿½	One line per line
+key_252	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Exporting data tasks
+key_347	ï¿½ï¿½ï¿½î£¬ï¿½ï¿½ï¿½ï¿½ï¿½İ¿â²»ï¿½ï¿½ï¿½Ú¸Ã±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½İµï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	If a database does not exist, it will automatically create tables based on columns of the first data.
+key_687	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Sampling amount
+key_345	Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½	Select database
 key_727	Grid.RowSpan=	Grid.RowSpan=
-key_228	ÎÄ¼ş´ò¿ªÊ§°Ü	File open failure
-key_740	¿ìËÙÁ´½Ó	Fast link
-RangeGE_desc	Éú³ÉÄ³·¶Î§ÄÚµÄÊıÖµÁĞ	Generating a numerical column within a certain range
-key_242	×ªÎª·ÇĞéÄâÊı¾İ¼¯	Turn to a non virtual dataset
-key_317	±£´æµ±Ç°¹¤³Ì	Save the current project
+key_228	ï¿½Ä¼ï¿½ï¿½ï¿½Ê§ï¿½ï¿½	File open failure
+key_740	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Fast link
+RangeGE_desc	ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½Î§ï¿½Úµï¿½ï¿½ï¿½Öµï¿½ï¿½	Generating a numerical column within a certain range
+key_242	×ªÎªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ¼ï¿½	Turn to a non virtual dataset
+key_317	ï¿½ï¿½ï¿½æµ±Ç°ï¿½ï¿½ï¿½ï¿½	Save the current project
 key_448	É¸Ñ¡Ä£Ê½	Screening model
-key_248	µÄÊı¾İ¿âÁ¬½Ó·şÎñÊ§Ğ§	Failure of database connection service
-key_482	PostÊı¾İ	Post data
-key_594	Î³¶ÈÁĞ	Latitudinal column
-key_98	Ö´ĞĞÊ§°Ü	Failure to execute
-AddNewTF_desc	ÎªÊı¾İ¼¯Ìí¼ÓĞÂÁĞ£¬ÖµÎªÄ³¹Ì¶¨Öµ	Add a new column to a dataset with a value of a fixed value
-key_244	±£´æµ½Êı¾İ¿â	Save to the database
-TableGE_desc	´ÓÊı¾İ¹ÜÀíÖĞÒÑÓĞµÄÊı¾İ±íÖĞÉú³É£¬³£ÓÃ	Generated from data tables in data management, commonly used
-BfsGE	ÇëÇó¶ÓÁĞ	Request queue
-key_264	Hawk°æ±¾Óë¼ì²é¸üĞÂ	Hawk version and check update
-IDataViewer	Õ¹Ê¾Êı¾İ	Display data
-SaveFileEX_desc	Ä¿±êÁĞĞèÒªÎª³¬Á´½ÓÀàĞÍ£¬»á±£´æÁ´½ÓµÄÎÄ¼ş£¬ÈçÍ¼Æ¬£¬ÊÓÆµµÈ	The target column needs to be a hyperlink type, which saves the linked files, such as pictures, videos, etc.
-key_431	µİ¹éµ½ÏÂÁĞ	Recursion to the following
-key_481	´íÎóÑÓÊ±Ê±¼ä	Error delay time
-key_367	½«½á¹ûÈ¡·´ºó·µ»Ø	Return the result back to return
-AutoIndexTF	×ÔÔö¼üÉú³É	Self increasing key generation
-key_76	ĞŞ¸´Ê§°Ü£¬ÄúÊÇ·ñÃ»ÓĞ°²×°MongoDBÊı¾İ¿â	Repair failed. Did you install MongoDB database?
-key_442	ÎÄ¼ş¸ñÊ½	file format
-RandomGE	Éú³ÉËæ»úÊı	Generating random number
-RepeatTF	ÖØ¸´µ±Ç°Öµ	Repeat the current value
-key_712	{0}ÒÑ¾­ÓĞÈÎÎñÔÚÖ´ĞĞ£¬ÇëÔÚÈÎÎñ¹ÜÀíÆ÷ÖĞÈ¡Ïû¸ÃÈÎÎñºóÔÙË¢ĞÂ	{0} already has tasks in execution. Please cancel the task in the task manager and refresh it.
-key_274	×÷ÕßÉ³Ä®¾ıµÄ²©¿Í	Author Sha Mojun's blog
-key_268	ÕâÀïÓĞÊ¹ÓÃHawkµÄ°¸ÀıÓëÍêÕû½Ì³Ì	There are cases and complete tutorials for using Hawk
-key_581	ÈçÒ½Ôº£¬ÃÀÊ³µÈ	Like a hospital, a gourmet food, etc
-key_418	ÉèÖÃ×ÓÈÎÎñµ÷ÓÃÊôĞÔ	Setting the subtask call property
-key_518	µ±ÖµÎªĞ¡ÓÚ0Ê±£¬¿ÉÍ¬Ê±Æ¥Åä¶à¸öÖµ	When the equivalent value is less than 0, multiple values can be matched at the same time
-key_71	´ò¿ª°ïÖúÁ´½Ó	Open the help link
-key_104	ÅÅĞò	sort
-FileConnectorCSV_desc	Êä³öÎÄ±¾ĞÍCSV¶ººÅ·Ö¸ôÎÄ¼ş	Output text type CSV comma delimited file
-key_337	·Ö×é	Grouping
-key_125	×Ô¶¯ÖØ¶¨Ïò	redirect automatically
-key_573	Çå³ıÖĞ¼ä¿Õ¸ñ	Clear the middle space
-DataProcessManager_desc	¶ÔËã·¨Ä£¿éÊµÏÖ¹ÜÀíºÍ×é×°£¬µ«²»Ìá¹©½çÃæ	Manage and assemble the algorithm modules, but do not provide interface.
-key_371	»ñÈ¡	Obtain
-key_656	²éÑ¯XPathÊ±ÔÚÄÚ²¿·¢ÉúÒì³£:{0}	An exception occurs internally when querying XPath: {0}
-FolderGE_desc	»ñÈ¡ÎÄ¼ş¼ĞÏÂµÄËùÓĞÎÄ¼ş	Get all the files under the folder
-RenameTF	ÁĞÃûĞŞ¸ÄÆ÷	Column name modifier
-key_196	XPath±í´ïÊ½´íÎó:	XPath expression error:
-key_177	´ÓÎÄ±¾Éú³É	From text generation
-FileConnectorJson	Jsonµ¼Èëµ¼³öÆ÷	Json import and export
+key_248	ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½Ó·ï¿½ï¿½ï¿½Ê§Ğ§	Failure of database connection service
+key_482	Postï¿½ï¿½ï¿½ï¿½	Post data
+key_594	Î³ï¿½ï¿½ï¿½ï¿½	Latitudinal column
+key_98	Ö´ï¿½ï¿½Ê§ï¿½ï¿½	Failure to execute
+AddNewTF_desc	Îªï¿½ï¿½ï¿½İ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ£ï¿½ÖµÎªÄ³ï¿½Ì¶ï¿½Öµ	Add a new column to a dataset with a value of a fixed value
+key_244	ï¿½ï¿½ï¿½æµ½ï¿½ï¿½ï¿½İ¿ï¿½	Save to the database
+TableGE_desc	ï¿½ï¿½ï¿½ï¿½ï¿½İ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½ï¿½ï¿½ï¿½İ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É£ï¿½ï¿½ï¿½ï¿½ï¿½	Generated from data tables in data management, commonly used
+BfsGE	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Request queue
+key_264	Hawkï¿½æ±¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Hawk version and check update
+IDataViewer	Õ¹Ê¾ï¿½ï¿½ï¿½ï¿½	Display data
+SaveFileEX_desc	Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒªÎªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½á±£ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½	The target column needs to be a hyperlink type, which saves the linked files, such as pictures, videos, etc.
+key_431	ï¿½İ¹éµ½ï¿½ï¿½ï¿½ï¿½	Recursion to the following
+key_481	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±Ê±ï¿½ï¿½	Error delay time
+key_367	ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ó·µ»ï¿½	Return the result back to return
+AutoIndexTF	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Self increasing key generation
+key_76	ï¿½Ş¸ï¿½Ê§ï¿½Ü£ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Ã»ï¿½Ğ°ï¿½×°MongoDBï¿½ï¿½ï¿½İ¿ï¿½	Repair failed. Did you install MongoDB database?
+key_442	ï¿½Ä¼ï¿½ï¿½ï¿½Ê½	file format
+RandomGE	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Generating random number
+RepeatTF	ï¿½Ø¸ï¿½ï¿½ï¿½Ç°Öµ	Repeat the current value
+key_712	{0}ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ğ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½	{0} already has tasks in execution. Please cancel the task in the task manager and refresh it.
+key_274	ï¿½ï¿½ï¿½ï¿½É³Ä®ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½	Author Sha Mojun's blog
+key_268	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½Hawkï¿½Ä°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì³ï¿½	There are cases and complete tutorials for using Hawk
+key_581	ï¿½ï¿½Ò½Ôºï¿½ï¿½ï¿½ï¿½Ê³ï¿½ï¿½	Like a hospital, a gourmet food, etc
+key_418	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Setting the subtask call property
+key_518	ï¿½ï¿½ÖµÎªĞ¡ï¿½ï¿½0Ê±ï¿½ï¿½ï¿½ï¿½Í¬Ê±Æ¥ï¿½ï¿½ï¿½ï¿½Öµ	When the equivalent value is less than 0, multiple values can be matched at the same time
+key_71	ï¿½ò¿ª°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Open the help link
+key_104	ï¿½ï¿½ï¿½ï¿½	sort
+FileConnectorCSV_desc	ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½CSVï¿½ï¿½ï¿½Å·Ö¸ï¿½ï¿½Ä¼ï¿½	Output text type CSV comma delimited file
+key_337	ï¿½ï¿½ï¿½ï¿½	Grouping
+key_125	ï¿½Ô¶ï¿½ï¿½Ø¶ï¿½ï¿½ï¿½	redirect automatically
+key_573	ï¿½ï¿½ï¿½ï¿½Ğ¼ï¿½Õ¸ï¿½	Clear the middle space
+DataProcessManager_desc	ï¿½ï¿½ï¿½ã·¨Ä£ï¿½ï¿½Êµï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á¹©ï¿½ï¿½ï¿½ï¿½	Manage and assemble the algorithm modules, but do not provide interface.
+key_371	ï¿½ï¿½È¡	Obtain
+key_656	ï¿½ï¿½Ñ¯XPathÊ±ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£:{0}	An exception occurs internally when querying XPath: {0}
+FolderGE_desc	ï¿½ï¿½È¡ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½	Get all the files under the folder
+RenameTF	ï¿½ï¿½ï¿½ï¿½ï¿½Ş¸ï¿½ï¿½ï¿½	Column name modifier
+key_196	XPathï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½:	XPath expression error:
+key_177	ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½	From text generation
+FileConnectorJson	Jsonï¿½ï¿½ï¿½ëµ¼ï¿½ï¿½ï¿½ï¿½	Json import and export
 key_166	È«Ñ¡	Total selection
-key_652	¼ÌĞøËÑË÷	Continue to search
-key_772	ÉèÖÃ»ñÈ¡Êı¾İ±íµÄÇ°nĞĞ	Setting the front n rows to get the data table
-key_686	3.µ÷ÊÔ	3. debug
-key_674	³¬¼¶Ä£Ê½ÏÂÄÚÖÃä¯ÀÀÆ÷²»Õ¹Ê¾ÄÚÈİ£¬Çë²é¿´×ó²àµÄÎÄ±¾ÄÚÈİ	In the super mode, the built-in browser does not display the contents. Please check the text on the left side.
-key_758	ÑùÀı	Sample
-key_344	Ñ¡ÔñÊı¾İ¿âµÄ²Ù×÷£¬Èç²åÈë£¬É¾³ı£¬¸üĞÂµÈ	Select database operations, such as insert, delete, update, etc.
-key_628	¼ì²âµ½ÁĞ±íµÄ¸ù½ÚµãÎª:{0}£¬ÊÇ·ñÉèÖÃ¸ù½ÚµãÂ·¾¶£¿ ´Ë²Ù×÷ÓĞ½¨ÒéÓĞ¾­ÑéÓÃ»§Ê¹ÓÃ£¬Ğ¡°×ÓÃ»§Çëµã¡¾·ñ¡¿	The root node of the list is detected: {0}. Does the root node path be set? This operation is recommended by experienced users.
-key_20	±í´óĞ¡	Table size
-key_360	ÌîĞ´²É¼¯Æ÷»òÄ£¿éµÄÃû³Æ	Fill in the name of the collector or module
-key_314	ÈÎÎñÃèÊö	Task description
-key_776	{Binding Attribute£¬ Converter={StaticResource GroupConverter}}	{Binding Attribute£¬ Converter={StaticResource GroupConverter}}
-key_287	ÈÎÎñÁĞ±í2	Task list 2
-key_240	ÅäÖÃ	To configure
-key_695	µ÷ÊÔÓëÌ½²é	Debugging and exploration
-key_464	ÎÄ±¾	text
-key_192	¹´Ñ¡´ËÏîºó£¬»á×Ô¶¯ÌáÈ¡ĞÂÎÅÕıÎÄ£¬XPathÂ·¾¶¿ÉÎª¿Õ	After selecting this item, the news text is automatically extracted, and the XPath path can be empty.
-key_617	Òâ´óÀûÓï	Italian
-key_181	Éú³ÉÆ÷ÀàĞÍ	Generator type
-key_558	×ÓÏß³ÌÃû³Æ	The name of Zi Xiancheng
-key_753	ÆÀ¹À·ÖÊı	Evaluation score
-key_688	Ö»»ñÈ¡Êı¾İ±íµÄÇ°nĞĞ	Get the front n lines of the data table only
-key_537	³ıÁËÖ±½ÓÌîĞ´ÊıÖµ£¬»¹¿ÉÍ¨¹ı·½À¨ºÅ±í´ïÊ½´ÓÆäËûÁĞ´«Èë	In addition to directly filling in numeric values, it can also be imported from other columns by square brackets.
-key_200	Ä£¿éÃû³Æ	Module name
-ReadFileTextGE_desc	»ñÈ¡ÎÄ¼şÖĞµÄÈ«²¿´¿ÎÄ±¾ÄÚÈİ£¬×¢ÒâÓë¡¾¶ÁÈ¡ÎÄ¼şÊı¾İ¡¿Çø±ğ	Get all the plain text content in the file, note the difference with [read file data]
-IDataProcess	»ù±¾¼ÆËãÄ£¿é	Basic calculation module
+key_652	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Continue to search
+key_772	ï¿½ï¿½ï¿½Ã»ï¿½È¡ï¿½ï¿½ï¿½İ±ï¿½ï¿½Ç°nï¿½ï¿½	Setting the front n rows to get the data table
+key_686	3.ï¿½ï¿½ï¿½ï¿½	3. debug
+key_674	ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¹Ê¾ï¿½ï¿½ï¿½İ£ï¿½ï¿½ï¿½é¿´ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½	In the super mode, the built-in browser does not display the contents. Please check the text on the left side.
+key_758	ï¿½ï¿½ï¿½ï¿½	Sample
+key_344	Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë£¬É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½	Select database operations, such as insert, delete, update, etc.
+key_628	ï¿½ï¿½âµ½ï¿½Ğ±ï¿½Ä¸ï¿½ï¿½Úµï¿½Îª:{0}ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½Úµï¿½Â·ï¿½ï¿½ï¿½ï¿½ ï¿½Ë²ï¿½ï¿½ï¿½ï¿½Ğ½ï¿½ï¿½ï¿½ï¿½Ğ¾ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ê¹ï¿½Ã£ï¿½Ğ¡ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ã¡¾ï¿½ï¿½	The root node of the list is detected: {0}. Does the root node path be set? This operation is recommended by experienced users.
+key_20	ï¿½ï¿½ï¿½Ğ¡	Table size
+key_360	ï¿½ï¿½Ğ´ï¿½É¼ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Fill in the name of the collector or module
+key_314	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Task description
+key_776	{Binding Attributeï¿½ï¿½ Converter={StaticResource GroupConverter}}	{Binding Attributeï¿½ï¿½ Converter={StaticResource GroupConverter}}
+key_287	ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½2	Task list 2
+key_240	ï¿½ï¿½ï¿½ï¿½	To configure
+key_695	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½	Debugging and exploration
+key_464	ï¿½Ä±ï¿½	text
+key_192	ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ó£¬»ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½XPathÂ·ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½	After selecting this item, the news text is automatically extracted, and the XPath path can be empty.
+key_617	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Italian
+key_181	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Generator type
+key_558	ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½ï¿½ï¿½	The name of Zi Xiancheng
+key_753	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Evaluation score
+key_688	Ö»ï¿½ï¿½È¡ï¿½ï¿½ï¿½İ±ï¿½ï¿½Ç°nï¿½ï¿½	Get the front n lines of the data table only
+key_537	ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å±ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½	In addition to directly filling in numeric values, it can also be imported from other columns by square brackets.
+key_200	Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Module name
+ReadFileTextGE_desc	ï¿½ï¿½È¡ï¿½Ä¼ï¿½ï¿½Ğµï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½İ£ï¿½×¢ï¿½ï¿½ï¿½ë¡¾ï¿½ï¿½È¡ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½İ¡ï¿½ï¿½ï¿½ï¿½ï¿½	Get all the plain text content in the file, note the difference with [read file data]
+IDataProcess	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½	Basic calculation module
 key_735	Grid.Row=	Grid.Row=
-key_781	²½Öè1£ºÉèÖÃÖ÷ÈÎÎñµ÷ÓÃ×ÓÈÎÎñµÄÄ£¿éÇø¼ä	Step 1: set the module interval of the main task submission.
-DateRangeGE	Éú³ÉÇø¼äÊ±¼ä	Generation interval time
-key_88	sqlÖ´ĞĞ´íÎó:	SQL execution error:
-key_717	ÊäÈëÁĞ	Input column
-not_find_key	ÔÚ¸ÃÍøÒ³ÖĞÕÒ²»µ½¹Ø¼ü×Ö `{0}`£¬¿ÉÄÜÊÇ¶¯Ì¬ÇëÇó£¬\n ¡¾ÊÇ¡¿£º¡¾{1}¡¿£¬²¢½«ä¯ÀÀÆ÷Ò³Ãæ·­µ½°üº¬¸Ã¹Ø¼ü×ÖµÄÎ»ÖÃ\n ¡¾·ñ¡¿:¡¾²»ĞáÌ½¡¿£¬\n ¡¾È¡Ïû¡¿:¡¾²»ÔÙÌáĞÑ¡¿	The keyword `{0}` can not be found in the web page, which may be a dynamic request, \n [{1}], and turn the browser page to the location containing the keyword, \n [no]: [cancelling]: [no longer reminded]
-rightclick_new	ÓÒ¼ü¿ÉĞÂ½¨Êı¾İÔ´	Right key can build a new data source
-doubleclick_new	Ë«»÷Í¼±êÒÔĞÂ½¨ÈÎÎñ	Double click the icon to create a new task
-brower_view	ä¯ÀÀÆ÷ÊÓÍ¼	Browser view
-remind_10	ÇëÌîĞ´°üº¬ÔÚÒ³ÃæÖĞµÄ¹Ø¼ü×ÖĞÅÏ¢£º¡¾2.ÊôĞÔÌáÈ¡¡¿->¡¾ËÑË÷×Ö·û¡¿	Please fill in the keyword information contained in the page: [2. attribute extraction] - > search character]
-step2	²½Öè2£ºÉèÖÃÖ÷ÈÎÎñÊôĞÔÁĞ¶ÔÓ¦µ½×ÓÈÎÎñµÄÊôĞÔÃû£¬ÏÂÀ­²Ëµ¥½ö²Î¿¼£¬¿ÉÖ±½Ó±à¼­ÎÄ±¾¿ò	Step 2: set the main task attribute column to the attribute name of the sub task. The drop-down menu only refers to it, and can edit the text box directly.
-task_run	{0}ÒÑ¾­ÓĞÈÎÎñÔÚÖ´ĞĞ£¬ÓÉÓÚµ÷Õû²ÎÊı£¬ÊÇ·ñÒªÈ¡Ïûµ±Ç°ÈÎÎñÖØĞÂÖ´ĞĞ£¿\n ¡¾È¡Ïû¡¿:¡¾²»ÔÙÌáĞÑ¡¿	{0} already has tasks in execution. Is it necessary to cancel the current tasks due to tuning parameters? \n [cancellation]: [no more reminding]
-success_get	ÒÑ¾­³É¹¦»ñÈ¡ĞáÌ½×Ö¶Î£¡ ÕæÊµÇëÇóµØÖ·:\n{0}£¬\nÒÑ×Ô¶¯ÅäÖÃÁËÍøÒ³²É¼¯Æ÷£¬ÇëÇóÀàĞÍÎª{1}\n {2}ÒÑ¾­Ë¢ĞÂÁËÍøÒ³²É¼¯Æ÷µÄÄÚÈİ	The sniffer field has been successfully obtained! The real request address: \n{0}, \n has automatically configured the webpage collector, the request type is {1}\n {2}, has refreshed the content of the webpage collector.
-fail_remind	×÷ÓÃÔÚÁĞÃû`{0}`µÄ Ä£¿é`{1}` ÒÑ¾­Á¬Ğø5´ÎÃ»ÓĞ³É¹¦»ñÈ¡Êı¾İ£¬¿ÉÄÜĞèÒªÖØĞÂĞŞ¸Ä²ÎÊı \n ¡¾ÊÇ¡¿£º¡¾½øÈëµ÷ÊÔÄ£Ê½¡¿ \n ¡¾·ñ¡¿£º¡¾È¡Ïûµ±Ç°ÈÎÎñ¡¿ \n ¡¾È¡Ïû¡¿£º¡¾²»ÔÙÌáÊ¾¡¿	The module `{1}`, which acts on the column name `{0}`, has not successfully acquired the data 5 times in a row, and may need to revise the parameter \n [yes] \n [no]: [cancel the current task] \n [Cancel]: [no longer prompt]
-key_191	»ñÈ¡ÕıÎÄ	Get the text
-key_320	µ½µ±Ç°ÁĞ±í	To the current list
-RegexSplitTF	ÕıÔò·Ö¸î	Regular segmentation
-key_155	²»ĞèÒª»ñÈ¡²å¼ş½Ó¿ÚÃû³Æ£¬ÒÑ¾­½øĞĞ»º´æ£¬ËæÊ±¿É½øĞĞĞŞ¸Ä	No need to get the plug-in interface name, it has been cached and can be modified at any time.
-JsonTF	×ª»»ÎªJson	Convert to Json
-key_402	¿É²Î¿¼C# DateTime FormatÏà¹Ø·½·¨£¬ ÀıÈçyyyy-MM-ddµÈ	Refer to C# DateTime Format related methods, such as yyyy-MM-dd, etc.
-key_704	´®ĞĞÈÎÎñ	Serial task
-key_662	{0}  ²»ÄÜ±»Ê¶±ğÎªÕıÈ·µÄ{1}±í´ïÊ½£¬Çë¼ì²é	{0} cannot be recognized as the correct {1} expression. Please check.
-key_332	Êı¾İ¿âÁ¬½Ó	Database connection
-key_154	½Ó¿Ú	Interface
-key_595	´ú±íÎ³¶ÈËùÔÚµÄÁĞ	Columns representing latitudes
-key_790	µ±Ç°¼ÓÔØµÄËùÓĞËã·¨Ä£¿é	All of the algorithm modules that are currently loaded
+key_781	ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Step 1: set the module interval of the main task submission.
+DateRangeGE	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½	Generation interval time
+key_88	sqlÖ´ï¿½Ğ´ï¿½ï¿½ï¿½:	SQL execution error:
+key_717	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Input column
+not_find_key	ï¿½Ú¸ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½ `{0}`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¶ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½\n ï¿½ï¿½ï¿½Ç¡ï¿½ï¿½ï¿½ï¿½ï¿½{1}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½æ·­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¹Ø¼ï¿½ï¿½Öµï¿½Î»ï¿½ï¿½\n ï¿½ï¿½ï¿½ï¿½:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ï¿½\n ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½	The keyword `{0}` can not be found in the web page, which may be a dynamic request, \n [{1}], and turn the browser page to the location containing the keyword, \n [no]: [cancelling]: [no longer reminded]
+rightclick_new	ï¿½Ò¼ï¿½ï¿½ï¿½ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´	Right key can build a new data source
+doubleclick_new	Ë«ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½	Double click the icon to create a new task
+brower_view	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼	Browser view
+remind_10	ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ĞµÄ¹Ø¼ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½2.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½->ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½	Please fill in the keyword information contained in the page: [2. attribute extraction] - > search character]
+step2	ï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ó±à¼­ï¿½Ä±ï¿½ï¿½ï¿½	Step 2: set the main task attribute column to the attribute name of the sub task. The drop-down menu only refers to it, and can edit the text box directly.
+task_run	{0}ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ğ£ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ÒªÈ¡ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ğ£ï¿½\n ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½	{0} already has tasks in execution. Is it necessary to cancel the current tasks due to tuning parameters? \n [cancellation]: [no more reminding]
+success_get	ï¿½Ñ¾ï¿½ï¿½É¹ï¿½ï¿½ï¿½È¡ï¿½ï¿½Ì½ï¿½Ö¶Î£ï¿½ ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½Ö·:\n{0}ï¿½ï¿½\nï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½É¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª{1}\n {2}ï¿½Ñ¾ï¿½Ë¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½É¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	The sniffer field has been successfully obtained! The real request address: \n{0}, \n has automatically configured the webpage collector, the request type is {1}\n {2}, has refreshed the content of the webpage collector.
+fail_remind	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`{0}`ï¿½ï¿½ Ä£ï¿½ï¿½`{1}` ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½5ï¿½ï¿½Ã»ï¿½Ğ³É¹ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½İ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Ş¸Ä²ï¿½ï¿½ï¿½ \n ï¿½ï¿½ï¿½Ç¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½ \n ï¿½ï¿½ï¿½ñ¡¿£ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ \n ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½	The module `{1}`, which acts on the column name `{0}`, has not successfully acquired the data 5 times in a row, and may need to revise the parameter \n [yes] \n [no]: [cancel the current task] \n [Cancel]: [no longer prompt]
+key_191	ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½	Get the text
+key_320	ï¿½ï¿½ï¿½ï¿½Ç°ï¿½Ğ±ï¿½	To the current list
+RegexSplitTF	ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½	Regular segmentation
+key_155	ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½Æ£ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½Ğ»ï¿½ï¿½æ£¬ï¿½ï¿½Ê±ï¿½É½ï¿½ï¿½ï¿½ï¿½Ş¸ï¿½	No need to get the plug-in interface name, it has been cached and can be modified at any time.
+JsonTF	×ªï¿½ï¿½ÎªJson	Convert to Json
+key_402	ï¿½É²Î¿ï¿½C# DateTime Formatï¿½ï¿½Ø·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½yyyy-MM-ddï¿½ï¿½	Refer to C# DateTime Format related methods, such as yyyy-MM-dd, etc.
+key_704	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Serial task
+key_662	{0}  ï¿½ï¿½ï¿½Ü±ï¿½Ê¶ï¿½ï¿½Îªï¿½ï¿½È·ï¿½ï¿½{1}ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	{0} cannot be recognized as the correct {1} expression. Please check.
+key_332	ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½ï¿½	Database connection
+key_154	ï¿½Ó¿ï¿½	Interface
+key_595	ï¿½ï¿½ï¿½ï¿½Î³ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½	Columns representing latitudes
+key_790	ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã·¨Ä£ï¿½ï¿½	All of the algorithm modules that are currently loaded
 key_726	Grid.Column=	Grid.Column=
-key_253	ÎÄ¼şµ¼³ö³É¹¦£¬ÊÇ·ñÒª´ò¿ª²é¿´?	The file export is successful, do you want to open the view?
-key_550	Î²´®	Tail string
-key_361	ÊÇ·ñÒì²½	Whether or not asynchronous
-key_450	ÊÇ·ñµİ¹é	Whether or not recursion
-FileConnectorExcel	EXCELµ¼Èëµ¼³öÆ÷	EXCEL import and export
-key_707	×ÓÈÎÎñ	Subtask
-XPathTF2_desc	ÒªÍÏÈëHTMLÎÄ±¾ÁĞ£¬¿É½«Ò³ÃæÖĞµÄÃÅÀà£¬ÓÃCrossÄ£Ê½×éºÏÆğÀ´£¬ÊÊºÏÓÚÅÀ³æÎŞ·¨×¥È¡È«²¿Ò³Ãæ£¬µ«¿ÉÒÔ°´·ÖÀà×¥È¡µÄÇé¿ö¡£Ğèµ÷ÓÃÍøÒ³²É¼¯Æ÷£¬¾ßÌå²Î¿¼ÎÄµµ-ÃÅÀàÃ¶¾Ù	To drag into the HTML text column, you can combine the classes in the page with the Cross mode, which is suitable for the crawler to capture all the pages, but can be captured by classification. Need to call webpage collector, specific reference document - class enumeration
-key_626	ÁĞ±íÄ£Ê½ÏÂ£¬ÊôĞÔÊıÁ¿²»ÄÜÉÙÓÚ2¸ö	In list mode, the number of attributes should not be less than 2
-key_592	²éÑ¯µØÎï	Inquiries
-Time2StrTF_desc	½«Ê±¼äÀàĞÍ×ª»»ÎªÌØ¶¨¸ñÊ½µÄ×Ö·û´®	A string that converts a time type to a specific format
-key_217	²éÑ¯×Ö·û´®	Query string
-key_495	Ñ¡ÔñËùÒªÁ¬½ÓµÄ±í	Select the table to connect
-key_610	ºÉÀ¼Óï	Dutch
-key_778	{Binding GenerateMode£¬ Converter={StaticResource GeneratorConverter}}	{Binding GenerateMode£¬ Converter={StaticResource GeneratorConverter}}
-key_655	ÊÇ·ñÆôÓÃ×Ô¶¯ĞáÌ½	Whether automatic sniffing is enabled
-key_293	È¡Ïû	cancel
-key_340	ÈÎÎñÒÑ¾­³ö´í£º	The task has gone wrong.
-key_602	ÖĞÎÄ	Chinese
-IColumnProcess	ETLÄ£¿é½Ó¿Ú	ETL module interface
-key_633	ÊÇ·ñÈ·¶¨Çå³ıËùÓĞÊôĞÔ?	Is it sure that all properties are cleared?
-EtlTF	×ÓÈÎÎñ-×ª»»	Subtask - conversion
-key_653	ÕÒ²»µ½ÆäËû·ûºÏÌõ¼şµÄ½Úµã£¬ËÑË÷Æ÷ÒÑ¾­·µ»Ø¿ªÍ·	No other eligible nodes could be found. The searcher has returned to the beginning.
-key_399	¼ä¸ô	interval
+key_253	ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Òªï¿½ò¿ª²é¿´?	The file export is successful, do you want to open the view?
+key_550	Î²ï¿½ï¿½	Tail string
+key_361	ï¿½Ç·ï¿½ï¿½ì²½	Whether or not asynchronous
+key_450	ï¿½Ç·ï¿½İ¹ï¿½	Whether or not recursion
+FileConnectorExcel	EXCELï¿½ï¿½ï¿½ëµ¼ï¿½ï¿½ï¿½ï¿½	EXCEL import and export
+key_707	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Subtask
+XPathTF2_desc	Òªï¿½ï¿½ï¿½ï¿½HTMLï¿½Ä±ï¿½ï¿½Ğ£ï¿½ï¿½É½ï¿½Ò³ï¿½ï¿½ï¿½Ğµï¿½ï¿½ï¿½ï¿½à£¬ï¿½ï¿½CrossÄ£Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ş·ï¿½×¥È¡È«ï¿½ï¿½Ò³ï¿½æ£¬ï¿½ï¿½ï¿½ï¿½ï¿½Ô°ï¿½ï¿½ï¿½ï¿½ï¿½×¥È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½É¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¿ï¿½ï¿½Äµï¿½-ï¿½ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½	To drag into the HTML text column, you can combine the classes in the page with the Cross mode, which is suitable for the crawler to capture all the pages, but can be captured by classification. Need to call webpage collector, specific reference document - class enumeration
+key_626	ï¿½Ğ±ï¿½Ä£Ê½ï¿½Â£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½	In list mode, the number of attributes should not be less than 2
+key_592	ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½	Inquiries
+Time2StrTF_desc	ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îªï¿½Ø¶ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½	A string that converts a time type to a specific format
+key_217	ï¿½ï¿½Ñ¯ï¿½Ö·ï¿½ï¿½ï¿½	Query string
+key_495	Ñ¡ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ÓµÄ±ï¿½	Select the table to connect
+key_610	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Dutch
+key_778	{Binding GenerateModeï¿½ï¿½ Converter={StaticResource GeneratorConverter}}	{Binding GenerateModeï¿½ï¿½ Converter={StaticResource GeneratorConverter}}
+key_655	ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½Ì½	Whether automatic sniffing is enabled
+key_293	È¡ï¿½ï¿½	cancel
+key_340	ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½	The task has gone wrong.
+key_602	ï¿½ï¿½ï¿½ï¿½	Chinese
+IColumnProcess	ETLÄ£ï¿½ï¿½Ó¿ï¿½	ETL module interface
+key_633	ï¿½Ç·ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?	Is it sure that all properties are cleared?
+EtlTF	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-×ªï¿½ï¿½	Subtask - conversion
+key_653	ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä½Úµã£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½Ø¿ï¿½Í·	No other eligible nodes could be found. The searcher has returned to the beginning.
+key_399	ï¿½ï¿½ï¿½	interval
 key_797	Margin=	Edge =
-key_390	ÌîÈë¿Õ¸ñ·Ö¸îµÄÁĞÃû£¬¶Ô±¾Ä£¿éËùÔÚÁĞµÄÖµÏàÍ¬µÄËùÓĞÊôĞÔ·Ö±ğ½øĞĞ×İÏòÇóºÍ	Fill in the column names separated by spaces, and lengthwise summation of all attributes with the same value in the module.
-key_8	×ÜÊı¾İÁ¿	Total amount of data
-DbEX	Ğ´ÈëÊı¾İ¿â	Write to the database
-XPathTF	XPathÉ¸Ñ¡Æ÷	XPath filter
-key_295	ĞÂ½¨»ò¸´ÖÆ²É¼¯Æ÷	New or replicated collector
-key_381	×îĞ¡Æ¥ÅäÊı	Minimum matching number
-key_318	Áí´æÎªµ±Ç°¹¤³Ì	Save as the current project
-key_313	´æÔÚÍ¬ÃûÈÎÎñ£¬½«¸²¸Ç¸ÃÈÎÎñ	There is a same name task that will cover the task
-XFrmWorkPropertyGrid_desc	ÊôĞÔÅäÖÃÑ¡Ïî	Property configuration options
-key_254	´ò¿ªÎÄ¼şÊ§°Ü£º	Failed to open the file:
-key_70	°²×°Ê¹ÓÃËµÃ÷	Instructions for installation and use
-key_123	µ±Ò³Ãæ³öÏÖÂÒÂëÊ±£¬¿ÉÑ¡ÔñÇĞ»»UTF-8»òGBK	When the page appears garbled, you can choose to switch UTF-8 or GBK.
-key_385	ÑÓ³ÙÊä³ö	Delay output
-CrawlerTF	´ÓÅÀ³æ×ª»»	From the reptilian
-key_439	ÇëÑ¡ÔñÒª¶ÁÈ¡µÄÎÄ¼ş	Please select the file to read
-key_208	Î»ÓÚ£¬ ×÷ÓÃÔÚ{0}µÄÄ£¿é {1} ×ª»»³ö´í£¬ ĞÅÏ¢{2}	Located in {0} module {1} conversion error, information {2}
-key_685	É¾³ıÏÂÓÎ½Úµã	Delete downstream nodes
-key_46	ÒÑ¾­µ¼ÈëÊıÁ¿:	The number that has been imported:
-key_437	Ñ¡ÔñÎÄ¼ş	Select the file
-key_346	Ñ¡ÔñËùÒªÁ¬½ÓµÄÊı¾İ¿â·şÎñ£¬Èç¹û¸ÃÏîÎŞ·¨Ñ¡Ôñ£¬ÇëÅäÖÃ¡¾Ä£¿é¹ÜÀí¡¿->¡¾Êı¾İÔ´¡¿£¬²¢µã»÷ÓÒ¼ü´´½¨ĞÂµÄÊı¾İ¿âÁ¬½ÓÆ÷	Select the database service that you want to connect to, if this item can't be selected, configure [module management] - > [data source], and click right to create a new database connector
-key_353	ÑÓÊ±Öµ	Delay value
-key_250	Êı¾İ¼¯	data set
-key_336	µ±Ç°Î»ÖÃ	current location
-RegexFT_desc	±àĞ´ÕıÔò±í´ïÊ½À´¹ıÂËÎÄ±¾	Writing regular expressions to filter text
-key_709	ÔÚ²¢ĞĞÄ£Ê½¹¤×÷Ê±£¬Ïß³Ì³ØËù³ĞÔØµÄ×î´óÏß³ÌÊı	The maximum number of threads carried by thread pools when working in parallel mode
-EtlEX_desc	µ÷ÓÃÆäËûÈÎÎñ£¬×÷ÎªÖ´ĞĞÆ÷¿é	Call other tasks as an executor block
-key_183	XPath±í´ïÊ½±àĞ´´íÎó£º	XPath expression is written in error:
-key_231	Ìí¼Óµ½Êı¾İ¼¯	Add to the dataset
-key_151	¾¯¸æĞÅÏ¢	Warning information
-DataProcessManager_name	Ä£¿é¹ÜÀí	Module management
-key_31	Á¬½ÓÃû³Æ	Connection name
-key_623	ÊÖÆø²»´í	Good hands
-key_451	¼´ÊÇ·ñ»ñÈ¡×ÓÎÄ¼ş¼ĞµÄ×ÓÎÄ¼ş	Whether or not to get a subfile of a subfolder
-key_690	ÉÏÒ»²½	The last step
-key_133	µã»÷°´Å¥:	Click the button:
-key_90	Êı¾İ¿âĞéÄâ»¯	Database virtualization
-key_2	ÏµÍ³³öÏÖÒì³£	Abnormality of the system
-key_751	ÆäËûĞÅÏ¢	Other information
-key_501	ÎÄµµÁĞ±í£º[{}]£¬×ª»»Îª¶à¸öÊı¾İĞĞ¹¹³ÉµÄÁĞ±í£»µ¥ÎÄµµ£º{}£¬½«½á¹ûµÄ¼üÖµ¶Ô¸½¼Óµ½±¾ĞĞ£»²»½øĞĞ×ª»»£ºÖ±½Ó½«Öµ·ÅÈëµ½ĞÂÁĞ	A list of documents: [{}], converted to a list of multiple rows of data; a single document: {}, attach the result's key value pair to the line; do not convert: put the value directly into a new column.
-key_275	°ïÖú	Help
-key_4	µ÷ÊÔĞÅÏ¢´°¿Ú	Debug information window
-key_245	²åÈëµ½Êı¾İ¿â	Insert into the database
-key_542	½«Ô­ÎÄ±¾Ã¿¸ö×Ö·ûÖ±½Ó·Ö¸î¿ª	Divide each character in the original text directly
-key_517	Æ¥Åä±àºÅ	Matching number
-key_221	ÍøÒ³ÅÀ³æÁ¬½ÓÆ÷	Web crawler connector
-key_16	ÃèÊö	describe
-key_783	½áÊø	End
-key_736	ĞÂ½¨ÈÎÎñ	New task
-key_130	³¬Ê±Êı	Timeout number
-key_552	·µ»ØµÄ½á¹ûÀïÊÇ·ñ°üº¬Ê×´®ºÍÎ²´®	Whether the first string and the tail string are included in the return result
-key_706	ÈÎÎñ	task
-key_283	È·¶¨±£´æËùÓĞËã·¨Ä£¿éÃ´£¿	Do you decide to save all the algorithm modules?
-key_485	×ª»»Ñ¡Ïî	Conversion options
-key_691	ÏÂÒ»²½	Next step
-key_11	Êı¾İ¼¯Ãû³Æ	Dataset name
-key_299	ÓÉÓÚÈÎÎñ{0} ÒÑ¾­±»É¾³ı£¬ Ïà¹ØÈÎÎñ{1} Ò²ÒÑ¾­±»Ç¿ĞĞÈ¡Ïû	Because the task {0} has been deleted, the related task {1} has been forcibly cancelled.
-key_705	²¢ĞĞÈÎÎñ	Parallel task
-key_218	¸ù¾İÊı¾İ¿âµÄ²»Í¬£¬¿ÉÔÚ´Ë´¦ÊäÈëJS£¨MongoDB£©ºÍ±ê×¼SQL	Depending on the database, you can enter JS (MongoDB) and standard SQL here.
-key_526	Ìæ»»Îª	Replace
-key_604	ÈÕÓï	Japanese
-DelayTF_desc	ÔÚ¹¤×÷Á÷ÖĞ²åÈëÑÓÊ±£¬¿ÉĞİÃß¹Ì¶¨³¤¶È±ÜÃâÅÀ³æ±»·â½û£¬µ¥Î»Îªms	Insert delay in workflow, can sleep fixed length to avoid reptiles being banned, the unit is Ms.
-key_169	É¾³ı	delete
-key_270	³öÏÖbug»òÕßÎÊÌâÁË£¿»¶Ó­·´À¡	Is there a bug or a problem? Welcome feedback
-key_36	¹Ø±ÕÁ¬½Ó	Close connection
-key_714	¼ì²éÄ£¿é²ÎÊıÊÇ·ñĞŞ¸Ä	Check whether the module parameters are modified
-NumberTF	ÌáÈ¡Êı×Ö	Digits
-key_804	Èç¹ûÈí¼ş°ïµ½ÁËÄã£¬¿ÉÒÔÎª¿ª·¢Õß¾èÔù	If the software helps you, you can donate for the developer.
-key_748	¸ù½Úµã	root node
-key_665	Ê¹ÓÃµ±Ç°×Ó½ÚµãXPath£¬ÔÚÎÄµµÖĞÕÒ²»µ½ÈÎºÎ×Ó½Úµã	Using the current child node XPath, no child nodes can be found in the document.
-key_327	¼ÓÔØ{0}ÈÎÎñ	Load the {0} task
-HtmlTF_desc	É¾³ıHTML±êÇ©ºÍ×ªÒå·ûºÅ	Delete the HTML label and the escape symbol
-key_603	Ó¢Óï	English
-key_382	Ö»ÓĞÕıÔò±í´ïÊ½Æ¥Åä¸ÃÎÄ±¾µÄ½á¹ûÊıÁ¿´óÓÚµÈÓÚ¸ÃÖµÊ±£¬²Å»á±£Áô£¬Ä¬ÈÏÎª1	Only regular expressions match the result of the text to more than or equal to that value. The default is 1.
+key_390	ï¿½ï¿½ï¿½ï¿½Õ¸ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½Öµï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô·Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Fill in the column names separated by spaces, and lengthwise summation of all attributes with the same value in the module.
+key_8	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Total amount of data
+DbEX	Ğ´ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½	Write to the database
+XPathTF	XPathÉ¸Ñ¡ï¿½ï¿½	XPath filter
+key_295	ï¿½Â½ï¿½ï¿½ï¿½ï¿½Æ²É¼ï¿½ï¿½ï¿½	New or replicated collector
+key_381	ï¿½ï¿½Ğ¡Æ¥ï¿½ï¿½ï¿½ï¿½	Minimum matching number
+key_318	ï¿½ï¿½ï¿½Îªï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½	Save as the current project
+key_313	ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ñ£¬½ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½	There is a same name task that will cover the task
+XFrmWorkPropertyGrid_desc	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½	Property configuration options
+key_254	ï¿½ï¿½ï¿½Ä¼ï¿½Ê§ï¿½Ü£ï¿½	Failed to open the file:
+key_70	ï¿½ï¿½×°Ê¹ï¿½ï¿½Ëµï¿½ï¿½	Instructions for installation and use
+key_123	ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ğ»ï¿½UTF-8ï¿½ï¿½GBK	When the page appears garbled, you can choose to switch UTF-8 or GBK.
+key_385	ï¿½Ó³ï¿½ï¿½ï¿½ï¿½	Delay output
+CrawlerTF	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½	From the reptilian
+key_439	ï¿½ï¿½Ñ¡ï¿½ï¿½Òªï¿½ï¿½È¡ï¿½ï¿½ï¿½Ä¼ï¿½	Please select the file to read
+key_208	Î»ï¿½Ú£ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½{0}ï¿½ï¿½Ä£ï¿½ï¿½ {1} ×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ï¢{2}	Located in {0} module {1} conversion error, information {2}
+key_685	É¾ï¿½ï¿½ï¿½ï¿½ï¿½Î½Úµï¿½	Delete downstream nodes
+key_46	ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:	The number that has been imported:
+key_437	Ñ¡ï¿½ï¿½ï¿½Ä¼ï¿½	Select the file
+key_346	Ñ¡ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ş·ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¡ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½->ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Select the database service that you want to connect to, if this item can't be selected, configure [module management] - > [data source], and click right to create a new database connector
+key_353	ï¿½ï¿½Ê±Öµ	Delay value
+key_250	ï¿½ï¿½ï¿½İ¼ï¿½	data set
+key_336	ï¿½ï¿½Ç°Î»ï¿½ï¿½	current location
+RegexFT_desc	ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½	Writing regular expressions to filter text
+key_709	ï¿½Ú²ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ß³Ì³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½	The maximum number of threads carried by thread pools when working in parallel mode
+EtlEX_desc	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÖ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Call other tasks as an executor block
+key_183	XPathï¿½ï¿½ï¿½Ê½ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½ï¿½	XPath expression is written in error:
+key_231	ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½İ¼ï¿½	Add to the dataset
+key_151	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢	Warning information
+DataProcessManager_name	Ä£ï¿½ï¿½ï¿½ï¿½ï¿½	Module management
+key_31	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Connection name
+feellucky	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Good hands
+key_451	ï¿½ï¿½ï¿½Ç·ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ğµï¿½ï¿½ï¿½ï¿½Ä¼ï¿½	Whether or not to get a subfile of a subfolder
+key_690	ï¿½ï¿½Ò»ï¿½ï¿½	The last step
+key_133	ï¿½ï¿½ï¿½ï¿½ï¿½Å¥:	Click the button:
+key_90	ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½â»¯	Database virtualization
+key_2	ÏµÍ³ï¿½ï¿½ï¿½ï¿½ï¿½ì³£	Abnormality of the system
+key_751	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢	Other information
+key_501	ï¿½Äµï¿½ï¿½Ğ±ï¿½[{}]ï¿½ï¿½×ªï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¹ï¿½ï¿½Éµï¿½ï¿½Ğ±ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½{}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Öµï¿½Ô¸ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½Ğ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ó½ï¿½Öµï¿½ï¿½ï¿½ëµ½ï¿½ï¿½ï¿½ï¿½	A list of documents: [{}], converted to a list of multiple rows of data; a single document: {}, attach the result's key value pair to the line; do not convert: put the value directly into a new column.
+key_275	ï¿½ï¿½ï¿½ï¿½	Help
+key_4	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½	Debug information window
+key_245	ï¿½ï¿½ï¿½ëµ½ï¿½ï¿½ï¿½İ¿ï¿½	Insert into the database
+key_542	ï¿½ï¿½Ô­ï¿½Ä±ï¿½Ã¿ï¿½ï¿½ï¿½Ö·ï¿½Ö±ï¿½Ó·Ö¸î¿ª	Divide each character in the original text directly
+key_517	Æ¥ï¿½ï¿½ï¿½ï¿½	Matching number
+key_221	ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Web crawler connector
+key_16	ï¿½ï¿½ï¿½ï¿½	describe
+key_783	ï¿½ï¿½ï¿½ï¿½	End
+key_736	ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½	New task
+key_130	ï¿½ï¿½Ê±ï¿½ï¿½	Timeout number
+key_552	ï¿½ï¿½ï¿½ØµÄ½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½×´ï¿½ï¿½ï¿½Î²ï¿½ï¿½	Whether the first string and the tail string are included in the return result
+key_706	ï¿½ï¿½ï¿½ï¿½	task
+key_283	È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã·¨Ä£ï¿½ï¿½Ã´ï¿½ï¿½	Do you decide to save all the algorithm modules?
+key_485	×ªï¿½ï¿½Ñ¡ï¿½ï¿½	Conversion options
+key_691	ï¿½ï¿½Ò»ï¿½ï¿½	Next step
+key_11	ï¿½ï¿½ï¿½İ¼ï¿½ï¿½ï¿½ï¿½ï¿½	Dataset name
+key_299	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½{0} ï¿½Ñ¾ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½{1} Ò²ï¿½Ñ¾ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½È¡ï¿½ï¿½	Because the task {0} has been deleted, the related task {1} has been forcibly cancelled.
+key_705	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Parallel task
+key_218	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½Ä²ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½Ú´Ë´ï¿½ï¿½ï¿½ï¿½ï¿½JSï¿½ï¿½MongoDBï¿½ï¿½ï¿½Í±ï¿½×¼SQL	Depending on the database, you can enter JS (MongoDB) and standard SQL here.
+key_526	ï¿½æ»»Îª	Replace
+key_604	ï¿½ï¿½ï¿½ï¿½	Japanese
+DelayTF_desc	ï¿½Ú¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ²ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¹Ì¶ï¿½ï¿½ï¿½ï¿½È±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ±»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»Îªms	Insert delay in workflow, can sleep fixed length to avoid reptiles being banned, the unit is Ms.
+key_169	É¾ï¿½ï¿½	delete
+key_270	ï¿½ï¿½ï¿½ï¿½bugï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½Ó­ï¿½ï¿½ï¿½ï¿½	Is there a bug or a problem? Welcome feedback
+key_36	ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½	Close connection
+key_714	ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ş¸ï¿½	Check whether the module parameters are modified
+NumberTF	ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½	Digits
+key_804	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ïµ½ï¿½ï¿½ï¿½ã£¬ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ß¾ï¿½ï¿½ï¿½	If the software helps you, you can donate for the developer.
+key_748	ï¿½ï¿½ï¿½Úµï¿½	root node
+key_665	Ê¹ï¿½Ãµï¿½Ç°ï¿½Ó½Úµï¿½XPathï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½Ó½Úµï¿½	Using the current child node XPath, no child nodes can be found in the document.
+key_327	ï¿½ï¿½ï¿½ï¿½{0}ï¿½ï¿½ï¿½ï¿½	Load the {0} task
+HtmlTF_desc	É¾ï¿½ï¿½HTMLï¿½ï¿½Ç©ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½	Delete the HTML label and the escape symbol
+key_603	Ó¢ï¿½ï¿½	English
+key_382	Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½Æ¥ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½Ä½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½Ú¸ï¿½ÖµÊ±ï¿½ï¿½ï¿½Å»á±£ï¿½ï¿½Ä¬ï¿½ï¿½Îª1	Only regular expressions match the result of the text to more than or equal to that value. The default is 1.
 key_643	Í£Ö¹	Stop it
-key_21	²ÎÊıÉèÖÃ	Parameter setting
-key_593	Èç¹«Ô°£¬³µÕ¾µÈ	Like a park, a station, etc
-SmartCrawler_desc	´Óµ¥¸öÍøÒ³ÖĞÅäÖÃºÍĞáÌ½ËùĞèÊı¾İ	Configuring and sniffing the required data from a single web page
-key_519	Èô±àºÅÎªĞ¡ÓÚ0ÇÒÆ¥Åä³ö¶à¸öĞÂÁĞ£¬¶à¸öÁĞÃû¿ÉÓÃ¿Õ¸ñ·Ö¸î£¬Èô¸ÃÁĞ²»ĞèÒªÌí¼Ó£¬¿ÉÓÃ_±íÊ¾£¬Èç'_ Æ¥Åä1 _'	If the number is less than 0 and matches a number of new columns, multiple column names can be separated by spaces. If the column does not need to be added, it can be represented by "","" such as ""matching 1"".
-key_605	Î÷°àÑÀÓï	Spanish
-key_176	´úÀíÁĞ±í	Proxy list
-SQLiteDatabase_desc	Ìá¹©SQLite½»»¥µÄÊı¾İ¿â·şÎñ	A database service that provides SQLite interaction
-key_149	ÒÑ³É¹¦³õÊ¼»¯	Successfully initialized
-key_634	2.ÇëÇó²ÎÊı	2. request parameters
-key_18	Ãû³Æ	Name
-FileManager	ÎÄ¼ş¹ÜÀí	file management
-key_516	µ±ÒªÊä³ö¶à¸ö½á¹ûÊ±Ñ¡List£¬·ñÔòÑ¡One»òNone£¬²Î¿¼¡°ÍøÒ³²É¼¯Æ÷¡±	When you want to export multiple results, select List, otherwise choose One or None, refer to webpage collector.
-key_262	¹ØÓÚ	about
-key_805	°æ±¾£º 3.0	Version: 3
-key_529	ÏìÓ¦Í·	Response head
-ReadFileTextGE	¶ÁÈ¡ÎÄ¼şÎÄ±¾	Read the file text
+key_21	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Parameter setting
+key_593	ï¿½ç¹«Ô°ï¿½ï¿½ï¿½ï¿½Õ¾ï¿½ï¿½	Like a park, a station, etc
+SmartCrawler_desc	ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½Ãºï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Configuring and sniffing the required data from a single web page
+key_519	ï¿½ï¿½ï¿½ï¿½ÎªĞ¡ï¿½ï¿½0ï¿½ï¿½Æ¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿Õ¸ï¿½Ö¸î£¬ï¿½ï¿½ï¿½ï¿½Ğ²ï¿½ï¿½ï¿½Òªï¿½ï¿½Ó£ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½'_ Æ¥ï¿½ï¿½1 _'	If the number is less than 0 and matches a number of new columns, multiple column names can be separated by spaces. If the column does not need to be added, it can be represented by "","" such as ""matching 1"".
+key_605	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Spanish
+key_176	ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½	Proxy list
+SQLiteDatabase_desc	ï¿½á¹©SQLiteï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½	A database service that provides SQLite interaction
+key_149	ï¿½Ñ³É¹ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½	Successfully initialized
+key_634	2.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	2. request parameters
+key_18	ï¿½ï¿½ï¿½ï¿½	Name
+FileManager	ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½	file management
+key_516	ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±Ñ¡Listï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡Oneï¿½ï¿½Noneï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½É¼ï¿½ï¿½ï¿½ï¿½ï¿½	When you want to export multiple results, select List, otherwise choose One or None, refer to webpage collector.
+key_262	ï¿½ï¿½ï¿½ï¿½	about
+key_805	ï¿½æ±¾ï¿½ï¿½ 3.0	Version: 3
+key_529	ï¿½ï¿½Ó¦Í·	Response head
+ReadFileTextGE	ï¿½ï¿½È¡ï¿½Ä¼ï¿½ï¿½Ä±ï¿½	Read the file text
 key_734	ItemsSource=	itemssource.
-key_646	¸ÃÄ£Ê½ÄÜ¹»Ç¿Á¦½âÎöÍøÒ³ÄÚÈİ£¬µ«ÊÇÏûºÄ×ÊÔ´£¬ÇÒ»áĞŞ¸ÄÔ­Ê¼HtmlÄÚÈİ	This mode can strongly analyze web content, but consumes resources, and will modify the original Html content.
-key_53	ÁĞ·Ö¸î·û	Column Division
-key_466	ÅÅĞò·½Ê½	sort order
-key_241	×ª»»±íÀàĞÍ	Conversion table type
+key_646	ï¿½ï¿½Ä£Ê½ï¿½Ü¹ï¿½Ç¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½İ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ş¸ï¿½Ô­Ê¼Htmlï¿½ï¿½ï¿½ï¿½	This mode can strongly analyze web content, but consumes resources, and will modify the original Html content.
+key_53	ï¿½Ğ·Ö¸ï¿½ï¿½	Column Division
+key_466	ï¿½ï¿½ï¿½ï¿½Ê½	sort order
+key_241	×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Conversion table type
 key_728	HorizontalAlignment=	horizontalalignment =
-BaiduLocation_desc	Í¨¹ı°Ù¶ÈAPI»ñÈ¡µ±Ç°µØ±êµÄ¾­Î³¶È×ø±ê£¬ĞèÒªÍÏÈë´ú±íµØÃûµÄÁĞ	To get the latitude and longitude coordinates of the current landmarks by Baidu API, we need to drag them into the columns representing the geographical names.
-key_290	ÈÎÎñÁĞ±íÃüÁî	Task list command
-key_296	±£´æÈÎÎñ	Save task
-key_205	ÎÄµµÁĞ±í	Document list
-key_415	ÊôĞÔÓ³Éä	Attribute mapping
-RepeatFT_desc	ÒÔÍÏÈëµÄÁĞÎªÎ¨Ò»Ö÷¼ü£¬×Ô¶¯È¥ÖØ£¬½ö±£ÁôÖØ¸´³öÏÖµÄµÚÒ»Ïî	The column that is dragged is the unique primary key, which automatically restores the weight and keeps only the first item repeated.
-key_511	Ö´ĞĞ½Å±¾	Execution script
-key_272	ÄãµÄÖ§³ÖÊÇ×÷Õß¸üĞÂHawkµÄ¶¯Á¦	Your support is the author's motivation to update Hawk
-key_25	ÓÃ»§Ãû	User name
-key_475	ÁĞÃû²»ÄÜÒÔÊı×Ö¿ªÍ·£¬·ñÔò½«µ¼ÖÂÎŞ·¨ÕıÈ·ÏÔÊ¾¸ÃÁĞ	Column names cannot start with numbers, otherwise they will fail to display the column correctly.
-BaiduLocation	ËÑË÷Î»ÖÃ	Search location
-key_1	HawkÓÉÓÚÄÚ²¿Òì³£¶ø±ÀÀ£	Hawk collapse due to internal anomalies
-HtmlTF	HTML×Ö·û×ªÒå	HTML character escape
-key_189	µ±Òª»ñÈ¡·ûºÏXPathÓï·¨µÄ¶à¸ö½á¹ûÊ±Ñ¡List£¬Ö»»ñÈ¡Ò»ÌõÑ¡One£¬ÆäĞĞÎª¿É²Î¿¼¡°ÍøÒ³²É¼¯Æ÷¡±	When you want to get multiple results that conform to the XPath syntax, select List and get only one selected One, which can be referred to as webpage collector.
-PythonTF_desc	Ö´ĞĞÌØ¶¨µÄpython´úÂë»ò½Å±¾£¬×îºóÒ»ĞĞĞèÒªÎªÖµÀàĞÍ£¬×÷Îª¸ÃÁĞµÄ·µ»ØÖµ	To execute a specific Python code or script, the last line needs to be a value type, which is the return value of the column.
+BaiduLocation_desc	Í¨ï¿½ï¿½ï¿½Ù¶ï¿½APIï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½Ø±ï¿½Ä¾ï¿½Î³ï¿½ï¿½ï¿½ï¿½ï¿½ê£¬ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	To get the latitude and longitude coordinates of the current landmarks by Baidu API, we need to drag them into the columns representing the geographical names.
+key_290	ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½ï¿½ï¿½ï¿½ï¿½	Task list command
+key_296	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Save task
+key_205	ï¿½Äµï¿½ï¿½Ğ±ï¿½	Document list
+key_415	ï¿½ï¿½ï¿½ï¿½Ó³ï¿½ï¿½	Attribute mapping
+RepeatFT_desc	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÎ¨Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½È¥ï¿½Ø£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ÖµÄµï¿½Ò»ï¿½ï¿½	The column that is dragged is the unique primary key, which automatically restores the weight and keeps only the first item repeated.
+key_511	Ö´ï¿½Ğ½Å±ï¿½	Execution script
+key_272	ï¿½ï¿½ï¿½Ö§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¸ï¿½ï¿½ï¿½Hawkï¿½Ä¶ï¿½ï¿½ï¿½	Your support is the author's motivation to update Hawk
+key_25	ï¿½Ã»ï¿½ï¿½ï¿½	User name
+key_475	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¿ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ò½«µï¿½ï¿½ï¿½ï¿½Ş·ï¿½ï¿½ï¿½È·ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½	Column names cannot start with numbers, otherwise they will fail to display the column correctly.
+BaiduLocation	ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½	Search location
+key_1	Hawkï¿½ï¿½ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ì³£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Hawk collapse due to internal anomalies
+HtmlTF	HTMLï¿½Ö·ï¿½×ªï¿½ï¿½	HTML character escape
+key_189	ï¿½ï¿½Òªï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½XPathï¿½ï·¨ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ï¿½Ê±Ñ¡Listï¿½ï¿½Ö»ï¿½ï¿½È¡Ò»ï¿½ï¿½Ñ¡Oneï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½É²Î¿ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½É¼ï¿½ï¿½ï¿½ï¿½ï¿½	When you want to get multiple results that conform to the XPath syntax, select List and get only one selected One, which can be referred to as webpage collector.
+PythonTF_desc	Ö´ï¿½ï¿½ï¿½Ø¶ï¿½ï¿½ï¿½pythonï¿½ï¿½ï¿½ï¿½ï¿½Å±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ÒªÎªÖµï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ĞµÄ·ï¿½ï¿½ï¿½Öµ	To execute a specific Python code or script, the last line needs to be a value type, which is the return value of the column.
 key_732	Margin=	Edge =
-key_325	½Å±¾ÒÑ¾­³É¹¦Ö´ĞĞ	The script has been successfully executed
-key_94	Ôø´ò¿ªµÄÎÄ¼ş	A document that had been opened
-key_757	Ñ¡ÖĞ	Select
-key_73	²åÈëÊı¾İÊ§°Ü	Insert data failure
-SplitPageTF_desc	¸ù¾İ×ÜÒ³ÊıºÍÃ¿Ò³ÊıÁ¿½øĞĞ·ÖÒ³²Ù×÷£¬ÍÏÈëÁĞÎª×ÜÒ³Êı£¬Ïà±ÈÓÚÊ¹ÓÃPython×ª»»Æ÷£¬¿É¼«´óµØ¼ò»¯²Ù×÷	Paging operation is based on the total number of pages and the number of pages per page, and the total number of pages is dragged into columns. Compared with the use of Python converters, the operation can be greatly simplified.
-key_689	µ¯³öÑùÀı	Ejection sample
-key_188	¹¤×÷Ä£Ê½	Working mode
-key_339	ÈÎÎñÒÑ¾­Ç¿ĞĞ±»ÖÕÖ¹	The task has been forced to be terminated
-key_615	ÎÄÑÔÎÄ	Classical Chinese
-key_578	ËùÊôµØÊĞ	Local city
-key_251	Êı¾İÔ´ÒÑ¾­´æÔÚ£¬²»½øĞĞ¸²¸Ç£¬Ã»ÓĞ±£´æ	The data source already exists, does not cover, and does not save.
-key_708	È·ÊµÒªÉ¾³ı{0}Âğ?	Do you really want to delete {0}?
-DictTF	¾ØÕó×ªÖÃ	Matrix transposed
-key_419	×ÓÈÎÎñ·¶Î§±í´ïÊ½´íÎó£¬Çë¼ì²é:	Subtask range expression error, please check:
-key_213	Ö´ĞĞ²éÑ¯	Execute the query
-key_6	Ä¬ÈÏÀ´Ô´	Default source
-key_636	ÉèÖÃCookieºÍÆäËû·ÃÎÊÑ¡Ïî	Setting up Cookie and other access options
-FileManager_desc	Ìá¹©ÓëÀúÊ·ÎÄ¼ş½»»¥µÄÊı¾İ¿â·şÎñ	Providing database services that interact with historical files
-key_794	ÒÑ¼ÓÔØÈÎÎñ	Loaded task
-key_701	µ±Ç°Î»ÓÚ¹¤×÷Á÷ÖĞµÄµÄËùÓĞ¹¤×÷Ä£¿é	All work modules currently in the workflow
-key_724	·ÃÎÊ	Visit
-TransTF_desc	´Óµ±Ç°ÓïÑÔ·­ÒëÎªÄ¿±êÓïÑÔ	Translation from the current language to the target language
-XPathTF_desc	Í¨¹ıXPathÑ¡È¡htmlÖĞµÄ×Ó½ÚµãÎÄµµ£¬ Ò²¿ÉÍ¨¹ıCssSelectorÑ¡È¡htmlÖĞµÄ×Ó½ÚµãÎÄµµ£¬Ïà±ÈXPath¸ü¼òµ¥	Through XPath to select the child node document in HTML, you can also select the child node document in HTML through CssSelector, which is simpler than XPath.
-key_32	×Ô¶¯Á¬½Ó	Automatic connection
-key_13	¸ÃÊı¾İµÄÀàĞÍ	The type of the data
-key_410	Í¼ĞÎ»¯ÅäÖÃ	Graphical configuration
-key_632	Çå¿ÕÊôĞÔ	Emptying property
-XFrmWorkPropertyGrid	ÊôĞÔÅäÖÃÆ÷	Attribute Configurator
-key_789	×ÓÈÎÎñÊôĞÔ	Subtask attributes
-key_472	ÆğÊ¼Ë÷Òı	Start index
-key_329	±£´æÂ·¾¶	Save path
-key_300	´ò¿ª»¶Ó­Ò³Ãæ	Open the welcome page
-key_380	±í´ïÊ½	Expression
-key_608	ÔÁÓï	Cantonese
-key_607	¶íÂŞË¹Óï	Russian
-key_493	×Ö·û´®Æ¥Åä£¬Èçlike£¬containsµÈ£¬·ûºÏsql±ê×¼Óï·¨	String matching, such as like, contains, etc., is in line with SQL standard syntax.
-key_398	°´ÀàËÆyyyy-MM-dd HH:mm:ss:ffff¸ñÊ½½øĞĞÌîĞ´	Fill in the form of yyyy-MM-dd HH:mm:ss:ffff format.
-key_222	Êı¾İµ¼Èë	Data import
-key_561	Ã¿¸ö×ÓÏß³Ì½«Òª»ñÈ¡µÄÊıÁ¿£¬ÓÃÓÚÏÔÊ¾½ø¶ÈÌõ£¬¿É²»Ìî	The number of threads that each child will acquire is used to display progress bars, but not to fill in.
-key_586	Ä¿±êÎ»ÖÃ	Target location
-key_40	²»Ö§³Ö´Ë¹¦ÄÜ	This function is not supported
-key_209	Î»ÓÚ{0}ÁĞµÄ{1}Ä£¿éÔÚ³õÊ¼»¯Ê±³öÏÖÒì³££º{2}£¬Çë¼ì²éÈÎÎñ²ÎÊı	The {1} module in the {0} column has an exception at initialization: {2}, please check the task parameters.
-EtlGE_desc	µ÷ÓÃÆäËûÈÎÎñ×÷ÎªÉú³ÉÆ÷£¬Ê¹ÓÃÀàËÆÓÚ¡°Éú³ÉÇø¼äÊı¡±	Calling other tasks as generators is similar to generating interval numbers.
-key_343	²Ù×÷ÀàĞÍ	Operation type
-TransTF	ÓïÑÔ·­Òë×ª»»	Translation of language
-key_172	È·ÈÏ½á¹û	Confirmation result
-key_699	2.ÇåÏ´Á÷³Ì	2. cleaning process
-key_801	Èç¹ûÄãÓĞÈÎºÎÎÊÌâºÍ·´À¡£¬»¶Ó­ÁªÏµÎÒ£º	If you have any questions and feedback, please contact me:
-key_618	Ï£À°Óï	Greek language
-key_630	¸´ÖÆµ½¼ôÇĞ°å	Copy to the shear plate
-key_759	Çë¼üÈëURL:	Please type URL:
-key_119	¶Ë¿Ú	port
-key_713	ÒÑ¾­È¡Ïû	Have been cancelled
-key_349	´´½¨Ãû×ÖÎª{0}µÄ±íÊ§°Ü	Create a table failure named {0}
-key_642	¿ªÊ¼	start
-key_237	Áí´æÎª	Save as
+key_325	ï¿½Å±ï¿½ï¿½Ñ¾ï¿½ï¿½É¹ï¿½Ö´ï¿½ï¿½	The script has been successfully executed
+key_94	ï¿½ï¿½ï¿½ò¿ªµï¿½ï¿½Ä¼ï¿½	A document that had been opened
+key_757	Ñ¡ï¿½ï¿½	Select
+key_73	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½	Insert data failure
+SplitPageTF_desc	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½Ã¿Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ·ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½Python×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¼ï¿½ï¿½ï¿½Ø¼ò»¯²ï¿½ï¿½ï¿½	Paging operation is based on the total number of pages and the number of pages per page, and the total number of pages is dragged into columns. Compared with the use of Python converters, the operation can be greatly simplified.
+key_689	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Ejection sample
+key_188	ï¿½ï¿½ï¿½ï¿½Ä£Ê½	Working mode
+key_339	ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½Ç¿ï¿½Ğ±ï¿½ï¿½ï¿½Ö¹	The task has been forced to be terminated
+key_615	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Classical Chinese
+key_578	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Local city
+key_251	ï¿½ï¿½ï¿½ï¿½Ô´ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½Ú£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¸ï¿½ï¿½Ç£ï¿½Ã»ï¿½Ğ±ï¿½ï¿½ï¿½	The data source already exists, does not cover, and does not save.
+key_708	È·ÊµÒªÉ¾ï¿½ï¿½{0}ï¿½ï¿½?	Do you really want to delete {0}?
+DictTF	ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½	Matrix transposed
+key_419	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î§ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:	Subtask range expression error, please check:
+key_213	Ö´ï¿½Ğ²ï¿½Ñ¯	Execute the query
+key_6	Ä¬ï¿½ï¿½ï¿½ï¿½Ô´	Default source
+key_636	ï¿½ï¿½ï¿½ï¿½Cookieï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½	Setting up Cookie and other access options
+FileManager_desc	ï¿½á¹©ï¿½ï¿½ï¿½ï¿½Ê·ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½	Providing database services that interact with historical files
+key_794	ï¿½Ñ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Loaded task
+key_701	ï¿½ï¿½Ç°Î»ï¿½Ú¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ĞµÄµï¿½ï¿½ï¿½ï¿½Ğ¹ï¿½ï¿½ï¿½Ä£ï¿½ï¿½	All work modules currently in the workflow
+key_724	ï¿½ï¿½ï¿½ï¿½	Visit
+TransTF_desc	ï¿½Óµï¿½Ç°ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½ÎªÄ¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Translation from the current language to the target language
+XPathTF_desc	Í¨ï¿½ï¿½XPathÑ¡È¡htmlï¿½Ğµï¿½ï¿½Ó½Úµï¿½ï¿½Äµï¿½ï¿½ï¿½ Ò²ï¿½ï¿½Í¨ï¿½ï¿½CssSelectorÑ¡È¡htmlï¿½Ğµï¿½ï¿½Ó½Úµï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½XPathï¿½ï¿½ï¿½ï¿½	Through XPath to select the child node document in HTML, you can also select the child node document in HTML through CssSelector, which is simpler than XPath.
+key_32	ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½	Automatic connection
+key_13	ï¿½ï¿½ï¿½ï¿½ï¿½İµï¿½ï¿½ï¿½ï¿½ï¿½	The type of the data
+key_410	Í¼ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½	Graphical configuration
+key_632	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Emptying property
+XFrmWorkPropertyGrid	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Attribute Configurator
+key_789	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Subtask attributes
+key_472	ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½	Start index
+key_329	ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½	Save path
+key_300	ï¿½ò¿ª»ï¿½Ó­Ò³ï¿½ï¿½	Open the welcome page
+key_380	ï¿½ï¿½ï¿½Ê½	Expression
+key_608	ï¿½ï¿½ï¿½ï¿½	Cantonese
+key_607	ï¿½ï¿½ï¿½ï¿½Ë¹ï¿½ï¿½	Russian
+key_493	ï¿½Ö·ï¿½ï¿½ï¿½Æ¥ï¿½ä£¬ï¿½ï¿½likeï¿½ï¿½containsï¿½È£ï¿½ï¿½ï¿½ï¿½ï¿½sqlï¿½ï¿½×¼ï¿½ï·¨	String matching, such as like, contains, etc., is in line with SQL standard syntax.
+key_398	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½yyyy-MM-dd HH:mm:ss:ffffï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ´	Fill in the form of yyyy-MM-dd HH:mm:ss:ffff format.
+key_222	ï¿½ï¿½ï¿½İµï¿½ï¿½ï¿½	Data import
+key_561	Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì½ï¿½Òªï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É²ï¿½ï¿½ï¿½	The number of threads that each child will acquire is used to display progress bars, but not to fill in.
+key_586	Ä¿ï¿½ï¿½Î»ï¿½ï¿½	Target location
+key_40	ï¿½ï¿½Ö§ï¿½Ö´Ë¹ï¿½ï¿½ï¿½	This function is not supported
+key_209	Î»ï¿½ï¿½{0}ï¿½Ğµï¿½{1}Ä£ï¿½ï¿½ï¿½Ú³ï¿½Ê¼ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½{2}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	The {1} module in the {0} column has an exception at initialization: {2}, please check the task parameters.
+EtlGE_desc	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Calling other tasks as generators is similar to generating interval numbers.
+key_343	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Operation type
+TransTF	ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½×ªï¿½ï¿½	Translation of language
+key_172	È·ï¿½Ï½ï¿½ï¿½	Confirmation result
+key_699	2.ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ï¿½	2. cleaning process
+key_801	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó­ï¿½ï¿½Ïµï¿½Ò£ï¿½	If you have any questions and feedback, please contact me:
+key_618	Ï£ï¿½ï¿½ï¿½ï¿½	Greek language
+key_630	ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ğ°ï¿½	Copy to the shear plate
+key_759	ï¿½ï¿½ï¿½ï¿½ï¿½URL:	Please type URL:
+key_119	ï¿½Ë¿ï¿½	port
+key_713	ï¿½Ñ¾ï¿½È¡ï¿½ï¿½	Have been cancelled
+key_349	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª{0}ï¿½Ä±ï¿½Ê§ï¿½ï¿½	Create a table failure named {0}
+key_642	ï¿½ï¿½Ê¼	start
+key_237	ï¿½ï¿½ï¿½Îª	Save as
 key_792	ItemsSource=	itemssource.
-key_715	Î»ÖÃ	position
+key_715	Î»ï¿½ï¿½	position
 key_731	ToolTip=	tooltip =
-key_60	±àÂë·½Ê½	Encoding method
-key_246	Êı¾İ¿â¹ÜÀí	Database management
-key_741	Êı¾İ´¦Àí¸ïÃü	Data processing revolution
-key_775	¿ìËÙ¼ìË÷:	Fast retrieval:
-key_570	²ÎÊıÉèÖÃ¿ÉÄÜÓĞÎó	Parameter settings may be mistaken
-key_255	È·¶¨É¾³ıÄÚ´æÊı¾İÃ´£¿	Do you make sure that the memory data is deleted?
-key_645	³¬¼¶Ä£Ê½	Supermodel
-key_147	¿ªÊ¼¶Ô²å¼ş×ÖµäÖĞµÄ²å¼ş½øĞĞ³õÊ¼»¯	Initialization of the plug-in in the plug-in dictionary
+key_60	ï¿½ï¿½ï¿½ë·½Ê½	Encoding method
+key_246	ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½	Database management
+key_741	ï¿½ï¿½ï¿½İ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Data processing revolution
+key_775	ï¿½ï¿½ï¿½Ù¼ï¿½ï¿½ï¿½:	Fast retrieval:
+key_570	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Parameter settings may be mistaken
+key_255	È·ï¿½ï¿½É¾ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½ï¿½Ã´ï¿½ï¿½	Do you make sure that the memory data is deleted?
+key_645	ï¿½ï¿½ï¿½ï¿½Ä£Ê½	Supermodel
+key_147	ï¿½ï¿½Ê¼ï¿½Ô²ï¿½ï¿½ï¿½Öµï¿½ï¿½ĞµÄ²ï¿½ï¿½ï¿½ï¿½ï¿½Ğ³ï¿½Ê¼ï¿½ï¿½	Initialization of the plug-in in the plug-in dictionary
 key_116	Header	Header
-key_39	ÎÄ¼ş±àÂë	File encoding
-key_17	ĞéÄâÖµ	Virtual value
-key_298	ÒÆ³ı	remove
-RandomGE_desc	Éú³ÉÄ³·¶Î§ÄÚºÍÖ¸¶¨ÊıÁ¿µÄËæ»úÊı	Generating a certain range and a specified number of random numbers
-key_110	³£ÓÃ	Commonly used
-FileConnectorJson_desc	Êä³öÎÄ±¾ĞÍJSONÎÄ¼ş	Output text type JSON file
-key_14	È¨ÖØ	weight
-key_38	ºó×ºÃû	Suffix name
-key_198	»ñÈ¡µÄ½ÚµãÊıÁ¿Îª0	The number of nodes obtained is 0
-key_115	1.ÇëÇóÉèÖÃ	1. request settings
-ResponseTF	»ñÈ¡ÇëÇóÏìÓ¦	Obtaining request response
-key_214	²éÑ¯³öÏÖÒì³£	Query exception
-key_449	·ûºÏwindowsµÄÎÄ¼şÍ¨Åä·ûÉ¸Ñ¡¹æ·¶	Windows - based file wildcard screening specification
-key_755	×óÓÒÇĞ»»Ñ¡ÔñËùĞèµÄÊı¾İ£¬×ó·½¿ÉĞŞ¸ÄÁĞÃû£¬	Left and right toggle to select the required data, and the left side can modify column names.
-key_263	¹ØÓÚ×÷Õß	About the author
-key_737	Ë«»÷Í¼±êÒÔĞÂ½¨ÈÎÎñ	Double click the icon to create a new task
-FreeDocument_desc	¿É´æ´¢¼üÖµ¶ÔĞÎÊ½µÄ×ÔÓÉÎÄµµ	Free documents that can store the form of a key value pair
-SplitTF	×Ö·û´®·Ö¸î	String segmentation
-key_330	°æ±¾	Edition
-RangeFT_desc	´ÓÊıÖµÁĞÖĞÉ¸Ñ¡³ö´Ó×îĞ¡Öµµ½×î´óÖµ·¶Î§µÄÎÄµµ	From the numeric column, the document from the minimum to the maximum value is selected.
-key_357	±£´æÎ»ÖÃ	Save position
-key_743	»¶Ó­Ê¹ÓÃHawk3	Welcome to use Hawk3
-key_774	µ÷ÊÔÏêÇé	Debug details
-key_492	Æ¥Åä·½Ê½	Matching method
-key_666	µ±Ç°XPathËùÔÚ½Úµã²»ÊÇ¸¸½ÚµãµÄºó´ú£¬Çë¼ì²é¶ÔÓ¦µÄXPath£¬ÊÇ·ñÒÀÈ»ÒªÌí¼Ó?	The current XPath node is not the descendant of the parent node. Please check the corresponding XPath. Do you still want to add it?
-key_45	ÇëÌîĞ´ExcelµÄ±íÍ·ĞÅÏ¢	Please fill out the Excel header information
-key_457	³ıÁËÌîĞ´Êı×Ö£¬»¹¿ÉÒÔÓÃ·½À¨ºÅ±í´ïÊ½£¬Èç[a]±íÊ¾´ÓaÁĞ»ñÈ¡Öµ×÷Îª±¾²ÎÊıµÄÕæÊµÖµ	In addition to filling in numbers, you can also use square brackets, such as [a], to get values from a columns as the true values of this parameter.
-key_609	µÂÓï	German
-key_498	join³É¹¦ºóµ¹ÈëÄÄĞ©ÁĞ	Which columns are inverted after join's success
-key_309	ÏîÄ¿Áí´æÎª	Items are deposited as
-key_648	ÌîĞ´ÓµÓĞÕıÈ·cookieµÄ²É¼¯Æ÷Ãû³Æ£¬Îª¿ÕÊ±²»Æğ×÷ÓÃ£¬¸Ã¹¦ÄÜ»¹»á»ñÈ¡´úÀíIPµÈÊôĞÔ£¬±ÜÃâÖØ¸´ÉèÖÃÍøÒ³²É¼¯Æ÷	Fill in the name of the collector with the correct cookie. It doesn't work for empty time. This function also gets the properties of agent IP and so on, avoiding duplication of web page collector.
-key_388	ÌîÈë¿Õ¸ñ·Ö¸îµÄÁĞÃû£¬¶Ô±¾Ä£¿éËùÔÚÁĞµÄÖµÏàÍ¬µÄËùÓĞÊôĞÔ·Ö±ğ½øĞĞ×İÏòºÏ²¢Êı×é	Fill in the column names separated by spaces, and vertically merge arrays for all attributes with the same value in the module.
-key_541	°´×Ö·ûÖ±½Ó·Ö¸î	Direct segmentation by character
-key_312	½«ĞÂ½¨ÈÎÎñ	New tasks will be set up
-key_407	2.²Ù×÷±íÃû	2. operation table name
-GetRoute	»ñÈ¡Â·¾¶ĞÅÏ¢	Access to path information
-key_387	ºÏ²¢µ½¼¯ºÏµÄÊôĞÔ	Attributes merged into a collection
-property	ÊôĞÔ	attribute
-key_681	¿½±´Ä£¿é	Copy module
-key_265	ÏîÄ¿Ö÷Ò³	Project Home
-xpath2_desc	ÒªÍÏÈëHTMLÎÄ±¾ÁĞ£¬¿É½«Ò³ÃæÖĞµÄÃÅÀà£¬ÓÃCrossÄ£Ê½×éºÏÆğÀ´£¬ÊÊºÏÓÚÅÀ³æÎŞ·¨×¥È¡È«²¿Ò³Ãæ£¬µ«¿ÉÒÔ°´·ÖÀà×¥È¡µÄÇé¿ö¡£Ğèµ÷ÓÃÍøÒ³²É¼¯Æ÷£¬¾ßÌå²Î¿¼ÎÄµµ-XPathTF2	To drag into the HTML text column, you can combine the classes in the page with the Cross mode, which is suitable for the crawler to capture all the pages, but can be captured by classification. Need to call webpage collector, specific reference document -XPathTF2
-key_303	¼ÓÔØÄ¬ÈÏ¹¤³Ì	Load the default project
-key_417	×ÓÈÎÎñÃæ°å	Subtask panel
-key_660	Ã»ÓĞ¼ì²éµ½ÈÎºÎ¿ÉÑ¡µÄÁĞ±íÒ³Ãæ	No optional list page was checked
-key_19	¿É¿Õ	Vacant
-key_348	Êı¾İ¿âÁ¬½ÓÆ÷²»ÄÜÎª¿Õ	Database connector can not be empty
-key_414	Éè¶¨µ÷ÓÃ×ÓÈÎÎñµÄÄ£¿é·¶Î§£¬ÀıÈç2:30±íÊ¾±»µ÷ÓÃÈÎÎñµÄµÚ2¸öµ½µÚ30¸ö×ÓÄ£¿é½«»áÆôÓÃ£¬ÆäËûÄ£¿éºöÂÔ£¬2:-1±íÊ¾´ÓµÚ2¸öµ½µ¹ÊıµÚ¶ş¸öÆôÓÃ£¬·ûºÏpythonµÄsliceÓï·¨£¬Îª¿ÕÔòÄ¬ÈÏÈ«²¿µ÷ÓÃ	Set the module scope of the call subtask, for example at 2:30 that second or thirtieth sub modules that are called will be enabled, the other modules are ignored, the 2:-1 representation is from second to the countdown second, consistent with the python slice syntax, and the default is all invoked for the empty.
-key_606	Ì©Óï	Thai
-key_111	ÅúÁ¿²åÈë´íÎó	Batch insertion error
-key_675	½âÎöhtmlÎÄµµ	Parsing HTML documents
-key_315	ÈÎÎñ {0} ÒÑ¾­³É¹¦±£´æ	Task {0} has been successfully saved
-key_100	¸Ã²Ù×÷	The operation
-key_230	¿É±à¼­ÁĞ±í	Editable list
-key_333	ÈÎÎñÁĞ±í	task list
-key_624	ÌáÈ¡²âÊÔ	Extraction test
-DeleteTF	É¾³ı¸ÃÁĞ	Delete the column
-key_12	ÀàĞÍ	type
-key_673	£¬Í¨³£Ô­ÒòÊÇÍøÕ¾¶ÔÇëÇóºÏ·¨ĞÔ×öÁË¼ì²é£¬ ½¨ÒéÌîĞ´¹Ø¼ü×Ö¶ÔÍøÒ³ÄÚÈİ½øĞĞ×Ô¶¯ĞáÌ½	The reason is that the website has checked the validity of the request. It is recommended to fill in the keyword to automatically sniff the web page content.
-key_215	µ±Ç°±í	Current table
-key_512	Python¿âÂ·¾¶	Python library path
-AddNewTF	Ìí¼ÓĞÂÁĞ	Add a new column
-CrawlerTF_desc	Ê¹ÓÃÍøÒ³²É¼¯Æ÷»ñÈ¡ÍøÒ³Êı¾İ£¬ÍÏÈëµÄÁĞĞèÒªÎª³¬Á´£¬³£ÓÃ	Using web collectors to get web page data, dragged columns need to be hyperlinks, commonly used.
-key_185	ÌáÈ¡Ä£Ê½ÎªListÇÒÑ¡ÔñÆ÷ÎªCssSelecorÊ±£¬±ØĞëÉè¶¨¸ù½ÚµãÂ·¾¶	When the extraction mode is List and the selector is CssSelecor, the root node path must be set.
-key_117	2.´úÀíÉèÖÃ	2. proxy settings
-key_678	1.Ö´ĞĞ	1. implementation
-key_696	µ÷ÊÔ·ÖÎöÃæ°å	Debug analysis panel
-NearbySearch_desc	»ñÈ¡µ±Ç°¾­Î³¶ÈÄ³Ò»°ë¾¶·¶Î§ÄÚµÄËùÓĞµØÎï£¬ĞèÒªÍÏÈëµÄÎª´ú±í¾­¶ÈµÄÁĞ	To get all the objects in the radius of a latitude and longitude, we need to drag in a column representing longitude.
-GetRoute_desc	´Óµ±Ç°µØÃû£¬ÔË¶¯µ½¶ÔÓ¦×ø±êËùĞèµÄÊ±¼ä	The time needed to move from the current place name to the corresponding coordinates.
+key_39	ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½	File encoding
+key_17	ï¿½ï¿½ï¿½ï¿½Öµ	Virtual value
+key_298	ï¿½Æ³ï¿½	remove
+RandomGE_desc	ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½Î§ï¿½Úºï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Generating a certain range and a specified number of random numbers
+key_110	ï¿½ï¿½ï¿½ï¿½	Commonly used
+FileConnectorJson_desc	ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½JSONï¿½Ä¼ï¿½	Output text type JSON file
+key_14	È¨ï¿½ï¿½	weight
+key_38	ï¿½ï¿½×ºï¿½ï¿½	Suffix name
+key_198	ï¿½ï¿½È¡ï¿½Ä½Úµï¿½ï¿½ï¿½ï¿½ï¿½Îª0	The number of nodes obtained is 0
+key_115	1.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	1. request settings
+ResponseTF	ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦	Obtaining request response
+key_214	ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ì³£	Query exception
+key_449	ï¿½ï¿½ï¿½ï¿½windowsï¿½ï¿½ï¿½Ä¼ï¿½Í¨ï¿½ï¿½ï¿½É¸Ñ¡ï¿½æ·¶	Windows - based file wildcard screening specification
+key_755	ï¿½ï¿½ï¿½ï¿½ï¿½Ğ»ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ£ï¿½ï¿½ó·½¿ï¿½ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Left and right toggle to select the required data, and the left side can modify column names.
+key_263	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	About the author
+key_737	Ë«ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½	Double click the icon to create a new task
+FreeDocument_desc	ï¿½É´æ´¢ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½	Free documents that can store the form of a key value pair
+SplitTF	ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½	String segmentation
+key_330	ï¿½æ±¾	Edition
+RangeFT_desc	ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½É¸Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¡Öµï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Î§ï¿½ï¿½ï¿½Äµï¿½	From the numeric column, the document from the minimum to the maximum value is selected.
+key_357	ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½	Save position
+key_743	ï¿½ï¿½Ó­Ê¹ï¿½ï¿½Hawk3	Welcome to use Hawk3
+key_774	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Debug details
+key_492	Æ¥ï¿½ä·½Ê½	Matching method
+key_666	ï¿½ï¿½Ç°XPathï¿½ï¿½ï¿½Ú½Úµã²»ï¿½Ç¸ï¿½ï¿½Úµï¿½Äºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½XPathï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½È»Òªï¿½ï¿½ï¿½?	The current XPath node is not the descendant of the parent node. Please check the corresponding XPath. Do you still want to add it?
+key_45	ï¿½ï¿½ï¿½ï¿½Ğ´Excelï¿½Ä±ï¿½Í·ï¿½ï¿½Ï¢	Please fill out the Excel header information
+key_457	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½Ö£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ï¿½Å±ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½[a]ï¿½ï¿½Ê¾ï¿½ï¿½aï¿½Ğ»ï¿½È¡Öµï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÊµÖµ	In addition to filling in numbers, you can also use square brackets, such as [a], to get values from a columns as the true values of this parameter.
+key_609	ï¿½ï¿½ï¿½ï¿½	German
+key_498	joinï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ©ï¿½ï¿½	Which columns are inverted after join's success
+key_309	ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½Îª	Items are deposited as
+key_648	ï¿½ï¿½Ğ´Óµï¿½ï¿½ï¿½ï¿½È·cookieï¿½Ä²É¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ£ï¿½Îªï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã£ï¿½ï¿½Ã¹ï¿½ï¿½Ü»ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½IPï¿½ï¿½ï¿½ï¿½ï¿½Ô£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½É¼ï¿½ï¿½ï¿½	Fill in the name of the collector with the correct cookie. It doesn't work for empty time. This function also gets the properties of agent IP and so on, avoiding duplication of web page collector.
+key_388	ï¿½ï¿½ï¿½ï¿½Õ¸ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½Öµï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô·Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï²ï¿½ï¿½ï¿½ï¿½ï¿½	Fill in the column names separated by spaces, and vertically merge arrays for all attributes with the same value in the module.
+key_541	ï¿½ï¿½ï¿½Ö·ï¿½Ö±ï¿½Ó·Ö¸ï¿½	Direct segmentation by character
+key_312	ï¿½ï¿½ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½	New tasks will be set up
+key_407	2.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	2. operation table name
+GetRoute	ï¿½ï¿½È¡Â·ï¿½ï¿½ï¿½ï¿½Ï¢	Access to path information
+key_387	ï¿½Ï²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ï¿½ï¿½	Attributes merged into a collection
+property	ï¿½ï¿½ï¿½ï¿½	attribute
+key_681	ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½	Copy module
+key_265	ï¿½ï¿½Ä¿ï¿½ï¿½Ò³	Project Home
+xpath2_desc	Òªï¿½ï¿½ï¿½ï¿½HTMLï¿½Ä±ï¿½ï¿½Ğ£ï¿½ï¿½É½ï¿½Ò³ï¿½ï¿½ï¿½Ğµï¿½ï¿½ï¿½ï¿½à£¬ï¿½ï¿½CrossÄ£Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ş·ï¿½×¥È¡È«ï¿½ï¿½Ò³ï¿½æ£¬ï¿½ï¿½ï¿½ï¿½ï¿½Ô°ï¿½ï¿½ï¿½ï¿½ï¿½×¥È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½É¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¿ï¿½ï¿½Äµï¿½-XPathTF2	To drag into the HTML text column, you can combine the classes in the page with the Cross mode, which is suitable for the crawler to capture all the pages, but can be captured by classification. Need to call webpage collector, specific reference document -XPathTF2
+key_303	ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½Ï¹ï¿½ï¿½ï¿½	Load the default project
+key_417	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Subtask panel
+key_660	Ã»ï¿½Ğ¼ï¿½éµ½ï¿½ÎºÎ¿ï¿½Ñ¡ï¿½ï¿½ï¿½Ğ±ï¿½Ò³ï¿½ï¿½	No optional list page was checked
+key_19	ï¿½É¿ï¿½	Vacant
+key_348	ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½	Database connector can not be empty
+key_414	ï¿½è¶¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½é·¶Î§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2:30ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½30ï¿½ï¿½ï¿½ï¿½Ä£ï¿½é½«ï¿½ï¿½ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½Ô£ï¿½2:-1ï¿½ï¿½Ê¾ï¿½Óµï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½pythonï¿½ï¿½sliceï¿½ï·¨ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Set the module scope of the call subtask, for example at 2:30 that second or thirtieth sub modules that are called will be enabled, the other modules are ignored, the 2:-1 representation is from second to the countdown second, consistent with the python slice syntax, and the default is all invoked for the empty.
+key_606	Ì©ï¿½ï¿½	Thai
+key_111	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Batch insertion error
+key_675	ï¿½ï¿½ï¿½ï¿½htmlï¿½Äµï¿½	Parsing HTML documents
+key_315	ï¿½ï¿½ï¿½ï¿½ {0} ï¿½Ñ¾ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½	Task {0} has been successfully saved
+key_100	ï¿½Ã²ï¿½ï¿½ï¿½	The operation
+key_230	ï¿½É±à¼­ï¿½Ğ±ï¿½	Editable list
+key_333	ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½	task list
+key_624	ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½	Extraction test
+DeleteTF	É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Delete the column
+key_12	ï¿½ï¿½ï¿½ï¿½	type
+key_673	ï¿½ï¿½Í¨ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¼ï¿½é£¬ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½Ø¼ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½İ½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½Ì½	The reason is that the website has checked the validity of the request. It is recommended to fill in the keyword to automatically sniff the web page content.
+key_215	ï¿½ï¿½Ç°ï¿½ï¿½	Current table
+key_512	Pythonï¿½ï¿½Â·ï¿½ï¿½	Python library path
+AddNewTF	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Add a new column
+CrawlerTF_desc	Ê¹ï¿½ï¿½ï¿½ï¿½Ò³ï¿½É¼ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½Ò³ï¿½ï¿½ï¿½İ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒªÎªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Using web collectors to get web page data, dragged columns need to be hyperlinks, commonly used.
+key_185	ï¿½ï¿½È¡Ä£Ê½ÎªListï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ÎªCssSelecorÊ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è¶¨ï¿½ï¿½ï¿½Úµï¿½Â·ï¿½ï¿½	When the extraction mode is List and the selector is CssSelecor, the root node path must be set.
+key_117	2.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	2. proxy settings
+key_678	1.Ö´ï¿½ï¿½	1. implementation
+key_696	ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Debug analysis panel
+NearbySearch_desc	ï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½Î³ï¿½ï¿½Ä³Ò»ï¿½ë¾¶ï¿½ï¿½Î§ï¿½Úµï¿½ï¿½ï¿½ï¿½Ğµï¿½ï¿½ï£¬ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½Èµï¿½ï¿½ï¿½	To get all the objects in the radius of a latitude and longitude, we need to drag in a column representing longitude.
+GetRoute_desc	ï¿½Óµï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½	The time needed to move from the current place name to the corresponding coordinates.
 DebugManagerUI	DebugManager	DebugManager
-NumRangeFT_desc	Ñ¡ÔñÒ»¶¨ÊıÁ¿µÄĞĞ£¬ÈçÌø¹ıÇ°100Ìõ£¬Ñ¡È¡50Ìõ	Select a certain number of lines, such as skip the first 100, and select 50.
-key_326	²»ÄÜÖØ¸´¼ÓÔØ¸ÃÈÎÎñ	The task cannot be reloaded repeatedly
-key_179	´úÀí²ßÂÔ	Proxy strategy
-key_27	Êı¾İ¿âÀàĞÍ	Database type
-key_375	×îĞ¡Öµ	minimum value
-key_746	Ñ¡Ôñ	Choice
-key_647	¹²ÏíÔ´	Shared source
-key_394	BFSÆğÊ¼Î»ÖÃ	BFS starting position
-RegexTF	ÕıÔò×ª»»Æ÷	Regular converter
-key_335	±éÀú×´Ì¬	Ergodic state
-key_29	Êı¾İ¿â±íÃû²»ÄÜÎª¿Õ	Database table name can not be empty
-key_338	ÈÎÎñ¡¾{0}¡¿ÒÑ¾­³É¹¦Íê³É	The task [{0}] has been successfully completed
-key_234	²é¿´ÊôĞÔ	View properties
-key_764	ËÑË÷×Ö·û	Search character
-key_522	ÖØ¸´Ä£Ê½	Duplication pattern
-key_694	Ìøµ½×îºó	Jump to the end
-key_175	³¢ÊÔ×ª»»Îªjson³ö´í£º	Try converting to JSON error:
-key_622	ËÑË÷	search
-key_799	°Ù·Ö±È	Percentage
-key_671	³¢ÊÔ×Ô¶¯ÖØ¶¨Ïò	Try automatic redirection
-key_389	ÇóºÍÊôĞÔ	Summation attribute
-key_294	ĞÂ½¨»ò¸´ÖÆÊı¾İÇåÏ´	New or duplicated data cleaning
-key_54	°üº¬Í·ĞÅÏ¢	Header information
-key_323	¼ÓÔØ{0}¹¤³ÌÊ±Î´·¢ÏÖ¶ÔÓ¦µÄ½Å±¾ÎÄ¼ş{1}	No corresponding script file {1} was found when loading {0} project.
+NumRangeFT_desc	Ñ¡ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°100ï¿½ï¿½ï¿½ï¿½Ñ¡È¡50ï¿½ï¿½	Select a certain number of lines, such as skip the first 100, and select 50.
+key_326	ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½	The task cannot be reloaded repeatedly
+key_179	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Proxy strategy
+key_27	ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½ï¿½	Database type
+key_375	ï¿½ï¿½Ğ¡Öµ	minimum value
+key_746	Ñ¡ï¿½ï¿½	Choice
+key_647	ï¿½ï¿½ï¿½ï¿½Ô´	Shared source
+key_394	BFSï¿½ï¿½Ê¼Î»ï¿½ï¿½	BFS starting position
+RegexTF	ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½	Regular converter
+key_335	ï¿½ï¿½ï¿½ï¿½×´Ì¬	Ergodic state
+key_29	ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½	Database table name can not be empty
+key_338	ï¿½ï¿½ï¿½ï¿½{0}ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½	The task [{0}] has been successfully completed
+key_234	ï¿½é¿´ï¿½ï¿½ï¿½ï¿½	View properties
+key_764	ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½	Search character
+key_522	ï¿½Ø¸ï¿½Ä£Ê½	Duplication pattern
+key_694	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Jump to the end
+key_175	ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îªjsonï¿½ï¿½ï¿½ï¿½	Try converting to JSON error:
+key_622	ï¿½ï¿½ï¿½ï¿½	search
+key_799	ï¿½Ù·Ö±ï¿½	Percentage
+key_671	ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½Ø¶ï¿½ï¿½ï¿½	Try automatic redirection
+key_389	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Summation attribute
+key_294	ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´	New or duplicated data cleaning
+key_54	ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½Ï¢	Header information
+key_323	ï¿½ï¿½ï¿½ï¿½{0}ï¿½ï¿½ï¿½ï¿½Ê±Î´ï¿½ï¿½ï¿½Ö¶ï¿½Ó¦ï¿½Ä½Å±ï¿½ï¿½Ä¼ï¿½{1}	No corresponding script file {1} was found when loading {0} project.
 key_738	VerticalAlignment=	VerticalAlignment=
-key_720	Á÷³öÊı¾İÁ¿	Outflow data
-PythonTF	Python×ª»»Æ÷	Python converter
-JsonTF_desc	´Ó×Ö·û´®×ª»»Îªjson£¨Êı×é»ò×ÖµäÀàĞÍ£©	Convert from string to JSON (array or dictionary type)
-key_75	Êı¾İ¿âÁ¬½ÓÊ§°Ü£¬Çë¼ì²éÊı¾İ¿âÅäÖÃ£¬»òÊÖ¶¯Éè¶¨MongoDBÊı¾İ¿âµÄ°²×°Â·¾¶ÒÔ·½±ã×Ô¶¯ĞŞ¸´	Database connection failed. Please check database configuration or manually set up MongoDB database installation path to facilitate automatic repair.
-key_650	ÕıÔÚ²éÑ¯XPath	Query XPath
-key_667	ÒÑ¾­´æÔÚÍ¬ÃûµÄÊôĞÔ£¬ÊÇ·ñÒÀÈ»Ìí¼Ó?	Has the property of the same name already existed, is it still added?
-ToListTF	Æô¶¯²¢ĞĞ	Start parallel
-key_289	È¡ÏûÈÎÎñ	Cancel the task
-key_103	´íÎóĞÅÏ¢	error message
-key_28	Êı¾İ¿âÃû³Æ	Database name
-key_400	°´ÀàËÆ1'h '3'm '5's'¸ñÊ½½øĞĞÌîĞ´	Fill in the 1'h'3'm'5's'format
-key_422	Éú³ÉÄ£Ê½	Generation mode
-key_81	SQLLiteÁ¬½ÓÆ÷Òì³£	SQLLite connector exception
-key_321	ÒÑ¾­³É¹¦¸²¸ÇÈÎÎñ	The task has been successfully covered
-key_324	±àÒë´íÎó£º{0}£¬Î»ÖÃÔÚ{1}ĞĞ£¬´Ó{2}µ½{3}	Compile error: {0}, located in {1} row, from {2} to {3}
-DelayTF	ÑÓÊ±	delayed
-key_171	ÏÂÒ»¸ö	Next
-not_find_module	Ã»ÓĞÕÒµ½Ãû³ÆÎª'{0}'µÄ{1}£¬Çë¼ì²é¡°{2}¡±ÊÇ·ñÌîĞ´´íÎó	The {1} named'{0}'was not found. Please check if ""{2}"" has filled in the error.
-key_613	ÆÏÌÑÑÀÓï	Portuguese
-key_716	{Binding Process.Attribute£¬ Converter={StaticResource GroupConverter}}	{Binding Process.Attribute£¬ Converter={StaticResource GroupConverter}}
-key_359	ÅÀ³æÑ¡Ôñ	Reptilian selection
-key_227	²é¿´	See
-TrimTF	Çå³ı¿Õ°×·û	Clear the blank
-key_232	Ìí¼ÓĞéÄâÊı¾İ¼¯	Add a virtual dataset
-FileConnectorCSV	CSVµ¼Èëµ¼³öÆ÷	CSV import and export
-key_697	µ÷ÊÔ·ÖÎö	Debug analysis
-key_99	ÌáÊ¾ĞÅÏ¢	Hint information
-key_297	ÏÔÊ¾²¢ÅäÖÃ	Display and configure
-key_462	Ñ¡ÔñËùÒªÁ¬½ÓµÄÊı¾İ±í	Select the data table that you want to connect to
-ToListTF_desc	¸ÃÄ£¿éÔÚÖ´ĞĞÊ±£¬»á½«±¾Ä£¿éÖ®Ç°µÄÁ÷ÊµÀı»¯£¬×ª»»ÎªÊµ¼ÊµÄlist£¬ÓÃÓÚÌá¸ß²¢ĞĞĞÔÄÜ	When executed, the module will instantiate the flow before this module and convert it to the actual list to improve the parallel performance.
-NullFT	¿Õ¶ÔÏó¹ıÂËÆ÷	Empty object filter
-key_278	WebÇëÇóÍ³¼Æ	Web request statistics
-key_93	Êı¾İ±íÁĞ±í	List of data tables
-key_202	ÍøÒ³²É¼¯Æ÷	Webpage collector
-key_638	2.ÊôĞÔÌáÈ¡	2. attribute extraction
-key_506	ÎªÁË·½±ãÓÃ»§£¬ÏÂÀ­²Ëµ¥ÖĞÌá¹©ÁËÒÑÓĞÍøÒ³²É¼¯Æ÷ÅäÖÃµÄurl£¬¿ÉĞŞ¸ÄºóÊ¹ÓÃ	To facilitate users, the URL in the drop-down menu is provided with the existing webpage collector, which can be modified and used.
-key_461	Êı¾İ±í	Data sheet
-key_771	ÊÇ·ñ¼¤»î	Is it activated
-key_310	×î½ü´ò¿ªµÄÎÄ¼ş	Recently opened files
-key_494	Á¬½ÓÆ÷	Connector
-key_469	Éú³ÉÖµ	Generated value
-key_432	µ±ÒªÊä³ö¶à¸ö½á¹ûÊ±Ñ¡List£¬·ñÔòÑ¡One£¬²Î¿¼¡°ÍøÒ³²É¼¯Æ÷¡±	When you want to export multiple results, select List, otherwise choose One, refer to webpage collector.
-key_35	Á¬½ÓÊı¾İ¿â	Connection database
-key_131	²Ù×÷	operation
-key_562	·Ö×é²¢ĞĞÊıÁ¿	Packet parallel number
-key_577	±±¾©	Beijing
-key_243	±¾¼¯ºÏÊı¾İÁ¿½Ï´ó£¬×ª»»¿ÉÄÜ»áÕ¼ÓÃ½Ï¸ßµÄÄÚ´æºÍµ¼ÖÂ³ÌĞò±ÀÀ££¬È·¶¨¼ÌĞøÂğ?	The volume of data in this collection is large. Conversion may occupy higher memory and cause the program to crash. Do you want to continue?
-key_680	Çå¿ÕËùÓĞ¹¤¾ß	Emptying all the tools
-GetIPLocation	»ñÈ¡IPµÄ×ø±ê	Get the coordinates of the IP
-key_412	ÊäÈë»òÑ¡Ôñµ÷ÓÃµÄ×ÓÈÎÎñµÄÃû³Æ	The name of the subtask that is entered or selected for the call
-key_773	×Ô¶¯Ë¢ĞÂ	auto refresh
-key_68	×ÔÔöÖ÷¼üÃû³Æ	Self increasing primary key name
-key_276	µ÷ÊÔ	debugging
-key_161	Ä¿±êÄÚÈİ	Target content
-key_612	·¨Óï	French
-key_798	¹¤×÷Ïß³Ì	Working thread
-key_366	Çó·´	Seek inverse
-key_670	HTML³éÈ¡Êı¾İÊ§°Ü£¬url:{0}£¬ Òì³£Îª{1}	HTML has failed to extract data, url:{0}, and an exception of {1}
-Time2StrTF	Ê±¼ä×ª×Ö·û´®	Time string
-key_163	Â·¾¶	Route
-key_538	Ã¿Ò³ÊıÁ¿	Transactions per page
-key_247	Ôö¼ÓĞÂÁ¬½Ó	Add a new connection
+key_720	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Outflow data
+PythonTF	Python×ªï¿½ï¿½ï¿½ï¿½	Python converter
+JsonTF_desc	ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½×ªï¿½ï¿½Îªjsonï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Í£ï¿½	Convert from string to JSON (array or dictionary type)
+key_75	ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½è¶¨MongoDBï¿½ï¿½ï¿½İ¿ï¿½Ä°ï¿½×°Â·ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½Ş¸ï¿½	Database connection failed. Please check database configuration or manually set up MongoDB database installation path to facilitate automatic repair.
+key_650	ï¿½ï¿½ï¿½Ú²ï¿½Ñ¯XPath	Query XPath
+key_667	ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô£ï¿½ï¿½Ç·ï¿½ï¿½ï¿½È»ï¿½ï¿½ï¿½?	Has the property of the same name already existed, is it still added?
+ToListTF	ï¿½ï¿½ï¿½ï¿½ï¿½	Start parallel
+key_289	È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Cancel the task
+key_103	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢	error message
+key_28	ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½ï¿½	Database name
+key_400	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1'h '3'm '5's'ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ´	Fill in the 1'h'3'm'5's'format
+key_422	ï¿½ï¿½ï¿½ï¿½Ä£Ê½	Generation mode
+key_81	SQLLiteï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£	SQLLite connector exception
+key_321	ï¿½Ñ¾ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	The task has been successfully covered
+key_324	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½{0}ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½{1}ï¿½Ğ£ï¿½ï¿½ï¿½{2}ï¿½ï¿½{3}	Compile error: {0}, located in {1} row, from {2} to {3}
+DelayTF	ï¿½ï¿½Ê±	delayed
+key_171	ï¿½ï¿½Ò»ï¿½ï¿½	Next
+not_find_module	Ã»ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½Îª'{0}'ï¿½ï¿½{1}ï¿½ï¿½ï¿½ï¿½ï¿½é¡°{2}ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½ï¿½	The {1} named'{0}'was not found. Please check if ""{2}"" has filled in the error.
+key_613	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Portuguese
+key_716	{Binding Process.Attributeï¿½ï¿½ Converter={StaticResource GroupConverter}}	{Binding Process.Attributeï¿½ï¿½ Converter={StaticResource GroupConverter}}
+key_359	ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½	Reptilian selection
+key_227	ï¿½é¿´	See
+TrimTF	ï¿½ï¿½ï¿½ï¿½Õ°×·ï¿½	Clear the blank
+key_232	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ¼ï¿½	Add a virtual dataset
+FileConnectorCSV	CSVï¿½ï¿½ï¿½ëµ¼ï¿½ï¿½ï¿½ï¿½	CSV import and export
+key_697	ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½	Debug analysis
+key_99	ï¿½ï¿½Ê¾ï¿½ï¿½Ï¢	Hint information
+key_297	ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Display and configure
+key_462	Ñ¡ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½İ±ï¿½	Select the data table that you want to connect to
+ToListTF_desc	ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½Ê±ï¿½ï¿½ï¿½á½«ï¿½ï¿½Ä£ï¿½ï¿½Ö®Ç°ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ÎªÊµï¿½Êµï¿½listï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	When executed, the module will instantiate the flow before this module and convert it to the actual list to improve the parallel performance.
+NullFT	ï¿½Õ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Empty object filter
+key_278	Webï¿½ï¿½ï¿½ï¿½Í³ï¿½ï¿½	Web request statistics
+key_93	ï¿½ï¿½ï¿½İ±ï¿½ï¿½Ğ±ï¿½	List of data tables
+key_202	ï¿½ï¿½Ò³ï¿½É¼ï¿½ï¿½ï¿½	Webpage collector
+key_638	2.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡	2. attribute extraction
+key_506	Îªï¿½Ë·ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½á¹©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½É¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½urlï¿½ï¿½ï¿½ï¿½ï¿½Ş¸Äºï¿½Ê¹ï¿½ï¿½	To facilitate users, the URL in the drop-down menu is provided with the existing webpage collector, which can be modified and used.
+key_461	ï¿½ï¿½ï¿½İ±ï¿½	Data sheet
+key_771	ï¿½Ç·ñ¼¤»ï¿½	Is it activated
+key_310	ï¿½ï¿½ï¿½ï¿½ò¿ªµï¿½ï¿½Ä¼ï¿½	Recently opened files
+key_494	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Connector
+key_469	ï¿½ï¿½ï¿½ï¿½Öµ	Generated value
+key_432	ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±Ñ¡Listï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡Oneï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½É¼ï¿½ï¿½ï¿½ï¿½ï¿½	When you want to export multiple results, select List, otherwise choose One, refer to webpage collector.
+key_35	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½	Connection database
+key_131	ï¿½ï¿½ï¿½ï¿½	operation
+key_562	ï¿½ï¿½ï¿½é²¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Packet parallel number
+key_577	ï¿½ï¿½ï¿½ï¿½	Beijing
+key_243	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½Ü»ï¿½Õ¼ï¿½Ã½Ï¸ßµï¿½ï¿½Ú´ï¿½Íµï¿½ï¿½Â³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?	The volume of data in this collection is large. Conversion may occupy higher memory and cause the program to crash. Do you want to continue?
+key_680	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¹ï¿½ï¿½ï¿½	Emptying all the tools
+GetIPLocation	ï¿½ï¿½È¡IPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Get the coordinates of the IP
+key_412	ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	The name of the subtask that is entered or selected for the call
+key_773	ï¿½Ô¶ï¿½Ë¢ï¿½ï¿½	auto refresh
+key_68	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Self increasing primary key name
+key_276	ï¿½ï¿½ï¿½ï¿½	debugging
+key_161	Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Target content
+key_612	ï¿½ï¿½ï¿½ï¿½	French
+key_798	ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½	Working thread
+key_366	ï¿½ï¿½	Seek inverse
+key_670	HTMLï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü£ï¿½url:{0}ï¿½ï¿½ ï¿½ì³£Îª{1}	HTML has failed to extract data, url:{0}, and an exception of {1}
+Time2StrTF	Ê±ï¿½ï¿½×ªï¿½Ö·ï¿½ï¿½ï¿½	Time string
+key_163	Â·ï¿½ï¿½	Route
+key_538	Ã¿Ò³ï¿½ï¿½ï¿½ï¿½	Transactions per page
+key_247	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Add a new connection
 key_796	ItemTemplate=	itemtemplate =
-ReadFileGe	¶ÁÈ¡ÎÄ¼şÊı¾İ	Read file data
-key_559	¶ÔÃ¿¸ö×ÓÏß³ÌÆğµÄÃû³Æ	The name of each child thread
-AddNew_desc	ÎªÊı¾İ¼¯AddNewTF£¬ÖµÎªÄ³¹Ì¶¨Öµ	For the data set AddNewTF, the value is a fixed value
-MergeTF	ºÏ²¢¶àÁĞ	Merge multi column
-MergeTF_format	ĞÎÈç'http:\\{0}:{1}£¬{2}...'ÊäÈëÁĞµÄĞòºÅÎª0£¬Ö®ºóµÄ1£¬2·Ö±ğ´ú±í¡¾ÆäËûÏî¡¿µÄµÚ0ºÍµÚ1¸öÖµ	It is like'http:\\{0}: {1}, {2}... ""The ordinal number of the input column is 0, followed by 1 and 2 represent zeroth and first values of other items, respectively.
-MergeTF_desc	½«¶à¸öÁĞ×éºÏ³ÉÍ¬Ò»ÁĞ£¬ĞÎÈç'http:\\{0}:{1}£¬{2}...'ÊäÈëÁĞµÄĞòºÅÎª0£¬Ö®ºóµÄ1£¬2·Ö±ğ´ú±í¡¾ÆäËûÏî¡¿µÄµÚ0ºÍµÚ1¸öÖµ£¬³£ÓÃ	The multiple columns are combined into the same column, such as'http:\\{0}: {1}, {2}... 'the sequence number of the input column is 0, then the 1, and 2 represents zeroth and first values of the other items, which are commonly used.
-ResponseTF_desc	Ê¹ÓÃÍøÒ³²É¼¯Æ÷»ñÈ¡ÍøÒ³Êı¾İ£¬µÃµ½ÏìÓ¦×Ö¶ÎµÄÖµ²¢Ìí¼Óµ½¶ÔÓ¦µÄÊôĞÔÖĞ	Using web collectors to get web page data, get the value of the response field and add it to the corresponding attribute.
-key_105	¹ËÎÊ	adviser
-RegexSplitTF_desc	Ê¹ÓÃÕıÔò±í´ïÊ½·Ö¸î×Ö·û´®	Using regular expressions to split strings
-key_225	É¾³ıÁ¬½Ó	Delete connection
-DebugManager_desc	Êä³öµ÷ÊÔĞÅÏ¢	Output debug information
-FileExistFT	Â·¾¶ÊÇ·ñ´æÔÚ	Does the path exist
-key_159	Æô¶¯»º´æ	Start caching
-key_211	1.»ù±¾Ñ¡Ïî	1. basic options
-key_784	ÊäÈë	input
-key_288	¿ªÊ¼ÈÎÎñ	Start the task
-XPathTF2	ÃÅÀàÃ¶¾Ù	Class enumeration
-key_47	×Ü¹²	In total
-key_795	µ±Ç°¼ÓÔØµÄËùÓĞÊı¾İ£¬¿ÉÔÚ´Ë½øĞĞ¹ÜÀí	All data currently loaded can be managed here.
-DictTF_desc	½«ÁĞÊı¾İ×ª»»ÎªĞĞÊı¾İ£¬ÍÏÈëµÄÁĞÎªkey	The column data is converted to row data, and the column drawn is key.
-DbGE	´ÓÊı¾İ¿âÉú³É	From database generation
-key_568	ÆôÓÃ	Enable
-key_224	ÅäÖÃÁ¬½Ó	configure connections
-key_259	Ç¿ÖÆË¢ĞÂÁ¬½ÓÊ§°Ü	Forced refresh connection failure
-key_236	²»´æÔÚÈÎºÎÊı¾İ	No data exists
-IDataBaseConnector	Êı¾İ¿âÁ¬½ÓÆ÷½Ó¿Ú	Database connector interface
-FileConnectorXML_desc	Êä³öºÍÊäÈëXMLÎÄ¼ş	Output and input XML files
-StrExtractTF_desc	ÌáÈ¡×Ö·û´®ÖĞ£¬´ÓÊ×´®µ½Î²´®ÖĞ¼äµÄÎÄ±¾ÄÚÈİ	Extract the text content from the first string to the tail string in the string.
-key_679	É¾³ı½Úµã	Delete node
-key_233	É¾³ı±í	Delete table
-key_544	ÈôÏë»ñÈ¡·Ö¸îºóµÄµÚ0¸öÔªËØ£¬ÔòÌîÈë0£¬»ñÈ¡µ¹ÊıµÚÒ»¸öÔªËØ£¬ÔòÌîÈë-1 \n¿ÉÊäÈë¶à¸öÆ¥Åä±àºÅ£¬ÖĞ¼äÒÔ¿Õ¸ñ·Ö¸î£¬¡¾Êä³öÁĞ¡¿Ò²ĞèÒªÓëÖ®Ò»¶ÔÓ¦\n	If you want to get the zeroth elements after the division, fill in 0, get the first element of the countdown, then fill in -1 \n to enter multiple matching numbers, split the middle in space, and [output column] need to correspond to one of the \n
-key_118	´úÀíIP	Proxy IP
-key_182	µ±Ç°´úÀíË÷Òı	Current proxy index
-key_174	³¬¼¶Ä£Ê½½âÎöÊ§°Ü	Super schema parsing failure
-key_271	¾èÔù	donation
-key_546	¶à¸ö·Ö¸ô·ûÓÃ¿Õ¸ñ·Ö¸î£¬»»ĞĞ·ûÓÃ\\t£¬ÖÆ±í·ûÓÃ\\t	Multiple separators are separated by spaces, line breaks with \\t, tabs using \\t.
-RegexFT	ÕıÔòÉ¸Ñ¡Æ÷	Regular filter
-key_692	²åÈë¹¤×÷Ä£¿é£¬Ãû³Æ:	Insert the work module, name:
-ICustomView	¿ÉÊµÏÖ×ÔÖúÌæ»»½çÃæµÄ½Ó¿Ú	The interface of self-service replacement can be realized
-key_513	ÈôĞèÒªÒıÓÃµÚÈı·½Python¿â£¬Ôò¿ÉÖ¸¶¨¿âµÄÂ·¾¶£¬Ò»ĞĞÒ»Ìõ	If you need to refer to the third party Python library, you can specify the path of the library, one line, one line.
-key_239	ĞÂ½¨Êı¾İ¼¯	New dataset
-key_669	HTML³éÈ¡Êı¾İÊ§°Ü£¬url:{0}	HTML has failed to extract data, url:{0}
-key_664	¼ì²é×Ó½ÚµãXPathÕıÈ·ĞÔ	Check the XPath correctness of the child node
-key_747	»ñÈ¡²ßÂÔ	Acquisition strategy
-key_302	Ìí¼Ó	Add to
-key_657	ÊÖÆø²»´íÃæ°å	A good hand panel
-key_22	±íÃû	Table name
-key_72	²åÈëÊ§°Ü	Insert failure
-key_307	¼ÓÔØÏîÄ¿	Load project
-key_193	×¥È¡Ä¿±ê	Capture the target
-FreeDocument	×ÔÓÉÎÄµµ	Free document
-FileConnectorExcel_desc	Êä³ö±ê×¼EXCELÎÄ¼ş£¬Ğ§ÂÊ½ÏµÍ	Output standard EXCEL file, low efficiency
-SplitTF_desc	Í¨¹ı×Ö·û·Ö¸î×Ö·û´®	Character segmentation string
-WriteFileTextTF_desc	Ğ´ÈëÎÄ¼şÖĞµÄÎÄ±¾£¬ÓÉÓÚÔÚ²¢ĞĞÄ£Ê½ÏÂÍ¬Ê±Ğ´ÈëÎÄ¼ş¿ÉÄÜ»áµ¼ÖÂÎÊÌâ£¬Òò´Ë¾¡Á¿Ê¹ÓÃ´®ĞĞÄ£Ê½	Writing text in a file, because writing files in parallel mode may cause problems, try to use serial mode as much as possible.
-key_413	µ÷ÓÃ·¶Î§	Call range
-NumberTF_desc	ÌáÈ¡µ±Ç°ÁĞÖĞ³öÏÖµÄÊıÖµ	Extract the number that appears in the current column
-key_503	Ğ´Èë¶à¸öÁĞÃû£¬ÖĞ¼äÊ¹ÓÃ¿Õ¸ñ·Ö¸î£¬ÈôºÏ²¢ÊäÈëÁĞ£¬Ôò¿ÉÒÔÎª¿Õ	Write multiple column names, use spaces in the middle to segment them, and merge the input columns.
-DateRangeGE_desc	Éú³ÉÄ³·¶Î§ÄÚµÄÈÕÆÚºÍÊ±¼ä	Generate a range of dates and times
-key_639	×Ô¶¯ĞáÌ½	Automatic sniffing
-key_502	ÆäËûÏî	Other items
-key_698	µ÷ÊÔÄ£¿éÊôĞÔ	Debug module properties
-key_565	ÊÇ·ñ½«Ã¿¸ö×ÓÏß³Ì²åÈëµ½ÈÎÎñ¶ÓÁĞÖĞ£¬´Ó¶øÏÔÊ¾½ø¶È	Whether each child thread is inserted into the task queue to display progress
-key_165	ÑùÀı1	Sample 1
-key_702	È·¶¨Æô¶¯Ö´ĞĞ?	Determine startup execution?
-key_409	2.µ÷ÓÃÑ¡Ïî	2. call options
-key_173	ÍË³ö	Sign out
-key_331	µ±Ç°¹¤³ÌÎÄ¼şµÄÂ·¾¶²»´æÔÚ£¬Éú³ÉĞÂ¹¤³Ì	The current path of the project file does not exist, generating new projects.
-key_416	Ô´ÊôĞÔ:Ä¿±êÊôĞÔÁĞ ¶à¸öÓ³ÉäÖĞ¼äÓÃ¿Õ¸ñ·Ö¸î£¬ÀıÈçA:B C:D£¬ ±íÊ¾Ö÷ÈÎÎñÖĞµÄA£¬BÊôĞÔÁĞ»áÒÔC£¬DµÄÃû³Æ´«µİµ½×ÓÈÎÎñÖĞ	Source property: the target attribute is divided into multiple maps with space, such as A:B C:D, representing the A in the main task, and the B attribute column will be passed to the subtask with the name of C, D
-key_766	ĞÂÔöÊôĞÔ	New attributes
-key_729	±£´æµÄÈÎÎñ	Saved tasks
-key_433	Êä³öÁĞ	Output column
-key_621	ÊôĞÔ0	Property 0
-key_114	HTTP´íÎó£¬URL:{0}£¬ÀàĞÍ:{1}	HTTP error, URL:{0}, type: {1}
-RepeatTF_desc	¶Ôµ±Ç°ĞĞ½øĞĞÖØ¸´ĞÔÉú³É	Repeating the generation of the current line
-key_722	ÒòÊäÈëÎª¿ÕÌø¹ı	Skip because of the input
-key_587	Ô´³ÇÊĞ	Source city
-MongoDBConnector_desc	Ìá¹©MongoDB½»»¥µÄÊı¾İ¿â·şÎñ	A database service that provides MongoDB interaction
-key_311	ÊÇ·ñÈ·¶¨±£´æÈÎÎñ?	Do you determine the saving task?
-key_651	ÊôĞÔ{0}	Attribute {0}
-key_693	»ØÍËµ½¿ªÍ·	Back to the beginning
-key_319	ÒÑ¾­³É¹¦Ìí¼Ó	Have been added successfully
-key_549	Ê×´®	First string
-key_257	È·¶¨¶ÔÊı¾İ±í	Determine the pair of data tables
-key_249	µÄÊı¾İÁ¬½Ó·şÎñ³É¹¦£¡	The data connection service is successful!
-key_121	³¬Ê±Ê±¼ä	timeout
-key_267	Ê¹ÓÃÎÄµµ	Using documents
-key_127	½ûÖ¹Êı	Prohibition
-NlpTF_desc	Í¨¹ıÓïÑÔÔÆ»ñÈ¡µÄ×ÔÈ»ÓïÑÔ´¦Àí¹¦ÄÜ£¬°üÀ¨·Ö´Ê£¬´ÊĞÔ±ê×¢£¬Ö÷ÌâÌáÈ¡µÈ	Natural Language Processing's functions are acquired through language cloud, including word segmentation, part of speech tagging, topic extraction, etc.
-key_760	Ô´ÂëÊÓÍ¼	Source view
-key_787	²½Öè2£ºÉèÖÃÖ÷ÈÎÎñÊôĞÔÁĞ¶ÔÓ¦µ½×ÓÈÎÎñµÄÊôĞÔÃû£¬ÏÂÀ­²Ëµ¥½ö²Î¿¼£¬¿ÉÖ±½Ó±à¼­ÎÄ±¾¿ò	Step 2: set the main task attribute column to the attribute name of the sub task. The drop-down menu only refers to it, and can edit the text box directly.
-key_533	µ¹Ğò	Reverse order
-RenameTF_desc	¶ÔÁĞÃû½øĞĞĞŞ¸Ä£¬³£ÓÃ	Modifying the names of the columns is often used
-key_684	µ÷ÊÔµ½¸Ã²½	Debug this step
-key_611	º«Óï	Korean
-key_199	1.»ù±¾ĞÅÏ¢	1. basic information
-key_454	ÊıÁ¿	Number
-key_637	ÌáÈ¡±êÇ©	Extract label
+ReadFileGe	ï¿½ï¿½È¡ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½	Read file data
+key_559	ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	The name of each child thread
+AddNew_desc	Îªï¿½ï¿½ï¿½İ¼ï¿½AddNewTFï¿½ï¿½ÖµÎªÄ³ï¿½Ì¶ï¿½Öµ	For the data set AddNewTF, the value is a fixed value
+MergeTF	ï¿½Ï²ï¿½ï¿½ï¿½ï¿½ï¿½	Merge multi column
+MergeTF_format	ï¿½ï¿½ï¿½ï¿½'http:\\{0}:{1}ï¿½ï¿½{2}...'ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½ï¿½ï¿½ï¿½Îª0ï¿½ï¿½Ö®ï¿½ï¿½ï¿½1ï¿½ï¿½2ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½î¡¿ï¿½Äµï¿½0ï¿½Íµï¿½1ï¿½ï¿½Öµ	It is like'http:\\{0}: {1}, {2}... ""The ordinal number of the input column is 0, followed by 1 and 2 represent zeroth and first values of other items, respectively.
+MergeTF_desc	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï³ï¿½Í¬Ò»ï¿½Ğ£ï¿½ï¿½ï¿½ï¿½ï¿½'http:\\{0}:{1}ï¿½ï¿½{2}...'ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½ï¿½ï¿½ï¿½Îª0ï¿½ï¿½Ö®ï¿½ï¿½ï¿½1ï¿½ï¿½2ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½î¡¿ï¿½Äµï¿½0ï¿½Íµï¿½1ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	The multiple columns are combined into the same column, such as'http:\\{0}: {1}, {2}... 'the sequence number of the input column is 0, then the 1, and 2 represents zeroth and first values of the other items, which are commonly used.
+ResponseTF_desc	Ê¹ï¿½ï¿½ï¿½ï¿½Ò³ï¿½É¼ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½Ò³ï¿½ï¿½ï¿½İ£ï¿½ï¿½Ãµï¿½ï¿½ï¿½Ó¦ï¿½Ö¶Îµï¿½Öµï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Using web collectors to get web page data, get the value of the response field and add it to the corresponding attribute.
+key_105	ï¿½ï¿½ï¿½ï¿½	adviser
+RegexSplitTF_desc	Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½Ö¸ï¿½ï¿½Ö·ï¿½ï¿½ï¿½	Using regular expressions to split strings
+key_225	É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Delete connection
+DebugManager_desc	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢	Output debug information
+FileExistFT	Â·ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½	Does the path exist
+key_159	ï¿½ï¿½ï¿½ï¿½ï¿½	Start caching
+key_211	1.ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½	1. basic options
+key_784	ï¿½ï¿½ï¿½ï¿½	input
+key_288	ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½	Start the task
+XPathTF2	ï¿½ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½	Class enumeration
+key_47	ï¿½Ü¹ï¿½	In total
+key_795	ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ£ï¿½ï¿½ï¿½ï¿½Ú´Ë½ï¿½ï¿½Ğ¹ï¿½ï¿½ï¿½	All data currently loaded can be managed here.
+DictTF_desc	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½İ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªkey	The column data is converted to row data, and the column drawn is key.
+DbGE	ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½ï¿½	From database generation
+key_568	ï¿½ï¿½ï¿½ï¿½	Enable
+key_224	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	configure connections
+key_259	Ç¿ï¿½ï¿½Ë¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½	Forced refresh connection failure
+key_236	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ï¿½ï¿½	No data exists
+IDataBaseConnector	ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½	Database connector interface
+FileConnectorXML_desc	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½XMLï¿½Ä¼ï¿½	Output and input XML files
+StrExtractTF_desc	ï¿½ï¿½È¡ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Ğ£ï¿½ï¿½ï¿½ï¿½×´ï¿½ï¿½ï¿½Î²ï¿½ï¿½ï¿½Ğ¼ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½	Extract the text content from the first string to the tail string in the string.
+key_679	É¾ï¿½ï¿½ï¿½Úµï¿½	Delete node
+key_233	É¾ï¿½ï¿½ï¿½ï¿½	Delete table
+key_544	ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½Ö¸ï¿½ï¿½Äµï¿½0ï¿½ï¿½Ôªï¿½Ø£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ôªï¿½Ø£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-1 \nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¥ï¿½ï¿½ï¿½Å£ï¿½ï¿½Ğ¼ï¿½ï¿½Ô¿Õ¸ï¿½Ö¸î£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¡ï¿½Ò²ï¿½ï¿½Òªï¿½ï¿½Ö®Ò»ï¿½ï¿½Ó¦\n	If you want to get the zeroth elements after the division, fill in 0, get the first element of the countdown, then fill in -1 \n to enter multiple matching numbers, split the middle in space, and [output column] need to correspond to one of the \n
+key_118	ï¿½ï¿½ï¿½ï¿½IP	Proxy IP
+key_182	ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Current proxy index
+key_174	ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½	Super schema parsing failure
+key_271	ï¿½ï¿½ï¿½ï¿½	donation
+key_546	ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ã¿Õ¸ï¿½Ö¸î£¬ï¿½ï¿½ï¿½Ğ·ï¿½ï¿½ï¿½\\tï¿½ï¿½ï¿½Æ±ï¿½ï¿½ï¿½ï¿½\\t	Multiple separators are separated by spaces, line breaks with \\t, tabs using \\t.
+RegexFT	ï¿½ï¿½ï¿½ï¿½É¸Ñ¡ï¿½ï¿½	Regular filter
+key_692	ï¿½ï¿½ï¿½ë¹¤ï¿½ï¿½Ä£ï¿½é£¬ï¿½ï¿½ï¿½ï¿½:	Insert the work module, name:
+ICustomView	ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ»»ï¿½ï¿½ï¿½ï¿½Ä½Ó¿ï¿½	The interface of self-service replacement can be realized
+key_513	ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½Pythonï¿½â£¬ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ò»ï¿½ï¿½	If you need to refer to the third party Python library, you can specify the path of the library, one line, one line.
+key_239	ï¿½Â½ï¿½ï¿½ï¿½ï¿½İ¼ï¿½	New dataset
+key_669	HTMLï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü£ï¿½url:{0}	HTML has failed to extract data, url:{0}
+key_664	ï¿½ï¿½ï¿½ï¿½Ó½Úµï¿½XPathï¿½ï¿½È·ï¿½ï¿½	Check the XPath correctness of the child node
+key_747	ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½	Acquisition strategy
+key_302	ï¿½ï¿½ï¿½	Add to
+key_657	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	A good hand panel
+key_22	ï¿½ï¿½ï¿½ï¿½	Table name
+key_72	ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½	Insert failure
+key_307	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿	Load project
+key_193	×¥È¡Ä¿ï¿½ï¿½	Capture the target
+FreeDocument	ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½	Free document
+FileConnectorExcel_desc	ï¿½ï¿½ï¿½ï¿½ï¿½×¼EXCELï¿½Ä¼ï¿½ï¿½ï¿½Ğ§ï¿½Ê½Ïµï¿½	Output standard EXCEL file, low efficiency
+SplitTF_desc	Í¨ï¿½ï¿½ï¿½Ö·ï¿½ï¿½Ö¸ï¿½ï¿½Ö·ï¿½ï¿½ï¿½	Character segmentation string
+WriteFileTextTF_desc	Ğ´ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ğµï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½Í¬Ê±Ğ´ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ü»áµ¼ï¿½ï¿½ï¿½ï¿½ï¿½â£¬ï¿½ï¿½Ë¾ï¿½ï¿½ï¿½Ê¹ï¿½Ã´ï¿½ï¿½ï¿½Ä£Ê½	Writing text in a file, because writing files in parallel mode may cause problems, try to use serial mode as much as possible.
+key_413	ï¿½ï¿½ï¿½Ã·ï¿½Î§	Call range
+NumberTF_desc	ï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ğ³ï¿½ï¿½Öµï¿½ï¿½ï¿½Öµ	Extract the number that appears in the current column
+key_503	Ğ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¼ï¿½Ê¹ï¿½Ã¿Õ¸ï¿½Ö¸î£¬ï¿½ï¿½Ï²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½	Write multiple column names, use spaces in the middle to segment them, and merge the input columns.
+DateRangeGE_desc	ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½Î§ï¿½Úµï¿½ï¿½ï¿½ï¿½Úºï¿½Ê±ï¿½ï¿½	Generate a range of dates and times
+key_639	ï¿½Ô¶ï¿½ï¿½ï¿½Ì½	Automatic sniffing
+key_502	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Other items
+key_698	ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Debug module properties
+key_565	ï¿½Ç·ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì²ï¿½ï¿½ëµ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ£ï¿½ï¿½Ó¶ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½	Whether each child thread is inserted into the task queue to display progress
+key_165	ï¿½ï¿½ï¿½ï¿½1	Sample 1
+key_702	È·ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½?	Determine startup execution?
+key_409	2.ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½	2. call options
+key_173	ï¿½Ë³ï¿½	Sign out
+key_331	ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¹ï¿½ï¿½ï¿½	The current path of the project file does not exist, generating new projects.
+key_416	Ô´ï¿½ï¿½ï¿½ï¿½:Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ó³ï¿½ï¿½ï¿½Ğ¼ï¿½ï¿½Ã¿Õ¸ï¿½Ö¸î£¬ï¿½ï¿½ï¿½ï¿½A:B C:Dï¿½ï¿½ ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½Aï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½Ğ»ï¿½ï¿½ï¿½Cï¿½ï¿½Dï¿½ï¿½ï¿½ï¿½ï¿½Æ´ï¿½ï¿½İµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Source property: the target attribute is divided into multiple maps with space, such as A:B C:D, representing the A in the main task, and the B attribute column will be passed to the subtask with the name of C, D
+key_766	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	New attributes
+key_729	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Saved tasks
+key_433	ï¿½ï¿½ï¿½ï¿½ï¿½	Output column
+key_621	ï¿½ï¿½ï¿½ï¿½0	Property 0
+key_114	HTTPï¿½ï¿½ï¿½ï¿½URL:{0}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:{1}	HTTP error, URL:{0}, type: {1}
+RepeatTF_desc	ï¿½Ôµï¿½Ç°ï¿½Ğ½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Repeating the generation of the current line
+key_722	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Skip because of the input
+key_587	Ô´ï¿½ï¿½ï¿½ï¿½	Source city
+MongoDBConnector_desc	ï¿½á¹©MongoDBï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½	A database service that provides MongoDB interaction
+key_311	ï¿½Ç·ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?	Do you determine the saving task?
+key_651	ï¿½ï¿½ï¿½ï¿½{0}	Attribute {0}
+key_693	ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½Í·	Back to the beginning
+key_319	ï¿½Ñ¾ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½	Have been added successfully
+key_549	ï¿½×´ï¿½	First string
+key_257	È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ±ï¿½	Determine the pair of data tables
+key_249	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó·ï¿½ï¿½ï¿½É¹ï¿½ï¿½ï¿½	The data connection service is successful!
+key_121	ï¿½ï¿½Ê±Ê±ï¿½ï¿½	timeout
+key_267	Ê¹ï¿½ï¿½ï¿½Äµï¿½	Using documents
+key_127	ï¿½ï¿½Ö¹ï¿½ï¿½	Prohibition
+NlpTF_desc	Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ»ï¿½È¡ï¿½ï¿½ï¿½ï¿½È»ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´Ê£ï¿½ï¿½ï¿½ï¿½Ô±ï¿½×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½	Natural Language Processing's functions are acquired through language cloud, including word segmentation, part of speech tagging, topic extraction, etc.
+key_760	Ô´ï¿½ï¿½ï¿½ï¿½Í¼	Source view
+key_787	ï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ó±à¼­ï¿½Ä±ï¿½ï¿½ï¿½	Step 2: set the main task attribute column to the attribute name of the sub task. The drop-down menu only refers to it, and can edit the text box directly.
+key_533	ï¿½ï¿½ï¿½ï¿½	Reverse order
+RenameTF_desc	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ş¸Ä£ï¿½ï¿½ï¿½ï¿½ï¿½	Modifying the names of the columns is often used
+key_684	ï¿½ï¿½ï¿½Ôµï¿½ï¿½Ã²ï¿½	Debug this step
+key_611	ï¿½ï¿½ï¿½ï¿½	Korean
+key_199	1.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢	1. basic information
+key_454	ï¿½ï¿½ï¿½ï¿½	Number
+key_637	ï¿½ï¿½È¡ï¿½ï¿½Ç©	Extract label
 key_793	ItemTemplate=	itemtemplate =
-key_145	£¬²å¼şÅäÖÃÎÄ¼şÓĞ´íÎó£¬ÒÑ¾­ÖØ½¨	The plug-in configuration file has been erroneous and has been rebuilt
-key_788	Ö÷ÈÎÎñÊôĞÔ	Primary task attributes
-key_84	ĞÂ½¨	Newly build
-key_763	ÊôĞÔÌáÈ¡	Attribute extraction
-key_426	¹´Ñ¡ºó£¬±¾×ÓÈÎÎñ»áÌí¼Óµ½ÈÎÎñ¹ÜÀíÆ÷ÖĞ	After the check, the task will be added to the task manager.
-key_106	Éú³É	generate
-key_386	²»¹´Ñ¡´ËÑ¡ÏîÊ¹ÓÃÃ¶¾ÙÊ½µü´ú£¬Ğè±£Ö¤ÔÚ±¾Ä£¿éÖ®ºóÃ»ÓĞÆäËû²Ù×÷£¬·ñÔòÇë¹´Ñ¡¸ÃÑ¡Ïî	Use this enumeration iteration to ensure that there is no other operation after this module, otherwise check this option.
-key_24	1.Á¬½Ó¹ÜÀí	1. connection management
+key_145	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½Ø½ï¿½	The plug-in configuration file has been erroneous and has been rebuilt
+key_788	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Primary task attributes
+key_84	ï¿½Â½ï¿½	Newly build
+key_763	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡	Attribute extraction
+key_426	ï¿½ï¿½Ñ¡ï¿½ó£¬±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	After the check, the task will be added to the task manager.
+key_106	ï¿½ï¿½ï¿½ï¿½	generate
+key_386	ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½Ñ¡ï¿½ï¿½Ê¹ï¿½ï¿½Ã¶ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è±£Ö¤ï¿½Ú±ï¿½Ä£ï¿½ï¿½Ö®ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë¹´Ñ¡ï¿½ï¿½Ñ¡ï¿½ï¿½	Use this enumeration iteration to ensure that there is no other operation after this module, otherwise check this option.
+key_24	1.ï¿½ï¿½ï¿½Ó¹ï¿½ï¿½ï¿½	1. connection management
 MongoDBConnector	MongoDB	MongoDB
-key_619	Ó¦ÓÃÖĞĞÄÕËºÅ	Application center account
-WriteFileTextTF	Ğ´ÈëÎÄ¼şÎÄ±¾	Write the file text
-key_144	²¼¾ÖÎÄ¼şÒÑ¾­³É¹¦±£´æÎª	The layout file has been successfully saved to
-key_150	ÔÚÔËĞĞÊ±Ğ¶ÔØ²å¼ş¿ÉÄÜÔì³É³ÌĞò±ÀÀ££¬È·¶¨¼ÌĞø£¿	Uninstalling the plug-in at runtime can cause the program to crash.
-ReReplaceTF_desc	Í¨¹ıÕıÔò±í´ïÊ½Ìæ»»ÊıÖµ	Replacing numeric values with regular expressions
-key_286	Ö´ĞĞÈÎÎñ½Å±¾	Executing task scripts
-key_640	±£´æÇëÇó	Save the request
-RepeatFT	É¾³ıÖØ¸´Ïî	Delete duplicate items
-key_7	ÁĞÌØĞÔ	Column characteristics
-key_273	²©¿Í	Blog
-key_141	²¼¾Ö	layout
-key_102	Ö´ĞĞÊ§°Ü£¬´íÎóĞÅÏ¢  {0}	Failure to execute, error message {0}
-key_682	ÉÏÒÆ	Move up
-key_238	ĞÂ½¨»ò¿½±´	New or copy
-key_654	ÔÚ¸ÃÍøÒ³ÖĞÕÒ²»µ½¹Ø¼ü×Ö {0}£¬¿ÉÄÜÊÇ¶¯Ì¬ÇëÇó£¬¿ÉÒÔÆôÓÃ¡¾{1}¡¿£¬²¢½«ä¯ÀÀÆ÷Ò³Ãæ·­µ½°üº¬¸Ã¹Ø¼ü×ÖµÄÎ»ÖÃ	The keyword {0} is not found in the web page, it may be dynamic request, {1} can be enabled, and the browser page can be turned to the location containing the keyword.
-key_490	²éÑ¯¶àÊı¾İ	Query multiple data
-key_122	ÇëÇó±àÂë	Request coding
-key_644	²ÎÊıÅäÖÃ	Parameter configuration
-key_280	Çå¿ÕÈÎÎñÁĞ±í	Emptying task list
-key_762	ÈÎÎñÃû³Æ	Task name
-key_491	ÆôÓÃ¸ÃÏîÊ±£¬»á²éÑ¯¶à¸öÂú×ãÌõ¼şµÄÏî£¬Í¬Ê±½«Í¬Ò»ÁĞ±£´æÎªÊı×é	When this item is enabled, it queries multiple qualified items and saves the same column as an array.
-key_543	¿Õ¸ñ·Ö¸î	Space segmentation
-key_672	ÍøÕ¾ÌáÊ¾:	Website prompts:
+key_619	Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëºï¿½	Application center account
+WriteFileTextTF	Ğ´ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ä±ï¿½	Write the file text
+key_144	ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ñ¾ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½Îª	The layout file has been successfully saved to
+key_150	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±Ğ¶ï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Uninstalling the plug-in at runtime can cause the program to crash.
+ReReplaceTF_desc	Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½æ»»ï¿½ï¿½Öµ	Replacing numeric values with regular expressions
+key_286	Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å±ï¿½	Executing task scripts
+key_640	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Save the request
+RepeatFT	É¾ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½	Delete duplicate items
+key_7	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Column characteristics
+key_273	ï¿½ï¿½ï¿½ï¿½	Blog
+key_141	ï¿½ï¿½ï¿½ï¿½	layout
+key_102	Ö´ï¿½ï¿½Ê§ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢  {0}	Failure to execute, error message {0}
+key_682	ï¿½ï¿½ï¿½ï¿½	Move up
+key_238	ï¿½Â½ï¿½ï¿½ò¿½±ï¿½	New or copy
+key_654	ï¿½Ú¸ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½ {0}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¶ï¿½Ì¬ï¿½ï¿½ï¿½ó£¬¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¡ï¿½{1}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½æ·­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¹Ø¼ï¿½ï¿½Öµï¿½Î»ï¿½ï¿½	The keyword {0} is not found in the web page, it may be dynamic request, {1} can be enabled, and the browser page can be turned to the location containing the keyword.
+key_490	ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Query multiple data
+key_122	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Request coding
+key_644	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Parameter configuration
+key_280	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½	Emptying task list
+key_762	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Task name
+key_491	ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½î£¬Í¬Ê±ï¿½ï¿½Í¬Ò»ï¿½Ğ±ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½	When this item is enabled, it queries multiple qualified items and saves the same column as an array.
+key_543	ï¿½Õ¸ï¿½Ö¸ï¿½	Space segmentation
+key_672	ï¿½ï¿½Õ¾ï¿½ï¿½Ê¾:	Website prompts:
 key_786	Height=	Height=
-MergeRepeatTF_desc	¶ÔÖØ¸´µÄÊı¾İĞĞ£¬½øĞĞºÏ²¢²Ù×÷	For repeated data rows, merge operations
-RangeFT	ÊıÖµ·¶Î§¹ıÂËÆ÷	Numerical range filter
-key_659	ÍøÒ³½á¹¹¼ÆËãÖĞ	Web page structure calculation
-key_281	È·¶¨Çå¿ÕËùÓĞËã·¨Ä£¿éÃ´£¿	Do you want to clear all the algorithm modules?
-key_129	½âÎö´íÎóÊı	Parse error number
-key_112	×ÖµäĞòÁĞ»¯Ê§°Ü	Dictionary serialization failure
-key_170	ÉÏÒ»¸ö	The previous
-key_168	¸´ÖÆ	copy
-key_97	Ö´ĞĞ³É¹¦	Implementation success
-key_92	´ò¿ªĞÂÎÄ¼ş	Open a new file
-TableEX	Ğ´ÈëÊı¾İ±í	Write a data table
-key_113	HTTP´íÎó£¬ÀàĞÍ:	HTTP error, type:
-TableEX_desc	½«Êı¾İ±£´æÖÁÈí¼şµÄÊı¾İ¹ÜÀíÆ÷ÖĞ£¬Ö®ºó¿É·½±ã½øĞĞÆäËû´¦Àí£¬ÍÏÈëµ½ÈÎÒâÒ»ÁĞ½Ô¿É£¬³£ÓÃ	The data is saved to the data manager of the software, and then it can be easily processed.
-key_551	°üº¬Ê×Î²´®	Include the first and the end string
-key_721	´íÎóÊı	Error number
-key_631	ÅäÖÃÊôĞÔ	Configuration properties
-TrimTF_desc	Çå³ı×Ö·û´®Ç°ºóºÍÖĞ¼äµÄ¿Õ°×·û	Clear the blank character before and after the string and in the middle
+MergeRepeatTF_desc	ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ£ï¿½ï¿½ï¿½ï¿½ĞºÏ²ï¿½ï¿½ï¿½ï¿½ï¿½	For repeated data rows, merge operations
+RangeFT	ï¿½ï¿½Öµï¿½ï¿½Î§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Numerical range filter
+key_659	ï¿½ï¿½Ò³ï¿½á¹¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Web page structure calculation
+key_281	È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã·¨Ä£ï¿½ï¿½Ã´ï¿½ï¿½	Do you want to clear all the algorithm modules?
+key_129	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Parse error number
+key_112	ï¿½Öµï¿½ï¿½ï¿½ï¿½Ğ»ï¿½Ê§ï¿½ï¿½	Dictionary serialization failure
+key_170	ï¿½ï¿½Ò»ï¿½ï¿½	The previous
+key_168	ï¿½ï¿½ï¿½ï¿½	copy
+key_97	Ö´ï¿½Ğ³É¹ï¿½	Implementation success
+key_92	ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½	Open a new file
+TableEX	Ğ´ï¿½ï¿½ï¿½ï¿½ï¿½İ±ï¿½	Write a data table
+key_113	HTTPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:	HTTP error, type:
+TableEX_desc	ï¿½ï¿½ï¿½ï¿½ï¿½İ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ£ï¿½Ö®ï¿½ï¿½É·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ëµ½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Ğ½Ô¿É£ï¿½ï¿½ï¿½ï¿½ï¿½	The data is saved to the data manager of the software, and then it can be easily processed.
+key_551	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î²ï¿½ï¿½	Include the first and the end string
+key_721	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Error number
+key_631	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Configuration properties
+TrimTF_desc	ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½Ğ¼ï¿½Ä¿Õ°×·ï¿½	Clear the blank character before and after the string and in the middle
 key_803	É³Ä®Ö®Ó¥	Desert Eagle
-key_87	ÀıÈçd:\\test\\mydb.sqlite	For example, d:\\test\\mydb.sqlite
-key_723	±¾Ò³ÃæÕ¹Ê¾ÁËËùÓĞÄ£¿éµÄÖ´ĞĞ´ÎÊı£¬Á÷ÈëÁ÷³öÊı¾İÊı£¬Ò»°ãÉÏÓÎµÄÁ÷³öµÈÓÚÏÂÓÎÁ÷Èë£¬ÈôÓĞºìÉ«¿òÑ¡Ä£¿é£¬ÔòÌáÊ¾¸ÃÄ£¿éÅäÖÃ¿ÉÄÜÓĞÎÊÌâ	This page shows the number of executions of all modules, the flow of outflow data, the general upstream outflow is equal to the downstream inflow, and if there is a red box selection module, it suggests that the module configuration may be problematic.
-key_658	ÊôĞÔÅäÖÃ	Attribute configuration
-key_566	±¾Ä£¿éÒª´¦ÀíµÄÁĞµÄÃû³Æ	The name of the column to be processed by this module
-key_55	ÊôĞÔ	attribute
-key_229	Ã»ÓĞÔÚ±íÖĞµÄ·¢ÏÖ¿ÉÓÃµÄÊı¾İ	Data that is not available in the table
-key_316	µ±Ç°¹¤³ÌÖĞÃ»ÓĞ°üº¬ÈÎºÎÈÎÎñ£¬ÇëÔÚÈÎÎñ¹ÜÀíÒ³ÖĞ£¬½«Òª±£´æµÄÈÎÎñ²åÈëµ½µ±Ç°¹¤³ÌÖĞ	There are no tasks in the current project. Please insert the tasks you want to save in the task management page to the current project.
-FileConnectorTable	ÎÄ±¾µ¼Èëµ¼³öÆ÷	Text import and export
-RegexTF_desc	Í¨¹ıÕıÔò±í´ïÊ½ÌáÈ¡ÄÚÈİ	Extracting content through regular expressions
-key_223	ÏµÍ³×´Ì¬ÊÓÍ¼	System state view
-key_589	ÔË¶¯·½°¸	Motion scheme
-key_10	ĞéÄâ»¯Êı¾İ¼¯	Virtualized dataset
-key_668	³É¹¦Ìí¼ÓÊôĞÔ	Successfully add properties
-key_266	·ÃÎÊHawkµÄ¿ªÔ´ÏîÄ¿µØÖ·	Access to the open source project address of Hawk
-key_401	Éú³ÉÊ±¼ä¸ñÊ½	Generation time format
+key_87	ï¿½ï¿½ï¿½ï¿½d:\\test\\mydb.sqlite	For example, d:\\test\\mydb.sqlite
+debug_desc	ï¿½ï¿½Ò³ï¿½ï¿½Õ¹Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½Ö´ï¿½Ğ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½Ğºï¿½É«ï¿½ï¿½Ñ¡Ä£ï¿½é£¬ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	This page shows the number of executions of all modules, the flow of outflow data, the general upstream outflow is equal to the downstream inflow, and if there is a red box selection module, it suggests that the module configuration may be problematic.
+key_658	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Attribute configuration
+key_566	ï¿½ï¿½Ä£ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½ï¿½ï¿½ï¿½ï¿½	The name of the column to be processed by this module
+key_55	ï¿½ï¿½ï¿½ï¿½	attribute
+key_229	Ã»ï¿½ï¿½ï¿½Ú±ï¿½ï¿½ĞµÄ·ï¿½ï¿½Ö¿ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½	Data that is not available in the table
+key_316	ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ğ°ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½Ğ£ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ëµ½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	There are no tasks in the current project. Please insert the tasks you want to save in the task management page to the current project.
+FileConnectorTable	ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ëµ¼ï¿½ï¿½ï¿½ï¿½	Text import and export
+RegexTF_desc	Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½	Extracting content through regular expressions
+key_223	ÏµÍ³×´Ì¬ï¿½ï¿½Í¼	System state view
+key_589	ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½ï¿½	Motion scheme
+key_10	ï¿½ï¿½ï¿½â»¯ï¿½ï¿½ï¿½İ¼ï¿½	Virtualized dataset
+key_668	ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Successfully add properties
+key_266	ï¿½ï¿½ï¿½ï¿½Hawkï¿½Ä¿ï¿½Ô´ï¿½ï¿½Ä¿ï¿½ï¿½Ö·	Access to the open source project address of Hawk
+key_401	ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ê½	Generation time format
 MySQLConnector_desc	IDataBaseConnector	IDataBaseConnector
-FileExistFT_desc	ÅĞ¶ÏÄ³Ò»¸öÎÄ¼şÊÇ·ñÒÑ¾­ÔÚÖ¸¶¨Â·¾¶ÉÏ	Determine whether a file is already on the specified path.
-key_282	±£´æÈ«²¿ÈÎÎñ	Save the whole task
-MySQLConnector	MySQLÊı¾İ¿â	MySQL database
-key_683	ÏÂÒÆ	Move down
-key_308	±£´æÏîÄ¿	Save the project
-SaveFileEX	±£´æ³¬Á´½ÓÎÄ¼ş	Save hyperlink file
-key_190	¸ß¼¶Ñ¡Ïî	Advanced options
-UrlTF	URL×Ö·û×ªÒå	URL character escape
-key_574	¿Õ°×·ûÌæ»»Îª¿Õ¸ñ	The blank character is replaced by a space
-DeleteTF_desc	²»ÓÃ½âÊÍÁË°É£¬³£ÓÃ	You don't have to explain it.
-SQLiteDatabase	SQLiteÊı¾İ¿â	SQLite database
-key_569	½á¹ûÒªÊä³öµ½µÄÁĞµÄÃû³Æ	The name of the column that you want to output
-key_95	²»´æÔÚ¶¨Òå	No definition
-key_588	Ä¿±ê³ÇÊĞ	Target city
-key_534	¹´Ñ¡´ËÏîºó£¬Ñ¡Ôñ´ÓºóÊıµÄµÚnÏî	When this item is checked, select the next number of item n
-DataManager_desc	²é¿´ºÍ·ÖÎöÊı¾İ	View and analyze data
-key_126	×ÜÇëÇóÊı	Total number of requests
-key_661	Æô¶¯ĞáÌ½·şÎñ	Start sniffer service
-RangeGE	Éú³ÉÇø¼äÊı	Generated interval number
-NearbySearch	¼ìË÷¸½½ü	Search the neighborhood
-key_322	¼ÓÔØ¹¤³ÌÎÄ¼ş£¬Î»ÖÃÎª{0}	Load the project file, the location is {0}
+FileExistFT_desc	ï¿½Ğ¶ï¿½Ä³Ò»ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ç·ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½	Determine whether a file is already on the specified path.
+key_282	ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Save the whole task
+MySQLConnector	MySQLï¿½ï¿½ï¿½İ¿ï¿½	MySQL database
+key_683	ï¿½ï¿½ï¿½ï¿½	Move down
+key_308	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿	Save the project
+SaveFileEX	ï¿½ï¿½ï¿½æ³¬ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½	Save hyperlink file
+key_190	ï¿½ß¼ï¿½Ñ¡ï¿½ï¿½	Advanced options
+UrlTF	URLï¿½Ö·ï¿½×ªï¿½ï¿½	URL character escape
+key_574	ï¿½Õ°×·ï¿½ï¿½æ»»Îªï¿½Õ¸ï¿½	The blank character is replaced by a space
+DeleteTF_desc	ï¿½ï¿½ï¿½Ã½ï¿½ï¿½ï¿½ï¿½Ë°É£ï¿½ï¿½ï¿½ï¿½ï¿½	You don't have to explain it.
+SQLiteDatabase	SQLiteï¿½ï¿½ï¿½İ¿ï¿½	SQLite database
+key_569	ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½ï¿½ï¿½ï¿½ï¿½	The name of the column that you want to output
+key_95	ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½	No definition
+key_588	Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½	Target city
+key_534	ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½Óºï¿½ï¿½ï¿½ï¿½Äµï¿½nï¿½ï¿½	When this item is checked, select the next number of item n
+DataManager_desc	ï¿½é¿´ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	View and analyze data
+key_126	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Total number of requests
+key_661	ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ï¿½	Start sniffer service
+RangeGE	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Generated interval number
+NearbySearch	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Search the neighborhood
+key_322	ï¿½ï¿½ï¿½Ø¹ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Î»ï¿½ï¿½Îª{0}	Load the project file, the location is {0}
 key_802	d:LayoutOverrides=	d:LayoutOverrides=
-key_545	·Ö¸î×Ö·û	Split character
-key_555	×ª»»¸ñÊ½	Conversion format
-key_305	ÎÄ¼ş	file
-key_26	ÃÜÂë	Password
-key_284	¼ÓÔØ±¾ÈÎÎñ	Load this task
-key_596	ËÑË÷°ë¾¶	Search radius
-key_306	ĞÂ½¨ÏîÄ¿	New project
-key_635	ÇëÇóÏêÇé	Request details
-DataManager	Êı¾İ¹ÜÀí	data management
-key_663	Ê¹ÓÃµ±Ç°¸¸½Úµã{0} {1}£¬ÔÚÎÄµµÖĞÕÒ²»µ½ÈÎºÎ¸¸½Úµã	Using the current parent node {0} {1}, no parent node can be found in the document.
-key_15	Ö÷¼ü	Primary key
-IConfigFile	ÅäÖÃÎÄ¼ş½Ó¿Ú	Configuration file interface
-key_710	×î´óÏß³ÌÊı	Maximum number of threads
-key_504	¸ñÊ½	format
-key_782	ÆğÊ¼	Start
-key_480	×î´óÖØ¸´´ÎÊı	Maximum repetitions
-key_434	´ÓÔ­ÈÎÎñÖĞ´«µİµ½×ÓÈÎÎñµÄÁĞ£¬¶à¸öÁĞÓÃ¿Õ¸ñ·Ö¸î	The column is passed from the original task to the sub task, and multiple columns are separated by spaces.
-key_597	ËùÓĞ½á¹û	All results
-key_50	ÎÄ¼ş²»ÊÇºÏ·¨µÄJsonÎÄ¼ş	The file is not a legitimate Json file
-key_216	µ±Ç°Á¬½Ó	Current connection
-UrlTF_desc	¶Ô³¬Á´½ÓurlÉú³ÉURL±àÂëºóµÄ×Ö·û´®£¬ÓÃÒÔ½øĞĞÔ¶³Ì·ÃÎÊ	Generate URL encoded strings for hyperlink URL for remote access.
-IXPlugin	XFrmWork»ù±¾²å¼ş½Ó¿Ú	XFrmWork basic plug-in interface
-AutoIndexTF_desc	×Ô¶¯Éú³ÉÒ»¸ö´ÓÆğÊ¼Ë÷Òı¿ªÊ¼µÄ×ÔÔöĞÂÁĞ	Automatically generates a self added new column from the start index.
-key_406	Ñ¡ÔñËùÒªÁ¬½ÓµÄÊı¾İ¿â·şÎñ	Select the database services that you want to connect to
-key_425	Ìí¼Óµ½ÈÎÎñ	Add to the task
-key_530	Òª»ñÈ¡µÄÏìÓ¦Í·µÄÃû³Æ£¬¶à¸öÖ®¼äÓÃ¿Õ¸ñ·Ö¸î£¬²»Çø·Ö´óĞ¡Ğ´	The name of the response head to be obtained is divided by spaces, and is not case sensitive.
-key_800	¸ĞĞ»Ê¹ÓÃ HAWK	Thank you for using HAWK
-key_458	ÈçĞèÉú³ÉÊı×é1£¬3£¬5£¬7£¬9£¬Ôò¼ä¸ôÎª2	If you want to generate arrays 1, 3, 5, 7, 9, the interval is 2.
-key_5	À´Ô´	source
-key_780	¿É½«Í¼±êÍÏÈëÓÒ²àÊı¾İÁĞµÄÉÏ·½¿Õ°×ÁĞ±í´¦£¬Îª¸ÃÁĞÌí¼ÓÄ£¿é	You can drag the icon into the upper blank list of the right data column to add a module to the column.
-key_184	Â·¾¶½âÎöÓĞÎó£¬·µ»Ø¿Õ½Úµã:	The path parsing is incorrect and returns to the empty node:
-key_496	±íÖ÷¼ü	Table primary key
-SmartETLTool_desc	¶ÔÊı¾İÉ¸Ñ¡×ª»»ºÍºÏ²¢£¬²¢µ¼³öµ½Êı¾İ¿âÖĞ	Filter, transform and merge data, and export them to the database.
-key_564	ÏÔÊ¾¶ÀÁ¢ÈÎÎñ	Display independent tasks
-LayoutManager	²¼¾Ö¹ÜÀíÆ÷	Layout manager
-key_291	ÔİÍ£	suspend
-key_33	Êı¾İ¿âÉ¾³ıÊ§°Ü:	Database deletion failed:
-key_30	Á¬½Ó×´Ì¬	Connection state
-key_563	½«¶à¸öÖÖ×ÓºÏ²¢ÎªÒ»¸öÈÎÎñÖ´ĞĞ£¬Õâ¶ÔÓÚĞ¡ĞÍÖÖ×ÓÈÎÎñ¿ÉÓĞĞ§ÌáÉıĞ§ÂÊ	Combining multiple seeds into one task execution can effectively improve the efficiency of small seed tasks.
-ReadFileGe_desc	´ÓÎÄ¼şÖĞ¶ÁÈ¡Êı¾İÄÚÈİ£¬ÎªÁË±£Ö¤ÕıÈ·¶ÁÈ¡£¬ĞèÅäÖÃÎÄ¼ş¸ñÊ½ºÍ¶ÁÈ¡ÊôĞÔ	Data content is read from file. To ensure correct reading, file format and read attribute need to be configured.
-key_203	ÄúÃ»ÓĞÌîĞ´¶ÔÓ¦²ÎÊı:{0}	You did not fill out the corresponding parameters: {0}
-key_725	Ë«»÷¿É¼ÓÔØÈÎÎñ£¬ÓÒ¼ü¿É¶ÔÈÎÎñ½øĞĞÉ¾³ıµÈ²Ù×÷	Double click to load tasks, right button can delete tasks, and other operations.
-TextGE_desc	Ã¿ĞĞÒ»ÌõÊı¾İ£¬³£ÓÃ	A piece of data per line, commonly used
-key_703	Ã»ÓĞÔÚ±¾ÈÎÎñÖĞ·¢ÏÖÈÎºÎÖ´ĞĞÆ÷¡£	No executor was found in this task.
-key_86	Êı¾İ¿âÂ·¾¶	Database path
-key_37	´´½¨ĞÂ¿â	Create a new library
-key_567	½éÉÜ	introduce
+key_545	ï¿½Ö¸ï¿½ï¿½Ö·ï¿½	Split character
+key_555	×ªï¿½ï¿½ï¿½ï¿½Ê½	Conversion format
+key_305	ï¿½Ä¼ï¿½	file
+key_26	ï¿½ï¿½ï¿½ï¿½	Password
+key_284	ï¿½ï¿½ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½	Load this task
+key_596	ï¿½ï¿½ï¿½ï¿½ï¿½ë¾¶	Search radius
+key_306	ï¿½Â½ï¿½ï¿½ï¿½Ä¿	New project
+key_635	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Request details
+DataManager	ï¿½ï¿½ï¿½İ¹ï¿½ï¿½ï¿½	data management
+key_663	Ê¹ï¿½Ãµï¿½Ç°ï¿½ï¿½ï¿½Úµï¿½{0} {1}ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ÎºÎ¸ï¿½ï¿½Úµï¿½	Using the current parent node {0} {1}, no parent node can be found in the document.
+key_15	ï¿½ï¿½ï¿½ï¿½	Primary key
+IConfigFile	ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ó¿ï¿½	Configuration file interface
+key_710	ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½	Maximum number of threads
+key_504	ï¿½ï¿½Ê½	format
+key_782	ï¿½ï¿½Ê¼	Start
+key_480	ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½	Maximum repetitions
+key_434	ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½İµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿Õ¸ï¿½Ö¸ï¿½	The column is passed from the original task to the sub task, and multiple columns are separated by spaces.
+key_597	ï¿½ï¿½ï¿½Ğ½ï¿½ï¿½	All results
+key_50	ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ÇºÏ·ï¿½ï¿½ï¿½Jsonï¿½Ä¼ï¿½	The file is not a legitimate Json file
+key_216	ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½	Current connection
+UrlTF_desc	ï¿½Ô³ï¿½ï¿½ï¿½ï¿½ï¿½urlï¿½ï¿½ï¿½ï¿½URLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ï¿½ï¿½Ô¶ï¿½Ì·ï¿½ï¿½ï¿½	Generate URL encoded strings for hyperlink URL for remote access.
+IXPlugin	XFrmWorkï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½	XFrmWork basic plug-in interface
+AutoIndexTF_desc	ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Automatically generates a self added new column from the start index.
+key_406	Ñ¡ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½	Select the database services that you want to connect to
+key_425	ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½	Add to the task
+key_530	Òªï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ó¦Í·ï¿½ï¿½ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½Ã¿Õ¸ï¿½Ö¸î£¬ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ğ¡Ğ´	The name of the response head to be obtained is divided by spaces, and is not case sensitive.
+key_800	ï¿½ï¿½Ğ»Ê¹ï¿½ï¿½ HAWK	Thank you for using HAWK
+key_458	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½3ï¿½ï¿½5ï¿½ï¿½7ï¿½ï¿½9ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª2	If you want to generate arrays 1, 3, 5, 7, 9, the interval is 2.
+key_5	ï¿½ï¿½Ô´	source
+key_780	ï¿½É½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½ï¿½Ï·ï¿½ï¿½Õ°ï¿½ï¿½Ğ±ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½	You can drag the icon into the upper blank list of the right data column to add a module to the column.
+key_184	Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó£¬·ï¿½ï¿½Ø¿Õ½Úµï¿½:	The path parsing is incorrect and returns to the empty node:
+key_496	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Table primary key
+SmartETLTool_desc	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¸Ñ¡×ªï¿½ï¿½ï¿½ÍºÏ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½	Filter, transform and merge data, and export them to the database.
+key_564	ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Display independent tasks
+LayoutManager	ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½	Layout manager
+key_291	ï¿½ï¿½Í£	suspend
+key_33	ï¿½ï¿½ï¿½İ¿ï¿½É¾ï¿½ï¿½Ê§ï¿½ï¿½:	Database deletion failed:
+key_30	ï¿½ï¿½ï¿½ï¿½×´Ì¬	Connection state
+key_563	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÓºÏ²ï¿½ÎªÒ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ğ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½Ğ§ï¿½ï¿½	Combining multiple seeds into one task execution can effectively improve the efficiency of small seed tasks.
+ReadFileGe_desc	ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ğ¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ£ï¿½Îªï¿½Ë±ï¿½Ö¤ï¿½ï¿½È·ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ê½ï¿½Í¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½	Data content is read from file. To ensure correct reading, file format and read attribute need to be configured.
+key_203	ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½:{0}	You did not fill out the corresponding parameters: {0}
+key_725	Ë«ï¿½ï¿½ï¿½É¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò¼ï¿½ï¿½É¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½È²ï¿½ï¿½ï¿½	Double click to load tasks, right button can delete tasks, and other operations.
+TextGE_desc	Ã¿ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½İ£ï¿½ï¿½ï¿½ï¿½ï¿½	A piece of data per line, commonly used
+key_703	Ã»ï¿½ï¿½ï¿½Ú±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ·ï¿½ï¿½ï¿½ï¿½Îºï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	No executor was found in this task.
+key_86	ï¿½ï¿½ï¿½İ¿ï¿½Â·ï¿½ï¿½	Database path
+key_37	ï¿½ï¿½ï¿½ï¿½ï¿½Â¿ï¿½	Create a new library
+key_567	ï¿½ï¿½ï¿½ï¿½	introduce
 key_109	Î´Öª	Unknown
-key_408	3.ÊıÁ¿	3. quantity
-key_328	½Å±¾Â·¾¶	Script path
-key_160	ÊôĞÔÃû³Æ	Attribute name
-click_refresh	µã»÷¡°Ë¢ĞÂ¡°¿ÉË¢ĞÂ½á¹û	Click ""Refresh"" to refresh the result
-click_commit	µã»÷¡°È·ÈÏ½á¹û¡±¼´¿ÉÌá½»	Click ""confirmation result"" to submit
-key_142	Ë¢ĞÂ	Refresh
-TableGE	´ÓÊı¾İ±íÉú³É	From data table generation
-key_358	Â·¾¶»òÎÄ¼şÃû£¬ÀıÈçD:\\file.txt£¬ ¿ÉÍ¨¹ı'[]'ÒıÓÃÆäËûÁĞ£¬ \n ÈôÎªÄ¿Â¼Ãû£¬±ØĞëÏÔÊ½ÒÔ/½áÊø£¬ÎÄ¼şÃû½«»áÍ¨¹ıurl×Ô¶¯½âÎö	The path or file name, such as D:\\file.txt, can be referenced by '[]' 'to the other columns, and if \n is a directory name, it must be explicitly / end, and the file name will be automatically parsed through URL
-key_235	ä¯ÀÀ·½Ê½	Browsing mode
-key_206	µ¥ÎÄµµ	Single document
+key_408	3.ï¿½ï¿½ï¿½ï¿½	3. quantity
+key_328	ï¿½Å±ï¿½Â·ï¿½ï¿½	Script path
+key_160	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	Attribute name
+click_refresh	ï¿½ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½Â¡ï¿½ï¿½ï¿½Ë¢ï¿½Â½ï¿½ï¿½	Click ""Refresh"" to refresh the result
+click_commit	ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½Ï½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á½»	Click ""confirmation result"" to submit
+key_142	Ë¢ï¿½ï¿½	Refresh
+TableGE	ï¿½ï¿½ï¿½ï¿½ï¿½İ±ï¿½ï¿½ï¿½ï¿½ï¿½	From data table generation
+key_358	Â·ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½D:\\file.txtï¿½ï¿½ ï¿½ï¿½Í¨ï¿½ï¿½'[]'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ£ï¿½ \n ï¿½ï¿½ÎªÄ¿Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½urlï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½	The path or file name, such as D:\\file.txt, can be referenced by '[]' 'to the other columns, and if \n is a directory name, it must be explicitly / end, and the file name will be automatically parsed through URL
+key_235	ï¿½ï¿½ï¿½ï¿½ï¿½Ê½	Browsing mode
+key_206	ï¿½ï¿½ï¿½Äµï¿½	Single document

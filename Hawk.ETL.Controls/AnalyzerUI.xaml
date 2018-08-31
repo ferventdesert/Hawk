@@ -21,8 +21,8 @@
 	 
 	</UserControl.Resources>
     <Grid Background="{DynamicResource NormalBorderBrush}">
-    	<ListView      SelectionMode="Single" DataContext="{Binding}"
-    		ItemsSource="{Binding Items}" Margin="8,60,8,40"  >
+        <ListView    ToolTip="{DynamicResource debug_desc}"   SelectionMode="Single" DataContext="{Binding}"
+    		ItemsSource="{Binding Items}" Margin="8,10,8,40"  >
 
     		<ListView.View>
     			<GridView>
@@ -53,7 +53,6 @@
     		</ListView.View>
 				  
     	</ListView>
-    	<TextBlock HorizontalAlignment="Left" Margin="8,8,0,0" TextWrapping="Wrap" Text="{DynamicResource key_723}" VerticalAlignment="Top"/>
             
     </Grid>
 </UserControl>

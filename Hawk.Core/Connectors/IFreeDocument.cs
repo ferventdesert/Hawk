@@ -28,7 +28,7 @@ namespace Hawk.Core.Connectors
         [LocalizedDescription("script_mode_one")]
         One,
 
-        [LocalizedDescription("script_mode_no")]
+        [LocalizedDescription("script_mode_none")]
         NoTransform,
     }
 

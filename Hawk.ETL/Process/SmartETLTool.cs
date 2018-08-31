@@ -632,7 +632,6 @@ namespace Hawk.ETL.Process
                     if (NeedConfig(item))
                     {
                         var window = PropertyGridFactory.GetPropertyWindow(item);
-                        window.CommandBindings.Add(new CommandBinding(NavigationCommands.GoToPage, (s, e) => System.Diagnostics.Process.Start((string)e.Parameter)));
                         window.ShowDialog();
                     }
                     ETLMount++;

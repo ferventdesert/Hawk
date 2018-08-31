@@ -25,7 +25,7 @@ using Hawk.ETL.Plugins.Generators;
 using Hawk.ETL.Plugins.Transformers;
 using Xceed.Wpf.Toolkit;
 using MessageBox = System.Windows.MessageBox;
-
+using  System.Diagnostics;
 namespace Hawk.ETL.Process
 {
     [XFrmWork("key_201", "SmartETLTool_desc" ,url: "diagram",  groupName: "数据采集和处理")]
@@ -632,7 +632,7 @@ namespace Hawk.ETL.Process
                     if (NeedConfig(item))
                     {
                         var window = PropertyGridFactory.GetPropertyWindow(item);
-
+                        window.CommandBindings.Add(new CommandBinding(NavigationCommands.GoToPage, (s, e) => System.Diagnostics.Process.Start((string)e.Parameter)));
                         window.ShowDialog();
                     }
                     ETLMount++;

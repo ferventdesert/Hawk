@@ -458,7 +458,8 @@
         拖入的列为文件的超链接地址
         `保存位置`:可以使用方括号表达式，将某一列的内容传递过来
         注意:
-        > 一些网站必须要求登录以后才能下载内容。而如果你已经配置好能正常访问该网站的` {{smartcrawler_name}} `，那么就可以在`共用采集器名`中填写这个采集器的名称，此时本模块会使用那个采集器的header进行抓取。
+        
+        - 一些网站必须要求登录以后才能下载内容。而如果你已经配置好能正常访问该网站的` {{smartcrawler_name}} `，那么就可以在`共用采集器名`中填写这个采集器的名称，此时本模块会使用那个采集器的header进行抓取。
     </system:String>
     <system:String x:Key="key_431">
         递归到下列
@@ -855,8 +856,7 @@
     <system:String x:Key="RegexFT_desc" xml:space="preserve">
         编写正则表达式来过滤文本
         需要列名，输入正则表达式，和其最小匹配的内容数量，即可过滤内容。
-        有关正则表达式，可参考:
-        > https://www.jb51.net/tools/zhengze.html
+        有关正则表达式，可参考[这里](https://www.jb51.net/tools/zhengze.html)
     </system:String>
     <system:String x:Key="key_709" xml:space="preserve">
         在并行模式工作时，线程池所承载的最大线程数
@@ -1008,8 +1008,10 @@
         删除HTML标签和转义符号
         当页面包含HTML时，一些字符可能已经被转义了，例如空格成了`nsbp%`
         拖入到对应的列，即可将转义符号恢复为之前的表示
+
         注意:
-        > Hawk的Web访问器比python更加智能，默认对带特殊符号和中文的URL进行编码，所以这个模块用的并不多。
+
+        - Hawk的Web访问器比python更加智能，默认对带特殊符号和中文的URL进行编码，所以这个模块用的并不多。
     </system:String>
     <system:String x:Key="key_603">
         英语
@@ -1045,10 +1047,11 @@
         填入{{key_764}，能够成功获取XPath, 编写属性名称，点击{{}}，即可添加一个属性。类似地，再填入30535，设置属性名称为“单价”，即可添加另外一个属性。
 
         在`搜索属性`的文本框中，输入你要获取的关键字，由于关键字在网页中可能出现多次，可连续点击`继续搜索`，在多个结果间切换，左侧的html源码会对搜索的结果进行高亮。
-        > 请注意观察搜索的关键字在网页中的位置，是否符合预期，否则抓取数据可能会有问题。尤其在List模式。
-        > 如果需要抓取本页面的多块数据，可新建多个` {{smartcrawler_name}} `，分别进行配置。
-        如果发现有错误，可点击**编辑集合**，对属性进行删除，修改和排序。
-        你可以类似的将所有要抓取的特征字段添加进去，或是直接点击 {{key_623}} ，系统会根据目前的属性，推测其他属性。
+        
+        1. 请注意观察搜索的关键字在网页中的位置，是否符合预期，否则抓取数据可能会有问题。尤其在List模式。
+        2. 如果需要抓取本页面的多块数据，可新建多个` {{smartcrawler_name}} `，分别进行配置。
+        3. 如果发现有错误，可点击**编辑集合**，对属性进行删除，修改和排序。
+        4. 你可以类似的将所有要抓取的特征字段添加进去，或是直接点击 {{key_623}} ，系统会根据目前的属性，推测其他属性。
 
     </system:String>
     <system:String x:Key="crawler_url_desc" xml:space="preserve">
@@ -1060,8 +1063,7 @@
         ## 动态嗅探
         ### 什么是动态页面？
         老式网站在刷新时会返回页面的全部内容，但若只更新部分，即可大大节约带宽。该方式叫ajax，服务端传递xml或者json到浏览器，浏览器的js代码执行，并将数据渲染到页面上。
-        因此，获取数据的真实url，不一定显示在浏览器地址栏，而是隐藏在js调用中。本质上，javascript发起了新的隐藏http请求来获取数据，只要能模拟之，就能像真实浏览器一样获取所要数据。参考： 
-        > https://baike.baidu.com/item/ajax/8425?fr=aladdin
+        因此，获取数据的真实url，不一定显示在浏览器地址栏，而是隐藏在js调用中。本质上，javascript发起了新的隐藏http请求来获取数据，只要能模拟之，就能像真实浏览器一样获取所要数据。参考[百度百科的介绍](https://baike.baidu.com/item/ajax/8425?fr=aladdin)
 
         ### Hawk如何抓取动态页面
         通过浏览器和抓包，可以获取这些隐藏请求，但需要对HTTP请求的原理比较熟悉，不适合于初学者。
@@ -1109,9 +1111,10 @@
     </system:String>
     <system:String x:Key="xpath_desc" xml:space="preserve">
         ### XPath
-        关于XPath语法，可参考教程：
-        > http://www.w3school.com.cn/xpath/xpath_syntax.asp
-        XPath可以非常灵活，例如
+        关于XPath语法，可参考[教程](http://www.w3school.com.cn/xpath/xpath_syntax.asp)
+
+        XPath可以非常灵活，例如：
+
         - bookstore	选取 bookstore 元素的所有子节点。
         - /bookstore	选取根元素 bookstore。注释：假如路径起始于正斜杠( / )，则此路径始终代表到某元素的绝对路径！
         - bookstore/book	选取属于 bookstore 的子元素的所有 book 元素。
@@ -1124,18 +1127,18 @@
     </system:String>
     <system:String x:Key="css_desc" xml:space="preserve">
         ### CSSSelector
-        多数情况下，使用XPath就能解决问题，但是CSSSelector更简洁，且鲁棒性更强。关于它的介绍，可参考
-> http://www.w3school.com.cn/cssref/css_selectors.asp
-当然，大部分情况不需要那么复杂，只要记住以下几点：
-- `.name` 获取所有id为name的元素
-- `#name` 获取所有class为name的元素
-- `p` 获取所有p元素
-- `ul > li` 获取所有父节点是ul的li元素
+        多数情况下，使用XPath就能解决问题，但是CSSSelector更简洁，且鲁棒性更强。关于它的介绍，可[参考教程](http://www.w3school.com.cn/cssref/css_selectors.asp)
+        当然，大部分情况不需要那么复杂，只要记住以下几点：
+
+        - `.name` 获取所有id为name的元素
+        - `#name` 获取所有class为name的元素
+        - `p` 获取所有p元素
+        - `ul > li` 获取所有父节点是ul的li元素
     </system:String>
     <system:String x:Key="crawler_share_cookie" xml:space="preserve">
-     设置共享请求参数的采集器名称
-     为了抓取一个网站的不同数据，我们需要多个 {{smartcrawler_name}} 。但是访问网站需要登录和cookie，难不成每个采集器都要设置对应的请求参数吗？
-采集器的属性对话框中，可以设置`共享源`,也就是要共享的 {{smartcrawler_name}} 的名称。例如设置为`链家采集器`，那么本采集器的请求参数，都会在执行时，动态地从链家采集器中获得。这样就极大地简化了配置过程。
+        设置共享请求参数的采集器名称
+        为了抓取一个网站的不同数据，我们需要多个 {{smartcrawler_name}} 。但是访问网站需要登录和cookie，难不成每个采集器都要设置对应的请求参数吗？
+        采集器的属性对话框中，可以设置`共享源`,也就是要共享的 {{smartcrawler_name}} 的名称。例如设置为`链家采集器`，那么本采集器的请求参数，都会在执行时，动态地从链家采集器中获得。这样就极大地简化了配置过程。
     </system:String>
     <system:String x:Key="key_519">
         若编号为小于0且匹配出多个新列，多个列名可用空格分割，若该列不需要添加，可用_表示，如'_ 匹配1 _'
@@ -1195,6 +1198,7 @@
     <system:String x:Key="BaiduLocation_desc" xml:space="preserve">
         通过百度API获取当前地标的经纬度坐标，需要拖入代表地名的列
         在Hawk 3之后的版本，需要在百度地图API中注册账户，并将token填入配置中，参考:
+
         > http://lbsyun.baidu.com/index.php?title=webapi
     </system:String>
     <system:String x:Key="key_290">
@@ -1239,22 +1243,27 @@
     <system:String x:Key="PythonTF_desc" xml:space="preserve">
         执行特定的python代码或脚本，最后一行需要为值类型，作为该列的返回值
         例如，有两列a和b, 要将它们按字符串相加:
+
         `a+b`
         若希望按数值类型相加， 则需要提前将其转换
+
         `float(a)+float(b)`
         也可以提前定义函数:
+
         ```
         def add(x,y):
             return float(x)+float(y)
         add(a,b)
         ```
         也可以使用lambda: 
+
         ```
         f= lambda a,b: a+b
         f(a,b)
         ```
         
         ### 注意：
+
         1. 你可以在文本框中定义函数，但不建议太过复杂
         2. 很难引入第三方库，这受限于C#使用的ironpython(一个C#和Python交互的模块)的功能, Hawk3中引入了调用第三方库的功能，通过编写库路径，从而能够在脚本中import库，但功能支持并不好。
         3. 不论操作如何，脚本的最后一行需要是个可求值的元素，传递给对应的列，比如
@@ -1674,9 +1683,9 @@
         - 任务： 系统仅仅提供了两种任务：  {{smartcrawler_name}} 和数据清洗，任务可以被新建，保存和加载。
         - 模块： 一个任务会包含多个模块，例如数据清洗中会有`从文本生成`,`从爬虫转换`等
         - 工程： 多个任务组成一个工程，工程可以以xml方式保存和加载
-        - 数据表：在内存中存储的数据表，速度快，但是容量有限，存储小型数据时使用
+        - 数据表: 在内存中存储的数据表，速度快，但是容量有限，存储小型数据时使用
         - 数据库(连接器)： Hawk通过连接器连接不同的数据库，如MongoDB，sqlite等。
-        - 列： 数据清洗里的列，可参考像Excel里的列，在 {{smartcrawler_name}} 里，一个属性对应一个列
+        - 列： 数据清洗里的列，可参考像Excel里的列，在 {{smartcrawler_name}} 里，一个属性对应一个列
         - 文档： 可理解为数据清洗里的一行，它是键值对构成的字典，如`key1:value,key2:value2`
         - 单元格 ： 文档中的一个单元格，就像Excel 那样
         - 流:  多个文档的序列，可能是有限或无穷的，在早期版本的Hawk中，这个概念大量使用。
@@ -1732,7 +1741,9 @@
     <system:String x:Key="NumRangeFT_desc" xml:space="preserve">
         选择一定数量的行，如跳过前100行，再选取50条
         不需要列名，它可以跳过并选择部分文档，类似于sql语句中的skip和limit关键字。
-        > 注意，当skip数量过大，而目标数据是延迟执行时，skip会需要相当长的时间，而任务进度条没有任何反应，因此尽量避免这种设计
+        注意:
+
+        - 当skip数量过大，而目标数据是延迟执行时，skip会需要相当长的时间，而任务进度条没有任何反应，因此尽量避免这种设计
     </system:String>
     <system:String x:Key="key_326">
         不能重复加载该任务
@@ -1829,6 +1840,7 @@
         拖入json转换器到该列，如果工作模式是`不进行转换`，则你可以在转换结果列，拖入`Python转换器`,脚本内容填写`data[key]`,工作模式选择`转换为列表`，则key中的数组自动会被提取出来。
 
         注意事项:
+
         1. python和json转换器配合使用，能够解决一大类ajax网页的问题。更详细的内容，可参考
         2. 网页的json格式并不标准，此时需要通过其他工具，对字符串进行预处理，方可转换为json。
         3. 如果json非常复杂，是不建议直接用Hawk做数据清洗的，正确的做法是将json保存成文本，之后用其他工具或手工编写代码后处理。
@@ -1911,7 +1923,9 @@
     <system:String x:Key="ToListTF_desc" xml:space="preserve">
         设置任务并行方式和参数
         该模块在执行时，会切分本模块前后的数据流，以前侧的数据为种子，后侧的任务为mapper执行
+
         注意:
+
         1. 该转换器在调试和串行执行模式不起任何作用，仅仅作为一个标志
         2. 它能够在并行模式下，给执行引擎一个并行分叉的标志。
         3. 还能设置为每个子线程分配多少个种子文档，并设置子线程的名称
@@ -2479,7 +2493,10 @@
     <system:String x:Key="TrimTF_desc">
         清除字符串前后和中间的空白符
         默认能去掉文本前后的空白字符，也可以通过勾选内部选项，清除文本中间的空白符
-        > 使用`正则替换`也能实现类似的要求，只是本模块会更简单。
+        
+        注意：
+
+        - 使用`正则替换`也能实现类似的要求，只是本模块会更简单。
     </system:String>
     <system:String x:Key="key_803">
         沙漠之鹰

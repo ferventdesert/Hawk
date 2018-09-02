@@ -1,5 +1,4 @@
 ﻿using System;
-using Hawk.Core.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,8 +37,16 @@ namespace Hawk.ETL.Plugins.Transformers
         public virtual string KeyConfig
         {
             get { return Column; }
-
         }
+
+        [LocalizedDisplayName("key_567")]
+        [PropertyOrder(100)]
+        [PropertyEditor("MarkdownEditor")]
+        public string Document
+        {
+            get { return ETLHelper.GetMarkdownScript(GetType()); }
+        }
+
         public virtual void Finish()
         {
         }
@@ -54,12 +61,6 @@ namespace Hawk.ETL.Plugins.Transformers
             this.UnsafeDictDeserializePlus(docu);
         }
 
-       
-        public virtual IEnumerable<string> InputColumns()
-        {
-                if (!string.IsNullOrEmpty(Column))
-                    yield return Column;
-        } 
         public virtual FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
             var dict = this.UnsafeDictSerializePlus();
@@ -82,14 +83,8 @@ namespace Hawk.ETL.Plugins.Transformers
                 }
             }
         }
-        [LocalizedDisplayName("key_567")]
-        [PropertyOrder(100)]
-        [PropertyEditor("MarkdownEditor")]
-        public string Document
-        {
-            get { return ETLHelper.GetMarkdownScript(this.GetType()); }
-        }
-     [Browsable(false)]
+
+        [Browsable(false)]
         public string Description
         {
             get
@@ -122,6 +117,7 @@ namespace Hawk.ETL.Plugins.Transformers
 
         [Browsable(false)]
         public SmartETLTool Father { get; set; }
+
         [LocalizedDisplayName("key_12")]
         [PropertyOrder(0)]
         public string TypeName
@@ -132,11 +128,18 @@ namespace Hawk.ETL.Plugins.Transformers
                 return item == null ? GetType().ToString() : item.Name;
             }
         }
+
         [LocalizedCategory("key_211")]
         public string ObjectID { get; set; }
 
         [Browsable(false)]
         public XFrmWorkAttribute Attribute => AttributeHelper.GetCustomAttribute(GetType());
+
+        public virtual IEnumerable<string> InputColumns()
+        {
+            if (!string.IsNullOrEmpty(Column))
+                yield return Column;
+        }
 
         public override string ToString()
         {
@@ -244,7 +247,8 @@ namespace Hawk.ETL.Plugins.Transformers
         private bool isErrorRemind = true;
         private string _newColumn;
 
-        public virtual IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas,AnalyzeItem analyzer=null)
+        public virtual IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas,
+            AnalyzeItem analyzer = null)
 
         {
             var olddatas = datas;
@@ -259,9 +263,8 @@ namespace Hawk.ETL.Plugins.Transformers
                 catch (Exception ex)
                 {
                     analyzer?.Analyzer.AddErrorLog(data, ex, this);
-                    
                 }
-            
+
                 if (MainDescription.IsUIForm)
                 {
                     if (((olddatas is IList) == false || !olddatas.Any()) && newdatas is IList &&
@@ -275,7 +278,7 @@ namespace Hawk.ETL.Plugins.Transformers
                             {
                                 var result =
                                     MessageBox.Show(
-                                        String.Format(GlobalHelper.Get("fail_remind"), Column, TypeName),
+                                        string.Format(GlobalHelper.Get("fail_remind"), Column, TypeName),
                                         GlobalHelper.Get("key_570"),
                                         MessageBoxButton.YesNoCancel);
                                 if (result == MessageBoxResult.Yes)
@@ -308,7 +311,7 @@ namespace Hawk.ETL.Plugins.Transformers
                     }
                 }
                 if (newdatas == null)
-                   continue; 
+                    continue;
                 foreach (var newdata in newdatas)
                 {
                     yield return newdata;

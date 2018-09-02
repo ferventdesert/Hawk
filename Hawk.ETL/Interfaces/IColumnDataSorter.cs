@@ -6,13 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
+using System.Windows.Threading;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Managements;
+using Hawk.ETL.Plugins.Executor;
 using Hawk.ETL.Plugins.Transformers;
 using Hawk.ETL.Process;
+using IronPython.Modules;
 
 namespace Hawk.ETL.Interfaces
 {
@@ -219,11 +222,18 @@ namespace Hawk.ETL.Interfaces
             }
             return etls;
         }
-        public static int GetParallelPoint(this IList<IColumnProcess> etls)
+        public static int GetParallelPoint(this IList<IColumnProcess> etls,out ToListTF plTF)
 
         {
             int index = 0;
-          
+
+            var pl = etls.OfType<ToListTF>().FirstOrDefault();
+            if (pl != null)
+            {
+                plTF = pl;
+                return etls.IndexOf(pl);
+            }
+            plTF = null;
             foreach (var etl in etls)
             {
                 var generator = etl as IColumnGenerator;
@@ -380,6 +390,7 @@ namespace Hawk.ETL.Interfaces
             return func;
         }
 
+     
         public static EnumerableFunc Aggregate(this IEnumerable<IColumnProcess> tools, EnumerableFunc func=null,  bool isexecute=false,Analyzer analyzer=null)
 
         {

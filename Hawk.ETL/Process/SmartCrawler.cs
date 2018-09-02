@@ -509,7 +509,7 @@ namespace Hawk.ETL.Process
             ICollection<CrawlItem> existItems = CrawlItems;
             if (IsMultiData == ScriptWorkMode.One)
                 existItems = new List<CrawlItem> {new CrawlItem {Name = "temp", XPath = SelectXPath}};
-            var task = TemporaryTask.AddTempTask(GlobalHelper.Get("key_659"),
+            var task = TemporaryTask<XPathAnalyzer.CrawTarget>.AddTempTaskSimple(GlobalHelper.Get("key_659"),
                 HtmlDoc.DocumentNode.SearchPropertiesSmart(IsMultiData, existItems, RootXPath, RootFormat, IsAttribute),
                 crawTarget =>
                 {

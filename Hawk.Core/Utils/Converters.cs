@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Documents;
 using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Core.Utils
@@ -107,4 +108,31 @@ namespace Hawk.Core.Utils
             throw new NotImplementedException();
         }
     }
+
+    public class FlowDocumentConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null)
+                return null;
+            var str = value.ToString();
+            var flowdoc = new FlowDocument();
+            foreach (var s in str.Split('\n'))
+            {
+
+                Paragraph p = new Paragraph(new Run(s));
+                flowdoc.Blocks.Add(p);
+            }
+            return flowdoc;
+
+
+
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

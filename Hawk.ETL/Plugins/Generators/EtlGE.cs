@@ -449,8 +449,8 @@ namespace Hawk.ETL.Plugins.Generators
                     var name = doc[Column];
                     ControlExtended.UIInvoke(() =>
                     {
-                        var task = TemporaryTask.AddTempTask("ETL" + name, func(new List<IFreeDocument> {doc}),
-                            d => d.ToList());
+                        var task = TemporaryTask<FreeDocument>.AddTempTaskSimple("ETL" + name, func(new List<IFreeDocument> {doc}),
+                            d => d.LastOrDefault());
                         processManager.CurrentProcessTasks.Add(task);
                     });
                 }

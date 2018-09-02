@@ -3026,4 +3026,19 @@
     <system:String x:Key="edit_string_option">
         可编辑选项
     </system:String>
+
+      <system:String x:Key="filter_mode">
+        过滤模式
+    </system:String>
+
+       <system:String x:Key="filter_mode_by_item">
+         按行过滤
+    </system:String>
+    <system:String x:Key="filter_mode_pass_when_success">
+        成功后通过之后的所有行     
+    </system:String>
+     <system:String x:Key="filter_mode_stop_when_fail">
+        失败后拒绝之后所有行
+    </system:String>
+    
 </ResourceDictionary>

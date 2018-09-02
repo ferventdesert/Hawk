@@ -12,6 +12,8 @@ using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Interfaces;
+using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Managements
 {
@@ -56,11 +58,14 @@ namespace Hawk.ETL.Managements
     /// </summary>
     public class Project : ProjectItem
     {
+        private IProcessManager sysProcessManager;
+
         public Project()
         {
             Tasks = new ObservableCollection<ProcessTask>();
             DBConnections = new ObservableCollection<IDataBaseConnector>();
             Parameters=new Dictionary<string, string>();
+             sysProcessManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
 
         }
         [Browsable(false)]
@@ -75,7 +80,8 @@ namespace Hawk.ETL.Managements
         /// </summary>
         [LocalizedDisplayName("key_333")]
         public ObservableCollection<ProcessTask> Tasks { get; set; }
-        
+
+     
         [Browsable(false)]
         public Dictionary<string, string> Parameters { get; set; }
                           
@@ -174,11 +180,22 @@ namespace Hawk.ETL.Managements
             var dict = base.DictSerialize();
 
             dict.Children = Tasks.Select(d => d.DictSerialize()).ToList();
-            var connecots = new FreeDocument
+            var connectors = new FreeDocument
             {
                 Children = DBConnections.Select(d => (d as IDictionarySerializable).DictSerialize()).ToList()
             };
-            dict.Add("DBConnections", connecots);
+            dict.Add("DBConnections", connectors);
+       
+            if (sysProcessManager != null)
+            {
+                var runningTasks = new FreeDocument
+                {
+                    Children =
+                  sysProcessManager.CurrentProcessTasks.Where(d=>d.IsCanceled==false&&d.Publisher is SmartETLTool).OfType<TemporaryTask<FreeDocument>>().Select(d => d.DictSerialize())
+                            .ToList()
+                };
+                dict.Add("RunningTasks", runningTasks);
+            }
             return dict;
         }
 
@@ -215,6 +232,23 @@ namespace Hawk.ETL.Managements
                         conn.DictDeserialize(item);
 
                         DBConnections.Add(conn);
+                    }
+                }
+
+            }
+            if (docu["RunningTasks"] != null)
+            {
+                var items = docu["RunningTasks"] as FreeDocument;
+
+                if (items?.Children != null)
+                {
+                    foreach (var item in items.Children)
+                    {
+                        var conn =new TemporaryTask<FreeDocument> ();
+
+                        //sysProcessManager.
+
+                        //RunningTasks.Add(conn);
                     }
                 }
 

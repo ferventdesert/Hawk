@@ -202,7 +202,7 @@ namespace Hawk.ETL.Managements
             var table = db.RefreshTableNames().FirstOrDefault(d => d.Name == dataName);
             var dataAll = new List<IFreeDocument>();
 
-            var task = TemporaryTask.AddTempTask(dataName + GlobalHelper.Get("key_222"),
+            var task = TemporaryTask<FreeDocument>.AddTempTaskSimple(dataName + GlobalHelper.Get("key_222"),
                 db.GetEntities(dataName, mount), dataAll.Add, null, table != null ? table.Size : -1,
                 notifyInterval: 1000);
             processManager.CurrentProcessTasks.Add(task);
@@ -564,7 +564,7 @@ namespace Hawk.ETL.Managements
                     }
                 }
                 var docuts = new List<IFreeDocument>();
-                var task = TemporaryTask.AddTempTask(GlobalHelper.Get("key_242"), coll.ComputeData, d =>
+                var task = TemporaryTask<FreeDocument>.AddTempTaskSimple(GlobalHelper.Get("key_242"), coll.ComputeData, d =>
                 {
                     if (d != null)
                         docuts.Add(d);
@@ -583,7 +583,7 @@ namespace Hawk.ETL.Managements
                 {
                     var data = obj as DataCollection;
                     processManager.CurrentProcessTasks.Add(
-                        TemporaryTask.AddTempTask(data.Name + GlobalHelper.Get("key_245"),
+                        TemporaryTask<FreeDocument>.AddTempTaskSimple(data.Name + GlobalHelper.Get("key_245"),
                             dataBaseConnector.InserDataCollection(data), result => dataBaseConnector.RefreshTableNames(),
                             count: data.Count/1000));
                 }, icon: "database")).Cast<ICommand>().ToList();
@@ -766,7 +766,7 @@ namespace Hawk.ETL.Managements
 
             exporter.FileName = path;
             processManager.CurrentProcessTasks.Add(
-                TemporaryTask.AddTempTask(dataCollection + GlobalHelper.Get("key_252"),
+                TemporaryTask<FreeDocument>.AddTempTask(dataCollection + GlobalHelper.Get("key_252"),
                     exporter.WriteData(data), null, result =>
                     {
                         if (MainDescription.IsUIForm && string.IsNullOrEmpty(exporter.FileName) == false)

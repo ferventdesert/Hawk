@@ -51,7 +51,19 @@ namespace Hawk.ETL.Plugins.Transformers
         [LocalizedDisplayName("key_505")]
         [LocalizedDescription("key_506")]
         public ExtendSelector<string> ReferFormat { get; set; }
+        public override IEnumerable<string> InputColumns()
+        {
+            if (!string.IsNullOrEmpty(Column))
+                yield return Column;
+            if (!string.IsNullOrEmpty(MergeWith))
+            {
+                foreach (var col in MergeWith.Split(' '))
+                {
+                    yield return col;
+                }
+            }
 
+        }
         public override object TransformData(IFreeDocument datas)
         {
             var item = datas[Column];

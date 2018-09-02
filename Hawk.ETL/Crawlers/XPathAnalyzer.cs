@@ -1439,7 +1439,7 @@ namespace Hawk.ETL.Crawlers
             }
         }
 
-        public class CrawTarget
+        public class CrawTarget:IDictionarySerializable
         {
             public CrawTarget(List<CrawlItem> items, string rootpath = "",
                 SelectorFormat rootFormat = SelectorFormat.XPath)
@@ -1470,6 +1470,14 @@ namespace Hawk.ETL.Crawlers
             }
 
             public int ColumnCount { get; set; }
+            public FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
+            {
+                return new FreeDocument();
+            }
+
+            public void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
+            {
+            }
         }
 
         private class ParaClass

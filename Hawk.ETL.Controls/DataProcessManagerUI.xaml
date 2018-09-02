@@ -243,7 +243,7 @@
                 <TextBlock TextWrapping="Wrap" FontSize="21.333" VerticalAlignment="Top"  Grid.Row="2" HorizontalAlignment="Left" Grid.Column="1"><Run Language="zh-cn" Text="{DynamicResource key_739}" /></TextBlock>
        </StackPanel>
         <TextBlock TextWrapping="Wrap" Margin="34,20,0,20" HorizontalAlignment="Left" FontSize="64" Opacity="0.175" VerticalAlignment="Bottom" Foreground="Black"><Run Text="Hawk"/></TextBlock>
-        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="64" Margin="30,0,0,20" VerticalAlignment="Bottom"><Run Language="zh-cn" Text="H"/><Run Text="awk"/><Run Foreground="#FF10AB8B" Language="zh-cn" Text=" 3"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" ToolTip="{DynamicResource hawk_front_desc}" HorizontalAlignment="Left" FontSize="64" Margin="30,0,0,20" VerticalAlignment="Bottom"><Run Language="zh-cn" Text="H"/><Run Text="awk"/><Run Foreground="#FF10AB8B" Language="zh-cn" Text=" 3"/></TextBlock>
         <StackPanel Grid.Column="2" HorizontalAlignment="Left" Margin="30,8,0,0" Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Top">
         	  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
                                 <Rectangle.Fill>

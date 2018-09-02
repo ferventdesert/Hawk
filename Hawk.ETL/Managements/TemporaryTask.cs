@@ -1,34 +1,73 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
+using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
+using Hawk.Core.Utils.Plugins;
+using Microsoft.Scripting.Utils;
 
 namespace Hawk.ETL.Managements
 {
-    public class TemporaryTask : TaskBase
+    public class TemporaryTask<T> : TaskBase,IDictionarySerializable
     {
         private Task CurrentTask;
+        private int _currentPos;
 
         public TemporaryTask()
         {
             AutoDelete = true;
             WasCanceled = false;
             WasAborted = false;
+            Level = 0;
         }
-
+        [Browsable(false)]
+        public bool IsFormal { get; set; }
         private bool WasAborted { get; set; }
         private bool WasCanceled { get; set; }
         public Action TaskAction { get; set; }
 
-        public static TemporaryTask AddTempTask<T>(string taskName, IEnumerable<T> enumable, Action<T> action,
-            Action<int> contineAction = null, int count = -1, bool autoStart = true, int notifyInterval = 1,
-            Func<int> delayFunc = null)
+        public int CurrentPos
         {
-            var tempTask = new TemporaryTask {Name = taskName};
-            // start a task with a means to do a hard abort (unsafe!)
+            get { return _currentPos; }
+            set
+            {
+                if (_currentPos != value)
+                {
+                    _currentPos = value;
+                    OnPropertyChanged("CurrentPos");
+                }
+            }
+        }
 
+        public IList<FreeDocument> Seeds { get; set; }
+
+        /// <summary>
+        /// 指代任务的层级，是主任务还是附属任务
+        /// </summary>
+        public int Level { get; set; }
+
+        public static TemporaryTask<T> AddTempTaskSimple<T>(string taskName, IEnumerable<T> enumable, Action<T> action,
+            Action<int> continueAction = null, int count = -1, bool autoStart = true, int notifyInterval = 1,
+            Func<int> delayFunc = null) where  T:IDictionarySerializable
+        {
+            var tempTask = new TemporaryTask<T> {Name = taskName};
+            return AddTempTaskSimple<T>(tempTask, enumable, action,continueAction, count, autoStart, notifyInterval, delayFunc);
+        }
+        public static TemporaryTask<T> AddTempTaskSimple<T>(TemporaryTask<T> tempTask , IEnumerable<T> enumable, Action<T> action,
+           Action<int> continueAction = null, int count = -1, bool autoStart = true, int notifyInterval = 1,
+           Func<int> delayFunc = null) where T : IDictionarySerializable
+        {
+            // start a task with a means to do a hard abort (unsafe!)
+            if (enumable is IList)
+            {
+                tempTask.Seeds = enumable.Select(d => d.DictSerialize()).ToList();
+            }
             var index = 0;
             if (notifyInterval <= 0)
                 notifyInterval = 1;
@@ -36,11 +75,14 @@ namespace Hawk.ETL.Managements
             {
                 if (enumable is ICollection<T>)
                 {
-                    count = ((ICollection<T>) enumable).Count;
+                    count = ((ICollection<T>)enumable).Count;
                 }
 
                 foreach (var r in enumable)
+
                 {
+
+                    tempTask.CheckWait();
                     action?.Invoke(r);
 
                     if (r is int)
@@ -52,7 +94,7 @@ namespace Hawk.ETL.Managements
                         index++;
                     }
 
-                    if (index%notifyInterval != 0) continue;
+                    if (index % notifyInterval != 0) continue;
                     if (tempTask.CheckCancel())
                     {
                         tempTask.WasCanceled = true;
@@ -62,19 +104,19 @@ namespace Hawk.ETL.Managements
                         Thread.Sleep(delayFunc());
                     if (count > 0)
                     {
-                        tempTask.Percent = tempTask.CurrentIndex*100/count;
+                        tempTask.Percent = tempTask.CurrentIndex * 100 / count;
                     }
                     tempTask.CurrentIndex = index;
-                    tempTask.CheckWait();
+              
                 }
                 if (!tempTask.WasCanceled)
                 {
                     XLogSys.Print.Debug(string.Format(GlobalHelper.Get("key_338"), tempTask.Name));
                     tempTask.Percent = 100;
                 }
-                if (contineAction != null)
+                if (continueAction != null)
                 {
-                    ControlExtended.UIInvoke(() => contineAction(tempTask.CurrentIndex));
+                    ControlExtended.UIInvoke(() => continueAction(tempTask.CurrentIndex));
                 }
             };
 
@@ -84,15 +126,17 @@ namespace Hawk.ETL.Managements
             }
             return tempTask;
         }
-
-        public static TemporaryTask AddTempTask<T>(string taskName, IEnumerable<T> source,
-            Func<IEnumerable<T>, IEnumerable<T>> action,
-            Action<int> contineAction = null, int count = -1, bool autoStart = true, int notifyInterval = 1,
-            Func<int> delayFunc = null)
+        public static TemporaryTask<T> AddTempTask<T>(string taskName, IEnumerable<T> source,
+            Func<T, IEnumerable<T>> action,
+            Action<int> continueAction = null, int count = -1, bool autoStart = true, int notifyInterval = 1,
+            Func<int> delayFunc = null) where  T:IDictionarySerializable
         {
-            var tempTask = new TemporaryTask {Name = taskName};
+            var tempTask = new TemporaryTask<T> {Name = taskName};
             // start a task with a means to do a hard abort (unsafe!)
-
+            if (source is IList)
+            {
+                tempTask.Seeds = source.Select(d => d.DictSerialize()).ToList();
+            }
             var index = 0;
             if (notifyInterval <= 0)
                 notifyInterval = 1;
@@ -103,8 +147,9 @@ namespace Hawk.ETL.Managements
                     count = ((ICollection<T>) source).Count;
                 }
 
-                foreach (var r in action != null ? action(source) : source)
+                foreach (var r in  source)
                 {
+                    tempTask.CheckWait();
                     if (r is int)
                     {
                         index = Convert.ToInt32(r);
@@ -113,12 +158,18 @@ namespace Hawk.ETL.Managements
                     {
                         index++;
                     }
-
-                    if (index%notifyInterval != 0) continue;
-                    if (tempTask.CheckCancel())
+                    foreach (var  item in  action!=null?action(r):new List<T>() {r})
                     {
-                        tempTask.WasCanceled = true;
-                        break;
+                      
+                        tempTask.CheckWait();
+                        if (index % notifyInterval != 0) continue;
+                        if (tempTask.CheckCancel())
+                        {
+                            tempTask.WasCanceled = true;
+                            break;
+                        }
+                      
+                        tempTask.CurrentIndex++;
                     }
                     if (delayFunc != null)
                         Thread.Sleep(delayFunc());
@@ -126,17 +177,16 @@ namespace Hawk.ETL.Managements
                     {
                         tempTask.Percent = tempTask.CurrentIndex*100/count;
                     }
-                    tempTask.CurrentIndex = index;
-                    tempTask.CheckWait();
+                    tempTask.CurrentPos = index;
                 }
                 if (!tempTask.WasCanceled)
                 {
                     XLogSys.Print.Debug(string.Format(GlobalHelper.Get("key_338"), tempTask.Name));
                     tempTask.Percent = 100;
                 }
-                if (contineAction != null)
+                if (continueAction != null)
                 {
-                    ControlExtended.UIInvoke(() => contineAction(tempTask.CurrentIndex));
+                    ControlExtended.UIInvoke(() => continueAction(tempTask.CurrentIndex));
                 }
             };
 
@@ -200,6 +250,31 @@ namespace Hawk.ETL.Managements
         public void Wait()
         {
             CurrentTask.Wait();
+        }
+        public FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
+        {
+            var freedoc = new FreeDocument {{ "CurrentPos", CurrentPos }, {"Name  ", Name}, {"Level", Level}};
+            if (Seeds == null) return freedoc;
+            var seed = new FreeDocument
+            {
+                Children = Seeds.OfType<IFreeDocument>().Select(d => d.DictSerialize()).ToList()
+            };
+            freedoc.Add("Seeds", seed);
+            return freedoc;
+        }
+
+        public void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
+        {
+            Name = docu.Set("Name", Name);
+            CurrentPos = docu.Set("CurrentPos", CurrentPos);
+            Level = docu.Set("Level", Level);
+            var items = docu["Seeds"] as FreeDocument;
+
+            if (items?.Children == null) return;
+            foreach (var item in items.Children)
+            {
+                Seeds.Add(item);
+            }
         }
     }
 }

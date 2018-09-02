@@ -9,17 +9,6 @@ namespace Hawk.ETL.Plugins.Filters
     [XFrmWork("NullFT", "NullFT_desc")]
     public class NullFT : ToolBase, IColumnDataFilter
     {
-        #region Constructors and Destructors
-
-        public NullFT()
-        {
-            Enabled = true;
-            Column = "";
-            IsDebugFilter = true;
-        }
-
-        #endregion
-
         [LocalizedCategory("key_211")]
         [PropertyOrder(6)]
         [LocalizedDisplayName("key_366")]
@@ -34,6 +23,20 @@ namespace Hawk.ETL.Plugins.Filters
             return dict;
         }
 
+        #region Constructors and Destructors
+
+        public NullFT()
+        {
+            Enabled = true;
+            Column = "";
+            IsDebugFilter = true;
+        }
+
+        private bool lastState;
+        private bool? finalState;
+
+        #endregion
+
         #region IColumnDataFilter
 
         public bool FilteData(IFreeDocument data)
@@ -42,16 +45,45 @@ namespace Hawk.ETL.Plugins.Filters
             {
                 return true;
             }
+            if (finalState.HasValue)
+                return finalState.Value;
             var r = true;
             r = data != null && FilteDataBase(data);
 
-            return Revert ? !r : r;
+            var value = Revert ? !r : r;
+            switch (FilterWorkMode)
+            {
+                case FilterWorkMode.ByItem:
+                    return value;
+                case FilterWorkMode.PassWhenSuccess:
+                    if (lastState == false && value)
+                    {
+                        finalState = true;
+                        return true;
+                    }
+                    return false;
+                case FilterWorkMode.StopWhenFail:
+                    if (lastState && value == false)
+                    {
+                        finalState = false;
+                        return false;
+                    }
+                    return true;
+            }
+            lastState = value;
+            return value;
         }
 
         [LocalizedCategory("key_211")]
         [PropertyOrder(8)]
         [LocalizedDisplayName("key_368")]
         public bool IsDebugFilter { get; set; }
+
+
+        [LocalizedCategory("key_211")]
+        [PropertyOrder(8)]
+        [LocalizedDisplayName("filter_mode")]
+        public FilterWorkMode FilterWorkMode { get; set; }
 
         public virtual bool FilteDataBase(IFreeDocument data)
 

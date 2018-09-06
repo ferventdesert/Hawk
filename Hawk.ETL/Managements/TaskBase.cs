@@ -14,7 +14,7 @@ namespace Hawk.ETL.Managements
         private bool _isPause;
         private bool _isStart;
         private AutoResetEvent autoReset;
-        private int currentIndex;
+        private int _outputIndex;
         private string name;
         private int _percent;
         private bool _isSelected;
@@ -64,14 +64,14 @@ namespace Hawk.ETL.Managements
         }
         [LocalizedCategory("key_335")]
         [LocalizedDisplayName("key_336")]
-        public int CurrentIndex
+        public int OutputIndex
         {
-            get { return currentIndex; }
+            get { return _outputIndex; }
             set
             {
-                if (currentIndex == value) return;
-                currentIndex = value;
-                OnPropertyChanged("CurrentIndex");
+                if (_outputIndex == value) return;
+                _outputIndex = value;
+                OnPropertyChanged("OutputIndex");
             }
         }
         [LocalizedDisplayName("key_337")]

@@ -48,7 +48,7 @@
 					</GridViewColumn>
 							
 					<GridViewColumn Header="{DynamicResource key_18}" CellTemplate="{StaticResource ListViewTemplate}"  />
-					<GridViewColumn Header="{DynamicResource key_715}" DisplayMemberBinding="{Binding CurrentIndex}" Width="300" />
+					<GridViewColumn Header="{DynamicResource key_715}" DisplayMemberBinding="{Binding OutputIndex}" Width="300" />
 						 
 				</GridView>
 			</ListView.View> 	           	 

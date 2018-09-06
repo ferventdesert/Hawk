@@ -670,7 +670,7 @@ namespace Hawk.ETL.Managements
             ConfigFile.Config.SaveConfig();
         }
 
-        private void CreateNewProject()
+        public void CreateNewProject()
         {
             var pro = new Project();
             pro.Save();
@@ -684,6 +684,7 @@ namespace Hawk.ETL.Managements
                 CurrentProject.DBConnections.Add(filemanager);
 
             NotifyCurrentProjectChanged();
+           
         }
 
         public override void SaveConfigFile()

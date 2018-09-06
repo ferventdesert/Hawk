@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
@@ -28,13 +29,8 @@ namespace Hawk.ETL.Plugins.Executor
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
             collection = dataManager.DataCollections.FirstOrDefault(d => d.Name == Table);
-            if (collection == null && string.IsNullOrEmpty(Table) == false)
-
-            {
-                collection = new DataCollection(new List<IFreeDocument>()) {Name = Table};
-                dataManager.AddDataCollection(collection);
-            }
-
+            if (string.IsNullOrEmpty(Table))
+                throw new ArgumentNullException("Table is empty");
             return base.Init(datas);
         }
 
@@ -42,7 +38,18 @@ namespace Hawk.ETL.Plugins.Executor
         {
             foreach (var computeable in documents)
             {
-                if (collection != null)
+                if (collection == null)
+                {
+
+                    if (string.IsNullOrEmpty(Table) == false)
+
+                    {
+                        collection = new DataCollection(new List<IFreeDocument>()) { Name = Table };
+                        dataManager.AddDataCollection(collection);
+                    }
+
+                }
+                else
                 {
                     ControlExtended.UIInvoke(() =>
                     {

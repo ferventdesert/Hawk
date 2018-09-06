@@ -50,8 +50,7 @@ namespace Hawk.ETL.Managements
         public void Start(string name)
         {
             errorLogName = String.Format("{0}_{2}_{1}",name,DateTime.Now.ToString("HH_mm_ss"),GlobalHelper.Get("key_103"));
-            errorCollection = new DataCollection() {Name = errorLogName};
-            DataManager.AddDataCollection(errorCollection);
+            errorCollection = null;
         }
         public void AddErrorLog(IFreeDocument item,Exception ex,IColumnProcess process)
         {
@@ -64,6 +63,11 @@ namespace Hawk.ETL.Managements
             {
                 if(!ConfigFile.GetConfig<DataMiningConfig>().IsAddErrorCollection)
                     return;
+                if (errorCollection == null)
+                {
+                    errorCollection = new DataCollection() { Name = errorLogName };
+                    DataManager.AddDataCollection(errorCollection);
+                }
                 errorCollection?.ComputeData.Add(param);
                 errorCollection?.OnPropertyChanged("Count");
             });

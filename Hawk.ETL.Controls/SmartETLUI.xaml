@@ -10,7 +10,7 @@
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:adorners="clr-namespace:Hawk.ETL.Controls.Adorners"
     xmlns:Utils="clr-namespace:Hawk.Core.Utils;assembly=Hawk.Core"
-    xmlns:System_Windows_Controls_WpfPropertyGrid="clr-namespace:System.Windows.Controls.WpfPropertyGrid;assembly=System.Windows.Controls.WpfPropertyGrid"
+    xmlns:systemWindowsControlsWpfPropertyGrid="clr-namespace:System.Windows.Controls.WpfPropertyGrid;assembly=System.Windows.Controls.WpfPropertyGrid"
     xmlns:attributes="clr-namespace:System.Windows.Controls.WpfPropertyGrid.Attributes;assembly=System.Windows.Controls.WpfPropertyGrid"
     xmlns:connectors="clr-namespace:Hawk.Core.Utils.Plugins;assembly=Hawk.Core"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
@@ -26,7 +26,7 @@
         <BooleanToVisibilityConverter x:Key="boolVisualConverter" />
         <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
         <themes:MetroConverter x:Key="MetroConverter" />
-		    <System_Windows_Controls_WpfPropertyGrid:EnumValueConverter x:Key="enumValueConverter" />
+		    <systemWindowsControlsWpfPropertyGrid:EnumValueConverter x:Key="enumValueConverter" />
         <themes:ModuleMetroConverter x:Key="ModuleMetroConverter" />
 
         <ContextMenu x:Key="resourceContextMenu"
@@ -377,7 +377,7 @@
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal"
 					d:LayoutOverrides="Height" VerticalAlignment="Center">
                     <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"><Run Language="zh-cn" Text="{DynamicResource key_762}"/></TextBlock>
-                    <TextBox TextWrapping="Wrap" Text="{Binding Name}" System_Windows_Controls_WpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" VerticalAlignment="Center" Margin="8,0,25,0" FontSize="16" MinWidth="100"/>
+                    <TextBox TextWrapping="Wrap" Text="{Binding Name}" systemWindowsControlsWpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" VerticalAlignment="Center" Margin="8,0,25,0" FontSize="16" MinWidth="100"/>
                     <TextBlock TextWrapping="Wrap" Text="{DynamicResource key_301}"
                 		VerticalAlignment="Center" />
                     <Grid ToolTip="{DynamicResource SmartETLTool_step}">

@@ -1,12 +1,10 @@
 ﻿using System;
-using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
-using System.Windows.Threading;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
@@ -15,7 +13,6 @@ using Hawk.ETL.Managements;
 using Hawk.ETL.Plugins.Executor;
 using Hawk.ETL.Plugins.Transformers;
 using Hawk.ETL.Process;
-using IronPython.Modules;
 
 namespace Hawk.ETL.Interfaces
 {
@@ -81,7 +78,6 @@ namespace Hawk.ETL.Interfaces
         SortType SortType { get; set; }
     }
 
-  
 
     public static class ETLHelper
     {
@@ -95,137 +91,139 @@ namespace Hawk.ETL.Interfaces
                 last = r;
             }
             foreach (var r in ge.Generate(last))
-            {
                 yield return
                     r;
-            }
         }
 
         public static string GetAllMarkdownDoc()
         {
-            StringBuilder sb=new StringBuilder();
+            var sb = new StringBuilder();
             var tools = PluginProvider.GetPluginCollection(typeof(IColumnProcess));
-            var groupConverter= new GroupConverter();
-            foreach (var toolgroup in tools.GroupBy(d=>groupConverter.Convert(d,null,null,null)))
+            var groupConverter = new GroupConverter();
+            foreach (var toolgroup in tools.GroupBy(d => groupConverter.Convert(d, null, null, null)))
             {
                 sb.Append(string.Format("# {0}\n", toolgroup.Key));
                 foreach (var tool in toolgroup)
-                {
-                    
-                sb.Append(GetMarkdownScript(tool.MyType,true));
-                }
+                    sb.Append(GetMarkdownScript(tool.MyType, true));
             }
             return sb.ToString();
         }
-      
-        public static string GetMarkdownScript(Type tool, bool isHeader=false)
+
+        public static string GetMarkdownScript(Type tool, bool isHeader = false)
         {
-            string tooldesc = "";
-            
+            var tooldesc = "";
+
             var attribute = AttributeHelper.GetCustomAttribute(tool);
             if (attribute != null)
-            {
-                tooldesc= GlobalHelper.Get(attribute.Description);
-            }
+                tooldesc = GlobalHelper.Get(attribute.Description);
             var instance = PluginProvider.GetObjectInstance(tool) as ToolBase;
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             if (isHeader)
             {
-                string toolName = GlobalHelper.Get(attribute.Name);
-                sb.Append(string.Format("## {0}({1})\n", toolName,tool.Name));
+                var toolName = GlobalHelper.Get(attribute.Name);
+                sb.Append(string.Format("## {0}({1})\n", toolName, tool.Name));
             }
-           
-            sb.Append(string.Format("{0}\n",tooldesc));
-             var    propertys =
-                    tool.GetProperties().Where(
-                        d => d.CanRead && d.CanWrite && AttributeHelper.IsEditableType(d.PropertyType)).ToArray();
+
+            sb.Append(string.Format("{0}\n", tooldesc));
+            var propertys =
+                tool.GetProperties().Where(
+                    d => d.CanRead && d.CanWrite && AttributeHelper.IsEditableType(d.PropertyType)).ToArray();
             foreach (var propertyInfo in propertys)
             {
-                string name = propertyInfo.Name;
-                if(name== "NewColumn"||name=="ObjectID"||name=="Enabled"|| name=="ColumnSelector")
-                  continue;
+                var name = propertyInfo.Name;
+                if (name == "NewColumn" || name == "ObjectID" || name == "Enabled" || name == "ColumnSelector")
+                    continue;
                 var defaultValue = propertyInfo.GetValue(instance);
-                var typeName= propertyInfo.PropertyType.Name;
-                if (propertyInfo.PropertyType== typeof(ExtendSelector<string>))
+                var typeName = propertyInfo.PropertyType.Name;
+                if (propertyInfo.PropertyType == typeof(ExtendSelector<string>))
                 {
                     var selector = defaultValue as ExtendSelector<string>;
                     defaultValue = selector?.SelectItem;
                     typeName = GlobalHelper.Get("string_option");
                 }
-                if (propertyInfo.PropertyType==typeof(TextEditSelector))
+                if (propertyInfo.PropertyType == typeof(TextEditSelector))
                 {
                     var selector = defaultValue as TextEditSelector;
                     defaultValue = selector?.SelectItem;
                     typeName = GlobalHelper.Get("edit_string_option");
                 }
-                
-                string desc = GlobalHelper.Get("no_desc");
-               // var fi =type.GetField(propertyInfo.Name);
-                var browseable = (BrowsableAttribute[])propertyInfo.GetCustomAttributes(typeof(BrowsableAttribute), false);
-                if(browseable.Length>0 && browseable[0].Browsable==false)
+
+                var desc = GlobalHelper.Get("no_desc");
+                // var fi =type.GetField(propertyInfo.Name);
+                var browseable =
+                    (BrowsableAttribute[]) propertyInfo.GetCustomAttributes(typeof(BrowsableAttribute), false);
+                if (browseable.Length > 0 && browseable[0].Browsable == false)
                     continue;
-                var descriptionAttributes = (LocalizedDescriptionAttribute[])propertyInfo.GetCustomAttributes(typeof(LocalizedDescriptionAttribute), false);
-                var nameAttributes = (LocalizedDisplayNameAttribute[])propertyInfo.GetCustomAttributes(typeof(LocalizedDisplayNameAttribute), false);
+                var descriptionAttributes =
+                    (LocalizedDescriptionAttribute[]) propertyInfo.GetCustomAttributes(
+                        typeof(LocalizedDescriptionAttribute), false);
+                var nameAttributes =
+                    (LocalizedDisplayNameAttribute[]) propertyInfo.GetCustomAttributes(
+                        typeof(LocalizedDisplayNameAttribute), false);
                 if (nameAttributes.Length > 0)
-                    name =GlobalHelper.Get( nameAttributes[0].DisplayName);
+                    name = GlobalHelper.Get(nameAttributes[0].DisplayName);
                 if (descriptionAttributes.Length > 0)
                     desc = GlobalHelper.Get(descriptionAttributes[0].Description);
-                desc = string.Join("\n", desc.Split('\n').Select(d => d.Trim(new []{'\t',' '}))); 
+                desc = string.Join("\n", desc.Split('\n').Select(d => d.Trim('\t', ' ')));
                 if (defaultValue != null && string.IsNullOrWhiteSpace(defaultValue.ToString()) == false)
-                    defaultValue = String.Format("{1}:{0}  ",defaultValue,GlobalHelper.Get("default"));
+                    defaultValue = string.Format("{1}:{0}  ", defaultValue, GlobalHelper.Get("default"));
                 else
-                {
                     defaultValue = "";
-                }
-                typeName = string.Format("{0}:{1} ",GlobalHelper.Get("key_12"), typeName);
+                typeName = string.Format("{0}:{1} ", GlobalHelper.Get("key_12"), typeName);
                 //string options = "";
                 //if (propertyInfo.PropertyType.IsEnum)
                 //{
                 //    foreach (var e in Enum.GetValues( propertyInfo.PropertyType))
                 //    {
-                        
+
                 //    }
                 //}
-                sb.Append(string.Format("### {0}({3}):\n* {4}{2}\n* {1}\n",name,desc,defaultValue,propertyInfo.Name,typeName));
-
+                sb.Append(string.Format("### {0}({3}):\n* {4}{2}\n* {1}\n", name, desc, defaultValue, propertyInfo.Name,
+                    typeName));
             }
             sb.Append("***\n");
             return sb.ToString();
         }
-        public static IList<IColumnProcess> AddModule(this IList<IColumnProcess> etls, Predicate<IColumnProcess> condition,
-            Func<IColumnProcess,IColumnProcess> addItem, bool isFront)
+
+        public static IList<IColumnProcess> AddModule(this IList<IColumnProcess> etls,
+            Predicate<IColumnProcess> condition,
+            Func<IColumnProcess, IColumnProcess> addItem, bool isFront)
         {
             etls = etls.ToList();
-            int pos = 0;
-            while (pos<etls.Count)
+            var pos = 0;
+            while (pos < etls.Count)
             {
                 var current = etls[pos];
                 if (condition(current))
                 {
                     var newetl = addItem(current);
-                    if(isFront)
-                        etls.Insert(pos,newetl);
+                    if (isFront)
+                    {
+                        etls.Insert(pos, newetl);
+                    }
                     else
                     {
-                        if(pos+1<etls.Count)
-                         etls.Insert(pos+1,newetl);
+                        if (pos + 1 < etls.Count)
+                            etls.Insert(pos + 1, newetl);
                         else
-                        {
                             etls.Add(newetl);
-                        }
                     }
-                    pos ++;
+                    pos++;
                 }
                 pos++;
-
             }
             return etls;
         }
-        public static int GetParallelPoint(this IList<IColumnProcess> etls,out ToListTF plTF)
+
+        public static int GetParallelPoint(this IList<IColumnProcess> etls,bool isLastBetter, out ToListTF plTF)
 
         {
-            int index = 0;
+            IEnumerable<IColumnProcess> order;
+            if (isLastBetter)
+                order = etls.Reverse();
+            else
+                order = etls;
 
             var pl = etls.OfType<ToListTF>().FirstOrDefault();
             if (pl != null)
@@ -233,29 +231,29 @@ namespace Hawk.ETL.Interfaces
                 plTF = pl;
                 return etls.IndexOf(pl);
             }
+            var ignoreTF= new List<Type>(){typeof(DelayTF),typeof(RepeatTF)};
             plTF = null;
-            foreach (var etl in etls)
+            foreach (var etl in order)
             {
+                var index = etls.IndexOf(etl);
                 var generator = etl as IColumnGenerator;
-                if (generator != null && generator.GenerateCount() > 0)
+                if (generator != null)
                 {
-                   
-                    return index+1;
+                    
+                    if (generator.GenerateCount()!=1&&(index==0||generator.MergeType==MergeType.Cross) )
+                        return index + 1;
                 }
                 var trans = etl as IColumnDataTransformer;
-                if (trans != null && trans.IsMultiYield)
-                {
-                    return index+1;
-                }
+                if (trans != null && trans.IsMultiYield&& ignoreTF.Contains(trans.GetType())==false )
+                    return index + 1;
                 index++;
             }
 
             return 1;
-
         }
 
         public static IFreeDocument Transform(this IColumnDataTransformer ge,
-            IFreeDocument item,AnalyzeItem analyzeItem)
+            IFreeDocument item, AnalyzeItem analyzeItem)
         {
             if (item == null)
                 return new FreeDocument();
@@ -267,8 +265,8 @@ namespace Hawk.ETL.Interfaces
             {
                 if (ge.OneOutput && dict[ge.Column] == null)
                 {
-                    if(analyzeItem!=null)
-                    analyzeItem.EmptyInput+=1;
+                    if (analyzeItem != null)
+                        analyzeItem.EmptyInput += 1;
                 }
                 else
                 {
@@ -280,37 +278,33 @@ namespace Hawk.ETL.Interfaces
                 res = ex.Message;
                 if (analyzeItem != null)
                 {
-                    
-                analyzeItem.Error++;
-                analyzeItem.Analyzer.AddErrorLog(item,ex,ge); 
+                    analyzeItem.Error++;
+                    analyzeItem.Analyzer.AddErrorLog(item, ex, ge);
                 }
-                
-                XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), ge.Column,ge.TypeName,res));
+
+                XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), ge.Column, ge.TypeName, res));
             }
 
             if (ge.OneOutput)
-            {
                 if (!string.IsNullOrWhiteSpace(ge.NewColumn))
                 {
                     if (res != null)
-                    {
                         dict.SetValue(ge.NewColumn, res);
-                    }
                 }
                 else
                 {
                     dict.SetValue(ge.Column, res);
                 }
-            }
 
 
             return dict;
         }
 
-        public static EnumerableFunc FuncAdd(this IColumnProcess tool, EnumerableFunc func, bool isexecute,Analyzer analyzer)
+        public static EnumerableFunc FuncAdd(this IColumnProcess tool, EnumerableFunc func, bool isexecute,
+            Analyzer analyzer)
         {
             AnalyzeItem analyzeItem = null;
-                analyzeItem=analyzer?.Set(tool);
+            analyzeItem = analyzer?.Set(tool);
             try
             {
                 tool.SetExecute(isexecute);
@@ -319,7 +313,7 @@ namespace Hawk.ETL.Interfaces
             catch (Exception ex)
             {
                 if (analyzeItem != null) analyzeItem.HasInit = false;
-                XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_209"),tool.Column,tool.TypeName,ex));
+                XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_209"), tool.Column, tool.TypeName, ex));
                 return func;
             }
             if (!tool.Enabled)
@@ -330,12 +324,11 @@ namespace Hawk.ETL.Interfaces
                 var func1 = func;
                 func = source =>
                 {
-                   var  source2 = func1(source).CountInput(analyzeItem);
+                    var source2 = func1(source).CountInput(analyzeItem);
                     if (ge.IsMultiYield)
-                    {
-                        return ge.TransformManyData(source2,analyzeItem).CountOutput(analyzeItem);
-                    };
-                    return source2.Select(input => Transform(ge, input,analyzeItem)).CountOutput(analyzeItem);
+                        return ge.TransformManyData(source2, analyzeItem).CountOutput(analyzeItem);
+                    ;
+                    return source2.Select(input => Transform(ge, input, analyzeItem)).CountOutput(analyzeItem);
                 };
             }
 
@@ -351,14 +344,17 @@ namespace Hawk.ETL.Interfaces
                         func = source => source.CountInput(analyzeItem).ConcatPlus(func1, ge).CountOutput(analyzeItem);
                         break;
                     case MergeType.Cross:
-                        func = source => func1(source.CountInput(analyzeItem)).Cross(ge.Generate).CountOutput(analyzeItem);
+                        func = source =>
+                            func1(source.CountInput(analyzeItem)).Cross(ge.Generate).CountOutput(analyzeItem);
                         break;
 
                     case MergeType.Merge:
-                        func = source => func1(source.CountInput(analyzeItem)).MergeAll(ge.Generate()).CountOutput(analyzeItem);
+                        func = source =>
+                            func1(source.CountInput(analyzeItem)).MergeAll(ge.Generate()).CountOutput(analyzeItem);
                         break;
                     case MergeType.Mix:
-                        func = source => func1(source.CountInput(analyzeItem)).Mix(ge.Generate()).CountOutput(analyzeItem);
+                        func = source =>
+                            func1(source.CountInput(analyzeItem)).Mix(ge.Generate()).CountOutput(analyzeItem);
                         break;
                 }
             }
@@ -378,7 +374,8 @@ namespace Hawk.ETL.Interfaces
                 {
                     dynamic range = t;
                     var func1 = func;
-                    func = source => func1(source.CountInput(analyzeItem)).Skip((int) range.Skip).Take((int) range.Take).CountOutput(analyzeItem);
+                    func = source => func1(source.CountInput(analyzeItem)).Skip((int) range.Skip).Take((int) range.Take)
+                        .CountOutput(analyzeItem);
                 }
                 else
 
@@ -390,24 +387,25 @@ namespace Hawk.ETL.Interfaces
             return func;
         }
 
-     
-        public static EnumerableFunc Aggregate(this IEnumerable<IColumnProcess> tools, EnumerableFunc func=null,  bool isexecute=false,Analyzer analyzer=null)
+
+        public static EnumerableFunc Aggregate(this IEnumerable<IColumnProcess> tools, EnumerableFunc func = null,
+            bool isexecute = false, Analyzer analyzer = null)
 
         {
             if (func == null)
                 func = d => d;
-            if(analyzer!=null)
+            if (analyzer != null)
                 analyzer.Items.Clear();
-            return tools.Aggregate(func, (current, tool) => FuncAdd(tool, current, isexecute,analyzer));
+            return tools.Aggregate(func, (current, tool) => FuncAdd(tool, current, isexecute, analyzer));
         }
 
         public static IEnumerable<IFreeDocument> Generate(this IEnumerable<IColumnProcess> processes, bool isexecute,
-            IEnumerable<IFreeDocument> source = null,Analyzer analyzer=null)
+            IEnumerable<IFreeDocument> source = null, Analyzer analyzer = null)
 
         {
             if (source == null)
                 source = new List<IFreeDocument>();
-            var func = processes.Aggregate(d => d,  isexecute,analyzer);
+            var func = processes.Aggregate(d => d, isexecute, analyzer);
             return func(source);
         }
     }
@@ -416,16 +414,11 @@ namespace Hawk.ETL.Interfaces
 
     public enum MergeType
     {
-        [LocalizedDescription("merge_append")]
-        Append,
-        [LocalizedDescription("merge_merge")]
-        Merge,
-        [LocalizedDescription("merge_cross")]
-        Cross,
-        [LocalizedDescription("merge_mix")]
-        Mix,
-        [LocalizedDescription("merge_outputonly")]
-        OutputOnly
+        [LocalizedDescription("merge_append")] Append,
+        [LocalizedDescription("merge_merge")] Merge,
+        [LocalizedDescription("merge_cross")] Cross,
+        [LocalizedDescription("merge_mix")] Mix,
+        [LocalizedDescription("merge_outputonly")] OutputOnly
     }
 
     public interface ICacheable
@@ -438,7 +431,7 @@ namespace Hawk.ETL.Interfaces
         {
             Column = TypeName;
             Enabled = true;
-            MergeType= MergeType.Cross;
+            MergeType = MergeType.Cross;
         }
 
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)

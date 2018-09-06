@@ -55,25 +55,7 @@
                 </Setter>
             </Style>
 			
-			 <DataTemplate x:Key="ListViewTemplate">
-            <Grid Height="Auto" Width="Auto">
-			 		<Border BorderBrush="Black" BorderThickness="1"/>
-			 		<ProgressBar Height="Auto"   Value="{Binding Percent}" VerticalAlignment="Stretch" Opacity="0.2"/>
-			 		<TextBlock  Text="{Binding Name}"  d:LayoutOverrides="Width, Height"  />
-			 	</Grid>
-        </DataTemplate>
-		<DataTemplate x:Key="DataTemplate1">
-            <StackPanel Orientation="Horizontal" mvvm:ListItemDoubleClick.Property="Commands[2].ChildActions[2]" >
-            		<Rectangle Width="15" Height="15" Margin="0,0,10,0" >
-					<Rectangle.Fill>
-						<VisualBrush Stretch="Fill"
-							Visual="{Binding ConverterParameter=paper, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
-					</Rectangle.Fill>
-				</Rectangle>
-				<TextBlock TextWrapping="Wrap" Text="{Binding Name}"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,1" FontSize="{DynamicResource LargeFont}" />
-				<TextBlock TextWrapping="Wrap" Text="{Binding Count}" VerticalAlignment="Center" HorizontalAlignment="Stretch"  Margin="20,0,0,0" FontSize="{DynamicResource LargeFont}"/>
-			</StackPanel>
-		</DataTemplate>
+		
 		
 		<Style x:Key="ButtonFocusVisual">
 			<Setter Property="Control.Template">

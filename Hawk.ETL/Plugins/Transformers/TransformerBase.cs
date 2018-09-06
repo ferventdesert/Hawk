@@ -118,6 +118,7 @@ namespace Hawk.ETL.Plugins.Transformers
         [Browsable(false)]
         public SmartETLTool Father { get; set; }
 
+        [LocalizedCategory("key_211")]
         [LocalizedDisplayName("key_12")]
         [PropertyOrder(0)]
         public string TypeName

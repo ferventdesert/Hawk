@@ -1659,7 +1659,7 @@
         删除该列
     </system:String>
     <system:String x:Key="key_12">
-        类型
+        类型 
     </system:String>
     <system:String x:Key="key_673">
         ,通常原因是网站对请求合法性做了检查, 建议填写关键字对网页内容进行自动嗅探
@@ -2936,7 +2936,7 @@
         用于记录任务中产生的错误，进而回补错误丢失的数据集
     </system:String>
     <system:String x:Key="is_display_desc">
-        显示模块描述
+        显示描述
     </system:String>
     <system:String x:Key="serial_mode">
         串行模式
@@ -2964,11 +2964,12 @@
         包含用户名密码：http://username:password@121.193.143.249:80/ 
         不包含:http://121.193.143.249:80/
     </system:String>
+
     <system:String x:Key="proxyge">
         添加代理
     </system:String>
     <system:String x:Key="proxyge_desc">
-
+        代理生成器
     </system:String>
     <system:String x:Key="checkupgrade">
         检查更新
@@ -3026,4 +3027,19 @@
     <system:String x:Key="edit_string_option">
         可编辑选项
     </system:String>
+
+      <system:String x:Key="filter_mode">
+        过滤模式
+    </system:String>
+
+       <system:String x:Key="filter_mode_by_item">
+         按行过滤
+    </system:String>
+    <system:String x:Key="filter_mode_pass_when_success">
+        成功后通过之后的所有行     
+    </system:String>
+     <system:String x:Key="filter_mode_stop_when_fail">
+        失败后拒绝之后所有行
+    </system:String>
+    
 </ResourceDictionary>

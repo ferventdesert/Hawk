@@ -1346,7 +1346,7 @@ namespace Hawk.ETL.Crawlers
         public static IEnumerable<List<FreeDocument>> GetDataFromHtml(this HtmlNode doc)
         {
             var properties = doc.SearchPropertiesSmart();
-            return properties.Select(property => doc.GetDataFromXPath(property.CrawItems).ToList());
+            return properties.Select(property => doc.GetDataFromXPath( property.CrawItems,rootXPath: property.RootXPath).ToList());
         }
 
         public static string CompileCrawItems(this HtmlDocument doc2, IList<CrawlItem> crawlItem)

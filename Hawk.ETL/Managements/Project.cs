@@ -1,12 +1,9 @@
-﻿using System;
-using Hawk.Core.Utils;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
-using System.Windows.Data;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
@@ -49,8 +46,6 @@ namespace Hawk.ETL.Managements
             Version = docu.Set("Version", Version);
             SavePath = docu.Set("SavePath", SavePath);
         }
-
-     
     }
 
     /// <summary>
@@ -58,16 +53,16 @@ namespace Hawk.ETL.Managements
     /// </summary>
     public class Project : ProjectItem
     {
-        private IProcessManager sysProcessManager;
+        private readonly IProcessManager sysProcessManager;
 
         public Project()
         {
             Tasks = new ObservableCollection<ProcessTask>();
             DBConnections = new ObservableCollection<IDataBaseConnector>();
-            Parameters=new Dictionary<string, string>();
-             sysProcessManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
-
+            Parameters = new Dictionary<string, string>();
+            sysProcessManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
         }
+
         [Browsable(false)]
         public List<DataCollection> DataCollections { get; set; }
 
@@ -81,24 +76,20 @@ namespace Hawk.ETL.Managements
         [LocalizedDisplayName("key_333")]
         public ObservableCollection<ProcessTask> Tasks { get; set; }
 
-     
+
         [Browsable(false)]
         public Dictionary<string, string> Parameters { get; set; }
-                          
+
 
         [LocalizedDisplayName("key_21")]
         [PropertyEditor("CodeEditor")]
         public string ParameterString
         {
-            get
-            {
-                return "\n".Join( Parameters.Select(d=>d.Key+":"+d.Value));
-                
-            }
-            set { Parameters = ExtendEnumerable.ToDict(value); }
+            get { return "\n".Join(Parameters.Select(d => d.Key + ":" + d.Value)); }
+            set => Parameters = ExtendEnumerable.ToDict(value);
         }
 
-        public void Save(IEnumerable<DataCollection>collections=null)
+        public void Save(IEnumerable<DataCollection>collections = null)
         {
             var connector = new FileConnectorXML();
 
@@ -117,21 +108,19 @@ namespace Hawk.ETL.Managements
                 connector.IsZip = true;
             var dict = DictSerialize();
             if (collections != null)
-            {
-                dict["DataCollections"] = new FreeDocument()
+                dict["DataCollections"] = new FreeDocument
                 {
                     Children = collections.Where(d => d.Count < 100000).Select(d => d.DictSerialize()).ToList()
                 };
-            }
             connector.WriteAll(
                 new List<IFreeDocument> {dict}
-                );
+            );
         }
 
-        public static Project Load( string path = null)
+        public static Project Load(string path = null)
         {
             var connector = new FileConnectorXML();
-          
+
             connector.FileName = path;
             if (connector.FileName == null)
             {
@@ -143,10 +132,9 @@ namespace Hawk.ETL.Managements
             {
                 if (!File.Exists(connector.FileName))
                 {
-                    XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_334"),connector.FileName));
+                    XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_334"), connector.FileName));
                     return null;
                 }
-             
             }
             var ext = Path.GetExtension(connector.FileName);
             if (ext != null && ext.Contains("hproj"))
@@ -159,10 +147,9 @@ namespace Hawk.ETL.Managements
             projfile.DictCopyTo(proj);
 
             object collectionObj = null;
-            if(projfile.TryGetValue("DataCollections",out collectionObj))
+            if (projfile.TryGetValue("DataCollections", out collectionObj))
             {
-
-                List<FreeDocument> collectionDocs = (collectionObj as FreeDocument)?.Children as List<FreeDocument>;
+                var collectionDocs = (collectionObj as FreeDocument)?.Children;
                 proj.DataCollections = collectionDocs?.Select(d =>
                 {
                     var doc = new DataCollection();
@@ -185,13 +172,15 @@ namespace Hawk.ETL.Managements
                 Children = DBConnections.Select(d => (d as IDictionarySerializable).DictSerialize()).ToList()
             };
             dict.Add("DBConnections", connectors);
-       
+
             if (sysProcessManager != null)
             {
                 var runningTasks = new FreeDocument
                 {
                     Children =
-                  sysProcessManager.CurrentProcessTasks.Where(d=>d.IsCanceled==false&&d.Publisher is SmartETLTool).OfType<TemporaryTask<FreeDocument>>().Select(d => d.DictSerialize())
+                        sysProcessManager.CurrentProcessTasks
+                            .Where(d => d.IsCanceled == false && d.Publisher is SmartETLTool)
+                            .OfType<IDictionarySerializable>().Select(d => d.DictSerialize())
                             .ToList()
                 };
                 dict.Add("RunningTasks", runningTasks);
@@ -223,7 +212,6 @@ namespace Hawk.ETL.Managements
                 var items = docu["DBConnections"] as FreeDocument;
 
                 if (items?.Children != null)
-                {
                     foreach (var item in items.Children)
                     {
                         var type = item["TypeName"].ToString();
@@ -233,44 +221,81 @@ namespace Hawk.ETL.Managements
 
                         DBConnections.Add(conn);
                     }
-                }
-
             }
             if (docu["RunningTasks"] != null)
             {
-                var items = docu["RunningTasks"] as FreeDocument;
+                var tasks = docu["RunningTasks"] as FreeDocument;
 
-                if (items?.Children != null)
-                {
-                    foreach (var item in items.Children)
+                if (tasks?.Children != null)
+                    foreach (var items in tasks.Children.GroupBy(d=>d["Publisher"]))
                     {
-                        var conn =new TemporaryTask<FreeDocument> ();
+
+                        var publisherName = items.Key.ToString();
+                        if (publisherName == null)
+                            continue;
+
+                       
+                        var publisher =
+                            sysProcessManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == publisherName);
+                        if (publisher == null)
+                        {
+                            var task = Tasks.FirstOrDefault(d => d.Name == publisherName);
+                            if (task == null)
+                            {
+                                XLogSys.Print.Info("TODO");
+                                continue;
+                                
+                            }
+                            task.Load(true);
+                            publisher =
+                                sysProcessManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == publisherName);
+
+                        }
+                        if (publisher == null)
+                        {
+                            XLogSys.Print.Info("TODO");
+                            continue;
+                        }
+                        var tool = publisher as SmartETLTool;
+                        if (tool == null)
+                        {
+                            XLogSys.Print.Info("TODO");
+                            continue;
+                        }
+                        tool.InitProcess(true);
+                        //tool.RefreshSamples(false);
+                        var runningTasks = items.Select(d =>
+                        {
+                            var rtask = new TemporaryTask<FreeDocument>();
+                            rtask.DictDeserialize(d);
+                            return rtask;
+                        }).ToList();
+                        tool.ExecuteDatas(runningTasks);
+
+
+
 
                         //sysProcessManager.
 
                         //RunningTasks.Add(conn);
                     }
-                }
-
             }
             if (DBConnections.FirstOrDefault(d => d.TypeName == GlobalHelper.Get("FileManager")) == null)
             {
-                var filemanager = new FileManager() {Name = GlobalHelper.Get("key_310")};
+                var filemanager = new FileManager {Name = GlobalHelper.Get("key_310")};
                 DBConnections.Add(filemanager);
             }
             if (DBConnections.FirstOrDefault(d => d.TypeName == "MongoDB") == null)
             {
-                var mongo = new MongoDBConnector() {Name = "MongoDB连接器"};
+                var mongo = new MongoDBConnector {Name = "MongoDB连接器"};
                 mongo.DBName = "hawk";
                 DBConnections.Add(mongo);
-
             }
             if (DBConnections.FirstOrDefault(d => d.TypeName == GlobalHelper.Get("SQLiteDatabase")) == null)
             {
-                var sqlite = new SQLiteDatabase() { Name = GlobalHelper.Get("SQLiteDatabase") };
+                var sqlite = new SQLiteDatabase {Name = GlobalHelper.Get("SQLiteDatabase")};
                 sqlite.DBName = "hawk-sqlite";
                 DBConnections.Add(sqlite);
-
             }
         }
     }

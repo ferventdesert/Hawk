@@ -48,6 +48,7 @@
 						<GridViewColumn Header="{DynamicResource key_720}" DisplayMemberBinding="{Binding Output}"   />
 						<GridViewColumn Header="{DynamicResource key_721}" DisplayMemberBinding="{Binding Error}"   />
 							<GridViewColumn Header="{DynamicResource key_722}" DisplayMemberBinding="{Binding EmptyInput}"   />
+								<GridViewColumn Header="{DynamicResource average_time}" DisplayMemberBinding="{Binding RunningTime}"   />
     			</GridView>
 
     		</ListView.View>

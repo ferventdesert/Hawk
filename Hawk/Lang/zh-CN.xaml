@@ -693,6 +693,7 @@
     </system:String>
     <system:String x:Key="key_402" xml:space="preserve">
         可参考C# DateTime Format相关方法，以下是一些例子：
+
         - yyyy-MM-dd等
         - yyyy-MM
     </system:String>
@@ -1078,6 +1079,7 @@
         {{crawler_set_header}}
     
         ### 注意事项
+
         1. 有时直接将url拷贝到Hawk，并使用{{feellucky}}时，也能获取到数据。这是因为很多网站对第一页和其他页分别作了不同的处理。第一页内容会跟着整体frame返回回来。但之后页面内容就通过ajax单独返回了。
         有时针对第一页做了大量的XPath开发，却最后发现无法在其他页面使用，多半就是上面提到的问题（一脸懵逼）。因此经验上，建议翻到其他页面上再做请求。
     </system:String>
@@ -1100,7 +1102,8 @@
        超级模式能将网页中所有的javascript, json, xml都转换为HTML DOM树，从而实现属性提取和{{feellucky}}。
        ## 超级模式 
        为了能让动态网页也能使用`添加属性`和`{{feellucky}}`，Hawk在嗅探后默认会开启`超级模式`。 超级模式能将网页中所有的javascript, json, xml都转换为HTML DOM树，从而实现属性提取和{{feellucky}}。
-       超级模式极大的简化了动态请求的处理，但它依然可能有以下问题
+       超级模式极大的简化了动态请求的处理，但它依然可能有以下问题:
+
        - 性能较差，大量的字符解析，js模式树解析
        - 兼容性一般：不是所有的文本都能转成树结构，因此必要时需要使用手动模式处理。
     </system:String>
@@ -1110,12 +1113,14 @@
         你可以通过Hawk自动分析根路径，或手动设置。
         ### 自动规约列表路径
         以例子来说明，使用{{feellucky}}后，嗅探器会找到列表节点的父节点，以及挂载在父节点上的多个子节点，从而形成一个树状结构
+
         - 父节点(/html/div[2]/div[3]/div[4])
             - 子节点div[1]
             - 子节点div[2]
         ...
 
         每个节点要抽取下面的属性:
+
             - 属性1(/a[1])
             - 属性2(/a[2]/@href)
             - ..
@@ -1659,7 +1664,7 @@
         删除该列
     </system:String>
     <system:String x:Key="key_12">
-        类型
+        类型 
     </system:String>
     <system:String x:Key="key_673">
         ,通常原因是网站对请求合法性做了检查, 建议填写关键字对网页内容进行自动嗅探
@@ -1679,6 +1684,7 @@
     </system:String>
     <system:String x:Key="transformer_type" xml:space="preserve">
         转换器有三种子类型：
+
         - ColumnUDF: 单列->单列： 只对一个列有效，如`{{NumberTF}`,
         - UDF:单文档->单文档：如{{DeleteTF}}，它仅涉及文档内部的修改，可能会影响多个列
         - UDAF:单文档->多文档：典型的如 {{}}，每一行url都可能生成20个甚至更多的文档，它的行为cross(交叉)模式下的生成器。
@@ -1688,6 +1694,7 @@
     </system:String>
     <system:String x:Key="core_concept" xml:space="preserve">
         ## Hawk的关键概念
+
         - 任务： 系统仅仅提供了两种任务：  {{smartcrawler_name}} 和数据清洗，任务可以被新建，保存和加载。
         - 模块： 一个任务会包含多个模块，例如数据清洗中会有`从文本生成`,`{{CrawlerTF}}`等
         - 工程： 多个任务组成一个工程，工程可以以xml方式保存和加载
@@ -1707,6 +1714,7 @@
         ![连接器配置][http://static.zybuluo.com/buptzym/cympkkptyzq6r370ositd2dh/QQ%E6%88%AA%E5%9B%BE20160501105629.jpg]
         
         目前支持的连接器包括：
+
             - MongoDB
             - sqlite
             - 文件读写
@@ -1718,6 +1726,7 @@
     </system:String>
     <system:String x:Key="datacollection_helper" xml:space="preserve">
         当加载了数据集时，在本视图中，就可对其查看和编辑：
+
         1.点击右键，可以对数据集进行删除，修改名称等
         2.将数据集拖拽到下方的图标上，如拖到回收站，即可删除该模块。
         3. 双击数据集可查看模块的内容。 将数据集拖拽到数据清洗图标上，可直接对本数据集做数据清洗。
@@ -1983,6 +1992,7 @@
         直接输出网页源代码，放置于Content列中
 
         注意:
+
         - 当在 {{script_mode_list}}或 {{script_mode_one}}模式，且属性数量为0时，也和 {{script_mode_none}}行为一致
     </system:String>
 
@@ -2077,6 +2087,7 @@
         该模块可以将多个列合并成一个列
         常见的如将page合并到url中，也可以通过文件名，合并出要保存的文件的位置，是使用次数最多的模块。
         它的操作非常灵活，例如格式为： `format= {0}+{1}+{2}` ， 其他列为`B C`，则代表将输入列，B列和C列的内容直接拼接。
+
         - `{0}`：输入列,
         - `{1}`：`其他列`中的第0项，`{1}`代表第1项
         - `[a]`：A列中的内容
@@ -2152,8 +2163,10 @@
         提取字符串中，从首串到尾串中间的文本内容
         当文本为`CABD`时，需要获取B，而B非常长，写正则表达式提取有很大困难时，可以使用本模块。
         此时，首串填写A，尾串填写D，则Hawk就能将B提取出来。如果勾选`包含首尾字符`，则输出`ABD`，否则只有B。
-        注意，建议A和D在文本中是唯一的，否则抽取出来的B可能并不是你想要的。
-        该工具特别适合在抽取网页的某一特定内容时使用.
+        注意:
+        
+        - 建议A和D在文本中是唯一的，否则抽取出来的B可能并不是你想要的。
+        - 该工具特别适合在抽取网页的某一特定内容时使用.
     </system:String>
     <system:String x:Key="key_679">
         删除节点
@@ -2485,6 +2498,7 @@
         Hawk的含义为“鹰”，能够高效，准确地捕杀猎物。它的思想来源于Lisp语言，功能模仿了Linux工具awk。
 
         特点如下：
+
         - 智能分析网页内容，无需编程
         - 所见即所得，可视化拖拽，快地实现转换和过滤等数据清洗操作
         - 能从各类数据库和文件实现导入导出
@@ -2514,6 +2528,9 @@
     </system:String>
     <system:String x:Key="key_129">
         解析错误数
+    </system:String>
+      <system:String x:Key="average_time">
+        平均耗时(s)
     </system:String>
     <system:String x:Key="key_112">
         字典序列化失败
@@ -2805,6 +2822,7 @@
         只有点击**执行**时，才会切换到执行模式。执行时，可工作在{{serial_mode}}/{{parallel_mode}}
         在{{serial_mode}}下， 所有任务串行执行，速度慢，但对网站压力小，不容易被封锁。为了进一步降低执行速度，可以设置延时时间，此时每次网络请求前，都会延时一定时间。
         注意:
+        
         1. 当执行器包含类似"向文件中追加内容"的操作时，强烈建议使用{{serial_mode}}，因为Hawk没有加入多线程锁，有可能会导致冲突。
         2. 建议完成爬虫设计后，先进行{{serial_mode}}，初步观察是否正确，之后再设置{{parallel_mode}}大量抓取。
     </system:String>
@@ -2819,6 +2837,7 @@
         你可以勾选，或取消勾选部分或全部线程，暂停或取消它们。当网站限制抓取时，可以暂停所有线程，等恢复后再次执行。
 
         注意:
+
         1. 当工作流有误时（比如该列所有数据都空，却在该列添加了【空对象过滤器】，那么所有数据都会被过滤）可能不会产生任何数据输出。此时进度条并不会向前推进，产生卡死的假象。此时可强行将其删除
         2. 线程删除的流程是：先安全将其取消，如果线程无响应，则会直接将其杀死
 
@@ -2856,6 +2875,7 @@
     <system:String x:Key="ReadFileGe_desc"  xml:space="preserve">
         从文件中读取数据内容，为了保证正确读取，需配置文件格式和读取属性
         除了一般的数据库导入导出，Hawk还支持从文件导入，支持的文件类型包括：
+
          - Excel
          - CSV(逗号分割文本文件)
          - TXT (制表符分割文本文件)
@@ -2936,7 +2956,7 @@
         用于记录任务中产生的错误，进而回补错误丢失的数据集
     </system:String>
     <system:String x:Key="is_display_desc">
-        显示模块描述
+        显示描述
     </system:String>
     <system:String x:Key="serial_mode">
         串行模式
@@ -2964,11 +2984,12 @@
         包含用户名密码：http://username:password@121.193.143.249:80/ 
         不包含:http://121.193.143.249:80/
     </system:String>
+
     <system:String x:Key="proxyge">
         添加代理
     </system:String>
     <system:String x:Key="proxyge_desc">
-
+        代理生成器
     </system:String>
     <system:String x:Key="checkupgrade">
         检查更新

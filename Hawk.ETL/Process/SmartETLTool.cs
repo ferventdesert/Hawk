@@ -455,21 +455,20 @@ namespace Hawk.ETL.Process
         }
 
         private TemporaryTask<IFreeDocument> AddSubTask(List<IFreeDocument> seeds, List<IColumnProcess> subEtls,
-          ToListTF motherListTF = null,
-            TemporaryTask<IFreeDocument> lastTask = null, string name = null,bool isAdd=true)
+            ToListTF motherListTF = null,
+            TemporaryTask<IFreeDocument> lastTask = null, string name = null, bool isAdd = true)
         {
             ToListTF subTaskToListTF;
             ToListTF subTaskToListTF2;
 
             var splitPoint1 = subEtls.GetParallelPoint(false, out subTaskToListTF);
             var mapperFunc1 = subEtls.Take(splitPoint1).Aggregate(isexecute: true, analyzer: Analyzer);
-            if (subTaskToListTF!=null)
-                    splitPoint1++;
-     
+            if (subTaskToListTF != null)
+                splitPoint1++;
+
             var subEtls2 = subEtls.Skip(splitPoint1).ToList();
             var splitPoint2 = subEtls2.GetParallelPoint(true, out subTaskToListTF2);
 
-           
 
             var mapperFunc2 = subEtls2.Take(splitPoint2).Aggregate(isexecute: true, analyzer: Analyzer);
             if (subTaskToListTF != null)
@@ -533,11 +532,17 @@ namespace Hawk.ETL.Process
             {
                 ControlExtended.UIInvoke(() => SysProcessManager.CurrentProcessTasks.Add(task));
             }
-       
+
             task.Start();
             return task;
         }
 
+        private bool isWait = false;
+
+        int maxThreadCount
+        {
+            get { return GenerateMode == GenerateMode.SerialMode ? 1 : MaxThreadCount; }
+        }
         public void ExecuteDatas(List<TemporaryTask<IFreeDocument>> lastRunningTasks = null)
         {
             var etls = CurrentETLTools.Where(d => d.Enabled).ToList();
@@ -559,16 +564,8 @@ namespace Hawk.ETL.Process
             var motherName = Name + GlobalHelper.Get(GenerateMode == GenerateMode.SerialMode ? "key_704" : "key_705");
             if (lastRunningTasks != null)
                 lastMotherTask = lastRunningTasks.FirstOrDefault(d => d.Level == 0);
-        
-            if (GenerateMode == GenerateMode.SerialMode)
 
-            {
-
-               motherTask= AddSubTask(null, etls, null, lastMotherTask,isAdd:false);
-            }
-
-            else
-            {
+         
                 var mapperIndex1 = lastMotherTask?.MapperIndex1 + 1 ?? 0;
                 var splitPoint = etls.GetParallelPoint(false, out motherListTF);
                 var motherFunc = etls.Take(splitPoint).Aggregate(isexecute: true, analyzer: Analyzer);
@@ -585,7 +582,7 @@ namespace Hawk.ETL.Process
                     {
                         motherTask.MapperIndex1++;
                         Thread.Sleep(2000);
-                                                                                        return d;
+                        return d;
                     }),
                     d =>
                     {
@@ -595,14 +592,13 @@ namespace Hawk.ETL.Process
                             return;
                         }
 
-                        AddSubTask(taskBuff.ToList(), subEtls,  motherListTF);
+                        AddSubTask(taskBuff.ToList(), subEtls, motherListTF);
                         taskBuff.Clear();
                     });
                 if (lastRunningTasks != null)
                     foreach (var subTask in lastRunningTasks.Where(d => d.Level == 1))
-                        AddSubTask(null, subEtls, 
+                        AddSubTask(null, subEtls,
                             motherListTF, subTask);
-            }
             SysProcessManager.CurrentProcessTasks.Add(motherTask);
             motherTask.IsFormal = true;
 
@@ -617,6 +613,7 @@ namespace Hawk.ETL.Process
             motherTask.IsSelected = true;
             motherTask.Publisher = this;
             timer.Interval = TimeSpan.FromSeconds(1);
+          
             timer.Tick += (s, e) =>
             {
                 if (motherTask.IsCanceled)
@@ -631,13 +628,15 @@ namespace Hawk.ETL.Process
                     return;
                 }
 
-                if (SysProcessManager.CurrentProcessTasks.Count < MaxThreadCount)
+                if (isWait==true&&SysProcessManager.CurrentProcessTasks.Count <= maxThreadCount)
                 {
                     motherTask.IsPause = false;
+                    isWait = false;
                 }
-                else
+                if(motherTask.IsPause==false&& SysProcessManager.CurrentProcessTasks.Count > maxThreadCount)
                 {
-                    motherTask.IsPause = true ;
+                    motherTask.IsPause = true;
+                    isWait = true;
                 }
             };
 

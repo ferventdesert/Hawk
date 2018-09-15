@@ -23,6 +23,7 @@ namespace Hawk.ETL.Managements
         public int Output { get; set; }
         public int Error { get; set; }
 
+        public TimeSpan RunningTime { get; set; }
         public Analyzer Analyzer { get; internal set; }
 
         /// <summary>

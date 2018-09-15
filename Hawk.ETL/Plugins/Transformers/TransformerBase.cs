@@ -268,7 +268,10 @@ namespace Hawk.ETL.Plugins.Transformers
                 IEnumerable<IFreeDocument> newdatas = null;
                 try
                 {
+                    DateTime now= DateTime.Now;
                     newdatas = InternalTransformManyData(data);
+                    if(analyzer!=null)
+                        analyzer.RunningTime =  DateTime.Now-now;
                 }
                 catch (Exception ex)
                 {

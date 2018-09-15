@@ -328,7 +328,14 @@ namespace Hawk.ETL.Interfaces
                     if (ge.IsMultiYield)
                         return ge.TransformManyData(source2, analyzeItem).CountOutput(analyzeItem);
                     ;
-                    return source2.Select(input => Transform(ge, input, analyzeItem)).CountOutput(analyzeItem);
+                    return source2.Select(input =>
+                    {
+                        DateTime now =DateTime.Now;
+                        
+                        var result=Transform(ge, input, analyzeItem);
+                        analyzeItem.RunningTime = DateTime.Now - now;
+                        return result;
+                    }).CountOutput(analyzeItem);
                 };
             }
 

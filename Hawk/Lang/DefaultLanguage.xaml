@@ -2163,8 +2163,10 @@
         提取字符串中，从首串到尾串中间的文本内容
         当文本为`CABD`时，需要获取B，而B非常长，写正则表达式提取有很大困难时，可以使用本模块。
         此时，首串填写A，尾串填写D，则Hawk就能将B提取出来。如果勾选`包含首尾字符`，则输出`ABD`，否则只有B。
-        注意，建议A和D在文本中是唯一的，否则抽取出来的B可能并不是你想要的。
-        该工具特别适合在抽取网页的某一特定内容时使用.
+        注意:
+        
+        - 建议A和D在文本中是唯一的，否则抽取出来的B可能并不是你想要的。
+        - 该工具特别适合在抽取网页的某一特定内容时使用.
     </system:String>
     <system:String x:Key="key_679">
         删除节点
@@ -2526,6 +2528,9 @@
     </system:String>
     <system:String x:Key="key_129">
         解析错误数
+    </system:String>
+      <system:String x:Key="average_time">
+        平均耗时(s)
     </system:String>
     <system:String x:Key="key_112">
         字典序列化失败

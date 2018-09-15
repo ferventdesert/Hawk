@@ -514,9 +514,8 @@ namespace Hawk.ETL.Managements
                 {
                     ControlExtended.SafeInvoke(() =>
                     {
-                        currentProject = Project.Load(project.SavePath);
-                        currentProject.DataCollections.Execute(d=>dataManager.AddDataCollection(d));
-                        NotifyCurrentProjectChanged();
+
+                        currentProject = LoadProject(project.SavePath);
                     }, LogType.Info, GlobalHelper.Get("key_303"));
                 }
             }
@@ -618,7 +617,7 @@ namespace Hawk.ETL.Managements
             SaveCurrentProject(true);
         }
 
-        private void LoadProject(string path=null)
+        private Project LoadProject(string path=null)
         {
             var project = Project.Load(path);
             if (project != null)
@@ -645,7 +644,10 @@ namespace Hawk.ETL.Managements
                 currentProject = project;
                 NotifyCurrentProjectChanged();
                 config.SaveConfig();
+                project.LoadRunningTasks();
             }
+
+            return project;
         }
 
         private void SaveCurrentProject(bool isDefaultPosition = true)

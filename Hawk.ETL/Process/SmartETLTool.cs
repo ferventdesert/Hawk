@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.WpfPropertyGrid;
@@ -45,7 +46,7 @@ namespace Hawk.ETL.Process
 
             IsAutoRefresh = true;
             AllETLTools.AddRange(
-                PluginProvider.GetPluginCollection(typeof(IColumnProcess)));
+                PluginProvider.GetPluginCollection(typeof (IColumnProcess)));
             if (MainDescription.IsUIForm)
             {
                 ETLToolsView = new ListCollectionView(AllETLTools);
@@ -136,11 +137,11 @@ namespace Hawk.ETL.Process
                             obj => { ETLMount = CurrentETLTools.IndexOf(obj as IColumnProcess); },
                             obj => obj != null, "tag"),
                         new Command(GlobalHelper.Get("key_685"), obj =>
-                            {
-                                var index = CurrentETLTools.IndexOf(obj as IColumnProcess);
-                                CurrentETLTools.KeepRange(0, index + 1);
-                                ETLMount = index + 1;
-                            },
+                        {
+                            var index = CurrentETLTools.IndexOf(obj as IColumnProcess);
+                            CurrentETLTools.KeepRange(0, index + 1);
+                            ETLMount = index + 1;
+                        },
                             obj => obj != null, "tag")
                     });
             }
@@ -168,7 +169,7 @@ namespace Hawk.ETL.Process
         [Browsable(false)]
         public int ETLMount
         {
-            get => _etlMount;
+            get { return _etlMount; }
             set
             {
                 if (_etlMount != value)
@@ -195,7 +196,7 @@ namespace Hawk.ETL.Process
         [LocalizedDescription("key_688")]
         public int SampleMount
         {
-            get => _SampleMount;
+            get { return _SampleMount; }
             set
             {
                 if (_SampleMount == value) return;
@@ -237,7 +238,7 @@ namespace Hawk.ETL.Process
                             icon: "align_right"),
                         new Command(GlobalHelper.Get("key_695"), obj => { EnterAnalyzer(); }, icon: "magnify_add")
                     }
-                );
+                    );
             }
         }
 
@@ -269,7 +270,7 @@ namespace Hawk.ETL.Process
                         debugGrid.SetObjectView(current);
                     dynamic control =
                         (MainFrm as IDockableManager).ViewDictionary.FirstOrDefault(d => d.View == debugGrid)
-                        ?.Container;
+                            ?.Container;
                     if (control != null)
                         control.Show();
 
@@ -281,7 +282,7 @@ namespace Hawk.ETL.Process
                 {
                     dynamic control =
                         (MainFrm as IDockableManager).ViewDictionary.FirstOrDefault(d => d.View == debugGrid)
-                        ?.Container;
+                            ?.Container;
                     if (control != null)
                         control.Close();
                     debugGrid = null;
@@ -300,7 +301,7 @@ namespace Hawk.ETL.Process
         [Browsable(false)]
         public string SearchText
         {
-            get => searchText;
+            get { return searchText; }
             set
             {
                 if (searchText == value) return;
@@ -390,7 +391,7 @@ namespace Hawk.ETL.Process
         {
             mudoleHasInit = true;
             Analyzer.DataManager = SysDataManager;
-            RefreshSamples();
+            // RefreshSamples();
             CurrentETLTools.CollectionChanged += (s, e) =>
             {
                 if (e.Action != NotifyCollectionChangedAction.Add) return;
@@ -428,7 +429,7 @@ namespace Hawk.ETL.Process
         [Browsable(false)]
         public bool IsAutoRefresh
         {
-            get => _isAutoRefresh;
+            get { return _isAutoRefresh; }
             set
             {
                 if (_isAutoRefresh != value)
@@ -453,63 +454,91 @@ namespace Hawk.ETL.Process
             }
         }
 
-        private void AddParallelSubTask(List<IFreeDocument> seeds, List<IColumnProcess> subEtls,
-            TemporaryTask<IFreeDocument> motherTask, ToListTF motherListTF = null,
-            TemporaryTask<FreeDocument> lastTask = null)
+        private TemporaryTask<IFreeDocument> AddSubTask(List<IFreeDocument> seeds, List<IColumnProcess> subEtls,
+          ToListTF motherListTF = null,
+            TemporaryTask<IFreeDocument> lastTask = null, string name = null,bool isAdd=true)
         {
             ToListTF subTaskToListTF;
-            var splitPoint2 = subEtls.GetParallelPoint(true, out subTaskToListTF);
-            var customerFunc1 = subEtls.Take(splitPoint2).Aggregate(isexecute: true, analyzer: Analyzer);
-            var customerFunc2 = subEtls.Skip(splitPoint2).Aggregate(isexecute: true, analyzer: Analyzer);
+            ToListTF subTaskToListTF2;
 
-            var newTaskBuff = seeds.ToList();
-            var maxCount =
-                MaxThreadCount;
-            if (motherTask.IsPause == false &&
-                SysProcessManager.CurrentProcessTasks.Count > maxCount)
-            {
-                iswait = true;
-                motherTask.IsPause = true;
-            }
+            var splitPoint1 = subEtls.GetParallelPoint(false, out subTaskToListTF);
+            var mapperFunc1 = subEtls.Take(splitPoint1).Aggregate(isexecute: true, analyzer: Analyzer);
+            if (subTaskToListTF!=null)
+                    splitPoint1++;
+     
+            var subEtls2 = subEtls.Skip(splitPoint1).ToList();
+            var splitPoint2 = subEtls2.GetParallelPoint(true, out subTaskToListTF2);
+
+           
+
+            var mapperFunc2 = subEtls2.Take(splitPoint2).Aggregate(isexecute: true, analyzer: Analyzer);
+            if (subTaskToListTF != null)
+                splitPoint2++;
+            var customerFunc3 = subEtls2.Skip(splitPoint2).Aggregate(isexecute: true, analyzer: Analyzer);
             var realCount = -1;
-            var name = GlobalHelper.Get("key_706");
+            if (name == null)
+                name = GlobalHelper.Get("key_706");
             if (lastTask != null)
+            {
+                seeds = lastTask.Seeds?.ToList();
                 name = lastTask.Name;
+            }
+            if (seeds == null)
+                seeds = new List<IFreeDocument>();
 
 
             if (motherListTF != null)
             {
-                var d2 = newTaskBuff.FirstOrDefault();
+                var d2 = seeds.FirstOrDefault();
                 name = d2.Query(motherListTF.IDColumn);
                 int.TryParse(d2.Query(motherListTF.MountColumn), out realCount);
             }
-            var lastPos = lastTask == null ? 0 : lastTask.MapperIndex;
+            var mapperIndex1 = lastTask?.MapperIndex1 ?? 0;
+            var mapperIndex2 = lastTask?.MapperIndex2 ?? 0;
             var task = new TemporaryTask<IFreeDocument>();
             task.Name = name;
             if (lastTask != null)
                 task.IsPause = true;
-             task = TemporaryTask<IFreeDocument>.AddTempTask(task, customerFunc1(newTaskBuff).Skip(lastPos), d3 =>
-                {
-                    var list = new List<IFreeDocument>();
-                    list.Add(d3);
-                    return customerFunc2(list);
-                },
+            task.Seeds = seeds.Select(d => d.Clone()).ToList();
+            var task1 = task;
+            var generator1 = mapperFunc1(seeds).Skip(mapperIndex1).Select(doc =>
+            {
+                task1.MapperIndex1++;
+                task1.MapperIndex2 = 0;
+                return doc;
+            });
+            var generator2 = mapperFunc2(generator1).Skip(mapperIndex2).Select(doc =>
+            {
+                task1.MapperIndex2++;
+                return doc;
+            });
+            task = TemporaryTask<IFreeDocument>.AddTempTask(task, generator2, doc =>
+            {
+                var list = new List<IFreeDocument> {doc};
+                return customerFunc3(list);
+            },
                 null, realCount, false);
             if (lastTask != null)
             {
                 task.Name = lastTask.Name;
                 task.OutputIndex = lastTask.OutputIndex;
-                task.MapperIndex = lastTask.MapperIndex;
+                task.MapperIndex1 = lastTask.MapperIndex1;
+                task.MapperIndex2 = lastTask.MapperIndex2;
                 task.IsPause = true;
             }
             task.IsFormal = true;
             task.Level = 1;
             task.Publisher = this;
-            ControlExtended.UIInvoke(() => SysProcessManager.CurrentProcessTasks.Add(task));
+            if (isAdd)
+            {
+                ControlExtended.UIInvoke(() => SysProcessManager.CurrentProcessTasks.Add(task));
+            }
+       
             task.Start();
+            return task;
         }
 
-        public void ExecuteDatas(List<TemporaryTask<FreeDocument>>lastRunningTasks = null)
+        public void ExecuteDatas(List<TemporaryTask<IFreeDocument>> lastRunningTasks = null)
         {
             var etls = CurrentETLTools.Where(d => d.Enabled).ToList();
 
@@ -519,39 +548,28 @@ namespace Hawk.ETL.Process
 
             var timer = new DispatcherTimer();
             if (GenerateMode == GenerateMode.SerialMode && DelayTime > 0)
-                etls = etls.AddModule(d => d.GetType() == typeof(CrawlerTF),
+                etls = etls.AddModule(d => d.GetType() == typeof (CrawlerTF),
                     d => new DelayTF {DelayTime = DelayTime.ToString()}, true).ToList();
             ToListTF motherListTF;
 
-
             var taskBuff = new List<IFreeDocument>();
             TemporaryTask<IFreeDocument> motherTask = null;
-            TemporaryTask<FreeDocument> lastMotherTask = null;
+            TemporaryTask<IFreeDocument> lastMotherTask = null;
 
             var motherName = Name + GlobalHelper.Get(GenerateMode == GenerateMode.SerialMode ? "key_704" : "key_705");
             if (lastRunningTasks != null)
                 lastMotherTask = lastRunningTasks.FirstOrDefault(d => d.Level == 0);
-            var lastPos = lastMotherTask?.MapperIndex + 1 ?? 0;
+        
             if (GenerateMode == GenerateMode.SerialMode)
+
             {
-                var splitPoint = etls.GetParallelPoint(true, out motherListTF);
-                var motherFunc = etls.Take(splitPoint).Aggregate(isexecute: true, analyzer: Analyzer);
 
-
-                motherTask = TemporaryTask<IFreeDocument>.AddTempTask(motherName
-                    ,
-                    motherFunc(new List<IFreeDocument>()).Skip(lastPos),
-                    d =>
-                    {
-                        var subEtls = etls.Skip(splitPoint).ToList();
-
-                        var customerFunc = subEtls.Aggregate(isexecute: true);
-                        return customerFunc(new List<IFreeDocument> {d});
-                    });
+               motherTask= AddSubTask(null, etls, null, lastMotherTask,isAdd:false);
             }
 
             else
             {
+                var mapperIndex1 = lastMotherTask?.MapperIndex1 + 1 ?? 0;
                 var splitPoint = etls.GetParallelPoint(false, out motherListTF);
                 var motherFunc = etls.Take(splitPoint).Aggregate(isexecute: true, analyzer: Analyzer);
                 if (motherListTF != null)
@@ -563,28 +581,26 @@ namespace Hawk.ETL.Process
                     motherTask.IsPause = true;
                 TemporaryTask<IFreeDocument>.AddTempTaskSimple(motherTask
                     ,
-                    motherFunc(new List<IFreeDocument>()).Skip(lastPos),
+                    motherFunc(new List<IFreeDocument>()).Skip(mapperIndex1).Select(d =>
+                    {
+                        motherTask.MapperIndex1++;
+                        Thread.Sleep(2000);
+                                                                                        return d;
+                    }),
                     d =>
                     {
-                        if (motherListTF != null)
+                        taskBuff.Add(d);
+                        if (taskBuff.Count < motherListTF?.GroupMount)
                         {
-                            if (taskBuff.Count < motherListTF.GroupMount)
-                            {
-                                taskBuff.Add(d);
-                                return;
-                            }
-                        }
-                        else
-                        {
-                            taskBuff.Add(d);
+                            return;
                         }
 
-                        AddParallelSubTask(taskBuff, subEtls, motherTask, motherListTF);
+                        AddSubTask(taskBuff.ToList(), subEtls,  motherListTF);
                         taskBuff.Clear();
                     });
                 if (lastRunningTasks != null)
                     foreach (var subTask in lastRunningTasks.Where(d => d.Level == 1))
-                        AddParallelSubTask(subTask.Seeds.Select(d => d as IFreeDocument).ToList(), subEtls, motherTask,
+                        AddSubTask(null, subEtls, 
                             motherListTF, subTask);
             }
             SysProcessManager.CurrentProcessTasks.Add(motherTask);
@@ -593,13 +609,14 @@ namespace Hawk.ETL.Process
             if (lastMotherTask != null)
             {
                 motherTask.IsPause = true;
-               
-                motherTask.MapperIndex = lastMotherTask.MapperIndex;
+
+                motherTask.MapperIndex1 = lastMotherTask.MapperIndex1;
                 motherTask.OutputIndex = lastMotherTask.OutputIndex;
             }
+            motherTask.Level = 0;
             motherTask.IsSelected = true;
             motherTask.Publisher = this;
-            timer.Interval = TimeSpan.FromSeconds(3);
+            timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += (s, e) =>
             {
                 if (motherTask.IsCanceled)
@@ -614,17 +631,19 @@ namespace Hawk.ETL.Process
                     return;
                 }
 
-                if (iswait && SysProcessManager.CurrentProcessTasks.Count < MaxThreadCount)
+                if (SysProcessManager.CurrentProcessTasks.Count < MaxThreadCount)
                 {
                     motherTask.IsPause = false;
-                    iswait = false;
+                }
+                else
+                {
+                    motherTask.IsPause = true ;
                 }
             };
 
             timer.Start();
         }
 
-        private bool iswait;
 
         private bool NeedConfig(IDictionarySerializable item)
         {
@@ -723,7 +742,7 @@ namespace Hawk.ETL.Process
         [LocalizedDisplayName("key_188")]
         public GenerateMode GenerateMode
         {
-            get => _generateMode;
+            get { return _generateMode; }
             set
             {
                 if (_generateMode == value)
@@ -741,7 +760,7 @@ namespace Hawk.ETL.Process
         [NumberRange(1, 20, 1)]
         public int MaxThreadCount
         {
-            get => _maxThreadCount;
+            get { return _maxThreadCount; }
             set
             {
                 if (_maxThreadCount != value)
@@ -764,7 +783,7 @@ namespace Hawk.ETL.Process
         [NumberRange(1, 20, 1)]
         public int DelayTime
         {
-            get => _delayTime;
+            get { return _delayTime; }
             set
             {
                 if (_delayTime != value)
@@ -799,7 +818,8 @@ namespace Hawk.ETL.Process
                 return;
             OnPropertyChanged("AllETLMount");
 
-            var tasks = SysProcessManager.CurrentProcessTasks.Where(d => d.Publisher == this&&d.IsPause==false).ToList();
+            var tasks =
+                SysProcessManager.CurrentProcessTasks.Where(d => d.Publisher == this && d.IsPause == false).ToList();
             if (tasks.Any())
             {
                 var str = string.Format(GlobalHelper.Get("task_run"), Name);
@@ -858,7 +878,7 @@ namespace Hawk.ETL.Process
                         {
                             if (
                                 (oldProp.IsEqual(process.UnsafeDictSerializePlus()) == false && IsAutoRefresh).SafeCheck
-                                (GlobalHelper.Get("key_714"), LogType.Debug))
+                                    (GlobalHelper.Get("key_714"), LogType.Debug))
                                 RefreshSamples();
                         };
                         window.ShowDialog();
@@ -874,7 +894,7 @@ namespace Hawk.ETL.Process
                             if (attr == null)
                                 return;
 
-                            var data = new DataObject(typeof(XFrmWorkAttribute), attr);
+                            var data = new DataObject(typeof (XFrmWorkAttribute), attr);
                             try
                             {
                                 DragDrop.DoDragDrop(control.View as UserControl, data, DragDropEffects.Move);
@@ -963,7 +983,7 @@ namespace Hawk.ETL.Process
                     {
                         var index = all_columns.IndexOf(firstOutCol);
                         if (index != -1 && ETLMount < AllETLMount)
-                            scrollViewer.ScrollToHorizontalOffset(index * CellWidth);
+                            scrollViewer.ScrollToHorizontalOffset(index*CellWidth);
                     }
                     var nullgroup = SmartGroupCollection.FirstOrDefault(d => string.IsNullOrEmpty(d.Name));
                     nullgroup?.Value.AddRange(
@@ -998,7 +1018,7 @@ namespace Hawk.ETL.Process
             };
             var dt = new DataTemplate();
             col.CellTemplate = dt;
-            var fef = new FrameworkElementFactory(typeof(MultiLineTextEditor));
+            var fef = new FrameworkElementFactory(typeof (MultiLineTextEditor));
             var binding = new Binding();
 
             binding.Path = new PropertyPath($"[{key}]");
@@ -1036,7 +1056,7 @@ namespace Hawk.ETL.Process
                 }
             };
             SmartGroupCollection.Add(group
-            );
+                );
         }
 
         private void InitUI()
@@ -1086,7 +1106,8 @@ namespace Hawk.ETL.Process
 
         public GroupType GroupType
         {
-            get => _groupType;
+            get { return _groupType; }
+
             set
             {
                 if (_groupType != value)
@@ -1102,7 +1123,7 @@ namespace Hawk.ETL.Process
         /// </summary>
         public string Name
         {
-            get => _name;
+            get { return _name; }
             set
             {
                 if (_name != value)

@@ -85,10 +85,9 @@ namespace Hawk.Core.Utils.Plugins
 
             this.MainFrmUI.PluginDictionary = new Dictionary<string, IXPlugin>();
             PluginProvider.OrderedSearchFolder = this.PluginFolders.ToArray();
+            PluginProvider.MainConfigFolder = this.MainFrmUI.MainPluginLocation;
             PluginProvider.GetAllPluginName(false);
           
-            PluginProvider.MainConfigFolder = this.MainFrmUI.MainPluginLocation;
-        ;
 
             PluginProvider.GetAllPlugins(false);
             List<XFrmWorkAttribute> plugins = PluginProvider.GetPluginCollection(typeof(IXPlugin));

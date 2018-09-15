@@ -172,12 +172,21 @@ namespace Hawk.ETL.Plugins.Transformers
             NewColumn = "";
             Enabled = true;
             IsMultiYield = false;
-            processManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
+            IXPlugin plugin;
+            if (MainDescription.MainFrm != null)
+            {
+                if (MainDescription.MainFrm.PluginDictionary.TryGetValue("DataProcessManager", out plugin))
+                {
+                    processManager = plugin as IProcessManager;
+                }
+            }
         }
 
 
         protected SmartCrawler GetCrawler(string name)
         {
+            if (processManager == null)
+                return null;
             var crawlers = processManager.CurrentProcessCollections.OfType<SmartCrawler>().ToList();
             if (string.IsNullOrEmpty(name))
             {

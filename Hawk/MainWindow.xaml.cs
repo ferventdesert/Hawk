@@ -128,7 +128,6 @@ namespace Hawk
             PluginManager.MainFrmUI = this;
 
             //  this.myDebugSystemUI.Init();
-
             PluginManager.Init(new[] { MainStartUpLocation });
 
 
@@ -155,7 +154,6 @@ namespace Hawk
                     {
                         PluginManager.Close();
                         PluginManager.SaveConfigFile();
-                        Process.GetCurrentProcess().Kill();
                     }
                     else
                     {
@@ -177,7 +175,6 @@ namespace Hawk
                         }
                         PluginManager.Close();
                         PluginManager.SaveConfigFile();
-                        Process.GetCurrentProcess().Kill();
                     }
                     else
                     {

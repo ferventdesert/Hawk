@@ -69,6 +69,7 @@ namespace Hawk.ETL.Managements
         [LocalizedDisplayName("key_332")]
         public ObservableCollection<IDataBaseConnector> DBConnections { get; set; }
 
+        private List<FreeDocument> SavedRunningTasks;
 
         /// <summary>
         ///     在工程中保存的所有任务
@@ -86,7 +87,7 @@ namespace Hawk.ETL.Managements
         public string ParameterString
         {
             get { return "\n".Join(Parameters.Select(d => d.Key + ":" + d.Value)); }
-            set => Parameters = ExtendEnumerable.ToDict(value);
+            set { Parameters = ExtendEnumerable.ToDict(value); }
         }
 
         public void Save(IEnumerable<DataCollection>collections = null)
@@ -188,6 +189,63 @@ namespace Hawk.ETL.Managements
             return dict;
         }
 
+        public void LoadRunningTasks()
+        {
+           if(SavedRunningTasks==null)
+                return;
+            foreach (var items in SavedRunningTasks.GroupBy(d => d["Publisher"]))
+            {
+
+                var publisherName = items.Key.ToString();
+                if (publisherName == null)
+                    continue;
+
+
+                var publisher =
+                    sysProcessManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == publisherName);
+                if (publisher == null)
+                {
+                    var task = Tasks.FirstOrDefault(d => d.Name == publisherName);
+                    if (task == null)
+                    {
+                        XLogSys.Print.Info("TODO");
+                        continue;
+
+                    }
+                    task.Load(true);
+                    publisher =
+                        sysProcessManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == publisherName);
+
+                }
+                if (publisher == null)
+                {
+                    XLogSys.Print.Info("TODO");
+                    continue;
+                }
+                var tool = publisher as SmartETLTool;
+                if (tool == null)
+                {
+                    XLogSys.Print.Info("TODO");
+                    continue;
+                }
+                tool.InitProcess(true);
+                //tool.RefreshSamples(false);
+                var runningTasks = items.Select(d =>
+                {
+                    var rtask = new TemporaryTask<IFreeDocument>();
+                    rtask.DictDeserialize(d);
+                    return rtask;
+                }).ToList();
+                tool.ExecuteDatas(runningTasks);
+
+
+
+
+                //sysProcessManager.
+
+                //RunningTasks.Add(conn);
+            }
+        }
         public override void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
         {
             base.DictDeserialize(docu);
@@ -226,60 +284,11 @@ namespace Hawk.ETL.Managements
             {
                 var tasks = docu["RunningTasks"] as FreeDocument;
 
-                if (tasks?.Children != null)
-                    foreach (var items in tasks.Children.GroupBy(d=>d["Publisher"]))
-                    {
 
-                        var publisherName = items.Key.ToString();
-                        if (publisherName == null)
-                            continue;
+                SavedRunningTasks = tasks?.Children;
 
-                       
-                        var publisher =
-                            sysProcessManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == publisherName);
-                        if (publisher == null)
-                        {
-                            var task = Tasks.FirstOrDefault(d => d.Name == publisherName);
-                            if (task == null)
-                            {
-                                XLogSys.Print.Info("TODO");
-                                continue;
-                                
-                            }
-                            task.Load(true);
-                            publisher =
-                                sysProcessManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == publisherName);
-
-                        }
-                        if (publisher == null)
-                        {
-                            XLogSys.Print.Info("TODO");
-                            continue;
-                        }
-                        var tool = publisher as SmartETLTool;
-                        if (tool == null)
-                        {
-                            XLogSys.Print.Info("TODO");
-                            continue;
-                        }
-                        tool.InitProcess(true);
-                        //tool.RefreshSamples(false);
-                        var runningTasks = items.Select(d =>
-                        {
-                            var rtask = new TemporaryTask<FreeDocument>();
-                            rtask.DictDeserialize(d);
-                            return rtask;
-                        }).ToList();
-                        tool.ExecuteDatas(runningTasks);
-
-
-
-
-                        //sysProcessManager.
-
-                        //RunningTasks.Add(conn);
-                    }
             }
+
             if (DBConnections.FirstOrDefault(d => d.TypeName == GlobalHelper.Get("FileManager")) == null)
             {
                 var filemanager = new FileManager {Name = GlobalHelper.Get("key_310")};

@@ -240,7 +240,7 @@ namespace Hawk.ETL.Interfaces
                 if (generator != null)
                 {
                     
-                    if (generator.GenerateCount()!=1&&(index==0||generator.MergeType==MergeType.Cross) )
+                    if ((generator.GenerateCount()!=1&&index==0)||(generator.MergeType==MergeType.Cross&&index>0)) 
                         return index + 1;
                 }
                 var trans = etl as IColumnDataTransformer;

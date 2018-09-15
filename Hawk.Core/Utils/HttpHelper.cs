@@ -440,9 +440,9 @@ namespace Hawk.Core.Utils
             // 验证证书
             if (url.Contains("https"))
             {
-                
-                .ServerCertificateValidationCallback =
-                    (sender, certificate, chain, sslPolicyErrors) => true;
+
+                ServicePointManager.ServerCertificateValidationCallback =
+                     (sender, certificate, chain, sslPolicyErrors) => true;
                 //ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls|(SecurityProtocolType)768|(SecurityProtocolType)3072;
                 request.ProtocolVersion = HttpVersion.Version10;

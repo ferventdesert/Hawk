@@ -54,5 +54,10 @@ namespace Hawk.ETL.Plugins.Generators
          {
              return argsList.Select(doc => new FreeDocument {{this.Column, doc}});
          }
+
+         public override int? GenerateCount()
+         {
+             return argsList.Count;
+         }
     }
 }

@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.ETL.Crawlers;
 using HtmlAgilityPack;
@@ -27,7 +28,8 @@ namespace Hawk.ETL.Plugins.Transformers
         public XPathDetectorModel(string html, ScriptWorkMode workmode,Window theView,TextBox textbox)
         {
             HtmlDoc = new HtmlDocument();
-            HtmlDoc.LoadHtml(html);
+
+            ControlExtended.SafeInvoke(() => HtmlDoc.LoadHtml(html));
             URLHTML = html;
             view = theView;
             htmlTextBox = textbox; 
@@ -163,8 +165,13 @@ namespace Hawk.ETL.Plugins.Transformers
             if (string.IsNullOrWhiteSpace(XPath) == false)
             {
                 List<HtmlNode> nodes = null;
-                ControlExtended.SafeInvoke(()=>nodes= HtmlDoc.DocumentNode.SelectNodes(XPath).ToList());
+                ControlExtended.SafeInvoke(()=>nodes= HtmlDoc.DocumentNode.SelectNodesPlus(XPath, SelectorFormat.XPath).ToList());
                 ChildItems.Clear();
+                if (nodes == null)
+                {
+                    XLogSys.Print.Info(GlobalHelper.Get("key_665"));
+                    return;
+                }
                 nodes.Execute(d => ChildItems.Add(new CrawlItem()
                 {
                     XPath = d.XPath,

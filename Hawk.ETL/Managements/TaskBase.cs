@@ -86,8 +86,14 @@ namespace Hawk.ETL.Managements
         [PropertyEditor("CodeEditor")]
         public string Description { get; set; }
 
-     
-    
+        [LocalizedDisplayName("key_567")]
+        [PropertyOrder(100)]
+        [PropertyEditor("MarkdownEditor")]
+        public string Document
+        {
+            get { return Description; }
+        }
+
 
         [LocalizedDisplayName("key_18")]
         [PropertyOrder(1)]

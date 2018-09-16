@@ -17,9 +17,7 @@ namespace Hawk.ETL.Plugins.Transformers
             DisplayProgress = true;
             GroupMount = 1;
         }
-        [LocalizedDisplayName("key_558")]
-        [LocalizedDescription("key_559")]
-        public string IDColumn { get; set; }
+     
 
 
         [LocalizedDisplayName("key_560")]

@@ -19,7 +19,7 @@
         	<StackPanel Orientation="Horizontal" Width="Auto">
         		<CheckBox   Margin="0" IsChecked="{Binding IsEnabled}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         		<TextBlock TextWrapping="Wrap" Text="{DynamicResource key_18}" VerticalAlignment="Center" Margin="20,0,0,0"/>
-        		<TextBox ToolTip="{DynamicResource key_18}" Text="{Binding Name}" Margin="5,0,0,0" TextWrapping="Wrap"   Width="120" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        		<TextBox  Text="{Binding Name}" Margin="5,0,0,0" TextWrapping="Wrap"   Width="120" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         		<TextBlock TextWrapping="Wrap" Text="XPath" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,0,0,0"/>
         		<TextBox ToolTip="XPath" MinWidth="200" Text="{Binding XPath}" Margin="5,0,0,0" TextWrapping="Wrap"   Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         	</StackPanel>

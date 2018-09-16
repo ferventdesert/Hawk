@@ -17,16 +17,23 @@ namespace Hawk.Core.Connectors
     {
         #region Constructors and Destructors
 
-        public static Dictionary<XFrmWorkAttribute, string> ConnectorDictionary;
+        public static Dictionary<XFrmWorkAttribute, string> ConnectorDictionary
+        {
+            get
+            {
+               var dict= new Dictionary<XFrmWorkAttribute, string>();
+                foreach (XFrmWorkAttribute item in PluginProvider.GetPluginCollection(typeof(IFileConnector)))
+                {
+                    var ins = PluginProvider.GetObjectInstance(item.MyType) as IFileConnector;
+                    dict.Add(item, ins.ExtentFileName);
+                }
+                return dict;
+            }
+        }
 
         static FileConnector()
         {
-            ConnectorDictionary = new Dictionary<XFrmWorkAttribute, string>();
-            foreach (XFrmWorkAttribute item in PluginProvider.GetPluginCollection(typeof(IFileConnector)))
-            {
-                var ins = PluginProvider.GetObjectInstance(item.MyType) as IFileConnector;
-                ConnectorDictionary.Add(item, ins.ExtentFileName);
-            }
+           
         }
 
         protected FileConnector()
@@ -89,7 +96,7 @@ namespace Hawk.Core.Connectors
             {
                 sb.Append(v.Key.Name);
 
-                sb.Append($"|*{v.Value}|");
+                sb.Append($"|*{v.Value.Split(' ')[0]}|");
             }
             sb.Remove(sb.Length - 1, 1);
             return sb.ToString();

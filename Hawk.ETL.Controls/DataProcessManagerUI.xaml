@@ -107,7 +107,7 @@
             				<TextBlock   Margin="0,0,8,8"  Text="{Binding Text}"   d:LayoutOverrides="Width" FontSize="{DynamicResource LargeFont}" FontWeight="Normal" VerticalAlignment="Center"/>
             		         <TextBlock VerticalAlignment="Center"><Hyperlink Command="{Binding}"><Run Text="{DynamicResource key_724}"/></Hyperlink></TextBlock>
 						 </StackPanel>
-            		<TextBlock TextWrapping="Wrap"   Text="{Binding Description}"  />
+            		<TextBlock TextWrapping="Wrap"   Text="{Binding Description}"   />
             	</StackPanel>
 				</StackPanel>
             </DataTemplate>

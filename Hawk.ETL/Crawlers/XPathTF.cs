@@ -137,7 +137,8 @@ namespace Hawk.ETL.Crawlers
         public override object TransformData(IFreeDocument document)
         {
             var item = document[Column];
-
+            if (htmls.Count < 5)
+                htmls.Add(item.ToString());
             if (item is IFreeDocument)
             {
                 return (item as IFreeDocument).GetDataFromXPath(XPath);

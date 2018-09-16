@@ -212,7 +212,7 @@
             <StackPanel Height="Auto" Width="150" d:DesignWidth="42.438" d:DesignHeight="251.312">
                 <TextBox Text="{Binding Name, Mode=TwoWay}"
         			Background="{Binding GroupType, Converter={StaticResource GroupColorConverter}}"
-        			ToolTip="{Binding GroupType}" Margin="10,0" VerticalAlignment="Stretch" FontSize="14.667"
+        		 Margin="10,0" VerticalAlignment="Stretch" FontSize="14.667"
         			FontWeight="Bold" HorizontalAlignment="Stretch" TextAlignment="Center" />
                 <ListBox AllowDrop="True" ItemTemplate="{DynamicResource DataTemplate2}" DataContext="{Binding}"
         			ItemsSource="{Binding Value}" Drop="ListBox_Drop" HorizontalContentAlignment="Stretch"

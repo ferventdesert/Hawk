@@ -489,7 +489,7 @@ namespace Hawk.ETL.Process
             if (motherListTF != null)
             {
                 var d2 = seeds.FirstOrDefault();
-                name = d2.Query(motherListTF.IDColumn);
+                name = d2.Query(motherListTF.Column);
                 int.TryParse(d2.Query(motherListTF.MountColumn), out realCount);
             }
             var mapperIndex1 = lastTask?.MapperIndex1 ?? 0;

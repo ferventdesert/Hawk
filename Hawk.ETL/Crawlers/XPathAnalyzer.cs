@@ -464,7 +464,30 @@ namespace Hawk.ETL.Crawlers
             }
             return isChildContainInfo;
         }
-
+        public static IEnumerable<HtmlNode> SelectNodesPlus(this HtmlNode node, string xpath, SelectorFormat format)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(xpath))
+                    return null;
+                if (format == SelectorFormat.CssSelecor)
+                    return node.CssSelect(xpath);
+                if (!xpath.Contains("#"))
+                    return node.SelectNodes(xpath);
+                var lasts = xpath.Split('/');
+                var lastOne = lasts.LastOrDefault();
+                if (lastOne == null)
+                    return null;
+                var newfather_path = xpath.Replace("/" + lastOne, "");
+                var father = node.SelectNodes(newfather_path);
+                return father;
+            }
+            catch (Exception ex)
+            {
+                XLogSys.Print.Error(GlobalHelper.Get("key_184") + xpath);
+                return null;
+            }
+        }
         public static HtmlNode SelectSingleNodePlus(this HtmlNode node, string xpath, SelectorFormat format)
         {
             try

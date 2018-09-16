@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\TextToFlowDocumentConverter.cs" />
     <Compile Include="XPathDetector.xaml.cs">
       <DependentUpon>XPathDetector.xaml</DependentUpon>
     </Compile>

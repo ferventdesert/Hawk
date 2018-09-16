@@ -18,7 +18,7 @@
                 <CheckBox Margin="0" IsChecked="{Binding IsSelected}" HorizontalAlignment="Left"
                           VerticalAlignment="Center" />
                 <TextBlock TextWrapping="Wrap" Text="{DynamicResource key_18}" VerticalAlignment="Center" Margin="20,0,0,0" />
-                <TextBox ToolTip="{DynamicResource key_18}" Text="{Binding Name}" Margin="5,0,0,0" TextWrapping="Wrap" Width="120"
+                <TextBox Text="{Binding Name}" Margin="5,0,0,0" TextWrapping="Wrap" Width="120"
                          HorizontalAlignment="Left" VerticalAlignment="Center" />
                 <TextBlock TextWrapping="Wrap" Text="XPath" VerticalAlignment="Center" HorizontalAlignment="Center"
                            Margin="20,0,0,0" />
@@ -227,7 +227,7 @@
                             </TextBlock>
                             <TextBox Grid.Column="1" Margin="8,132.364,80,0" TextWrapping="Wrap"
                                      Text="{Binding SelectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                     VerticalAlignment="Top"  ToolTip="{DynamicResource crawler_url_desc}" />
+                                     VerticalAlignment="Top"   />
                             <TextBlock Margin="8,8,0,0" TextWrapping="Wrap" Text="{DynamicResource key_188}" VerticalAlignment="Top"
                                        HorizontalAlignment="Left" />
                             <ComboBox Grid.Column="1" Margin="8,5.01,80,0"

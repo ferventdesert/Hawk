@@ -1,26 +1,14 @@
 ﻿using System;
-using Hawk.Core.Utils;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.WpfPropertyGrid.Attributes;
-using System.Windows.Input;
+using Hawk.Base.Interfaces;
+using Hawk.Base.Plugins.Transformers;
+using Hawk.Base.Utils;
 using Hawk.Base.Utils.Plugins;
-using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.Logs;
-using Hawk.Core.Utils.MVVM;
-using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Interfaces;
-using Hawk.ETL.Plugins.Generators;
-using Hawk.ETL.Plugins.Transformers;
 using HtmlAgilityPack;
-using ScrapySharp.Extensions;
+using GlobalHelper = Hawk.Base.Interfaces.GlobalHelper;
 
-namespace Hawk.ETL.Crawlers
+namespace Hawk.Base.Crawlers
 {
     [XFrmWork("XPathTF", "XPathTF_desc")]
     public class XPathTF : TransformerBase

@@ -1,15 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Windows.Controls.WpfPropertyGrid.Attributes;
-using System.Windows.Controls.WpfPropertyGrid.Controls;
-using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Interfaces;
+using Hawk.Base.Utils;
+using Hawk.Base.Utils.Plugins;
 
-namespace Hawk.ETL.Plugins.Transformers
+namespace Hawk.Base.Plugins.Transformers
 {
     [XFrmWork("JoinDBTF","JoinDBTF_desc" )]
     public class JoinDBTF : TransformerBase
@@ -61,12 +55,12 @@ namespace Hawk.ETL.Plugins.Transformers
 
         [LocalizedDisplayName("key_494")]
         [LocalizedDescription("key_406")]
-        [PropertyOrder(1)]
+        [BrowsableAttribute.PropertyOrderAttribute(1)]
         public ExtendSelector<IDataBaseConnector> ConnectorSelector { get; set; }
 
         [LocalizedDisplayName("key_22")]
         [LocalizedDescription("key_495")]
-        [PropertyOrder(1)]
+        [BrowsableAttribute.PropertyOrderAttribute(1)]
         public ExtendSelector<TableInfo> TableSelector { get; set; }
 
         [LocalizedDisplayName("key_496")]

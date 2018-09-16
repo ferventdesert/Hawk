@@ -1,10 +1,6 @@
-﻿using System.ComponentModel;
-using System.Web;
-using System.Windows.Controls.WpfPropertyGrid.Attributes;
-using Hawk.Core.Connectors;
-using Hawk.Core.Utils.Plugins;
+﻿using Hawk.Base.Utils.Plugins;
 
-namespace Hawk.ETL.Plugins.Transformers
+namespace Hawk.Base.Plugins.Transformers
 {
     public enum ConvertType
     {

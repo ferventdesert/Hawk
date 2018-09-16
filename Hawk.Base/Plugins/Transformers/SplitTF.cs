@@ -1,22 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Windows.Controls.WpfPropertyGrid.Attributes;
-using System.Windows.Controls.WpfPropertyGrid.Controls;
-using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Interfaces;
-using Hawk.ETL.Managements;
+using Hawk.Base.Managements;
+using Hawk.Base.Utils;
+using Hawk.Base.Utils.Plugins;
 
-namespace Hawk.ETL.Plugins.Transformers
+namespace Hawk.Base.Plugins.Transformers
 {
     [XFrmWork("RegexSplitTF", "RegexSplitTF_desc")]
     public class RegexSplitTF : RegexTF
     {
-        [PropertyOrder(3)]
+        [BrowsableAttribute.PropertyOrderAttribute(3)]
         [LocalizedDisplayName("key_533")]
         [LocalizedDescription("key_534")]
         public bool FromBack { get; set; }
@@ -85,13 +79,13 @@ namespace Hawk.ETL.Plugins.Transformers
         }
 
 
-        [PropertyOrder(3)]
+        [BrowsableAttribute.PropertyOrderAttribute(3)]
         [LocalizedDisplayName("key_375")]
         [LocalizedDescription("key_537")]
         public string MinValue { get; set; }
 
 
-        [PropertyOrder(3)]
+        [BrowsableAttribute.PropertyOrderAttribute(3)]
         [LocalizedDisplayName("key_538")]
         [LocalizedDescription("key_537")]
         public string ItemPerPage { get; set; }
@@ -185,7 +179,7 @@ namespace Hawk.ETL.Plugins.Transformers
                 OneOutput = false;
             }
 
-            [LocalizedCategory("key_190")]
+            [BrowsableAttribute.LocalizedCategoryAttribute("key_190")]
             [LocalizedDisplayName("key_541")]
             [LocalizedDescription("key_542")]
             public bool ShouldSplitChars { get; set; }

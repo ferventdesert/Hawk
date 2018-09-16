@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Hawk.Base.Interfaces;
 using Hawk.Base.Utils.Plugins;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Interfaces;
-using Hawk.ETL.Managements;
+using ExtendEnumerable = Hawk.Base.Utils.ExtendEnumerable;
 
 namespace Hawk.Base.Managements
 {
@@ -48,7 +46,7 @@ namespace Hawk.Base.Managements
         }
         public void AddErrorLog(IFreeDocument item,Exception ex,IColumnProcess process)
         {
-            var param = item.Clone() as FreeDocument;
+            var param = ExtendEnumerable.Clone(item) as FreeDocument;
             param["__SysObjectID"] = process.ObjectID;
             param["__SysETL"] = (process as ToolBase)?.Father.Name;
             param["__SysERROR"] = ex.Message;

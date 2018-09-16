@@ -1,19 +1,9 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading;
-using System.Windows.Controls.WpfPropertyGrid.Attributes;
-using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.Logs;
-using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Crawlers;
-using Hawk.ETL.Interfaces;
-using Hawk.ETL.Process;
-using HtmlAgilityPack;
+using Hawk.Base.Interfaces;
+using Hawk.Base.Utils.Plugins;
 
-namespace Hawk.ETL.Plugins.Generators
+namespace Hawk.Base.Plugins.Generators
 {
     [XFrmWork("BfsGE")]
     public class BfsGE : GeneratorBase

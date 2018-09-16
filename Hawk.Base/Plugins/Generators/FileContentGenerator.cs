@@ -1,23 +1,13 @@
 ﻿using System.Collections.Generic;
-using Hawk.Core.Utils;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Windows.Controls.WpfPropertyGrid.Attributes;
-using System.Windows.Controls.WpfPropertyGrid.Controls;
-using System.Windows.Forms;
-using System.Windows.Input;
+using Hawk.Base.Crawlers;
 using Hawk.Base.Interfaces;
-using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.MVVM;
-using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Crawlers;
-using Hawk.ETL.Interfaces;
+using Hawk.Base.Utils;
+using Hawk.Base.Utils.Plugins;
 using EncodingType = Hawk.Core.Utils.EncodingType;
+using GlobalHelper = Hawk.Base.Interfaces.GlobalHelper;
 
-namespace Hawk.ETL.Plugins.Generators
+namespace Hawk.Base.Plugins.Generators
 {
     [XFrmWork("ReadFileTextGE", "ReadFileTextGE_desc","clipboard_file")]
     public class ReadFileTextGE : GeneratorBase 
@@ -27,7 +17,7 @@ namespace Hawk.ETL.Plugins.Generators
 
         [LocalizedDisplayName("key_163")]
         [LocalizedDescription("key_87")]
-        [PropertyOrder(2)]
+        [BrowsableAttribute.PropertyOrderAttribute(2)]
         public virtual string FileName
         {
             get { return _fileName; }
@@ -43,7 +33,7 @@ namespace Hawk.ETL.Plugins.Generators
         [Browsable(false)]
         public override string KeyConfig => FileName;
         [LocalizedDisplayName("key_34")]
-        [PropertyOrder(3)]
+        [BrowsableAttribute.PropertyOrderAttribute(3)]
         public ReadOnlyCollection<ICommand> Commands2
         {
             get
@@ -58,7 +48,7 @@ namespace Hawk.ETL.Plugins.Generators
         }
 
         [LocalizedDisplayName("key_438")]
-        [PropertyOrder(4)]
+        [BrowsableAttribute.PropertyOrderAttribute(4)]
         public virtual EncodingType EncodingType { get; set; }
 
         private void Open()
@@ -119,7 +109,7 @@ namespace Hawk.ETL.Plugins.Generators
         public override string KeyConfig => FileName; 
         [LocalizedDisplayName("key_163")]
         [LocalizedDescription("key_87")]
-        [PropertyOrder(2)]
+        [BrowsableAttribute.PropertyOrderAttribute(2)]
         public override string FileName
         {
             get { return _fileName; }
@@ -146,14 +136,14 @@ namespace Hawk.ETL.Plugins.Generators
         }
 
         [LocalizedDisplayName("key_442")]
-        [PropertyOrder(0)]
+        [BrowsableAttribute.PropertyOrderAttribute(0)]
         public ExtendSelector<XFrmWorkAttribute> ConnectorSelector { get; set; }
 
         [Browsable(false)]
         public override EncodingType EncodingType { get; set; }
 
         [LocalizedDisplayName(("key_443"))]
-        [PropertyOrder(1)]
+        [BrowsableAttribute.PropertyOrderAttribute(1)]
         [TypeConverter(typeof (ExpandableObjectConverter))]
         public IFileConnector Connector { get; set; }
 
@@ -216,7 +206,7 @@ namespace Hawk.ETL.Plugins.Generators
 
         [LocalizedDisplayName("key_163")]
         [LocalizedDescription("key_87")]
-        [PropertyOrder(2)]
+        [BrowsableAttribute.PropertyOrderAttribute(2)]
         public string FileName
         {
             get { return _fileName; }
@@ -233,7 +223,7 @@ namespace Hawk.ETL.Plugins.Generators
         [Browsable(false)]
         public override string KeyConfig => FileName; 
         [LocalizedDisplayName("key_34")]
-        [PropertyOrder(3)]
+        [BrowsableAttribute.PropertyOrderAttribute(3)]
         public ReadOnlyCollection<ICommand> Commands2
         {
             get
@@ -248,7 +238,7 @@ namespace Hawk.ETL.Plugins.Generators
         }
 
         [LocalizedDisplayName("key_438")]
-        [PropertyOrder(4)]
+        [BrowsableAttribute.PropertyOrderAttribute(4)]
         public virtual EncodingType EncodingType { get; set; }
 
         private void Open()

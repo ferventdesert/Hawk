@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
-using System.Windows.Controls.WpfPropertyGrid.Attributes;
-using Hawk.Core.Connectors;
-using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Interfaces;
+using Hawk.Base.Interfaces;
+using Hawk.Base.Utils.Plugins;
 
-namespace Hawk.ETL.Plugins.Generators
+namespace Hawk.Base.Plugins.Generators
 
 {
     [XFrmWork("DateRangeGE", "DateRangeGE_desc","timer_rewind")]
@@ -23,19 +20,19 @@ namespace Hawk.ETL.Plugins.Generators
             MinValue = (DateTime.Now - TimeSpan.FromDays(3)).ToString(Format);
             Interval = TimeSpan.FromHours(1).ToString(staticSpanFormat);
         }
-        [LocalizedCategory("key_21")]
+        [BrowsableAttribute.LocalizedCategoryAttribute("key_21")]
         [LocalizedDisplayName("key_375")]
         [LocalizedDescription("key_398")]
         public string MinValue { get; set; }
-        [LocalizedCategory("key_21")]
+        [BrowsableAttribute.LocalizedCategoryAttribute("key_21")]
         [LocalizedDisplayName("key_374")]
         [LocalizedDescription("key_398")]
         public string MaxValue { get; set; }
-        [LocalizedCategory("key_21")]
+        [BrowsableAttribute.LocalizedCategoryAttribute("key_21")]
         [LocalizedDisplayName("key_399")]
         [LocalizedDescription("key_400")]
         public string Interval { get; set; }
-        [LocalizedCategory("key_21")]
+        [BrowsableAttribute.LocalizedCategoryAttribute("key_21")]
         [LocalizedDisplayName("key_401")]
         [LocalizedDescription("key_402")]
         public string Format { get; set; }

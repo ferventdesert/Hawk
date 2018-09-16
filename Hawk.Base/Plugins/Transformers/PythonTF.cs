@@ -1,19 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Windows.Controls.WpfPropertyGrid.Attributes;
-using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.Logs;
-using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Crawlers;
-using Hawk.ETL.Managements;
-using IronPython.Hosting;
-using IronPython.Runtime;
-using Microsoft.Scripting.Hosting;
+using Hawk.Base.Managements;
+using Hawk.Base.Utils;
+using Hawk.Base.Utils.Plugins;
 
-namespace Hawk.ETL.Plugins.Transformers
+namespace Hawk.Base.Plugins.Transformers
 {
     [XFrmWork("PythonTF", "PythonTF_desc")]
     public class PythonTF : TransformerBase
@@ -41,7 +33,7 @@ namespace Hawk.ETL.Plugins.Transformers
 
 
         [LocalizedDisplayName("key_512")]
-        [PropertyOrder(100)]
+        [BrowsableAttribute.PropertyOrderAttribute(100)]
         [LocalizedDescription("key_513")]
         [PropertyEditor("CodeEditor")]
         public string LibraryPath { get; set; }

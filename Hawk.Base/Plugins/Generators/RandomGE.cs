@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows.Controls.WpfPropertyGrid.Attributes;
-using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Interfaces;
+using Hawk.Base.Interfaces;
+using Hawk.Base.Utils.Plugins;
 
-namespace Hawk.ETL.Plugins.Generators
+namespace Hawk.Base.Plugins.Generators
 {
     [XFrmWork("RandomGE", "RandomGE_desc","share")]
     public class RandomGE : GeneratorBase

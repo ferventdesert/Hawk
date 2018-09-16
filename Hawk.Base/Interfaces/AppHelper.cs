@@ -1,25 +1,14 @@
 ﻿using System;
-using Hawk.Core.Utils;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls.WpfPropertyGrid.Controls;
-using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.Logs;
-using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Crawlers;
-using Hawk.ETL.Managements;
-using Hawk.ETL.Process;
-using System.Text.RegularExpressions;
 using Hawk.Base.Managements;
+using Hawk.Base.Utils;
 using Hawk.Base.Utils.Plugins;
 
-namespace Hawk.ETL.Interfaces
+namespace Hawk.Base.Interfaces
 {
     public static class AppHelper
     {

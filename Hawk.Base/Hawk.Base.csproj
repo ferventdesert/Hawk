@@ -56,8 +56,6 @@
     <Compile Include="Interfaces\IColumnDataSorter.cs" />
     <Compile Include="Interfaces\IDataExecutor.cs" />
     <Compile Include="Managements\Analyzer.cs" />
-    <Compile Include="Managements\CommandLineContainer.cs" />
-    <Compile Include="Managements\DataMiningConfig.CS" />
     <Compile Include="Managements\ProcessTask.cs" />
     <Compile Include="Managements\Project.cs" />
     <Compile Include="Managements\TaskBase.cs" />
@@ -103,11 +101,9 @@
     <Compile Include="Plugins\Transformers\StrExtractTF.cs" />
     <Compile Include="Plugins\Transformers\SupplierTF.cs" />
     <Compile Include="Plugins\Transformers\Time2StrTF.cs" />
-    <Compile Include="Plugins\Transformers\TnTF.cs" />
     <Compile Include="Plugins\Transformers\ToListTF.cs" />
     <Compile Include="Plugins\Transformers\TransformerBase.cs" />
     <Compile Include="Plugins\Transformers\TrimTF.cs" />
-    <Compile Include="Plugins\Transformers\XPathDetectorModel.cs" />
     <Compile Include="Plugins\Web\BaiduLocation.cs" />
     <Compile Include="Plugins\Web\GetIPLocation.cs" />
     <Compile Include="Plugins\Web\GetRoute.cs" />

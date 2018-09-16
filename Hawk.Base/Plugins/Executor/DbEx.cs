@@ -1,19 +1,11 @@
 ﻿using System;
-using Hawk.Core.Utils;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Windows.Controls.WpfPropertyGrid.Attributes;
-using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Base.Interfaces;
-using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.Logs;
-using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Crawlers;
-using Hawk.ETL.Interfaces;
+using Hawk.Base.Utils.Plugins;
+using ExtendEnumerable = Hawk.Base.Utils.ExtendEnumerable;
 
-namespace Hawk.ETL.Plugins.Executor
+namespace Hawk.Base.Plugins.Executor
 {
     [XFrmWork("DbEX", "DbEX_desc")]
     public class DbEX : DataExecutorBase
@@ -35,17 +27,17 @@ namespace Hawk.ETL.Plugins.Executor
         [Browsable(false)]
         public override string KeyConfig => ExecuteType+":"+TableNames?.SelectItem;
         [LocalizedDisplayName("key_343")]
-        [PropertyOrder(3)]
+        [BrowsableAttribute.PropertyOrderAttribute(3)]
         [LocalizedDescription("key_344")]
         public EntityExecuteType ExecuteType { get; set; }
 
         [LocalizedDisplayName("key_345")]
         [LocalizedDescription("key_346")]
-        [PropertyOrder(1)]
+        [BrowsableAttribute.PropertyOrderAttribute(1)]
         public ExtendSelector<IDataBaseConnector> ConnectorSelector { get; set; }
 
         [LocalizedDisplayName("key_22")]
-        [PropertyOrder(2)]
+        [BrowsableAttribute.PropertyOrderAttribute(2)]
         [LocalizedDescription("key_347")]
         public TextEditSelector TableNames { get; set; }
 
@@ -93,7 +85,7 @@ namespace Hawk.ETL.Plugins.Executor
                     });
             }
             return
-                documents.Init(InitTable).Select(
+                ExtendEnumerable.Init(documents, InitTable).Select(
                     document =>
                     {
                         var v = document[Column];

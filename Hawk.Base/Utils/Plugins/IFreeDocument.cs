@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Base.Utils.Plugins
 {

@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
+using Hawk.Base.Plugins.Transformers;
 using Hawk.Base.Utils.Plugins;
-using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Interfaces;
-using Hawk.ETL.Plugins.Transformers;
 
 namespace Hawk.Base.Interfaces
 {

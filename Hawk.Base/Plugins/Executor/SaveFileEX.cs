@@ -1,19 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Windows.Controls.WpfPropertyGrid.Attributes;
-using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Base.Interfaces;
-using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.Logs;
-using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Interfaces;
-using Hawk.ETL.Process;
 
-namespace Hawk.ETL.Plugins.Executor
+namespace Hawk.Base.Plugins.Executor
 {
     [XFrmWork("SaveFileEX", "SaveFileEX_desc","save")]
     public class SaveFileEX : DataExecutorBase

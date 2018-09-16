@@ -1,19 +1,10 @@
 ﻿using System;
-using Hawk.Core.Utils;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Xml.Serialization;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.Logs;
-using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Process;
-using IronPython.Hosting;
-using Microsoft.Scripting;
+using Hawk.Base.Utils;
+using Hawk.Base.Utils.Plugins;
 
-namespace Hawk.ETL.Managements
+namespace Hawk.Base.Managements
 {
     public class ProcessTask : TaskBase, IDictionarySerializable
     {
@@ -133,7 +124,7 @@ namespace Hawk.ETL.Managements
         }
 
         [LocalizedDisplayName("key_328")]
-        [PropertyOrder(6)]
+        [BrowsableAttribute.PropertyOrderAttribute(6)]
         public string ScriptPath { get; set; }
 
   

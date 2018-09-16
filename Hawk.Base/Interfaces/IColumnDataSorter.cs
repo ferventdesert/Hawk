@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using Hawk.Base.Interfaces;
 using Hawk.Base.Managements;
+using Hawk.Base.Plugins.Executor;
+using Hawk.Base.Plugins.Transformers;
 using Hawk.Base.Utils;
 using Hawk.Base.Utils.Plugins;
-using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Managements;
-using Hawk.ETL.Plugins.Executor;
-using Hawk.ETL.Plugins.Transformers;
 
-namespace Hawk.ETL.Interfaces
+namespace Hawk.Base.Interfaces
 {
     public enum SortType
     {

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Hawk.Base.Managements;
 using Hawk.Base.Utils.Plugins;
-using Hawk.ETL.Interfaces;
 
 namespace Hawk.Base.Interfaces
 {

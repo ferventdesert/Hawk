@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Windows.Controls.WpfPropertyGrid.Attributes;
-using Hawk.Core.Connectors;
-using Hawk.Core.Utils.Logs;
-using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Interfaces;
+using Hawk.Base.Interfaces;
+using Hawk.Base.Utils.Plugins;
 
-namespace Hawk.ETL.Plugins.Generators
+namespace Hawk.Base.Plugins.Generators
 {
      [XFrmWork("key_177","TextGE_desc" )]
     public class TextGE : GeneratorBase
@@ -18,7 +14,7 @@ namespace Hawk.ETL.Plugins.Generators
       
          [LocalizedDisplayName("key_464")]
          [LocalizedDescription("key_465")]
-         [PropertyOrder(2)]
+         [BrowsableAttribute.PropertyOrderAttribute(2)]
          [PropertyEditor("CodeEditor")]
          public string Content { get; set; }
 

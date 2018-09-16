@@ -1,13 +1,9 @@
 ﻿using System.Collections.Generic;
-using Hawk.Core.Utils;
-using System.ComponentModel;
 using System.Text.RegularExpressions;
-using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.Logs;
-using Hawk.Core.Utils.Plugins;
+using Hawk.Base.Utils;
+using Hawk.Base.Utils.Plugins;
 
-namespace Hawk.ETL.Plugins.Transformers
+namespace Hawk.Base.Plugins.Transformers
 {
     [XFrmWork("RenameTF", "RenameTF_desc","page_edit")]
     public class RenameTF : TransformerBase

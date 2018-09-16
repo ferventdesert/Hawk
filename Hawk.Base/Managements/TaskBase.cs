@@ -1,13 +1,9 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Threading;
-using System.Windows.Controls.WpfPropertyGrid.Attributes;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.MVVM;
-using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Interfaces;
+using Hawk.Base.Utils.MVVM;
+using Hawk.Base.Utils.Plugins;
 
-namespace Hawk.ETL.Managements
+namespace Hawk.Base.Managements
 {
     public abstract class TaskBase : PropertyChangeNotifier
     {
@@ -22,7 +18,6 @@ namespace Hawk.ETL.Managements
         protected TaskBase()
         {
             autoReset = new AutoResetEvent(false);
-            ProcessManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
 
            
         }
@@ -62,7 +57,7 @@ namespace Hawk.ETL.Managements
             autoReset.WaitOne();
             return true;
         }
-        [LocalizedCategory("key_335")]
+        [BrowsableAttribute.LocalizedCategoryAttribute("key_335")]
         [LocalizedDisplayName("key_336")]
         public int OutputIndex
         {
@@ -75,20 +70,18 @@ namespace Hawk.ETL.Managements
             }
         }
         [LocalizedDisplayName("key_337")]
-        [PropertyOrder(4)]
+        [BrowsableAttribute.PropertyOrderAttribute(4)]
         public string Group { get; set; }
 
         /// <summary>
         ///     该计算任务的介绍
         /// </summary>
         [LocalizedDisplayName("key_314")]
-        [PropertyOrder(3)]
-        [PropertyEditor("CodeEditor")]
+        [BrowsableAttribute.PropertyOrderAttribute(3)]
         public string Description { get; set; }
 
         [LocalizedDisplayName("key_567")]
-        [PropertyOrder(100)]
-        [PropertyEditor("MarkdownEditor")]
+        [BrowsableAttribute.PropertyOrderAttribute(100)]
         public string Document
         {
             get { return Description; }
@@ -96,7 +89,7 @@ namespace Hawk.ETL.Managements
 
 
         [LocalizedDisplayName("key_18")]
-        [PropertyOrder(1)]
+        [BrowsableAttribute.PropertyOrderAttribute(1)]
         public string Name
         {
             get { return name; }

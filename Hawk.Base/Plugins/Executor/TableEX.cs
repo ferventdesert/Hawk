@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Base.Interfaces;
-using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.Plugins;
-using Hawk.ETL.Interfaces;
+using Hawk.Base.Utils;
+using Hawk.Base.Utils.Plugins;
 
-namespace Hawk.ETL.Plugins.Executor
+namespace Hawk.Base.Plugins.Executor
 {
     [XFrmWork("TableEX", "TableEX_desc", "column_three")]
     public class TableEX : DataExecutorBase
@@ -19,7 +14,6 @@ namespace Hawk.ETL.Plugins.Executor
 
         public TableEX()
         {
-            dataManager = MainDescription.MainFrm.PluginDictionary["DataManager"] as IDataManager;
         }
         [Browsable(false)]
         public override string KeyConfig => Table;

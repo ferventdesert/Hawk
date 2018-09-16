@@ -1,23 +1,16 @@
 ﻿using System;
-using Hawk.Core.Utils;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using Hawk.Base.Utils;
 using Hawk.Base.Utils.Plugins;
-using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.Logs;
-using Hawk.Core.Utils.Plugins;
 using HtmlAgilityPack;
-using ScrapySharp.Extensions;
-using GlobalHelper = Hawk.ETL.Interfaces.GlobalHelper;
+using GlobalHelper = Hawk.Base.Interfaces.GlobalHelper;
 
-namespace Hawk.ETL.Crawlers
+namespace Hawk.Base.Crawlers
 {
     /// <summary>
     ///     Main class to search paths on HTML

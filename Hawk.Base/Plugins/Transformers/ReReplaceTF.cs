@@ -1,0 +1,30 @@
+﻿namespace Hawk.Base.Plugins.Transformers
+{
+    [XFrmWork("ReReplaceTF", "ReReplaceTF_desc")]
+    public class ReReplaceTF : RegexTF
+    {
+        public ReReplaceTF()
+        {
+            ReplaceText = "";
+
+        }
+
+  
+
+        [LocalizedDisplayName("key_526")]
+        [PropertyEditor("CodeEditor")]
+        public string ReplaceText { get; set; }
+
+        public override object TransformData(IFreeDocument dict)
+        {
+            object item = dict[Column];
+            if (item == null)
+                return null;
+
+            string r = regex.Replace(item.ToString(), ReplaceText);
+
+
+            return r;
+        }
+    }
+}

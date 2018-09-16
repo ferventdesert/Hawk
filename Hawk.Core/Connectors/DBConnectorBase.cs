@@ -43,7 +43,7 @@ namespace Hawk.Core.Connectors
         private string dataType;
 
         [LocalizedDisplayName("key_12")]
-        [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.PropertyOrder(1)]
+        [PropertyOrder(1)]
         [LocalizedDescription("key_13")]
         public string DataType
         {

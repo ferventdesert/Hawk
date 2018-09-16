@@ -87,6 +87,10 @@
       <HintPath>..\Includes\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Controls.WpfPropertyGrid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Includes\System.Windows.Controls.WpfPropertyGrid.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Presentation" />
     <Reference Include="System.Xaml" />
@@ -95,19 +99,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="ToastNotifications, Version=2.3.4.0, Culture=neutral, PublicKeyToken=e89d9d7314a7c797, processorArchitecture=MSIL">
-      <HintPath>packages\ToastNotifications.2.3.4\lib\net40\ToastNotifications.dll</HintPath>
-    </Reference>
-    <Reference Include="ToastNotifications.Messages, Version=2.3.4.0, Culture=neutral, PublicKeyToken=e89d9d7314a7c797, processorArchitecture=MSIL">
-      <HintPath>packages\ToastNotifications.Messages.2.3.4\lib\net40\ToastNotifications.Messages.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
-    <Reference Include="Xceed.Wpf.DataGrid">
-      <HintPath>..\Includes\Xceed.Wpf.DataGrid.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.Toolkit">
-      <HintPath>..\Includes\Xceed.Wpf.Toolkit.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connectors\ConfigFileBase.cs" />
@@ -129,7 +121,6 @@
     <Compile Include="Connectors\MongoDBConnector.cs" />
     <Compile Include="Connectors\MySQLConnector.cs" />
     <Compile Include="Connectors\SQLiteConnector.cs" />
-    <Compile Include="Themes\MetroConverter.cs" />
     <Compile Include="Utils\Converters.cs" />
     <Compile Include="Utils\CookieAwareWebClient.cs">
       <SubType>Component</SubType>
@@ -181,7 +172,6 @@
     <Compile Include="Utils\ControlsExtended.cs" />
     <Compile Include="Utils\ExtendMethod.cs" />
     <Compile Include="Utils\ExtenedEnumerable.cs" />
-    <Compile Include="Utils\Logs\RichTextboxAppender.cs" />
     <Compile Include="Utils\Logs\XLogSys.cs" />
     <Compile Include="Utils\MVVM\BindingAction.cs" />
     <Compile Include="Utils\MVVM\CommandBuilder.cs" />
@@ -202,24 +192,8 @@
     <Compile Include="Utils\SerializableDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Themes\Icons.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Themes\Theme.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
     <None Include="Utils\App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\WPFPropertyGrid\System.Windows.Controls.WPFPropertyGrid\System.Windows.Controls.WPFPropertyGrid.csproj">
-      <Project>{384bd3e5-bcc4-4582-9cdc-c927e5e8297b}</Project>
-      <Name>System.Windows.Controls.WPFPropertyGrid</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

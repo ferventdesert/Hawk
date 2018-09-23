@@ -617,7 +617,7 @@ namespace Hawk.ETL.Managements
             SaveCurrentProject(true);
         }
 
-        private Project LoadProject(string path=null)
+        private Project LoadProject(string path=null,bool keepLast=false )
         {
             var project = Project.Load(path);
             if (project != null)
@@ -634,8 +634,14 @@ namespace Hawk.ETL.Managements
                     first = new ProjectItem();
                     project.DictCopyTo(first);
                 }
+                if (!keepLast)
+                {
+                    dataManager.DataCollections.Clear();
+                    ProcessCollection.RemoveElementsNoReturn(d => true, RemoveOperation);
+                }
                 if (project.DataCollections?.Count > 0)
                 {//TODO: 添加名称重名？
+
 
                     project.DataCollections.Execute(d => dataManager.AddDataCollection(d));
                 }

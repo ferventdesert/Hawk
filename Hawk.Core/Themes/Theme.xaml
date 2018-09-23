@@ -144,7 +144,7 @@
     <Style    TargetType="ToolTip">
         <Setter Property="Background" Value="{DynamicResource NormalBrush}"/>
 
-
+      
         <Setter Property ="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
@@ -322,6 +322,7 @@
     </ControlTemplate>
 
     <Style TargetType="{x:Type Button}" BasedOn="{x:Null}">
+        <Setter Property="ToolTipService.InitialShowDelay" Value="2000"/>
         <Setter Property="FocusVisualStyle" Value="{DynamicResource NuclearButtonFocusVisual}" />
         <Setter Property="Background" Value="{DynamicResource NormalBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
@@ -505,6 +506,7 @@
         </Setter>
     </Style>
     <Style TargetType="{x:Type CheckBox}">
+        <Setter Property="ToolTipService.InitialShowDelay" Value="2000"/>
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="FocusVisualStyle" Value="{DynamicResource CheckBoxFocusVisual}" />
         <Setter Property="Background" Value="{DynamicResource NormalBrush}" />
@@ -689,6 +691,7 @@
     </Style>
 
     <Style TargetType="{x:Type RadioButton}">
+        <Setter Property="ToolTipService.InitialShowDelay" Value="2000"/>
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="FocusVisualStyle" Value="{DynamicResource RadioButtonFocusVisual}" />
         <Setter Property="Background" Value="{DynamicResource NormalBrush}" />
@@ -849,6 +852,7 @@
         </Style.Triggers>
     </Style>
     <Style d:IsControlPart="True" TargetType="{x:Type RepeatButton}" BasedOn="{x:Null}">
+        <Setter Property="ToolTipService.InitialShowDelay" Value="2000"/>
         <Setter Property="Background" Value="{DynamicResource NormalBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource NormalBorderBrush}" />
         <Setter Property="Template">
@@ -1139,7 +1143,7 @@
 
     <Style x:Key="middleButton2"
            TargetType="{x:Type Button}">
-
+        <Setter Property="ToolTipService.InitialShowDelay" Value="2000"/>
         <Setter Property="Background"
                 Value="Transparent" />
         <Setter Property="BorderThickness"
@@ -1238,6 +1242,7 @@
 
         <Setter Property="Background"
                 Value="Transparent" />
+        <Setter Property="ToolTipService.InitialShowDelay" Value="2000"/>
         <Setter Property="BorderThickness"
                 Value="2" />
         <Setter Property="HorizontalContentAlignment"
@@ -1339,6 +1344,7 @@
         <Setter Property="Margin" Value="10,0,0,0" />
     </Style>
     <Style TargetType="{x:Type ScrollBar}">
+        <Setter Property="ToolTipService.InitialShowDelay" Value="2000"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="Template">
@@ -1451,6 +1457,7 @@
 
     <!-- ListBox -->
     <Style TargetType="{x:Type ListBox}">
+        <Setter Property="ToolTipService.InitialShowDelay" Value="2000"/>
         <Setter Property="Padding" Value="1" />
         <Setter Property="Background" Value="{DynamicResource ControlBackgroundBrush}" />
         <Setter Property="Foreground" Value="#FF000000" />
@@ -2468,6 +2475,7 @@
 
     <Style TargetType="{x:Type TextBlock}">
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+        <Setter Property="ToolTipService.InitialShowDelay" Value="2000"/>
     </Style>
 
     <Style TargetType="{x:Type TextBox}">
@@ -2756,6 +2764,7 @@
     <Style TargetType="{x:Type Label}">
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="ToolTipService.InitialShowDelay" Value="2000"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Label}">
@@ -3937,6 +3946,7 @@
     <Style TargetType="{x:Type ListView}">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
         <Setter Property="BorderBrush" Value="{StaticResource ListBorder}" />
+        <Setter Property="ToolTipService.InitialShowDelay" Value="2000"/>
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Foreground" Value="#FF042271" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
@@ -3985,6 +3995,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="ToolTipService.InitialShowDelay" Value="2000"/>
         <Setter Property="Margin" Value="0,0,0,1" />
         <Setter Property="Padding" Value="5,2,5,2" />
         <Setter Property="VerticalContentAlignment" Value="Center" />

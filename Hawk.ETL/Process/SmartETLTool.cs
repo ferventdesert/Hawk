@@ -391,7 +391,7 @@ namespace Hawk.ETL.Process
         {
             mudoleHasInit = true;
             Analyzer.DataManager = SysDataManager;
-            // RefreshSamples();
+            RefreshSamples();
             CurrentETLTools.CollectionChanged += (s, e) =>
             {
                 if (e.Action != NotifyCollectionChangedAction.Add) return;
@@ -412,7 +412,7 @@ namespace Hawk.ETL.Process
                         }
                         if (IsAutoRefresh == false)
                             return;
-                        //RefreshSamples();
+                        RefreshSamples();
                     };
                 }
             };

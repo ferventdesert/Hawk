@@ -333,7 +333,8 @@ namespace Hawk.ETL.Interfaces
                         DateTime now =DateTime.Now;
                         
                         var result=Transform(ge, input, analyzeItem);
-                        analyzeItem.RunningTime = DateTime.Now - now;
+                        if(analyzeItem!=null)
+                            analyzeItem.RunningTime = DateTime.Now - now;
                         return result;
                     }).CountOutput(analyzeItem);
                 };

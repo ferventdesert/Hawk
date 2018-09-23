@@ -190,7 +190,7 @@ namespace Hawk.Core.Connectors
             using (var dis = new DisposeHelper(() =>
             {
                 doc.AppendChild(root);
-                Stream stream = new FileStream(FileName, FileMode.OpenOrCreate);
+                Stream stream = new FileStream(FileName, FileMode.Create);
                 if (IsZip)
                 {
                     var zipStream = new ZipOutputStream(stream);
@@ -200,7 +200,7 @@ namespace Hawk.Core.Connectors
                     stream = zipStream;
                 }
                 doc.Save(stream);
-                stream.Flush();
+                //stream.Flush();
                 stream.Close();
             }))
             {

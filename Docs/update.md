@@ -377,3 +377,15 @@ sqlite表名特殊字符  ok
 2. 过滤器增加新模式 ok
 3. 保存当前任务的位置
 4. 类型往上提
+
+
+# 2018年9月15日
+1. xpath转换器在多文档模式下不输出内容
+2. 貌似手气不错转换的名字可能是错的
+3. 保存任务并没有保存加载任务，切分必不可少
+为“Hawk.ETL.Process.GroupType”的
+4. xpath选择路径自动传回
+5. datatype转换判断为空
+/html[1]/body[1]/div[3]/div[1]/dl[2]/dd[1]/div[1]/div[1]/a
+/html[1]/body[1]/div[3]/div[1]/div[1]/dl[2]/dd[1]/div[1]/div[1]/a
+

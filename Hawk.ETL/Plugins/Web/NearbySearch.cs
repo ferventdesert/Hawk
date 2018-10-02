@@ -1,10 +1,9 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Web.Script.Serialization;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
+using Hawk.Core.Utils.Logs;
 
 namespace Hawk.ETL.Plugins.Web
 {
@@ -80,6 +79,7 @@ namespace Hawk.ETL.Plugins.Web
             }
             catch (Exception ex)
             {
+                XLogSys.Print.Warn(ex);
             }
             return true;
         }

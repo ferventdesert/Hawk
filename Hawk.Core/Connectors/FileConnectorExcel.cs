@@ -3,7 +3,6 @@ using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using NPOI.XSSF.Streaming;

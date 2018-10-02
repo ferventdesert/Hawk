@@ -39,7 +39,7 @@ key_120	���󷽷�	Request method
 key_614	��������	Arabic
 key_292	�ָ�	recovery
 StrExtractTF	�ַ���β��ȡ	Character first and end extraction
-key_201	������ϴ	Data cleaning
+smartetl_name	������ϴ	Data cleaning
 JoinDBTF_desc	������������ݿ��join������ƥ�䣬Ŀǰ���Բ�����	It is used to complete the join operation and matching with the database.
 key_350	�����ݿ�{0}������{1}�ɹ�д��{2}������	Write {2} entries to database {0} and table name {1} successfully.
 key_405	1.������	1. connector

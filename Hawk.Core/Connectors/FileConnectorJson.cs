@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 using Jayrock.Json;
 using Jayrock.Json.Conversion;

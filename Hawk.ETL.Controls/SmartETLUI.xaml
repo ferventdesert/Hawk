@@ -18,20 +18,21 @@
     mc:Ignorable="d"
     d:DesignHeight="855.5" d:DesignWidth="1576">
     <UserControl.Resources>
-    	<Utils:OnelineConverter x:Key="OnelineConverter"/>
-        <Utils:GeneratorConverter x:Key="GeneratorConverter"/>
-        <Utils:GroupConverter x:Key="GroupConverter"/>
-        <Utils:IndexConverter x:Key="idxcvt"/>
+        <Utils:OnelineConverter x:Key="OnelineConverter" />
+        <Utils:GeneratorConverter x:Key="GeneratorConverter" />
+        <Utils:GroupConverter x:Key="GroupConverter" />
+        <Utils:IndexConverter x:Key="idxcvt" />
+        <Utils:AnalyzerEnterConverter x:Key="AnalyzerEnterConverter" />
         <local:GroupColorConverter x:Key="GroupColorConverter" />
         <BooleanToVisibilityConverter x:Key="boolVisualConverter" />
         <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
         <themes:MetroConverter x:Key="MetroConverter" />
-		    <systemWindowsControlsWpfPropertyGrid:EnumValueConverter x:Key="enumValueConverter" />
+        <systemWindowsControlsWpfPropertyGrid:EnumValueConverter x:Key="enumValueConverter" />
         <themes:ModuleMetroConverter x:Key="ModuleMetroConverter" />
 
         <ContextMenu x:Key="resourceContextMenu"
-        					DataContext="{Binding Data.Commands, Source={StaticResource BindingProxy}}">
-                    <MenuItem DataContext="{Binding [0]}" Style="{DynamicResource CommandMenuItem}" />
+                     DataContext="{Binding Data.Commands, Source={StaticResource BindingProxy}}">
+            <MenuItem DataContext="{Binding [0]}" Style="{DynamicResource CommandMenuItem}" />
             <MenuItem DataContext="{Binding [1]}" Style="{DynamicResource CommandMenuItem}" />
             <MenuItem DataContext="{Binding [3]}" Style="{DynamicResource CommandMenuItem}" />
             <MenuItem DataContext="{Binding [4]}" Style="{DynamicResource CommandMenuItem}" />
@@ -55,69 +56,89 @@
                         <ControlTemplate.Resources>
                             <Storyboard x:Key="HoverOn">
 
-                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="HoverRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
-                                    <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0.2"/>
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                               Storyboard.TargetName="HoverRectangle"
+                                                               Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0.2" />
                                 </DoubleAnimationUsingKeyFrames>
 
                             </Storyboard>
                             <Storyboard x:Key="HoverOff">
 
-                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="HoverRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
-                                    <SplineDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0"/>
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                               Storyboard.TargetName="HoverRectangle"
+                                                               Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0" />
                                 </DoubleAnimationUsingKeyFrames>
 
                             </Storyboard>
                             <Storyboard x:Key="SelectedOn">
 
-                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="SelectedRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
-                                    <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0.2"/>
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                               Storyboard.TargetName="SelectedRectangle"
+                                                               Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0.2" />
                                 </DoubleAnimationUsingKeyFrames>
 
                             </Storyboard>
                             <Storyboard x:Key="SelectedOff">
 
-                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="SelectedRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
-                                    <SplineDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0"/>
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                               Storyboard.TargetName="SelectedRectangle"
+                                                               Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0" />
                                 </DoubleAnimationUsingKeyFrames>
 
                             </Storyboard>
                             <Storyboard x:Key="FocussedOn">
-                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="(UIElement.Opacity)">
-                                    <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0.2"/>
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                               Storyboard.TargetName="FocusVisualElement"
+                                                               Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0.2" />
                                 </DoubleAnimationUsingKeyFrames>
                             </Storyboard>
                             <Storyboard x:Key="FocussedOff">
-                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="(UIElement.Opacity)">
-                                    <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0"/>
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                               Storyboard.TargetName="FocusVisualElement"
+                                                               Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0" />
                                 </DoubleAnimationUsingKeyFrames>
                             </Storyboard>
                         </ControlTemplate.Resources>
-                        <Border SnapsToDevicePixels="true"  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2" x:Name="border">
+                        <Border SnapsToDevicePixels="true" BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2" x:Name="border">
 
                             <Grid Margin="2,0,2,0">
-                                <Rectangle x:Name="Background" IsHitTestVisible="False" Opacity="0.25" Fill="{StaticResource NormalBrush}" RadiusX="1" RadiusY="1"/>
-                                <Rectangle x:Name="HoverRectangle" IsHitTestVisible="False" Opacity="0" Fill="{StaticResource NormalBrush}" RadiusX="1" RadiusY="1"/>
-                                <Rectangle x:Name="SelectedRectangle" IsHitTestVisible="False" Opacity="0" Fill="{StaticResource SelectedBackgroundBrush}" RadiusX="1" RadiusY="1"/>
-                                <GridViewRowPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Margin="0,2,0,2" VerticalAlignment="Stretch" />
+                                <Rectangle x:Name="Background" IsHitTestVisible="False" Opacity="0.25"
+                                           Fill="{StaticResource NormalBrush}" RadiusX="1" RadiusY="1" />
+                                <Rectangle x:Name="HoverRectangle" IsHitTestVisible="False" Opacity="0"
+                                           Fill="{StaticResource NormalBrush}" RadiusX="1" RadiusY="1" />
+                                <Rectangle x:Name="SelectedRectangle" IsHitTestVisible="False" Opacity="0"
+                                           Fill="{StaticResource SelectedBackgroundBrush}" RadiusX="1" RadiusY="1" />
+                                <GridViewRowPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                      Margin="0,2,0,2" VerticalAlignment="Stretch" />
                             </Grid>
 
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="true">
                                 <Trigger.ExitActions>
-                                    <BeginStoryboard Storyboard="{StaticResource SelectedOff}" x:Name="SelectedOff_BeginStoryboard"/>
+                                    <BeginStoryboard Storyboard="{StaticResource SelectedOff}"
+                                                     x:Name="SelectedOff_BeginStoryboard" />
                                 </Trigger.ExitActions>
                                 <Trigger.EnterActions>
-                                    <BeginStoryboard Storyboard="{StaticResource SelectedOn}" x:Name="SelectedOn_BeginStoryboard"/>
+                                    <BeginStoryboard Storyboard="{StaticResource SelectedOn}"
+                                                     x:Name="SelectedOn_BeginStoryboard" />
                                 </Trigger.EnterActions>
 
                             </Trigger>
                             <MultiTrigger>
                                 <MultiTrigger.ExitActions>
-                                    <BeginStoryboard Storyboard="{StaticResource HoverOff}" x:Name="HoverOff_BeginStoryboard"/>
+                                    <BeginStoryboard Storyboard="{StaticResource HoverOff}"
+                                                     x:Name="HoverOff_BeginStoryboard" />
                                 </MultiTrigger.ExitActions>
                                 <MultiTrigger.EnterActions>
-                                    <BeginStoryboard Storyboard="{StaticResource HoverOn}"/>
+                                    <BeginStoryboard Storyboard="{StaticResource HoverOn}" />
                                 </MultiTrigger.EnterActions>
                                 <MultiTrigger.Conditions>
                                     <Condition Property="IsMouseOver" Value="True" />
@@ -134,7 +155,8 @@
                             </MultiTrigger>
                             <Trigger Property="IsEnabled" Value="false">
                                 <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}" />
-                                <Setter Property="Fill" TargetName="Background" Value="{DynamicResource DisabledBackgroundBrush}"/>
+                                <Setter Property="Fill" TargetName="Background"
+                                        Value="{DynamicResource DisabledBackgroundBrush}" />
                             </Trigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
@@ -172,37 +194,44 @@
         </ItemsPanelTemplate>
 
         <DataTemplate x:Key="DataTemplateList">
-            <Grid Height="Auto" Margin="0,4" Width="Auto"  ToolTip="{Binding Description}" >
-                <Rectangle Width="20" Height="20" HorizontalAlignment="Left"  ToolTip="{Binding Description}"  VerticalAlignment="Center" >
-        			<Rectangle.Fill>
-        				<VisualBrush Stretch="Fill"
-        					Visual="{Binding Converter={StaticResource ModuleMetroConverter}, Mode=OneWay}"  />
-        			</Rectangle.Fill>
-        		</Rectangle>
-        		<StackPanel Height="Auto" Width="Auto" Orientation="Vertical" d:LayoutOverrides="Width, Height" Margin="30,0,0,0">
-        			<Label Content="{Binding Name}" ToolTip="{Binding Description}" Margin="0" Height="Auto" VerticalAlignment="Stretch" FontSize="{DynamicResource LargeFont}"
-        				d:LayoutOverrides="GridBoX" HorizontalAlignment="Left" Width="Auto" />
-        			<TextBlock Text="{Binding Description, Converter={StaticResource OnelineConverter}}" Margin="0" Height="Auto" VerticalAlignment="Stretch"
-        				HorizontalAlignment="Left" Width="Auto" Opacity="0.6" TextWrapping="WrapWithOverflow" />
+            <Grid Height="Auto" Margin="0,4" Width="Auto" ToolTip="{Binding Description}">
+                <Rectangle Width="20" Height="20" HorizontalAlignment="Left" ToolTip="{Binding Description}"
+                           VerticalAlignment="Center">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"
+                                     Visual="{Binding Converter={StaticResource ModuleMetroConverter}, Mode=OneWay}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+                <StackPanel Height="Auto" Width="Auto" Orientation="Vertical" d:LayoutOverrides="Width, Height"
+                            Margin="30,0,0,0">
+                    <Label Content="{Binding Name}" ToolTip="{Binding Description}" Margin="0" Height="Auto"
+                           VerticalAlignment="Stretch" FontSize="{DynamicResource LargeFont}"
+                           d:LayoutOverrides="GridBoX" HorizontalAlignment="Left" Width="Auto" />
+                    <TextBlock Text="{Binding Description, Converter={StaticResource OnelineConverter}}" Margin="0"
+                               Height="Auto" VerticalAlignment="Stretch"
+                               HorizontalAlignment="Left" Width="Auto" Opacity="0.6" TextWrapping="WrapWithOverflow" />
 
-        		</StackPanel>
-        	</Grid>
+                </StackPanel>
+            </Grid>
             <DataTemplate.Triggers>
                 <EventTrigger RoutedEvent="Mouse.MouseEnter" />
                 <EventTrigger RoutedEvent="Mouse.MouseLeave" />
             </DataTemplate.Triggers>
         </DataTemplate>
-		 <DataTemplate x:Key="DataTemplateIcon">
+        <DataTemplate x:Key="DataTemplateIcon">
             <StackPanel Height="60" Margin="4" Width="60" ToolTip="{Binding Descrption}">
-                <Rectangle Width="30"   ToolTip="{Binding Description}"   Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" >
-		 			<Rectangle.Fill>
-		 				<VisualBrush Stretch="Fill"
-		 					Visual="{Binding Converter={StaticResource ModuleMetroConverter}, Mode=OneWay}"  />
-		 			</Rectangle.Fill>
-		 		</Rectangle>
-		 		<Label Content="{Binding Name}" ToolTip="{Binding Description}" Margin="0,8,0,0" Height="Auto" VerticalAlignment="Bottom"
-		 			d:LayoutOverrides="GridBox" HorizontalAlignment="Center" Width="Auto" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" />
-		 	</StackPanel>
+                <Rectangle Width="30" ToolTip="{Binding Description}" Height="30" HorizontalAlignment="Center"
+                           VerticalAlignment="Center">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"
+                                     Visual="{Binding Converter={StaticResource ModuleMetroConverter}, Mode=OneWay}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Label Content="{Binding Name}" ToolTip="{Binding Description}" Margin="0,8,0,0" Height="Auto"
+                       VerticalAlignment="Bottom"
+                       d:LayoutOverrides="GridBox" HorizontalAlignment="Center" Width="Auto"
+                       VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" />
+            </StackPanel>
             <DataTemplate.Triggers>
                 <EventTrigger RoutedEvent="Mouse.MouseEnter" />
                 <EventTrigger RoutedEvent="Mouse.MouseLeave" />
@@ -211,14 +240,14 @@
         <DataTemplate x:Key="DataTemplate1">
             <StackPanel Height="Auto" Width="150" d:DesignWidth="42.438" d:DesignHeight="251.312">
                 <TextBox Text="{Binding Name, Mode=TwoWay}"
-        			Background="{Binding GroupType, Converter={StaticResource GroupColorConverter}}"
-        		 Margin="10,0" VerticalAlignment="Stretch" FontSize="14.667"
-        			FontWeight="Bold" HorizontalAlignment="Stretch" TextAlignment="Center" />
+                         Background="{Binding GroupType, Converter={StaticResource GroupColorConverter}}"
+                         Margin="10,0" VerticalAlignment="Stretch" FontSize="14.667"
+                         FontWeight="Bold" HorizontalAlignment="Stretch" TextAlignment="Center" />
                 <ListBox AllowDrop="True" ItemTemplate="{DynamicResource DataTemplate2}" DataContext="{Binding}"
-        			ItemsSource="{Binding Value}" Drop="ListBox_Drop" HorizontalContentAlignment="Stretch"
-        			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-        			ScrollViewer.VerticalScrollBarVisibility="Auto" MinHeight="200"
-        			VerticalContentAlignment="Stretch" Margin="1,0" Height="249.312">
+                         ItemsSource="{Binding Value}" Drop="ListBox_Drop" HorizontalContentAlignment="Stretch"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto" MinHeight="200"
+                         VerticalContentAlignment="Stretch" Margin="1,0" Height="249.312">
                     <ListBox.Resources>
 
                         <Style TargetType="{x:Type ListBoxItem}">
@@ -241,15 +270,15 @@
         </DataTemplate>
         <DataTemplate x:Key="DataTemplate2">
             <StackPanel Height="20" Width="140" d:DesignWidth="126.167" d:DesignHeight="39.987"
-        		Orientation="Horizontal">
-                <TextBlock Margin="2,0,2,0" TextWrapping="Wrap" Text="{Binding ETLIndex}"  
-        			Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        Orientation="Horizontal">
+                <TextBlock Margin="2,0,2,0" TextWrapping="Wrap" Text="{Binding ETLIndex}"
+                           Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Center" />
                 <TextBlock Margin="2,0,8,0"
-        			mvvm:ListBindingDoubleClick.Property="{Binding Data.Commands[0], Source={StaticResource BindingProxy}}"
-        			TextWrapping="Wrap" Text="{Binding TypeName}"  Width="Auto"
-        			HorizontalAlignment="Left" VerticalAlignment="Center" />
+                           mvvm:ListBindingDoubleClick.Property="{Binding Data.Commands[0], Source={StaticResource BindingProxy}}"
+                           TextWrapping="Wrap" Text="{Binding TypeName}" Width="Auto"
+                           HorizontalAlignment="Left" VerticalAlignment="Center" />
                 <CheckBox Content="" IsChecked="{Binding Enabled}" VerticalAlignment="Center"
-        			HorizontalAlignment="Center" ToolTip="{DynamicResource key_771}" />
+                          HorizontalAlignment="Center" ToolTip="{DynamicResource key_771}" />
             </StackPanel>
         </DataTemplate>
         <SolidColorBrush x:Key="{x:Static DataGrid.FocusBorderBrushKey}" Color="#FF000000" />
@@ -263,14 +292,14 @@
         <ControlTemplate x:Key="MultiLineTextEditorControlTemplate1" TargetType="{x:Type xctk:MultiLineTextEditor}">
             <Grid x:Name="Root">
                 <ToggleButton x:Name="PART_DropDownButton" BorderBrush="{TemplateBinding BorderBrush}"
-        			BorderThickness="{TemplateBinding BorderThickness}"
-        			Background="{TemplateBinding Background}"
-        			ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}"
-        			Grid.Column="1" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-        			IsTabStop="True"
-        			IsChecked="{Binding IsOpen, RelativeSource={RelativeSource TemplatedParent}}"
-        			MinHeight="22" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True"
-        			VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              Background="{TemplateBinding Background}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}"
+                              Grid.Column="1" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              IsTabStop="True"
+                              IsChecked="{Binding IsOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                              MinHeight="22" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                     <ToggleButton.IsHitTestVisible>
                         <Binding Path="IsOpen" RelativeSource="{RelativeSource TemplatedParent}">
                             <Binding.Converter>
@@ -290,28 +319,28 @@
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
                                                 <Border BorderBrush="{TemplateBinding BorderBrush}"
-        											BorderThickness="{TemplateBinding BorderThickness}"
-        											Background="{TemplateBinding Background}"
-        											Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        Background="{TemplateBinding Background}"
+                                                        Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
                                                     <ContentPresenter
-        												ContentTemplate="{TemplateBinding ContentTemplate}"
-        												Content="{TemplateBinding Content}"
-        												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-        												VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                        Content="{TemplateBinding Content}"
+                                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                                                 </Border>
                                                 <xctk:ButtonChrome x:Name="ToggleButtonChrome" Grid.Column="1"
-        											CornerRadius="0"
-        											RenderMouseOver="{TemplateBinding IsMouseOver}"
-        											RenderPressed="{TemplateBinding IsPressed}"
-        											RenderChecked="{Binding IsOpen, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type xctk:MultiLineTextEditor}}}"
-        											RenderEnabled="{Binding IsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type xctk:MultiLineTextEditor}}}"
-        											Visibility="Collapsed" />
+                                                                   CornerRadius="0"
+                                                                   RenderMouseOver="{TemplateBinding IsMouseOver}"
+                                                                   RenderPressed="{TemplateBinding IsPressed}"
+                                                                   RenderChecked="{Binding IsOpen, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type xctk:MultiLineTextEditor}}}"
+                                                                   RenderEnabled="{Binding IsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type xctk:MultiLineTextEditor}}}"
+                                                                   Visibility="Collapsed" />
                                             </Grid>
                                         </Grid>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsEnabled" Value="False">
                                                 <Setter Property="Foreground"
-        											Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                                        Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
@@ -321,26 +350,26 @@
                     </ToggleButton.Style>
                 </ToggleButton>
                 <Popup AllowsTransparency="True" Focusable="False" Height="{TemplateBinding DropDownHeight}"
-        			IsOpen="{Binding IsChecked, ElementName=PART_DropDownButton}" PopupAnimation="Slide"
-        			Placement="Bottom" SnapsToDevicePixels="True" StaysOpen="False"
-        			Width="{TemplateBinding DropDownWidth}">
+                       IsOpen="{Binding IsChecked, ElementName=PART_DropDownButton}" PopupAnimation="Slide"
+                       Placement="Bottom" SnapsToDevicePixels="True" StaysOpen="False"
+                       Width="{TemplateBinding DropDownWidth}">
                     <Border BorderBrush="#FFABADB3" BorderThickness="1" Background="White">
                         <Grid>
                             <TextBox x:Name="PART_TextBox" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto"
-        						IsReadOnly="{TemplateBinding IsReadOnly}"
-        						SpellCheck.IsEnabled="{TemplateBinding IsSpellCheckEnabled}" Margin="3"
-        						Padding="{TemplateBinding Padding}"
-        						TextAlignment="{TemplateBinding TextAlignment}"
-        						Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}"
-        						VerticalScrollBarVisibility="Auto" TextWrapping="WrapWithOverflow"
-        						Background="{TemplateBinding Background}" />
+                                     IsReadOnly="{TemplateBinding IsReadOnly}"
+                                     SpellCheck.IsEnabled="{TemplateBinding IsSpellCheckEnabled}" Margin="3"
+                                     Padding="{TemplateBinding Padding}"
+                                     TextAlignment="{TemplateBinding TextAlignment}"
+                                     Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}"
+                                     VerticalScrollBarVisibility="Auto" TextWrapping="WrapWithOverflow"
+                                     Background="{TemplateBinding Background}" />
                             <Thumb x:Name="PART_ResizeThumb" Cursor="SizeNWSE" HorizontalAlignment="Right"
-        						VerticalAlignment="Bottom">
+                                   VerticalAlignment="Bottom">
                                 <Thumb.Template>
                                     <ControlTemplate TargetType="{x:Type Thumb}">
                                         <Grid Background="Transparent">
                                             <Path Data="M0.5,6.5L6.5,0.5 M6.5,3.5L3.5,6.5" Stroke="Black"
-        										StrokeThickness="1" />
+                                                  StrokeThickness="1" />
                                         </Grid>
                                     </ControlTemplate>
                                 </Thumb.Template>
@@ -351,7 +380,7 @@
             </Grid>
         </ControlTemplate>
         <ItemsPanelTemplate x:Key="ItemsPanelTemplate2">
-        	<VirtualizingStackPanel IsItemsHost="True"/>
+            <VirtualizingStackPanel IsItemsHost="True" />
         </ItemsPanelTemplate>
 
 
@@ -371,51 +400,58 @@
                 <RowDefinition Height="40" />
 
             </Grid.RowDefinitions>
-            <StackPanel HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <StackPanel HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Center" Margin="0,0,10,0" />
             <Grid Grid.Row="1" ToolTip="{DynamicResource SmartETLTool_debug}">
                 <Border BorderBrush="Black" BorderThickness="1" Background="#FF2D2D2D" />
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal"
-					d:LayoutOverrides="Height" VerticalAlignment="Center">
-                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"><Run Language="zh-cn" Text="{DynamicResource key_762}"/></TextBlock>
-                    <TextBox TextWrapping="Wrap" Text="{Binding Name}" systemWindowsControlsWpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" VerticalAlignment="Center" Margin="8,0,25,0" FontSize="16" MinWidth="100"/>
+                            d:LayoutOverrides="Height" VerticalAlignment="Center">
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center"
+                               Margin="5,0,0,0">
+                        <Run Language="zh-cn" Text="{DynamicResource key_762}" />
+                    </TextBlock>
+                    <TextBox TextWrapping="Wrap" Text="{Binding Name}"
+                             systemWindowsControlsWpfPropertyGrid:TextBoxExtender.CommitOnEnter="True"
+                             VerticalAlignment="Center" Margin="8,0,25,0" FontSize="16" MinWidth="100" />
                     <TextBlock TextWrapping="Wrap" Text="{DynamicResource key_301}"
-                		VerticalAlignment="Center" />
+                               VerticalAlignment="Center" />
                     <Grid ToolTip="{DynamicResource SmartETLTool_step}">
-                    	<StackPanel Orientation="Horizontal" d:LayoutOverrides="Width">
-                    		<TextBox x:Name="posText" TextWrapping="Wrap" Text="{Binding ETLMount}" VerticalAlignment="Center"
-                    			FontSize="16" Width="50" />
-                    		<TextBlock TextWrapping="Wrap" Text="/" VerticalAlignment="Center"
-                    			FontSize="16" />
-                    		<TextBlock x:Name="totalText" TextWrapping="Wrap" Text="{Binding AllETLMount}"
-                    			VerticalAlignment="Center" FontSize="16" />
-                    	</StackPanel>
-                    	<Border BorderBrush="Red" BorderThickness="3" Margin="-1">
-                    		         <Border.Resources>
+                        <StackPanel Orientation="Horizontal" d:LayoutOverrides="Width">
+                            <TextBox x:Name="posText" TextWrapping="Wrap" Text="{Binding ETLMount}"
+                                     VerticalAlignment="Center"
+                                     FontSize="16" Width="50" />
+                            <TextBlock TextWrapping="Wrap" Text="/" VerticalAlignment="Center"
+                                       FontSize="16" />
+                            <TextBlock x:Name="totalText" TextWrapping="Wrap" Text="{Binding AllETLMount}"
+                                       VerticalAlignment="Center" FontSize="16" />
+                        </StackPanel>
+                        <Border BorderBrush="Red" BorderThickness="3" Margin="-1">
+                            <Border.Resources>
                                 <local:DebugRemindConverter x:Key="DebugRemindConverter" />
                             </Border.Resources>
-                    		 <Border.Visibility>
-                   
-                            <MultiBinding Converter="{StaticResource DebugRemindConverter}">
-                         
-                                <Binding Path="Text" ElementName="posText"/>
-                                <Binding Path="Text" ElementName="totalText"/>
-                            </MultiBinding>
-                        </Border.Visibility>
-					
-                               	
-						</Border>
+                            <Border.Visibility>
+
+                                <MultiBinding Converter="{StaticResource DebugRemindConverter}">
+
+                                    <Binding Path="Text" ElementName="posText" />
+                                    <Binding Path="Text" ElementName="totalText" />
+                                </MultiBinding>
+                            </Border.Visibility>
+
+
+                        </Border>
                     </Grid>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Style="{DynamicResource middleButton2}" DataContext="{Binding Commands5[4]}" Width="35"
-							Height="35" HorizontalAlignment="Left" d:LayoutOverrides="Height">
+                            Height="35" HorizontalAlignment="Left" d:LayoutOverrides="Height">
                         <Viewbox Width="20" Height="20">
                             <Canvas RenderTransformOrigin="0.5,0.5" Width="50" Height="50">
 
                                 <Path Stretch="Fill" StrokeLineJoin="Round" Stroke="Black" Fill="White"
-										Data="F1 M -66.7518,-348.017L 183.248,-168.017L -60.7518,3.98303L -66.7518,-348.017 Z "
-										Height="50.08" Width="42.519" RenderTransformOrigin="0.5,0.5" Canvas.Left="-5.331"
-										Canvas.Top="-0.021">
+                                      Data="F1 M -66.7518,-348.017L 183.248,-168.017L -60.7518,3.98303L -66.7518,-348.017 Z "
+                                      Height="50.08" Width="42.519" RenderTransformOrigin="0.5,0.5"
+                                      Canvas.Left="-5.331"
+                                      Canvas.Top="-0.021">
                                     <Path.RenderTransform>
                                         <TransformGroup>
                                             <ScaleTransform ScaleX="-1" />
@@ -426,18 +462,19 @@
                                     </Path.RenderTransform>
                                 </Path>
                                 <Rectangle Fill="White" Height="51.333" Canvas.Left="42.056" Stroke="Black"
-										StrokeLineJoin="Round" Canvas.Top="-0.135" Width="14" />
+                                           StrokeLineJoin="Round" Canvas.Top="-0.135" Width="14" />
                             </Canvas>
                         </Viewbox>
                     </Button>
                     <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[2]}" Width="35"
-							Height="35" Margin="15,0,0,0" HorizontalAlignment="Left" d:LayoutOverrides="Height, Margin" />
+                            Height="35" Margin="15,0,0,0" HorizontalAlignment="Left" d:LayoutOverrides="Height, Margin" />
                     <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[0]}" Width="35"
-							Height="35" Margin="15,0,0,0" HorizontalAlignment="Left" d:LayoutOverrides="Height, Margin" />
+                            Height="35" Margin="15,0,0,0" HorizontalAlignment="Left" d:LayoutOverrides="Height, Margin" />
                     <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[3]}" Width="35"
-							Height="35" Margin="15,0,0,0" HorizontalAlignment="Left" d:LayoutOverrides="Height, Margin" />
+                            Height="35" Margin="15,0,0,0" HorizontalAlignment="Left" d:LayoutOverrides="Height, Margin" />
                     <Button Style="{DynamicResource middleButton2}" DataContext="{Binding Commands5[5]}" Width="35"
-							Height="35" Margin="25,0,0,0" HorizontalAlignment="Left" d:LayoutOverrides="Height, HorizontalMargin">
+                            Height="35" Margin="25,0,0,0" HorizontalAlignment="Left"
+                            d:LayoutOverrides="Height, HorizontalMargin">
                         <Viewbox Width="20" Height="20">
                             <Canvas RenderTransformOrigin="0.5,0.5" Width="50" Height="50">
                                 <Canvas.RenderTransform>
@@ -449,9 +486,10 @@
                                     </TransformGroup>
                                 </Canvas.RenderTransform>
                                 <Path Stretch="Fill" StrokeLineJoin="Round" Stroke="Black" Fill="White"
-										Data="F1 M -66.7518,-348.017L 183.248,-168.017L -60.7518,3.98303L -66.7518,-348.017 Z "
-										Height="50.08" Width="42.519" RenderTransformOrigin="0.5,0.5" Canvas.Left="-5.331"
-										Canvas.Top="-0.021">
+                                      Data="F1 M -66.7518,-348.017L 183.248,-168.017L -60.7518,3.98303L -66.7518,-348.017 Z "
+                                      Height="50.08" Width="42.519" RenderTransformOrigin="0.5,0.5"
+                                      Canvas.Left="-5.331"
+                                      Canvas.Top="-0.021">
                                     <Path.RenderTransform>
                                         <TransformGroup>
                                             <ScaleTransform ScaleX="-1" />
@@ -462,30 +500,34 @@
                                     </Path.RenderTransform>
                                 </Path>
                                 <Rectangle Fill="White" Height="51.333" Canvas.Left="42.056" Stroke="Black"
-										StrokeLineJoin="Round" Canvas.Top="-0.135" Width="14" />
+                                           StrokeLineJoin="Round" Canvas.Top="-0.135" Width="14" />
                             </Canvas>
                         </Viewbox>
                     </Button>
                     <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[6]}" Width="35"
-							Height="35" Margin="30,2.5,0,2.5" HorizontalAlignment="Left" BorderBrush="#FFFF4242" />
+                            Height="35" Margin="30,2.5,0,2.5" HorizontalAlignment="Left" BorderBrush="#FFFF4242" />
 
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"
-						VerticalAlignment="Center">
+                            VerticalAlignment="Center">
                     <TextBlock TextWrapping="Wrap" Margin="0"
-							VerticalAlignment="Center" ><Run Language="zh-cn"  ToolTip="{DynamicResource key_772}" Text="{DynamicResource key_687}"/></TextBlock>
+                               VerticalAlignment="Center">
+                        <Run Language="zh-cn" ToolTip="{DynamicResource key_772}" Text="{DynamicResource key_687}" />
+                    </TextBlock>
                     <TextBox TextWrapping="Wrap" Text="{Binding SampleMount}" VerticalAlignment="Center"
-							FontSize="16" MinWidth="30" Margin="0,0,30,0" />
+                             FontSize="16" MinWidth="30" Margin="0,0,30,0" />
                     <StackPanel>
-                    	<CheckBox Content="{DynamicResource key_773}" IsChecked="{Binding IsAutoRefresh}" VerticalAlignment="Center" />
-                    	<CheckBox Content="{DynamicResource key_774}" IsChecked="{Binding DisplayDetail}" VerticalAlignment="Center" />
+                        <CheckBox Content="{DynamicResource key_773}" IsChecked="{Binding IsAutoRefresh}"
+                                  VerticalAlignment="Center" />
+                        <CheckBox Content="{DynamicResource key_774}" IsChecked="{Binding DisplayDetail}"
+                                  VerticalAlignment="Center" />
                     </StackPanel>
                 </StackPanel>
 
             </Grid>
             <ScrollViewer x:FieldModifier="public" x:Name="ScrollViewer" Margin="0"
-				ScrollViewer.HorizontalScrollBarVisibility="Auto"
-				ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          ScrollViewer.VerticalScrollBarVisibility="Disabled">
 
                 <Grid>
                     <Grid.RowDefinitions>
@@ -495,10 +537,11 @@
                     </Grid.RowDefinitions>
 
                     <DataGrid x:FieldModifier="public" ItemsSource="{Binding Documents}"
-						Background="{DynamicResource NormalBorderBrush}" RowBackground="{DynamicResource NormalBrush}"
-						Foreground="{DynamicResource TextBrush}" x:Name="DataList"
-						ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1" Margin="4"
-						CellStyle="{DynamicResource DataGridCellStyle1}" AutoGenerateColumns="False">
+                              Background="{DynamicResource NormalBorderBrush}"
+                              RowBackground="{DynamicResource NormalBrush}"
+                              Foreground="{DynamicResource TextBrush}" x:Name="DataList"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1" Margin="4"
+                              CellStyle="{DynamicResource DataGridCellStyle1}" AutoGenerateColumns="False">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
                                 <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -510,28 +553,33 @@
                         </DataGrid.ColumnHeaderStyle>
                     </DataGrid>
                     <ListBox x:FieldModifier="public" x:Name="ToolList" Margin="8"
-						ItemsSource="{Binding SmartGroupCollection}"
-					 	ItemsPanel="{DynamicResource ItemsPanelTemplate1}"
-						ItemTemplate="{DynamicResource DataTemplate1}"
-						ScrollViewer.VerticalScrollBarVisibility="Disabled"
-						ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Stretch" />
+                             ItemsSource="{Binding SmartGroupCollection}"
+                             ItemsPanel="{DynamicResource ItemsPanelTemplate1}"
+                             ItemTemplate="{DynamicResource DataTemplate1}"
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalContentAlignment="Stretch" />
                     <GridSplitter HorizontalAlignment="Stretch" Height="5" VerticalAlignment="Bottom"
-						ResizeDirection="Rows" Margin="0,0,0,-2.333"
-						d:LayoutOverrides="VerticalAlignment, GridBox" />
+                                  ResizeDirection="Rows" Margin="0,0,0,-2.333"
+                                  d:LayoutOverrides="VerticalAlignment, GridBox" />
                 </Grid>
             </ScrollViewer>
         </Grid>
-        <StackPanel Margin="20,12.835,29.75,0" Orientation="Horizontal" VerticalAlignment="Top" d:LayoutOverrides="Width">
-            <Rectangle Width="15" Height="15" Margin="0,0,10,0" >
+        <StackPanel Margin="20,12.835,29.75,0" Orientation="Horizontal" VerticalAlignment="Top"
+                    d:LayoutOverrides="Width">
+            <Rectangle Width="15" Height="15" Margin="0,0,10,0">
                 <Rectangle.Fill>
                     <VisualBrush Stretch="Fill"
-                                                 Visual="{Binding ConverterParameter=magnify, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+                                 Visual="{Binding ConverterParameter=magnify, Converter={StaticResource MetroConverter}, Mode=OneWay}" />
                 </Rectangle.Fill>
             </Rectangle>
-            <TextBlock Margin="0,3.498,0,0" TextWrapping="Wrap" VerticalAlignment="Center"><Run Language="zh-cn" Text="{DynamicResource key_775}" /></TextBlock>
+            <TextBlock Margin="0,3.498,0,0" TextWrapping="Wrap" VerticalAlignment="Center">
+                <Run Language="zh-cn" Text="{DynamicResource key_775}" />
+            </TextBlock>
             <TextBox x:Name="SearchBox" TextWrapping="Wrap"
-        		Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:LayoutOverrides="Height" MinWidth="80" />
-            <CheckBox x:Name="StyleCheckbox" Content="{DynamicResource is_display_desc}" IsChecked="{Binding Config.IsDisplayDetail}" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                     Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     d:LayoutOverrides="Height" MinWidth="80" />
+            <CheckBox x:Name="StyleCheckbox" Content="{DynamicResource is_display_desc}"
+                      IsChecked="{Binding Config.IsDisplayDetail}" Margin="10,0,0,0" VerticalAlignment="Center" />
         </StackPanel>
         <Grid Margin="8,8,8,0" Grid.RowSpan="2">
             <Grid.RowDefinitions>
@@ -540,68 +588,88 @@
                 <RowDefinition Height="40" />
             </Grid.RowDefinitions>
             <ListBox x:Name="ETLToolList" x:FieldModifier="public" Margin="0,27,0,8"
-				ItemsSource="{Binding ETLToolsView}" ItemTemplate="{DynamicResource DataTemplateList}" 
-			 
-				ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsPanel="{DynamicResource ItemsPanelTemplate2}">
+                     ItemsSource="{Binding ETLToolsView}" ItemTemplate="{DynamicResource DataTemplateList}"
+
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ItemsPanel="{DynamicResource ItemsPanelTemplate2}">
                 <ListBox.GroupStyle>
                     <GroupStyle ContainerStyle="{StaticResource GroupContainerStyle}">
                         <GroupStyle.HeaderTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Name}"  />
+                                <TextBlock Text="{Binding Name}" />
                             </DataTemplate>
                         </GroupStyle.HeaderTemplate>
                     </GroupStyle>
                 </ListBox.GroupStyle>
             </ListBox>
-            <GridSplitter HorizontalAlignment="Stretch" Height="3" VerticalAlignment="Bottom" Margin="0,0,0,-1.25" d:LayoutOverrides="VerticalAlignment, GridBox" />
-            <ListView  x:FieldModifier="public" x:Name="CurrentETLToolList"  SelectedItem="{Binding CurrentTool, Mode=OneWay}"  Grid.Row="1" Margin="0,8,0,0" DataContext="{Binding}"
-				ItemsSource="{Binding CurrentETLTools}" >
+            <GridSplitter HorizontalAlignment="Stretch" Height="3" VerticalAlignment="Bottom" Margin="0,0,0,-1.25"
+                          d:LayoutOverrides="VerticalAlignment, GridBox" />
+            <ListView x:FieldModifier="public" x:Name="CurrentETLToolList"
+                      SelectedItem="{Binding CurrentTool, Mode=OneWay}" Grid.Row="1" Margin="0,8,0,0"
+                      DataContext="{Binding}"
+                      ItemsSource="{Binding CurrentETLTools}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="{DynamicResource key_568}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox IsChecked="{Binding Enabled}" HorizontalAlignment="Center" />
+                                    <CheckBox IsChecked="{Binding Enabled}" Background="{Binding AnalyzeItem.Input, 
+                                         Converter={StaticResource  AnalyzerEnterConverter}}"  HorizontalAlignment="Center" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-   <GridViewColumn Header="{DynamicResource key_745}"   DisplayMemberBinding="{Binding RelativeSource={RelativeSource FindAncestor, 
+                        <GridViewColumn Header="{DynamicResource key_745}"
+                                        DisplayMemberBinding="{Binding RelativeSource={RelativeSource FindAncestor, 
                                          AncestorType={x:Type ListViewItem}}, 
                                          Converter={StaticResource idxcvt}}" />
                         <GridViewColumn Header="{DynamicResource key_717}" DisplayMemberBinding="{Binding Column}" />
-                        <GridViewColumn Header="{DynamicResource key_12}" DisplayMemberBinding="{Binding Attribute, Converter={StaticResource GroupConverter}}" />
+                        <GridViewColumn Header="{DynamicResource key_12}"
+                                        DisplayMemberBinding="{Binding Attribute, Converter={StaticResource GroupConverter}}" />
                         <GridViewColumn Header="{DynamicResource key_18}" DisplayMemberBinding="{Binding TypeName}" />
-						      <GridViewColumn Header="{DynamicResource key_16}"  Width="200">
-						         <GridViewColumn.CellTemplate>
+                        <GridViewColumn Header="{DynamicResource key_16}" Width="200">
+                            <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding KeyConfig}" Visibility="{Binding DataContext.Config.IsDisplayDetail, ElementName=grid, Converter={StaticResource boolVisualConverter}}" />
+                                    <TextBlock Text="{Binding KeyConfig}"
+                                               Visibility="{Binding DataContext.Config.IsDisplayDetail, ElementName=grid, Converter={StaticResource boolVisualConverter}}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
-							  </GridViewColumn>
+                        </GridViewColumn>
                     </GridView>
 
                 </ListView.View>
 
             </ListView>
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,0,0,7" VerticalAlignment="Bottom" Grid.Row="2">
-                <Rectangle Width="20" Height="20" d:LayoutOverrides="Height" Margin="0,0,10,0" >
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,0,0,7"
+                        VerticalAlignment="Bottom" Grid.Row="2">
+                <Rectangle Width="20" Height="20" d:LayoutOverrides="Height" Margin="0,0,10,0">
                     <Rectangle.Fill>
                         <VisualBrush Stretch="Fill"
-            				Visual="{Binding ConverterParameter=hourglass, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+                                     Visual="{Binding ConverterParameter=hourglass, Converter={StaticResource MetroConverter}, Mode=OneWay}" />
                     </Rectangle.Fill>
                 </Rectangle>
-                <ComboBox ToolTip="{DynamicResource running_mode_desc}" ItemsSource="{attributes:EnumValues {x:Type connectors:GenerateMode}}" SelectedItem="{Binding GenerateMode}" d:LayoutOverrides="Height" VerticalAlignment="Center">
-                	 <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding ., Converter={StaticResource enumValueConverter}}" />
-                </DataTemplate>
-           				 </ComboBox.ItemTemplate>            
-				</ComboBox>
-                <TextBlock TextWrapping="Wrap" Text="{DynamicResource key_777}" VerticalAlignment="Center" Margin="8,0,0,0" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter} ,ConverterParameter=True}" />
-                <TextBox TextWrapping="Wrap" Text="{Binding MaxThreadCount}" VerticalAlignment="Center" Margin="8,0,0,0" Width="40" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter},ConverterParameter=True}" />
-                <TextBlock TextWrapping="Wrap" Text="{DynamicResource key_395}" VerticalAlignment="Center" Margin="8,0,0,0" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter} , ConverterParameter=False}" />
-                <TextBox TextWrapping="Wrap" Text="{Binding DelayTime}" VerticalAlignment="Center" Margin="8,0,0,0" Width="40" Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter},  ConverterParameter=False}" />
-                <Button DataContext="{Binding Commands3[0]}"   Content="{Binding Text}" Command="{Binding}" Height="25" VerticalAlignment="Center" Width="80" Margin="10,0,0,0"/>
+                <ComboBox ToolTip="{DynamicResource running_mode_desc}"
+                          ItemsSource="{attributes:EnumValues {x:Type connectors:GenerateMode}}"
+                          SelectedItem="{Binding GenerateMode}" d:LayoutOverrides="Height" VerticalAlignment="Center">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ., Converter={StaticResource enumValueConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBlock TextWrapping="Wrap" Text="{DynamicResource key_777}" VerticalAlignment="Center"
+                           Margin="8,0,0,0"
+                           Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter} ,ConverterParameter=True}" />
+                <TextBox TextWrapping="Wrap" Text="{Binding MaxThreadCount}" VerticalAlignment="Center"
+                         Margin="8,0,0,0" Width="40"
+                         Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter},ConverterParameter=True}" />
+                <TextBlock TextWrapping="Wrap" Text="{DynamicResource key_395}" VerticalAlignment="Center"
+                           Margin="8,0,0,0"
+                           Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter} , ConverterParameter=False}" />
+                <TextBox TextWrapping="Wrap" Text="{Binding DelayTime}" VerticalAlignment="Center" Margin="8,0,0,0"
+                         Width="40"
+                         Visibility="{Binding GenerateMode, Converter={StaticResource GeneratorConverter},  ConverterParameter=False}" />
+                <Button DataContext="{Binding Commands3[0]}" Content="{Binding Text}" Command="{Binding}" Height="25"
+                        VerticalAlignment="Center" Width="80" Margin="10,0,0,0" />
             </StackPanel>
         </Grid>
         <GridSplitter Margin="0,0,-2.438,0" Width="5" Grid.RowSpan="2" />

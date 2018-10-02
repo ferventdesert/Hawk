@@ -478,7 +478,7 @@ namespace Hawk.ETL.Managements
             }
 
             dataaction.ChildActions.Add(new Command(
-                GlobalHelper.Get("key_201"), obj =>
+                GlobalHelper.Get("smartetl_name"), obj =>
                 {
                     var collection = GetCollection(obj);
                     if (collection == null) return;

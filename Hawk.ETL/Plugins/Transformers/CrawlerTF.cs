@@ -17,7 +17,6 @@ namespace Hawk.ETL.Plugins.Transformers
     [XFrmWork("CrawlerTF", "CrawlerTF_desc", "carema")]
     public class CrawlerTF : ResponseTF
     {
-        private BfsGE generator;
 
         public CrawlerTF()
         {
@@ -67,7 +66,6 @@ namespace Hawk.ETL.Plugins.Transformers
             {
                 HttpStatusCode code;
 
-                var count = 0;
                 var docs = crawler.CrawlData(url, out htmldoc, out code, post);
                 if (HttpHelper.IsSuccess(code))
                 {

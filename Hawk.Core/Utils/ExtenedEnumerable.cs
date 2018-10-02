@@ -565,7 +565,7 @@ namespace Hawk.Core.Utils
                 }
                 item = (T) Convert.ChangeType(dat[key], typeof (T));
             }
-            catch (Exception ex)
+            catch (Exception )
             {
             }
 

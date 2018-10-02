@@ -10,7 +10,6 @@ using System.Text;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using System.Windows.Input;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;

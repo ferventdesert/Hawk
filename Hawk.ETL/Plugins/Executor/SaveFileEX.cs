@@ -17,8 +17,6 @@ namespace Hawk.ETL.Plugins.Executor
     [XFrmWork("SaveFileEX", "SaveFileEX_desc","save")]
     public class SaveFileEX : DataExecutorBase
     {
-        private string _crawlerSelector;
-        private HttpHelper helper;
 
         public SaveFileEX()
         {
@@ -68,7 +66,6 @@ namespace Hawk.ETL.Plugins.Executor
                         as
                         SmartCrawler;
             }
-            helper = new HttpHelper();
             return base.Init(datas);
         }
 

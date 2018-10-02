@@ -46,7 +46,7 @@ namespace Hawk.ETL.Managements
         }
 
         [PropertyOrder(1)]
-        [LocalizedCategory("key_201")]
+        [LocalizedCategory("smartetl_name")]
         [LocalizedDisplayName("auto_save_time")]
         [LocalizedDescription("auto_save_time_desc")]
         public int AutoSaveTime
@@ -75,7 +75,7 @@ namespace Hawk.ETL.Managements
 
 
         [PropertyOrder(1)]
-        [LocalizedCategory("key_201")]
+        [LocalizedCategory("smartetl_name")]
         [LocalizedDisplayName("is_generate_error_collection")]
         [LocalizedDescription("is_generate_error_collection_desc")]
         public bool IsAddErrorCollection
@@ -91,7 +91,7 @@ namespace Hawk.ETL.Managements
 
 
         [PropertyOrder(2)]
-        [LocalizedCategory("key_201")]
+        [LocalizedCategory("smartetl_name")]
         [LocalizedDisplayName("is_display_desc")]
         public bool IsDisplayDetail
         {

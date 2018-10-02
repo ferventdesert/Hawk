@@ -28,7 +28,7 @@ using MessageBox = System.Windows.MessageBox;
 
 namespace Hawk.ETL.Process
 {
-    [XFrmWork("key_201", "SmartETLTool_desc", "diagram", "数据采集和处理")]
+    [XFrmWork("smartetl_name", "SmartETLTool_desc", "diagram", "数据采集和处理")]
     public class SmartETLTool : AbstractProcessMethod, IView
     {
         #region Constructors and Destructors
@@ -547,7 +547,6 @@ namespace Hawk.ETL.Process
         {
             var etls = CurrentETLTools.Where(d => d.Enabled).ToList();
 
-            var index = 0;
 
             Analyzer.Start(Name);
 
@@ -697,6 +696,7 @@ namespace Hawk.ETL.Process
                 {
                     if (oldProp.IsEqual(attr.UnsafeDictSerializePlus()) == false && IsAutoRefresh)
                         RefreshSamples();
+                     (attr as PropertyChangeNotifier).OnPropertyChanged("");
                 };
                 window.ShowDialog();
             }
@@ -879,6 +879,7 @@ namespace Hawk.ETL.Process
                                 (oldProp.IsEqual(process.UnsafeDictSerializePlus()) == false && IsAutoRefresh).SafeCheck
                                     (GlobalHelper.Get("key_714"), LogType.Debug))
                                 RefreshSamples();
+                            (process as PropertyChangeNotifier).OnPropertyChanged("");
                         };
                         window.ShowDialog();
                     };
@@ -916,7 +917,6 @@ namespace Hawk.ETL.Process
             SmartGroupCollection.Clear();
             Documents.Clear();
             shouldUpdate = false;
-            var i = 0;
 
             shouldUpdate = true;
             if (!MainDescription.IsUIForm)

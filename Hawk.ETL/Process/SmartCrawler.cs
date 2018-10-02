@@ -16,7 +16,6 @@ using System.Windows.Controls.WpfPropertyGrid.Controls;
 using System.Windows.Input;
 using Fiddler;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
@@ -44,7 +43,6 @@ namespace Hawk.ETL.Process
         private string _rootXPath;
         private SelectorFormat _searchFormat;
         private ScrapingBrowser browser = new ScrapingBrowser();
-        private XPathAnalyzer.CrawTarget CrawTarget;
         private IEnumerator<string> currentXPaths;
         public bool enableRefresh = true;
         private bool hasInit;
@@ -524,7 +522,6 @@ namespace Hawk.ETL.Process
                     isBusy = false;
                     if (crawTargets.Count == 0)
                     {
-                        CrawTarget = null;
                         XLogSys.Print.Warn(GlobalHelper.Get("key_660"));
                         return;
                     }
@@ -718,7 +715,7 @@ namespace Hawk.ETL.Process
                 {
                     root = HtmlDoc.DocumentNode.SelectSingleNodePlus(rootPath, RootFormat);
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
                     XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_662"),RootXPath,RootFormat));
                 }

@@ -10,6 +10,7 @@ using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Plugins.Transformers;
+using Hawk.Core.Utils.MVVM;
 
 namespace Hawk.ETL.Managements
 {
@@ -19,7 +20,23 @@ namespace Hawk.ETL.Managements
         {
         }
         public IColumnProcess Process { get; set; }
-        public int Input { get; set; }
+        private int input;
+        public int Input {
+            get { return input; }
+            set
+            {
+                if (value != input)
+                {
+                    if (value > 0 && input == 0)
+                    {
+                        input = value;
+                        (Process as PropertyChangeNotifier).OnPropertyChanged("");
+                    }
+                    input = value;
+                   
+                }
+            }
+        }
         public int Output { get; set; }
         public int Error { get; set; }
 

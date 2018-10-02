@@ -3,8 +3,6 @@ using Hawk.Core.Utils;
 using System.ComponentModel;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Plugins.Transformers;

@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Media;
 using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Core.Utils
@@ -20,6 +21,21 @@ namespace Hawk.Core.Utils
             ListView listView = ItemsControl.ItemsControlFromItemContainer(item) as ListView;
             int index = listView.ItemContainerGenerator.IndexFromContainer(item) + 1;
             return index.ToString();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public class AnalyzerEnterConverter : IValueConverter
+    {
+        public object Convert(object value, Type TargetType, object parameter, CultureInfo culture)
+        {
+            if (value == null)
+                return Brushes.Transparent;
+            int count = (int)value;
+            return count > 0? Brushes.Aqua:Brushes.Transparent;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -45,7 +61,7 @@ namespace Hawk.Core.Utils
         {
             var s = value as XFrmWorkAttribute;
             var unknown = "未知";
-            if (s == null)
+                if (s == null)
                 return unknown;
             var p = s.MyType;
             if (s.Description.Contains(s.Name))

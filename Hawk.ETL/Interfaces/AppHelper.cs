@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,13 +10,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
 using Hawk.ETL.Managements;
 using Hawk.ETL.Process;
-using System.Text.RegularExpressions;
 namespace Hawk.ETL.Interfaces
 {
     public static class AppHelper
@@ -27,7 +26,7 @@ namespace Hawk.ETL.Interfaces
             typeof (TextEditSelector)
         };
 
-        private static  string TemplateReplace(object key, ResourceDictionary dict)
+          public  static  string TemplateReplace(object key, IDictionary dict)
         {
             if ((key is string) == false)
                 return null;
@@ -44,14 +43,15 @@ namespace Hawk.ETL.Interfaces
                rvalue= rvalue.Replace(match.Groups[0].Value, rvalue2);
                 
             }
+            rvalue = string.Join("\n", rvalue.Split('\n').Select(d => d.Trim('\t', ' ')));
             dict[key] = rvalue;
             return rvalue;
         }
         private static Type lastType;
         private static PropertyInfo[] propertys;
-        static  Regex template=new Regex(@"\{\{([^}]{1,20})\}\}");
+        static  Regex template=new Regex(@"\{\{([^}]{1,30})\}\}");
 
-        public static void LoadLanguage(string url = null)
+        public static void LoadLanguage(string url = null,bool isload=true)
         {
             ResourceDictionary langRd = null;
 
@@ -88,7 +88,7 @@ namespace Hawk.ETL.Interfaces
                 
 
             }
-            catch (Exception e)
+            catch (Exception )
             {
             }
 
@@ -185,7 +185,7 @@ namespace Hawk.ETL.Interfaces
 
         public static T GetModule<T>(this IColumnProcess process, string name) where T : class
         {
-            var moduleName = (typeof(T) == typeof(SmartETLTool)) ? GlobalHelper.Get("key_201") : GlobalHelper.Get("smartcrawler_name");
+            var moduleName = (typeof(T) == typeof(SmartETLTool)) ? GlobalHelper.Get("smartetl_name") : GlobalHelper.Get("smartcrawler_name");
             if (String.IsNullOrEmpty(name))
                 return null;
             var process_name = process?.TypeName;

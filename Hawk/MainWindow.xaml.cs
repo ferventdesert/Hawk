@@ -20,7 +20,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using AvalonDock.Layout;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using AutoUpdaterDotNET;
@@ -98,7 +97,7 @@ namespace Hawk
             {
                 Icon = new BitmapImage(new Uri(pluginPosition + icon, UriKind.Absolute));
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 XLogSys.Print.Error(GlobalHelper.Get("IconNotExist"));
 
@@ -183,8 +182,9 @@ namespace Hawk
                 }
               
             };
-           // var md = ETLHelper.GetAllMarkdownDoc();
-           // File.WriteAllText("HawkDoc.md", md);
+            //File.WriteAllText("helper.md", ETLHelper.GetTotalMarkdownDoc());
+            // var md = ETLHelper.GetAllToolMarkdownDoc();
+            // File.WriteAllText("HawkDoc.md", md);
             //  TestCode();
 #if !DEBUG
             }

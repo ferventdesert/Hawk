@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
@@ -95,7 +96,7 @@ namespace Hawk.ETL.Interfaces
                     r;
         }
 
-        public static string GetAllMarkdownDoc()
+        public static string GetAllToolMarkdownDoc()
         {
             var sb = new StringBuilder();
             var tools = PluginProvider.GetPluginCollection(typeof(IColumnProcess));
@@ -108,6 +109,16 @@ namespace Hawk.ETL.Interfaces
             }
             return sb.ToString();
         }
+        public static string GetTotalMarkdownDoc()
+        {
+            var doc = Application.Current.TryFindResource("hawk_doc");
+            if (doc == null)
+                return "";
+            var str = doc.ToString();
+               
+            return str.Replace("$tools_desc$",GetAllToolMarkdownDoc());
+        }
+
 
         public static string GetMarkdownScript(Type tool, bool isHeader = false)
         {

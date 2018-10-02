@@ -129,7 +129,7 @@
     <system:String x:Key="StrExtractTF">
         字符首尾抽取
     </system:String>
-    <system:String x:Key="key_201">
+    <system:String x:Key="smartetl_name">
         数据清洗
     </system:String>
     <system:String x:Key="JoinDBTF_desc">
@@ -3266,10 +3266,10 @@
         按列数排序
     </system:String>
     <system:String x:Key="SortByRow">
-        按行数排序,
+        按行数排序
     </system:String>
     <system:String x:Key="SortByScore">
-        按分数排序,
+        按分数排序
     </system:String>
     <system:String x:Key="SortByArea">
         按面积排序
@@ -3304,5 +3304,27 @@
     <system:String x:Key="filter_mode_stop_when_fail">
         失败后拒绝之后所有行
     </system:String>
+    <system:String x:Key="hawk_doc" xml:space="preserve">
+        
+        {{hawk_front_desc}}
+
+        {{core_concept}}
+        
+        # {{smartcrawler_name}}
+
+
+        {{SmartCrawler_desc_detail}}
+
+        # {{smartetl_name}}
+
+        {{SmartETLTool_desc_detail}}
+
+        # 模块介绍
+
+        {{tools_desc}}
+
+
+    </system:String>
+    
 
 </ResourceDictionary>

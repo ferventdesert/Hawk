@@ -114,17 +114,17 @@ namespace Hawk.Core.Utils.MVVM
         {
             var commands2 = new ReadOnlyCollection<ICommand>(newCommands);
             return commands2;
-            ReadOnlyCollection<ICommand> commands; //这里会造成恐怖的问题，一个Object只能缓存一个命令集合？显然可以有多个啊!
-            if (BufferDictionary.TryGetValue(type, out commands))
-            {
-                return commands;
-            }
-            else
-            {
-                commands = new ReadOnlyCollection<ICommand>(newCommands);
-                BufferDictionary.Add(type, commands);
-                return commands;
-            }
+            //ReadOnlyCollection<ICommand> commands; //这里会造成恐怖的问题，一个Object只能缓存一个命令集合？显然可以有多个啊!
+            //if (BufferDictionary.TryGetValue(type, out commands))
+            //{
+            //    return commands;
+            //}
+            //else
+            //{
+            //    commands = new ReadOnlyCollection<ICommand>(newCommands);
+            //    BufferDictionary.Add(type, commands);
+            //    return commands;
+            //}
         }
     }
 }

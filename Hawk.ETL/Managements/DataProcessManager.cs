@@ -14,7 +14,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using AutoUpdaterDotNET;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;

@@ -19,25 +19,19 @@
 		<DataTemplate x:Key="ListViewTemplate">
 			<Grid Height="Auto" Width="Auto">
 				<Border BorderBrush="Black" BorderThickness="1"/>
-				<ProgressBar Height="Auto"   Value="{Binding Percent}" VerticalAlignment="Stretch" Opacity="0.2"/>
-				<TextBlock  Text="{Binding Name}"  d:LayoutOverrides="Width, Height"  />
+				<ProgressBar Height="Auto"   Value="{Binding Percent}"  VerticalAlignment="Stretch" Opacity="0.5"/>
+				<TextBlock  Text="{Binding OutputIndex}"  d:LayoutOverrides="Width, Height" HorizontalAlignment="Center"  />
 			</Grid>
 		</DataTemplate>
+
 	</UserControl.Resources>
-	<Grid Margin="0"   MinHeight="150" >
-				 
-		<ListView   ItemsSource="{Binding CurrentProcessTasks}" Margin="0,0,0,20" ToolTip="{DynamicResource taskmanager_desc}">
-    	
+	<Grid Margin="0"   MinHeight="50" >
+
+        <ListView  x:FieldModifier="public"  x:Name="currentProcessTasksView" ItemContainerStyle="{DynamicResource CenterListViewItem}" ItemsSource="{Binding CurrentProcessTasks}" Margin="0,0,0,20" ToolTip="{DynamicResource taskmanager_desc}">
+    		
 			<ListView.View>
 				<GridView>
-					<GridViewColumn Header="{DynamicResource key_746}">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<CheckBox IsChecked="{Binding IsSelected}"/>	 
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-						<!--脑残的xaml-->        
-					</GridViewColumn>
+					
 					<GridViewColumn Header="{DynamicResource key_291}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
@@ -47,9 +41,9 @@
 						<!--脑残的xaml-->        
 					</GridViewColumn>
 							
-					<GridViewColumn Header="{DynamicResource key_18}" CellTemplate="{StaticResource ListViewTemplate}"  />
-					<GridViewColumn Header="{DynamicResource key_715}" DisplayMemberBinding="{Binding OutputIndex}" Width="300" />
-						 
+					
+					<GridViewColumn Header="{DynamicResource key_18}" DisplayMemberBinding="{Binding Name}" />
+						 <GridViewColumn Header="{DynamicResource key_715}" Width="100"  CellTemplate="{StaticResource ListViewTemplate}"  />
 				</GridView>
 			</ListView.View> 	           	 
 		</ListView>
@@ -57,8 +51,7 @@
 			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [0]}" />
 			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [1]}" />
 			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [2]}" />
-			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [3]}" />  	
-			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [4]}" />  	
+		
 		</StackPanel>
 		<Rectangle Height="80" VerticalAlignment="Bottom" Opacity="0.2" Width="80" HorizontalAlignment="Right" Margin="0,0,0,20" >
 			<Rectangle.Fill>

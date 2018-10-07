@@ -133,6 +133,7 @@ namespace Hawk.ETL.Managements
           
             if (notifyInterval <= 0)
                 notifyInterval = 1;
+            tempTask.Total = count;
             tempTask.TaskAction = () =>
             {
                 if (source is ICollection<T>)

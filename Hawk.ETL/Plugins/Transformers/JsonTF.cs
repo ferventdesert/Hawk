@@ -33,7 +33,7 @@ namespace Hawk.ETL.Plugins.Transformers
         }
 
         [LocalizedDisplayName("key_188")]
-        [LocalizedDescription("key_501")]
+        [LocalizedDescription("etl_script_mode")]
         public ScriptWorkMode ScriptWorkMode { get; set; }
 
 

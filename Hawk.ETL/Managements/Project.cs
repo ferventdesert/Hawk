@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
+using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
@@ -11,20 +14,27 @@ using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Process;
-
+using YamlDotNet;
+using YamlDotNet.RepresentationModel;
 namespace Hawk.ETL.Managements
 {
     public class ProjectItem : PropertyChangeNotifier, IDictionarySerializable
     {
-        [LocalizedDisplayName("key_329")]
+        [Browsable(false)]
         public string SavePath { get; set; }
 
+        [PropertyOrder(0)]
+        [LocalizedCategory("key_211")]
         [LocalizedDisplayName("key_18")]
         public string Name { get; set; }
 
+        [PropertyOrder(1)]
+        [LocalizedCategory("key_211")]
         [LocalizedDisplayName("key_16")]
+        [PropertyEditor("CodeEditor")]
         public string Description { get; set; }
 
+        [Browsable(false)]
         [LocalizedDisplayName("key_330")]
         public int Version { get; set; }
 
@@ -48,6 +58,61 @@ namespace Hawk.ETL.Managements
         }
     }
 
+    public class ParameterItem
+    {
+        private  static  Random random=new Random();
+        public ParameterItem()
+        {
+
+            Name = "config_" + random.Next(0, 100);
+        }
+
+        [PropertyOrder(0)]
+     
+        [LocalizedDisplayName("key_18")]
+        public string Name { get; set; }
+
+        [Browsable(false)]
+        public Dictionary<string, string> GetParameters()
+        {
+            var dict= 
+                new Dictionary<string, string>();
+            if (string.IsNullOrEmpty(ParameterString))
+                return dict;
+           var stream = new StringReader(ParameterString);
+            var yaml = new YamlStream();
+
+            yaml.Load(stream);
+            var mapping =
+                (YamlMappingNode)yaml.Documents[0].RootNode;
+
+            foreach (var entry in mapping.Children)
+            {
+                if ((entry.Key.NodeType == YamlNodeType.Scalar) && (entry.Value.NodeType == YamlNodeType.Scalar))
+                {
+                    var key = ((YamlScalarNode) entry.Key).Value;
+
+                    var value = ((YamlScalarNode) entry.Value).Value;
+                    dict.Add(key, value);
+                }
+            }
+        
+            return dict;
+
+            
+        }
+
+        public override string ToString()
+        {
+            return Name;
+        }
+        [LocalizedDisplayName("key_21")]
+        [PropertyEditor("CodeEditor")]
+        public string ParameterString
+        {
+            get;set;
+        }
+    }
     /// <summary>
     ///     项目信息
     /// </summary>
@@ -59,36 +124,38 @@ namespace Hawk.ETL.Managements
         {
             Tasks = new ObservableCollection<ProcessTask>();
             DBConnections = new ObservableCollection<IDataBaseConnector>();
-            Parameters = new Dictionary<string, string>();
-            sysProcessManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
+            Parameters =new  ObservableCollection<ParameterItem>();
+                sysProcessManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
+            ConfigSelector=new ExtendSelector<string>();
+            Parameters.CollectionChanged += (s, e) =>
+            {
+                ConfigSelector.OnPropertyChanged("Collection");
+            };
+            ConfigSelector.GetItems = () => { return Parameters.Select(d => d.Name).ToList(); };
         }
 
         [Browsable(false)]
         public List<DataCollection> DataCollections { get; set; }
 
         [LocalizedDisplayName("key_332")]
+        [Browsable(false)]
         public ObservableCollection<IDataBaseConnector> DBConnections { get; set; }
 
         private List<FreeDocument> SavedRunningTasks;
+         
+        [LocalizedDisplayName("using_param_name")]
+        [PropertyOrder(3)]
+        public ExtendSelector<string> ConfigSelector { get; set; }
 
         /// <summary>
         ///     在工程中保存的所有任务
         /// </summary>
-        [LocalizedDisplayName("key_333")]
-        public ObservableCollection<ProcessTask> Tasks { get; set; }
-
-
         [Browsable(false)]
-        public Dictionary<string, string> Parameters { get; set; }
-
-
-        [LocalizedDisplayName("key_21")]
-        [PropertyEditor("CodeEditor")]
-        public string ParameterString
-        {
-            get { return "\n".Join(Parameters.Select(d => d.Key + ":" + d.Value)); }
-            set { Parameters = ExtendEnumerable.ToDict(value); }
-        }
+        public ObservableCollection<ProcessTask> Tasks { get; set; }
+        
+        [LocalizedDisplayName("param_group")]
+        [PropertyOrder(4)]
+        public ObservableCollection<ParameterItem> Parameters { get; private set; }
 
         public void Save(IEnumerable<DataCollection>collections = null)
         {
@@ -108,7 +175,7 @@ namespace Hawk.ETL.Managements
             if (ext != null && ext.Contains("hproj"))
                 connector.IsZip = true;
             var dict = DictSerialize();
-            if (collections != null)
+                if (collections != null)
                 dict["DataCollections"] = new FreeDocument
                 {
                     Children = collections.Where(d => d.Count < 100000).Select(d => d.DictSerialize()).ToList()
@@ -163,6 +230,25 @@ namespace Hawk.ETL.Managements
             return proj;
         }
 
+        [Browsable(false)]
+        public Dictionary<string, string> Parameter { get; private set; }
+
+        public void Build()
+        {
+            ParameterItem param;
+
+            if (ConfigSelector?.SelectItem == null)
+                param = Parameters.FirstOrDefault();
+            else
+                 param = this.Parameters.FirstOrDefault(d => d.Name == ConfigSelector.SelectItem);
+            if (param == null)
+            {
+                Parameter = new Dictionary<string, string>();
+                return;
+            }
+
+            ControlExtended.SafeInvoke(() => Parameter = param.GetParameters(),LogType.Info,  GlobalHelper.Get("parse_yaml_config"));
+        }
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
             var dict = base.DictSerialize();
@@ -173,6 +259,23 @@ namespace Hawk.ETL.Managements
                 Children = DBConnections.Select(d => (d as IDictionarySerializable).DictSerialize()).ToList()
             };
             dict.Add("DBConnections", connectors);
+
+
+            var param = new FreeDocument
+            {
+                Children = Parameters.Select(d => d.UnsafeDictSerialize()).ToList()
+
+            };
+
+            if (ConfigSelector.SelectItem != null)
+            {
+                dict.Add("ParameterName", ConfigSelector.SelectItem);
+            }
+
+
+            dict.Add("Parameters", param);
+
+
 
             if (sysProcessManager != null)
             {
@@ -288,6 +391,27 @@ namespace Hawk.ETL.Managements
                 SavedRunningTasks = tasks?.Children;
 
             }
+
+            if (docu["Parameters"] != null)
+            {
+                var tasks = docu["Parameters"] as FreeDocument;
+
+                if (tasks != null)
+                {
+                    Parameters.AddRange(tasks?.Children.Select(d =>
+                    {
+                        var param = new ParameterItem();
+                        param.UnsafeDictDeserialize(d);
+                        return param;
+                    }));
+
+                }
+        
+
+            }
+
+            ConfigSelector.SelectItem =
+                docu["ParameterName"].ToString();
 
             if (DBConnections.FirstOrDefault(d => d.TypeName == GlobalHelper.Get("FileManager")) == null)
             {

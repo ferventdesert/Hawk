@@ -204,7 +204,7 @@
                 </Rectangle>
                 <StackPanel Height="Auto" Width="Auto" Orientation="Vertical" d:LayoutOverrides="Width, Height"
                             Margin="30,0,0,0">
-                    <Label Content="{Binding Name}" ToolTip="{Binding Description}" Margin="0" Height="Auto"
+                    <TextBlock Text="{Binding Name}" ToolTip="{Binding Description}" Margin="0" Height="Auto"
                            VerticalAlignment="Stretch" FontSize="{DynamicResource LargeFont}"
                            d:LayoutOverrides="GridBoX" HorizontalAlignment="Left" Width="Auto" />
                     <TextBlock Text="{Binding Description, Converter={StaticResource OnelineConverter}}" Margin="0"
@@ -219,7 +219,7 @@
             </DataTemplate.Triggers>
         </DataTemplate>
         <DataTemplate x:Key="DataTemplateIcon">
-            <StackPanel Height="60" Margin="4" Width="60" ToolTip="{Binding Descrption}">
+            <StackPanel Height="70" Margin="4" Width="60" ToolTip="{Binding Descrption}">
                 <Rectangle Width="30" ToolTip="{Binding Description}" Height="30" HorizontalAlignment="Center"
                            VerticalAlignment="Center">
                     <Rectangle.Fill>
@@ -227,10 +227,10 @@
                                      Visual="{Binding Converter={StaticResource ModuleMetroConverter}, Mode=OneWay}" />
                     </Rectangle.Fill>
                 </Rectangle>
-                <Label Content="{Binding Name}" ToolTip="{Binding Description}" Margin="0,8,0,0" Height="Auto"
+                <TextBlock Text="{Binding Name}" ToolTip="{Binding Description}" Margin="0,8,0,0" Height="Auto"
                        VerticalAlignment="Bottom"
-                       d:LayoutOverrides="GridBox" HorizontalAlignment="Center" Width="Auto"
-                       VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" />
+                       d:LayoutOverrides="GridBox" HorizontalAlignment="Center" Width="Auto" TextWrapping="WrapWithOverflow"
+                      />
             </StackPanel>
             <DataTemplate.Triggers>
                 <EventTrigger RoutedEvent="Mouse.MouseEnter" />
@@ -250,12 +250,7 @@
                          VerticalContentAlignment="Stretch" Margin="1,0" Height="249.312">
                     <ListBox.Resources>
 
-                        <Style TargetType="{x:Type ListBoxItem}">
-
-                            <Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />
-
-                        </Style>
-
+                    
                     </ListBox.Resources>
                     <ListBox.ContextMenu>
                         <ContextMenu DataContext="{Binding Data.Commands, Source={StaticResource BindingProxy}}">
@@ -604,16 +599,20 @@
             </ListBox>
             <GridSplitter HorizontalAlignment="Stretch" Height="3" VerticalAlignment="Bottom" Margin="0,0,0,-1.25"
                           d:LayoutOverrides="VerticalAlignment, GridBox" />
-            <ListView x:FieldModifier="public" x:Name="CurrentETLToolList"
-                      SelectedItem="{Binding CurrentTool, Mode=OneWay}" Grid.Row="1" Margin="0,8,0,0"
-                      DataContext="{Binding}"
+            <ListView x:FieldModifier="public" x:Name="CurrentETLToolList" 
+                      SelectedItem="{Binding CurrentTool, Mode=TwoWay}" Grid.Row="1" Margin="0,8,0,0"
+                        DataContext="{Binding}"
                       ItemsSource="{Binding CurrentETLTools}">
+                <ListView.ContextMenu>
+                    <ContextMenu   ItemsSource="{Binding CommandsListView}"/>
+
+                </ListView.ContextMenu>
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="{DynamicResource key_568}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox IsChecked="{Binding Enabled}" Background="{Binding AnalyzeItem.Input, 
+                                    <CheckBox IsChecked="{Binding Enabled}" Background="{Binding AnalyzeItem.Output, 
                                          Converter={StaticResource  AnalyzerEnterConverter}}"  HorizontalAlignment="Center" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>

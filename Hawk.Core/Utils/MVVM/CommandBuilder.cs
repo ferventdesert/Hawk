@@ -93,7 +93,16 @@ namespace Hawk.Core.Utils.MVVM
 
         bool ICommand.CanExecute(object parameter)
         {
-            return CanExecute(parameter);
+            try
+            {
+
+               return CanExecute(parameter);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
         }
 
         public override string ToString()

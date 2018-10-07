@@ -229,8 +229,9 @@ namespace Hawk.ETL.Plugins.Transformers
             {
                 if (_newColumn != value)
                 {
-                    OnPropertyChanged("NewColumn");
                     _newColumn = value;
+                    OnPropertyChanged("NewColumn");
+              
                 }
             }
         }

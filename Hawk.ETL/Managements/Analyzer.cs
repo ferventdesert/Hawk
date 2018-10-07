@@ -20,24 +20,25 @@ namespace Hawk.ETL.Managements
         {
         }
         public IColumnProcess Process { get; set; }
-        private int input;
-        public int Input {
-            get { return input; }
-            set
+        private int output;
+        public int Input { get; set; }
+
+        public int Output { 
+        get { return output; }
+        set
+        {
+            if (value != output)
             {
-                if (value != input)
+                if (value > 0 && output == 0)
                 {
-                    if (value > 0 && input == 0)
-                    {
-                        input = value;
-                        (Process as PropertyChangeNotifier).OnPropertyChanged("");
-                    }
-                    input = value;
-                   
+                    output = value;
+                    (Process as PropertyChangeNotifier).OnPropertyChanged("AnalyzeItem");
                 }
+                output = value;
+                   
             }
         }
-        public int Output { get; set; }
+        }
         public int Error { get; set; }
 
         public TimeSpan RunningTime { get; set; }

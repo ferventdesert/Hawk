@@ -82,6 +82,9 @@ namespace Hawk.Core.Connectors
             ;
         }
 
+
+ 
+
         public static string GetItemString(IFreeDocument datas, string format = "xml")
         {
             return GetCollectionString(new List<IFreeDocument> { datas });

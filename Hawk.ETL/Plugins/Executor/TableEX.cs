@@ -28,7 +28,7 @@ namespace Hawk.ETL.Plugins.Executor
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
-            collection = dataManager.DataCollections.FirstOrDefault(d => d.Name == Table);
+        
             if (string.IsNullOrEmpty(Table))
                 throw new ArgumentNullException("Table is empty");
             return base.Init(datas);
@@ -36,15 +36,16 @@ namespace Hawk.ETL.Plugins.Executor
 
         public override IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents)
         {
-            foreach (var computeable in documents)
+            foreach (var document in documents)
             {
+                var name = AppHelper.Query(Table, document);
+                collection = dataManager.DataCollections.FirstOrDefault(d => d.Name == name);
                 if (collection == null)
                 {
 
-                    if (string.IsNullOrEmpty(Table) == false)
-
+                    if (string.IsNullOrEmpty(name) == false)
                     {
-                        collection = new DataCollection(new List<IFreeDocument>()) { Name = Table };
+                        collection = new DataCollection(new List<IFreeDocument>()) { Name = name };
                         dataManager.AddDataCollection(collection);
                     }
 
@@ -53,15 +54,14 @@ namespace Hawk.ETL.Plugins.Executor
                 {
                     ControlExtended.UIInvoke(() =>
                     {
-
-                        var data = computeable.Clone();
+                        var data = document.Clone();
                         collection.ComputeData.Add(data);
                         collection.OnPropertyChanged("Count");
                     });
                 }
                
 
-                yield return computeable;
+                yield return document;
             }
         }
     }

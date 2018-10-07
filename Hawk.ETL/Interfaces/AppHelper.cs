@@ -127,33 +127,43 @@ namespace Hawk.ETL.Interfaces
             }
         }
 
-
-        public static string Query(this IFreeDocument document, string input)
+       private static Regex  sysconfigRegex = new Regex(@"^\{([^\[\]\{\}]*)\}$");
+       private static Regex  columnRegex = new Regex(@"^\[([^\[\]\{\}]*)\]$");
+        public static string Query( string input,  IFreeDocument document=null)
         {
             if (input == null)
                 return null;
             var query = input.Trim();
-            if (query.StartsWith("[") && query.EndsWith("]"))
+            var column= columnRegex.Match(query);
+            if (column.Success)
             {
-                var len = query.Length;
-                query = query.Substring(1, len - 2);
+                query=column.Groups[1].Value;
                 var result = document?[query];
                 return result?.ToString();
             }
-            if (query.StartsWith("{") && query.EndsWith("}"))
+            var config = sysconfigRegex.Match(query);
             {
-                var len = query.Length;
-                query = query.Substring(1, len - 2);
                 var proj = MainDescription.MainFrm?.PluginDictionary["DataProcessManager"] as IProcessManager;
                 if (proj != null)
                 {
                     string value = "";
-                    if (proj.CurrentProject.Parameters.TryGetValue(query, out value))
-                        return value;
-
+                    query = config.Groups[1].Value;
+                    if (proj.CurrentProject.Parameter != null)
+                    {
+                        if (proj.CurrentProject.Parameter.TryGetValue(query, out value))
+                            return value;
+                    }
                 }
             }
             return input;
+
+            
+        }
+
+        public static string Query(this IFreeDocument document,string input)
+        {
+            return Query(input, document);
+
         }
 
         public static async Task<T> RunBusyWork<T>(this IMainFrm manager, Func<T> func, string title = "系统正忙", string message = "正在处理长时间操作")
@@ -183,7 +193,7 @@ namespace Hawk.ETL.Interfaces
             };
         }
 
-        public static T GetModule<T>(this IColumnProcess process, string name) where T : class
+        public static T GetModule<T>(this IColumnProcess process, string name) where T :  class, IDataProcess
         {
             var moduleName = (typeof(T) == typeof(SmartETLTool)) ? GlobalHelper.Get("smartetl_name") : GlobalHelper.Get("smartcrawler_name");
             if (String.IsNullOrEmpty(name))
@@ -193,8 +203,6 @@ namespace Hawk.ETL.Interfaces
 
             {
                 XLogSys.Print.Error(String.Format(GlobalHelper.Get("key_203"),process_name));
-
-
                 return default(T);
             }
             var processManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
@@ -207,27 +215,14 @@ namespace Hawk.ETL.Interfaces
             return module;
         }
 
-        public static T GetModule<T>(this IProcessManager processManager, string name) where T : class
+        public static T GetModule<T>(this IProcessManager processManager, string name) where T : class, IDataProcess
         {
             var module =
-               processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == name) as T;
-            if (module != null)
-            {
-                return module;
-            }
+               processManager.CurrentProcessCollections.OfType<T>().FirstOrDefault(d => d.Name == name) ;
+           return module;
 
-            var task = processManager.CurrentProject.Tasks.FirstOrDefault(d => d.Name == name);
-            if (task == null)
-
-            {
-
-                return null;
-            }
-
-            ControlExtended.UIInvoke(() => { task.Load(false); });
-            module =
-                processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == name) as T;
-            return module;
+        
+           
         }
         /// <summary>
         /// 高版本配置向低版本兼容

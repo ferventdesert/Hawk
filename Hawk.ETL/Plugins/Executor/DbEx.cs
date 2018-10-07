@@ -49,7 +49,7 @@ namespace Hawk.ETL.Plugins.Executor
 
         private bool InitTable(IFreeDocument document)
         {
-            var tableName = TableNames.SelectItem;
+            var tableName = AppHelper.Query(TableNames.SelectItem,document);
             if (string.IsNullOrEmpty(tableName) == false)
             {
                 if (!(ConnectorSelector.SelectItem != null).SafeCheck(GlobalHelper.Get("key_348")))

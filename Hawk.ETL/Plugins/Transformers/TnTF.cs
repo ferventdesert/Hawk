@@ -32,7 +32,7 @@ namespace Hawk.ETL.Plugins.Transformers
             ScriptWorkMode = Core.Connectors.ScriptWorkMode.List;
         }
         [LocalizedDisplayName("key_188")]
-        [LocalizedDescription("key_501")]
+        [LocalizedDescription("etl_script_mode")]
         public ScriptWorkMode ScriptWorkMode { get; set; }
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {

@@ -58,7 +58,7 @@
         <Setter Property="TextAlignment"
                 Value="Left" />
         <Setter Property="FontSize"
-                Value="16" />
+                Value="12" />
     </Style>
 
     <Style x:Key="H1Style"
@@ -3989,7 +3989,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type ListViewItem}">
+    <Style x:Key="DefaultListViewItem"  TargetType="{x:Type ListViewItem}">
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
         <Setter Property="FocusVisualStyle" Value="{StaticResource ListViewItemFocusVisual}" />
         <Setter Property="Background" Value="Transparent" />
@@ -4128,7 +4128,13 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-
+    <Style   TargetType="{x:Type ListViewItem}"  BasedOn="{StaticResource ResourceKey=DefaultListViewItem}">
+     </Style>
+       <Style x:Key="CenterListViewItem"   TargetType="{x:Type ListViewItem}"    BasedOn="{StaticResource  ResourceKey=DefaultListViewItem}">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+			
+			
+        </Style>
 
     <Style x:Key="GridViewColumnHeaderGripper" TargetType="{x:Type Thumb}">
         <Setter Property="Canvas.Right" Value="-8.5" />

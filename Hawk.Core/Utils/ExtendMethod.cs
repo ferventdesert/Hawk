@@ -130,6 +130,7 @@ namespace Hawk.Core.Utils
             }
             catch (Exception ex)
             {
+                XLogSys.Print.Warn(ex);
                 throw;
             }
 

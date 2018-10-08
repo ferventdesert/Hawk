@@ -133,6 +133,7 @@ namespace Hawk.ETL.Managements
           
             if (notifyInterval <= 0)
                 notifyInterval = 1;
+            tempTask.Total = count;
             tempTask.TaskAction = () =>
             {
                 if (source is ICollection<T>)
@@ -143,17 +144,19 @@ namespace Hawk.ETL.Managements
                     foreach (var item in func != null ? func(r) : new List<T> { r })
                     {
                         tempTask.CheckWait();
-                        if (tempTask.OutputIndex % notifyInterval != 0) continue;
+                   
                         if (tempTask.CheckCancel())
                         {
                             tempTask.WasCanceled = true;
                             break;
                         }
-
+                        if (tempTask.OutputIndex % notifyInterval != 0) continue;
                         tempTask.OutputIndex++;
+                  
                     }
                     if (delayFunc != null)
                         Thread.Sleep(delayFunc());
+                    if (tempTask.OutputIndex % notifyInterval != 0) continue;
                     if (count > 0)
                         tempTask.Percent = tempTask.OutputIndex * 100 / count;
                

@@ -7,10 +7,12 @@
              xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
              xmlns:attributes="clr-namespace:System.Windows.Controls.WpfPropertyGrid.Attributes;assembly=System.Windows.Controls.WpfPropertyGrid"
              xmlns:connectors="clr-namespace:Hawk.Core.Connectors;assembly=Hawk.Core"
+			    xmlns:systemWindowsControlsWpfPropertyGrid="clr-namespace:System.Windows.Controls.WpfPropertyGrid;assembly=System.Windows.Controls.WpfPropertyGrid"
              mc:Ignorable="d" 
              d:DesignHeight="659" d:DesignWidth="916" Background="{DynamicResource NormalBorderBrush}">
     <UserControl.Resources>
     	<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+		     <systemWindowsControlsWpfPropertyGrid:EnumValueConverter x:Key="enumValueConverter" />
         <Style x:Key="DataRowStyle1" TargetType="{x:Type xcdg:DataRow}">
             <Setter Property="Background" Value="{DynamicResource NormalBrush}"/>
             <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
@@ -141,7 +143,13 @@
                 <TextBlock Visibility="{Binding CanChange, Converter={StaticResource BooleanToVisibilityConverter}}"   TextWrapping="WrapWithOverflow" HorizontalAlignment="Center" Margin="0,3"><Run Text="{DynamicResource key_755}"/><Run Language="zh-cn" Text="{DynamicResource click_refresh}"/><Run Text="{DynamicResource click_commit}"/></TextBlock>
         		<StackPanel Visibility="{Binding CanChange, Converter={StaticResource BooleanToVisibilityConverter}}"  Orientation="Horizontal" Margin="0,3" VerticalAlignment="Center" HorizontalAlignment="Center">
         			<TextBlock TextWrapping="Wrap" Text="{DynamicResource key_756}"/>
-                    <ComboBox   ItemsSource="{attributes:EnumValues {x:Type connectors:SortMethod}}" SelectedItem="{Binding SortMethod}"  Width="120" Margin="10,0,0,0"/>
+                    <ComboBox   ItemsSource="{attributes:EnumValues {x:Type connectors:SortMethod}}" SelectedItem="{Binding SortMethod}"  Width="120" Margin="10,0,0,0">
+                    	      <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ., Converter={StaticResource enumValueConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>               
+					</ComboBox>
         		</StackPanel>
         		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,3" Height="46.172" VerticalAlignment="Center">
         			<Button Visibility="{Binding CanChange, Converter={StaticResource BooleanToVisibilityConverter}}"  Style="{DynamicResource middleButton}" DataContext="{Binding Commands[1]}" Width="35" Height="35" Margin="15,0,0,0" />

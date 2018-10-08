@@ -32,7 +32,7 @@ namespace Hawk.ETL.Plugins.Transformers
         }
 
         [LocalizedDisplayName("key_188")]
-        [LocalizedDescription("key_501")]
+        [LocalizedDescription("etl_script_mode")]
         public ScriptWorkMode ScriptWorkMode { get; set; }
 
         [LocalizedDisplayName("key_511")]
@@ -64,7 +64,7 @@ namespace Hawk.ETL.Plugins.Transformers
             return true;
         }
 
-        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas, AnalyzeItem analyzer)
+        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas, AnalyzeItem analyzer = null)
         {
             foreach (var data in datas)
             {
@@ -76,7 +76,12 @@ namespace Hawk.ETL.Plugins.Transformers
                 }
                 catch (Exception ex)
                 {
+                    if(analyzer!=null)
                     analyzer.Analyzer.AddErrorLog(data, ex, this);
+                    else
+                    {
+                       XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), this.Column, this.TypeName, ex));
+                    }
                    continue; 
                 }
                 foreach (var item2 in ScriptHelper.ToDocuments(d))

@@ -5,7 +5,7 @@ using System.Linq;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
-
+using Hawk.Core.Utils.Logs;
 namespace Hawk.Core.Connectors
 {
     
@@ -63,6 +63,7 @@ namespace Hawk.Core.Connectors
             }
             catch (Exception ex)
             {
+                XLogSys.Print.Warn(ex);
                 if (instance == null)
                 {
                     throw new Exception();

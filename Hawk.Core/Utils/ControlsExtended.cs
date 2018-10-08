@@ -69,6 +69,7 @@ namespace Hawk.Core.Utils
             var view = manager.ViewDictionary.FirstOrDefault(d => d.Model == model);
             if (view == null)
                 return;
+          
             manager.ActiveThisContent(view.View);
         }
 

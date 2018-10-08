@@ -164,7 +164,7 @@
         Character first and end extraction
 
     </system:String>
-    <system:String x:Key="key_201">
+    <system:String x:Key="smartetl_name">
         Data cleaning
 
     </system:String>

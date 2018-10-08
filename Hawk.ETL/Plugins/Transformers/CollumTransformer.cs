@@ -3,7 +3,6 @@ using Hawk.Core.Utils;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 

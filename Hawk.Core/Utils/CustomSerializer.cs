@@ -49,7 +49,7 @@ namespace Hawk.Core.Utils
             {
                 mm = (T)formter.Deserialize(theStream);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
             }
 

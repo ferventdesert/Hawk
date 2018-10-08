@@ -9,7 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Input;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
@@ -194,7 +193,7 @@ namespace Hawk.ETL.Crawlers
             {
                 nodes = docu.DocumentNode.SelectNodes(xpath);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 XLogSys.Print.Warn(GlobalHelper.Get("key_196") + xpath);
                 return source;

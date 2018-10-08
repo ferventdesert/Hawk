@@ -20,7 +20,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using AvalonDock.Layout;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using AutoUpdaterDotNET;
@@ -35,7 +34,8 @@ using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
 using ToastNotifications.Position;
 using Path = System.IO.Path;
-
+using Microsoft.WindowsAPICodePack.Shell;
+using Microsoft.WindowsAPICodePack.Taskbar;
 namespace Hawk
 {
 
@@ -46,6 +46,8 @@ namespace Hawk
     {
         public Dictionary<string, IXPlugin> PluginDictionary { get; set; }
         public event EventHandler<ProgramEventArgs> ProgramEvent;
+
+        private TaskbarManager windowsTaskbar = TaskbarManager.Instance;
         public void InvokeProgramEvent(ProgramEventArgs e)
         {
             
@@ -71,8 +73,8 @@ namespace Hawk
                     offsetY: 10);
 
                 cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
-                    notificationLifetime: TimeSpan.FromSeconds(3),
-                    maximumNotificationCount: MaximumNotificationCount.FromCount(5));
+                    TimeSpan.FromSeconds(2),
+                    MaximumNotificationCount.FromCount(3));
 
                 cfg.Dispatcher = Application.Current.Dispatcher;
             });
@@ -98,7 +100,7 @@ namespace Hawk
             {
                 Icon = new BitmapImage(new Uri(pluginPosition + icon, UriKind.Absolute));
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 XLogSys.Print.Error(GlobalHelper.Get("IconNotExist"));
 
@@ -183,8 +185,9 @@ namespace Hawk
                 }
               
             };
-           // var md = ETLHelper.GetAllMarkdownDoc();
-           // File.WriteAllText("HawkDoc.md", md);
+            //File.WriteAllText("helper.md", ETLHelper.GetTotalMarkdownDoc());
+            // var md = ETLHelper.GetAllToolMarkdownDoc();
+            // File.WriteAllText("HawkDoc.md", md);
             //  TestCode();
 #if !DEBUG
             }
@@ -267,6 +270,8 @@ namespace Hawk
             var item = view?.Container as LayoutAnchorable;
             if (item == null)
                 return;
+            if (item.IsHidden == true)
+                item.Show();
             item.IsActive = true;
         }
 
@@ -296,6 +301,11 @@ namespace Hawk
                 (s, e) => OnDockManagerUserChanged(new DockChangedEventArgs(DockChangedType.Remove, content));
             layout.Closing +=
                 (s, e) => OnDockManagerUserChanged(new DockChangedEventArgs(DockChangedType.Remove, content));
+            if (name == GlobalHelper.Get("DataProcessManager_name"))
+            {
+                layout.CanClose = false;
+                layout.CanHide = false;
+            }
             return layout;
         }
         public event EventHandler<DockChangedEventArgs> DockManagerUserChanged;
@@ -327,7 +337,7 @@ namespace Hawk
                     case FrmState.Large:
                         layout = Factory(name, thisControl);
                         documentMain.Children.Add(layout);
-                      
+                
                         layout.IsActive = true;
                         break;
                     case FrmState.Buttom:
@@ -342,6 +352,7 @@ namespace Hawk
                         documentButtom.Children.Add(layout);
                         documentButtom.Children.RemoveElementsNoReturn(d => d.Content == null);
                         layout.IsActive = true;
+                        layout.CanClose = false;
                         break;  
                     case FrmState.Middle:
                         layout = Factory(name, thisControl);
@@ -349,6 +360,7 @@ namespace Hawk
                         dockablePane1.Children.Add(layout);
                         dockablePane1.Children.RemoveElementsNoReturn(d=>d.Content==null);
                         layout.IsActive = true;
+                        layout.CanClose = false;
                         break;                
                     case FrmState.Mini:
                         layout = Factory(name, thisControl);
@@ -363,6 +375,7 @@ namespace Hawk
                         dockablePane3.Children.Add(layout);
                         dockablePane3.Children.RemoveElementsNoReturn(d => d.Content == null);
                         layout.IsActive = true;
+                        layout.CanClose = false;
                         break;
                     case FrmState.Custom:
                         var window = new Window {Title = name};
@@ -392,7 +405,7 @@ namespace Hawk
         }
 
         public  void SetBusy(bool isBusyValue, string title = null, string message =null,
-            int percent = -1)
+            int percent = -1, ProgressBarState state = ProgressBarState.Normal)
         {
             if (title == null)
                 title=GlobalHelper.Get("key_3");
@@ -402,7 +415,11 @@ namespace Hawk
 
             BusyIndicator.BusyContent = message;
 
-            ProgressBar.Value = 100;
+            ProgressBar.Value = percent;
+                    
+            windowsTaskbar.SetProgressState((TaskbarProgressBarState)(state), this);
+            windowsTaskbar.SetProgressValue(percent, 100, this);
+            
             ProgressBar.IsIndeterminate = isBusyValue;
         }
         private void DebugText_MouseDown(object sender, MouseButtonEventArgs e)

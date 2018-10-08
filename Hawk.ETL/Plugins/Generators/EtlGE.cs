@@ -10,7 +10,6 @@ using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using System.Windows.Input;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
@@ -232,7 +231,6 @@ namespace Hawk.ETL.Plugins.Generators
     public class ETLBase : ToolBase, INotifyPropertyChanged
     {
         protected readonly IProcessManager processManager;
-        private string _etlSelector;
 
         public ETLBase()
         {
@@ -483,7 +481,6 @@ namespace Hawk.ETL.Plugins.Generators
                 }
                 yield break;
             }
-            var hasyield = false;
             var results = datas.ToList();
             var columns = results.Select(d => d[Column].ToString()).ToList();
             var all_keys = results.GetKeys(count: 100).ToList();

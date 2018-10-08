@@ -1,6 +1,5 @@
 ﻿using System.Windows.Controls;
 using Hawk.Core.Utils.Plugins;
-using Hawk.Core.Utils.Plugins;
 namespace Hawk.ETL.Controls
 {
     /// <summary>

@@ -16,13 +16,14 @@ using System.Windows.Controls.WpfPropertyGrid.Controls;
 using System.Windows.Input;
 using Fiddler;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
+using Hawk.ETL.Plugins.Generators;
+using Hawk.ETL.Plugins.Transformers;
 using HtmlAgilityPack;
 using IronPython.Runtime.Operations;
 using ScrapySharp.Network;
@@ -44,7 +45,6 @@ namespace Hawk.ETL.Process
         private string _rootXPath;
         private SelectorFormat _searchFormat;
         private ScrapingBrowser browser = new ScrapingBrowser();
-        private XPathAnalyzer.CrawTarget CrawTarget;
         private IEnumerator<string> currentXPaths;
         public bool enableRefresh = true;
         private bool hasInit;
@@ -329,6 +329,50 @@ namespace Hawk.ETL.Process
 
         }
 
+
+
+        [LocalizedCategory("key_199")]
+        [LocalizedDisplayName("key_200")]
+        public override string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (_name == value) return;
+
+
+                if (this.hasInit&&MainDescription.IsUIForm && string.IsNullOrEmpty(_name) == false &&
+                    string.IsNullOrEmpty(value) == false)
+                {
+                    var dock = MainFrm as IDockableManager;
+                    var view = dock?.ViewDictionary.FirstOrDefault(d => d.Model == this);
+                    if (view != null)
+                    {
+                        dynamic container = view.Container;
+                        container.Title = value;
+                    }
+                    var oldCrawler = SysProcessManager.CurrentProcessCollections.OfType<SmartCrawler>()
+                        .Where(d => d.ShareCookie.SelectItem == _name).ToList();
+                    var oldEtls = SysProcessManager.CurrentProcessCollections.OfType<SmartETLTool>()
+                        .SelectMany(d => d.CurrentETLTools).OfType<ResponseTF>()
+                        .Where(d => d.CrawlerSelector.SelectItem == _name).ToList();
+
+                    if ((oldCrawler.Count>0|| oldEtls.Count>0)&& MessageBox.Show(string.Format(GlobalHelper.Get("check_if_rename"), this.TypeName, _name, value,
+                        string.Join(",", oldCrawler.Select(d => d.Name)), string.Join(",", oldEtls.Select(d => d.ObjectID))), GlobalHelper.Get("Tips"),MessageBoxButton.YesNo)==MessageBoxResult.Yes)
+                    {
+                        oldCrawler.Execute(d => d.ShareCookie.SelectItem = value);
+                        oldEtls.Execute(d=>d.CrawlerSelector.SelectItem=value);
+                    }
+                }
+                _name = value;
+
+                OnPropertyChanged("Name");
+
+            }
+        }
+
+
+
         [LocalizedCategory("key_634")]
         [LocalizedDisplayName("key_645")]
        
@@ -524,7 +568,6 @@ namespace Hawk.ETL.Process
                     isBusy = false;
                     if (crawTargets.Count == 0)
                     {
-                        CrawTarget = null;
                         XLogSys.Print.Warn(GlobalHelper.Get("key_660"));
                         return;
                     }
@@ -718,7 +761,7 @@ namespace Hawk.ETL.Process
                 {
                     root = HtmlDoc.DocumentNode.SelectSingleNodePlus(rootPath, RootFormat);
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
                     XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_662"),RootXPath,RootFormat));
                 }
@@ -853,23 +896,11 @@ namespace Hawk.ETL.Process
         {
             ConfigFile.GetConfig<DataMiningConfig>().RequestCount++;
             var content = GetHtml(url, out code, post);
-            try
-            {
+           
                 var datas = CrawlHtmlData(content, out doc);
-                if (!datas.Any())
-                {
-                    ConfigFile.GetConfig<DataMiningConfig>().ParseErrorCount++;
-                    XLogSys.Print.InfoFormat(GlobalHelper.Get("key_669"), url);
-                }
+              
                 return datas;
-            }
-            catch (Exception ex)
-            {
-                ConfigFile.GetConfig<DataMiningConfig>().ParseErrorCount++;
-                doc = new HtmlDocument();
-                XLogSys.Print.ErrorFormat(GlobalHelper.Get("key_670"), url, ex.Message);
-                return new List<FreeDocument>();
-            }
+          
 
 
         }

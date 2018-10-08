@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Media;
+using Hawk.Core.Connectors;
 using log4net;
 using log4net.Appender;
 using log4net.Core;
@@ -110,21 +111,30 @@ namespace Hawk.Core.Utils.Logs
                 lastString = message;
                 lastSameCount = 0;
             }
+            var displayInfo = true;
+            var config = ConfigFile.GetConfig();
+            if (config != null)
+            {
+                displayInfo = config.Get<bool>("DisplayPopupMenu");
+            }
             switch (rcloggingevent.Level.ToString())
             {
                 case "INFO":
 
                     break;
                 case "WARN":
-                    notifier?.ShowWarning(message);
+                    if(displayInfo)
+                        notifier?.ShowWarning(message);
                     rc.Foreground = Brushes.Yellow;
                     break;
                 case "ERROR":
-                    notifier?.ShowError(message);
+                    if (displayInfo)
+                        notifier?.ShowError(message);
                     rc.Foreground = Brushes.Orange;
                     break;
                 case "FATAL":
-                    notifier?.ShowError(message);
+                    if (displayInfo)
+                        notifier?.ShowError(message);
                     rc.Foreground = Brushes.DarkOrange;
                     break;
                 case "DEBUG":

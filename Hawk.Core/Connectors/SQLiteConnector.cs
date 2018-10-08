@@ -9,7 +9,6 @@ using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Forms;
 using System.Windows.Input;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
@@ -276,7 +275,6 @@ namespace Hawk.Core.Connectors
         /// <returns>An Integer containing the number of rows updated.</returns>
         protected override int ExecuteNonQuery(string sql)
         {
-            var col = 0;
             using (var cnn = new SQLiteConnection(ConnectionString))
             {
                 cnn.Open();
@@ -287,7 +285,6 @@ namespace Hawk.Core.Connectors
                 }
             }
 
-            return col;
         }
 
 

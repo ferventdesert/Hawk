@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using ICSharpCode.SharpZipLib.Zip;
-
+using System.Threading;
 namespace Hawk.Core.Connectors
 {
     [XFrmWork("FileConnectorXML", "FileConnectorXML_desc", "")]
@@ -37,7 +38,13 @@ namespace Hawk.Core.Connectors
 
             return xmlString;
         }
-
+        public static List<FreeDocument> GetCollection(string datas)
+        {
+            FileConnectorXML connector = null;
+            connector = new FileConnectorXML();
+            return connector.ReadText(datas).ToList();
+            ;
+        }
         private void XMLNode2Dict(XmlNode xnode, FreeDocument dict)
         {
             if (xnode.Attributes != null)
@@ -50,11 +57,11 @@ namespace Hawk.Core.Connectors
 
             if (xnode.HasChildNodes)
             {
-                for (var i = 0; i < xnode.ChildNodes.Count; i++)
+                Parallel.For(0,xnode.ChildNodes.Count, i =>
                 {
                     var docu = new FreeDocument();
-
                     var n = xnode.ChildNodes[i];
+                  
                     if (n.Name == "Children")
                     {
                         if (dict.Children == null)
@@ -64,15 +71,20 @@ namespace Hawk.Core.Connectors
 
                         docu.Name = n.Name;
                         XMLNode2Dict(n, docu);
+                        Monitor.Enter(dict);
                         dict.Children.Add(docu);
+                        Monitor.Exit(dict);
                     }
                     else
                     {
                         docu.Name = n.Name;
                         XMLNode2Dict(n, docu);
+                        Monitor.Enter(dict);
                         dict.Add(docu.Name, docu);
+                        Monitor.Exit(dict);
                     }
-                }
+                });
+              
             }
         }
 
@@ -100,7 +112,7 @@ namespace Hawk.Core.Connectors
             }
         }
 
-        public IEnumerable<IFreeDocument> ReadText(string text, Action<int> alreadyGetSize = null)
+        public IEnumerable<FreeDocument> ReadText(string text, Action<int> alreadyGetSize = null)
         {
             var xdoc = new XmlDocument();
             xdoc.LoadXml(text);
@@ -162,6 +174,8 @@ namespace Hawk.Core.Connectors
                     return;
                 foreach (var child in doc.Children)
                 {
+                    if (child == null)
+                        continue;
                     child.Name = child.Name.Replace("#", "");
                     var newNode = docu.CreateNode(XmlNodeType.Element, "Children", "");
                     Node2XML(child, newNode, docu);
@@ -198,7 +212,7 @@ namespace Hawk.Core.Connectors
                     zipStream.PutNextEntry(ZipEntry);
                     zipStream.SetLevel(6);
                     stream = zipStream;
-                }
+                    }
                 doc.Save(stream);
                 //stream.Flush();
                 stream.Close();

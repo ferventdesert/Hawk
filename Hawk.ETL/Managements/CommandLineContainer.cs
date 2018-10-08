@@ -45,9 +45,11 @@ namespace Hawk.ETL.Managements
         public event EventHandler<DockChangedEventArgs> DockManagerUserChanged;
         public List<ViewItem> ViewDictionary { get; }
 
-        public void SetBusy(bool isBusy, string title = "系统正忙", string message = "正在处理长时间操作", int percent = 0)
+        public void SetBusy(bool isBusy, string title = "系统正忙", string message = "正在处理长时间操作", int percent = 0,
+            ProgressBarState state = ProgressBarState.Normal)
         {
         }
+
 
         public ObservableCollection<IAction> CommandCollection { get; set; }
         public string MainPluginLocation { get; }

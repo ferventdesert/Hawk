@@ -9,6 +9,7 @@ using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
@@ -287,7 +288,12 @@ namespace Hawk.ETL.Plugins.Transformers
                 }
                 catch (Exception ex)
                 {
-                    analyzer?.Analyzer.AddErrorLog(data, ex, this);
+                    if(analyzer!=null)
+                        analyzer.Analyzer.AddErrorLog(data, ex, this);
+                    else
+                    {
+                        XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), this.Column, this.TypeName, ex));
+                    }
                 }
 
                 if (MainDescription.IsUIForm)

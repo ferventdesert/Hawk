@@ -12,10 +12,9 @@ using Hawk.Core.Utils.Plugins;
 namespace Hawk.ETL.Managements
 {
     /// <summary>
-    ///     数据挖掘系统配置和常用参数类
     ///     基础操作文件
     /// </summary>
-    [XFrmWork("数据挖掘配置" )]
+    [XFrmWork("Hawk系统级配置" )]
     public class DataMiningConfig : ConfigFile
     {
         #region Constants and Fields
@@ -198,11 +197,27 @@ namespace Hawk.ETL.Managements
             }
         }
 
+        [PropertyOrder(8)]
+        [LocalizedCategory("key_635")]
+        [LocalizedDisplayName("DisplayPopupMenu")]
+        public bool DisplayPopupMenu
+        {
+            get { return this.Get<bool>("DisplayPopupMenu"); }
+            set
+            {
+                this.Set<bool>("DisplayPopupMenu", value);
+
+
+            }
+        }
+
+
 
 
 
         [PropertyOrder(5)]
         [LocalizedDisplayName("key_131")]
+        [LocalizedCategory("key_635")]
         public ReadOnlyCollection<ICommand> Commands
         {
             get

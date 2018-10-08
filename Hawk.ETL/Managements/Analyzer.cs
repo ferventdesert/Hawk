@@ -80,15 +80,20 @@ namespace Hawk.ETL.Managements
             param["__SysTime"] = DateTime.Now.ToString();
             ControlExtended.UIInvoke(() =>
             {
-                if(!ConfigFile.GetConfig<DataMiningConfig>().IsAddErrorCollection)
-                    return;
-                if (errorCollection == null)
+                if (ConfigFile.GetConfig<DataMiningConfig>().IsAddErrorCollection)
                 {
-                    errorCollection = new DataCollection() { Name = errorLogName };
-                    DataManager.AddDataCollection(errorCollection);
+                    if (errorCollection == null)
+                    {
+                        errorCollection = new DataCollection() {Name = errorLogName};
+                        DataManager.AddDataCollection(errorCollection);
+                    }
+                    errorCollection?.ComputeData.Add(param);
+                    errorCollection?.OnPropertyChanged("Count");
                 }
-                errorCollection?.ComputeData.Add(param);
-                errorCollection?.OnPropertyChanged("Count");
+                else
+                {
+                    XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), process.Column, process.TypeName, ex));
+                }
             });
            
         }

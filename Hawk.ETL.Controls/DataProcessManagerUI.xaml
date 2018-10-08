@@ -331,8 +331,8 @@
         		</Grid>
         	</TabItem>
         </TabControl>
-        <TextBlock TextWrapping="Wrap" Margin="34,20,0,20" HorizontalAlignment="Left" FontSize="64" Opacity="0.175" VerticalAlignment="Bottom" Foreground="Black"><Run Text="Hawk"/></TextBlock>
-        <TextBlock TextWrapping="Wrap" ToolTip="{DynamicResource hawk_front_desc}" HorizontalAlignment="Left" FontSize="64" Margin="30,0,0,20" VerticalAlignment="Bottom"><Run Language="zh-cn" Text="H"/><Run Text="awk"/><Run Foreground="#FF10AB8B" Language="zh-cn" Text=" 3"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" Margin="34,20,0,0" HorizontalAlignment="Left" FontSize="64" Opacity="0.175" VerticalAlignment="Bottom" Foreground="Black"><Run Text="Hawk"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" ToolTip="{DynamicResource hawk_front_desc}" HorizontalAlignment="Left" FontSize="64" Margin="30,0,0,0" VerticalAlignment="Bottom"><Run Language="zh-cn" Text="H"/><Run Text="awk"/><Run Foreground="#FF10AB8B" Language="zh-cn" Text=" 3"/></TextBlock>
         <StackPanel VerticalAlignment="Bottom" Margin="270,0,0,30" HorizontalAlignment="Left" Width="235.283" Grid.ColumnSpan="2">
             <TextBlock TextWrapping="Wrap" FontSize="16" Foreground="#FFA1A1A1" HorizontalAlignment="Left"><Run Text="{DynamicResource key_741}"/></TextBlock>
         	<TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="16" Foreground="#FFA1A1A1" Margin="0,8,0,0"><Run Text="Smart ETL Crawler Engine"/></TextBlock>

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 
@@ -39,10 +41,11 @@ namespace Hawk.ETL.Plugins.Executor
             foreach (var document in documents)
             {
                 var name = AppHelper.Query(Table, document);
+                Monitor.Enter(dataManager);
                 collection = dataManager.DataCollections.FirstOrDefault(d => d.Name == name);
                 if (collection == null)
                 {
-
+                  
                     if (string.IsNullOrEmpty(name) == false)
                     {
                         collection = new DataCollection(new List<IFreeDocument>()) { Name = name };
@@ -50,15 +53,24 @@ namespace Hawk.ETL.Plugins.Executor
                     }
 
                 }
-                else
+                if (collection == null)
                 {
+                    XLogSys.Print.Error(GlobalHelper.Get("create_collection_error"));
+                    yield return document;
+                    continue;
+                }
+                
+                Monitor.Exit(dataManager);
+             
                     ControlExtended.UIInvoke(() =>
                     {
                         var data = document.Clone();
+                        Monitor.Enter(collection);
                         collection.ComputeData.Add(data);
                         collection.OnPropertyChanged("Count");
+                        Monitor.Exit(collection);
                     });
-                }
+             
                
 
                 yield return document;

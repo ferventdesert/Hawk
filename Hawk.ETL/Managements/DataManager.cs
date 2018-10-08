@@ -203,7 +203,7 @@ namespace Hawk.ETL.Managements
             var dataAll = new List<IFreeDocument>();
 
             var task = TemporaryTask<FreeDocument>.AddTempTaskSimple(dataName + GlobalHelper.Get("key_222"),
-                db.GetEntities(dataName, mount), dataAll.Add, null, table != null ? table.Size : -1,
+                db.GetEntities(dataName, mount), dataAll.Add, null, table?.Size ?? -1,
                 notifyInterval: 1000);
             processManager.CurrentProcessTasks.Add(task);
             await Task.Run(
@@ -251,6 +251,10 @@ namespace Hawk.ETL.Managements
             return name;
         }
 
+        public DataManager()
+        {
+            _dbConnections = new ObservableCollection<IDataBaseConnector>();
+        }
         public override bool Init()
         {
             if (MainDescription.IsUIForm)
@@ -285,6 +289,7 @@ namespace Hawk.ETL.Managements
             else
             {
                 DataCollections = new ObservableCollection<DataCollection>();
+              
             }
 
             processManager = MainFrmUI.PluginDictionary["DataProcessManager"] as IProcessManager;
@@ -650,9 +655,10 @@ namespace Hawk.ETL.Managements
 
         private void LoadDataConnections()
         {
-            _dbConnections = processManager?.CurrentProject?.DBConnections;
+            CurrentConnectors.Clear();
+            _dbConnections.AddRange( processManager?.CurrentProject?.DBConnections);
             InformPropertyChanged("CurrentConnectors");
-            foreach (var  dataBaseConnector in processManager.CurrentProject.DBConnections.Where(d => d.AutoConnect
+            foreach (var  dataBaseConnector in CurrentConnectors.Where(d => d.AutoConnect
                 ))
             {
                 var db = (DBConnectorBase) dataBaseConnector;

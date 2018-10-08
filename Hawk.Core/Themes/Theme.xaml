@@ -156,6 +156,7 @@
                                                   VerticalAlignment="Stretch"
                                                   HorizontalAlignment="Stretch"
                                                   Margin="1"
+												  
                                                   Document="{TemplateBinding Content, Converter={StaticResource TextToFlowDocumentConverter}}" IsToolBarVisible="True" />
 
                     </Grid>

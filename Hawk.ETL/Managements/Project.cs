@@ -398,7 +398,7 @@ namespace Hawk.ETL.Managements
 
                 if (tasks != null)
                 {
-                    Parameters.AddRange(tasks?.Children.Select(d =>
+                    Parameters.AddRange(tasks?.Children?.Select(d =>
                     {
                         var param = new ParameterItem();
                         param.UnsafeDictDeserialize(d);

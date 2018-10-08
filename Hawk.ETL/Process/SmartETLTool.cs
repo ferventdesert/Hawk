@@ -540,6 +540,45 @@ namespace Hawk.ETL.Process
             }
         }
 
+        [LocalizedCategory("key_199")]
+        [LocalizedDisplayName("key_200")]
+        public override string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (_name == value) return;
+                if (this.mudoleHasInit&& MainDescription.IsUIForm && string.IsNullOrEmpty(_name) == false && string.IsNullOrEmpty(value) == false)
+                {
+                    
+                    var dock = MainFrm as IDockableManager;
+                    var view = dock?.ViewDictionary.FirstOrDefault(d => d.Model == this);
+                    if (view != null)
+                    {
+                        dynamic container = view.Container;
+                        container.Title = _name;
+                    }
+                    var oldtools=SysProcessManager.CurrentProcessCollections.OfType<SmartETLTool>().SelectMany(d=>d.CurrentETLTools).OfType<ETLBase>().Where(d=>d.ETLSelector.SelectItem==_name).ToList();
+
+                    if (oldtools.Count>0)
+                    {
+                        var res = MessageBox.Show(string.Format(GlobalHelper.Get("check_if_rename"), this.TypeName,
+                                _name, value,
+                                string.Join(",", oldtools.Select(d => d.ObjectID)), ""), GlobalHelper.Get("Tips"),
+                            MessageBoxButton.YesNo);
+                  
+                        if (res == MessageBoxResult.Yes)
+                        {
+                            oldtools.Execute(d => d.ETLSelector.SelectItem = value);
+                        }
+                    }
+                }
+                _name = value;
+                OnPropertyChanged("Name");
+
+            }
+        }
+
         private TemporaryTask<IFreeDocument> AddSubTask(List<IFreeDocument> seeds, List<IColumnProcess> subEtls,
             ToListTF motherListTF = null,
             TemporaryTask<IFreeDocument> lastTask = null, string name = null, bool isAdd = true)
@@ -575,7 +614,9 @@ namespace Hawk.ETL.Process
             if (motherListTF != null)
             {
                 var d2 = seeds.FirstOrDefault();
-                name = d2.Query(motherListTF.Column);
+                name = d2[motherListTF.Column]?.ToString();
+                if (name == null)
+                    name = motherListTF.Column;
                 int.TryParse(d2.Query(motherListTF.MountColumn), out realCount);
             }
             var mapperIndex1 = lastTask?.MapperIndex1 ?? 0;

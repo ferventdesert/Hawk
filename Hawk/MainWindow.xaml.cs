@@ -270,6 +270,8 @@ namespace Hawk
             var item = view?.Container as LayoutAnchorable;
             if (item == null)
                 return;
+            if (item.IsHidden == true)
+                item.Show();
             item.IsActive = true;
         }
 
@@ -300,7 +302,10 @@ namespace Hawk
             layout.Closing +=
                 (s, e) => OnDockManagerUserChanged(new DockChangedEventArgs(DockChangedType.Remove, content));
             if (name == GlobalHelper.Get("DataProcessManager_name"))
+            {
                 layout.CanClose = false;
+                layout.CanHide = false;
+            }
             return layout;
         }
         public event EventHandler<DockChangedEventArgs> DockManagerUserChanged;

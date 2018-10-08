@@ -3,6 +3,7 @@ using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -126,7 +127,7 @@ namespace Hawk.ETL.Managements
                 yield return item;    
         }
 
-        private IEnumerable<ProcessTask> GetSelectedTask(object data)
+        private IEnumerable<TaskBase> GetSelectedTask(object data)
         {
             if (data != null)
             {
@@ -135,7 +136,7 @@ namespace Hawk.ETL.Managements
             }
             if (processView == null)
                 yield break;
-            foreach (var item in currentProcessTasksView.SelectedItems.IListConvert<ProcessTask>())
+            foreach (var item in currentProcessTasksView.SelectedItems.IListConvert<TaskBase>())
 
                 yield return item;
         }
@@ -350,7 +351,7 @@ namespace Hawk.ETL.Managements
                d =>
                {
                    var selectedTasks = GetSelectedTask(d).ToList();
-                   CurrentProcessTasks.RemoveElementsNoReturn(d2 =>selectedTasks.Contains(d), d2 => d2.Remove());
+                   CurrentProcessTasks.RemoveElementsNoReturn(d2 =>selectedTasks.Contains(d2), d2 => d2.Remove());
                }, null,"delete"));
 
             BindingCommands.ChildActions.Add(taskListAction);
@@ -653,12 +654,25 @@ namespace Hawk.ETL.Managements
                 if (project.DataCollections?.Count > 0)
                 {//TODO: 添加名称重名？
 
-
                     project.DataCollections.Execute(d => dataManager.AddDataCollection(d));
                 }
                 config.Projects.Insert(0, first);
 
                 CurrentProject = project;
+                var name=Path.GetFileName(project.SavePath);
+                if (string.IsNullOrEmpty(CurrentProject.Name))
+                    CurrentProject.Name = name;
+                if (MainDescription.IsUIForm)
+                {
+                    var window = MainFrmUI as Window;
+                    if (window != null)
+                    {
+                        var originTitle = ConfigurationManager.AppSettings["Title"];
+                        if (originTitle == null)
+                            originTitle = "";
+                        window.Title= CurrentProject.Name+" - " +originTitle;
+                    }
+                }
                 foreach(var task in project.Tasks)
                 {
                     task.Load(false); 

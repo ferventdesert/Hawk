@@ -437,6 +437,7 @@
     </system:String>
     <system:String x:Key="AddNewTF_desc" xml:space="preserve">
         为数据表{{AddNewTF}}，值为固定值
+
         示例场景：为数据的每一行增加要爬取的网页根地址，之后通过`{{MergeTF}}`得到完整网址
     </system:String>
     <system:String x:Key="key_244">
@@ -1049,13 +1050,16 @@
     <system:String x:Key="key_593">
         如公园，车站等
     </system:String>
+        <system:String x:Key="DisplayPopupMenu">
+       是否显示弹出式信息
+    </system:String>
     <system:String x:Key="SmartCrawler_desc">
         从单个网页中采集和嗅探所需数据
     </system:String>
     <system:String x:Key="SmartCrawler_desc_detail" xml:space="preserve">
         {{smartcrawler_name}} 模拟了浏览器的设计，填入网址，点击刷新，即可获取对应地址的html源码。
         左侧的区域，显示了html源码和浏览器视图，可通过tab页切换。右侧配置区域，可对关键字进行搜索，并对面前所有的属性进行管理
-         {{smartcrawler_name}} 不能单独工作，而是沟通 {{smartcrawler_name}} 和数据清洗的桥梁。本质上说， {{smartcrawler_name}} 是针对获取网页而特别定制的`数据清洗模块`。
+         {{smartcrawler_name}} 不能单独工作，而是沟通 {{smartcrawler_name}} 和{{smartetl_name}}的桥梁。本质上说， {{smartcrawler_name}} 是针对获取网页而特别定制的`{{smartetl_name}}模块`。
 
         {{SmartCrawler_manual_mode}}
 
@@ -1125,7 +1129,7 @@
     </system:String>
     <system:String x:Key="crawler_feellucky_how" xml:space="preserve">
 
-    网页采集器的功能是获取网页中的数据（废话）。通常来说，目标可能是列表（如购物车列表），或是一个页面中的固定字段（如JD某商品的价格和介绍，在页面中只有一个）。因此需要设置其读取模式。传统的采集器需要编写正则表达式，但方法过分复杂。
+    {{smartcrawler_name}}的功能是获取网页中的数据（废话）。通常来说，目标可能是列表（如购物车列表），或是一个页面中的固定字段（如JD某商品的价格和介绍，在页面中只有一个）。因此需要设置其读取模式。传统的采集器需要编写正则表达式，但方法过分复杂。
 
     如果认识到html是一棵树，只要找到了承载数据的节点即可，之后用XPath来描述。
 
@@ -1187,7 +1191,7 @@
         - //@lang	选取名为 lang 的所有属性。
         - //@src 可匹配所有src标签
         - //title[@lang] 选取所有拥有名为 lang 的属性的 title 元素
-        还可以通过`|`对多个表达式进行混合，Hawk支持了完整的XPath语法，因此不论是` {{smartcrawler_name}} `以及数据清洗的`XPath`转换器，都能极其灵活地实现各种需求。
+        还可以通过`|`对多个表达式进行混合，Hawk支持了完整的XPath语法，因此不论是` {{smartcrawler_name}} `以及{{smartetl_name}}的`XPath`转换器，都能极其灵活地实现各种需求。
     </system:String>
     <system:String x:Key="css_desc" xml:space="preserve">
         ### CSSSelector
@@ -1396,6 +1400,9 @@
     </system:String>
     <system:String x:Key="key_794">
         已加载任务
+    </system:String>
+        <system:String x:Key="create_collection_error">
+        创建数据表失败，请检查相关参数
     </system:String>
     <system:String x:Key="key_701">
         当前位于工作流中的的所有工作模块
@@ -1753,11 +1760,11 @@
 
     ![请求设置][http://static.zybuluo.com/buptzym/hgwpmxsjz0gun5epqt2087wh/image_1avc2t94d3l51sofkah8m1lrrm.png]
 
-    本模块是沟通网页采集器和数据清洗的桥梁。本质上说，网页采集器是针对获取网页而特别定制的`数据清洗模块`。
+    本模块是沟通{{smartcrawler_name}}和{{smartetl_name}}的桥梁。本质上说，{{smartcrawler_name}}是针对获取网页而特别定制的`{{smartetl_name}}模块`。
 
     你需要填写`爬虫选择`，告诉它要调用哪个采集器。注意：
 
-    - 早期版本的Hawk,会默认选择在`算法模块`的第一个网页采集器，但实践证明这样会导致问题，后来就取消了功能。
+    - 早期版本的Hawk,会默认选择在`算法模块`的第一个{{smartcrawler_name}}，但实践证明这样会导致问题，后来就取消了功能。
     </system:String>
 
     <system:String x:Key="CrawlerTF_method_post"  xml:space="preserve">
@@ -1767,11 +1774,11 @@
 
         post请求时，Hawk要给服务器需要传递两个参数：url 和post。一般来说，在执行post请求时，url是稳定的，post值是动态改变的。 
 
-        首先要配置调用的网页采集器为`post`模式（打开网页采集器，请求详情，模式->下拉菜单）。 
+        首先要配置调用的{{smartcrawler_name}}为`post`模式（打开{{smartcrawler_name}}，请求详情，模式->下拉菜单）。 
 
         之后，需要将`从爬虫转换`拖到要调用的url列上。如果没有url列，可以通过`添加新列`，生成要访问的url列。
 
-        之后，我们要将post数据传递到网页采集器中。你总是可以通过`合并多列`拼接或各种手段，生成要Post的数据列。之后，可以在`从爬虫转换`中的`post数据`中，填写`[post列]`， 而`post列`就是包含post数据的列名。 注意：
+        之后，我们要将post数据传递到{{smartcrawler_name}}中。你总是可以通过`合并多列`拼接或各种手段，生成要Post的数据列。之后，可以在`从爬虫转换`中的`post数据`中，填写`[post列]`， 而`post列`就是包含post数据的列名。 注意：
 
         - Hawk使用方括号语法，来引用其他列的值作为当前的参数
     </system:String>
@@ -1906,13 +1913,13 @@
     <system:String x:Key="core_concept" xml:space="preserve">
         ## Hawk的关键概念
 
-        - 任务： 系统仅仅提供了两种任务：  {{smartcrawler_name}} 和数据清洗，任务可以被新建，保存和加载。
-        - 模块： 一个任务会包含多个模块，例如数据清洗中会有`从文本生成`,`{{CrawlerTF}}`等
+        - 任务： 系统仅仅提供了两种任务：  {{smartcrawler_name}} 和{{smartetl_name}}，任务可以被新建，保存和加载。
+        - 模块： 一个任务会包含多个模块，例如{{smartetl_name}}中会有`从文本生成`,`{{CrawlerTF}}`等
         - 工程： 多个任务组成一个工程，工程可以以xml方式保存和加载
         - 数据表: 在内存中存储的数据表，速度快，但是容量有限，存储小型数据时使用
         - 数据库(连接器)： Hawk通过连接器连接不同的数据库，如MongoDB，sqlite等。
-        - 列： 数据清洗里的列，可参考像Excel里的列，在 {{smartcrawler_name}} 里，一个属性对应一个列
-        - 文档： 可理解为数据清洗里的一行，它是键值对构成的字典，如`key1:value,key2:value2`
+        - 列： {{smartetl_name}}里的列，可参考像Excel里的列，在 {{smartcrawler_name}} 里，一个属性对应一个列
+        - 文档： 可理解为{{smartetl_name}}里的一行，它是键值对构成的字典，如`key1:value,key2:value2`
         - 单元格 ： 文档中的一个单元格，就像Excel 那样
         - 流:  多个文档的序列，可能是有限或无穷的，在早期版本的Hawk中，这个概念大量使用。
         - 线程： 任务在启动时，会有一个(串行)或多个(并行)线程，可以在{{key_798}中对其进行暂停和删除管
@@ -1958,7 +1965,7 @@
 
         1.点击右键，可以对数据集进行删除，修改名称等
         2.将数据集拖拽到下方的图标上，如拖到回收站，即可删除该模块。
-        3. 双击数据集可查看模块的内容。 将数据集拖拽到数据清洗图标上，可直接对本数据集做数据清洗。
+        3. 双击数据集可查看模块的内容。 将数据集拖拽到{{smartetl_name}}图标上，可直接对本数据集做{{smartetl_name}}。
         ![数据集视图][http://static.zybuluo.com/buptzym/kfz2k0xfvbjtun5ah6hlxoph/QQ%E6%88%AA%E5%9B%BE20160501105734.jpg]
     </system:String>
 
@@ -2053,7 +2060,7 @@
         求和属性
     </system:String>
     <system:String x:Key="key_294">
-        新建或复制数据清洗
+        新建或复制{{smartetl_name}}
     </system:String>
     <system:String x:Key="key_54">
         包含头信息
@@ -2089,7 +2096,7 @@
 
         1. python和json转换器配合使用，能够解决一大类ajax网页的问题。更详细的内容，可参考
         2. 网页的json格式并不标准，此时需要通过其他工具，对字符串进行预处理，方可转换为json。
-        3. 如果json非常复杂，是不建议直接用Hawk做数据清洗的，正确的做法是将json保存成文本，之后用其他工具或手工编写代码后处理。
+        3. 如果json非常复杂，是不建议直接用Hawk做{{smartetl_name}}的，正确的做法是将json保存成文本，之后用其他工具或手工编写代码后处理。
     </system:String>
     <system:String x:Key="key_75">
         数据库连接失败，请检查数据库配置，或手动设定MongoDB数据库的安装路径以方便自动修复
@@ -2303,6 +2310,7 @@
     <system:String x:Key="key_670">
         HTML抽取数据失败，url:{0}, 异常为{1}
     </system:String>
+
     <system:String x:Key="Time2StrTF">
         时间转字符串
     </system:String>
@@ -2468,6 +2476,12 @@
     </system:String>
     <system:String x:Key="key_669">
         HTML抽取数据失败，url:{0}
+    </system:String>
+     <system:String x:Key="check_if_rename"  xml:space="preserve">
+        检测到本 {0} 的名称"{1}"改变为{2}，引用它的任务有：
+        {{smartcrawler_name}}: {3}
+        {{smartetl_name}}: {4}
+        是否同时对引用的名称进行重命名?
     </system:String>
     <system:String x:Key="key_664">
         检查子节点XPath正确性
@@ -2645,7 +2659,7 @@
 
         拖入的列是要修改的列，填写`输出列`后，原始列被删除，内容转移到新列上
 
-        除了手工拖入模块，也可直接在数据清洗列上的文本框中直接修改列名，按回撤提交，可达到同样效果。
+        除了手工拖入模块，也可直接在{{smartetl_name}}列上的文本框中直接修改列名，按回撤提交，可达到同样效果。
     </system:String>
     <system:String x:Key="key_684">
         调试到该步
@@ -2779,10 +2793,10 @@
         特点如下：
 
         - 智能分析网页内容，无需编程
-        - 所见即所得，可视化拖拽，快地实现转换和过滤等数据清洗操作
+        - 所见即所得，可视化拖拽，快地实现转换和过滤等{{smartetl_name}}操作
         - 能从各类数据库和文件实现导入导出
         - 任务可以被保存和复用
-        - 其最适合的领域是爬虫和数据清洗，但其威力远超于此。
+        - 其最适合的领域是爬虫和{{smartetl_name}}，但其威力远超于此。
 
         HAWK使用C# 编写，其前端界面使用WPF开发，因此只能运行于windows平台，但提供命令行入口供自动化部署。
         以下介绍全部基于最新的Hawk3，请使用老版本的同学尽快通过下面的地址升级最新版。
@@ -2873,7 +2887,7 @@
         没有在表中的发现可用的数据
     </system:String>
     <system:String x:Key="key_316">
-        当前工程中没有包含任何任务，请在任务管理页中，将要保存的任务插入到当前工程中
+        当前工程中没有包含任何任务，是否继续保存？
     </system:String>
     <system:String x:Key="FileConnectorTable">
         文本导入导出器
@@ -2935,7 +2949,7 @@
     <system:String x:Key="DeleteTF_desc" xml:space="preserve">
         删除所在列的内容
 
-        删除之后，在该列的内容和所有工具就不再可见。要想修改可以在数据清洗界面左侧的模块列表里选择，修改和删除。
+        删除之后，在该列的内容和所有工具就不再可见。要想修改可以在{{smartetl_name}}界面左侧的模块列表里选择，修改和删除。
     </system:String>
     <system:String x:Key="SQLiteDatabase">
         SQLite数据库
@@ -3071,15 +3085,15 @@
         对数据筛选转换和合并，并导出到数据库中
     </system:String>
     <system:String x:Key="SmartETLTool_desc_detail" xml:space="preserve">
-        数据清洗是一种任务，包括几十个子模块， 这些子模块包含四类：生成， 转换， 过滤和执行。 
+        {{smartetl_name}}是一种任务，包括几十个子模块， 这些子模块包含四类：生成， 转换， 过滤和执行。 
 
         ![丰富的模块](https://images2018.cnblogs.com/blog/287060/201805/287060-20180506160120254-60486829.png)
 
-        数据清洗可以通过组合多个不同的子模块，生成多样的功能，通过拖拽构造出一个工作流，它能够产生一个有限或无限的文档序列。比如下面：
+        {{smartetl_name}}可以通过组合多个不同的子模块，生成多样的功能，通过拖拽构造出一个工作流，它能够产生一个有限或无限的文档序列。比如下面：
         
         ![image_1auq4oooc1m8m9tc02sjv1j4o9.png-71.6kB](http://static.zybuluo.com/buptzym/gzr3u0z80478s31u9v1zdfw5/image_1auq4oooc1m8m9tc02sjv1j4o9.png)
         
-        拖入的模块顺序是非常重要的，一个常见问题是顺序不对，导致生成的数据不符合预期。数据清洗可通过 {{CrawlerTF}} 来调用 {{smartcrawler_name}} ，也可以通过`子任务`来调用其他数据清洗，是组合各种模块和任务的工厂。
+        拖入的模块顺序是非常重要的，一个常见问题是顺序不对，导致生成的数据不符合预期。{{smartetl_name}}可通过 {{CrawlerTF}} 来调用 {{smartcrawler_name}} ，也可以通过`子任务`来调用其他{{smartetl_name}}，是组合各种模块和任务的工厂。
 
         {{SmartETLTool_debug}}
 

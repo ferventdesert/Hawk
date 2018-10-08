@@ -257,6 +257,9 @@ namespace Hawk.Core.Utils
 
         public static void AddRange<T>(this IList<T> source, IEnumerable<T> items)
         {
+            if(source==null||items==null)
+                return;
+           
             foreach (var d in items)
             {
                 source.Add(d);

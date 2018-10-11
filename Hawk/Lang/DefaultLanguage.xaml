@@ -491,7 +491,7 @@
     <system:String x:Key="key_712">
         {0}已经有任务在执行，为了避免副作用，请在任务管理器中取消该任务后再刷新
     </system:String>
-        <system:String x:Key="keep_old_datas">
+    <system:String x:Key="keep_old_datas">
          加载新工程时，是否保留原工程的数据集和任务？
     </system:String>
     <system:String x:Key="key_274">
@@ -529,7 +529,7 @@
     <system:String x:Key="key_573">
         清除中间空格
     </system:String>
-     <system:String x:Key="cliptoboard">
+    <system:String x:Key="cliptoboard">
         内容已经复制到剪切板
     </system:String>
     <system:String x:Key="DataProcessManager_desc">
@@ -668,7 +668,7 @@
     </system:String>
     <system:String x:Key="remind_10" xml:space="preserve">
         请填写包含在页面中的关键字信息，进而方便Hawk提取所需内容：
-        【2.属性提取】-> {{key_764}}
+        【2.属性提取】-> {{search_keyword}}
     </system:String>
     <system:String x:Key="step2">
         步骤2：设置主任务属性列对应到子任务的属性名，下拉菜单仅参考，可直接编辑文本框
@@ -834,7 +834,7 @@
         安装使用说明
     </system:String>
     <system:String x:Key="key_123" xml:space="preserve">
-        当页面出现乱码时，一般是编码问题，在` {{smartcrawler_name}} `->`请求设置`->编码，切换UTF-8或GBK。只有极个别情况才需使用其他编码
+        当页面出现乱码时，一般是编码问题，在` {{smartcrawler_name}} `->`{{request_config}}`->编码，切换UTF-8或GBK。只有极个别情况才需使用其他编码
     </system:String>
     <system:String x:Key="key_385">
         延迟输出
@@ -899,7 +899,7 @@
     <system:String x:Key="DataProcessManager_name">
         欢迎页面
     </system:String>
-     <system:String x:Key="parse_yaml_config">
+    <system:String x:Key="parse_yaml_config">
         解析yaml配置文件
     </system:String>
     <system:String x:Key="key_31">
@@ -926,7 +926,7 @@
     <system:String x:Key="key_751">
         其他信息
     </system:String>
- 
+
     <system:String x:Key="key_275">
         帮助
     </system:String>
@@ -1050,7 +1050,7 @@
     <system:String x:Key="key_593">
         如公园，车站等
     </system:String>
-        <system:String x:Key="DisplayPopupMenu">
+    <system:String x:Key="DisplayPopupMenu">
        是否显示弹出式信息
     </system:String>
     <system:String x:Key="SmartCrawler_desc">
@@ -1074,10 +1074,10 @@
     <system:String x:Key="SmartCrawler_manual_mode" xml:space="preserve">
         ### 手动模式
 
-        在{{TODO}}不能工作或不符合预期时，需要手工给定几个关键字， 让Hawk搜索关键字， 并获取在网页中所在的位置(XPath)。
-        填入{{key_764}，能够成功获取XPath, 编写属性名称，点击{{}}，即可添加一个属性。类似地，再填入30535，设置属性名称为“单价”，即可添加另外一个属性。
+        在{{feellucky}}不能工作或不符合预期时，需要手工给定几个关键字， 让Hawk搜索关键字， 并获取在网页中所在的位置(XPath)。
+        填入{{search_keyword}，能够成功获取XPath, 编写属性名称，点击{{}}，即可添加一个属性。类似地，再填入30535，设置属性名称为“单价”，即可添加另外一个属性。
 
-        在`{{key_764}}`的文本框中，输入你要获取的关键字，由于关键字在网页中可能出现多次，可连续点击`继续搜索`，在多个结果间切换，左侧的html源码会对搜索的结果进行高亮。
+        在`{{search_keyword}}`的文本框中，输入你要获取的关键字，由于关键字在网页中可能出现多次，可连续点击`继续搜索`，在多个结果间切换，左侧的html源码会对搜索的结果进行高亮。
         
         1. 请注意观察搜索的关键字在网页中的位置，是否符合预期，否则抓取数据可能会有问题。尤其在 {{script_mode_list}}模式。
         2. 如果需要抓取本页面的多块数据，可新建多个` {{smartcrawler_name}} `，分别进行配置。
@@ -1099,7 +1099,7 @@
         通过浏览器和抓包，可以获取这些隐藏请求，但需要对HTTP请求的原理比较熟悉，不适合于初学者。
         Hawk简化了流程，采用自动嗅探的方式来进行。Hawk成为后端代理，会拦截和分析所有系统级Http请求，并将包含关键字的请求筛选出来 （基于fiddler）
         
-        当{{key_764}时，若没有在当前页面中找到该关键字，Hawk会有提示，“是否启动动态嗅探？”此时Hawk会弹出浏览器并打开所在网页。您可将页面拖到包含关键字的位置，Hawk会自动记录和过滤包含关键字的真实请求， 检索完毕后，Hawk会自动回弹。
+        当{{search_keyword}时，若没有在当前页面中找到该关键字，Hawk会有提示，“是否启动动态嗅探？”此时Hawk会弹出浏览器并打开所在网页。您可将页面拖到包含关键字的位置，Hawk会自动记录和过滤包含关键字的真实请求， 检索完毕后，Hawk会自动回弹。
 
         ### 如果无法自动嗅探?
         由于Hawk有拦截功能，会被浏览器认为不安全，有以下两种方案： 
@@ -1112,19 +1112,19 @@
         有时针对第一页做了大量的XPath开发，却最后发现无法在其他页面使用，多半就是上面提到的问题（一脸懵逼）。因此经验上，建议翻到其他页面上再做请求。
     </system:String>
     <system:String x:Key="crawler_feellucky" xml:space="preserve">
-        ### 手气不错
+        ### {{feellucky}}
         这是Hawk最被人称赞的功能！在新的Hawk3中，该功能被极大地增强。
 
-        ### {{script_mode_list}下的手气不错
+        ### {{script_mode_list}下的{{feellucky}}
         一般来说，输入网址加载页面后，点击{{feellucky}}即可，Hawk会自动按照优先级将列表数据抓取出来
-        ![手气不错配置](https://images2018.cnblogs.com/blog/287060/201805/287060-20180506160854095-924772830.png)
+        ![{{feellucky}}配置](https://images2018.cnblogs.com/blog/287060/201805/287060-20180506160854095-924772830.png)
 
         左右切换选择你想要的数据集，之后在下面的属性栏对结果进行微调。
-        添加一个属性，手气不错就能更准确地进行。添加两个属性，即可选定唯一区域。
+        添加一个属性，{{feellucky}}就能更准确地进行。添加两个属性，即可选定唯一区域。
 
-        ### {{script_mode_one}}模式的手气不错
+        ### {{script_mode_one}}模式的{{feellucky}}
         Hawk3新增功能，当网页中包含多达几十种属性时，挨个添加会变得特别烦琐，这在某种商品属性页特别常见。
-        为了解决这个问题，将关键字加入到`{{key_764}}`中，此时不要将其添加到属性列表中，直接点击{{feellucky}}即可。  
+        为了解决这个问题，将关键字加入到`{{search_keyword}}`中，此时不要将其添加到属性列表中，直接点击{{feellucky}}即可。  
  
     </system:String>
     <system:String x:Key="crawler_feellucky_how" xml:space="preserve">
@@ -1133,7 +1133,7 @@
 
     如果认识到html是一棵树，只要找到了承载数据的节点即可，之后用XPath来描述。
 
-    ![手气不错原理][http://static.zybuluo.com/buptzym/y0l0aorvdas5ydsg8xcz9jx2/image_1b0keius5171011j6l911tsg109fg.png]
+    ![{{feellucky}}原理][http://static.zybuluo.com/buptzym/y0l0aorvdas5ydsg8xcz9jx2/image_1b0keius5171011j6l911tsg109fg.png]
 
     手工编写XPath也很复杂，因此软件可以通过关键字，自动检索XPath，提供关键字，软件就会从树中递归搜索包含该数据的叶子节点。因此关键字最好是在页面中独一无二的。
 
@@ -1173,9 +1173,7 @@
 
         有时候，父节点的xpath是不稳定的，举个例子，北京上海的二手房页面，上海会在列表上面增加一个广告banner，从而真正的父节点就会发生变化，比如向后偏移了`div[1]变成了div[2]`。为了应对这种变化，通常的做法是手工修改【列表根路径】
         
-        ### 手动设置根路径 
-        
-        继续举例子，父节点的id为`house_list`，且在网页中全局唯一，你就可以使用另外一种父节点表示法`//*[@id='house_list']/li`（写法可以参考其他XPath教程），而子节点表达式不变。这样会让程序变得更加鲁棒。
+        ### 手动设置根路径 继续举例子，父节点的id为`house_list`，且在网页中全局唯一，你就可以使用另外一种父节点表示法`//*[@id='house_list']/li`（写法可以参考其他XPath教程），而子节点表达式不变。这样会让程序变得更加鲁棒。
     </system:String>
     <system:String x:Key="xpath_desc" xml:space="preserve">
         ### XPath
@@ -1401,7 +1399,7 @@
     <system:String x:Key="key_794">
         已加载任务
     </system:String>
-        <system:String x:Key="create_collection_error">
+    <system:String x:Key="create_collection_error">
         创建数据表失败，请检查相关参数
     </system:String>
     <system:String x:Key="key_701">
@@ -1581,8 +1579,8 @@
     <system:String x:Key="key_198">
         获取的节点数量为0
     </system:String>
-    <system:String x:Key="key_115">
-        1.请求设置
+    <system:String x:Key="request_config">
+        {{request_config}}
     </system:String>
     <system:String x:Key="ResponseTF">
         获取请求响应
@@ -1673,10 +1671,10 @@
     <system:String x:Key="key_681">
         拷贝模块
     </system:String>
-     <system:String x:Key="cut_tools">
+    <system:String x:Key="cut_tools">
         剪切模块
     </system:String>
-        <system:String x:Key="paste_tools">
+    <system:String x:Key="paste_tools">
         粘贴模块
     </system:String>
     <system:String x:Key="key_265">
@@ -1745,7 +1743,7 @@
     <system:String x:Key="AddNewTF">
         添加新列
     </system:String>
-    <system:String x:Key="CrawlerTF_desc"  xml:space="preserve">
+    <system:String x:Key="CrawlerTF_desc" xml:space="preserve">
         使用 {{smartcrawler_name}} 获取网页数据，拖入的列需要为超链接
 
         {{CrawlerTF_method_get}}
@@ -1753,12 +1751,12 @@
         {{CrawlerTF_method_post}}
     </system:String>
 
-    <system:String x:Key="CrawlerTF_method_get"  xml:space="preserve">
+    <system:String x:Key="CrawlerTF_method_get" xml:space="preserve">
      ### 一般的get请求
 
     一般情况下, 将从爬虫转换拖入到对应的URL列中，通过下拉菜单选择要调用的爬虫名称，即可完成所有的配置：
 
-    ![请求设置][http://static.zybuluo.com/buptzym/hgwpmxsjz0gun5epqt2087wh/image_1avc2t94d3l51sofkah8m1lrrm.png]
+    ![{{request_config}}][http://static.zybuluo.com/buptzym/hgwpmxsjz0gun5epqt2087wh/image_1avc2t94d3l51sofkah8m1lrrm.png]
 
     本模块是沟通{{smartcrawler_name}}和{{smartetl_name}}的桥梁。本质上说，{{smartcrawler_name}}是针对获取网页而特别定制的`{{smartetl_name}}模块`。
 
@@ -1767,7 +1765,7 @@
     - 早期版本的Hawk,会默认选择在`算法模块`的第一个{{smartcrawler_name}}，但实践证明这样会导致问题，后来就取消了功能。
     </system:String>
 
-    <system:String x:Key="CrawlerTF_method_post"  xml:space="preserve">
+    <system:String x:Key="CrawlerTF_method_post" xml:space="preserve">
         ### 实现post请求
 
         web请求中，有两种主要的请求类型:post和get。 使用POST能支持传输更多的数据。更多的细节，可以参考http协议的相关文档，网上汗牛充栋，这里就不多说了。
@@ -2035,22 +2033,22 @@
     <system:String x:Key="key_234">
         查看属性
     </system:String>
-    <system:String x:Key="key_764">
+    <system:String x:Key="search_keyword">
         搜索字符
     </system:String>
-    <system:String x:Key="key_522">
+    <system:String x:Key="repeat_mode">
         重复模式
     </system:String>
-    <system:String x:Key="key_694">
+    <system:String x:Key="jump_last">
         跳到最后
     </system:String>
     <system:String x:Key="key_175">
         尝试转换为json出错：
     </system:String>
-    <system:String x:Key="key_622">
+    <system:String x:Key="search">
         搜索
     </system:String>
-    <system:String x:Key="key_799">
+    <system:String x:Key="percent">
         百分比
     </system:String>
     <system:String x:Key="key_671">
@@ -2098,37 +2096,37 @@
         2. 网页的json格式并不标准，此时需要通过其他工具，对字符串进行预处理，方可转换为json。
         3. 如果json非常复杂，是不建议直接用Hawk做{{smartetl_name}}的，正确的做法是将json保存成文本，之后用其他工具或手工编写代码后处理。
     </system:String>
-    <system:String x:Key="key_75">
+    <system:String x:Key="mongo_connect_error">
         数据库连接失败，请检查数据库配置，或手动设定MongoDB数据库的安装路径以方便自动修复
     </system:String>
     <system:String x:Key="key_650">
         正在查询XPath
     </system:String>
-    <system:String x:Key="key_667">
+    <system:String x:Key="add_column_sure">
         已经存在同名的属性，是否依然添加?
     </system:String>
     <system:String x:Key="ToListTF">
         启动并行
     </system:String>
-    <system:String x:Key="key_289">
+    <system:String x:Key="cancel_task">
         取消任务
     </system:String>
-    <system:String x:Key="key_103">
+    <system:String x:Key="error_message">
         错误信息
     </system:String>
-    <system:String x:Key="key_28">
+    <system:String x:Key="db_name">
         数据库名称
     </system:String>
     <system:String x:Key="key_400">
         按类似1'h '3'm '5's'格式进行填写
     </system:String>
-    <system:String x:Key="key_422">
+    <system:String x:Key="gene_mode">
         生成模式
     </system:String>
     <system:String x:Key="key_81">
         SQLLite连接器异常
     </system:String>
-    <system:String x:Key="key_321">
+    <system:String x:Key="cover_task_succ">
         已经成功覆盖任务
     </system:String>
     <system:String x:Key="key_324">
@@ -2137,7 +2135,7 @@
     <system:String x:Key="DelayTF">
         延时
     </system:String>
-    <system:String x:Key="key_171">
+    <system:String x:Key="next">
         下一个
     </system:String>
     <system:String x:Key="not_find_module">
@@ -2149,7 +2147,7 @@
     <system:String x:Key="key_359">
         爬虫选择
     </system:String>
-    <system:String x:Key="key_227">
+    <system:String x:Key="view">
         查看
     </system:String>
     <system:String x:Key="TrimTF">
@@ -2162,7 +2160,7 @@
         CSV导入导出器
         
     </system:String>
-    <system:String x:Key="key_697">
+    <system:String x:Key="debugview">
         调试分析
     </system:String>
     <system:String x:Key="key_99">
@@ -2194,19 +2192,19 @@
     <system:String x:Key="NullFT">
         空对象过滤器
     </system:String>
-    <system:String x:Key="key_278">
+    <system:String x:Key="sysconfig">
         系统设置
     </system:String>
-        <system:String x:Key="project_set">
+    <system:String x:Key="project_set">
         工程设置
     </system:String>
-     <system:String x:Key="param_group">
+    <system:String x:Key="param_group">
          参数组设置
     </system:String>
-     <system:String x:Key="using_param_name">
+    <system:String x:Key="using_param_name">
          当前参数组名称
     </system:String>
-    <system:String x:Key="key_93">
+    <system:String x:Key="table_list">
         数据表列表
     </system:String>
     <system:String x:Key="smartcrawler_name">
@@ -2218,22 +2216,22 @@
     <system:String x:Key="key_506">
         为了方便用户，下拉菜单中提供了已有 {{smartcrawler_name}} 配置的url，可修改后使用
     </system:String>
-    <system:String x:Key="key_461">
+    <system:String x:Key="table">
         数据表
     </system:String>
     <system:String x:Key="key_771">
         是否激活
     </system:String>
-    <system:String x:Key="key_310">
+    <system:String x:Key="recent_file">
         最近打开的文件
     </system:String>
-    <system:String x:Key="key_494">
+    <system:String x:Key="connector">
         连接器
     </system:String>
-    <system:String x:Key="key_469">
+    <system:String x:Key="gene_value">
         生成值
     </system:String>
-    <system:String x:Key="smartcrawler_script_mode"  xml:space="preserve">
+    <system:String x:Key="smartcrawler_script_mode" xml:space="preserve">
 
         ### {{script_mode_list}}
         会输出多份文档，通常在网页的列表页中使用
@@ -2249,7 +2247,7 @@
         - 当在 {{script_mode_list}}或 {{script_mode_one}}模式，且属性数量为0时，也和 {{script_mode_none}}行为一致
     </system:String>
 
-    <system:String x:Key="etl_script_mode"  xml:space="preserve">
+    <system:String x:Key="etl_script_mode" xml:space="preserve">
         ### {{script_mode_list}}
 
         {{script_mode_list_desc}}
@@ -2262,7 +2260,7 @@
 
         {{script_mode_none_desc}}
     </system:String>
-    <system:String x:Key="key_35">
+    <system:String x:Key="connect_db">
         连接数据库
     </system:String>
     <system:String x:Key="key_131">
@@ -2277,7 +2275,7 @@
     <system:String x:Key="key_243">
         本集合数据量较大，转换可能会占用较高的内存和导致程序崩溃，确定继续吗?
     </system:String>
-    <system:String x:Key="key_680">
+    <system:String x:Key="clear_tool">
         清空所有工具
     </system:String>
     <system:String x:Key="GetIPLocation">
@@ -2292,10 +2290,10 @@
     <system:String x:Key="key_68">
         自增主键名称
     </system:String>
-    <system:String x:Key="key_276">
+    <system:String x:Key="debug">
         调试
     </system:String>
-    <system:String x:Key="key_161">
+    <system:String x:Key="target_value">
         目标内容
     </system:String>
     <system:String x:Key="key_612">
@@ -2389,7 +2387,7 @@
     <system:String x:Key="key_288">
         开始任务
     </system:String>
-      <system:String x:Key="configset">
+    <system:String x:Key="configset">
         参数设置
     </system:String>
     <system:String x:Key="XPathTF2">
@@ -2477,7 +2475,7 @@
     <system:String x:Key="key_669">
         HTML抽取数据失败，url:{0}
     </system:String>
-     <system:String x:Key="check_if_rename"  xml:space="preserve">
+    <system:String x:Key="check_if_rename" xml:space="preserve">
         检测到本 {0} 的名称"{1}"改变为{2}，引用它的任务有：
         {{smartcrawler_name}}: {3}
         {{smartetl_name}}: {4}
@@ -2868,6 +2866,8 @@
     <system:String x:Key="key_803">
         沙漠之鹰
     </system:String>
+
+
     <system:String x:Key="key_87">
         例如d:\\test\\mydb.sqlite
     </system:String>
@@ -3158,14 +3158,19 @@
 
     <system:String x:Key="SmartETLTool_step" xml:space="preserve">
         ### 单步调试
-        Hawk模仿了播放器和调试器，在调试模式下有`步`的概念，例如所在位置是6/20， 则说明总共有20个模块，只生效前面6个模块。 可以通过左右单击，或直接回退到开头、末尾来进行调试。
 
-        左侧显示了当前所有的模块，顺序和它们的输入输出列，双击上面的模块可对其进行配置，右键可删除，上下移动这些模块。
+        Hawk模仿了播放器和调试器，在调试模式下有`步`的概念，例如所在位置是6/20， 则说明总共有20个模块，只生效前面6个模块。 可以通过左右单击，或直接回退到开头、末尾来进行调试。
+        
+        左侧显示了当前所有的模块，顺序和它们的输入输出列，双击上面的模块可对其进行配置，右键可删除。单选列表上的任一模块t，系统就会只仿真前t步的效果。 本质上，单步调试只是提取了工作流的一部分进行操作。   你可以在单步调试中，拖入新的模块。模块会自动插入在工作流中间。
+
         ![上下拖拽，右键配置每一步的参数](https://images2018.cnblogs.com/blog/287060/201805/287060-20180506155928987-1522342347.png)
 
-        有时为了在单步调试过程中查看模块的属性，可勾选界面右下角的`调试详情`，此时可直接显示当前模块所在的属性。本质上，单步调试只是提取了工作流的一部分进行操作。
-        你可以在单步调试中，拖入新的模块。模块会自动插入在工作流中间。
+        有时为了在单步调试过程中查看模块的属性，可勾选界面右下角的`调试详情`，此时可直接显示当前模块的属性。
+
         ![模块数量](https://images2018.cnblogs.com/blog/287060/201805/287060-20180506160222760-1330008382.png)
+
+        当模块有正常产出时， 模块的标志会变成蓝色，因此从上到下，第一个不是蓝色的模块，就有可能是有问题的模块。
+
     </system:String>
     <system:String x:Key="key_564">
         显示独立任务
@@ -3247,7 +3252,7 @@
     <system:String x:Key="key_235">
         浏览方式
     </system:String>
- 
+
     <system:String x:Key="SupplierTF">
         重试补数据
     </system:String>
@@ -3267,7 +3272,7 @@
         用于记录任务中产生的错误，进而回补错误丢失的数据集
     </system:String>
     <system:String x:Key="is_display_desc">
-        显示描述
+        显示详细描述
     </system:String>
     <system:String x:Key="serial_mode">
         串行模式
@@ -3375,6 +3380,464 @@
     <system:String x:Key="filter_mode_stop_when_fail">
         失败后拒绝之后所有行
     </system:String>
+
+    <system:String x:Key="auto_save" xml:space="preserve">
+        ## 自动保存
+        为了提升Hawk运行的稳定性，Hawk3增加了自动保存的功能。 可以在`系统配置`中，设置自动保存的时间间隔（单位为秒）。当值小于等于0时，则不会自动保存。
+
+        保存的内容以xml或hproj形式后缀的文件记录在工程文件中。保存的内容包括：
+
+        - 所有数据表(为了降低存储损耗，超过10万的数据表不会保存)
+        - 所有任务（包括数据清洗和网页采集器）
+        - 所有正在执行的正式线程（Hawk可以记录任务执行的位置，在下次启动时断点续跑）
+
+        对工作线程的保存时：
+        1. 正式线程是正式处理数据的任务，而非调试模式时自动刷新启动的临时任务。在下次启动时，上次未执行完的任务都会暂停，只有手动重启后才能执行。但并不精确
+        3. 在重启线程时，可能会有一定的时延，因为线程会将指针移动到上次执行的位置，而这需要一定的时间。通常在10-30秒之内。
+        4. 当加载或保存较大的数据表时，可能会有卡顿的情况。
+        
+    </system:String>
+    <system:String x:Key="proj_format" xml:space="preserve">
+        ## Hawk工程格式
+
+        Hawk的工程文件为xml或hproj，但当其中包含较大的数据表时，xml文件由于其冗余性，体积会很大。
+
+        hproj是zip压缩后的xml, Hawk在加载hproj后，会自动将其解压，并按xml格式解析之，反之过程则过程相反。
+    </system:String>
+
+    <system:String x:Key="market" xml:space="preserve">
+      ## Hawk任务市场
+      为了方便用户间共享高质量的工程，形成良好的社区环境，在Hawk5中提供了市场功能。
+      //TODO
+    </system:String>
+    <system:String x:Key="global_config" xml:space="preserve">
+      ## 全局配置系统
+
+      Hawk5新增了全局配置系统，方便在不同的任务间共享参数，并通过一次切换，更改所有任务的行为。例如，针对链家开发爬虫时，不同的城市会有细微区别，如xpath，或名称... 因此可针对不同城市建立配置，切换配置即可在不同城市间切换，大大提升了重用性。
+
+      ### 配置文件语法
+      
+      Hawk采用了非常简单的配置写法，即yaml。每行一个配置，键值之间用英文冒号，即:表示。 用#号来代表注释，所有以#号开头的行都会被当成注释而忽略。例如：
+      ```
+      ##这是一行注释
+      city: bj
+      xpath: your_xpath
+      ```
+      在数据清洗的任意模块，大部分参数都能支持引用全局配置，语法是{key_name}，例如{city}，会将配置中city项的值拷贝过来。
+
+      ### 新建和切换配置组
+      //TODO: 增加图片
+      点击edit按钮，可增加新的配置组。 选择对应的配置组后，即可全局生效。
+
+    </system:String>
+    <system:String x:Key="doc_system" xml:space="preserve">
+       ## 帮助文档系统
+       由于Hawk的使用较为复杂，因此提供了内置的文档系统。  
+
+       - 在绝大多数的按钮和菜单上，放置鼠标超过3秒钟，就会弹出完整的介绍和帮助。
+       - 所有的模块在配置时，都可以在配置后显示其使用文档，包括功能简介，参数名和对应介绍，注意事项等。
+       - 点击：帮助，即可弹出全局文档系统，在文档中，支持字体放缩，关键字搜索等，方便快速定位内容。
+
+       Hawk的文档系统分为`新手模式`和`高手模式`：
+
+       - 模式的切换，可以在系统配置，{{is_display_desc}}中进行切换
+       - 新手模式：文档详尽，尤其是在数据清洗的模块列表中，以详细介绍的形式呈现，方便直观地了解各模块功能
+       - 老手模式：文档极简，仅提供新手模式第一段的内容。
+
+       ### 自动文档生成
+       由于软件在不停地优化升级，为了降低作者编写文档的负担，Hawk采用了自动文档生成的方式，各模块的介绍都基于C#的反射进行，因此可能会出现友好度不足的问题。
+
+    </system:String>
+    <system:String x:Key="language_config" xml:space="preserve">
+     
+       ## 多国语言
+
+      Hawk5支持了多国语言引擎，会根据操作系统语言自动切换显示的语言。 目前支持的语言包括；
+
+      - 中文(zh_CH)
+      - English (en_US)
+      
+      还可以手工设置语言， 在 `系统设置`， `语言`中切换，下一次启动时，会按上一次设置保存的语言显示。 
+      
+      Hawk凭借WPF的强大功能，一定程度上支持语言热切换，但依然会出现不能全部顺利切换的情形。因此建议在设置语言后，通过重启使语言生效。
+
+      ### 新增其他语言
+      
+      如果你愿意为Hawk的国际化贡献力量。欢迎新增语言，Hawk新增语言非常简单，在程序的执行目录的Lang文件夹，以xaml格式保存了各国语言的配置文件。拷贝zh_CH.xaml, 并将其中的中文内容替换为对应语言即可。注意：
+
+      - 如果只是希望国际化界面部分，则只需修改不带xml:space=preserve标签部分的内容。而包含该标签的内容，基本都用于显示文档。当然我更希望你可以翻译全部内容，否则没有文档的Hawk是非常难以使用的。
+      - 
+
+      
+    </system:String>
+    <system:String x:Key="log_info" xml:space="preserve">
+     
+       ## 日志功能
+       Hawk包含了几类日志功能， 使用log4net作为日志系统，分为INFO, DEBUG, ERROR, FATAL ,WARNING五种等级。
+       
+       - 在线界面日志：在UI的最下方，但是只能显示本次启动日志，同时不能太多，否则会有性能问题
+       - 日志文件， log.dat， 本质还是文本文件，可使用记事本打开，超过10M则会创建新文件。
+       - 弹出对话框： 右上角会有弹出式浮窗。可通过 系统设置 中进行设置
+       
+  
+
+       如何改变日志的级别？ 当发现现有日志太多或太少，可以在主菜单-> 调试-> 日志级别 设置
+    </system:String>
+
+       <system:String x:Key="debug_system" xml:space="preserve">
+       ## 调试系统
+
+       除了在调试模式下进行操作之外，Hawk还提供了丰富的工具来确定错误的位置。
+
+       ### 调试与探查窗口
+        调试探查窗口可以方便地展示每个模块的输入量，输出量，因空而跳过的数量，以及配置和描述等，一目了然。
+
+
+       ### 系统级窗口
+       如何了解总的http请求次数和错误数？ 在 系统设置-> http请求详情里，详细地给出了请求数，被禁止数，因错误而跳过等数量。 点击 `清空数据`，即可将计数器置0.
+
+       ### 确定模块的输入和输出
+       在单步调试模式时，该模块输入的列，会在数据清洗的最上方用蓝色表示，输出列会用绿色表示。
+
+    </system:String>
+
+
+    <system:String x:Key="debug_system" xml:space="preserve">
+       ## 调试系统
+
+       除了在调试模式下进行操作之外，Hawk还提供了丰富的工具来确定错误的位置。
+
+       ### 调试与探查窗口
+       //TODO
+       调试探查窗口可以方便地展示每个模块的输入量，输出量，因空而跳过的数量，以及配置和描述等，一目了然。
+
+       ### 系统级窗口
+       如何了解总的http请求次数和错误数？ 在 系统设置-> http请求详情里，详细地给出了请求数，被禁止数，因错误而跳过等数量。 点击 `清空数据`，即可将计数器置0.
+
+       ### 确定模块的输入和输出
+       在单步调试模式时，该模块输入的列，会在数据清洗的最上方用蓝色表示，输出列会用绿色表示。
+
+    </system:String>
+
+    <system:String x:Key="QA" xml:space="preserve">
+
+    ## 网页采集器
+    ### 自动嗅探失败
+    网页采集器具备自动嗅探功能，本质上是替换掉了底层的代理。因此，所有的请求都通过Hawk内部，自然就能根据需求筛选出所需的请求。
+
+    但有些系统中安装了类似360等工具，会拒绝这类操作。导致嗅探失败。目前原因还没有找到。一些网站做了加密，因此即使输入检索字段，内容也不一定能检索得到。
+
+    即使嗅探失败也没有关系，如果你使用Chrome等浏览器，进入开发者工具（F12）：
+    ![image_1ao1q9le113a01mn4scu1q22g7mm.png-118.2kB][http://static.zybuluo.com/buptzym/lhxi16jt95iwhby6dlmpo9t8/image_1ao1q9le113a01mn4scu1q22g7mm.png]
+
+    选择最上角的network卷展栏，之后刷新网页，chrome会列出所有的请求，一般最上面的就是真实请求：
+    ![image_1ao1qf5fo1geqsf13be1mpi1lia9.png-68.5kB][http://static.zybuluo.com/buptzym/5vmgbywxwlw71rqxjpk1jczt/image_1ao1qf5fo1geqsf13be1mpi1lia9.png]
+    点击view source，将所有文本，拷贝到网页采集器，对应的**高级设置-请求参数**里即可。其实，Hawk做的也是类似的操作。
+
+    ### 被封锁问题
+    被封锁有几个原因：
+
+    ####  被网站识别为非浏览器
+
+    出现这种情况的原因是请求参数为空，没有模拟为浏览器(user-agent)，如大众点评只防此类爬虫。
+
+    最新改进的版本中，Hawk默认请求参数已经加入了user-agent,因此能解决掉一大部分初级问题。
+
+    ### 频繁访问
+
+    这取决于网站如何认定是同一个使用者。
+
+    - 有的网站认为同一台机器的不同浏览器也是不同的用户。
+    - 有的网站认为只要IP相同，则使用者一定相同
+
+    对前一种情况，可以随机在一大批User-agent列表中挑选一条，模拟为不同的浏览器，就能大大降低被PB的概率。典型的例子如豆瓣。
+
+    对后一种情况，很不幸需要使用真正的代理，或使用分布式方案。免费代理通常都不稳定，而付费代理则需要付费，很少有人愿意为了爬虫付钱（一脸黑线）。
+
+    因此，Hawk会考虑提供第一种情况的解决方案，但不会自动开启，而是在用户需要的时候手工开启。
+
+    而自动代理切换，目前Hawk不会提供支持。原因更多考虑的是技术之外的因素。
+
+    ### 抓取动态请求
+
+    这是被问的最多的问题。加载一个完整的网页，可能需要几十次请求，不少请求是ajax和动态的，而不少数据都保存在这些请求之中。
+
+    最早版本的Hawk内置了一个IE内核的浏览器，后来取消了这个功能。原因很简单：
+
+    - 内置浏览器，导致过分复杂
+    - 无法多线程抓取
+    - 大量无用的请求，导致抓取速度变慢
+    - 即使内置浏览器，也不见得能抓取所有动态请求
+
+    因此，纯HttpClient能够精确并只抓取你想要的内容，只要正确构造它即可。
+    如何使用？你需要配置一个**网页采集器**。
+    将它的行为，模拟到和浏览器一致。
+
+    第一种方法，查看浏览器的请求，参考本文的第一条方法，将请求详情复制过来，注意选择GET和POST。
+
+    之后，将嗅探到的地址拷贝到网页采集器的URL输入框中，查看是否能正确获取内容。
+    如果是POST请求，就更复杂一些。在数据清洗模块中，网页采集器拖入的列需要是对应的URL，你还需要构造出每次访问的post数据，单独作为一列。在网页采集器中如下配置：
+    ![image_1ao1rk5bb1am4pl31j2l1a0l1otpm.png-18.7kB][3]
+    注意列名需要用方括号括起来，否则每次POST数据都会是所填的数据。
+
+    第二种方法，自动嗅探，下一篇文章我们去抓淘宝，该文章会详细介绍如何使用自动嗅探来模拟动态请求。
+
+    ### 验证码问题
+    这也是问的非常多的问题，很不幸，**不支持**。验证码各种各样，简单到纯数字，复杂到12306，图像转文本涉及到太多的不确定因素。
+
+    解决方案也有，一些网站提供识别验证码的接口API，因此你可以让Hawk去模拟网站的API，将图片地址传递过去，API会自动返回验证码。坏消息是这个一般需要收费。
+    不过，能配置Hawk去做这样的请求的人，一定也能够写Python了，算了，他还是去写Python吧，别跳Hawk这个坑了。
+
+    ### Path搜索相关问题
+    网页采集器中，填写关键字，却发现无法找到XPath。
+    可能的原因：
+
+    ####  网页是动态网页
+    因此本链接不包含该关键字，建议考虑使用嗅探方案
+    
+    #### 关键字太长
+    是文本中包含不可见字符时经常出现。例如 340[制表符]万，但用户可能会直接输入340万。Hawk搜索是按照严格字符串匹配的，就会匹配不成功，因此输入短一些，如340
+
+    #### 和 Chrome等浏览器得到的XPath不同
+    
+    一方面，XPath的表示方法有很多种，这和正则类似。可能看起来不一样的XPath指代的都是同一个节点。
+    另一方面，Chrome会执行js代码，而js可能会改变网页的结构，因此XPath也就对应地发生变化了。这会通常会导致从Chrome拷贝出来的XPath在Hawk中不能使用。
+    Hawk未来不会考虑支持加入执行js代码的功能，因此，如果搜索XPath，还请以Hawk得到的结果为准。多搜多看，通常就能建立感觉。
+
+    ### 手气不错的问题
+    很多人使用手气不错会失败。这是因为：
+
+    #### 不是所有的网页都支持直接点击【手气不错】
+    手气不错需要特定的网页结构（列表），如果整个网页没有显著的列表节点，则搜索失败，此时就会提示 手气不错失败。
+
+    #### 手气不错会自动规约父节点
+    使用手气不错后，嗅探器会找到列表节点的父节点，以及挂载在父节点上的多个子节点，从而形成一个树状结构:
+
+    - 父节点(/html/div[2]/div[3]/div[4])
+    - 子节点1(/a[1])
+    - 子节点2(/a[2]/@href)
+    - 其他省略 有时候，父节点的xpath是不稳定的，举个例子，北京上海的二手房页面，上海会在列表上面增加一个广告banner，从而真正的父节点就会发生变化。为了应对这种变化，通常的做法是手工修改【父节点XPath】，继续举例子，父节点的id为`house_list`，且在网页中全局唯一，你就可以使用另外一种父节点表示法`//*[@id='house_list']`（写法可以参考其他XPath教程），而子节点表达式不变。
+    Hawk在【手气不错】得到【确定】后，会询问是否提取父节点XPath，此时Hawk会自动提取【父节点XPath】到属性对话框中，从而方便修改。
+
+    ### 获得的页面与浏览器上不一样？
+
+    这非常常见，考虑到速度，Hawk不会动态执行js请求。而浏览器会大量执行js加载图片等，获得的源码可能有所不同，更不用说搜索得到的XPath了。但这样能获得百倍于浏览器的执行速度，因此这个缺点是值得的。
+
+    那如何抓取动态页面呢？对于这种情况，参考`动态嗅探`章节。
+
+    即使是同样的页面，用Hawk得到的XPATH与浏览器不一致，为什么呢？
+
+    一方面，XPath的表示方法有很多种，这和正则类似。可能看起来不一样的XPath指代的都是同一个节点。另一方面，Chrome会执行js代码，而js可能会改变网页的结构，因此XPath也就对应地发生变化了。这有可能会导致从Chrome拷贝出来的XPath在Hawk中不能使用。
+
+    Hawk未来不会考虑支持加入执行js代码的功能，因此，**如果搜索XPath，还请以Hawk得到的结果为准。多搜多看，通常就能建立感觉**。
+
+
+    ### 一个网站要设置好多个页面，配置太繁琐！
+
+    可在`系统状态视图`中，将网页采集器拖到下面的`复制`图标上，即可复制多个采集器。这样可一定程度上简化操作。
+
+    当一组采集器需要同一组请求参数时，可设置`共享源`自动同步，参考`3.2采集器高级用法`的最后一节。
+
+
+    ##  数据清洗
+
+    ###  拖入`从爬虫转换`后没有任何数据。
+
+    `从爬虫转换`实际上搭建了采集器与数据清洗的桥梁，它要选择对应的网页采集器才行，
+
+    ###  拖入`从爬虫转换`后，数据有了，但之前的列消失了
+
+    参考 `4.3转换器` 中`UDAF的特别说明`.
+
+    ## 编译与运行问题
+
+    虽然在GitHub上是最新的代码，最新代码是可以成功编译的。但不能保证用户是否clone的是早期版本的代码，因此此处罗列可能的编译错误。
+
+    ### 编译问题
+    0. 从GitHub上拉回来的代码，默认启动路径是`Hawk.Core`，这导致编译成功，但运行时提示“无法直接启动带有类库输出类型的项目”： 将Hawk设置为解决方案的启动项目，参考这里：https://jingyan.baidu.com/article/4e5b3e1934c2fc91901e2426.html
+
+
+    1. 因为工程`Hawk.csproj`包含的两个图片文件不存在导致，在这些文件图标上点击右键，选择'排除出项目'，即可正常编译。
+
+    2. 找不到项目`System.Windows.???.WPFPropertyGrid.csproj`项目，有两种方法，一种是从作者的GitHub上clone对应的项目，并添加项目引用，另外一种做法是，删除项目引用，添加外部dll引用，所有的外部dll，都能在Include文件夹中找到。
+
+    4. 大量的库找不到，几百个报错：
+
+    Hawk编译用了不少第三方类库，因此需要配置nuget，它是微软技术栈的pip，能自动安装所需的依赖，配置可参考这里：
+    > https://docs.nuget.org/
+
+
+    ### 启动后软件只有外边框，没有其他任何显示
+
+    老版本的Hawk(<=1.2)在Win7和Win8下的兼容性不佳，请升级最新版本的Hawk.
+
+    ###  不小心关掉了某个侧边栏
+
+    Hawk采用了Visual Stuido风格的Dock系统，所有的布局都可以调节大小，设定位置，常见的错误是，不小心关闭了某个面板。如何恢复呢？ 对于任务的窗口，双击任务应该就能恢复，如果是日志边栏，不好意思，恢复不了，重启软件吧。
+
+    ## 宏观问题
+    
+    和具体使用无关，主要涉及对一些吐槽的回答
+
+    ###  为什么只支持Windows？
+
+    笔者曾是微软技术栈的粉丝，因此C#,WPF成了设计首选，如今虽然技术栈大大扩展，但用Js或其他语言重写成本太高，因此依然只提供Windows版本。 虽然笔者平时也只用MAC了...
+
+    ### 为什么不提供更强的代理？
+    
+    爬虫是一种灰色的应用，虽然作为Hawk的设计者，但我依然不得不这么说。
+
+    各大网站都在收集和整理数据上花费了大量的精力，因此抓取的数据应当仅仅作为科学研究使用。作者对Hawk的使用者的行为，不承担任何连带责任。
+
+    建议您理性使用爬虫，在不影响网站正常运营的情况下抓取数据。Hawk的好处是，较大地降低了爬虫的开发成本，能让普通用户也能使用。在这一理念下，我们仅仅提供最为实用的功能，而更多高级的功能则不会提供。比如代理切换和验证码识别。
+
+    在并行模式下，仅提供单机并行，而分布式并行也不会提供。尽管如此，我们还是会简单讨论如何验证码识别,代理和并行的问题。
+
+    代理实现并不复杂，在代码层面上只需要几行代码。但基于之前提过的原因，开源版本不提供代理的支持。
+
+
+    ### 验证码识别？
+
+    验证码识别确实有难度，因为各大网站都不相同，简单的如普通四位数字验证码，难的如12306的变态验证码。因此提供通用的识别几乎是不可能的。
+
+    如果您愿意付费，并使用第三方的图形验证码服务，则可以将其配置为一个网页采集器，再调用之。
+
+    ###  为什么只支持MongoDB和Sqlite?
+
+    Hawk在设计之初，就是以弱schema风格定义的。没有严格的列名和列属性。用C#这样的静态强类型语言编写Hawk，其实并不方便。但弱schema让Hawk变得更灵活更强大。
+
+    因此，Hawk虽然之前支持各种数据库连接器，而目前只支持MongoDB这样的文档型数据库。之所以不支持传统SQL，是因为获取的数据可能并不满足这些SQL数据库的约束：如列的顺序，列的字段类型，是否为空...很容易导致插入失败。使用Hawk的一般不是程序员，我不想给普通人挖这样的坑。
+
+
+    当然，从各类SQL数据库中读入数据也是可以的，但既然没有提供写入，我们也就索性不提供读入了。需要的话，你可以自己扩展其他数据库连接器。
+
+    不过，简单的才是最好的，以作者的经验，使用MongoDB这样的数据库来应对爬虫已经足够了：不需事先建表，高性能，低成本，低维护。我们也不可能一次性就把数据规约成你想要的形式，之后完全可以用其他工具和代码，再将MongoDB的数据导出来，写入到目标数据库。
+
+
+    </system:String>
+
+
+<system:String x:Key="fast qa" xml:space="preserve">
+ # 快速教程
+    本文给不想看详细教程的同学使用，仔细阅读，可以让你战斗力爆棚：
+
+    ## 1. 界面和交互
+    1. 在【模块管理】页面，左侧是【任务管理】，双击图标即可新建和加载已有任务
+    点击菜单【文件】可加载，保存任务，任务为xml文件。
+    右侧是【数据管理】，空白处右键可新建连接，连接名上右键可配置，支持本地文件(xls,txt,json)，数据库(mongodb,sqlite)
+    数据库需要连接后才能使用，可勾选【自动连接】.
+    2. 软件右下角对应的是【系统状态视图】，左右侧分别是已加载的任务和数据集。
+    左键查看，右键配置，空白处右键批量管理。 下面的图标可用于删除，拷贝，保存等功能，把任务或数据集拖到图标上试试！
+    3. 【网页采集器】用于配置单个网页的抓取规则，【数据清洗】用于打造清洗流程，并调用前者。 复杂任务会创建多个清洗并互相调用。
+
+    ## 2. 网页采集器
+    1. 上方输入网址，点击刷新，选择工作模式(List列表页，生成多条数据；One详情页，单条数据, NoTransform是原始内容，不做转换)
+    2. 网页可在源码模式和浏览器模式下切换，后者仅供参考，不能动态执行js
+    3. 点击【手气不错】进入全自动模式，在弹出的结果下选择所需数据，可配置其名称和XPath，点击【刷新】更新
+    4. 也可以手工搜索字符，可快速定位元素和XPath，输入名称后手工添加属性。
+    5. 点击【提取测试】，可预览检查配置结果。
+    ### 2.1 高级功能(右侧配置面板)
+    1. 右侧【属性配置器】面板，点击【请求详情】，可修改网页编码，代理，cookie和请求方式等
+    2. 若是动态页面(ajax)，填入搜索字符，点击【自动嗅探】，在弹出的浏览器中翻到对应的关键字，Hawk就能自动捕捉真实请求
+    3. 超级模式下，Hawk会将源码中的js,html,json都转成html，更通用但性能较差
+    4. 填写【共享源】，本采集器同步共享源的【请求详情】，避免重复设置cookie代理等。
+    5. 详情页(One模式)也可以手气不错(Hawk3新功能)，搜索所需字段，不需要添加到属性列表，点击【手气不错】试试！
+    6. 网页地址也可以是本地文件路径，如D:\target.html, 用其他方法保存网页后，通过Hawk做数据清洗
+
+    ## 3. 数据清洗
+    1. 左侧是所有模块列表，分为生成，转换，过滤和执行四种类型，可通过名称和拼音首字母快速检索。顺序组合可构成复杂任务。
+    右侧是数据预览，可将选中的模块拖入到右侧对应列上。 双击每个列上面的模块对其配置。将鼠标放在字段上可查看使用介绍。
+    预览时，处理是串行的，数据不会被写入，有缓存，调试所见即所得。 只有在执行模式下才会并行快速执行。
+    执行器可看做带有副作用(如写入文件)的转换器，
+    2. 生成器通常位于任务开头，可从文本，文件，数据库读取数据。 
+    多个生成器结果有四种方式组合：Merge:横向合并，Append:纵向拼接， Cross:笛卡尔集 , Mix:依次交叉，如121212..
+    3. 一些转换器也有类似网页采集器的工作模式，后者本质上就是个高级的转换器。
+    4. 下方菜单栏可点击刷新，前后单步，可通过采样量来修改预览的数据量。配置完毕无误后，右侧面板点击【执行】即可。
+    ### 3.2 高级功能和提醒
+    1. 配置输入列可下拉选择，也可手工输入文本。列名不要为纯数字，否则无法正常显示。 
+    2. 很多问题来自于模块顺序不对，任何步骤错误，会导致连锁的问题，因此有必要使用单步调试，在调试到某步时，拖入的模块会插入到所在位置。
+    3. Python转换器：最后一行必须是可求值的表达式。例如有两列a,b,转换器输出列为c，表达式为a+b，则c列内容就是a+b。但表达式不能写c=a+b
+    - Python是强类型语言，输入的数据可能是字符串或数字，因此必要时需要做类型转换
+    - 通过填写库路径，可让转换器调用第三方模块。但这一功能支持不好。
+    4. 一般在List模式的转换器之前拖入【并行】，可大大提升并行速度。
+    5. 可在任务的各个位置拖入多个执行器(如【写入数据表】)，它保存的是当前状态的数据。
+    6. 子任务：任务可互相调用，功能非常强大，可用于处理多次跳转，详情页还包含列表的问题，比较复杂，需参考相关文档。
+
+    ### 3.3 对配置的约定
+    - 具体数值，直接填入配置框即可
+    - 涉及到输入多个列名，多个分隔符等，都默认用空格分割，例如`a b c`
+    - 当希望从`数据清洗`中读取其他列的数据到本参数，使用方括号表达式，例如`[col]`
+    - 希望将多个列的数据合并，可使用`合并多列`
+    - 配置子任务的模块范围时：`1:100`表示从1到100， `2:-2`表示从第2个模块到倒数第二个模块，可参考Python的slice写法
+    - 配置子任务的字段映射时，可以用`a:b c:d`表示a列映射到b列，以此类推。
+
+    ## 4. 一些忠告
+    1. Hawk除了做爬虫，还能做数据清洗，甚至批量执行命令，需要你来挖掘。
+    2. Hawk对代理的支持不够（免费的就知足吧），避免过度抓取导致屏蔽。
+    3. 记得经常保存任务，尽量将数据写入到数据库而非表里，否则程序可能崩溃难以挽回。
+    4. 如果任务出现异常，请截图软件，详细描述，将根目录下的log.dat发给buptzym@qq.com，我会尽快予以解答。使用问题烦请在GitHub的issue上提问，其他途径可能不会收到回复。
+    5. 如果你喜欢Hawk，请star该项目，欢迎给作者打赏，你的鼓励是作者改进软件的最大动力。
+
+
+    </system:String>
+
+    <system:String x:Key="auto_schduler" xml:space="preserve">
+    </system:String>
+    <system:String x:Key="auto_schduler" xml:space="preserve">
+    # 编译和扩展开发
+    ---
+    Hawk是开源项目，因此任何人都可以为其贡献代码。作者也非常欢迎使用者能够扩展出更有用的插件。
+
+    > 现在这样的同学屈指可数，看来我们离共产主义社会还有点远
+    > 看到这里，你肯定接触过沙漠君写的代码，不要吐槽，那是他研究生单身时写的，愤世嫉俗，只要能用就行。
+
+    ## 1. 编译
+
+    编译需要Visual Stuido，版本建议使用2015, 2010及以上没有经过测试，但应该可以编译。
+    需要安装.Net Framework 4.5 和.NET Framework 4.0
+    没有其他依赖项。
+
+    出现编译问题时，请查看`7. 常见问题`中的`编译问题`
+
+
+    ## 2. 代码结构
+
+    Hawk采用插件式结构，所有的组件都是可分离的。插件系统是自行设计的，非常类似于MEF框架。使用WPF技术，MVVM结构，界面和逻辑分离。
+
+    工程文件介绍如下：
+
+    - Hawk.Core 底层基础类库
+    - Hawk.ETL  数据清洗和爬虫插件库
+    - Hawk.ETL.Controls 界面库
+    - HawkScheduler 命令行调度器
+    - HawK.exe 可执行程序和插件容器
+
+    核心的需要修改的代码，都位于Hawk.ETL和Hawk.Core中。
+
+    ## 3. 实现新的连接器
+
+    以实现MySQL支持为例，在Hawk.Core.Connectors目录中，新建MySQLConnector.cs文件，创建对应的类，从DBConnectorBase继承。
+    在类上添加attribute，结构如下：
+    [XFrmWork("MySQLConnector")]
+    public class MySQLConnector
+    {
+    //implement interface IDataBaseConnector
+    }
+
+    ## 4. 实现新的子模块组件
+
+    如果你想开发新的组件，完全可以参考已有的代码。但一些特别简单的功能，不建议再开发新的插件，而是直接使用Python转换器即可。
+
+    你可以创建一个.NET工程，之后引用Hawk.Core.dll即可。不论是界面控件，转换器，过滤器还是执行器，都可以从已有的基类继承。
+
+    生成对应的dll文件后，可以将其拷贝到Hawk的根目录下，并在PluginLoadLogic.xml配置文件中，修改PluginFileName配置节，将该文件的dll文件名粘贴进去。这样Hawk在启动时，就会自动检索该dll中的所有插件。
+
+    ## 5. 免责条款
+
+    这方面如果有任何问题，欢迎联系作者，不过我打赌，因为想新开发组件而找我的朋友，一年最多三个
+    </system:String>
+
+
     <system:String x:Key="hawk_doc" xml:space="preserve">
         
         {{hawk_front_desc}}
@@ -3396,6 +3859,6 @@
 
 
     </system:String>
-    
+
 
 </ResourceDictionary>

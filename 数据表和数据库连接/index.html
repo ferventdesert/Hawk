@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>数据表和数据库连接 - Hawk doc</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u6570\u636e\u8868\u548c\u6570\u636e\u5e93\u8fde\u63a5";
+    var mkdocs_page_input_path = "\u6570\u636e\u8868\u548c\u6570\u636e\u5e93\u8fde\u63a5.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Hawk doc</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../Hawk_Total_Doc/">1.Hawk</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../Hawk_Total_Doc/">2.Hawk_Total_Doc</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../Hawk_Total_Doc/">3.Hawk_Total_Doc</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../Hawk_Total_Doc/">4.Hawk_Total_Doc</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../Hawk_Total_Doc/">5.Hawk_Total_Doc</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../Hawk_Total_Doc/">6.Hawk_Total_Doc</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../Hawk_Total_Doc/">7.Hawk_Total_Doc</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../Hawk_Total_Doc/">8.Hawk_Total_Doc</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../Hawk_Total_Doc/">9.Hawk_Total_Doc</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../Hawk_Total_Doc/">10.Hawk_Total_Doc</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../Hawk_Total_Doc/">11.Hawk_Total_Doc</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../Hawk_Total_Doc/">12.Hawk_Total_Doc</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../Hawk_Total_Doc/">13.Hawk_Total_Doc</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../Hawk_Total_Doc/">14.Hawk_Total_Doc</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../Hawk_Total_Doc/">15.Hawk_Total_Doc</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../Hawk_Total_Doc/">16.Hawk_Total_Doc</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../Hawk_Total_Doc/">17.Hawk_Total_Doc</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Hawk doc</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>数据表和数据库连接</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="_1">数据表和数据库连接</h1>
+<h2 id="1">1.数据表</h2>
+<p>当加载了数据集时，在本视图中，就可对其查看和编辑:</p>
+<ol>
+<li>点击右键，可以对数据集进行删除，修改名称等</li>
+<li>将数据集拖拽到下方的图标上，如拖到回收站，即可删除该模块。</li>
+<li>双击数据集可查看模块的内容。 将数据集拖拽到数据清洗图标上，可直接对本数据集做数据清洗。</li>
+</ol>
+<p><img alt="数据集视图" src="http://static.zybuluo.com/buptzym/kfz2k0xfvbjtun5ah6hlxoph/QQ%E6%88%AA%E5%9B%BE20160501105734.jpg" /></p>
+<h2 id="2">2.数据库连接器</h2>
+<p>能够添加来自不同数据源的连接器， 并对数据进行加载和管理：</p>
+<ul>
+<li>在空白处，点击右键，可增加新的连接器</li>
+<li>在连接器的数据表上，双击可查看样例</li>
+<li>点击右键，可以将数据加载到内存中。</li>
+</ul>
+<p><img alt="连接器配置" src="http://static.zybuluo.com/buptzym/cympkkptyzq6r370ositd2dh/QQ%E6%88%AA%E5%9B%BE20160501105629.jpg" /></p>
+<p>目前支持的连接器包括：</p>
+<ul>
+<li>MongoDB</li>
+<li>sqlite</li>
+<li>文件读写</li>
+<li>MySql(测试不完全)</li>
+</ul>
+<h3 id="21mongodb">2.1.MongoDB</h3>
+<p>提供MongoDB交互的数据库服务</p>
+<h4 id="_2">配置设置</h4>
+<p>在安装MongoDB之后，在空白位置点右键，即可选择插入一个<code>MongoDB连接器</code>，在服务器地址，用户名和密码，数据库名称上填写所需的字段，然后点击<code>连接数据库</code>即可。</p>
+<p>如果你是小白用户，用上面的方法安装了MongoDB，则数据库地址填写<code>127.0.0.1</code>(代表本地)，用户名和密码为空，数据库名称填写你想要的任何名字皆可。</p>
+<h4 id="mongodb">MongoDB安装</h4>
+<p>已经安装过的可以自行跳过。</p>
+<p>可以从这里下载笔者已经打包好的安装包，之后解压后，在bat脚本上点击右键，以管理员模式执行，就会默认安装到D盘上并启动服务，非常方便。</p>
+<blockquote>
+<p>https://files.cnblogs.com/files/buptzym/mongodb_windows.zip</p>
+</blockquote>
+<p>MongoDB本身包含32位和64位两种版本，前者只支持最大2GB的数据集合。但32位能装在64位系统上，反过来就不成。因此提供的安装包是32位版本的。如果想装64位，可以参考网络上其他教程。</p>
+<p>安装之后，可以在任务管理器的<code>服务</code>上，检查是否已经包含了<code>正在运行</code>的MongoDB服务</p>
+<h3 id="22sqlite">2.2.SQLite</h3>
+<p>SQLite是一种简单的文件数据库，使用方便，并可由其他程序读取，推荐使用
+使用sqlite非常简单，新建sqlite连接器后：</p>
+<ul>
+<li>点击‘加载’，加载已有的数据库</li>
+<li>点击'新建'，即可创建新的sqlite的db文件，指定路径后，点击连接即可</li>
+<li>sqlite对表头只支持英文</li>
+</ul>
+<h3 id="23">2.3.文件读写</h3>
+<h4 id="csv">CSV文件</h4>
+<p>输出文本CSV逗号分隔文件
+默认列间以\t分割，每行一条数据
+CSV文件的读写速度是所有文件中最快的，值得注意数据行本身应不包含分割符，否则会导致解析失败。</p>
+<h4 id="xml">XML文件</h4>
+<p>输出和输入XML文件</p>
+<h4 id="excel">EXCEL文件</h4>
+<p>输出标准EXCEL文件，效率较低</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>

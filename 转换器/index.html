@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>转换器 - Hawk doc</title>
+  <title>8.转换器 - Hawk doc</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
@@ -17,7 +17,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "\u8f6c\u6362\u5668";
+    var mkdocs_page_name = "8.\u8f6c\u6362\u5668";
     var mkdocs_page_input_path = "\u8f6c\u6362\u5668.md";
     var mkdocs_page_url = null;
   </script>
@@ -50,87 +50,163 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="../Hawk_Total_Doc/">1.Hawk</a>
+    <a class="" href="..">1.Hawk</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="../Hawk_Total_Doc/">2.Hawk_Total_Doc</a>
+    <a class="" href="../快速教程/">2.快速教程</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="../Hawk_Total_Doc/">3.Hawk_Total_Doc</a>
+    <a class="" href="../Hawk工程/">3.Hawk工程</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="../Hawk_Total_Doc/">4.Hawk_Total_Doc</a>
+    <a class="" href="../主要组件介绍/">4.主要组件介绍</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="../Hawk_Total_Doc/">5.Hawk_Total_Doc</a>
+    <a class="" href="../数据表和数据库连接/">5.数据表和数据库连接</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="../Hawk_Total_Doc/">6.Hawk_Total_Doc</a>
+    <a class="" href="../网页采集器/">6.网页采集器</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="../Hawk_Total_Doc/">7.Hawk_Total_Doc</a>
+    <a class="" href="../数据清洗/">7.数据清洗</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">8.转换器</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#_1">转换器</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#baidulocation">搜索位置(BaiduLocation)</a></li>
+        
+            <li><a class="toctree-l3" href="#ipgetiplocation">获取IP的坐标(GetIPLocation)</a></li>
+        
+            <li><a class="toctree-l3" href="#getroute">获取路径信息(GetRoute)</a></li>
+        
+            <li><a class="toctree-l3" href="#nearbysearch">检索附近(NearbySearch)</a></li>
+        
+            <li><a class="toctree-l3" href="#nlptf">自然语言处理(NlpTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#transtf">语言翻译转换(TransTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#addnewtf">添加新列(AddNewTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#autoindextf">自增键生成(AutoIndexTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#renametf">列名修改器(RenameTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#deletetf">删除该列(DeleteTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#joindbtf">数据库匹配(JoinDBTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#repeattf">重复当前值(RepeatTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#responsetf">获取请求响应(ResponseTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#suppliertf">重试补数据(SupplierTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#time2strtf">时间转字符串(Time2StrTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#urlurltf">URL字符转义(UrlTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#htmlhtmltf">HTML字符转义(HtmlTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#regexsplittf">正则分割(RegexSplitTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#mergetf">合并多列(MergeTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#pythonpythontf">Python转换器(PythonTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#rereplacetf">正则替换(ReReplaceTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#regextf">正则转换器(RegexTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#numbertf">提取数字(NumberTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#strextracttf">字符首尾抽取(StrExtractTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#tolisttf">启动并行(ToListTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#trimtf">清除空白符(TrimTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#fileexistft">路径是否存在(FileExistFT)</a></li>
+        
+            <li><a class="toctree-l3" href="#mergerepeattf">重复项合并(MergeRepeatTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#dicttf">矩阵转置(DictTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#-etltf">子任务-转换(EtlTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#xpathxpathtf">XPath转换器(XPathTF)</a></li>
+        
+            <li><a class="toctree-l3" href="#xpathtf2">门类枚举(XPathTF2)</a></li>
+        
+            <li><a class="toctree-l3" href="#splittf">字符串分割(SplitTF)</a></li>
+        
+        </ul>
+    
+
+    </ul>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="../Hawk_Total_Doc/">8.Hawk_Total_Doc</a>
+    <a class="" href="../常用/">9.常用</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="../Hawk_Total_Doc/">9.Hawk_Total_Doc</a>
+    <a class="" href="../过滤器/">10.过滤器</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="../Hawk_Total_Doc/">10.Hawk_Total_Doc</a>
+    <a class="" href="../执行器/">11.执行器</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="../Hawk_Total_Doc/">11.Hawk_Total_Doc</a>
+    <a class="" href="../生成器/">12.生成器</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="../Hawk_Total_Doc/">12.Hawk_Total_Doc</a>
+    <a class="" href="../子任务引擎/">13.子任务引擎</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="../Hawk_Total_Doc/">13.Hawk_Total_Doc</a>
+    <a class="" href="../动态页面抓取专题/">14.动态页面抓取专题</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="../Hawk_Total_Doc/">14.Hawk_Total_Doc</a>
+    <a class="" href="../增量,自动化定时抓取专题/">15.增量,自动化定时抓取专题</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="../Hawk_Total_Doc/">15.Hawk_Total_Doc</a>
+    <a class="" href="../编译和扩展开发/">16.编译和扩展开发</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="../Hawk_Total_Doc/">16.Hawk_Total_Doc</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../Hawk_Total_Doc/">17.Hawk_Total_Doc</a>
+    <a class="" href="../常见问题/">17.常见问题</a>
 	    </li>
           
         </ul>
@@ -155,7 +231,7 @@
     
       
     
-    <li>转换器</li>
+    <li>8.转换器</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -775,6 +851,15 @@ f(a,b)
           </div>
           <footer>
   
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../常用/" class="btn btn-neutral float-right" title="9.常用">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../数据清洗/" class="btn btn-neutral" title="7.数据清洗"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
 
   <hr/>
 
@@ -797,6 +882,10 @@ f(a,b)
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
+        <span><a href="../数据清洗/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../常用/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

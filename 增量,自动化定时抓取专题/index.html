@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>16.编译和扩展开发 - Hawk doc</title>
+  <title>15.增量,自动化定时抓取专题 - Hawk doc</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
@@ -17,8 +17,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "16.\u7f16\u8bd1\u548c\u6269\u5c55\u5f00\u53d1";
-    var mkdocs_page_input_path = "\u7f16\u8bd1\u548c\u6269\u5c55\u5f00\u53d1.md";
+    var mkdocs_page_name = "15.\u589e\u91cf,\u81ea\u52a8\u5316\u5b9a\u65f6\u6293\u53d6\u4e13\u9898";
+    var mkdocs_page_input_path = "\u589e\u91cf,\u81ea\u52a8\u5316\u5b9a\u65f6\u6293\u53d6\u4e13\u9898.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -118,34 +118,26 @@
     <a class="" href="../动态页面抓取专题/">14.动态页面抓取专题</a>
 	    </li>
           
-            <li class="toctree-l1">
-		
-    <a class="" href="../增量,自动化定时抓取专题/">15.增量,自动化定时抓取专题</a>
-	    </li>
-          
             <li class="toctree-l1 current">
 		
-    <a class="current" href="./">16.编译和扩展开发</a>
+    <a class="current" href="./">15.增量,自动化定时抓取专题</a>
     <ul class="subnav">
             
-    <li class="toctree-l2"><a href="#_1">编译和扩展开发</a></li>
+    <li class="toctree-l2"><a href="#_1">增量,自动化定时抓取专题</a></li>
     
         <ul>
         
-            <li><a class="toctree-l3" href="#1">1.编译</a></li>
-        
-            <li><a class="toctree-l3" href="#2">2.代码结构</a></li>
-        
-            <li><a class="toctree-l3" href="#3">3.实现新的连接器</a></li>
-        
-            <li><a class="toctree-l3" href="#4">4.实现新的子模块组件</a></li>
-        
-            <li><a class="toctree-l3" href="#5">5.备注</a></li>
+            <li><a class="toctree-l3" href="#1">1.增量抓取</a></li>
         
         </ul>
     
 
     </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../编译和扩展开发/">16.编译和扩展开发</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -175,7 +167,7 @@
     
       
     
-    <li>16.编译和扩展开发</li>
+    <li>15.增量,自动化定时抓取专题</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -185,43 +177,17 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="_1">编译和扩展开发</h1>
-<hr />
-<p>Hawk是开源项目，因此任何人都可以为其贡献代码。作者也非常欢迎使用者能够扩展出更有用的插件。</p>
-<blockquote>
-<p>现在这样的同学屈指可数，看来我们离共产主义社会还有点远
-看到这里，你肯定接触过沙漠君写的代码，不要吐槽，那是他研究生单身时写的，愤世嫉俗，只要能用就行。</p>
-</blockquote>
-<h2 id="1">1.编译</h2>
-<p>编译需要Visual Stuido，版本建议使用2015, 2010及以上没有经过测试，但应该可以编译。
-需要安装.Net Framework 4.5 和.NET Framework 4.0
-没有其他依赖项。</p>
-<p>出现编译问题时，请查看<code>7. 常见问题</code>中的<code>编译问题</code></p>
-<h2 id="2">2.代码结构</h2>
-<p>Hawk采用插件式结构，所有的组件都是可分离的。插件系统是自行设计的，非常类似于MEF框架。使用WPF技术，MVVM结构，界面和逻辑分离。</p>
-<p>工程文件介绍如下：</p>
-<ul>
-<li>Hawk.Core 底层基础类库</li>
-<li>Hawk.ETL  数据清洗和爬虫插件库</li>
-<li>Hawk.ETL.Controls 界面库</li>
-<li>HawkScheduler 命令行调度器</li>
-<li>HawK.exe 可执行程序和插件容器</li>
-</ul>
-<p>核心的需要修改的代码，都位于Hawk.ETL和Hawk.Core中。</p>
-<h2 id="3">3.实现新的连接器</h2>
-<p>以实现MySQL支持为例，在Hawk.Core.Connectors目录中，新建MySQLConnector.cs文件，创建对应的类，从DBConnectorBase继承。
-在类上添加attribute，结构如下：
-[XFrmWork("MySQLConnector")]
-public class MySQLConnector
-{
-//implement interface IDataBaseConnector
-}</p>
-<h2 id="4">4.实现新的子模块组件</h2>
-<p>如果你想开发新的组件，完全可以参考已有的代码。但一些特别简单的功能，不建议再开发新的插件，而是直接使用Python转换器即可。</p>
-<p>你可以创建一个.NET工程，之后引用Hawk.Core.dll即可。不论是界面控件，转换器，过滤器还是执行器，都可以从已有的基类继承。</p>
-<p>生成对应的dll文件后，可以将其拷贝到Hawk的根目录下，并在PluginLoadLogic.xml配置文件中，修改PluginFileName配置节，将该文件的dll文件名粘贴进去。这样Hawk在启动时，就会自动检索该dll中的所有插件。</p>
-<h2 id="5">5.备注</h2>
-<p>这方面如果有任何问题，欢迎联系作者，不过我打赌，因为想新开发组件而找我的朋友，一年最多三个</p>
+                <h1 id="_1">增量,自动化定时抓取专题</h1>
+<p>Hawk虽然是图形化软件，但依然支持命令行和自动化抓取，本专题讨论如何增量，和自动化定时抓取。</p>
+<h2 id="1">1.增量抓取</h2>
+<p>增量抓取比较困难，各网站皆有不同，此处我们提供一些技巧。</p>
+<p>一种类型是新闻型的，按照时间排列，并更新最新的新闻，最朴素的思路是记录上一次抓取的最后位置。然后在新的一轮抓取中，不停地向前获取，直到发现上一次抓取后中断。</p>
+<p>此处需要两个核心技术点：</p>
+<h3 id="11">1.1.保存上一次存储的关键字</h3>
+<p>首先找到代表数据特征的列（如ID，标题等），能唯一标识该数据。如果找不到唯一的列，可通过<code>合并多列</code>来组合。</p>
+<p>在这一列拖入<code>更新到配置</code> , 输入要更新的配置的名称column，则在执行时，该模块每经过一行数据，就会自动更新该列的值到全局配置(TODO：路径)中。配合软件的自动保存机制，该值会随时写入配置文件中。</p>
+<h3 id="12">1.2.下次执行时定位到中断点</h3>
+<p>在任务配置时，添加<code>正则过滤</code>，正则项的值填写为<code>{column}</code>，代表从配置中读取该值。</p>
               
             </div>
           </div>
@@ -229,10 +195,10 @@ public class MySQLConnector
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../常见问题/" class="btn btn-neutral float-right" title="17.常见问题">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../编译和扩展开发/" class="btn btn-neutral float-right" title="16.编译和扩展开发">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../增量,自动化定时抓取专题/" class="btn btn-neutral" title="15.增量,自动化定时抓取专题"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../动态页面抓取专题/" class="btn btn-neutral" title="14.动态页面抓取专题"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -258,10 +224,10 @@ public class MySQLConnector
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../增量,自动化定时抓取专题/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../动态页面抓取专题/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../常见问题/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../编译和扩展开发/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

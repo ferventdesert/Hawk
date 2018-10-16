@@ -159,7 +159,7 @@ namespace Hawk.Core.Connectors
                     this,
                     new[]
                     {
-                        new Command(GlobalHelper.Get("key_35"), obj => { SafeConnectDB(); }, obj => IsUseable == false, "connect"),
+                        new Command(GlobalHelper.Get("connect_db"), obj => { SafeConnectDB(); }, obj => IsUseable == false, "connect"),
                         new Command(GlobalHelper.Get("key_36"), obj => CloseDB(), obj => IsUseable, "close")
                     });
             }
@@ -167,7 +167,7 @@ namespace Hawk.Core.Connectors
 
         private void SafeConnectDB()
         {
-            ControlExtended.SafeInvoke(() => ConnectDB(), LogType.Important, GlobalHelper.Get("key_35"));
+            ControlExtended.SafeInvoke(() => ConnectDB(), LogType.Important, GlobalHelper.Get("connect_db"));
             if (IsUseable)
                 RefreshTableNames();
         }

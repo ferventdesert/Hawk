@@ -230,7 +230,7 @@ namespace Hawk.ETL.Managements
             MainFrmUI.CommandCollection.Add(helpCommands);
 
             Hierarchy hierarchy = (Hierarchy)LogManager.GetRepository();
-            var debugCommand= new BindingAction(GlobalHelper.Get("key_276"))
+            var debugCommand= new BindingAction(GlobalHelper.Get("debug"))
             {
                 ChildActions = new ObservableCollection<ICommand>()
                 {
@@ -321,7 +321,7 @@ namespace Hawk.ETL.Managements
                     return task != null && task.IsStart == false;
                 }, "play"));
 
-            taskAction2.ChildActions.Add(new Command(GlobalHelper.Get("key_289"),
+            taskAction2.ChildActions.Add(new Command(GlobalHelper.Get("cancel_task"),
                 obj =>
                 {
                     var task = obj as TaskBase;
@@ -568,7 +568,7 @@ namespace Hawk.ETL.Managements
             }) {Icon = "inbox_out"});
             fileCommand.ChildActions.Add(new BindingAction(GlobalHelper.Get("key_308"), obj => SaveCurrentProject()) {Icon = "save"});
             fileCommand.ChildActions.Add(new BindingAction(GlobalHelper.Get("key_309"), obj => SaveCurrentProject(false)) {Icon = "save"});
-            fileCommand.ChildActions.Add(new BindingAction(GlobalHelper.Get("key_310"))
+            fileCommand.ChildActions.Add(new BindingAction(GlobalHelper.Get("recent_file"))
             {
                 Icon = "save",
                 ChildActions =  new ObservableCollection<ICommand>(config.Projects.Select(d=>new BindingAction(d.SavePath, obj =>
@@ -718,7 +718,7 @@ namespace Hawk.ETL.Managements
 
             ConfigFile.GetConfig<DataMiningConfig>().Projects.Insert(0, newProj);
             CurrentProject = project;
-                var filemanager = new FileManager() { Name = GlobalHelper.Get("key_310") };
+                var filemanager = new FileManager() { Name = GlobalHelper.Get("recent_file") };
                 CurrentProject.DBConnections.Add(filemanager);
 
             NotifyCurrentProjectChanged();
@@ -900,7 +900,7 @@ namespace Hawk.ETL.Managements
                 return;
             var configDocument = (process as IDictionarySerializable).DictSerialize();
             task.ProcessToDo = configDocument;
-            XLogSys.Print.Info(GlobalHelper.Get("key_321"));
+            XLogSys.Print.Info(GlobalHelper.Get("cover_task_succ"));
         }
 
         private void ShowConfigUI(object method)

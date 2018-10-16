@@ -339,7 +339,7 @@ namespace Hawk.ETL.Managements
 
             var tableAction = new BindingAction();
             tableAction.ChildActions.Add(new Command(
-                GlobalHelper.Get("key_227"),
+                GlobalHelper.Get("view"),
                 async obj =>
                 {
                     var items = obj as TableInfo;

@@ -353,7 +353,7 @@ namespace Hawk.Core.Connectors
 
 
         [LocalizedCategory("key_24")]
-        [LocalizedDisplayName("key_28")]
+        [LocalizedDisplayName("db_name")]
         [PropertyOrder(2)]
         public  virtual string DBName { get; set; }
 
@@ -578,10 +578,10 @@ namespace Hawk.Core.Connectors
                     this,
                     new[]
                     {
-                        new Command(GlobalHelper.Get("key_35"), obj =>
+                        new Command(GlobalHelper.Get("connect_db"), obj =>
                         {
 
-                            ControlExtended.SafeInvoke(() => ConnectDB(), LogType.Important, GlobalHelper.Get("key_35"));
+                            ControlExtended.SafeInvoke(() => ConnectDB(), LogType.Important, GlobalHelper.Get("connect_db"));
                             if (IsUseable)
                             {
                                 RefreshTableNames();

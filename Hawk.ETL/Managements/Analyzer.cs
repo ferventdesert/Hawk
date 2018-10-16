@@ -68,7 +68,7 @@ namespace Hawk.ETL.Managements
         private DataCollection errorCollection;
         public void Start(string name)
         {
-            errorLogName = String.Format("{0}_{2}_{1}",name,DateTime.Now.ToString("HH_mm_ss"),GlobalHelper.Get("key_103"));
+            errorLogName = String.Format("{0}_{2}_{1}",name,DateTime.Now.ToString("HH_mm_ss"),GlobalHelper.Get("error_message"));
             errorCollection = null;
         }
         public void AddErrorLog(IFreeDocument item,Exception ex,IColumnProcess process)

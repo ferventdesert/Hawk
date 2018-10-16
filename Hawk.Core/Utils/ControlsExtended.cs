@@ -138,11 +138,11 @@ namespace Hawk.Core.Utils
                         break;
                     case LogType.Important:
                         XLogSys.Print.ErrorFormat(str, ex.ToString());
-                        UIInvoke(() => { MessageBox.Show(string.Format(str, ex.Message), GlobalHelper.Get("key_103")); });
+                        UIInvoke(() => { MessageBox.Show(string.Format(str, ex.Message), GlobalHelper.Get("error_message")); });
                         break;
                     case LogType.Vital:
                         XLogSys.Print.Fatal(str, ex);
-                        UIInvoke(() => { MessageBox.Show(string.Format(str, ex), GlobalHelper.Get("key_103")); });
+                        UIInvoke(() => { MessageBox.Show(string.Format(str, ex), GlobalHelper.Get("error_message")); });
                         break;
                 }
             }
@@ -183,11 +183,11 @@ namespace Hawk.Core.Utils
                         break;
                     case LogType.Important:
                         XLogSys.Print.ErrorFormat(str, ex.ToString());
-                        UIInvoke(() => { MessageBox.Show(string.Format(str, ex.Message), GlobalHelper.Get("key_103")); });
+                        UIInvoke(() => { MessageBox.Show(string.Format(str, ex.Message), GlobalHelper.Get("error_message")); });
                         break;
                     case LogType.Vital:
                         XLogSys.Print.Fatal(str, ex);
-                        UIInvoke(() => { MessageBox.Show(string.Format(str, ex), GlobalHelper.Get("key_103")); });
+                        UIInvoke(() => { MessageBox.Show(string.Format(str, ex), GlobalHelper.Get("error_message")); });
                         break;
                 }
             }

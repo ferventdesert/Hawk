@@ -317,7 +317,7 @@
         							Visual="{Binding ConverterParameter=graph_line, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
         					</Rectangle.Fill>
         				</Rectangle>
-        				<TextBlock TextWrapping="Wrap" FontSize="21.333" VerticalAlignment="Top"  Grid.Row="2" HorizontalAlignment="Left" Grid.Column="1"><Run Language="zh-cn" Text="{DynamicResource key_278}" /></TextBlock>
+        				<TextBlock TextWrapping="Wrap" FontSize="21.333" VerticalAlignment="Top"  Grid.Row="2" HorizontalAlignment="Left" Grid.Column="1"><Run Language="zh-cn" Text="{DynamicResource sysconfig}" /></TextBlock>
         			</StackPanel>
         			<StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="30,2.24,0,0" Orientation="Horizontal" VerticalAlignment="Top">
         				<Rectangle Width="20" Height="20" Margin="0,0,10,0" >

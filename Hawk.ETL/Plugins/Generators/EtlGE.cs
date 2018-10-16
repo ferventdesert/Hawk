@@ -382,7 +382,7 @@ namespace Hawk.ETL.Plugins.Generators
     [XFrmWork("EtlGE", "EtlGE_desc")]
     public class EtlGE : ETLBase, IColumnGenerator
     {
-        [LocalizedDisplayName("key_422")]
+        [LocalizedDisplayName("gene_mode")]
         public MergeType MergeType { get; set; }
 
         public IEnumerable<IFreeDocument> Generate(IFreeDocument document = null)

@@ -86,7 +86,7 @@ namespace Hawk.ETL.Process
                         obj =>
                             string.IsNullOrEmpty(SelectName) == false && string.IsNullOrEmpty(SelectXPath) == false,
                         "add"),
-                    new Command(GlobalHelper.Get("key_622"), obj => GetXPathAsync(),
+                    new Command(GlobalHelper.Get("search"), obj => GetXPathAsync(),
                         obj =>
                             currentXPaths != null, "magnify"),
                     new Command(GlobalHelper.Get("feellucky"),
@@ -224,7 +224,7 @@ namespace Hawk.ETL.Process
             {
                 if (selectText == value) return;
                 selectText = value;
-                (Commands2[1] as Command).Text = GlobalHelper.Get("key_622");
+                (Commands2[1] as Command).Text = GlobalHelper.Get("search");
                 xpath_count = 0;
                 if (string.IsNullOrWhiteSpace(selectText) == false)
                 {
@@ -803,7 +803,7 @@ namespace Hawk.ETL.Process
 
             }
             if (CrawlItems.FirstOrDefault(d => d.Name == SelectName) == null ||
-                MessageBox.Show(GlobalHelper.Get("key_667"), GlobalHelper.Get("key_99"), MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                MessageBox.Show(GlobalHelper.Get("add_column_sure"), GlobalHelper.Get("key_99"), MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
                 var item = new CrawlItem {XPath = path, Name = SelectName, SampleData1 = SelectText};
                 item.Format = SearchFormat;

@@ -404,7 +404,7 @@ namespace Hawk.Core.Connectors
 
             if (LocalDBLocation == null)
             {
-                throw new Exception(GlobalHelper.Get("key_75"));
+                throw new Exception(GlobalHelper.Get("mongo_connect_error"));
             }
             var mydir = new DirectoryInfo(LocalDBLocation);
             var file = mydir.GetFiles().FirstOrDefault(d => d.Name == "mongod.lock");

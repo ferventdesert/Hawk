@@ -129,7 +129,7 @@ namespace Hawk.ETL.Process
                             "settings"),
                         new Command(GlobalHelper.Get("key_679"), obj => DropAction("Delete", obj), obj => obj != null,
                             "delete"),
-                        new Command(GlobalHelper.Get("key_680"), obj =>
+                        new Command(GlobalHelper.Get("clear_tool"), obj =>
                         {
                             var item = obj as SmartGroup;
                             foreach (var ColumnProcess in item.Value)
@@ -285,7 +285,7 @@ namespace Hawk.ETL.Process
                                 XLogSys.Print.Info(GlobalHelper.Get("key_692") + CurrentTool?.ToString());
                         }, obj => ETLMount < CurrentETLTools.Count, "arrow_right"),
                         new Command(GlobalHelper.Get("key_693"), obj => { ETLMount = 0; }, icon: "align_left"),
-                        new Command(GlobalHelper.Get("key_694"), obj => { ETLMount = CurrentETLTools.Count; },
+                        new Command(GlobalHelper.Get("jump_last"), obj => { ETLMount = CurrentETLTools.Count; },
                             icon: "align_right"),
                         new Command(GlobalHelper.Get("key_695"), obj => { EnterAnalyzer(); }, icon: "magnify_add"),
 
@@ -326,7 +326,7 @@ namespace Hawk.ETL.Process
             view.DataContext = Analyzer;
 
             ControlExtended.DockableManager.AddDockAbleContent(
-                FrmState.Custom, view, GlobalHelper.Get("key_697"));
+                FrmState.Custom, view, GlobalHelper.Get("debugview"));
         }
 
         private WPFPropertyGrid debugGrid;

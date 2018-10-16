@@ -37,7 +37,7 @@
         <ScrollViewer Grid.ColumnSpan="2" Grid.Column="1" Margin="8,13.568,13.487,32.25" Grid.RowSpan="2">
         	<StackPanel>
         		<Grid Height="25.672"  >
-        			<TextBlock Margin="0,4.432,0,6" TextWrapping="Wrap" Text="{DynamicResource key_764}" HorizontalAlignment="Left" Width="84" d:LayoutOverrides="Height" VerticalAlignment="Center" />
+        			<TextBlock Margin="0,4.432,0,6" TextWrapping="Wrap" Text="{DynamicResource search_keyword}" HorizontalAlignment="Left" Width="84" d:LayoutOverrides="Height" VerticalAlignment="Center" />
 
         			<TextBox Margin="112,4.432,47.263,4" TextWrapping="Wrap"
         				Text="{Binding SelectText}" System_Windows_Controls_WpfPropertyGrid:TextBoxExtender.CommitOnEnter="True"

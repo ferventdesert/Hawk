@@ -415,7 +415,7 @@ namespace Hawk.ETL.Managements
 
             if (DBConnections.FirstOrDefault(d => d.TypeName == GlobalHelper.Get("FileManager")) == null)
             {
-                var filemanager = new FileManager {Name = GlobalHelper.Get("key_310")};
+                var filemanager = new FileManager {Name = GlobalHelper.Get("recent_file")};
                 DBConnections.Add(filemanager);
             }
             if (DBConnections.FirstOrDefault(d => d.TypeName == "MongoDB") == null)

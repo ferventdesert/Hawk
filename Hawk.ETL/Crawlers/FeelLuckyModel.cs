@@ -130,7 +130,7 @@ namespace Hawk.ETL.Crawlers
                             if (Position > 0)
                                 Position--;
                         }, obj => Position > 0, "arrow_left"),
-                        new Command(GlobalHelper.Get("key_171"), obj => { Position++; }, obj => Position < Total, "arrow_right"),
+                        new Command(GlobalHelper.Get("next"), obj => { Position++; }, obj => Position < Total, "arrow_right"),
                         new Command(GlobalHelper.Get("key_172"), obj =>
                         {
                             parent.DialogResult = true;

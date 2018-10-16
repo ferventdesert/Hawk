@@ -203,7 +203,7 @@
                                 <ColumnDefinition Width="0.3*" />
                                 <ColumnDefinition Width="0.7*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Margin="8,42.5,0,0" TextWrapping="Wrap" Text="{DynamicResource key_764}" VerticalAlignment="Top"
+                            <TextBlock Margin="8,42.5,0,0" TextWrapping="Wrap" Text="{DynamicResource search_keyword}" VerticalAlignment="Top"
                                        HorizontalAlignment="Left" />
                             <TextBox Grid.Column="1" Margin="8,42.5,80,0" TextWrapping="Wrap"
                                      Text="{Binding SelectText}" wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True"

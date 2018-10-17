@@ -2820,7 +2820,11 @@
 
         欢迎使用Hawk! HAWK无需编程，可见即所得的图形化数据采集和清洗工具，依据GPL协议开源。
 
-        项目主页： https://ferventdesert.github.io/Hawk/
+        项目主页：https://github.com/ferventdesert/Hawk
+
+        项目文档： https://ferventdesert.github.io/Hawk/
+        
+        示例工程文件： https://github.com/ferventdesert/Hawk-Projects
 
         ## 1.介绍
 
@@ -3818,11 +3822,32 @@
     </system:String>
 
     <system:String x:Key="topic_increase_get" xml:space="preserve">
-   # 增量,自动化定时抓取专题
+   # 命令行,增量,自动化定时抓取专题
    
    Hawk虽然是图形化软件，但依然支持命令行和自动化抓取，本专题讨论如何增量，和自动化定时抓取。
 
+   ## 命令行执行
+
+   (本特性的测试还不完全，预计2018年11月发布）
+
+   由于大多数服务器都基于Linux实现，因此跨平台成为Hawk必备的功能。但Hawk依赖的WPF(一种windows的图形界面技术)只能在windows上运行。 因此为了变通，可在Hawk上图形化设计工作流，并在其他平台上解释xml执行。 
+   
+   - 一种是实现Python的执行器(etlpy)，但由于Python和C#的众多区别，会导致很多不兼容性，该方案已放弃。
+   - 另一种方案，是通过.NetCore实现跨平台，我们采用了本方案。 
+    
+   定时抓取需依赖于Hawk的命令行实现HawkScheduler， 它位于Hawk可执行文件的同目录中。使用如下命令指定要执行的工程文件路径和任务名:
+
+   `HawkScheduler -p project.xml -t task_name`
+
+   使用`HawkScheduler -h`来获得相关帮助。
+
+   注意，由于命令行本身的性质，以下特性将不可用：
+
+   - 写入数据表: 将生成可执行文件同目录下，以数据表为名称的txt文件
+   - TODO：增加其他不可支持的特性
+
    ## 增量抓取
+
    增量抓取比较困难，各网站皆有不同，此处我们提供一些技巧。
    
    一种类型是新闻型的，按照时间排列，并更新最新的新闻，最朴素的思路是记录上一次抓取的最后位置。然后在新的一轮抓取中，不停地向前获取，直到发现上一次抓取后中断。
@@ -3837,6 +3862,17 @@
    ### 下次执行时定位到中断点
    在任务配置时，添加`正则过滤`，正则项的值填写为`{column}`，代表从配置中读取该值。
 
+   ## 定时抓取
+   
+   在实现命令行功能后，定时抓取也就变得非常简单了。 
+   
+   在Linux平台上，可使用crontab来执行任务，具体可参考[这里](https://www.cnblogs.com/longjshz/p/5779215.html)
+
+   在Windows上则可以使用任务计划来执行。可以参考[这里](https://www.cnblogs.com/SZxiaochun/p/6370702.html)
+
+   TODO： 增加更细致的写法
+
+   
     </system:String>
 
     <system:String x:Key="topic_ajax" xml:space="preserve">

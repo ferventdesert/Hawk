@@ -133,6 +133,7 @@ if __name__ == '__main__':
     import sys, getopt
     opts, args = getopt.getopt(sys.argv[1:], "hi:o:")
     input_file='../Hawk/Lang/DefaultLanguage.xaml'
+    #input_file='en_us.xaml'
     output_folder="hawk"
     for op, value in opts:
         if op == "-i":
@@ -144,8 +145,9 @@ if __name__ == '__main__':
             sys.exit()
        
 
-
+    print(input_file)
     dic=generate_dict(input_file)
+
     generate_doc(dic,output_folder=output_folder)
 
 

@@ -3822,7 +3822,7 @@
     </system:String>
 
     <system:String x:Key="topic_increase_get" xml:space="preserve">
-   # 命令行,增量,自动化定时抓取专题
+   # 命令行自动化专题
    
    Hawk虽然是图形化软件，但依然支持命令行和自动化抓取，本专题讨论如何增量，和自动化定时抓取。
 

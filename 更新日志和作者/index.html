@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>15.增量,自动化定时抓取专题 - Hawk doc</title>
+  <title>18.更新日志和作者 - Hawk doc</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
@@ -17,8 +17,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "15.\u589e\u91cf,\u81ea\u52a8\u5316\u5b9a\u65f6\u6293\u53d6\u4e13\u9898";
-    var mkdocs_page_input_path = "\u589e\u91cf,\u81ea\u52a8\u5316\u5b9a\u65f6\u6293\u53d6\u4e13\u9898.md";
+    var mkdocs_page_name = "18.\u66f4\u65b0\u65e5\u5fd7\u548c\u4f5c\u8005";
+    var mkdocs_page_input_path = "\u66f4\u65b0\u65e5\u5fd7\u548c\u4f5c\u8005.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -118,21 +118,9 @@
     <a class="" href="../动态页面抓取专题/">14.动态页面抓取专题</a>
 	    </li>
           
-            <li class="toctree-l1 current">
+            <li class="toctree-l1">
 		
-    <a class="current" href="./">15.增量,自动化定时抓取专题</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l2"><a href="#_1">增量,自动化定时抓取专题</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l3" href="#1">1.增量抓取</a></li>
-        
-        </ul>
-    
-
-    </ul>
+    <a class="" href="../命令行自动化专题/">15.命令行自动化专题</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -145,9 +133,27 @@
     <a class="" href="../常见问题/">17.常见问题</a>
 	    </li>
           
-            <li class="toctree-l1">
+            <li class="toctree-l1 current">
 		
-    <a class="" href="../关于作者/">18.关于作者</a>
+    <a class="current" href="./">18.更新日志和作者</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#_1">更新日志和作者</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#1">1.感谢使用</a></li>
+        
+            <li><a class="toctree-l3" href="#2">2.更新日志</a></li>
+        
+            <li><a class="toctree-l3" href="#3">3.联系作者：</a></li>
+        
+            <li><a class="toctree-l3" href="#4">4.捐赠地址</a></li>
+        
+        </ul>
+    
+
+    </ul>
 	    </li>
           
             <li class="toctree-l1">
@@ -182,7 +188,7 @@
     
       
     
-    <li>15.增量,自动化定时抓取专题</li>
+    <li>18.更新日志和作者</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -192,17 +198,67 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="_1">增量,自动化定时抓取专题</h1>
-<p>Hawk虽然是图形化软件，但依然支持命令行和自动化抓取，本专题讨论如何增量，和自动化定时抓取。</p>
-<h2 id="1">1.增量抓取</h2>
-<p>增量抓取比较困难，各网站皆有不同，此处我们提供一些技巧。</p>
-<p>一种类型是新闻型的，按照时间排列，并更新最新的新闻，最朴素的思路是记录上一次抓取的最后位置。然后在新的一轮抓取中，不停地向前获取，直到发现上一次抓取后中断。</p>
-<p>此处需要两个核心技术点：</p>
-<h3 id="11">1.1.保存上一次存储的关键字</h3>
-<p>首先找到代表数据特征的列（如ID，标题等），能唯一标识该数据。如果找不到唯一的列，可通过<code>合并多列</code>来组合。</p>
-<p>在这一列拖入<code>更新到配置</code> , 输入要更新的配置的名称column，则在执行时，该模块每经过一行数据，就会自动更新该列的值到全局配置(TODO：路径)中。配合软件的自动保存机制，该值会随时写入配置文件中。</p>
-<h3 id="12">1.2.下次执行时定位到中断点</h3>
-<p>在任务配置时，添加<code>正则过滤</code>，正则项的值填写为<code>{column}</code>，代表从配置中读取该值。</p>
+                <h1 id="_1">更新日志和作者</h1>
+<hr />
+<h2 id="1">1.感谢使用</h2>
+<p>Hawk是沙漠君周六日坐在马桶上“呕心沥血”地改出来的。真的比不上那些商用软件的“妖艳贱货”，真的，“能用”就是对它最大的赞美了。Hawk任何问题，欢迎给我发邮件。</p>
+<blockquote>
+<p>buptzym@qq.com</p>
+</blockquote>
+<h2 id="2">2.更新日志</h2>
+<p>本日志记录每个版本相比上一版新增的功能，对于bug修复则可参考源代码下的<code>Docs/update.md</code>。</p>
+<h3 id="21hawk">2.1.Hawk</h3>
+<ul>
+<li>2018.11发布</li>
+<li>多国语言支持</li>
+<li>任务市场，用户可发布和重用线上任务</li>
+<li>内置全新的文档系统</li>
+<li>自动更新软件，自动保存任务</li>
+<li>可在工程中保存数据集</li>
+<li>任务可断点重跑</li>
+<li>异常日志自动上报和埋点系统</li>
+<li>更强化的监控调试功能：更快确定错误点</li>
+<li>增强XPath筛选器的友好性</li>
+<li>全局配置系统</li>
+<li>跨平台执行:Linux, MacOS(命令行基于.NETCore)</li>
+</ul>
+<h3 id="22hawk">2.2.Hawk</h3>
+<ul>
+<li>重写优化网页采集器和数据清洗的界面</li>
+<li>优化子任务交互</li>
+<li>单文档模式下的手气不错</li>
+<li>支持jQuery</li>
+<li>简单的监控：http请求次数等</li>
+</ul>
+<h3 id="23hawk">2.3.Hawk</h3>
+<ul>
+<li>2016.11 发布</li>
+<li>修复部分稳定性问题</li>
+</ul>
+<h3 id="24hawk">2.4.Hawk</h3>
+<ul>
+<li>2016.10 发布</li>
+<li>支持动态嗅探，超级模式</li>
+<li>MySQL支持</li>
+<li>子任务</li>
+</ul>
+<h3 id="25hawk">2.5.Hawk</h3>
+<ul>
+<li>数据表和数据库</li>
+<li>手气不错</li>
+<li>拖拽式数据清洗</li>
+</ul>
+<h2 id="3">3.联系作者：</h2>
+<p>就叫我沙漠君吧！ 微信公众号： 沙漠之鹰，欢迎勾搭哦，留言可以加本人微信。</p>
+<p>笔者目前从事互联网金融相关的工作，与推荐营销，风险定价，深度学习相关，工作非常繁忙。爬虫和Hawk是研究生时代的副产物，更多的故事可以看<code>8.1 设计Hawk背后的故事</code></p>
+<p>个人博客：</p>
+<blockquote>
+<p>http://www.cnblogs.com/buptzym/</p>
+</blockquote>
+<h2 id="4">4.捐赠地址</h2>
+<p>接受8的正整数倍的捐赠，您对我的支持是我不断改善软件的动力。北京的房贷不好还啊  %&gt;_&lt;%</p>
+<p>支付宝转账二维码：</p>
+<p><img alt="image_1b07ojl9l1ied2b31f011qui1hrv9.png-34.8kB" src="http://static.zybuluo.com/buptzym/sje1pw3n9t8lsok1307p3srm/image_1b07ojl9l1ied2b31f011qui1hrv9.png" /></p>
               
             </div>
           </div>
@@ -210,10 +266,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../编译和扩展开发/" class="btn btn-neutral float-right" title="16.编译和扩展开发">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../设计Hawk背后的故事(2016)/" class="btn btn-neutral float-right" title="19.设计Hawk背后的故事(2016)">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../动态页面抓取专题/" class="btn btn-neutral" title="14.动态页面抓取专题"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../常见问题/" class="btn btn-neutral" title="17.常见问题"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -239,10 +295,10 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../动态页面抓取专题/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../常见问题/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../编译和扩展开发/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../设计Hawk背后的故事(2016)/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

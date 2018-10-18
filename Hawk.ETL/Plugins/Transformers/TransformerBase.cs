@@ -9,6 +9,7 @@ using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
@@ -20,7 +21,6 @@ namespace Hawk.ETL.Plugins.Transformers
     public abstract class ToolBase : PropertyChangeNotifier, IColumnProcess
     {
         private bool _enabled;
-        private int _etlIndex;
         protected bool IsExecute = true;
 
         protected ToolBase()
@@ -95,7 +95,20 @@ namespace Hawk.ETL.Plugins.Transformers
                 return item.Description;
             }
         }
-
+        [Browsable(false)]
+        public AnalyzeItem AnalyzeItem
+        {
+            get
+            {
+                AnalyzeItem analyzer = null;
+                foreach (var _analyzer in this.Father.Analyzer?.Items)
+                {
+                    if (_analyzer.Process.ObjectID == this.ObjectID)
+                        analyzer = _analyzer;
+                }
+                return analyzer;
+            }
+        }
         public void SetExecute(bool value)
         {
             IsExecute = value;
@@ -160,7 +173,6 @@ namespace Hawk.ETL.Plugins.Transformers
 
         #region Constructors and Destructors
 
-        protected bool IsExecute;
 
 
         [Browsable(false)] protected readonly IProcessManager processManager;
@@ -218,8 +230,9 @@ namespace Hawk.ETL.Plugins.Transformers
             {
                 if (_newColumn != value)
                 {
-                    OnPropertyChanged("NewColumn");
                     _newColumn = value;
+                    OnPropertyChanged("NewColumn");
+              
                 }
             }
         }
@@ -271,11 +284,16 @@ namespace Hawk.ETL.Plugins.Transformers
                     DateTime now= DateTime.Now;
                     newdatas = InternalTransformManyData(data);
                     if(analyzer!=null)
-                        analyzer.RunningTime =  DateTime.Now-now;
+                        analyzer.RunningTime +=DateTime.Now-now;
                 }
                 catch (Exception ex)
                 {
-                    analyzer?.Analyzer.AddErrorLog(data, ex, this);
+                    if(analyzer!=null)
+                        analyzer.Analyzer.AddErrorLog(data, ex, this);
+                    else
+                    {
+                        XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), this.Column, this.TypeName, ex));
+                    }
                 }
 
                 if (MainDescription.IsUIForm)

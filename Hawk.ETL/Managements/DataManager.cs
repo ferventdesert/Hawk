@@ -90,6 +90,7 @@ namespace Hawk.ETL.Managements
 
         public event EventHandler DataSourceChanged;
 
+        private ListBox dataListBox;
         #endregion
 
         #region Properties
@@ -126,7 +127,6 @@ namespace Hawk.ETL.Managements
         #region Public Methods
 
         private IProcessManager processManager;
-        public DataCollection SelectedDataCollection { get; set; }
 
         public DataCollection ReadFile(string fileName, string format = null)
         {
@@ -152,7 +152,7 @@ namespace Hawk.ETL.Managements
             ControlExtended.SafeInvoke(
                 () => AddDataCollection(exporter.ReadFile(), Path.GetFileNameWithoutExtension(fileName)),
                 LogType.Important);
-            return GetCollection(fileName);
+            return GetSelectedCollection(fileName);
         }
 
         public DataCollection ReadCollection(IDataBaseConnector connector, string tableName, bool isVirtual)
@@ -203,7 +203,7 @@ namespace Hawk.ETL.Managements
             var dataAll = new List<IFreeDocument>();
 
             var task = TemporaryTask<FreeDocument>.AddTempTaskSimple(dataName + GlobalHelper.Get("key_222"),
-                db.GetEntities(dataName, mount), dataAll.Add, null, table != null ? table.Size : -1,
+                db.GetEntities(dataName, mount), dataAll.Add, null, table?.Size ?? -1,
                 notifyInterval: 1000);
             processManager.CurrentProcessTasks.Add(task);
             await Task.Run(
@@ -211,18 +211,22 @@ namespace Hawk.ETL.Managements
             return dataAll;
         }
 
-        private DataCollection GetCollection(object data)
+        private IEnumerable<DataCollection> GetSelectedCollection(object data)
         {
             if (data == null)
             {
-                if (SelectedDataCollection != null) return SelectedDataCollection;
+                 foreach(var col in dataListBox.SelectedItems.IListConvert<DataCollection>())
+                {
+                    yield return col as DataCollection;
+                }
+                 yield break;
             }
+
 
             if (data is DataCollection)
             {
-                return data as DataCollection;
+                 yield return data as DataCollection;
             }
-            return null;
         }
 
 
@@ -247,6 +251,10 @@ namespace Hawk.ETL.Managements
             return name;
         }
 
+        public DataManager()
+        {
+            _dbConnections = new ObservableCollection<IDataBaseConnector>();
+        }
         public override bool Init()
         {
             if (MainDescription.IsUIForm)
@@ -266,31 +274,22 @@ namespace Hawk.ETL.Managements
                     var userControl = view as UserControl;
                     if (userControl != null)
                     {
+                        if(name=="223")
+                        {
+                            dynamic dcontrol = userControl;
+                            dataListBox=    dcontrol.dataListBox as ListBox;
+                        }
                         userControl.DataContext = MainFrmUI;
                         dockableManager.AddDockAbleContent(control, view, itemName);
                     }
                 }
-                var debugGrid = PropertyGridFactory.GetInstance(ConfigFile.GetConfig<DataMiningConfig>());
-                debugGrid.SetObjectView(ConfigFile.GetConfig<DataMiningConfig>());
-
-                dynamic control2 =
-                    (MainFrmUI as IDockableManager).ViewDictionary.FirstOrDefault(d => d.View == debugGrid)
-                        ?.Container;
-                if (control2 != null)
-                {
-                    control2.Show();
-                }
-
-                else
-                {
-                    (MainFrmUI as IDockableManager).AddDockAbleContent(FrmState.Mini2, debugGrid,
-                        GlobalHelper.Get("key_278"));
-                }
+            
             }
 
             else
             {
                 DataCollections = new ObservableCollection<DataCollection>();
+              
             }
 
             processManager = MainFrmUI.PluginDictionary["DataProcessManager"] as IProcessManager;
@@ -340,7 +339,7 @@ namespace Hawk.ETL.Managements
 
             var tableAction = new BindingAction();
             tableAction.ChildActions.Add(new Command(
-                GlobalHelper.Get("key_227"),
+                GlobalHelper.Get("view"),
                 async obj =>
                 {
                     var items = obj as TableInfo;
@@ -478,9 +477,9 @@ namespace Hawk.ETL.Managements
             }
 
             dataaction.ChildActions.Add(new Command(
-                GlobalHelper.Get("key_201"), obj =>
+                GlobalHelper.Get("smartetl_name"), obj =>
                 {
-                    var collection = GetCollection(obj);
+                    var collection = GetSelectedCollection(obj).FirstOrDefault();
                     if (collection == null) return;
 
                     var plugin = processManager.GetOneInstance("SmartETLTool", true, true, true) as SmartETLTool;
@@ -499,7 +498,7 @@ namespace Hawk.ETL.Managements
 
             var saveData = new Command(GlobalHelper.Get("key_237"), d =>
             {
-                var collection = GetCollection(d);
+                var collection = GetSelectedCollection(d).FirstOrDefault();
                 if (collection == null)
                     return;
                 var ofd = new SaveFileDialog {Filter = FileConnector.GetDataFilter(), DefaultExt = "*"};
@@ -520,11 +519,13 @@ namespace Hawk.ETL.Managements
                 {
                     if (obj != null)
                     {
-                        var collection = GetCollection(obj);
-                        if (collection == null) return;
-                        var n = collection.Clone(true);
-                        n.Name = GetNewName(collection.Name);
-                        DataCollections.Add(n);
+                        foreach(var collection in GetSelectedCollection(obj))
+                        {
+                            if (collection == null) return;
+                            var n = collection.Clone(true);
+                            n.Name = GetNewName(collection.Name);
+                            DataCollections.Add(n);
+                        }
                     }
                     else
                     {
@@ -538,21 +539,26 @@ namespace Hawk.ETL.Managements
             dataaction.ChildActions.Add(new Command(
                 GlobalHelper.Get("key_240"), obj =>
                 {
-                    var collection = GetCollection(obj);
+                    var collection = GetSelectedCollection(obj);
                     if (collection != null) PropertyGridFactory.GetPropertyWindow(collection).ShowDialog();
                 }, obj => true, "settings"));
             dataaction.ChildActions.Add(new Command(
                 GlobalHelper.Get("key_169"), obj =>
                 {
-                    var collection = GetCollection(obj);
+                    foreach(var  collection  in GetSelectedCollection(obj))
+                    {
+
                     if (collection != null) DataCollections.Remove(collection);
+                    }
                 }, obj => true, "delete"));
 
             var convert = new BindingAction(GlobalHelper.Get("key_241"));
             dataaction.ChildActions.Add(convert);
             convert.ChildActions.Add(new Command(GlobalHelper.Get("key_242"), obj =>
             {
-                var coll = GetCollection(obj);
+                var coll = GetSelectedCollection(obj).FirstOrDefault();
+                if (coll == null)
+                    return;
                 if (coll.Count > 500000)
                 {
                     if (
@@ -649,9 +655,10 @@ namespace Hawk.ETL.Managements
 
         private void LoadDataConnections()
         {
-            _dbConnections = processManager?.CurrentProject?.DBConnections;
+            CurrentConnectors.Clear();
+            _dbConnections.AddRange( processManager?.CurrentProject?.DBConnections);
             InformPropertyChanged("CurrentConnectors");
-            foreach (var  dataBaseConnector in processManager.CurrentProject.DBConnections.Where(d => d.AutoConnect
+            foreach (var  dataBaseConnector in CurrentConnectors.Where(d => d.AutoConnect
                 ))
             {
                 var db = (DBConnectorBase) dataBaseConnector;
@@ -725,7 +732,7 @@ namespace Hawk.ETL.Managements
             return p?.ComputeData;
         }
 
-        public DataCollection GetCollection(string name)
+        public DataCollection GetSelectedCollection(string name)
         {
             if (DataCollections.Count == 0)
             {

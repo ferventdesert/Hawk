@@ -33,7 +33,7 @@ namespace Hawk.ETL.Controls
                     browser.Document.Write(string.Empty);
                 }
             }
-            catch (Exception e)
+            catch (Exception )
             {
             } // do nothing with this
             browser.DocumentText = html;

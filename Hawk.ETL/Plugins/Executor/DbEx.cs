@@ -6,7 +6,6 @@ using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
@@ -50,7 +49,7 @@ namespace Hawk.ETL.Plugins.Executor
 
         private bool InitTable(IFreeDocument document)
         {
-            var tableName = TableNames.SelectItem;
+            var tableName = AppHelper.Query(TableNames.SelectItem,document);
             if (string.IsNullOrEmpty(tableName) == false)
             {
                 if (!(ConnectorSelector.SelectItem != null).SafeCheck(GlobalHelper.Get("key_348")))

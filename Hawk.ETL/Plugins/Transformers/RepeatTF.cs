@@ -26,7 +26,7 @@ namespace Hawk.ETL.Plugins.Transformers
             RepeatCount = "1";
         }
 
-        [LocalizedDisplayName("key_522")]
+        [LocalizedDisplayName("repeat_mode")]
         public RepeatType RepeatType { get; set; }
 
         [LocalizedDisplayName("key_523")]

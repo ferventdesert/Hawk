@@ -36,7 +36,7 @@
                     <GridViewColumn Header="{DynamicResource key_745}"   DisplayMemberBinding="{Binding RelativeSource={RelativeSource FindAncestor, 
                                          AncestorType={x:Type ListViewItem}}, 
                                          Converter={StaticResource idxcvt}}" />
-                    <GridViewColumn Header="{DynamicResource key_715}" DisplayMemberBinding="{Binding Process.ETLIndex}" />
+            
                     <GridViewColumn Header="{DynamicResource key_12}" DisplayMemberBinding="{Binding Process.Attribute,Converter={StaticResource GroupConverter}}" />
     				<GridViewColumn Header="{DynamicResource key_18}"  CellTemplate="{StaticResource NameTemplate}"  >
     								
@@ -49,7 +49,8 @@
 						<GridViewColumn Header="{DynamicResource key_721}" DisplayMemberBinding="{Binding Error}"   />
 							<GridViewColumn Header="{DynamicResource key_722}" DisplayMemberBinding="{Binding EmptyInput}"   />
 								<GridViewColumn Header="{DynamicResource average_time}" DisplayMemberBinding="{Binding RunningTime}"   />
-    			</GridView>
+    				<GridViewColumn Header="{DynamicResource key_16}" DisplayMemberBinding="{Binding Process.KeyConfig}"   />
+				</GridView>
 
     		</ListView.View>
 				  

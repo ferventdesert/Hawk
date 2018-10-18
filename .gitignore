@@ -7,3 +7,7 @@ packages/
 .suo
 .DS_Store
 .vs/
+Docs/hawk
+Docs/resource/*
+*.pyc
+trans.py

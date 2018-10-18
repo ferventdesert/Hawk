@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
+using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
@@ -37,22 +38,23 @@ namespace Hawk.ETL.Plugins.Generators
              if (string.IsNullOrEmpty(Content))
                  return base.Init(datas);
 
-             try
+             ControlExtended.SafeInvoke(() =>
              {
-                 argsList =  Content.Split( new []{"\r\n"},StringSplitOptions.None).ToList();
-                 
-             }
-             catch (Exception ex)
-             {
-                 XLogSys.Print.Error(ex.Message);
-
-
-             }
-             return base.Init(datas);
+                 var content = AppHelper.Query(Content);
+                 argsList = content.Split(new[] {"\r\n"}, StringSplitOptions.None).ToList();
+             });
+            return base.Init(datas);
          }
          public override IEnumerable<IFreeDocument> Generate(IFreeDocument document = null)
          {
-             return argsList.Select(doc => new FreeDocument {{this.Column, doc}});
+
+
+             ControlExtended.SafeInvoke(() =>
+             {
+                 var content = AppHelper.Query(Content, document);
+                 argsList = content.Split(new[] { "\r\n" }, StringSplitOptions.None).ToList();
+             });
+            return argsList.Select(doc => new FreeDocument {{this.Column, doc}});
          }
 
          public override int? GenerateCount()

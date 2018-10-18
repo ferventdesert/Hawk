@@ -7,7 +7,6 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using HtmlAgilityPack;
 
@@ -131,7 +130,7 @@ namespace Hawk.ETL.Crawlers
                             if (Position > 0)
                                 Position--;
                         }, obj => Position > 0, "arrow_left"),
-                        new Command(GlobalHelper.Get("key_171"), obj => { Position++; }, obj => Position < Total, "arrow_right"),
+                        new Command(GlobalHelper.Get("next"), obj => { Position++; }, obj => Position < Total, "arrow_right"),
                         new Command(GlobalHelper.Get("key_172"), obj =>
                         {
                             parent.DialogResult = true;

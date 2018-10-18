@@ -7,8 +7,10 @@ using System.Threading;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
+using Hawk.ETL.Managements;
 using Hawk.ETL.Plugins.Generators;
 using Hawk.ETL.Process;
 
@@ -17,7 +19,6 @@ namespace Hawk.ETL.Plugins.Transformers
     [XFrmWork("CrawlerTF", "CrawlerTF_desc", "carema")]
     public class CrawlerTF : ResponseTF
     {
-        private BfsGE generator;
 
         public CrawlerTF()
         {
@@ -66,12 +67,17 @@ namespace Hawk.ETL.Plugins.Transformers
             if (htmldoc == null)
             {
                 HttpStatusCode code;
-
-                var count = 0;
+                
                 var docs = crawler.CrawlData(url, out htmldoc, out code, post);
+                var any = docs.Any();
                 if (HttpHelper.IsSuccess(code))
                 {
-                    buffHelper.Set(bufkey, htmldoc);
+                    if (!any)
+                    {
+                        ConfigFile.GetConfig<DataMiningConfig>().ParseErrorCount++;
+                        throw new Exception(string.Format(GlobalHelper.Get("key_669"), url));
+                    }
+                     buffHelper.Set(bufkey, htmldoc);
                     return docs;
                 }
                 throw new Exception("Web Request Error:" + code);

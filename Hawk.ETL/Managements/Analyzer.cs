@@ -10,6 +10,7 @@ using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Plugins.Transformers;
+using Hawk.Core.Utils.MVVM;
 
 namespace Hawk.ETL.Managements
 {
@@ -19,8 +20,25 @@ namespace Hawk.ETL.Managements
         {
         }
         public IColumnProcess Process { get; set; }
+        private int output;
         public int Input { get; set; }
-        public int Output { get; set; }
+
+        public int Output { 
+        get { return output; }
+        set
+        {
+            if (value != output)
+            {
+                if (value > 0 && output == 0)
+                {
+                    output = value;
+                    (Process as PropertyChangeNotifier).OnPropertyChanged("AnalyzeItem");
+                }
+                output = value;
+                   
+            }
+        }
+        }
         public int Error { get; set; }
 
         public TimeSpan RunningTime { get; set; }
@@ -50,7 +68,7 @@ namespace Hawk.ETL.Managements
         private DataCollection errorCollection;
         public void Start(string name)
         {
-            errorLogName = String.Format("{0}_{2}_{1}",name,DateTime.Now.ToString("HH_mm_ss"),GlobalHelper.Get("key_103"));
+            errorLogName = String.Format("{0}_{2}_{1}",name,DateTime.Now.ToString("HH_mm_ss"),GlobalHelper.Get("error_message"));
             errorCollection = null;
         }
         public void AddErrorLog(IFreeDocument item,Exception ex,IColumnProcess process)
@@ -62,15 +80,20 @@ namespace Hawk.ETL.Managements
             param["__SysTime"] = DateTime.Now.ToString();
             ControlExtended.UIInvoke(() =>
             {
-                if(!ConfigFile.GetConfig<DataMiningConfig>().IsAddErrorCollection)
-                    return;
-                if (errorCollection == null)
+                if (ConfigFile.GetConfig<DataMiningConfig>().IsAddErrorCollection)
                 {
-                    errorCollection = new DataCollection() { Name = errorLogName };
-                    DataManager.AddDataCollection(errorCollection);
+                    if (errorCollection == null)
+                    {
+                        errorCollection = new DataCollection() {Name = errorLogName};
+                        DataManager.AddDataCollection(errorCollection);
+                    }
+                    errorCollection?.ComputeData.Add(param);
+                    errorCollection?.OnPropertyChanged("Count");
                 }
-                errorCollection?.ComputeData.Add(param);
-                errorCollection?.OnPropertyChanged("Count");
+                else
+                {
+                    XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), process.Column, process.TypeName, ex));
+                }
             });
            
         }

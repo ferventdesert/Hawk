@@ -26,7 +26,7 @@ namespace Hawk.ETL.Plugins.Generators
 
         [Browsable(false)]
         public override string KeyConfig => TableSelector?.SelectItem; 
-        [LocalizedDisplayName("key_461")]
+        [LocalizedDisplayName("table")]
         [LocalizedDescription("key_462")]
         [PropertyOrder(1)]
         public ExtendSelector<string> TableSelector { get; set; }

@@ -9,7 +9,6 @@ using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Forms;
 using System.Windows.Input;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
@@ -160,7 +159,7 @@ namespace Hawk.Core.Connectors
                     this,
                     new[]
                     {
-                        new Command(GlobalHelper.Get("key_35"), obj => { SafeConnectDB(); }, obj => IsUseable == false, "connect"),
+                        new Command(GlobalHelper.Get("connect_db"), obj => { SafeConnectDB(); }, obj => IsUseable == false, "connect"),
                         new Command(GlobalHelper.Get("key_36"), obj => CloseDB(), obj => IsUseable, "close")
                     });
             }
@@ -168,7 +167,7 @@ namespace Hawk.Core.Connectors
 
         private void SafeConnectDB()
         {
-            ControlExtended.SafeInvoke(() => ConnectDB(), LogType.Important, GlobalHelper.Get("key_35"));
+            ControlExtended.SafeInvoke(() => ConnectDB(), LogType.Important, GlobalHelper.Get("connect_db"));
             if (IsUseable)
                 RefreshTableNames();
         }
@@ -276,7 +275,6 @@ namespace Hawk.Core.Connectors
         /// <returns>An Integer containing the number of rows updated.</returns>
         protected override int ExecuteNonQuery(string sql)
         {
-            var col = 0;
             using (var cnn = new SQLiteConnection(ConnectionString))
             {
                 cnn.Open();
@@ -287,7 +285,6 @@ namespace Hawk.Core.Connectors
                 }
             }
 
-            return col;
         }
 
 

@@ -41,7 +41,7 @@ namespace Hawk.ETL.Crawlers
                 }
             }
         }
-        [LocalizedDisplayName("key_161")]
+        [LocalizedDisplayName("target_value")]
         public CrawlType CrawlType { get; set; }
 
         

@@ -57,7 +57,7 @@ namespace Hawk.ETL.Crawlers
                     {
                         return JsSeriaize(doc.InnerHtml);
                     }
-                    catch (Exception ex)
+                    catch (Exception )
                     {
                         result.Add("text", doc.InnerText);
                         return result;

@@ -42,7 +42,6 @@ namespace Hawk.ETL.Plugins.Transformers
             }
 
 
-            return null;
         }
 
         public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas, AnalyzeItem analyzer)

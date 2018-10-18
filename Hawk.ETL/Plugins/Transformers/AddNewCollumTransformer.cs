@@ -19,7 +19,7 @@ namespace Hawk.ETL.Plugins.Transformers
 
         [Browsable(false)]
         public override string KeyConfig => NewValue; 
-        [LocalizedDisplayName("key_469")]
+        [LocalizedDisplayName("gene_value")]
         public string NewValue { get; set; }
 
         public override object TransformData(IFreeDocument free)

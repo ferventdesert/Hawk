@@ -59,7 +59,9 @@ namespace Hawk.ETL.Plugins.Transformers
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
             OneOutput = false;
-            Crawler = GetCrawler(CrawlerSelector.SelectItem);
+            var name = CrawlerSelector.SelectItem;
+            name = AppHelper.Query(name, null);
+            Crawler = GetCrawler(name);
             if (string.IsNullOrEmpty(CrawlerSelector.SelectItem) && Crawler != null)
                 CrawlerSelector.SelectItem = Crawler.Name;
             return  base.Init(datas);

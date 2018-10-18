@@ -33,7 +33,16 @@ namespace Hawk.Core.Utils
     public static class ExtendEnumerable
     {
         private static readonly Random random = new Random(unchecked((int) DateTime.Now.Ticks));
-
+        
+        public static List<T> IListConvert<T>(this IList list) where T:class
+        {
+            var newlist = new List<T>();
+            foreach(var item in list)
+            {
+                newlist.Add(item as T);
+            }
+            return newlist;
+        }
         public static string GenerateRandomString(int length)
         {
             var checkCode = string.Empty;
@@ -248,6 +257,9 @@ namespace Hawk.Core.Utils
 
         public static void AddRange<T>(this IList<T> source, IEnumerable<T> items)
         {
+            if(source==null||items==null)
+                return;
+           
             foreach (var d in items)
             {
                 source.Add(d);
@@ -565,7 +577,7 @@ namespace Hawk.Core.Utils
                 }
                 item = (T) Convert.ChangeType(dat[key], typeof (T));
             }
-            catch (Exception ex)
+            catch (Exception )
             {
             }
 

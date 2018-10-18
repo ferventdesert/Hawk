@@ -164,7 +164,7 @@
         Character first and end extraction
 
     </system:String>
-    <system:String x:Key="key_201">
+    <system:String x:Key="smartetl_name">
         Data cleaning
 
     </system:String>
@@ -1704,10 +1704,6 @@
         position
 
     </system:String>
-    <system:String x:Key="key_731">
-        tooltip =
-
-    </system:String>
     <system:String x:Key="key_60">
         Encoding method
 
@@ -1780,7 +1776,7 @@
         The number of nodes obtained is 0
 
     </system:String>
-    <system:String x:Key="key_115">
+    <system:String x:Key="request_config">
         1. request settings
 
     </system:String>
@@ -2072,15 +2068,15 @@
         View properties
 
     </system:String>
-    <system:String x:Key="key_764">
+    <system:String x:Key="search_keyword">
         Search character
 
     </system:String>
-    <system:String x:Key="key_522">
+    <system:String x:Key="repeat_mode">
         Duplication pattern
 
     </system:String>
-    <system:String x:Key="key_694">
+    <system:String x:Key="jump_last">
         Jump to the end
 
     </system:String>
@@ -2088,11 +2084,11 @@
         Try converting to JSON error:
 
     </system:String>
-    <system:String x:Key="key_622">
+    <system:String x:Key="search">
         search
 
     </system:String>
-    <system:String x:Key="key_799">
+    <system:String x:Key="percent">
         Percentage
 
     </system:String>
@@ -2131,7 +2127,7 @@
         Convert from string to JSON (array or dictionary type)
 
     </system:String>
-    <system:String x:Key="key_75">
+    <system:String x:Key="mongo_connect_error">
         Database connection failed. Please check database configuration or manually set up MongoDB database installation path to facilitate automatic repair.
 
     </system:String>
@@ -2139,7 +2135,7 @@
         Query XPath
 
     </system:String>
-    <system:String x:Key="key_667">
+    <system:String x:Key="add_column_sure">
         Has the property of the same name already existed, is it still added?
 
     </system:String>
@@ -2147,15 +2143,15 @@
         Start parallel
 
     </system:String>
-    <system:String x:Key="key_289">
+    <system:String x:Key="cancel_task">
         Cancel the task
 
     </system:String>
-    <system:String x:Key="key_103">
+    <system:String x:Key="error_message">
         error message
 
     </system:String>
-    <system:String x:Key="key_28">
+    <system:String x:Key="db_name">
         Database name
 
     </system:String>
@@ -2163,7 +2159,7 @@
         Fill in the 1'h'3'm'5's'format
 
     </system:String>
-    <system:String x:Key="key_422">
+    <system:String x:Key="gene_mode">
         Generation mode
 
     </system:String>
@@ -2171,7 +2167,7 @@
         SQLLite connector exception
 
     </system:String>
-    <system:String x:Key="key_321">
+    <system:String x:Key="cover_task_succ">
         The task has been successfully covered
 
     </system:String>
@@ -2183,7 +2179,7 @@
         Delay time
 
     </system:String>
-    <system:String x:Key="key_171">
+    <system:String x:Key="next">
         Next
 
     </system:String>
@@ -2203,7 +2199,7 @@
         Reptilian selection
 
     </system:String>
-    <system:String x:Key="key_227">
+    <system:String x:Key="view">
         See
 
     </system:String>
@@ -2219,7 +2215,7 @@
         CSV import and export
 
     </system:String>
-    <system:String x:Key="key_697">
+    <system:String x:Key="debugview">
         Debug analysis
 
     </system:String>
@@ -2243,11 +2239,11 @@
         Empty object filter
 
     </system:String>
-    <system:String x:Key="key_278">
+    <system:String x:Key="sysconfig">
         Web request statistics
 
     </system:String>
-    <system:String x:Key="key_93">
+    <system:String x:Key="table_list">
         List of data tables
 
     </system:String>
@@ -2263,7 +2259,7 @@
         To facilitate users, the URL in the drop-down menu is provided with the existing webpage collector, which can be modified and used.
 
     </system:String>
-    <system:String x:Key="key_461">
+    <system:String x:Key="table">
         Data sheet
 
     </system:String>
@@ -2271,15 +2267,15 @@
         Is it activated
 
     </system:String>
-    <system:String x:Key="key_310">
+    <system:String x:Key="recent_file">
         Recently opened files
 
     </system:String>
-    <system:String x:Key="key_494">
+    <system:String x:Key="connector">
         Connector
 
     </system:String>
-    <system:String x:Key="key_469">
+    <system:String x:Key="gene_value">
         Generated value
 
     </system:String>
@@ -2287,7 +2283,7 @@
         When you want to export multiple results, select List, otherwise choose One, refer to webpage collector.
 
     </system:String>
-    <system:String x:Key="key_35">
+    <system:String x:Key="connect_db">
         Connection database
 
     </system:String>
@@ -2307,7 +2303,7 @@
         The volume of data in this collection is large. Conversion may occupy higher memory and cause the program to crash. Do you want to continue?
 
     </system:String>
-    <system:String x:Key="key_680">
+    <system:String x:Key="clear_tool">
         Emptying all the tools
 
     </system:String>
@@ -2327,11 +2323,11 @@
         Self increasing primary key name
 
     </system:String>
-    <system:String x:Key="key_276">
+    <system:String x:Key="debug">
         debugging
 
     </system:String>
-    <system:String x:Key="key_161">
+    <system:String x:Key="target_value">
         Target content
 
     </system:String>

@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Input;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
@@ -405,7 +404,7 @@ namespace Hawk.Core.Connectors
 
             if (LocalDBLocation == null)
             {
-                throw new Exception(GlobalHelper.Get("key_75"));
+                throw new Exception(GlobalHelper.Get("mongo_connect_error"));
             }
             var mydir = new DirectoryInfo(LocalDBLocation);
             var file = mydir.GetFiles().FirstOrDefault(d => d.Name == "mongod.lock");

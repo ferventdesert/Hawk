@@ -3,7 +3,6 @@ using Hawk.Core.Utils;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 

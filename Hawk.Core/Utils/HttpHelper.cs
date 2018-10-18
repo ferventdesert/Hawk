@@ -604,6 +604,7 @@ namespace Hawk.Core.Utils
             }
             catch (Exception ex)
             {
+                XLogSys.Print.Debug(ex);
                 code = HttpStatusCode.NotFound;
                 return new byte[0];
             }

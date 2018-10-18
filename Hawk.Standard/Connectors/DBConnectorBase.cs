@@ -1,21 +1,18 @@
 ﻿using System;
-using Hawk.Core.Utils;
+using Hawk.Standard.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
+
 using System.Data;
-using System.Data.SqlClient;
+
 using System.Linq;
 using System.Text;
-using System.Windows.Controls.WpfPropertyGrid.Attributes;
-using System.Windows.Controls.WpfPropertyGrid.Controls;
-using System.Windows.Input;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.Logs;
-using Hawk.Core.Utils.MVVM;
-using Hawk.Core.Utils.Plugins;
 
-namespace Hawk.Core.Connectors
+using System.Windows.Input;
+
+using Hawk.Standard.Utils.MVVM;
+using Hawk.Standard.Utils.Plugins;
+namespace Hawk.Standard.Connectors
 {
     /// <summary>
     ///     列信息

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+ <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+ <ItemGroup>
+   <PackageReference Include="HtmlAgilityPack" Version="1.8.9" />
+   <PackageReference Include="log4net" Version="2.0.8" />
+ </ItemGroup>
+ <ItemGroup>
+   <Compile Remove="Converters\AttributeHelper.cs" />
+   <Compile Remove="Plugins\Generators\BfsGE.cs" />
+ </ItemGroup>
+ <ItemGroup>
+   <Folder Include="Connectors\" />
+   <Folder Include="Utils\Logs\" />
+ </ItemGroup>
+</Project>

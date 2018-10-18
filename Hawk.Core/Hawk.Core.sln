@@ -22,7 +22,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Windows.Controls.WPF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HawkUnitTest", "..\HawkUnitTest\HawkUnitTest.csproj", "{515A4931-4B70-472F-831F-B8BB0C838D2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hawk.Base", "..\Hawk.Base\Hawk.Base.csproj", "{F8D523A3-5753-4B7D-9790-CDD9A006913B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hawk.Standard", "..\Hawk.Standard\Hawk.Standard.csproj", "{F8D523A3-5753-4B7D-9790-CDD9A006913B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

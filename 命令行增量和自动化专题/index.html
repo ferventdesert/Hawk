@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>15.命令行自动化专题 - Hawk doc</title>
+  <title>15.命令行增量和自动化专题 - Hawk doc</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
@@ -17,8 +17,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "15.\u547d\u4ee4\u884c\u81ea\u52a8\u5316\u4e13\u9898";
-    var mkdocs_page_input_path = "\u547d\u4ee4\u884c\u81ea\u52a8\u5316\u4e13\u9898.md";
+    var mkdocs_page_name = "15.\u547d\u4ee4\u884c\u589e\u91cf\u548c\u81ea\u52a8\u5316\u4e13\u9898";
+    var mkdocs_page_input_path = "\u547d\u4ee4\u884c\u589e\u91cf\u548c\u81ea\u52a8\u5316\u4e13\u9898.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -120,10 +120,10 @@
           
             <li class="toctree-l1 current">
 		
-    <a class="current" href="./">15.命令行自动化专题</a>
+    <a class="current" href="./">15.命令行增量和自动化专题</a>
     <ul class="subnav">
             
-    <li class="toctree-l2"><a href="#_1">命令行自动化专题</a></li>
+    <li class="toctree-l2"><a href="#_1">命令行增量和自动化专题</a></li>
     
         <ul>
         
@@ -132,6 +132,8 @@
             <li><a class="toctree-l3" href="#2">2.增量抓取</a></li>
         
             <li><a class="toctree-l3" href="#3">3.定时抓取</a></li>
+        
+            <li><a class="toctree-l3" href="#4">4.回补数据方法</a></li>
         
         </ul>
     
@@ -186,7 +188,7 @@
     
       
     
-    <li>15.命令行自动化专题</li>
+    <li>15.命令行增量和自动化专题</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -196,8 +198,8 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="_1">命令行自动化专题</h1>
-<p>Hawk虽然是图形化软件，但依然支持命令行和自动化抓取，本专题讨论如何增量，和自动化定时抓取。</p>
+                <h1 id="_1">命令行增量和自动化专题</h1>
+<p>Hawk虽然是图形化软件，但依然支持命令行和自动化抓取，本专题讨论如何增量，和自动化定时抓取，以及当遇到错误时（如网络不通，导致一部分请求失败）需要重试的场景。</p>
 <h2 id="1">1.命令行执行</h2>
 <p>(本特性的测试还不完全，预计2018年11月发布）</p>
 <p>由于大多数服务器都基于Linux实现，因此跨平台成为Hawk必备的功能。但Hawk依赖的WPF(一种windows的图形界面技术)只能在windows上运行。 因此为了变通，可在Hawk上图形化设计工作流，并在其他平台上解释xml执行。</p>
@@ -227,6 +229,25 @@
 <p>在Linux平台上，可使用crontab来执行任务，具体可参考<a href="https://www.cnblogs.com/longjshz/p/5779215.html">这里</a></p>
 <p>在Windows上则可以使用任务计划来执行。可以参考<a href="https://www.cnblogs.com/SZxiaochun/p/6370702.html">这里</a></p>
 <p>TODO： 增加更细致的写法</p>
+<h2 id="4">4.回补数据方法</h2>
+<p>本功能简直是神器，Hawk能够精确地记录失败的位置和上下文，并在重试时将配置错误和失败部分补充回来。配置非常简单，但功能很强大。</p>
+<p>开启该功能，需要在系统设置中勾选生成错误集合, 则数据清洗在执行时，就会将错误的信息保存到一张新表中，除了当时错误时的参数输入列之外，增加的列如下：</p>
+<ul>
+<li>__SysETL: 产生错误时的任务名</li>
+<li>__SysTime: 错误时间</li>
+<li>__SysERROR: 错误原因</li>
+<li>__SysObjectID: 产生错误的模块唯一ID</li>
+</ul>
+<p>出现错误后，可使用如下流程创建补数据任务:</p>
+<ol>
+<li>根据错误的信息，确定修改的策略，如增加延时，改进参数，修复bug等..</li>
+<li>添加从数据表生成, 表名为刚才创建的错误表表名。</li>
+<li>可以按需拖入延时，或其他你希望的过滤，转换等模块</li>
+<li>拖入重试补数据, 勾选是否要执行原来的执行器。</li>
+<li>如果想把回补的数据写到另外一张表，则可拖入写入数据表, 或写入数据库. 或任何你想要处理的流程。</li>
+</ol>
+<p>在补数据时，尽量使用串行模式，以获取更平稳的表现。可能在补充数据时会再次发生错误，此时只要将写入数据表的名称改为新产生错误的表名即可。</p>
+<p>其原理是定位到发生错误的模块，并使用当时的参数重新调用该模块之后的任务。这就是流系统的强大之处。</p>
               
             </div>
           </div>

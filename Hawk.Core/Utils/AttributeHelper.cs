@@ -37,7 +37,6 @@ namespace Hawk.Core.Utils
                     return new ASCIIEncoding();
                 case EncodingType.Unknown:
                     return new UTF8Encoding();
-                    break;
                 default:
                     return null;
             }
@@ -64,7 +63,7 @@ namespace Hawk.Core.Utils
             {
                 double t2 = Convert.ToDouble(item);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 return false;
             }

@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 using EncodingType = Hawk.Core.Utils.EncodingType;
 

@@ -69,15 +69,7 @@ namespace Hawk.ETL.Interfaces
                 if (_name == value) return;
                 _name = value;
                 OnPropertyChanged("Name");
-                if (MainDescription.IsUIForm)
-                {
-                    var dock = MainFrm as IDockableManager;
-                    var view = dock?.ViewDictionary.FirstOrDefault(d => d.Model == this);
-                    if(view==null)
-                        return;
-                    dynamic container = view.Container;
-                    container.Title =  _name;
-                }
+             
             }
         }
 

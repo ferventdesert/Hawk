@@ -59,7 +59,7 @@ namespace Hawk.ETL.Plugins.Transformers
         [LocalizedDescription("key_493")]
         public DBSearchStrategy SearchStrategy { get; set; }
 
-        [LocalizedDisplayName("key_494")]
+        [LocalizedDisplayName("connector")]
         [LocalizedDescription("key_406")]
         [PropertyOrder(1)]
         public ExtendSelector<IDataBaseConnector> ConnectorSelector { get; set; }

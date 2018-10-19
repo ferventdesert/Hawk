@@ -78,6 +78,9 @@ namespace HawkScheduler
             var processManager = container.PluginDictionary["DataProcessManager"] as DataProcessManager;
             var project = Project.Load(options.ProjectFile);
             var dataManager = container.PluginDictionary["DataManager"] as DataManager;
+
+         
+
             project.DataCollections.Execute(d=>dataManager.AddDataCollection(d));
             XmlConfigurator.Configure(new FileInfo("log4net_cmd.config"));
             processManager.CurrentProject = project;

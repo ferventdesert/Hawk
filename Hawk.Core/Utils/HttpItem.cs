@@ -24,7 +24,7 @@ namespace Hawk.Core.Utils
         }
 
         [PropertyEditor("CodeEditor")]
-        [LocalizedCategory("key_115")]
+        [LocalizedCategory("request_config")]
         [LocalizedDisplayName("key_116")]
         [PropertyOrder(5)]
         public string Parameters { get; set; }
@@ -144,7 +144,7 @@ namespace Hawk.Core.Utils
         /// <summary>
         ///     请求方式默认为GET方式
         /// </summary>
-        [LocalizedCategory("key_115")]
+        [LocalizedCategory("request_config")]
         [LocalizedDisplayName("key_120")]
         [PropertyOrder(1)]
         public MethodType Method { get; set; }
@@ -152,7 +152,7 @@ namespace Hawk.Core.Utils
         /// <summary>
         ///     默认请求超时时间
         /// </summary>
-        [LocalizedCategory("key_115")]
+        [LocalizedCategory("request_config")]
         [LocalizedDisplayName("key_121")]
         [PropertyOrder(3)]
         public int Timeout { get; set; }
@@ -171,7 +171,7 @@ namespace Hawk.Core.Utils
         /// <summary>
         ///     返回数据编码默认为NUll,可以自动识别
         /// </summary>
-        [LocalizedCategory("key_115")]
+        [LocalizedCategory("request_config")]
         [LocalizedDisplayName("key_122")]
         [LocalizedDescription("key_123")]
         [PropertyOrder(3)]
@@ -183,7 +183,7 @@ namespace Hawk.Core.Utils
         ///     Post请求时要发送的Post数据
         /// </summary>
         /// 
-        [LocalizedCategory("key_115")]
+        [LocalizedCategory("request_config")]
         [LocalizedDisplayName("key_124")]
         [PropertyOrder(7)]
         [PropertyEditor("CodeEditor")]
@@ -199,7 +199,7 @@ namespace Hawk.Core.Utils
         ///     支持跳转页面，查询结果将是跳转后的页面
         /// </summary>
         /// 
-        [LocalizedCategory("key_115")]
+        [LocalizedCategory("request_config")]
         [LocalizedDisplayName("key_125")]
         [PropertyOrder(6)]
         public bool Allowautoredirect { get; set; }

@@ -106,7 +106,7 @@ namespace XFrmWork.DataBase
             }
             catch (Exception ex)
             {
-
+                XLogSys.Print.Warn(ex);
                 IsUseable = false;
 
             }

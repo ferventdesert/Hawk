@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Xml.Serialization;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Process;
@@ -38,7 +37,7 @@ namespace Hawk.ETL.Managements
         [XmlIgnore]
         [Browsable(false)]
 
-        public string TypeName => ProcessToDo?["Type"].ToString()=="SmartETLTool"?GlobalHelper.Get("key_201") :GlobalHelper.Get("smartcrawler_name");
+        public string TypeName => ProcessToDo?["Type"].ToString()=="SmartETLTool"?GlobalHelper.Get("smartetl_name") :GlobalHelper.Get("smartcrawler_name");
 
         #endregion
 

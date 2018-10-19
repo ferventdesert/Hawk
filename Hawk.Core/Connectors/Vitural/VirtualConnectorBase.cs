@@ -17,7 +17,7 @@ namespace Hawk.Core.Connectors.Vitural
         }
 
         protected string openfile = GlobalHelper.Get("key_92");
-        [LocalizedCategory("key_93")]
+        [LocalizedCategory("table_list")]
         [LocalizedDisplayName("key_94")]
         public ObservableCollection<TableInfo> CurrentTables { get; set; }
 

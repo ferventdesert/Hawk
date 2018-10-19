@@ -5,7 +5,6 @@ using Hawk.Core.Connectors;
 
 namespace Hawk.Core.Utils.Plugins
 {
-    [XFrmWork("FreeDocument",  "可存储键值对形式的FreeDocument", "")]
     public partial class FreeDocument : IFreeDocument, IDictionary<string, object>
     {
         #region Constructors and Destructors

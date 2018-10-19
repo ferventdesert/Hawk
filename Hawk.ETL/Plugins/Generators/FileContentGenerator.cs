@@ -9,7 +9,6 @@ using System.Windows.Controls.WpfPropertyGrid.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;

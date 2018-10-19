@@ -29,7 +29,6 @@ namespace Hawk.Core.Connectors.Vitural
             {
                 return  count.Value;
             }
-            return 0;
         }
 
         public string Name 

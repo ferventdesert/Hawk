@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using EncodingType = Hawk.Core.Utils.EncodingType;
@@ -82,6 +81,9 @@ namespace Hawk.Core.Connectors
             return connector.GetString(datas);
             ;
         }
+
+
+ 
 
         public static string GetItemString(IFreeDocument datas, string format = "xml")
         {

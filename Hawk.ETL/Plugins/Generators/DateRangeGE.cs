@@ -48,15 +48,18 @@ namespace Hawk.ETL.Plugins.Generators
             //TODO
             DateTime min, max;
             TimeSpan span;
-            if (DateTime.TryParseExact(MinValue,
+            var minvalue = AppHelper.Query(MinValue, document);
+            var maxvalue = AppHelper.Query(MaxValue, document);
+            var interval = AppHelper.Query(Interval, document);
+            if (DateTime.TryParseExact(minvalue,
                 staticDateFormat,
                 CultureInfo.InvariantCulture,
                 DateTimeStyles.None,
-                out min) && DateTime.TryParseExact(MaxValue,
+                out min) && DateTime.TryParseExact(maxvalue,
                     staticDateFormat,
                     CultureInfo.InvariantCulture,
                     DateTimeStyles.None,
-                    out max) && TimeSpan.TryParseExact(Interval,
+                    out max) && TimeSpan.TryParseExact(interval,
                         staticSpanFormat,
                         CultureInfo.InvariantCulture,
                         TimeSpanStyles.None,

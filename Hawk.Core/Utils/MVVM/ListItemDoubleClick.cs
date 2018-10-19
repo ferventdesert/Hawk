@@ -151,7 +151,6 @@ namespace Hawk.Core.Utils.MVVM
             if (listbox == null)
                 return;
             var dataContext = listbox.DataContext;
-            object itemsource = null;
          
             listBoxItem.MouseLeftButtonDown += (s2, e2) =>
             {

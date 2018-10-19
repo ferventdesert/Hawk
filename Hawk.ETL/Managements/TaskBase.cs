@@ -18,6 +18,9 @@ namespace Hawk.ETL.Managements
         private string name;
         private int _percent;
         private bool _isSelected;
+        private bool _isCanceled;
+
+        public int Total { get; set; }
 
         protected TaskBase()
         {
@@ -27,21 +30,6 @@ namespace Hawk.ETL.Managements
            
         }
 
-        [Browsable(false)]
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-            set
-            {
-                if (_isSelected != value)
-                {
-                    _isSelected = value;
-                    OnPropertyChanged("IsSelected");
-                    
-                }
-                
-            }
-        }
 
      
 
@@ -147,10 +135,21 @@ namespace Hawk.ETL.Managements
         [Browsable(false)]
         public IProcessManager ProcessManager { get; set; }
 
-       
 
         [Browsable(false)]
-        public bool IsCanceled { get; private set; }
+        public bool IsCanceled
+        {
+            get { return _isCanceled; }
+            private set
+            {
+                if (_isCanceled != value)
+                {
+                    _isCanceled = value;
+                    OnPropertyChanged("IsCanceled");
+                }
+            }
+        }
+
         public bool CheckCancel()
         {
             return CancellationToken.IsCancellationRequested;

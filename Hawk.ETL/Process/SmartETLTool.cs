@@ -467,7 +467,7 @@ namespace Hawk.ETL.Process
                 splitPoint1++;
 
             var subEtls2 = subEtls.Skip(splitPoint1).ToList();
-            var splitPoint2 = subEtls2.GetParallelPoint(true, out subTaskToListTF2);
+            var splitPoint2 = subEtls2.GetParallelPoint(false, out subTaskToListTF2);
 
 
             var mapperFunc2 = subEtls2.Take(splitPoint2).Aggregate(isexecute: true, analyzer: Analyzer);
@@ -524,6 +524,7 @@ namespace Hawk.ETL.Process
                 task.MapperIndex1 = lastTask.MapperIndex1;
                 task.MapperIndex2 = lastTask.MapperIndex2;
                 task.IsPause = true;
+                task.IsSelected = true;
             }
             task.IsFormal = true;
             task.Level = 1;

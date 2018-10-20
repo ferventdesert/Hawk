@@ -212,8 +212,9 @@ Hawk简化了流程，采用自动嗅探的方式来进行。Hawk成为后端代
 <p>当搜索字符时，若没有在当前页面中找到该关键字，Hawk会有提示，“是否启动动态嗅探？”此时Hawk会弹出浏览器并打开所在网页。您可将页面拖到包含关键字的位置，Hawk会自动记录和过滤包含关键字的真实请求， 检索完毕后，Hawk会自动回弹。</p>
 <h3 id="22">2.2.如果无法自动嗅探?</h3>
 <p>由于Hawk有拦截功能，会被浏览器认为不安全，有以下两种方案：
-可以修改浏览器安全设置。    TODO:  增加浏览器的安全设置
-//TODO</p>
+可以修改浏览器安全设置。    TODO:  增加浏览器的安全设置</p>
+<p>按如下方式对采集器进行设置：</p>
+<p><img alt="网页采集器请求设置" src="https://upload-images.jianshu.io/upload_images/9608527-b2e00d67d62193a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
 <h3 id="23">2.3.注意事项</h3>
 <ol>
 <li>有时直接将url拷贝到Hawk，并使用手气不错时，也能获取到数据。这是因为很多网站对第一页和其他页分别作了不同的处理。第一页内容会跟着整体frame返回回来。但之后页面内容就通过ajax单独返回了。
@@ -221,7 +222,7 @@ Hawk简化了流程，采用自动嗅探的方式来进行。Hawk成为后端代
 </ol>
 <h3 id="24">2.4.手动获取真实请求</h3>
 <p>即使嗅探失败也没有关系，如果你使用Chrome等浏览器，进入开发者工具（F12）：</p>
-<p><img alt="image_1ao1q9le113a01mn4scu1q22g7mm.png-118.2kB" src="http://static.zybuluo.com/buptzym/lhxi16jt95iwhby6dlmpo9t8/image_1ao1q9le113a01mn4scu1q22g7mm.png" /></p>
+<p><img alt="Chorme的调试窗口设置" src="http://static.zybuluo.com/buptzym/lhxi16jt95iwhby6dlmpo9t8/image_1ao1q9le113a01mn4scu1q22g7mm.png" /></p>
 <p>选择最上角的network卷展栏，之后刷新网页，chrome会列出所有的请求，一般最上面的就是真实请求：</p>
 <p><img alt="image_1ao1qf5fo1geqsf13be1mpi1lia9.png-68.5kB" src="http://static.zybuluo.com/buptzym/5vmgbywxwlw71rqxjpk1jczt/image_1ao1qf5fo1geqsf13be1mpi1lia9.png" /></p>
 <p>点击view source，将所有文本，拷贝到网页采集器，对应的<strong>高级设置-请求参数</strong>里即可。其实，Hawk做的也是类似的操作。</p>
@@ -296,7 +297,7 @@ Hawk简化了流程，采用自动嗅探的方式来进行。Hawk成为后端代
 <p>http://www.pss-system.gov.cn/sipopublicsearch/patentsearch/showNavigationClassifyNumAC!searchChildrenOfClassifyNum.do<code>post的内容是</code>classifyNum=D01<code>。有了这些，我们把这个采集器命名为</code>专利查询`，下一步就好办了。</p>
 </blockquote>
 <p>即使嗅探失败也没有关系，如果你使用Chrome等浏览器，进入开发者工具（F12）：</p>
-<p><img alt="image_1ao1q9le113a01mn4scu1q22g7mm.png-118.2kB" src="http://static.zybuluo.com/buptzym/lhxi16jt95iwhby6dlmpo9t8/image_1ao1q9le113a01mn4scu1q22g7mm.png" /></p>
+<p><img alt="Chorme的调试窗口设置" src="http://static.zybuluo.com/buptzym/lhxi16jt95iwhby6dlmpo9t8/image_1ao1q9le113a01mn4scu1q22g7mm.png" /></p>
 <p>选择最上角的network卷展栏，之后刷新网页，chrome会列出所有的请求，一般最上面的就是真实请求：</p>
 <p><img alt="image_1ao1qf5fo1geqsf13be1mpi1lia9.png-68.5kB" src="http://static.zybuluo.com/buptzym/5vmgbywxwlw71rqxjpk1jczt/image_1ao1qf5fo1geqsf13be1mpi1lia9.png" /></p>
 <p>点击view source，将所有文本，拷贝到网页采集器，对应的<strong>高级设置-请求参数</strong>里即可。其实，Hawk做的也是类似的操作。</p>

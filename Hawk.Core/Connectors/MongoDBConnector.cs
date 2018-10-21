@@ -56,6 +56,7 @@ namespace Hawk.Core.Connectors
 
         [LocalizedCategory("key_67")]
         [LocalizedDisplayName("key_69")]
+        [LocalizedDescription("auto_index_desc")]
         public bool AutoIndexEnabled { get; set; }
 
 

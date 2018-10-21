@@ -129,7 +129,7 @@
         <Setter Property="StrokeThickness"
                   Value="2" />
     </Style>
-    <themes1:Markdown  x:Key="Markdown" 
+    <themes1:Markdown  x:Key="MyMarkdown" 
                        DocumentStyle="{StaticResource DocumentStyle}"
                        Heading1Style="{StaticResource H1Style}"
                        Heading2Style="{StaticResource H2Style}"
@@ -140,7 +140,7 @@
                        SeparatorStyle="{StaticResource SeparatorStyle}"></themes1:Markdown>
     <!--AssetPathRoot="{x:Static system:Environment.CurrentDirectory}"/>-->
     <themes1:TextToFlowDocumentConverter x:Key="TextToFlowDocumentConverter"     
-                                         Markdown="{StaticResource Markdown}"/>
+                                         Markdown="{StaticResource MyMarkdown}"/>
     <Style    TargetType="ToolTip">
         <Setter Property="Background" Value="{DynamicResource NormalBrush}"/>
 

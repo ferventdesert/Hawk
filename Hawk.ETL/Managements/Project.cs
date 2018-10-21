@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Net;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
@@ -14,12 +14,18 @@ using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Process;
-using YamlDotNet;
 using YamlDotNet.RepresentationModel;
+
 namespace Hawk.ETL.Managements
 {
     public class ProjectItem : PropertyChangeNotifier, IDictionarySerializable
     {
+
+        public ProjectItem()
+        {
+            ImgURL = "http://www.qq3721.com/d/file/gexing/fzltupian/20111115/50eb4ad266abdf7cc719d1f99d3e3fcf.jpg";
+            Description = GlobalHelper.Get("no_desc");
+        }
         [Browsable(false)]
         public string SavePath { get; set; }
 
@@ -30,6 +36,21 @@ namespace Hawk.ETL.Managements
 
         [PropertyOrder(1)]
         [LocalizedCategory("key_211")]
+        [LocalizedDisplayName("author")]
+        public string Author { get; set; }
+
+        [PropertyOrder(2)]
+        [LocalizedCategory("key_211")]
+        [LocalizedDisplayName("cover_img")]
+        public string ImgURL { get; set; }
+
+        [PropertyOrder(3)]
+        [LocalizedCategory("key_211")]
+        [LocalizedDisplayName("publish_time")]
+        public DateTime PublishTime { get; set; }
+
+        [PropertyOrder(10)]
+        [LocalizedCategory("key_211")]
         [LocalizedDisplayName("key_16")]
         [PropertyEditor("CodeEditor")]
         public string Description { get; set; }
@@ -38,7 +59,6 @@ namespace Hawk.ETL.Managements
         [LocalizedDisplayName("key_330")]
         public int Version { get; set; }
 
-
         public virtual FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
             var dict = new FreeDocument();
@@ -46,8 +66,13 @@ namespace Hawk.ETL.Managements
             dict.Add("Description", Description);
             dict.Add("Version", Version);
             dict.Add("SavePath", SavePath);
+            dict.Add("Author", Author);
+            dict.Add("ImgURL", ImgURL);
+            dict.Add("PublishTime", PublishTime);
             return dict;
         }
+
+        public bool IsRemote { get; set; }
 
         public virtual void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
         {
@@ -55,31 +80,31 @@ namespace Hawk.ETL.Managements
             Description = docu.Set("Description", Description);
             Version = docu.Set("Version", Version);
             SavePath = docu.Set("SavePath", SavePath);
+            Author = docu.Set("Author", Author);
+            ImgURL = docu.Set("ImgURL", ImgURL);
+            PublishTime = docu.Set("PublishTime", PublishTime);
         }
     }
 
     public class ParameterItem
     {
-        private  static  Random random=new Random();
+        private static readonly Random random = new Random();
+
         public ParameterItem()
         {
-
             Name = "config_" + random.Next(0, 100);
         }
 
-        [PropertyOrder(0)]
-     
-        [LocalizedDisplayName("key_18")]
-        public string Name { get; set; }
 
-        [Browsable(false)]
-        public Dictionary<string, string> GetParameters()
+        public static Dictionary<string, string> GetParameters(string config)
         {
-            var dict= 
-                new Dictionary<string, string>();
-            if (string.IsNullOrEmpty(ParameterString))
+          
+         
+            var dict =
+              new Dictionary<string, string>();
+            if (string.IsNullOrEmpty(config))
                 return dict;
-           var stream = new StringReader(ParameterString);
+            var stream = new StringReader(config);
             var yaml = new YamlStream();
 
             yaml.Load(stream);
@@ -90,47 +115,54 @@ namespace Hawk.ETL.Managements
             {
                 if ((entry.Key.NodeType == YamlNodeType.Scalar) && (entry.Value.NodeType == YamlNodeType.Scalar))
                 {
-                    var key = ((YamlScalarNode) entry.Key).Value;
+                    var key = ((YamlScalarNode)entry.Key).Value;
 
-                    var value = ((YamlScalarNode) entry.Value).Value;
+                    var value = ((YamlScalarNode)entry.Value).Value;
                     dict.Add(key, value);
                 }
             }
-        
-            return dict;
 
-            
+            return dict;
+        }
+        [PropertyOrder(0)]
+        [LocalizedDisplayName("key_18")]
+        public string Name { get; set; }
+
+        [LocalizedDisplayName("key_21")]
+        [PropertyEditor("CodeEditor")]
+        public string ParameterString { get; set; }
+
+        [Browsable(false)]
+        public Dictionary<string, string> GetParameters()
+        {
+
+            return GetParameters(this.ParameterString);
+
+
         }
 
         public override string ToString()
         {
             return Name;
         }
-        [LocalizedDisplayName("key_21")]
-        [PropertyEditor("CodeEditor")]
-        public string ParameterString
-        {
-            get;set;
-        }
     }
+
     /// <summary>
     ///     项目信息
     /// </summary>
     public class Project : ProjectItem
     {
         private readonly IProcessManager sysProcessManager;
+        private List<FreeDocument> SavedRunningTasks;
 
         public Project()
         {
             Tasks = new ObservableCollection<ProcessTask>();
             DBConnections = new ObservableCollection<IDataBaseConnector>();
-            Parameters =new  ObservableCollection<ParameterItem>();
-                sysProcessManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
-            ConfigSelector=new ExtendSelector<string>();
-            Parameters.CollectionChanged += (s, e) =>
-            {
-                ConfigSelector.InformPropertyChanged("Collection");
-            };
+            Parameters = new ObservableCollection<ParameterItem>();
+            sysProcessManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
+            ConfigSelector = new ExtendSelector<string>();
+            Parameters.CollectionChanged += (s, e) => { ConfigSelector.InformPropertyChanged("Collection"); };
             ConfigSelector.GetItems = () => { return Parameters.Select(d => d.Name).ToList(); };
         }
 
@@ -141,8 +173,6 @@ namespace Hawk.ETL.Managements
         [Browsable(false)]
         public ObservableCollection<IDataBaseConnector> DBConnections { get; set; }
 
-        private List<FreeDocument> SavedRunningTasks;
-         
         [LocalizedDisplayName("using_param_name")]
         [PropertyOrder(3)]
         public ExtendSelector<string> ConfigSelector { get; set; }
@@ -152,12 +182,15 @@ namespace Hawk.ETL.Managements
         /// </summary>
         [Browsable(false)]
         public ObservableCollection<ProcessTask> Tasks { get; set; }
-        
+
         [LocalizedDisplayName("param_group")]
         [PropertyOrder(4)]
-        public ObservableCollection<ParameterItem> Parameters { get; private set; }
+        public ObservableCollection<ParameterItem> Parameters { get; }
 
-        public void Save(IEnumerable<DataCollection>collections = null)
+        [Browsable(false)]
+        public Dictionary<string, string> Parameter { get; private set; }
+
+        public void Save(IEnumerable<DataCollection> collections = null)
         {
             var connector = new FileConnectorXML();
 
@@ -175,14 +208,45 @@ namespace Hawk.ETL.Managements
             if (ext != null && ext.Contains("hproj"))
                 connector.IsZip = true;
             var dict = DictSerialize();
-                if (collections != null)
+            if (collections != null)
                 dict["DataCollections"] = new FreeDocument
                 {
                     Children = collections.Where(d => d.Count < 100000).Select(d => d.DictSerialize()).ToList()
                 };
             connector.WriteAll(
                 new List<IFreeDocument> {dict}
-            );
+                );
+        }
+
+        public static Project LoadFromUrl(string url)
+        {
+            var request = WebRequest.Create(url).GetResponse().GetResponseStream();
+
+            var fileConnector = new FileConnectorXML();
+            var docs = fileConnector.ReadFile(request, url.EndsWith("hproj"), null);
+            if (docs.Any() == false)
+                throw new Exception("TODO");
+            var first = docs.FirstOrDefault();
+            var proj = new Project();
+            DocumentToProject(first, proj);
+            return proj;
+        }
+
+        private static void DocumentToProject(FreeDocument projfile, Project proj)
+        {
+            projfile.DictCopyTo(proj);
+
+            object collectionObj = null;
+            if (projfile.TryGetValue("DataCollections", out collectionObj))
+            {
+                var collectionDocs = (collectionObj as FreeDocument)?.Children;
+                proj.DataCollections = collectionDocs?.Select(d =>
+                {
+                    var doc = new DataCollection();
+                    doc.DictDeserialize(d);
+                    return doc;
+                }).ToList();
+            }
         }
 
         public static Project Load(string path = null)
@@ -212,26 +276,11 @@ namespace Hawk.ETL.Managements
             if (projfile == null)
                 return null;
             var proj = new Project();
-            projfile.DictCopyTo(proj);
-
-            object collectionObj = null;
-            if (projfile.TryGetValue("DataCollections", out collectionObj))
-            {
-                var collectionDocs = (collectionObj as FreeDocument)?.Children;
-                proj.DataCollections = collectionDocs?.Select(d =>
-                {
-                    var doc = new DataCollection();
-                    doc.DictDeserialize(d);
-                    return doc;
-                }).ToList();
-            }
+            DocumentToProject(projfile, proj);
             proj.SavePath = connector.FileName;
 
             return proj;
         }
-
-        [Browsable(false)]
-        public Dictionary<string, string> Parameter { get; private set; }
 
         public void Build()
         {
@@ -240,15 +289,17 @@ namespace Hawk.ETL.Managements
             if (ConfigSelector?.SelectItem == null)
                 param = Parameters.FirstOrDefault();
             else
-                 param = this.Parameters.FirstOrDefault(d => d.Name == ConfigSelector.SelectItem);
+                param = Parameters.FirstOrDefault(d => d.Name == ConfigSelector.SelectItem);
             if (param == null)
             {
                 Parameter = new Dictionary<string, string>();
                 return;
             }
 
-            ControlExtended.SafeInvoke(() => Parameter = param.GetParameters(),LogType.Info,  GlobalHelper.Get("parse_yaml_config"));
+            ControlExtended.SafeInvoke(() => Parameter = param.GetParameters(), LogType.Info,
+                GlobalHelper.Get("parse_yaml_config"));
         }
+
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
             var dict = base.DictSerialize();
@@ -264,7 +315,6 @@ namespace Hawk.ETL.Managements
             var param = new FreeDocument
             {
                 Children = Parameters.Select(d => d.UnsafeDictSerialize()).ToList()
-
             };
 
             if (ConfigSelector.SelectItem != null)
@@ -274,7 +324,6 @@ namespace Hawk.ETL.Managements
 
 
             dict.Add("Parameters", param);
-
 
 
             if (sysProcessManager != null)
@@ -294,11 +343,10 @@ namespace Hawk.ETL.Managements
 
         public void LoadRunningTasks()
         {
-           if(SavedRunningTasks==null)
+            if (SavedRunningTasks == null)
                 return;
             foreach (var items in SavedRunningTasks.GroupBy(d => d["Publisher"]))
             {
-
                 var publisherName = items.Key.ToString();
                 if (publisherName == null)
                     continue;
@@ -313,12 +361,10 @@ namespace Hawk.ETL.Managements
                     {
                         XLogSys.Print.Info("TODO");
                         continue;
-
                     }
                     task.Load(true);
                     publisher =
                         sysProcessManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == publisherName);
-
                 }
                 if (publisher == null)
                 {
@@ -342,13 +388,12 @@ namespace Hawk.ETL.Managements
                 tool.ExecuteDatas(runningTasks);
 
 
-
-
                 //sysProcessManager.
 
                 //RunningTasks.Add(conn);
             }
         }
+
         public override void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
         {
             base.DictDeserialize(docu);
@@ -389,7 +434,6 @@ namespace Hawk.ETL.Managements
 
 
                 SavedRunningTasks = tasks?.Children;
-
             }
 
             if (docu["Parameters"] != null)
@@ -404,10 +448,7 @@ namespace Hawk.ETL.Managements
                         param.UnsafeDictDeserialize(d);
                         return param;
                     }));
-
                 }
-        
-
             }
 
             ConfigSelector.SelectItem =

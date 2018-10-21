@@ -119,34 +119,38 @@ namespace Hawk.Core.Connectors
             return ReadText(xdoc, alreadyGetSize);
         }
 
-        public override IEnumerable<FreeDocument> ReadFile(Action<int> alreadyGetSize = null)
+
+        public  IEnumerable<FreeDocument> ReadFile(Stream stream,bool iszip, Action<int> alreadyGetSize = null)
         {
-            var xdoc = new XmlDocument();
-            Stream stream = new FileStream(FileName, FileMode.Open);
-            if (IsZip)
+            var xdoc=new XmlDocument();
+            if (iszip)
             {
                 var zipstream = new ZipInputStream(stream);
                 ZipEntry zipEntry = null;
                 while ((zipEntry = zipstream.GetNextEntry()) != null)
                 {
-                    var fileName_zip = zipEntry.Name;
                     var byteArrayOutputStream = new MemoryStream();
                     zipstream.CopyTo(byteArrayOutputStream);
-
                     byte[] b = byteArrayOutputStream.ToArray();
                     string xml = System.Text.Encoding.UTF8.GetString(b, 0, b.Length);
-                    ControlExtended.SafeInvoke(() => xdoc.LoadXml(xml) , LogType.Important);
-
+                    ControlExtended.SafeInvoke(() => xdoc.LoadXml(xml), LogType.Important);
                     break;
                 }
             }
             else
             {
                 ControlExtended.SafeInvoke(() => xdoc.Load(stream), LogType.Important);
-
             }
-
             return ReadText(xdoc, alreadyGetSize);
+        }
+
+
+
+        public override IEnumerable<FreeDocument> ReadFile(Action<int> alreadyGetSize = null)
+        {
+          
+            Stream stream = new FileStream(FileName, FileMode.Open);
+            return ReadFile(stream, IsZip, alreadyGetSize);
         }
 
         public static void Node2XML(IEnumerable<KeyValuePair<string, object>> data, XmlNode node, XmlDocument docu)

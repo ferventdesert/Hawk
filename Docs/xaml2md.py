@@ -72,7 +72,6 @@ def generate_dict(xaml_path):
         key=node.attrib['{http://schemas.microsoft.com/winfx/2006/xaml}Key']
         preserve=  node.attrib.get('{http://www.w3.org/XML/1998/namespace}space') is None
         dic[key]= node.text
-    import resource
     for  file in os.listdir('resource'):
         if not file.endswith('.md'):
             continue
@@ -104,7 +103,7 @@ def generate_doc(dic,target='hawk_doc',output_folder='hawk'):
                 titles.append(title)
                 if (not single_file) or pos[0]==1:
                     path=  '%s/docs/%s.md'%(output_folder,title)
-                    print(path)
+                    #print(path)
                     file= codecs.open(path,'w',encoding='utf-8')
             elif count<4 and (pos[0]<8 or pos[0]>12):
                 l= '%s %s.%s'%(header,'.'.join([str(r) for r in pos[1:count]]),splits[1])

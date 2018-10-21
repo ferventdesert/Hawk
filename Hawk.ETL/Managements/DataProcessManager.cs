@@ -19,6 +19,7 @@ using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
+using Hawk.ETL.Market;
 using Hawk.ETL.Process;
 using log4net;
 using log4net.Core;
@@ -80,9 +81,9 @@ namespace Hawk.ETL.Managements
             {
                 if (searchText == value) return;
                 searchText = value;
-                if (ProjectTaskList.CanFilter)
+                if (MarketProjectList.CanFilter)
                 {
-                    ProjectTaskList.Filter = FilterMethod;
+                    MarketProjectList.Filter = FilterMethod;
                 }
                 OnPropertyChanged("SearchText");
             }
@@ -90,18 +91,43 @@ namespace Hawk.ETL.Managements
 
       
 
-        public TaskBase SelectedTask
+      
+
+        public ProjectItem SelectedRemoteProject 
 
         {
-            get { return _selectedTask; }
+            get { return _selectedRemoteProject; }
             set
             {
-                if (_selectedTask == value) return;
-                _selectedTask = value;
-                OnPropertyChanged("SelectedTask");
-                ShowConfigUI(value);
+                if (_selectedRemoteProject == value) return;
+                _selectedRemoteProject = value;
+                OnPropertyChanged("SelectedRemoteProject");
+                OnPropertyChanged("SelectedLocalProject");
             }
         }
+
+        private Dictionary<ProjectItem, Project> RemoteProjectBuff=new Dictionary<ProjectItem, Project>();
+        public Project SelectedLocalProject
+
+        {
+            get
+            {
+                Project project = null;
+                if (SelectedRemoteProject == null|| SelectedRemoteProject.IsRemote==false)
+                    return null;
+                if(RemoteProjectBuff.TryGetValue(SelectedRemoteProject,out project))
+                {
+                    return project;
+                }
+                project= Project.LoadFromUrl(SelectedRemoteProject.SavePath);
+                project.DictDeserialize(SelectedRemoteProject.DictSerialize());
+
+                return project;
+            }
+           
+        }
+
+
 
         public ICollection<IDataProcess> CurrentProcessCollections => ProcessCollection;
         private ListBox processView;
@@ -127,6 +153,8 @@ namespace Hawk.ETL.Managements
                 yield return item;    
         }
 
+        public ObservableCollection<ProjectItem> MarketProjects { get; set; }
+
         private IEnumerable<TaskBase> GetSelectedTask(object data)
         {
             if (data != null)
@@ -144,6 +172,8 @@ namespace Hawk.ETL.Managements
         #endregion
 
         #region Public Methods
+
+        public GitHubAPI GitHubApi { get; set; }
 
         private IDockableManager dockableManager;
 
@@ -168,6 +198,8 @@ namespace Hawk.ETL.Managements
         public override bool Init()
         {
             base.Init();
+            GitHubApi=new GitHubAPI();
+            MarketProjects=new ObservableCollection<ProjectItem>();
             dockableManager = MainFrmUI as IDockableManager;
             dataManager = MainFrmUI.PluginDictionary["DataManager"] as IDataManager;
             propertyGridWindow = MainFrmUI.PluginDictionary["XFrmWorkPropertyGrid"] as XFrmWorkPropertyGrid;
@@ -252,7 +284,6 @@ namespace Hawk.ETL.Managements
             };
 
             MainFrmUI.CommandCollection.Add(debugCommand);
-    ;
             ProcessCollection = new ObservableCollection<IDataProcess>();
 
 
@@ -489,6 +520,8 @@ namespace Hawk.ETL.Managements
 
             BindingCommands.ChildActions.Add(processAction);
             BindingCommands.ChildActions.Add(taskAction2);
+
+        
             var attributeactions = new BindingAction(GlobalHelper.Get("key_301"));
             attributeactions.ChildActions.Add(new Command(GlobalHelper.Get("key_302"), obj =>
             {
@@ -500,6 +533,19 @@ namespace Hawk.ETL.Managements
                 process.Init();
             },icon:"add"));
             BindingCommands.ChildActions.Add(attributeactions);
+
+
+            var marketAction = new BindingAction();
+            marketAction.ChildActions.Add(new Command(GlobalHelper.Get("connect_market"), async obj =>
+            {
+                GitHubApi.Connect();
+                MarketProjects.Clear();
+                MarketProjects.AddRange(await GitHubApi.GetProjects());
+
+            },icon:"refresh"));
+
+            BindingCommands.ChildActions.Add(marketAction);
+
 
             var config = ConfigFile.GetConfig<DataMiningConfig>();
             if (config.Projects.Any())
@@ -548,12 +594,10 @@ namespace Hawk.ETL.Managements
 
 
     
-                OnPropertyChanged("ProjectTaskList");
-                ProjectTaskList = new ListCollectionView(CurrentProject.Tasks);
-                ProjectTaskList.GroupDescriptions.Clear();
+               
 
-                ProjectTaskList.GroupDescriptions.Add(new PropertyGroupDescription("TypeName"));
-                OnPropertyChanged("ProjectTaskList");
+                MarketProjectList=new ListCollectionView(MarketProjects);
+
             }
 
             var fileCommand = MainFrmUI.CommandCollection.FirstOrDefault(d => d.Text == GlobalHelper.Get("key_305"));
@@ -622,8 +666,9 @@ namespace Hawk.ETL.Managements
 
         public ListCollectionView CurrentProcessView { get; set; }
         public ListCollectionView ProcessCollectionView { get; set; }
-        public ListCollectionView ProjectTaskList { get; set; }
-       private void timeCycle(object sender, EventArgs e)
+
+        public ListCollectionView MarketProjectList { get; set; }
+        private void timeCycle(object sender, EventArgs e)
         {
             SaveCurrentProject(true);
         }
@@ -757,8 +802,8 @@ namespace Hawk.ETL.Managements
         #region IProcessManager
 
         private Project currentProject;
-        private TaskBase _selectedTask;
         private WPFPropertyGrid debugGrid;
+        private ProjectItem _selectedRemoteProject;
 
 
         public IDataProcess GetOneInstance(string name, bool isAddToList = true, bool newOne = false,
@@ -848,11 +893,6 @@ namespace Hawk.ETL.Managements
             OnPropertyChanged("CurrentProject");
 
 
-            ProjectTaskList = new ListCollectionView(CurrentProject.Tasks);
-            ProjectTaskList.GroupDescriptions.Clear();
-
-            ProjectTaskList.GroupDescriptions.Add(new PropertyGroupDescription("TypeName"));
-            OnPropertyChanged("ProjectTaskList");
         }
 
         public event EventHandler OnCurrentProjectChanged;

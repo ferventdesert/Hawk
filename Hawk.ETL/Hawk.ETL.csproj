@@ -34,9 +34,17 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoUpdater.NET, Version=1.4.11.0, Culture=neutral, PublicKeyToken=501435c91b35f4bc, processorArchitecture=MSIL">
       <HintPath>..\Hawk.Core\packages\Autoupdater.NET.Official.1.4.11\lib\net40\AutoUpdater.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Octokit, Version=0.32.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Hawk.Core\packages\Octokit.0.32.0\lib\netstandard1.1\Octokit.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="FiddlerCore4">
       <HintPath>..\Includes\FiddlerCore4.dll</HintPath>
@@ -140,6 +148,7 @@
     <Compile Include="Crawlers\NetworkManager.cs" />
     <Compile Include="Managements\CommandLineContainer.cs" />
     <Compile Include="Managements\DataMiningConfig.cs" />
+    <Compile Include="Market\GitHubAPI.cs" />
     <Compile Include="Plugins\Generators\ProxyGE.cs" />
     <Compile Include="Crawlers\XPath.cs" />
     <Compile Include="Crawlers\XPathAnalyzer.cs" />

@@ -186,7 +186,7 @@ namespace Hawk.ETL.Interfaces
                  processManager.CurrentProcessCollections.Where(d => d is SmartCrawler)
                     .Select(d => d.Name)
                     .Concat(
-                        processManager.CurrentProject.Tasks.Where(d => d.ProcessToDo["Type"].ToString() == "SmartCrawler")
+                        processManager.CurrentProject.Tasks.Where(d => d.TaskType == "SmartCrawler")
                             .Select(d => d.Name)).
                     Distinct().ToList();
                 return item;
@@ -206,7 +206,7 @@ namespace Hawk.ETL.Interfaces
                 return default(T);
             }
             var processManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
-            var module= processManager.GetModule<T>(name);
+            var module= processManager.GetTask<T>(name);
             if (module == null)
             {
                 XLogSys.Print.Error(String.Format(GlobalHelper.Get("not_find_module"), name, moduleName, process_name));
@@ -215,15 +215,7 @@ namespace Hawk.ETL.Interfaces
             return module;
         }
 
-        public static T GetModule<T>(this IProcessManager processManager, string name) where T : class, IDataProcess
-        {
-            var module =
-               processManager.CurrentProcessCollections.OfType<T>().FirstOrDefault(d => d.Name == name) ;
-           return module;
-
-        
-           
-        }
+    
         /// <summary>
         /// 高版本配置向低版本兼容
         /// </summary>
@@ -280,13 +272,24 @@ namespace Hawk.ETL.Interfaces
 
 
         }
+
+        public static IDataProcess GetModule(this IProcessManager processManager,string typename, string name) 
+        {
+            var module =
+               processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == name&&d.TypeName==typename);
+            
+            return module;
+
+
+
+        }
         public static Func<List<string>> GetAllETLNames(this IColumnProcess process)
         {
             var processManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
             return () => processManager.CurrentProcessCollections.Where(d => d is SmartETLTool)
                 .Select(d => d.Name)
                  .Concat(
-                        processManager.CurrentProject.Tasks.Where(d => d.ProcessToDo["Type"].ToString() == "SmartETLTool")
+                        processManager.CurrentProject.Tasks.Where(d => d.TaskType == "SmartETLTool")
                             .Select(d => d.Name)).
                 Distinct().ToList();
         }

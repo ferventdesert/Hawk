@@ -24,6 +24,8 @@ namespace Hawk.ETL.Plugins.Generators
             TableSelector.SelectChanged +=(s,e)=> this.InformPropertyChanged("TableSelector");
         }
 
+     
+
         [Browsable(false)]
         public override string KeyConfig => TableSelector?.SelectItem; 
         [LocalizedDisplayName("table")]
@@ -48,7 +50,7 @@ namespace Hawk.ETL.Plugins.Generators
         //}
         public override IEnumerable<IFreeDocument> Generate(IFreeDocument document = null)
         {
-            DataCollection table = dataManager.DataCollections.FirstOrDefault(d=>d.Name== TableSelector.SelectItem);
+            DataCollection table = this.Father.SysProcessManager.GetCollection(this.TableSelector.SelectItem);
             if(table==null)
                 yield break;
             var me = table.ComputeData;

@@ -853,7 +853,7 @@ namespace Hawk.ETL.Process
                     code = HttpStatusCode.NoContent;
                     return "";
                 }
-                var crawler = this.SysProcessManager.GetModule<SmartCrawler>( ShareCookie.SelectItem);
+                var crawler = this.SysProcessManager.GetTask<SmartCrawler>( ShareCookie.SelectItem);
                 if (crawler != null)
                 {
                     Http.ProxyIP = crawler.Http.ProxyIP;

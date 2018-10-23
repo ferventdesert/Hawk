@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
@@ -25,6 +26,8 @@ namespace Hawk.ETL.Managements
         {
             ImgURL = "http://www.qq3721.com/d/file/gexing/fzltupian/20111115/50eb4ad266abdf7cc719d1f99d3e3fcf.jpg";
             Description = GlobalHelper.Get("no_desc");
+            PublishTime= DateTime.Now;
+            
         }
         [Browsable(false)]
         public string SavePath { get; set; }
@@ -218,17 +221,22 @@ namespace Hawk.ETL.Managements
                 );
         }
 
-        public static Project LoadFromUrl(string url)
+        public static async Task<Project> LoadFromUrl(string url)
         {
-            var request = WebRequest.Create(url).GetResponse().GetResponseStream();
-
+            var resquest =await WebRequest.Create(url).GetResponseAsync();
+            var response= resquest.GetResponseStream();
             var fileConnector = new FileConnectorXML();
-            var docs = fileConnector.ReadFile(request, url.EndsWith("hproj"), null);
-            if (docs.Any() == false)
-                throw new Exception("TODO");
-            var first = docs.FirstOrDefault();
             var proj = new Project();
-            DocumentToProject(first, proj);
+            ControlExtended.SafeInvoke(() =>
+            {
+                var docs = fileConnector.ReadFile(response, url.EndsWith("hproj"), null);
+                if (docs.Any() == false)
+                    throw new Exception("TODO");
+                var first = docs.FirstOrDefault();
+               
+                DocumentToProject(first, proj);
+            },LogType.Info,GlobalHelper.Get("key_307"));
+           
             return proj;
         }
 

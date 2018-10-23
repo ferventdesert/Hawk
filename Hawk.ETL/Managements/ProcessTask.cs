@@ -8,6 +8,7 @@ using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Xml.Serialization;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Interfaces;
 using Hawk.ETL.Process;
 using IronPython.Hosting;
 using Microsoft.Scripting;
@@ -34,6 +35,16 @@ namespace Hawk.ETL.Managements
         [Browsable(false)]
         public FreeDocument ProcessToDo { get; set; }
 
+
+        public string TaskType
+        {
+            get
+            {
+                if(ProcessToDo!=null)
+                    return ProcessToDo["Type"].ToString();
+                return null;
+            }
+        }
         [XmlIgnore]
         [Browsable(false)]
 
@@ -113,22 +124,19 @@ namespace Hawk.ETL.Managements
             XLogSys.Print.Info(GlobalHelper.Get("key_325"));
         }
 
-        public virtual void Load(bool addui)
+        public virtual IDataProcess Load(bool addui)
         {
-            if (
-                (ProcessManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == this.Name) == null).SafeCheck(GlobalHelper.Get("key_326")) ==
-                false)
-                return;
+            IDataProcess process=ProcessManager.GetModule(this.TaskType, this.Name);
+            if(process!=null)
+                return process;
             ControlExtended.SafeInvoke(() =>
             {
-                var processname = ProcessToDo["Type"].ToString();
-                if (string.IsNullOrEmpty(processname))
-                    return;
-                var process = ProcessManager.GetOneInstance(processname, newOne: true,addUI: addui);
+                process = ProcessManager.GetOneInstance(this.TaskType, newOne: true,addUI: addui);
                 ProcessToDo.DictCopyTo(process as IDictionarySerializable);
                 process.Init();
                 EvalScript();
             }, LogType.Important, string.Format(GlobalHelper.Get("key_327"),Name), MainDescription.IsUIForm);
+            return process;
         }
 
         [LocalizedDisplayName("key_328")]

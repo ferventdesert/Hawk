@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Managements;
 
@@ -27,10 +28,10 @@ namespace Hawk.ETL.Interfaces
         /// <returns></returns>
         IDataProcess GetOneInstance(string name, bool isAddToList = true, bool newOne = false,bool addUI=false);
 
-      
-        
+        T GetTask<T>(string name) where T : class, IDataProcess;
+        DataCollection GetCollection(string name); 
 
-               /// <summary>
+        /// <summary>
         /// 删除一个模块
         /// </summary>
         /// <param name="process"></param>

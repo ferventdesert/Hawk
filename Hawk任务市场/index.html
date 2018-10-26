@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>12.执行器 - Hawk doc</title>
+  <title>5.Hawk任务市场 - Hawk doc</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
@@ -17,8 +17,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "12.\u6267\u884c\u5668";
-    var mkdocs_page_input_path = "\u6267\u884c\u5668.md";
+    var mkdocs_page_name = "5.Hawk\u4efb\u52a1\u5e02\u573a";
+    var mkdocs_page_input_path = "Hawk\u4efb\u52a1\u5e02\u573a.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -68,9 +68,27 @@
     <a class="" href="../主要组件介绍/">4.主要组件介绍</a>
 	    </li>
           
-            <li class="toctree-l1">
+            <li class="toctree-l1 current">
 		
-    <a class="" href="../Hawk任务市场/">5.Hawk任务市场</a>
+    <a class="current" href="./">5.Hawk任务市场</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#hawk">Hawk任务市场</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#1">1.工程文件描述</a></li>
+        
+            <li><a class="toctree-l3" href="#2">2.账号系统</a></li>
+        
+            <li><a class="toctree-l3" href="#3">3.市场的界面使用</a></li>
+        
+            <li><a class="toctree-l3" href="#4">4.使用远端的任务</a></li>
+        
+        </ul>
+    
+
+    </ul>
 	    </li>
           
             <li class="toctree-l1">
@@ -103,27 +121,9 @@
     <a class="" href="../过滤器/">11.过滤器</a>
 	    </li>
           
-            <li class="toctree-l1 current">
+            <li class="toctree-l1">
 		
-    <a class="current" href="./">12.执行器</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l2"><a href="#_1">执行器</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l3" href="#dbex">写入数据库(DbEX)</a></li>
-        
-            <li><a class="toctree-l3" href="#savefileex">保存超链接文件(SaveFileEX)</a></li>
-        
-            <li><a class="toctree-l3" href="#tableex">写入数据表(TableEX)</a></li>
-        
-            <li><a class="toctree-l3" href="#writefiletexttf">写入文件文本(WriteFileTextTF)</a></li>
-        
-        </ul>
-    
-
-    </ul>
+    <a class="" href="../执行器/">12.执行器</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -213,7 +213,7 @@
     
       
     
-    <li>12.执行器</li>
+    <li>5.Hawk任务市场</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -223,69 +223,69 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="_1">执行器</h1>
-<h2 id="dbex">写入数据库(DbEX)</h2>
-<p>进行数据库操作，包括写入，删除和更新，输入列为表的主键</p>
-<h3 id="executetype">操作类型(ExecuteType):</h3>
+                <h1 id="hawk">Hawk任务市场</h1>
+<p>为了方便用户间共享高质量的工程，形成良好的社区环境，在Hawk5中提供了市场功能。</p>
+<p>在设计任务市场的整体架构时，花了不少时间，最终采用了最轻量却也可能是最合理的方案：Github。 Github提供了文件存取，合并和历史版本等功能，同时也符合Hawk的开源精神。 任务市场分为两期进行开发，第一期只支持访问，Hawk用户设计了工程后，通过merge request的方式提交到主分支。 第二期则支持软件内上传，同时增加积分奖励系统。</p>
+<h2 id="1">1.工程文件描述</h2>
+<p>在Git的repo目录中，创建一级目录，通过以下方式组织文件：</p>
 <ul>
-<li>类型:EntityExecuteType 默认值:OnlyInsert</li>
-<li>选择数据库的操作，如插入，删除，更新等</li>
+<li>proj1.xml</li>
+<li>proj1.meta</li>
+<li>proj2.hproj</li>
+<li>proj2.meta</li>
 </ul>
-<h3 id="tablenames">表名(TableNames):</h3>
+<p>xml和hproj的格式，与本地存取的格式一致，但是尽量使用xml,因为其纯文本格式，方便git管理。meta文件保存了工程文件的元信息，格式为yaml, 由于远比工程文件小很多，且更易读写，进而便于搜索和展示。</p>
+<p>meta文件的样例如下:</p>
+<pre><code>Name: 填写工程名字
+ShortDescription: 一句话介绍
+Description: 长介绍，支持markdown，如果你愿意，可以放置自己的转账二维码。
+ImgUrl:  封面图像Url
+Tasks: [task1,task2,task3]
+</code></pre>
+
+<p>以下是一些建议：</p>
 <ul>
-<li>类型:可编辑选项
-*
-必填，若数据库不存在该表，则会根据第一条数据的列自动创建表
-不符合数据库要求的列名会被替换</li>
+<li>尽量使用xml,因为其纯文本格式，方便git管理</li>
+<li>尽量在工程中不要包含过大的数据集(&gt;10w)，其内部数据集一般只用作数据的种子用，而非保存结果使用。</li>
+<li>我们强烈建议使用meta文件描述元信息，这样会大大增加用户访问和查看工程的效率，它避免了Hawk读取整个工程文件，</li>
+<li>不要在Hawk工程中包含任何敏感信息，包括cookie，甚至用户名和密码等。未来Hawk在上传工程时，都会自动将cookie等信息删除后再上传。并通过工程中配置的前置任务，引导用户自行登录并获取cookie.</li>
 </ul>
-<hr />
-<h2 id="savefileex">保存超链接文件(SaveFileEX)</h2>
-<p>保存对应链接的文件，如图片，视频等
-拖入的列为文件的超链接地址
-<code>保存位置</code>:可以使用方括号表达式，将某一列的内容传递过来
-注意:</p>
+<h2 id="2">2.账号系统</h2>
+<p>如果你打算使用Hawk的基本功能，并不打算上传和分享任务，甘当伸手党的话，则可以使用Hawk提供的公共账号。但有如下功能与限制：</p>
 <ul>
-<li>一些网站必须要求登录以后才能下载内容。而如果你已经配置好能正常访问该网站的<code>网页采集器</code>，那么就可以在<code>共用采集器名</code>中填写这个采集器的名称，此时本模块会使用那个采集器的header进行抓取。</li>
+<li>公共账号只能访问Hawk作者建立的公共仓库</li>
+<li>下载工程的权利会受限</li>
+<li>在软件中提出issue</li>
 </ul>
-<h3 id="savepath">保存位置(SavePath):</h3>
+<p>你可以登录自己的Github账号，可选择保存账号和密码，则下次使用时不需要再次登录。其带来的功能如下：</p>
 <ul>
-<li>类型:String
-*
-路径或文件名，例如D:\file.txt, 可通过'[]'引用其他列，
-若为目录名，必须显式以/结束，文件名将会通过url自动解析</li>
+<li>可访问其他用户提供的Hawk仓库</li>
+<li>能够自行上传和保存工程文件。</li>
+<li>能够自由调用市场的子任务</li>
+<li>给Hawk作者点star</li>
 </ul>
-<h3 id="crawlerselector">爬虫选择(CrawlerSelector):</h3>
-<ul>
-<li>类型:可编辑选项</li>
-<li>填写采集器或模块的名称</li>
-</ul>
-<h3 id="isasync">是否异步(IsAsync):</h3>
-<ul>
-<li>类型:Boolean 默认值:False</li>
-<li>没有描述</li>
-</ul>
-<hr />
-<h2 id="tableex">写入数据表(TableEX)</h2>
-<p>将数据保存至软件的数据管理器中，之后可方便进行其他处理，拖入到任意一列皆可，常用</p>
-<h3 id="table">表名(Table):</h3>
-<ul>
-<li>类型:String</li>
-<li>没有描述</li>
-</ul>
-<hr />
-<h2 id="writefiletexttf">写入文件文本(WriteFileTextTF)</h2>
-<p>写入文件中的文本，由于在并行模式下同时写入文件可能会导致问题，因此尽量使用串行模式</p>
-<h3 id="filename">路径(FileName):</h3>
-<ul>
-<li>类型:String</li>
-<li>例如d:\test\mydb.sqlite</li>
-</ul>
-<h3 id="encodingtype">编码(EncodingType):</h3>
-<ul>
-<li>类型:EncodingType 默认值:UTF8</li>
-<li>没有描述</li>
-</ul>
-<hr />
+<blockquote>
+<p>Hawk和其作者，保证不会访问或传输用户的账号和密码，它将会保存在用户PC端的token中。</p>
+</blockquote>
+<p>对于要上传的任务，会经过作者审核。通过后上传到公共仓库。未来Hawk的整个生态，都会围绕在Github展开。</p>
+<h2 id="3">3.市场的界面使用</h2>
+<p>//TODO: 界面描述</p>
+<p>左侧包含了当前repo对应目录下的所有工程，点击每个工程，右侧即可展示其包含的数据表，任务集合，参数和介绍等。</p>
+<p>双击工程，即可像加载本地工程一样加载远端工程文件。</p>
+<h2 id="4">4.使用远端的任务</h2>
+<p>除了加载整个工程完成特定任务外，还支持加载远端工程中特定的任务。有两种方式使用远端任务：</p>
+<ol>
+<li>手动加载任务</li>
+</ol>
+<p>在右侧的任务列表上点右键，即可加载当前任务。
+任务在初始化时，会自动将远程的依赖任务和数据加载出来。之后远端任务即可像本地任务一样使用，没有任何区别。</p>
+<ol>
+<li>自动引用任务</li>
+</ol>
+<p>这是Hawk革命性的功能，在数据清洗中，可以使用如下语法，调用远程仓库的子任务和数据清洗：
+remote://RepoUser/Repo/DirName/ProjectName/TaskName</p>
+<p>每次软件启动时，就会自动从远端加载当前任务。</p>
+<p>未来可能会提供图形化配置功能。</p>
               
             </div>
           </div>
@@ -293,10 +293,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../生成器/" class="btn btn-neutral float-right" title="13.生成器">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../数据表和数据库连接/" class="btn btn-neutral float-right" title="6.数据表和数据库连接">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../过滤器/" class="btn btn-neutral" title="11.过滤器"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../主要组件介绍/" class="btn btn-neutral" title="4.主要组件介绍"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -322,10 +322,10 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../过滤器/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../主要组件介绍/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../生成器/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../数据表和数据库连接/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

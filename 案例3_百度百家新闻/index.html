@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>12.执行器 - Hawk doc</title>
+  <title>21.案例3_百度百家新闻 - Hawk doc</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
@@ -17,8 +17,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "12.\u6267\u884c\u5668";
-    var mkdocs_page_input_path = "\u6267\u884c\u5668.md";
+    var mkdocs_page_name = "21.\u6848\u4f8b3_\u767e\u5ea6\u767e\u5bb6\u65b0\u95fb";
+    var mkdocs_page_input_path = "\u6848\u4f8b3_\u767e\u5ea6\u767e\u5bb6\u65b0\u95fb.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -103,27 +103,9 @@
     <a class="" href="../过滤器/">11.过滤器</a>
 	    </li>
           
-            <li class="toctree-l1 current">
+            <li class="toctree-l1">
 		
-    <a class="current" href="./">12.执行器</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l2"><a href="#_1">执行器</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l3" href="#dbex">写入数据库(DbEX)</a></li>
-        
-            <li><a class="toctree-l3" href="#savefileex">保存超链接文件(SaveFileEX)</a></li>
-        
-            <li><a class="toctree-l3" href="#tableex">写入数据表(TableEX)</a></li>
-        
-            <li><a class="toctree-l3" href="#writefiletexttf">写入文件文本(WriteFileTextTF)</a></li>
-        
-        </ul>
-    
-
-    </ul>
+    <a class="" href="../执行器/">12.执行器</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -166,9 +148,15 @@
     <a class="" href="../案例2_大众点评/">20.案例2_大众点评</a>
 	    </li>
           
-            <li class="toctree-l1">
+            <li class="toctree-l1 current">
 		
-    <a class="" href="../案例3_百度百家新闻/">21.案例3_百度百家新闻</a>
+    <a class="current" href="./">21.案例3_百度百家新闻</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#3_">案例3_百度百家新闻</a></li>
+    
+
+    </ul>
 	    </li>
           
             <li class="toctree-l1">
@@ -213,7 +201,7 @@
     
       
     
-    <li>12.执行器</li>
+    <li>21.案例3_百度百家新闻</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -223,69 +211,31 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="_1">执行器</h1>
-<h2 id="dbex">写入数据库(DbEX)</h2>
-<p>进行数据库操作，包括写入，删除和更新，输入列为表的主键</p>
-<h3 id="executetype">操作类型(ExecuteType):</h3>
-<ul>
-<li>类型:EntityExecuteType 默认值:OnlyInsert</li>
-<li>选择数据库的操作，如插入，删除，更新等</li>
-</ul>
-<h3 id="tablenames">表名(TableNames):</h3>
-<ul>
-<li>类型:可编辑选项
-*
-必填，若数据库不存在该表，则会根据第一条数据的列自动创建表
-不符合数据库要求的列名会被替换</li>
-</ul>
-<hr />
-<h2 id="savefileex">保存超链接文件(SaveFileEX)</h2>
-<p>保存对应链接的文件，如图片，视频等
-拖入的列为文件的超链接地址
-<code>保存位置</code>:可以使用方括号表达式，将某一列的内容传递过来
-注意:</p>
-<ul>
-<li>一些网站必须要求登录以后才能下载内容。而如果你已经配置好能正常访问该网站的<code>网页采集器</code>，那么就可以在<code>共用采集器名</code>中填写这个采集器的名称，此时本模块会使用那个采集器的header进行抓取。</li>
-</ul>
-<h3 id="savepath">保存位置(SavePath):</h3>
-<ul>
-<li>类型:String
-*
-路径或文件名，例如D:\file.txt, 可通过'[]'引用其他列，
-若为目录名，必须显式以/结束，文件名将会通过url自动解析</li>
-</ul>
-<h3 id="crawlerselector">爬虫选择(CrawlerSelector):</h3>
-<ul>
-<li>类型:可编辑选项</li>
-<li>填写采集器或模块的名称</li>
-</ul>
-<h3 id="isasync">是否异步(IsAsync):</h3>
-<ul>
-<li>类型:Boolean 默认值:False</li>
-<li>没有描述</li>
-</ul>
-<hr />
-<h2 id="tableex">写入数据表(TableEX)</h2>
-<p>将数据保存至软件的数据管理器中，之后可方便进行其他处理，拖入到任意一列皆可，常用</p>
-<h3 id="table">表名(Table):</h3>
-<ul>
-<li>类型:String</li>
-<li>没有描述</li>
-</ul>
-<hr />
-<h2 id="writefiletexttf">写入文件文本(WriteFileTextTF)</h2>
-<p>写入文件中的文本，由于在并行模式下同时写入文件可能会导致问题，因此尽量使用串行模式</p>
-<h3 id="filename">路径(FileName):</h3>
-<ul>
-<li>类型:String</li>
-<li>例如d:\test\mydb.sqlite</li>
-</ul>
-<h3 id="encodingtype">编码(EncodingType):</h3>
-<ul>
-<li>类型:EncodingType 默认值:UTF8</li>
-<li>没有描述</li>
-</ul>
-<hr />
+                <h1 id="3_">案例3_百度百家新闻</h1>
+<p>目标地址:</p>
+<blockquote>
+<p>http://baijia.baidu.com/</p>
+</blockquote>
+<p>这是典型的瀑布流例子，不论向下翻多少页，浏览器的地址是不会发生变化的。我们可以断定它使用了ajax。</p>
+<p>我们翻到第二页（为什么要翻到第二页的原理，可参考<code>3.1动态嗅探</code>。），找一个比较有代表性的关键字：</p>
+<p><img alt="image_1aur5boeu1tqmo9d163rs07gu79.png-132.2kB" src="http://static.zybuluo.com/buptzym/jr3bqu5qt4aw0wuibmt3dqih/image_1aur5gl4urkcur7dd1oaq1rjg9.png" /></p>
+<p><code>滴滴一下，马上出发</code></p>
+<p>将其拷贝到网页采集器的<code>搜索字符</code>里:</p>
+<p><img alt="image_1aur5gl4urkcur7dd1oaq1rjg9.png-9.6kB" src="http://static.zybuluo.com/buptzym/jr3bqu5qt4aw0wuibmt3dqih/image_1aur5gl4urkcur7dd1oaq1rjg9.png" /></p>
+<p>Hawk会弹出提示对话框:</p>
+<p>//补充图片</p>
+<p>已经提醒如下内容：</p>
+<pre><code>2016-10-12 08:41:44 WARN  在该网页中找不到关键字 滴滴一下，马上出发,可能是动态请求，可以启用【自动嗅探】,勾选【转换动态请求】,并将浏览器页面翻到包含该关键字的位置
+</code></pre>
+
+<p>点击<code>确认</code>后， 浏览器会弹出百度百家的页面，你可以将滚动条往下翻，直到出现那篇滴滴的文章。之后Hawk会弹出对话框：</p>
+<p><img alt="image_1aur5lad8mhr1pts1fjape1jc613.png-20.2kB" src="http://static.zybuluo.com/buptzym/wx3qxb4r1z22od3atranvba1/image_1aur5lad8mhr1pts1fjape1jc613.png" /></p>
+<p>此时，Hawk会自动关闭嗅探。之后，再点手气不错，即可看到完整的页面内容，也可以按照关键词搜索，和其他静态网页的使用完全一致。</p>
+<p>再打开<code>请求详情</code>，发现Hawk已经将页面的cookie获取到了。注意到真实的地址：</p>
+<pre><code>http://baijia.baidu.com/ajax/labellatestarticle?page=3&amp;pagesize=20&amp;prevarticalid=650790&amp;flagtogether=1&amp;labelid=3
+</code></pre>
+
+<p>你可以像以往<code>合并多列</code>的方法，来获取所有页面，此处不再赘述。</p>
               
             </div>
           </div>
@@ -293,10 +243,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../生成器/" class="btn btn-neutral float-right" title="13.生成器">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../案例4_优酷/" class="btn btn-neutral float-right" title="22.案例4_优酷">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../过滤器/" class="btn btn-neutral" title="11.过滤器"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../案例2_大众点评/" class="btn btn-neutral" title="20.案例2_大众点评"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -322,10 +272,10 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../过滤器/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../案例2_大众点评/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../生成器/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../案例4_优酷/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

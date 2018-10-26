@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>12.执行器 - Hawk doc</title>
+  <title>22.案例4_优酷 - Hawk doc</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
@@ -17,8 +17,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "12.\u6267\u884c\u5668";
-    var mkdocs_page_input_path = "\u6267\u884c\u5668.md";
+    var mkdocs_page_name = "22.\u6848\u4f8b4_\u4f18\u9177";
+    var mkdocs_page_input_path = "\u6848\u4f8b4_\u4f18\u9177.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -103,27 +103,9 @@
     <a class="" href="../过滤器/">11.过滤器</a>
 	    </li>
           
-            <li class="toctree-l1 current">
+            <li class="toctree-l1">
 		
-    <a class="current" href="./">12.执行器</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l2"><a href="#_1">执行器</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l3" href="#dbex">写入数据库(DbEX)</a></li>
-        
-            <li><a class="toctree-l3" href="#savefileex">保存超链接文件(SaveFileEX)</a></li>
-        
-            <li><a class="toctree-l3" href="#tableex">写入数据表(TableEX)</a></li>
-        
-            <li><a class="toctree-l3" href="#writefiletexttf">写入文件文本(WriteFileTextTF)</a></li>
-        
-        </ul>
-    
-
-    </ul>
+    <a class="" href="../执行器/">12.执行器</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -171,9 +153,23 @@
     <a class="" href="../案例3_百度百家新闻/">21.案例3_百度百家新闻</a>
 	    </li>
           
-            <li class="toctree-l1">
+            <li class="toctree-l1 current">
 		
-    <a class="" href="../案例4_优酷/">22.案例4_优酷</a>
+    <a class="current" href="./">22.案例4_优酷</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#4_">案例4_优酷</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#1">1.优酷列表</a></li>
+        
+            <li><a class="toctree-l3" href="#2">2.总结一下</a></li>
+        
+        </ul>
+    
+
+    </ul>
 	    </li>
           
             <li class="toctree-l1">
@@ -213,7 +209,7 @@
     
       
     
-    <li>12.执行器</li>
+    <li>22.案例4_优酷</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -223,69 +219,34 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="_1">执行器</h1>
-<h2 id="dbex">写入数据库(DbEX)</h2>
-<p>进行数据库操作，包括写入，删除和更新，输入列为表的主键</p>
-<h3 id="executetype">操作类型(ExecuteType):</h3>
-<ul>
-<li>类型:EntityExecuteType 默认值:OnlyInsert</li>
-<li>选择数据库的操作，如插入，删除，更新等</li>
-</ul>
-<h3 id="tablenames">表名(TableNames):</h3>
-<ul>
-<li>类型:可编辑选项
-*
-必填，若数据库不存在该表，则会根据第一条数据的列自动创建表
-不符合数据库要求的列名会被替换</li>
-</ul>
+                <h1 id="4_">案例4_优酷</h1>
 <hr />
-<h2 id="savefileex">保存超链接文件(SaveFileEX)</h2>
-<p>保存对应链接的文件，如图片，视频等
-拖入的列为文件的超链接地址
-<code>保存位置</code>:可以使用方括号表达式，将某一列的内容传递过来
-注意:</p>
+<p>本节你可以学到： 当页面并非标准列表时，如何快速获取网页信息。如列表根路径。</p>
+<h2 id="1">1.优酷列表</h2>
+<p>有朋友给我反馈，对于这个页面，手气不错不能得到合适的结果：</p>
+<blockquote>
+<p>http://game.youku.com/index/lol</p>
+</blockquote>
+<p><img alt="image_1aur6hib4gqf1v5vvaeohg1sud9.png-714.2kB" src="http://static.zybuluo.com/buptzym/g9pdhcwdqwi860i9h1ldbpio/image_1aur6hib4gqf1v5vvaeohg1sud9.png" /></p>
+<p>不论如何，手气不错只能显示一列7个元素，而不能获取全部的28个元素，这可如何是好？</p>
+<p>仔细一看，原来整个网页的结构是这样的：</p>
+<p><img alt="image_1aur6ki2s10ll1rdc1vd0100cumc9.png-210.6kB" src="http://static.zybuluo.com/buptzym/yk445n16ogn3zfb0knvz8fo6/image_1aur6ki2s10ll1rdc1vd0100cumc9.png" /></p>
+<p>原来，它每一列为一个div，每个div里有7个元素。这样，手气不错只会检测到这个父div，而无法获取全部4*7=28个元素。</p>
+<p>怎么办呢？手工填写<code>列表根路径</code>就可以。（您可以先尝试本教程，然后阅读<code>3.2采集器高级用法</code>）</p>
+<p>我们观察到，每个包含视频元素的div，都是这样的</p>
+<p><img alt="image_1av4euinivvf1vlv8i31bb6p559.png-12.3kB" src="http://static.zybuluo.com/buptzym/kyvhv1n0dsyc44pqilx4ie0d/image_1av4euinivvf1vlv8i31bb6p559.png" /></p>
+<p>因此，它们的xpath应当是 <code>//*[@class="v"]</code> ，什么？不懂？复习XPath语法去。</p>
+<p>这样，我们将上面的表达式拷贝到Hawk的<code>列表根路径</code>上，使用手气不错:</p>
+<p><img alt="image_1aur6vc0v13o4rghciug11o213.png-12.2kB" src="http://static.zybuluo.com/buptzym/vz5q3xgr2xsomz34iyz800mc/image_1aur6vc0v13o4rghciug11o213.png" /></p>
+<p>哈哈，是不是所有的元素都获得啦？</p>
+<p><img alt="image_1aur6vvu3s2d1c0d1ppi1dfkqqe1g.png-65.8kB" src="http://static.zybuluo.com/buptzym/112f4b0a8u2iuw17lc3g23xe/image_1aur6vvu3s2d1c0d1ppi1dfkqqe1g.png" /></p>
+<h2 id="2">2.总结一下</h2>
+<p>当你提供列表根路径时，手气不错就会省略执行寻找列表节点的过程。</p>
 <ul>
-<li>一些网站必须要求登录以后才能下载内容。而如果你已经配置好能正常访问该网站的<code>网页采集器</code>，那么就可以在<code>共用采集器名</code>中填写这个采集器的名称，此时本模块会使用那个采集器的header进行抓取。</li>
+<li>第一步，Haw会根据列表根路径，获取所有节点。</li>
+<li>之后会在这些节点上，进行diff操作，获取所有属性。</li>
 </ul>
-<h3 id="savepath">保存位置(SavePath):</h3>
-<ul>
-<li>类型:String
-*
-路径或文件名，例如D:\file.txt, 可通过'[]'引用其他列，
-若为目录名，必须显式以/结束，文件名将会通过url自动解析</li>
-</ul>
-<h3 id="crawlerselector">爬虫选择(CrawlerSelector):</h3>
-<ul>
-<li>类型:可编辑选项</li>
-<li>填写采集器或模块的名称</li>
-</ul>
-<h3 id="isasync">是否异步(IsAsync):</h3>
-<ul>
-<li>类型:Boolean 默认值:False</li>
-<li>没有描述</li>
-</ul>
-<hr />
-<h2 id="tableex">写入数据表(TableEX)</h2>
-<p>将数据保存至软件的数据管理器中，之后可方便进行其他处理，拖入到任意一列皆可，常用</p>
-<h3 id="table">表名(Table):</h3>
-<ul>
-<li>类型:String</li>
-<li>没有描述</li>
-</ul>
-<hr />
-<h2 id="writefiletexttf">写入文件文本(WriteFileTextTF)</h2>
-<p>写入文件中的文本，由于在并行模式下同时写入文件可能会导致问题，因此尽量使用串行模式</p>
-<h3 id="filename">路径(FileName):</h3>
-<ul>
-<li>类型:String</li>
-<li>例如d:\test\mydb.sqlite</li>
-</ul>
-<h3 id="encodingtype">编码(EncodingType):</h3>
-<ul>
-<li>类型:EncodingType 默认值:UTF8</li>
-<li>没有描述</li>
-</ul>
-<hr />
+<p>这样，即使是更复杂的页面，通常目标节点都有很多特定的特征（如class和id,甚至其他标签），那么，总可以通过xpath语法，将其快速筛选出来。</p>
               
             </div>
           </div>
@@ -293,10 +254,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../生成器/" class="btn btn-neutral float-right" title="13.生成器">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../更新日志和作者/" class="btn btn-neutral float-right" title="23.更新日志和作者">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../过滤器/" class="btn btn-neutral" title="11.过滤器"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../案例3_百度百家新闻/" class="btn btn-neutral" title="21.案例3_百度百家新闻"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -322,10 +283,10 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../过滤器/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../案例3_百度百家新闻/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../生成器/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../更新日志和作者/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

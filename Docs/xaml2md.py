@@ -105,7 +105,7 @@ def generate_doc(dic,target='hawk_doc',output_folder='hawk'):
                     path=  '%s/docs/%s.md'%(output_folder,title)
                     #print(path)
                     file= codecs.open(path,'w',encoding='utf-8')
-            elif count<4 and (pos[0]<8 or pos[0]>12):
+            elif count<4 and (pos[0]<9 or pos[0]>13):
                 l= '%s %s.%s'%(header,'.'.join([str(r) for r in pos[1:count]]),splits[1])
         
         file.write(l+'\n')

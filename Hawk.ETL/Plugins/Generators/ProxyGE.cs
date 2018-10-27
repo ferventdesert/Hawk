@@ -53,7 +53,7 @@ namespace Hawk.ETL.Plugins.Generators
 
 
         [PropertyOrder(4)]
-        [LocalizedCategory("key_635")]
+        [LocalizedCategory("http_header")]
         [LocalizedDisplayName("key_176")]
         [LocalizedDescription("proxy_setting_desc")]
         [PropertyEditor("CodeEditor")]

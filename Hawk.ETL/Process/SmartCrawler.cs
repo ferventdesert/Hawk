@@ -268,7 +268,7 @@ namespace Hawk.ETL.Process
         public ObservableCollection<CrawlItem> CrawlItems { get; set; }
 
         [LocalizedCategory("key_634")]
-        [LocalizedDisplayName("key_635")]
+        [LocalizedDisplayName("http_header")]
         [PropertyOrder(1)]
         [LocalizedDescription("key_636")]
         [TypeConverter(typeof (ExpandableObjectConverter))]

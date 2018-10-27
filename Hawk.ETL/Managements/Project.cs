@@ -58,6 +58,12 @@ namespace Hawk.ETL.Managements
         [PropertyEditor("CodeEditor")]
         public string Description { get; set; }
 
+
+        [PropertyOrder(10)]
+        [LocalizedCategory("key_211")]
+        [LocalizedDisplayName("short_desc")]
+        public string ShortDescription { get; set; }
+
         [Browsable(false)]
         [LocalizedDisplayName("key_330")]
         public int Version { get; set; }
@@ -72,15 +78,17 @@ namespace Hawk.ETL.Managements
             dict.Add("Author", Author);
             dict.Add("ImgURL", ImgURL);
             dict.Add("PublishTime", PublishTime);
+            dict.Add("ShortDescription", ShortDescription);
             return dict;
         }
-
+        [Browsable(false)]
         public bool IsRemote { get; set; }
 
         public virtual void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
         {
             Name = docu.Set("Name", Name);
             Description = docu.Set("Description", Description);
+            ShortDescription = docu.Set("ShortDescription", ShortDescription);
             Version = docu.Set("Version", Version);
             SavePath = docu.Set("SavePath", SavePath);
             Author = docu.Set("Author", Author);

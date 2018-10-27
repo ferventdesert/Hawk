@@ -94,7 +94,8 @@ namespace Hawk.Core.Utils.Plugins
         /// </summary>
         /// <param name="isBusy"></param>
         /// <param name="title"></param>
-        void SetBusy(bool isBusy, string title = "系统正忙", string message = "正在处理长时间操作", int percent = 0, ProgressBarState state=ProgressBarState.Normal);
+         void SetBusy(ProgressBarState state = ProgressBarState.Normal, string title = "系统正忙",
+            string message = "正在处理长时间操作", int percent = 0);
 
 
 

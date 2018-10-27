@@ -465,6 +465,7 @@ namespace Hawk.ETL.Process
             dict.Add("GenerateMode", GenerateMode);
             dict.Add("SampleMount", SampleMount);
             dict.Add("DelayTime", DelayTime);
+            dict.Add(FreeDocument.KeepOrder, true);
             dict.Children = new List<FreeDocument>();
             dict.Children.AddRange(CurrentETLTools.Select(d => d.DictSerialize(scenario)));
             return dict;
@@ -1087,7 +1088,7 @@ namespace Hawk.ETL.Process
                             else if (transformer is ETLBase)
                             {
                                 var etl = transformer as ETLBase;
-                                var target = etl.GetModule<SmartETLTool>(etl.ETLSelector.SelectItem);
+                                var target = etl.GetTask<SmartETLTool>(etl.ETLSelector.SelectItem);
                                 outputCol = target?.Documents.GetKeys().ToList();
                                 inputCol.AddRange(etl.MappingSet.Split(' ').Select(d => d.Split(':')[0]));
                             }
@@ -1134,16 +1135,16 @@ namespace Hawk.ETL.Process
                     {
                         case "Percent":
 
-                            dock.SetBusy(false, percent: temptask.Percent);
+                            dock.SetBusy(ProgressBarState.Normal,title:GlobalHelper.Get("long_etl_task"), percent: temptask.Percent);
                             break;
                         case "IsStart":
 
                             if (temptask.IsStart == false)
-                                dock.SetBusy(false, state: ProgressBarState.NoProgress);
+                                dock.SetBusy(ProgressBarState.NoProgress);
                             else
                             {
                                 if (temptask.Total < 0)
-                                    dock.SetBusy(false, state: ProgressBarState.Indeterminate);
+                                    dock.SetBusy( ProgressBarState.Indeterminate);
                             }
                             break;
                         default:

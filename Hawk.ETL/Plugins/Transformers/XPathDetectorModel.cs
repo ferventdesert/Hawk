@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.WpfPropertyGrid.Controls;
 using System.Windows.Input;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
@@ -28,11 +29,20 @@ namespace Hawk.ETL.Plugins.Transformers
         public XPathDetectorModel(string html, ScriptWorkMode workmode,Window theView,TextBox textbox)
         {
             HtmlDoc = new HtmlDocument();
+            var xpathHelper =new Dictionary<string, string>()
+            {
+                { "all_image","//img[@src]"},
+                { "all_item_with_id",@"//*[@id=""YOUR_ID""]"},
+                { "all_item_with_class",@"//*[@class=""YOUR_CLASS""]"},
 
+
+            };
             ControlExtended.SafeInvoke(() => HtmlDoc.LoadHtml(html));
             URLHTML = html;
             view = theView;
             htmlTextBox = textbox; 
+            XPath=new TextEditSelector();
+            XPath.SetSource(xpathHelper.Select(d=>d.Value));
             if (workmode == ScriptWorkMode.List)
                 ChildCount = 5;
             else
@@ -59,18 +69,8 @@ namespace Hawk.ETL.Plugins.Transformers
         public ObservableCollection<CrawlItem> CrawlItems { get; set; }
         public ObservableCollection<CrawlItem> ChildItems { get; set; }
 
-        public string XPath
-        {
-            get { return _xPath; }
-            set
-            {
-                if (_xPath != value)
-                {
-                    _xPath = value;
-                    OnPropertyChanged("XPath");
-                }
-            }
-        }
+        public TextEditSelector XPath { get; set; }
+
 
         [Browsable(false)]
         public string SelectText
@@ -108,13 +108,13 @@ namespace Hawk.ETL.Plugins.Transformers
                 {
                     _selectedItem = value;
 
-                    XPath = value.XPath;
+                    XPath.SelectItem = value.XPath;
 
                     if (htmlTextBox != null)
                     {
                         ControlExtended.UIInvoke(() =>
                         {
-                            var node = HtmlDoc.DocumentNode.SelectSingleNodePlus(XPath, SelectorFormat.XPath);
+                            var node = HtmlDoc.DocumentNode.SelectSingleNodePlus(XPath.SelectItem, SelectorFormat.XPath);
                             htmlTextBox.Focus();
                             htmlTextBox.SelectionStart = node.StreamPosition;
                             htmlTextBox.SelectionLength = node.OuterHtml.Length;
@@ -162,10 +162,10 @@ namespace Hawk.ETL.Plugins.Transformers
 
         private void SearchChild()
         {
-            if (string.IsNullOrWhiteSpace(XPath) == false)
+            if (string.IsNullOrWhiteSpace(XPath.SelectItem) == false)
             {
                 List<HtmlNode> nodes = null;
-                ControlExtended.SafeInvoke(()=>nodes= HtmlDoc.DocumentNode.SelectNodesPlus(XPath, SelectorFormat.XPath).ToList());
+                ControlExtended.SafeInvoke(()=>nodes= HtmlDoc.DocumentNode.SelectNodesPlus(XPath.SelectItem, SelectorFormat.XPath).ToList());
                 ChildItems.Clear();
                 if (nodes == null)
                 {

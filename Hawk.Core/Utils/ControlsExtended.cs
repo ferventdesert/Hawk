@@ -237,7 +237,7 @@ namespace Hawk.Core.Utils
             return true;
         }
 
-        public static void SetBusy(bool isBusy, string title = null, string message = null, int percent = 0)
+        public static void SetBusy(ProgressBarState state , string title = null, string message = null, int percent = 0)
         {
             if (title == null)
                 title = GlobalHelper.Get("key_3");
@@ -245,10 +245,14 @@ namespace Hawk.Core.Utils
                 message = GlobalHelper.Get("LongTask");
             if (Application.Current == null)
                 return;
-            var item = Application.Current.MainWindow as IDockableManager;
-            if (item == null)
-                return;
-            UIInvoke(() => item.SetBusy(isBusy, title, message, percent));
+            ControlExtended.UIInvoke(() =>
+            {
+                var item = Application.Current.MainWindow as IDockableManager;
+                if (item == null)
+                    return;
+                UIInvoke(() => item.SetBusy(state, title, message, percent));
+            });
+          
         }
 
         public static void UIInvoke(this Control control, InvokeHandler handler)

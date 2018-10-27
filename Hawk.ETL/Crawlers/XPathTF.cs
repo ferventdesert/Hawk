@@ -43,6 +43,7 @@ namespace Hawk.ETL.Crawlers
         [LocalizedDescription("key_192")]
         public bool GetText { get; set; }
 
+       
 
         [PropertyOrder(0)]
         [LocalizedDisplayName("key_162")]
@@ -89,11 +90,10 @@ namespace Hawk.ETL.Crawlers
             view.DataContext = xPathDetectorModel;
             window.Activate();
             window.ShowDialog();
-
+            
             if (window.DialogResult == true)
-
             {
-                XPath = xPathDetectorModel.XPath;
+                XPath = xPathDetectorModel.XPath.SelectItem;
                 OnPropertyChanged("XPath");
                 OnPropertyChanged("MappingSet");
             }

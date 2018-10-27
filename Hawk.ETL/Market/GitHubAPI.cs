@@ -7,20 +7,86 @@ using System.Threading.Tasks;
 using Octokit;
 using System.Net;
 using System.Web.Security;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
+using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Fiddler;
+using Hawk.Core.Utils;
+using Hawk.Core.Utils.Logs;
+using Hawk.Core.Utils.MVVM;
+using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Managements;
+using ContentType = Octokit.ContentType;
 
 namespace Hawk.ETL.Market
 {
-    public class GitHubAPI
+    public class GitHubAPI :  PropertyChangeNotifier, IDictionarySerializable
 
     {
+        public GitHubAPI()
+        {
+            ProjectName = new ExtendSelector<string>();
+            TargetDir=new ExtendSelector<string>();
+            client = new GitHubClient(new ProductHeaderValue("Hawk3"));
+            this.PropertyChanged += async  (s, e) =>  
+            {
+                if(!isConnect)
+                    return;
+                if (e.PropertyName== "RepoUserName"&&string.IsNullOrEmpty(RepoUserName) == false)
+                {
+                    var result = await client.Repository.GetAllForUser(RepoUserName);
+                    ProjectName.SetSource(result.Select(d=>d.Name));
+                }
 
-        public string ProjectName { get; set; }
+             
 
-        public string UserName { get; set; }
+            };
+            this.ProjectName.SelectChanged += async (s, e) =>
+            {
+                if (string.IsNullOrEmpty(ProjectName.SelectItem) == false)
+                {
+                    var result = await client.Repository.Content.GetAllContents(RepoUserName, ProjectName.SelectItem);
+                    TargetDir.SetSource(result.Where(d => d.Type == ContentType.Dir).Select(d => d.Name));
+                }
 
-        public string TargetDir { get; set; }
+            };
+            TargetDir.
+        }
+
+        [PropertyOrder(3)]
+        public ExtendSelector<string> ProjectName { get; set; }
+
+        [PropertyOrder(2)]
+        public string RepoUserName
+        {
+            get { return _repoUserName; }
+            set
+            {
+                if (_repoUserName != value)
+                {
+                    _repoUserName = value;
+                    OnPropertyChanged("RepoUserName");
+                }
+            }
+        }
+
+        [PropertyOrder(4)]
+        public ExtendSelector<string> TargetDir { get; set; }
+
+        [LocalizedCategory("user_login")]
+        [LocalizedDisplayName("key_25")]
+        [PropertyOrder(0)]
+        public string Login { get; set; }
+
+        [LocalizedDisplayName("key_26")]
+        [LocalizedCategory("user_login")]
+        [PropertyOrder(1)]
+        [PropertyEditor("PasswordEditor")]
+        public string Password { get; set; }
+
+        [LocalizedDisplayName("keep_pass")]
+        [LocalizedCategory("user_login")]
+        [PropertyOrder(2)]
+        public bool IsKeepPassword { get; set; }
 
         public async Task<IEnumerable<ProjectItem>>  GetProjects(string username=null, string project= null,string target=null)
         {
@@ -29,9 +95,13 @@ namespace Hawk.ETL.Market
             if (string.IsNullOrEmpty(project) )
                 project = "Hawk-Projects";
             if (string.IsNullOrEmpty(target) )
-                target = "链家";
+                target = "Hawk3";
+            IReadOnlyList<RepositoryContent> result = null;
 
-            var result = await client.Repository.Content.GetAllContents(username, project, target);
+            result = await client.Repository.Content.GetAllContents(username, project, target);
+            if (result == null)
+                return null;
+           
             var items=  result.Where(d => d.Type == ContentType.File&&(d.Name.EndsWith(".xml",true,null)||d.Name.EndsWith(".hproj",true,null))).Select(
                   d =>
                 {
@@ -60,63 +130,26 @@ namespace Hawk.ETL.Market
                 });
             return items;
         } 
-        public GitHubClient client;
+        private GitHubClient client;
+        private bool isConnect = false;
+        private string _repoUserName;
+
         public  void Connect()
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-             client = new GitHubClient(new ProductHeaderValue("my-Hawk-app"));
-            return;
-            
-            try
-            {
-                var clientId = "some-id-here";
-                var clientSecret = "some-id-here";
-
-                // NOTE: this is not required, but highly recommended!
-                // ask the ASP.NET Membership provider to generate a random value 
-                // and store it in the current user's session
-                string csrf = Membership.GeneratePassword(24, 1);
-
-                var request = new OauthLoginRequest(clientId)
-                {
-                    Scopes = { "user", "notifications" },
-                    State = csrf
-                };
-
-                // NOTE: user must be navigated to this URL
-                var oauthLoginUrl = client.Oauth.GetGitHubLoginUrl(request);
-                Console.WriteLine(oauthLoginUrl);
-
-                var miscellaneousRateLimit =  client.Miscellaneous.GetRateLimits().Result;
-
-                //  The "core" object provides your rate limit status except for the Search API.
-                var coreRateLimit = miscellaneousRateLimit.Resources.Core;
-
-                var howManyCoreRequestsCanIMakePerHour = coreRateLimit.Limit;
-                var howManyCoreRequestsDoIHaveLeft = coreRateLimit.Remaining;
-                var whenDoesTheCoreLimitReset = coreRateLimit.Reset; // UTC time
-
-                // the "search" object provides your rate limit status for the Search API.
-                var searchRateLimit = miscellaneousRateLimit.Resources.Search;
-
-                var howManySearchRequestsCanIMakePerMinute = searchRateLimit.Limit;
-                var howManySearchRequestsDoIHaveLeft = searchRateLimit.Remaining;
-                var whenDoesTheSearchLimitReset = searchRateLimit.Reset; // UTC time
-
-
-                var content =  client.Repository.Content.GetAllContents("ferventdesert", "Hawk-Projects","链家").Result;
-                var first=content.FirstOrDefault(d => d.Name.Contains("2020")).DownloadUrl;
-                var proj=    Hawk.ETL.Managements.Project.LoadFromUrl(first); 
-                Console.WriteLine(proj);
-
-            }
-            catch (Exception ex)
-            {
-                
-                throw;
-            }
-        
+         
+            client.Credentials=new Credentials (Login,Password);
+            isConnect = true;
         }
 
+        public FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

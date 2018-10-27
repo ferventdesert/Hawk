@@ -36,6 +36,15 @@
     <system:String x:Key="LongTask">
         正在进行长时间任务，请等待
     </system:String>
+        <system:String x:Key="short_desc">
+        简短描述
+    </system:String>
+      <system:String x:Key="long_etl_task">
+        正在执行临时任务流，请稍后
+    </system:String>
+          <system:String x:Key="long_visit_web">
+        正在从服务器刷新网页，请等待
+    </system:String>
     <system:String x:Key="ModuleMgmt">
         欢迎页面
     </system:String>
@@ -1206,6 +1215,12 @@
        - 性能较差，大量的字符解析，js模式树解析
        - 兼容性一般：不是所有的文本都能转成树结构，因此必要时需要使用手动模式处理。
     </system:String>
+     <system:String x:Key="add_task_warning" xml:space="preserve">
+          haha 
+    </system:String>
+      <system:String x:Key="config_not_found_warning">
+       配置"{0}"在全局配置中不存在，请检查相关参数，原始配置为 {1}
+    </system:String>
     <system:String x:Key="crawler_xpath_root" xml:space="preserve">
         ### 列表根路径
         列表根路径是所有属性的XPath公共部分，能简化XPath编写，提升兼容性。只能在{{script_mode_list}}模式下工作。
@@ -1361,6 +1376,9 @@
     </system:String>
     <system:String x:Key="key_25">
         用户名
+    </system:String>
+        <system:String x:Key="user_login">
+        GitHub用户登录
     </system:String>
     <system:String x:Key="key_475">
         列名不能以数字开头，否则将导致无法正确显示该列
@@ -1708,7 +1726,7 @@
         join成功后倒入哪些列
     </system:String>
     <system:String x:Key="key_309">
-        项目另存为
+        工程另存为
     </system:String>
     <system:String x:Key="key_648">
         填写拥有正确cookie的采集器名称，为空时不起作用，该功能还会获取代理IP等属性，避免重复设置 {{smartcrawler_name}} 
@@ -2561,6 +2579,9 @@
     <system:String x:Key="key_239">
         新建数据集
     </system:String>
+       <system:String x:Key="keep_pass">
+        保存密码
+    </system:String>
     <system:String x:Key="key_669">
         HTML抽取数据失败，url:{0}
     </system:String>
@@ -3032,7 +3053,7 @@
         将拷贝模块插入下方  
     </system:String>
     <system:String x:Key="key_308">
-        保存项目
+        保存工程
     </system:String>
     <system:String x:Key="SaveFileEX">
         保存超链接文件
@@ -3104,7 +3125,7 @@
         搜索半径
     </system:String>
     <system:String x:Key="key_306">
-        新建项目
+        新建工程
     </system:String>
     <system:String x:Key="key_635">
         Http请求详情

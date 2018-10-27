@@ -29,7 +29,7 @@ namespace Hawk.ETL.Plugins.Transformers
             if(!checkKeys.All(checkKey => datas.Keys.Contains(checkKey)))
                 yield return datas;
             var etlName=datas["__SysETL"].ToString();
-            var etl =  this.GetModule<SmartETLTool>(etlName);
+            var etl =  this.GetTask<SmartETLTool>(etlName);
             if(etl==null)
                 throw new Exception(String.Format("task not exists {0}",etlName));
             var process = etl.CurrentETLTools.FirstOrDefault(d => d.ObjectID == datas["__SysObjectID"].ToString());

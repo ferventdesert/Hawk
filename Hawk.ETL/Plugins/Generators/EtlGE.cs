@@ -310,7 +310,7 @@ namespace Hawk.ETL.Plugins.Generators
         {
             if (string.IsNullOrEmpty(ETLSelector.SelectItem))
                 return false;
-            etl = this.GetModule<SmartETLTool>(ETLSelector.SelectItem);
+            etl = this.GetTask<SmartETLTool>(ETLSelector.SelectItem);
             etl?.InitProcess(true);
             return etl != null;
         }

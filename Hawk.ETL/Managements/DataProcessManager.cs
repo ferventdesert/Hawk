@@ -100,7 +100,11 @@ namespace Hawk.ETL.Managements
         public Project SelectedLocalProject
 
         {
-            get { return GetRemoteProjectContent().Result; }
+            get
+            {
+                //return null;
+                return GetRemoteProjectContent().Result;
+            }
         }
 
         private readonly Dictionary<ProjectItem, Project> RemoteProjectBuff = new Dictionary<ProjectItem, Project>();
@@ -111,12 +115,14 @@ namespace Hawk.ETL.Managements
             Project project = null;
             if (SelectedRemoteProject == null || SelectedRemoteProject.IsRemote == false)
                 return null;
+            ControlExtended.SetBusy(ProgressBarState.NoProgress);
             if (RemoteProjectBuff.TryGetValue(SelectedRemoteProject, out project))
             {
                 return project;
             }
+            ControlExtended.SetBusy(ProgressBarState.Indeterminate);
             project = await Project.LoadFromUrl(SelectedRemoteProject.SavePath);
-            
+            ControlExtended.SetBusy(ProgressBarState.NoProgress);
             RemoteProjectBuff.Add(SelectedRemoteProject, project);
             project.DictDeserialize(SelectedRemoteProject.DictSerialize());
 
@@ -331,10 +337,12 @@ namespace Hawk.ETL.Managements
                         foreach (var param in project.Parameters)
                         {
                             //TODO: how check if it is same? name?
-                            if (CurrentProject.Parameters.FirstOrDefault(d => d != param) != null)
+                            if (CurrentProject.Parameters.FirstOrDefault(d => d.Name != param.Name) == null)
                                 CurrentProject.Parameters.Add(param);
                         }
+                        CurrentProject.ConfigSelector.SelectItem = project.ConfigSelector.SelectItem;
                     }
+                 
                     (obj as ProcessTask).Load(true);
                 },
                 obj => obj is ProcessTask, "inbox_out"));
@@ -546,7 +554,12 @@ namespace Hawk.ETL.Managements
             {
                 GitHubApi.Connect();
                 MarketProjects.Clear();
-                MarketProjects.AddRange(await GitHubApi.GetProjects());
+            
+              
+                    MarketProjects.AddRange(await GitHubApi.GetProjects());
+               
+               
+               
             }, icon: "refresh"));
 
             BindingCommands.ChildActions.Add(marketAction);
@@ -684,9 +697,16 @@ namespace Hawk.ETL.Managements
                 if (marketCollectionView == null)
                 {
                     GitHubApi.Connect();
-                    MarketProjects.Clear();
-                    MarketProjects.AddRange( GitHubApi.GetProjects().Result);
-                    marketCollectionView = new ListCollectionView(MarketProjects);
+                    var result = GitHubApi.GetProjects().Result;
+                    ControlExtended.SafeInvoke(
+                        () =>
+                        {
+                            MarketProjects.Clear();
+                            MarketProjects.AddRange(result);
+                            marketCollectionView = new ListCollectionView(MarketProjects);
+                        }
+                    ,LogType.Info, GlobalHelper.Get("market_login"),true);
+                 
                  
                 }
                 return marketCollectionView;
@@ -698,6 +718,21 @@ namespace Hawk.ETL.Managements
             SaveCurrentProject(true);
         }
 
+        private void SetWindowTitleName(string name)
+        {
+         
+            if (MainDescription.IsUIForm)
+            {
+                var window = MainFrmUI as Window;
+                if (window != null)
+                {
+                    var originTitle = ConfigurationManager.AppSettings["Title"];
+                    if (originTitle == null)
+                        originTitle = "";
+                    window.Title = name + " - " + originTitle;
+                }
+            }
+        }
         private Project LoadProject(string path = null, bool keepLast = false)
         {
             var project = Project.Load(path);
@@ -717,9 +752,8 @@ namespace Hawk.ETL.Managements
                 }
                 if (!keepLast)
                 {
-                    dataManager.DataCollections.Clear();
-                    CurrentProcessTasks.Clear();
-                    ProcessCollection.RemoveElementsNoReturn(d => true, RemoveOperation);
+                    CleanAllItems();
+                   
                 }
                 if (project.DataCollections?.Count > 0)
                 {
@@ -728,22 +762,13 @@ namespace Hawk.ETL.Managements
                     project.DataCollections.Execute(d => dataManager.AddDataCollection(d));
                 }
                 config.Projects.Insert(0, first);
-
                 CurrentProject = project;
-                var name = Path.GetFileName(project.SavePath);
+                var name = Path.GetFileNameWithoutExtension(project.SavePath);
                 if (string.IsNullOrEmpty(CurrentProject.Name))
-                    CurrentProject.Name = name;
-                if (MainDescription.IsUIForm)
                 {
-                    var window = MainFrmUI as Window;
-                    if (window != null)
-                    {
-                        var originTitle = ConfigurationManager.AppSettings["Title"];
-                        if (originTitle == null)
-                            originTitle = "";
-                        window.Title = CurrentProject.Name + " - " + originTitle;
-                    }
+                    CurrentProject.Name = name;
                 }
+           
                 foreach (var task in project.Tasks)
                 {
                     task.Load(false);
@@ -783,6 +808,14 @@ namespace Hawk.ETL.Managements
             ConfigFile.Config.SaveConfig();
         }
 
+        private void CleanAllItems()
+        {
+            this.CurrentProcessTasks.Clear();
+            this.dataManager.CurrentConnectors.Clear();
+            this.dataManager.DataCollections.Clear();
+            ProcessCollection.RemoveElementsNoReturn(d => true, RemoveOperation);
+
+        }
         public void CreateNewProject()
         {
             var project = new Project();
@@ -793,6 +826,7 @@ namespace Hawk.ETL.Managements
 
             ConfigFile.GetConfig<DataMiningConfig>().Projects.Insert(0, newProj);
             CurrentProject = project;
+            CleanAllItems();
             var filemanager = new FileManager {Name = GlobalHelper.Get("recent_file")};
             CurrentProject.DBConnections.Add(filemanager);
 
@@ -938,6 +972,14 @@ namespace Hawk.ETL.Managements
                     currentProject = value;
                     OnPropertyChanged("CurrentProject");
                     OnPropertyChanged("ProjectPropertyWindow");
+                    SetWindowTitleName(CurrentProject.Name);
+                    CurrentProject.PropertyChanged += (s, e) =>
+                    {
+                        if (e.PropertyName == "Name")
+                        {
+                            SetWindowTitleName(CurrentProject.Name);
+                        }
+                    };
                 }
             }
         }

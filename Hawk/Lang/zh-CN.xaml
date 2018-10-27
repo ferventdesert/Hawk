@@ -36,6 +36,12 @@
     <system:String x:Key="LongTask">
         正在进行长时间任务，请等待
     </system:String>
+      <system:String x:Key="long_etl_task">
+        正在执行临时任务流，请稍后
+    </system:String>
+          <system:String x:Key="long_visit_web">
+        正在从服务器刷新网页，请等待
+    </system:String>
     <system:String x:Key="ModuleMgmt">
         欢迎页面
     </system:String>
@@ -81,8 +87,12 @@
     <system:String x:Key="key_505">
         参考格式
     </system:String>
+        <system:String x:Key="auto_index_desc">
+        会在数据表中新增一列，并按序号递增
+    </system:String>
+    
     <system:String x:Key="key_69">
-        启用自增主键写入，会在数据表的额外一列上增加自增键
+        启用自增主键
     </system:String>
     <system:String x:Key="key_89"> sql=
     </system:String>
@@ -496,6 +506,15 @@
     </system:String>
     <system:String x:Key="key_274">
         作者沙漠君的博客
+    </system:String>
+      <system:String x:Key="author">
+      作者
+    </system:String>
+     <system:String x:Key="publish_time">
+      发布时间
+    </system:String>
+      <system:String x:Key="cover_img">
+       封面图
     </system:String>
     <system:String x:Key="key_268">
         这里有使用Hawk的案例与完整教程
@@ -1061,9 +1080,13 @@
         
         - 左侧的区域，显示了html源码和浏览器视图，可通过tab页切换。
         - 右侧配置区域，可对关键字进行搜索，并对面前所有的属性进行管理。
-        - TODO:下侧区域
+
+        ![网页采集器主界面](https://upload-images.jianshu.io/upload_images/9608527-bf04e74742058872.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
          {{smartcrawler_name}} 不能单独工作，而是沟通 {{smartcrawler_name}} 和{{smartetl_name}}的桥梁。本质上说， {{smartcrawler_name}} 是针对获取网页而特别定制的`{{smartetl_name}}模块`。
+
+         TODO: 增加一般惯用方法
 
          ## 主要配置介绍
 
@@ -1090,7 +1113,7 @@
 
         {{crawler_super_mode}}
 
-        ## 超级模式的原理
+        ## {{feellucky}}的原理
 
         {{crawler_feellucky_how}}
 
@@ -1106,7 +1129,9 @@
         ### 手动模式
 
         在{{feellucky}}不能工作或不符合预期时，需要手工给定几个关键字， 让Hawk搜索关键字， 并获取在网页中所在的位置(XPath)。
-        填入{{search_keyword}}，能够成功获取XPath, 编写属性名称，点击{{}}，即可添加一个属性。类似地，再填入30535，设置属性名称为“单价”，即可添加另外一个属性。
+        填入{{search_keyword}}，能够成功获取XPath, 编写属性名称，点击{{key_302}}，即可添加一个属性。类似地，再填入30535，设置属性名称为“单价”，即可添加另外一个属性。
+
+        ![手动添加属性](https://upload-images.jianshu.io/upload_images/9608527-a5467c50b781f50b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
         在`{{search_keyword}}`的文本框中，输入你要获取的关键字，由于关键字在网页中可能出现多次，可连续点击`继续搜索`，在多个结果间切换，左侧的html源码会对搜索的结果进行高亮。
         
@@ -1135,6 +1160,7 @@
         ### 如果无法自动嗅探?
         由于Hawk有拦截功能，会被浏览器认为不安全，有以下两种方案： 
         可以修改浏览器安全设置。    TODO:  增加浏览器的安全设置
+
         {{crawler_set_header}}
     
         ### 注意事项
@@ -1148,14 +1174,18 @@
 
         ### {{script_mode_list}}下的{{feellucky}}
         一般来说，输入网址加载页面后，点击{{feellucky}}即可，Hawk会自动按照优先级将列表数据抓取出来
-        ![{{feellucky}}配置](https://images2018.cnblogs.com/blog/287060/201805/287060-20180506160854095-924772830.png)
+
+      ![手气不错配置](https://upload-images.jianshu.io/upload_images/9608527-00a31b3a6f387c74.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
         左右切换选择你想要的数据集，之后在下面的属性栏对结果进行微调。
         添加一个属性，{{feellucky}}就能更准确地进行。添加两个属性，即可选定唯一区域。
 
         ### {{script_mode_one}}模式的{{feellucky}}
+
         Hawk3新增功能，当网页中包含多达几十种属性时，挨个添加会变得特别烦琐，这在某种商品属性页特别常见。
         为了解决这个问题，将关键字加入到`{{search_keyword}}`中，此时不要将其添加到属性列表中，直接点击{{feellucky}}即可。  
+
+        TODO: 描述得更详细一些
  
     </system:String>
     <system:String x:Key="crawler_feellucky_how" xml:space="preserve">
@@ -1181,6 +1211,12 @@
 
        - 性能较差，大量的字符解析，js模式树解析
        - 兼容性一般：不是所有的文本都能转成树结构，因此必要时需要使用手动模式处理。
+    </system:String>
+     <system:String x:Key="add_task_warning" xml:space="preserve">
+    
+    </system:String>
+      <system:String x:Key="config_not_found_warning">
+       配置"{0}"在全局配置中不存在，请检查相关参数，原始配置为 {1}
     </system:String>
     <system:String x:Key="crawler_xpath_root" xml:space="preserve">
         ### 列表根路径
@@ -1223,7 +1259,11 @@
         还可以通过`|`对多个表达式进行混合，Hawk支持了完整的XPath语法，因此不论是` {{smartcrawler_name}} `以及{{smartetl_name}}的`XPath`转换器，都能极其灵活地实现各种需求。
     </system:String>
     <system:String x:Key="crawler_set_header" xml:space="preserve">
-       //TODO
+       
+       按如下方式对采集器进行设置：
+
+       ![网页采集器请求设置](https://upload-images.jianshu.io/upload_images/9608527-b2e00d67d62193a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
     </system:String>
     <system:String x:Key="css_desc" xml:space="preserve">
         ### CSSSelector
@@ -1240,7 +1280,13 @@
         ## 设置共享请求参数的采集器名称
         
         为了抓取一个网站的不同数据，我们需要多个 {{smartcrawler_name}} 。但是访问网站需要登录和cookie，难不成每个采集器都要设置对应的请求参数吗？
-        采集器的属性对话框中，可以设置`共享源`,也就是要共享的 {{smartcrawler_name}} 的名称。例如设置为`链家采集器`，那么本采集器的请求参数，都会在执行时，动态地从链家采集器中获得。这样就极大地简化了配置过程。
+
+        采集器的属性对话框中，可以设置`共享源`,也就是要共享的 {{smartcrawler_name}} 的名称。
+        
+        例如设置为`链家采集器`，那么本采集器的请求参数，都会在执行时，动态地从链家采集器中获得。这样就极大地简化了配置过程。
+
+        ![在按钮上自动弹出帮助](https://upload-images.jianshu.io/upload_images/9608527-b4180f98fec913e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
     </system:String>
     <system:String x:Key="key_519">
         若编号为小于0且匹配出多个新列，多个列名可用空格分割，若该列不需要添加，可用_表示，如'_ 匹配1 _'
@@ -1258,6 +1304,9 @@
         - 点击‘加载’，加载已有的数据库
         - 点击'新建'，即可创建新的sqlite的db文件，指定路径后，点击连接即可
         - sqlite对表头只支持英文
+
+        ![SQLite连接](https://upload-images.jianshu.io/upload_images/9608527-409d476ea915729d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
     </system:String>
     <system:String x:Key="key_149">
         已成功初始化
@@ -1671,7 +1720,7 @@
         join成功后倒入哪些列
     </system:String>
     <system:String x:Key="key_309">
-        项目另存为
+        工程另存为
     </system:String>
     <system:String x:Key="key_648">
         填写拥有正确cookie的采集器名称，为空时不起作用，该功能还会获取代理IP等属性，避免重复设置 {{smartcrawler_name}} 
@@ -1768,6 +1817,9 @@
     </system:String>
     <system:String x:Key="key_512">
         Python库路径
+    </system:String>
+      <system:String x:Key="connect_market">
+        连接任务集市
     </system:String>
     <system:String x:Key="AddNewTF">
         添加新列
@@ -1884,6 +1936,9 @@
     为什么不包括子任务-过滤？因为过滤操作通常比较简单，不需要子任务实现。
     
     ## 参数设置
+
+    ![子任务配置](https://upload-images.jianshu.io/upload_images/9608527-6662e75160b569ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+    
     
     子任务可以分为两部分：参数部分和执行部分。在本文最下面的例中，子任务中的第一个`从文本生成`，只是参数，目的是为了子任务设计器能构成输出数据的完整流程。但要想被别的模块调用，则只应该有执行部分。而参数部分，需要主任务传递给子任务。这就是`调用范围`的意义，它能将主任务的指定参数传递到子任务上，成为子任务的一部分。
     
@@ -1997,6 +2052,10 @@
        
         ### 文件读写
 
+        通过如下方式打开新文件或历史文件：
+        
+        ![打开新文件](https://upload-images.jianshu.io/upload_images/9608527-029016e05679e52e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
         #### CSV文件 
        
         {{FileConnectorCSV_desc}}
@@ -2016,7 +2075,9 @@
         2. 将数据集拖拽到下方的图标上，如拖到回收站，即可删除该模块。
         3. 双击数据集可查看模块的内容。 将数据集拖拽到{{smartetl_name}}图标上，可直接对本数据集做{{smartetl_name}}。
         
-        ![数据集视图](http://static.zybuluo.com/buptzym/kfz2k0xfvbjtun5ah6hlxoph/QQ%E6%88%AA%E5%9B%BE20160501105734.jpg)
+       ![数据表和操作](https://upload-images.jianshu.io/upload_images/9608527-9782518c604cda25.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+    
     </system:String>
 
 
@@ -2391,6 +2452,8 @@
         - `[a]`：A列中的内容
         - `{config}` : 工程全局配置中键为config的值
 
+        当原始字符串已经包含了大括号，如{ab{0}c}，却只需替换{0}中的内容，但Hawk会提示格式有误，此时可以用两个括号来转义，例如刚才的例子，可改为`{{ab{0}c}}`
+
         总结来说： 方括号代表从本行的其他列，大括号可从全局配置中读取内容
         若全局配置或数据中不包含对应的内容，则该列自动为空
     </system:String>
@@ -2538,7 +2601,7 @@
         插入失败
     </system:String>
     <system:String x:Key="key_307">
-        加载项目
+        加载工程
     </system:String>
     <system:String x:Key="key_193">
         抓取目标
@@ -2627,6 +2690,11 @@
         提供MongoDB交互的数据库服务
         
         #### 配置设置
+
+        
+        ![MongoDB连接](https://upload-images.jianshu.io/upload_images/9608527-f7d1df1327b9bd47.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
+
+
 
         在安装MongoDB之后，在空白位置点右键，即可选择插入一个`MongoDB连接器`，在服务器地址，用户名和密码，数据库名称上填写所需的字段，然后点击`连接数据库`即可。
         
@@ -2840,6 +2908,9 @@
         HAWK使用C# 编写，其前端界面使用WPF开发，因此只能运行于windows平台，但提供命令行入口供自动化部署。
         以下介绍全部基于最新的Hawk3，请使用老版本的同学尽快通过下面的地址升级最新版。
 
+        ![欢迎主页](https://upload-images.jianshu.io/upload_images/9608527-1674d5583cdfe1fb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
         ![2.gif-3330.9kB](http://static.zybuluo.com/buptzym/10kykg6qhqvsabbq8yj32pt0/2.gif)
 
         以获取大众点评的所有北京美食为例，使用本软件可在10分钟内完成配置，在1小时之内**自动并行抓取**全部内容，并能监视任务工作情况。而手工编写代码，即使是使用python，一个熟练的程序员也可能需要一天以上：
@@ -2973,7 +3044,7 @@
         将拷贝模块插入下方  
     </system:String>
     <system:String x:Key="key_308">
-        保存项目
+        保存工程
     </system:String>
     <system:String x:Key="SaveFileEX">
         保存超链接文件
@@ -3045,7 +3116,7 @@
         搜索半径
     </system:String>
     <system:String x:Key="key_306">
-        新建项目
+        新建工程
     </system:String>
     <system:String x:Key="key_635">
         Http请求详情
@@ -3128,20 +3199,24 @@
     <system:String x:Key="SmartETLTool_desc_detail" xml:space="preserve">
         {{smartetl_name}}是一种任务，包括几十个子模块， 这些子模块包含四类：生成， 转换， 过滤和执行。 
 
-        ![丰富的模块](https://images2018.cnblogs.com/blog/287060/201805/287060-20180506160120254-60486829.png)
+     ![数据清洗丰富的模块](https://upload-images.jianshu.io/upload_images/9608527-3bfde1fb0303b660.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
         {{smartetl_name}}可以通过组合多个不同的子模块，生成多样的功能，通过拖拽构造出一个工作流，它能够产生一个有限或无限的文档序列。比如下面：
         
         ![image_1auq4oooc1m8m9tc02sjv1j4o9.png-71.6kB](http://static.zybuluo.com/buptzym/gzr3u0z80478s31u9v1zdfw5/image_1auq4oooc1m8m9tc02sjv1j4o9.png)
 
-        ## 参数说明
+        在输出的文档中，点击单元格，可以放大和显示该单元格的文本内容（相比于Hawk早期版本，这实在太实用了）：
 
-        ### 工作模式
-        {{etl_script_mode}}
+        ![数据清洗结果](https://upload-images.jianshu.io/upload_images/9608527-0883c03ec2fe4b05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
         ## 几种模块的介绍
 
         ### 转换器
+
+         转换器有几种工作模式:
+
+        {{etl_script_mode}}
 
         {{transformer_desc}}
 
@@ -3160,9 +3235,6 @@
         拖入的模块顺序是非常重要的，一个常见问题是顺序不对，导致生成的数据不符合预期。{{smartetl_name}}可通过 {{CrawlerTF}} 来调用 {{smartcrawler_name}} ，也可以通过`子任务`来调用其他{{smartetl_name}}，是组合各种模块和任务的工厂。
 
         {{super_copy}}
-
-     
-
 
         {{threadmanager_desc}}
 
@@ -3189,8 +3261,14 @@
         - 输入列和输出列会用不同的颜色进行表示
 
         在调试时，{{CrawlerTF}}模块可能会请求web数据，为了提升性能，该模块对请求做了缓存。保证数据只需获取一次，如果想强制刷新数据，将{{CrawlerTF}}模块禁用，再启用，原始缓存数据就会被擦除。
+
+        ![调试模式的菜单栏](https://upload-images.jianshu.io/upload_images/9608527-5fb8cbd95a94a683.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+        
     </system:String>
     <system:String x:Key="running_mode_desc" xml:space="preserve">
+       
+        ![串并行模式的配置](https://upload-images.jianshu.io/upload_images/9608527-cffb844f4c25c5f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
        Hawk支持两种执行模式:
 
        {{serial_mode_desc}}
@@ -3258,6 +3336,10 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
         不论是调试还是执行模式，系统都会在任务管理视图中增加一个或多个线程。
         你可以勾选，或取消勾选部分或全部线程，暂停或取消它们。当网站限制抓取时，可以暂停所有线程，等恢复后再次执行。
 
+        ![工作线程](https://upload-images.jianshu.io/upload_images/9608527-591ff27c38dd311e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+        右下角分别是暂停，继续和删除任务。
+
         注意:
 
         1. 当工作流有误时（比如该列所有数据都空，却在该列添加了 {{NullFT}}，那么所有数据都会被过滤）可能不会产生任何数据输出。此时进度条并不会向前推进，产生卡死的假象。此时可强行将其删除
@@ -3268,11 +3350,10 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
       <system:String x:Key="new_task" xml:space="preserve">
 目前系统仅仅提供了两个任务： 网页采集器和数据清洗， 双击即可加载一个新的模块。
 
-![QQ截图20160501105646.jpg-6.8kB](http://static.zybuluo.com/buptzym/bowssqpr6hn4hi04dgqa0379/QQ%E6%88%AA%E5%9B%BE20160501105646.jpg)
+![新建任务](https://upload-images.jianshu.io/upload_images/9608527-ba0f495ea797581d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-之前配置好的模块，可以保存为任务， 双击或点击右键可加载一个已有任务：
+   上次保存的任务，重新启动后其界面不会自动打开，可在任务管理器上双击，即可自动弹出配置界面。
 
-![QQ截图20160501105700.jpg-10.5kB](http://static.zybuluo.com/buptzym/xvnwm920v2hag2nw6rjh02o7/QQ%E6%88%AA%E5%9B%BE20160501105700.jpp)
   </system:String>
     <system:String x:Key="SmartETLTool_step" xml:space="preserve">
         ### 单步调试
@@ -3281,11 +3362,11 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
         
         左侧显示了当前所有的模块，顺序和它们的输入输出列，双击上面的模块可对其进行配置，右键可删除。单选列表上的任一模块t，系统就会只仿真前t步的效果。 本质上，单步调试只是提取了工作流的一部分进行操作。   你可以在单步调试中，拖入新的模块。模块会自动插入在工作流中间。
 
-        ![上下拖拽，右键配置每一步的参数](https://images2018.cnblogs.com/blog/287060/201805/287060-20180506155928987-1522342347.png)
+        ![数据清洗已加载模块列表](https://upload-images.jianshu.io/upload_images/9608527-f90a52002ca244bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
         有时为了在单步调试过程中查看模块的属性，可勾选界面右下角的`调试详情`，此时可直接显示当前模块的属性。
 
-        ![模块数量](https://images2018.cnblogs.com/blog/287060/201805/287060-20180506160222760-1330008382.png)
+          ![调试模式的菜单栏](https://upload-images.jianshu.io/upload_images/9608527-5fb8cbd95a94a683.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
         当模块有正常产出时， 模块的标志会变成蓝色，因此从上到下，第一个不是蓝色的模块，就有可能是有问题的模块。
 
@@ -3517,17 +3598,23 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
         - 所有任务（包括数据清洗和{{smartcrawler_name}}）
         - 所有正在执行的正式线程（Hawk可以记录任务执行的位置，在下次启动时断点续跑）
 
+        
+        ![系统设置](https://upload-images.jianshu.io/upload_images/9608527-e1a05280d2c23d52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
         对工作线程的保存时：
 
         1. 正式线程是正式处理数据的任务，而非调试模式时自动刷新启动的临时任务。在下次启动时，上次未执行完的任务都会暂停，只有手动重启后才能执行。但并不精确
         3. 在重启线程时，可能会有一定的时延，因为线程会将指针移动到上次执行的位置，而这需要一定的时间。通常在10-30秒之内。
         4. 当加载或保存较大的数据表时，可能会有卡顿的情况。
         
+        
     </system:String>
     <system:String x:Key="proj_format" xml:space="preserve">
         ## Hawk工程介绍
 
-        Hawk的工程文件为xml或hproj， 在保存工程时，可以在文件保存对话框中，选取要保存的文件格式。
+        Hawk的工程文件为xml或hproj， 在保存工程时，可以在文件保存对话框中，选取要保存的文件格式。下图是典型的xml工程文件内容：
+
+        ![工程配置文件](https://upload-images.jianshu.io/upload_images/9608527-347ec82e60820829.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
         
         - xml: 可直接检查数据，并被其他语言所处理。但当其中包含较大的数据表时，xml文件由于其冗余性，体积会很大。
         - hproj是zip压缩后的xml, Hawk在加载hproj后，会自动将其解压，并按xml格式解析之，反之过程则过程相反。
@@ -3547,14 +3634,22 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
       
       例如，针对链家开发爬虫时，不同的城市会有细微区别，如xpath，或名称... 因此可针对不同城市建立配置，切换配置即可在不同城市间切换，Hawk的模块在执行时会动态地获取这些数据。大大提升了重用性。
 
+      
+      ![全局参数设置](https://upload-images.jianshu.io/upload_images/9608527-e15c3d72444a9b81.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+
       ### 配置文件语法
       
-      Hawk采用了非常简单的配置写法，即yaml。每行一个配置，键值之间用英文冒号，即:表示。 用#号来代表注释，所有以#号开头的行都会被当成注释而忽略。例如：
+      Hawk采用了非常简单的配置写法，即yaml。为了方便编辑，可在外部的编辑器编辑完成后，拷贝到本编辑器中。
+      
+      每行一个配置，键值之间用英文冒号，即:表示。 用#号来代表注释，所有以#号开头的行都会被当成注释而忽略。例如：
       ```
       `#这是一行注释`
       city: bj
       xpath: your_xpath
       ```
+
       在数据清洗的任意模块，大部分参数都能支持引用全局配置，语法是{key_name}，例如{city}，会将配置中city项的值拷贝过来。
 
       注意:
@@ -3565,8 +3660,10 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
       - 虽然使用了yaml作为配置文件，但并不支持完整的语法(如数组和层次字典等)，只能支持单层的的键值对。
 
       ### 新建和切换配置组
-      //TODO: 增加图片
+
       点击edit按钮，可增加新的配置组。 选择对应的配置组后，即可全局生效。
+
+      ![全局可配置参数](https://upload-images.jianshu.io/upload_images/9608527-4da31d85f54d4c9d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
     </system:String>
     <system:String x:Key="doc_system" xml:space="preserve">
@@ -3577,11 +3674,18 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
        - 所有的模块在配置时，都可以在配置后显示其使用文档，包括功能简介，参数名和对应介绍，注意事项等。
        - 点击：帮助，即可弹出全局文档系统，在文档中，支持字体放缩，关键字搜索等，方便快速定位内容。
 
+       ![在按钮上自动弹出帮助](https://upload-images.jianshu.io/upload_images/9608527-b4180f98fec913e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
        Hawk的文档系统分为`新手模式`和`高手模式`：
 
        - 模式的切换，可以在系统配置，{{is_display_desc}}中进行切换
        - 新手模式：文档详尽，尤其是在数据清洗的模块列表中，以详细介绍的形式呈现，方便直观地了解各模块功能
        - 老手模式：文档极简，仅提供新手模式第一段的内容。
+
+        在各模块的图标上停留，即可弹出简单的使用介绍：
+
+       ![数据清洗可用模块列表](https://upload-images.jianshu.io/upload_images/9608527-d0e75e07893f4d91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
        ### 文档编写和自动生成
        由于软件在不停地优化升级，会出现模块和文档不一致的问题。为了降低作者编写文档的负担，Hawk采用了自动文档生成的方式：
@@ -3640,8 +3744,15 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
        - 在线界面日志：在UI的最下方，但是只能显示本次启动日志，同时不能太多，否则会有性能问题
        - 日志文件， log.dat， 本质还是文本文件，可使用记事本打开，超过10M则会创建新文件。
        - 弹出对话框： 右上角会有弹出式浮窗。可通过 系统设置 中进行设置
+
+       下图是典型的调试信息窗口，用不同颜色展示日志级别：
+
+       ![调试信息窗口](https://upload-images.jianshu.io/upload_images/9608527-d2532d945f081645.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
        
-       如何改变日志的级别？ 当发现现有日志太多或太少，可以在主菜单-> 调试-> 日志级别 设置
+       如何改变日志的级别？ 当发现现有日志太多或太少，可以在主菜单-> 调试-> 日志级别 设置，如下图：
+
+       ![调试级别设置](https://upload-images.jianshu.io/upload_images/9608527-fc88bb0f4a8a83c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
     </system:String>
 
     <system:String x:Key="debug_system" xml:space="preserve">
@@ -3650,14 +3761,23 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
        除了在调试模式下进行操作之外，Hawk还提供了丰富的工具来确定错误的位置。
 
        ### 调试与探查窗口
-       //TODO
+
+       ![调试与探查](https://upload-images.jianshu.io/upload_images/9608527-fbfd9f307484ae1d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
        调试探查窗口可以方便地展示每个模块的输入量，输出量,因空而跳过的数量，一目了然
 
        ### 系统级窗口
+
        如何了解总的http请求次数和错误数？在 系统设置-> http请求详情里，详细地给出了请求数，被禁止数，因错误而跳过等数量。 点击 `清空数据`，即可将计数器置0.
 
+     ![系统设置](https://upload-images.jianshu.io/upload_images/9608527-e1a05280d2c23d52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
        ### 确定模块的输入和输出
+
        在单步调试模式时，该模块输入的列，会在数据清洗的最上方用蓝色表示，输出列会用绿色表示。
+
+       ![输入输出设置](https://upload-images.jianshu.io/upload_images/9608527-8772e8727130d1dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
     </system:String>
 
@@ -3681,7 +3801,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     提问按照如下优先级进行：
 
     1. 推荐使用Github的issue,方便其他朋友查阅已有的问题。: https://github.com/ferventdesert/Hawk/issues
-    2. 加入QQ群： //TODO：增加群号
+    2. 加入QQ群： 546750531(Hawk数据抓取交流)
     3. 给作者发邮件:  buptzym@qq.com    
    </system:String>
     <system:String x:Key="qa_list" xml:space="preserve">
@@ -3694,8 +3814,8 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
 
     但有些系统中安装了类似360等工具，会拒绝这类操作。导致嗅探失败。目前原因还没有找到。一些网站做了加密，因此即使输入检索字段，内容也不一定能检索得到。
 
-
     ### 被封锁问题
+
     被封锁有几个原因：
 
     ####  被网站识别为非浏览器
@@ -3879,7 +3999,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     <system:String x:Key="crawler_manual_get_header" xml:space="preserve">
        即使嗅探失败也没有关系，如果你使用Chrome等浏览器，进入开发者工具（F12）：
 
-    ![image_1ao1q9le113a01mn4scu1q22g7mm.png-118.2kB](http://static.zybuluo.com/buptzym/lhxi16jt95iwhby6dlmpo9t8/image_1ao1q9le113a01mn4scu1q22g7mm.png)
+    ![Chorme的调试窗口设置](http://static.zybuluo.com/buptzym/lhxi16jt95iwhby6dlmpo9t8/image_1ao1q9le113a01mn4scu1q22g7mm.png)
 
     选择最上角的network卷展栏，之后刷新网页，chrome会列出所有的请求，一般最上面的就是真实请求：
     
@@ -3922,6 +4042,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
    此处需要两个核心技术点：
 
    ### 保存上一次存储的关键字
+
    首先找到代表数据特征的列（如ID，标题等），能唯一标识该数据。如果找不到唯一的列，可通过`合并多列`来组合。
    
    在这一列拖入`更新到配置` , 输入要更新的配置的名称column，则在执行时，该模块每经过一行数据，就会自动更新该列的值到全局配置(TODO：路径)中。配合软件的自动保存机制，该值会随时写入配置文件中。
@@ -4292,7 +4413,7 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
        - 可以直接粘贴到任何文本编辑器中，这在手动编辑xml工程文件时很有用。
        - 拷贝到本任务或其他任务的任一模块的上侧或下侧
 
-       //TODO:增加一个图
+    ![数据清洗已加载模块列表](https://upload-images.jianshu.io/upload_images/9608527-f90a52002ca244bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
         
        这带来了显著的好处，任务间能够更方便地共享配置和参数，方便重用。你亦可将配置拷贝到GitHub或其他社群中，方便他人定位问题。
        </system:String>
@@ -4303,6 +4424,9 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
       - 数据表： 缓存的抓取结果，错误表和数据日志等，最大不超过10w
       - 连接器： 访问各种数据库的配置
       - 全局配置
+
+      ![已加载任务](https://upload-images.jianshu.io/upload_images/9608527-cbf6256f84099040.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
        打开Hawk后，即可在`文件`栏中，新建，加载，保存，另存为工程。这些概念和Windows中的标准实现接近，因此不多做介绍。还可以打开{{recent_file}}， 直接加载工程。
 

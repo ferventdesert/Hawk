@@ -444,6 +444,8 @@ namespace Hawk.ETL.Process
                                 htmlTextBox.Focus();
                                 htmlTextBox.SelectionStart = node.StreamPosition;
                                 htmlTextBox.SelectionLength = node.OuterHtml.Length;
+                                if(node.StreamPosition>=htmlTextBox.Text.Length)
+                                    return;
                                 var line = htmlTextBox.GetLineIndexFromCharacterIndex(node.StreamPosition); //返回指定字符串索引所在的行号
                                 if (line > 0)
                                 {
@@ -928,7 +930,7 @@ namespace Hawk.ETL.Process
                 HttpStatusCode code;
                 ConfigFile.GetConfig<DataMiningConfig>().RequestCount++;
                 return GetHtml(URL, out code);
-            });
+            },title:GlobalHelper.Get("long_visit_web"));
             if (URLHTML.Contains(GlobalHelper.Get("key_671")) &&
                 MessageBox.Show(GlobalHelper.Get("key_672") + URLHTML + GlobalHelper.Get("key_673"), GlobalHelper.Get("key_99"),
                     MessageBoxButton.OK) == MessageBoxResult.OK)

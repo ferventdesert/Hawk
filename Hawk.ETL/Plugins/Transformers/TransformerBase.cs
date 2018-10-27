@@ -207,7 +207,7 @@ namespace Hawk.ETL.Plugins.Transformers
                     name = crawlers[0].Name;
                 }
             }
-            var crawler = this.GetModule<SmartCrawler>(name);
+            var crawler = this.GetTask<SmartCrawler>(name);
             if (crawler != null)
             {
                 IsMultiYield = crawler?.IsMultiData == ScriptWorkMode.List;

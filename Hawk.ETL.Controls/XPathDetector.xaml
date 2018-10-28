@@ -31,7 +31,7 @@
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="0.388*"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:FieldModifier="public" x:Name="HtmlTextBox" Text="{Binding URLHTML}"  
+        <TextBox x:FieldModifier="public" x:Name="HtmlTextBox" Text="{Binding URLHTML, Mode=OneWay}"  
     		ScrollViewer.CanContentScroll="True" TextWrapping="WrapWithOverflow" Margin="8,46,8,9.458"
     		VerticalScrollBarVisibility="Auto"
     		Background="{DynamicResource NormalBorderBrush}" />
@@ -44,7 +44,7 @@
         	<Grid>
         		<Grid Height="25.672" Margin="0,30,-0.001,0"  VerticalAlignment="Top" d:LayoutOverrides="Width, VerticalMargin"  >
         			<TextBlock Margin="0,0,0,2" TextWrapping="Wrap" Text="{DynamicResource key_765}" HorizontalAlignment="Left" Width="84" d:LayoutOverrides="Height" VerticalAlignment="Center" />
-        			<ComboBox     DataContext="{Binding XPath}" IsEditable="True" Text="{Binding _SelectItem}" ItemsSource="{Binding Collection}" Margin="90.5,0,49.333,0" />
+        			<ComboBox     DataContext="{Binding XPath}" IsEditable="True" Text="{Binding _SelectItem}" ItemsSource="{Binding Collection}" Margin="90.5,0,86.208,0" />
         			<Button  DataContext="{Binding Commands[1]}" Content="{Binding Text}" Command="{Binding}" HorizontalAlignment="Right" Width="41.5" VerticalAlignment="Center" />
         		</Grid>
         		<ListBox     ItemsSource="{Binding ChildItems}" ItemTemplate="{DynamicResource DataTemplate1}" Margin="8,63.672,7.999,8" d:LayoutOverrides="Width"/>

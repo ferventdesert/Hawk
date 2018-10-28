@@ -85,7 +85,7 @@ namespace Hawk.ETL.Plugins.Web
               $"http://api.fanyi.baidu.com/api/trans/vip/translate?appid={ClientID}&q={query_encode}&from={language[Source.SelectItem]}&to={language[Target.SelectItem]}&salt={salt}&sign={sign}";
 
             httpitem.URL = url;
-            string result = helper.GetHtml(httpitem, out code);
+            string result = helper.GetHtml(httpitem).Result.Html;
             var r = JsonConvert.Import(result) as JsonObject;
             if (r.Contains("error_code ") == false)
             {

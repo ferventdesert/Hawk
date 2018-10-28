@@ -33,7 +33,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-  
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
@@ -136,9 +135,6 @@
     <Compile Include="Connectors\SQLiteConnector.cs" />
     <Compile Include="Themes\MetroConverter.cs" />
     <Compile Include="Utils\Converters.cs" />
-    <Compile Include="Utils\CookieAwareWebClient.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Utils\CustomSerializer.cs" />
     <Compile Include="Utils\DragAdorner.cs" />
     <Compile Include="Utils\ForceLazy.cs" />
@@ -172,8 +168,6 @@
     <Compile Include="Connectors\Vitural\VirtualizingCollection.cs" />
     <Compile Include="Utils\CMDHelper.cs" />
     <Compile Include="Utils\FileEx.cs" />
-    <Compile Include="Utils\HttpHelper.cs" />
-    <Compile Include="Utils\HttpItem.cs" />
     <Compile Include="Utils\Plugins\IDictionarySerializable.cs" />
     <Compile Include="Utils\Plugins\IProcess.cs" />
     <Compile Include="Utils\Plugins\FreeDocument.cs" />

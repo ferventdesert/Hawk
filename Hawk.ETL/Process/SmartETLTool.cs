@@ -444,7 +444,21 @@ namespace Hawk.ETL.Process
             shouldUpdate = false;
             base.DictDeserialize(dicts, scenario);
             MaxThreadCount = dicts.Set("MaxThreadCount", MaxThreadCount);
-            GenerateMode = dicts.Set("GenerateMode", GenerateMode);
+            object generatemode = null;
+
+            if (dicts.TryGetValue("GenerateMode",out generatemode))
+            {
+                
+                if(generatemode.ToString()=="串行模式")
+                    GenerateMode=GenerateMode.SerialMode;
+                else if (generatemode.ToString() == "并行模式")
+                    GenerateMode=GenerateMode.ParallelMode;
+                else
+                {
+                    GenerateMode = dicts.Set("GenerateMode", GenerateMode);
+                }
+            }
+         
             DelayTime = dicts.Set("DelayTime", DelayTime);
             SampleMount = dicts.Set("SampleMount", SampleMount);
             var doc = dicts as FreeDocument;

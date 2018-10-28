@@ -797,10 +797,10 @@ namespace Hawk.ETL.Crawlers
             HttpStatusCode code;
 
             var doc = new HtmlDocument();
-            var result = helper.GetHtml(httpitem, out code);
-            if (!HttpHelper.IsSuccess(code))
+            var result = helper.GetHtml(httpitem).Result;
+            if (!HttpHelper.IsSuccess(result.Code))
                 return doc;
-            doc.LoadHtml(result);
+            doc.LoadHtml(result.Html);
             return doc;
         }
 
@@ -1344,11 +1344,11 @@ namespace Hawk.ETL.Crawlers
             var httpitem = new HttpItem {URL = url};
             var helper = new HttpHelper();
             HttpStatusCode statusCode;
-            var doc2 = helper.GetHtml(httpitem, out statusCode);
-            if (statusCode != HttpStatusCode.OK)
+            var result = helper.GetHtml(httpitem ).Result;
+            if (result.Code != HttpStatusCode.OK)
                 return null;
             var htmldoc = new HtmlDocument();
-            htmldoc.LoadHtml(doc2);
+            htmldoc.LoadHtml(result.Html);
             return htmldoc;
         }
 
@@ -1357,14 +1357,14 @@ namespace Hawk.ETL.Crawlers
             var httpitem = new HttpItem {URL = url};
             var helper = new HttpHelper();
             HttpStatusCode statusCode;
-            var doc2 = helper.GetHtml(httpitem, out statusCode);
-            if (statusCode != HttpStatusCode.OK)
+            var result = helper.GetHtml(httpitem  ).Result;
+            if (result.Code != HttpStatusCode.OK)
                 yield break;
 
-            if (doc2 == null)
+            if (result.Html == null)
                 yield return new List<FreeDocument>();
             var htmldoc = new HtmlDocument();
-            htmldoc.LoadHtml(doc2);
+            htmldoc.LoadHtml(result.Html);
 
             foreach (var item in htmldoc.DocumentNode.GetDataFromHtml())
             {

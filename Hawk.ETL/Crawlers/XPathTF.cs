@@ -87,6 +87,8 @@ namespace Hawk.ETL.Crawlers
             window.Content = view;
             var textBox=view.HtmlTextBox;
             var xPathDetectorModel = new XPathDetectorModel(htmlResults,this.IsManyData,window,textBox);
+            xPathDetectorModel.XPath._SelectItem = this.XPath;
+
             view.DataContext = xPathDetectorModel;
             window.Activate();
             window.ShowDialog();

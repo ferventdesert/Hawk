@@ -400,7 +400,20 @@ namespace Hawk.ETL.Interfaces
 
                 {
                     var func1 = func;
-                    func = source => func1(source.CountInput(analyzeItem)).Where(t.FilteData).CountOutput(analyzeItem);
+                    switch (t.FilterWorkMode)
+                    {
+                            case FilterWorkMode.PassWhenSuccess:
+                            func = source => func1(source.CountInput(analyzeItem)).SkipWhile(t.FilteData).CountOutput(analyzeItem);
+                            break;
+                            case FilterWorkMode.ByItem:
+                            func = source => func1(source.CountInput(analyzeItem)).Where(t.FilteData).CountOutput(analyzeItem);
+                            break;
+                            case FilterWorkMode.StopWhenFail:
+                            func = source => func1(source.CountInput(analyzeItem)).TakeWhile(t.FilteData).CountOutput(analyzeItem);
+                            break;
+                    }
+                  
+                   
                 }
             }
             return func;

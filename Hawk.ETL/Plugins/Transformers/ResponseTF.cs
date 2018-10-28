@@ -74,10 +74,11 @@ namespace Hawk.ETL.Plugins.Transformers
             if (p == null)
                 return new List<FreeDocument>();
             var url = p.ToString();
-            WebHeaderCollection responseHeader;
-            HttpStatusCode code;
+            var response=  helper.GetHtml(Crawler.Http, url).Result;
 
-            var content = helper.GetHtml(Crawler.Http, out responseHeader, out code, url);
+            var content = response.Html;
+            var code = response.Code;
+            var responseHeader = response.ResponseHeaders;
             var keys = responseHeader.AllKeys;
             if (!string.IsNullOrEmpty(HeaderFilter))
             {

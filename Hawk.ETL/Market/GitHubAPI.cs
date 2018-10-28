@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,55 +25,71 @@ namespace Hawk.ETL.Market
     {
         public GitHubAPI()
         {
-            ProjectName = new ExtendSelector<string>();
-            TargetDir=new ExtendSelector<string>();
             client = new GitHubClient(new ProductHeaderValue("Hawk3"));
-            this.PropertyChanged += async  (s, e) =>  
-            {
-                if(!isConnect)
-                    return;
-                if (e.PropertyName== "RepoUserName"&&string.IsNullOrEmpty(RepoUserName) == false)
-                {
-                    var result = await client.Repository.GetAllForUser(RepoUserName);
-                    ProjectName.SetSource(result.Select(d=>d.Name));
-                }
-
-             
-
-            };
-            this.ProjectName.SelectChanged += async (s, e) =>
-            {
-                if (string.IsNullOrEmpty(ProjectName.SelectItem) == false)
-                {
-                    var result = await client.Repository.Content.GetAllContents(RepoUserName, ProjectName.SelectItem);
-                    TargetDir.SetSource(result.Where(d => d.Type == ContentType.Dir).Select(d => d.Name));
-                }
-
-            };
-            TargetDir.
+            Login = "hawkpublic@yeah.net";
+            Password = "hawk1qaz2wsx";
+            MarketUrl = "https://github.com/ferventdesert/Hawk-Projects/tree/master/Hawk3";
         }
 
-        [PropertyOrder(3)]
-        public ExtendSelector<string> ProjectName { get; set; }
-
-        [PropertyOrder(2)]
-        public string RepoUserName
+        [Browsable(false)]
+        public string MarketShortUrl
         {
-            get { return _repoUserName; }
+            get
+            {
+                string username = "?";
+                string project = "?";
+                string target = "?";
+                if (!this.GetRepoInfo(MarketUrl, out username, out project, out target))
+                {
+                   
+                    return null;
+                }
+                return username + "/" + project + "/"+target;
+
+
+            }
+        }
+
+        [LocalizedDescription("market_url_check")]
+        [LocalizedDisplayName("market_url")]
+        public string MarketUrl
+        {
+            get { return _marketUrl; }
             set
             {
-                if (_repoUserName != value)
+                if (_marketUrl != value)
                 {
-                    _repoUserName = value;
-                    OnPropertyChanged("RepoUserName");
+                    _marketUrl = value;
+                    OnPropertyChanged("MarketUrl");
+                    OnPropertyChanged("MarketShortUrl");
                 }
             }
         }
 
-        [PropertyOrder(4)]
-        public ExtendSelector<string> TargetDir { get; set; }
+        public bool GetRepoInfo(string url,out string userName,out string repoName,out string dir)
+        {
+            userName = null;
+            repoName = null;
+            dir = null;
+            var github = "https://github.com/";
+            if (url.StartsWith(github) == false)
+            {
+                return false;
+            }
+            url = url.Replace(github, "");
+            var keys = url.Split('/');
+            if (keys.Count() < 4)
+                return false;
+            userName = keys[0];
+            repoName = keys[1];
+            var branch = keys[3];
+            if (keys.Length > 4)
+                dir = keys[4];
+            return true;
 
-        [LocalizedCategory("user_login")]
+        }
+
+        [LocalizedCategory("user_login")]   
         [LocalizedDisplayName("key_25")]
         [PropertyOrder(0)]
         public string Login { get; set; }
@@ -88,14 +105,21 @@ namespace Hawk.ETL.Market
         [PropertyOrder(2)]
         public bool IsKeepPassword { get; set; }
 
-        public async Task<IEnumerable<ProjectItem>>  GetProjects(string username=null, string project= null,string target=null)
+        public async Task<IEnumerable<ProjectItem>>  GetProjects(string url=null)
         {
-            if (string.IsNullOrEmpty(username))
-                username = "ferventdesert";
-            if (string.IsNullOrEmpty(project) )
-                project = "Hawk-Projects";
-            if (string.IsNullOrEmpty(target) )
-                target = "Hawk3";
+            if (url==null)
+            {
+                url = this.MarketUrl;
+            }
+            string username = null;
+            string project = null;
+            string target = null;
+            if (!this.GetRepoInfo(url, out username, out project, out target))
+            {
+                XLogSys.Print.Error(GlobalHelper.Get("market_url_check"));
+                return null;
+            }
+                
             IReadOnlyList<RepositoryContent> result = null;
 
             result = await client.Repository.Content.GetAllContents(username, project, target);
@@ -132,7 +156,7 @@ namespace Hawk.ETL.Market
         } 
         private GitHubClient client;
         private bool isConnect = false;
-        private string _repoUserName;
+        private string _marketUrl;
 
         public  void Connect()
         {
@@ -144,12 +168,23 @@ namespace Hawk.ETL.Market
 
         public FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         {
-            throw new NotImplementedException();
+           var dict=new FreeDocument();
+            dict.Add("Login", Login);
+            if (IsKeepPassword)
+                dict.Add("Password", Password);
+            dict.Add("IsKeepPassword", IsKeepPassword);
+            dict.Add("MarketUrl", MarketUrl);
+            return dict;
         }
 
         public void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
         {
-            throw new NotImplementedException();
+            Login = docu.Set("Login", Login);
+            IsKeepPassword = docu.Set("IsKeepPassword", IsKeepPassword);
+            if(IsKeepPassword)
+                Password = docu.Set("Password", Password);
+
+            MarketUrl = docu.Set("MarketUrl", MarketUrl);
         }
     }
 }

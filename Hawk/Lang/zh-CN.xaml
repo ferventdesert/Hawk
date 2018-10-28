@@ -1669,6 +1669,9 @@
     <system:String x:Key="key_110">
         常用
     </system:String>
+        <system:String x:Key="market_url">
+       市场地址
+    </system:String>
      <system:String x:Key="market_url_check" xml:space="preserve">
         市场的url必须以https://github.com开头，且包含repo名和首层文件夹，例如：
 
@@ -3003,7 +3006,7 @@
         网页结构计算中
     </system:String>
     <system:String x:Key="key_281">
-        确定清空所有算法模块么？
+        确定清空加载的所有任务么？
     </system:String>
     <system:String x:Key="key_129">
         解析错误数
@@ -3555,7 +3558,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
         用于记录任务中产生的错误，进而回补错误丢失的数据集
     </system:String>
     <system:String x:Key="is_display_desc">
-        显示详细描述
+        新手模式
     </system:String>
     <system:String x:Key="serial_mode">
         串行模式

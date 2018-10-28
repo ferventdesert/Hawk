@@ -90,10 +90,10 @@ namespace Hawk.ETL.Plugins.Web
                 item.Encoding = EncodingType.UTF8;
                 var helper = new HttpHelper();
                 HttpStatusCode code;
-                var result = helper.GetHtml(item,out code);
-                if(code==HttpStatusCode.OK)
-                    buffHelper.Set(param, result);
-                return result;
+                var response = helper.GetHtml(item).Result;
+                if(response.Code== HttpStatusCode.OK)
+                    buffHelper.Set(param, response.Html);
+                return response;
 
             }
             return docs;

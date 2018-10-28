@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Web;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Logs;
@@ -148,7 +149,7 @@ namespace Hawk.Core.Utils
         /// <param name="strPostdata">传入的数据Post方式,get方式传NUll或者空字符串都可以</param>
         /// <param name="ContentType">返回的响应数据的类型</param>
         /// <returns>string类型的响应数据</returns>
-        private string GetHttpRequestData(HttpWebRequest request, HttpItem objhttpitem,out WebHeaderCollection responseHeaders, out HttpStatusCode statusCode)
+        private  string GetHttpRequestData(HttpWebRequest request, HttpItem objhttpitem,out WebHeaderCollection responseHeaders, out HttpStatusCode statusCode)
         {
             var result = "";
 
@@ -547,7 +548,7 @@ namespace Hawk.Core.Utils
         /// </summary>
         /// <param name="requestitem">参数列表</param>
         /// <returns>String类型的数据</returns>
-        public string GetHtml(HttpItem requestitem, out WebHeaderCollection responseHeaders, out HttpStatusCode code, string url = null, string post = null)
+        public   string GetHtml(HttpItem requestitem, out WebHeaderCollection responseHeaders, out HttpStatusCode code, string url = null, string post = null)
         {
             try
             {

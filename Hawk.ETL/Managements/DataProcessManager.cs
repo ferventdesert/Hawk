@@ -21,6 +21,8 @@ using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Market;
+using Hawk.ETL.Plugins.Generators;
+using Hawk.ETL.Plugins.Transformers;
 using Hawk.ETL.Process;
 using log4net;
 using log4net.Core;
@@ -58,7 +60,7 @@ namespace Hawk.ETL.Managements
         #region Events
 
         #endregion
-
+    
         #region Properties
 
         public IAction BindingCommands { get; private set; }
@@ -109,22 +111,31 @@ namespace Hawk.ETL.Managements
 
         private readonly Dictionary<ProjectItem, Project> RemoteProjectBuff = new Dictionary<ProjectItem, Project>();
 
-        public async Task<Project> GetRemoteProjectContent()
+        public async Task<Project> GetRemoteProjectContent(ProjectItem projectItem=null)
 
         {
+            if (projectItem == null)
+                projectItem = SelectedRemoteProject;
             Project project = null;
-            if (SelectedRemoteProject == null || SelectedRemoteProject.IsRemote == false)
+            if (projectItem == null || projectItem.IsRemote == false)
                 return null;
             ControlExtended.SetBusy(ProgressBarState.NoProgress);
-            if (RemoteProjectBuff.TryGetValue(SelectedRemoteProject, out project))
+            if (RemoteProjectBuff.TryGetValue(projectItem, out project))
             {
                 return project;
             }
             ControlExtended.SetBusy(ProgressBarState.Indeterminate);
-            project = await Project.LoadFromUrl(SelectedRemoteProject.SavePath);
+            project = await Project.LoadFromUrl(projectItem.SavePath);
             ControlExtended.SetBusy(ProgressBarState.NoProgress);
-            RemoteProjectBuff.Add(SelectedRemoteProject, project);
-            project.DictDeserialize(SelectedRemoteProject.DictSerialize());
+            if (RemoteProjectBuff.ContainsKey(projectItem))
+            {
+                RemoteProjectBuff[projectItem] = project;
+            }
+            else
+            {
+                RemoteProjectBuff.Add(SelectedRemoteProject, project);
+            }
+            project.DictDeserialize(projectItem.DictSerialize());
 
             return project;
         }
@@ -174,7 +185,7 @@ namespace Hawk.ETL.Managements
 
         #region Public Methods
 
-        public GitHubAPI GitHubApi { get; set; }
+        public GitHubAPI GitHubApi { get;private set; }
 
         private IDockableManager dockableManager;
 
@@ -530,7 +541,12 @@ namespace Hawk.ETL.Managements
             processAction.ChildActions.Add(new Command(GlobalHelper.Get("key_300"),
                 obj => { ControlExtended.DockableManager.ActiveThisContent(GlobalHelper.Get("ModuleMgmt")); },
                 obj => true, "home"));
+            processAction.ChildActions.Add(new Command(GlobalHelper.Get("find_ref"),
+                obj =>
+                {
+                    PrintReference(obj as IDataProcess);
 
+                },obj=>true, "home"));
 
             BindingCommands.ChildActions.Add(processAction);
             BindingCommands.ChildActions.Add(taskAction2);
@@ -554,15 +570,34 @@ namespace Hawk.ETL.Managements
             {
                 GitHubApi.Connect();
                 MarketProjects.Clear();
-            
-              
-                    MarketProjects.AddRange(await GitHubApi.GetProjects());
-               
-               
+                MarketProjects.AddRange(await GitHubApi.GetProjects());
                
             }, icon: "refresh"));
+            marketAction.ChildActions.Add(new Command(GlobalHelper.Get("key_240"), obj =>
+            {
+                var window = PropertyGridFactory.GetPropertyWindow(GitHubApi);
+                window.ShowDialog();
+
+            }, icon: "settings"));
 
             BindingCommands.ChildActions.Add(marketAction);
+
+
+           var  marketProjectAction=new BindingAction();
+
+            marketProjectAction.ChildActions.Add(new Command(GlobalHelper.Get("key_307"),async obj =>
+            {
+
+                var projectItem=obj as ProjectItem;
+                if(projectItem==null)
+                    return;
+                var keep = MessageBox.Show(GlobalHelper.Get("keep_old_datas"), GlobalHelper.Get("key_99"),
+                   MessageBoxButton.YesNoCancel);
+                if (keep == MessageBoxResult.Cancel)
+                    return;
+                var proj =await this.GetRemoteProjectContent(projectItem);
+                LoadProject(proj,keep == MessageBoxResult.Yes);
+            }, icon: "config"));
 
 
             var config = ConfigFile.GetConfig<DataMiningConfig>();
@@ -575,7 +610,7 @@ namespace Hawk.ETL.Managements
                         GlobalHelper.Get("key_303"));
                 }
             }
-
+            BindingCommands.ChildActions.Add(marketProjectAction);
             if (MainDescription.IsUIForm)
             {
                 ProgramNameFilterView =
@@ -688,6 +723,41 @@ namespace Hawk.ETL.Managements
             }
         }
 
+        private void PrintReference(IDataProcess obj)
+        {
+            if (obj is SmartETLTool)
+            {
+                var tool = obj as SmartETLTool;
+                var oldtools = CurrentProcessCollections.OfType<SmartETLTool>().SelectMany(d => d.CurrentETLTools).OfType<ETLBase>().Where(d => d.ETLSelector.SelectItem == tool.Name).ToList();
+                XLogSys.Print.Info(GlobalHelper.Get("smartetl_name"));
+                foreach (var oldtool in oldtools)
+                {
+                    XLogSys.Print.Info(string.Format("{0} :{1}", oldtool.Father.Name, oldtool.ObjectID));
+                }
+
+            }
+            if (obj is SmartCrawler)
+            {
+                var tool = obj as SmartCrawler;
+                var _name = tool.Name;
+                var oldCrawler = CurrentProcessCollections.OfType<SmartCrawler>()
+               .Where(d => d.ShareCookie.SelectItem == _name).ToList();
+                var oldEtls = CurrentProcessCollections.OfType<SmartETLTool>()
+                    .SelectMany(d => d.CurrentETLTools).OfType<ResponseTF>()
+                    .Where(d => d.CrawlerSelector.SelectItem == _name).ToList();
+                XLogSys.Print.Info(GlobalHelper.Get("smartcrawler_name"));
+                foreach (var oldtool in oldCrawler)
+                {
+                    XLogSys.Print.Info(string.Format("\t{0}", oldtool.Name));
+                }
+                XLogSys.Print.Info(GlobalHelper.Get("smartetl_name"));
+                foreach (var oldtool in oldEtls)
+                {
+                    XLogSys.Print.Info(string.Format("{0} :{1}", oldtool.Father.Name, oldtool.ObjectID));
+                }
+
+            }
+        }
         public ListCollectionView CurrentProcessView { get; set; }
         public ListCollectionView ProcessCollectionView { get; set; }
         private ListCollectionView marketCollectionView;
@@ -736,6 +806,11 @@ namespace Hawk.ETL.Managements
         private Project LoadProject(string path = null, bool keepLast = false)
         {
             var project = Project.Load(path);
+            return LoadProject(project, keepLast);
+        }
+
+        private Project LoadProject(Project project, bool keepLast = false)
+        {
             if (project != null)
             {
                 var config = ConfigFile.GetConfig<DataMiningConfig>();
@@ -753,11 +828,11 @@ namespace Hawk.ETL.Managements
                 if (!keepLast)
                 {
                     CleanAllItems();
-                   
+
                 }
                 if (project.DataCollections?.Count > 0)
                 {
-//TODO: 添加名称重名？
+                    //TODO: 添加名称重名？
 
                     project.DataCollections.Execute(d => dataManager.AddDataCollection(d));
                 }
@@ -768,19 +843,20 @@ namespace Hawk.ETL.Managements
                 {
                     CurrentProject.Name = name;
                 }
-           
+
                 foreach (var task in project.Tasks)
                 {
                     task.Load(false);
                 }
+                if (project.ConfigSelector.SelectItem != null)
+                    this.CurrentProject.ConfigSelector.SelectItem = project.ConfigSelector.SelectItem;
                 NotifyCurrentProjectChanged();
                 config.SaveConfig();
                 project.LoadRunningTasks();
             }
-
             return project;
-        }
 
+        }
         private void SaveCurrentProject(bool isDefaultPosition = true)
         {
             if (CurrentProject == null)

@@ -90,10 +90,10 @@
     <system:String x:Key="key_505">
         参考格式
     </system:String>
-        <system:String x:Key="auto_index_desc">
+    <system:String x:Key="auto_index_desc">
         会在数据表中新增一列，并按序号递增
     </system:String>
-    
+
     <system:String x:Key="key_69">
         启用自增主键
     </system:String>
@@ -121,7 +121,7 @@
         导入列
     </system:String>
     <system:String x:Key="NullFT_desc" xml:space="preserve">
-        检查文本是否为空白符或null，常用
+        检查{column}是否为空白符或null
 
         可以过滤掉所有内容为空，或字符串全部都是空字符的情况
     </system:String>
@@ -243,7 +243,7 @@
         最大禁止数
     </system:String>
     <system:String x:Key="GetIPLocation_desc">
-        获取某一ip地址的经纬度坐标
+        获取{column}的ip地址的经纬度坐标
     </system:String>
     <system:String x:Key="key_34">
         执行
@@ -510,13 +510,13 @@
     <system:String x:Key="key_274">
         作者沙漠君的博客
     </system:String>
-      <system:String x:Key="author">
+    <system:String x:Key="author">
       作者
     </system:String>
-     <system:String x:Key="publish_time">
+    <system:String x:Key="publish_time">
       发布时间
     </system:String>
-      <system:String x:Key="cover_img">
+    <system:String x:Key="cover_img">
        封面图
     </system:String>
     <system:String x:Key="key_268">
@@ -1057,6 +1057,20 @@
     <system:String x:Key="key_603">
         英语
     </system:String>
+    <system:String x:Key="auto_login" xml:space="preserve">
+        ## 自动登录
+        
+        很多网站需要登录才能访问其内部内容。而登录涉及到非常复杂的逻辑，例如需要传递用户名和密码，验证码等，并经过多次的请求，获取token等一系列流程，连写代码都要写整整一页纸并需要反复调试。考虑到Hawk是通用的数据采集器，其开发成本非常之高。
+
+        但本质上说，登录只是获取了cookie，只要之后的请求加入该cookie，远端服务器就不能区分其是浏览器还是爬虫。一般传统的爬虫软件，会内置一个浏览器，用户在内部填入用户名密码。软件在内部获取cookie后进行请求。 但Hawk不打算再搞内置浏览器，那种方式太重，很难与Hawk的流系统兼容。所以，Hawk不玩自动登录了！
+
+        我们使用了全新的思路解决该问题。
+
+        Hawk的自动登录和动态嗅探所使用的技术是一样的，其本质上还是在底层替换了系统代理，你可以在{{search_keyword}}填写在登录后页面上的任意文本，点击嗅探即可。若该方式无法工作，还可以手动拷贝浏览器上的请求参数到网页采集器。
+
+        其更多的使用细节，可参考[动态嗅探]({{smartcrawler_name}}.md#2.动态嗅探)章节。
+        
+    </system:String>
     <system:String x:Key="key_382">
         只有正则表达式匹配该文本的结果数量大于等于该值时，才会保留，默认为1
     </system:String>
@@ -1079,17 +1093,14 @@
         从单个网页中采集和嗅探所需数据
     </system:String>
     <system:String x:Key="SmartCrawler_desc_detail" xml:space="preserve">
-        {{smartcrawler_name}} 模拟了浏览器的设计，填入网址，点击刷新，即可获取对应地址的html源码。
-        
-        - 左侧的区域，显示了html源码和浏览器视图，可通过tab页切换。
-        - 右侧配置区域，可对关键字进行搜索，并对面前所有的属性进行管理。
 
         ![网页采集器主界面](https://upload-images.jianshu.io/upload_images/9608527-bf04e74742058872.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-
+       
+         ## 快速使用说明
+        
+        {{fast_doc_crawler}}
+         
          {{smartcrawler_name}} 不能单独工作，而是沟通 {{smartcrawler_name}} 和{{smartetl_name}}的桥梁。本质上说， {{smartcrawler_name}} 是针对获取网页而特别定制的`{{smartetl_name}}模块`。
-
-         TODO: 增加一般惯用方法
 
          ## 主要配置介绍
 
@@ -1106,8 +1117,9 @@
         {{crawler_feellucky}}
         
         {{SmartCrawler_manual_mode}}
-
+  
         ## 动态嗅探
+
         ### 什么是动态页面？
 
         {{ajax_intro}}
@@ -1115,11 +1127,10 @@
         {{crawler_dynamic_sniff}}
 
         {{crawler_super_mode}}
+   
+        {{auto_login}}
 
-        ## {{feellucky}}的原理
-
-        {{crawler_feellucky_how}}
-
+     
         {{crawler_share_cookie}}
 
         ## 附录：XPath和CSS写法
@@ -1127,6 +1138,11 @@
         {{xpath_desc}}
 
         {{css_desc}}
+
+        ## {{feellucky}}的原理
+
+        {{crawler_feellucky_how}}
+
     </system:String>
     <system:String x:Key="SmartCrawler_manual_mode" xml:space="preserve">
         ### 手动模式
@@ -1161,8 +1177,11 @@
         当{{search_keyword}}时，若没有在当前页面中找到该关键字，Hawk会有提示，“是否启动动态嗅探？”此时Hawk会弹出浏览器并打开所在网页。您可将页面拖到包含关键字的位置，Hawk会自动记录和过滤包含关键字的真实请求， 检索完毕后，Hawk会自动回弹。
 
         ### 如果无法自动嗅探?
-        由于Hawk有拦截功能，会被浏览器认为不安全，有以下两种方案： 
-        可以修改浏览器安全设置。    TODO:  增加浏览器的安全设置
+        由于Hawk有拦截功能，会被浏览器认为不安全，如何解决呢？
+        
+        Hawk底层的嗅探基于fiddler，因此可通过fiddler生成证书后，导入到chrome解决，方法可参考这篇文档:
+
+        > https://www.cnblogs.com/joshua317/p/8670923.html
 
         {{crawler_set_header}}
     
@@ -1178,7 +1197,7 @@
         ### {{script_mode_list}}下的{{feellucky}}
         一般来说，输入网址加载页面后，点击{{feellucky}}即可，Hawk会自动按照优先级将列表数据抓取出来
 
-      ![手气不错配置](https://upload-images.jianshu.io/upload_images/9608527-00a31b3a6f387c74.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+      ![{{feellucky}}配置](https://upload-images.jianshu.io/upload_images/9608527-00a31b3a6f387c74.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
         左右切换选择你想要的数据集，之后在下面的属性栏对结果进行微调。
         添加一个属性，{{feellucky}}就能更准确地进行。添加两个属性，即可选定唯一区域。
@@ -1409,8 +1428,7 @@
         add(a,b)
         ```
 
-        ```
-        f= lambda a,b: a+b
+        ``` f= lambda a,b: a+b
         f(a,b)
         ```
         
@@ -1651,6 +1669,18 @@
     <system:String x:Key="key_110">
         常用
     </system:String>
+        <system:String x:Key="market_url">
+       市场地址
+    </system:String>
+     <system:String x:Key="market_url_check" xml:space="preserve">
+        市场的url必须以https://github.com开头，且包含repo名和首层文件夹，例如：
+
+        从以下方式点击地址进入：
+        TODO:增加图片
+        
+
+        > https://github.com/ferventdesert/Hawk-Projects/tree/master/Hawk3
+    </system:String>
     <system:String x:Key="FileConnectorJson_desc">
         输出文本型JSON文件
     </system:String>
@@ -1824,7 +1854,7 @@
     <system:String x:Key="key_512">
         Python库路径
     </system:String>
-      <system:String x:Key="connect_market">
+    <system:String x:Key="connect_market">
         连接任务集市
     </system:String>
     <system:String x:Key="AddNewTF">
@@ -1860,7 +1890,7 @@
 
         post请求时，Hawk要给服务器需要传递两个参数：url 和post。一般来说，在执行post请求时，url是稳定的，post值是动态改变的。 
 
-        首先要配置调用的{{smartcrawler_name}}为`post`模式（打开{{smartcrawler_name}}，请求详情，模式->下拉菜单）。 
+        首先要配置调用的{{smartcrawler_name}}为`post`模式（打开{{smartcrawler_name}}，{{http_header}}，模式->下拉菜单）。 
 
         之后，需要将`从爬虫转换`拖到要调用的url列上。如果没有url列，可以通过`添加新列`，生成要访问的url列。
 
@@ -1953,6 +1983,10 @@
     那么，如果主任务传递的列名，和子任务需要的列名不同时，该怎么处理？ 这就需要属性映射机制。配置子任务的`属性映射`时，可以用`a:b c:d`表示主任务的a列映射到子任务的b列，多个映射用空格分割，以此类推。
     
     若不需要映射，则直接填写`a c`表示要将a列和c列传递给子任务，因为主任务不会也不需要将所有的参数都传递给子任务。因此，需要在子任务的转换器上，显式地设置原列名，并用空格分割。
+
+    此处顺便总结一下Hawk中对配置的约定，帮助大家复习:
+
+    {{fast_doc_config}}
     
     Hawk3中还提供了图形化配置的界面，大大简化了配置难度，在任何子任务调用的模块里，都可以点击`配置`进入配置页面：
     
@@ -1973,7 +2007,7 @@
     下面以一个非常简单的任务来阐述子任务的用法：
 
 
-新建一个`数据清洗`，命名为主任务，生成1-20的区间数，列名为id.
+新建一个`{{smartetl_name}}`，命名为主任务，生成1-20的区间数，列名为id.
 
 接下来，我们希望能生成id2和id3两个列，数值分别为id的两倍和三倍，再把它们拼接起来。你可以直接拖入两个`python转换器`到id, 脚本为`int(value)*2` 和`int(value)*3`，最后再拖入一个`合并多列`,格式为`{0}_{1}`，再删掉刚才生成的三个列，这样就生成了下面的列:
 ```
@@ -1984,7 +2018,7 @@
 ```
 但是，如果不仅有id这一列，还有别的列需要做一样的处理，那就需要做重复的操作了。我们完全可以将其封装起来重复使用。
 
-新建一个`数据清洗`，命名为`子任务`，新建`从文本生成`,列名为id, 内容只要一个`1`就可以了，之后按照刚才的步骤，生成`2_3`这样的列。
+新建一个`{{smartetl_name}}`，命名为`子任务`，新建`从文本生成`,列名为id, 内容只要一个`1`就可以了，之后按照刚才的步骤，生成`2_3`这样的列。
 
 之后，在主任务上，对id列拖入`子任务-转换`，在弹出的面板上，`子任务-选择`中填入`子任务`，`调用范围`填入`1:100`, 刷新后，即可看到和之前相同的结果。
 
@@ -2902,7 +2936,7 @@
         
         示例工程文件： https://github.com/ferventdesert/Hawk-Projects
 
-        ## 1.介绍
+        ## 介绍
 
         Hawk的含义为“鹰”，能够高效，准确地捕杀猎物。它的思想来源于Lisp语言，功能模仿了Linux工具awk。
 
@@ -2925,6 +2959,42 @@
         以获取大众点评的所有北京美食为例，使用本软件可在10分钟内完成配置，在1小时之内**自动并行抓取**全部内容，并能监视任务工作情况。而手工编写代码，即使是使用python，一个熟练的程序员也可能需要一天以上：
 
         ![1.gif-1001.8kB](http://static.zybuluo.com/buptzym/qkl0vavjn6cj007qfk2k3gqg/1.gif)
+
+        ## 相关资源
+
+        友情提示：由于软件更新频繁，界面有较大变化。但Hawk1到Hawk3在操作思路上基本一致，只是文案和布局上有少许区别，因此老版本的视频同样可做重要的参考资料。
+
+        - Hawk3
+
+        [Hawk3视频教学字幕版-新功能展示](http://v.qq.com/x/page/d0660sxbebu.html)
+
+        - Hawk2
+
+        [抓取动态页面](https://v.qq.com/x/page/a03878tihmx.html)
+
+        [Hawk答疑](https://v.qq.com/x/page/n0387axmgg5.html)
+        
+        - Hawk1
+
+        [链家二手房](http://v.qq.com/page/w/9/2/w0189607h92.html)
+
+        [微信公共平台](http://v.qq.com/page/c/s/n/c0189jwd2sn.html)
+
+        [大众点评-北京美食](http://v.qq.com/page/z/g/h/z01891n1rgh.html)
+
+        ## 如何阅读文档
+
+
+        由于Hawk使用非常灵活，建议您以如下方式阅读本文档:
+
+        -  先尝试最简单的例子，根据兴趣阅读下面的快速入门，一步一步按照步骤操作。
+        -  链家二手房： 学习基本操作，{{feellucky}}和基本{{smartetl_name}}
+        -  大众点评： 了解翻页，清洗的动态传值
+        -  TODO: 百度百家？动态嗅探的用法
+        -  做两个例子后，阅读`Hawk一页纸技巧`，必读，3分钟让您获得大量实用的经验
+        -  成为老司机后，即可阅读之后的详细内容，网页采集器，动态嗅探等内容后，也有对应的例子
+        -  有任何困惑，都可以在`常见问题`中找到
+
     </system:String>
     <system:String x:Key="MergeRepeatTF_desc">
         对重复的数据行，进行合并操作
@@ -2936,7 +3006,7 @@
         网页结构计算中
     </system:String>
     <system:String x:Key="key_281">
-        确定清空所有算法模块么？
+        确定清空加载的所有任务么？
     </system:String>
     <system:String x:Key="key_129">
         解析错误数
@@ -3127,7 +3197,7 @@
     <system:String x:Key="key_306">
         新建工程
     </system:String>
-    <system:String x:Key="key_635">
+    <system:String x:Key="http_header">
         Http请求详情
     </system:String>
     <system:String x:Key="DataManager">
@@ -3162,6 +3232,9 @@
     </system:String>
     <system:String x:Key="key_50">
         文件不是合法的Json文件
+    </system:String>
+     <system:String x:Key="find_ref">
+       查找所有引用
     </system:String>
     <system:String x:Key="key_216">
         当前连接
@@ -3208,26 +3281,25 @@
     <system:String x:Key="SmartETLTool_desc_detail" xml:space="preserve">
         {{smartetl_name}}是一种任务，包括几十个子模块， 这些子模块包含四类：生成， 转换， 过滤和执行。 
 
-     ![数据清洗丰富的模块](https://upload-images.jianshu.io/upload_images/9608527-3bfde1fb0303b660.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-        {{smartetl_name}}可以通过组合多个不同的子模块，生成多样的功能，通过拖拽构造出一个工作流，它能够产生一个有限或无限的文档序列。比如下面：
-        
-        ![image_1auq4oooc1m8m9tc02sjv1j4o9.png-71.6kB](http://static.zybuluo.com/buptzym/gzr3u0z80478s31u9v1zdfw5/image_1auq4oooc1m8m9tc02sjv1j4o9.png)
+     ![{{smartetl_name}}丰富的模块](https://upload-images.jianshu.io/upload_images/9608527-3bfde1fb0303b660.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
         在输出的文档中，点击单元格，可以放大和显示该单元格的文本内容（相比于Hawk早期版本，这实在太实用了）：
 
-        ![数据清洗结果](https://upload-images.jianshu.io/upload_images/9608527-0883c03ec2fe4b05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+        ![{{smartetl_name}}结果](https://upload-images.jianshu.io/upload_images/9608527-0883c03ec2fe4b05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+        ## 快速使用说明
+        
+        {{fast_doc_etl}}
 
         ## 几种模块的介绍
 
         ### 转换器
 
+          {{transformer_desc}}
+
          转换器有几种工作模式:
 
         {{etl_script_mode}}
-
-        {{transformer_desc}}
 
         ### 过滤器
 
@@ -3242,6 +3314,10 @@
         {{generator_desc}}
 
         拖入的模块顺序是非常重要的，一个常见问题是顺序不对，导致生成的数据不符合预期。{{smartetl_name}}可通过 {{CrawlerTF}} 来调用 {{smartcrawler_name}} ，也可以通过`子任务`来调用其他{{smartetl_name}}，是组合各种模块和任务的工厂。
+
+        Hawk的各类模块中包含大量配置，其写法统一总结如下:
+
+        {{fast_doc_config}}
 
         {{super_copy}}
 
@@ -3356,14 +3432,14 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
 
     </system:String>
 
-      <system:String x:Key="new_task" xml:space="preserve">
-目前系统仅仅提供了两个任务： 网页采集器和数据清洗， 双击即可加载一个新的模块。
+    <system:String x:Key="new_task" xml:space="preserve">
+目前系统仅仅提供了两个任务： 网页采集器和{{smartetl_name}}， 双击即可加载一个新的模块。
 
 ![新建任务](https://upload-images.jianshu.io/upload_images/9608527-ba0f495ea797581d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
    上次保存的任务，重新启动后其界面不会自动打开，可在任务管理器上双击，即可自动弹出配置界面。
 
-  </system:String>
+    </system:String>
     <system:String x:Key="SmartETLTool_step" xml:space="preserve">
         ### 单步调试
 
@@ -3371,7 +3447,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
         
         左侧显示了当前所有的模块，顺序和它们的输入输出列，双击上面的模块可对其进行配置，右键可删除。单选列表上的任一模块t，系统就会只仿真前t步的效果。 本质上，单步调试只是提取了工作流的一部分进行操作。   你可以在单步调试中，拖入新的模块。模块会自动插入在工作流中间。
 
-        ![数据清洗已加载模块列表](https://upload-images.jianshu.io/upload_images/9608527-f90a52002ca244bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+        ![{{smartetl_name}}已加载模块列表](https://upload-images.jianshu.io/upload_images/9608527-f90a52002ca244bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
         有时为了在单步调试过程中查看模块的属性，可勾选界面右下角的`调试详情`，此时可直接显示当前模块的属性。
 
@@ -3482,7 +3558,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
         用于记录任务中产生的错误，进而回补错误丢失的数据集
     </system:String>
     <system:String x:Key="is_display_desc">
-        显示详细描述
+        新手模式
     </system:String>
     <system:String x:Key="serial_mode">
         串行模式
@@ -3604,11 +3680,11 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
         保存的内容以xml或hproj形式后缀的文件记录在工程文件中。保存的内容包括：
 
         - 所有数据表(为了降低存储损耗，超过10万的数据表不会保存)
-        - 所有任务（包括数据清洗和{{smartcrawler_name}}）
+        - 所有任务（包括{{smartetl_name}}和{{smartcrawler_name}}）
         - 所有正在执行的正式线程（Hawk可以记录任务执行的位置，在下次启动时断点续跑）
 
         
-        ![系统设置](https://upload-images.jianshu.io/upload_images/9608527-e1a05280d2c23d52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+        ![{{sysconfig}}](https://upload-images.jianshu.io/upload_images/9608527-e1a05280d2c23d52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
         对工作线程的保存时：
 
@@ -3632,9 +3708,86 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     </system:String>
 
     <system:String x:Key="market" xml:space="preserve">
-      ## Hawk任务市场
+      # Hawk任务市场
+
       为了方便用户间共享高质量的工程，形成良好的社区环境，在Hawk5中提供了市场功能。
-      //TODO
+
+      在设计任务市场的整体架构时，花了不少时间，最终采用了最轻量却也可能是最合理的方案：Github。 Github提供了文件存取，合并和历史版本等功能，同时也符合Hawk的开源精神。 任务市场分为两期进行开发，第一期只支持访问，Hawk用户设计了工程后，通过merge request的方式提交到主分支。 第二期则支持软件内上传，同时增加积分奖励系统。
+
+      ## 工程文件描述
+
+      在Git的repo目录中，创建一级目录，通过以下方式组织文件：
+      
+      - proj1.xml
+      - proj1.meta
+      - proj2.hproj
+      - proj2.meta
+      
+      
+      xml和hproj的格式，与本地存取的格式一致，但是尽量使用xml,因为其纯文本格式，方便git管理。meta文件保存了工程文件的元信息，格式为yaml, 由于远比工程文件小很多，且更易读写，进而便于搜索和展示。
+      
+      meta文件的样例如下:
+      ```
+      Name: 填写工程名字
+      ShortDescription: 一句话介绍
+      Description: 长介绍，支持markdown，如果你愿意，可以放置自己的转账二维码。
+      ImgUrl: 封面图像Url
+      Tasks: [task1,task2,task3]  #可选，便于搜索服务建立索引
+      ```
+      
+      以下是一些建议：
+
+      - 尽量使用xml,因为其纯文本格式，方便git管理
+      - 尽量在工程中不要包含过大的数据集(>10w)，其内部数据集一般只用作数据的种子用，而非保存结果使用。
+      - 我们强烈建议使用meta文件描述元信息，这样会大大增加用户访问和查看工程的效率，它避免了Hawk读取整个工程文件，
+      - 不要在Hawk工程中包含任何敏感信息，包括cookie，甚至用户名和密码等。未来Hawk在上传工程时，都会自动将cookie等信息删除后再上传。并通过工程中配置的前置任务，引导用户自行登录并获取cookie.
+
+      ## 账号系统
+
+      如果你打算使用Hawk的基本功能，并不打算上传和分享任务，甘当伸手党的话，则可以使用Hawk提供的公共账号。但有如下功能与限制：
+       
+       - 公共账号只能访问Hawk作者建立的公共仓库
+       - 下载工程的权利会受限
+       - 在软件中提出issue
+      
+      你可以登录自己的Github账号，可选择保存账号和密码，则下次使用时不需要再次登录。其带来的功能如下：
+      
+      -  可访问其他用户提供的Hawk仓库
+      -  能够自行上传和保存工程文件。
+      -  能够自由调用市场的子任务
+      -  给Hawk作者点star
+
+      > Hawk和其作者，保证不会访问或传输用户的账号和密码，它将会保存在用户PC端的token中。
+
+      对于要上传的任务，会经过作者审核。通过后上传到公共仓库。未来Hawk的整个生态，都会围绕在Github展开。
+
+      ## 市场的界面使用
+
+      //TODO: 界面描述
+
+      左侧包含了当前repo对应目录下的所有工程，点击每个工程，右侧即可展示其包含的数据表，任务集合，参数和介绍等。
+      
+      双击工程，即可像加载本地工程一样加载远端工程文件。
+ 
+      ## 使用远端的任务
+      
+      除了加载整个工程完成特定任务外，还支持加载远端工程中特定的任务。有两种方式使用远端任务：
+      
+      ### 手动加载任务
+
+      在右侧的任务列表上点右键，即可加载当前任务。
+      任务在初始化时，会自动将远程的依赖任务和数据加载出来。之后远端任务即可像本地任务一样使用，没有任何区别。
+
+      ### 自动引用任务
+
+      这是Hawk革命性的功能，在{{smartetl_name}}中，可以使用如下语法，调用远程仓库的子任务和{{smartetl_name}}：
+      remote://RepoUser/Repo/DirName/ProjectName/TaskName
+      
+      每次软件启动时，就会自动从远端加载当前任务。
+
+      未来可能会提供图形化配置功能。
+      
+     
     </system:String>
     <system:String x:Key="global_config" xml:space="preserve">
       ## 全局配置系统
@@ -3659,7 +3812,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
       xpath: your_xpath
       ```
 
-      在数据清洗的任意模块，大部分参数都能支持引用全局配置，语法是{key_name}，例如{city}，会将配置中city项的值拷贝过来。
+      在{{smartetl_name}}的任意模块，大部分参数都能支持引用全局配置，语法是{key_name}，例如{city}，会将配置中city项的值拷贝过来。
 
       注意:
 
@@ -3688,12 +3841,12 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
        Hawk的文档系统分为`新手模式`和`高手模式`：
 
        - 模式的切换，可以在系统配置，{{is_display_desc}}中进行切换
-       - 新手模式：文档详尽，尤其是在数据清洗的模块列表中，以详细介绍的形式呈现，方便直观地了解各模块功能
+       - 新手模式：文档详尽，尤其是在{{smartetl_name}}的模块列表中，以详细介绍的形式呈现，方便直观地了解各模块功能
        - 老手模式：文档极简，仅提供新手模式第一段的内容。
 
         在各模块的图标上停留，即可弹出简单的使用介绍：
 
-       ![数据清洗可用模块列表](https://upload-images.jianshu.io/upload_images/9608527-d0e75e07893f4d91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+       ![{{smartetl_name}}可用模块列表](https://upload-images.jianshu.io/upload_images/9608527-d0e75e07893f4d91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
        ### 文档编写和自动生成
@@ -3709,8 +3862,8 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
        
        - 使用space=preserve来指定某个变量为多行文档。
        - 使用`{{KEY_NAME}}`来引用其他变量，生成文档时会自动替换
-       - 过长的文档，可以在resource目录下新建YOUR_MD.md,则可以使用`{{YOUR_MD}}`来引用它。
-       - 变量之间可以按树结构调用，但不能出现循环引用，并生成最终文档
+       - 过长的文档，可以在resource目录下新建YOUR_MD.md,则可以使用`{{YOUR_MD}}`来引用它。文件名只能使用英文
+       - 变量之间可以互相调用，但不能出现循环引用，并生成最终文档
 
        建议修改对应的xaml文件后，通过git向主干提交merge request，这样能保证文档质量。那如何预览生成的文档效果？  执行如下命令:
        ```
@@ -3734,7 +3887,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
       - 中文(zh_CH)
       - English (en_US)
       
-      还可以手工设置语言， 在 `系统设置`， `语言`中切换，下一次启动时，会按上一次设置保存的语言显示。 
+      还可以手工设置语言， 在 `{{sysconfig}}`， `语言`中切换，下一次启动时，会按上一次设置保存的语言显示。 
       
       Hawk凭借WPF的强大功能，一定程度上支持语言热切换，但依然会出现不能全部顺利切换的情形。因此建议在设置语言后，通过重启使语言生效。
 
@@ -3752,7 +3905,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
        
        - 在线界面日志：在UI的最下方，但是只能显示本次启动日志，同时不能太多，否则会有性能问题
        - 日志文件， log.dat， 本质还是文本文件，可使用记事本打开，超过10M则会创建新文件。
-       - 弹出对话框： 右上角会有弹出式浮窗。可通过 系统设置 中进行设置
+       - 弹出对话框： 右上角会有弹出式浮窗。可通过 {{sysconfig}} 中进行设置
 
        下图是典型的调试信息窗口，用不同颜色展示日志级别：
 
@@ -3777,20 +3930,20 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
 
        ### 系统级窗口
 
-       如何了解总的http请求次数和错误数？在 系统设置-> http请求详情里，详细地给出了请求数，被禁止数，因错误而跳过等数量。 点击 `清空数据`，即可将计数器置0.
+       如何了解总的http请求次数和错误数？在 {{sysconfig}}-> {{http_header}}里，详细地给出了请求数，被禁止数，因错误而跳过等数量。 点击 `清空数据`，即可将计数器置0.
 
-     ![系统设置](https://upload-images.jianshu.io/upload_images/9608527-e1a05280d2c23d52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+     ![{{sysconfig}}](https://upload-images.jianshu.io/upload_images/9608527-e1a05280d2c23d52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
        ### 确定模块的输入和输出
 
-       在单步调试模式时，该模块输入的列，会在数据清洗的最上方用蓝色表示，输出列会用绿色表示。
+       在单步调试模式时，该模块输入的列，会在{{smartetl_name}}的最上方用蓝色表示，输出列会用绿色表示。
 
        ![输入输出设置](https://upload-images.jianshu.io/upload_images/9608527-8772e8727130d1dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
     </system:String>
 
- <system:String x:Key="how_to_ask" xml:space="preserve">
+    <system:String x:Key="how_to_ask" xml:space="preserve">
 
     ## 如何提问
      
@@ -3812,7 +3965,25 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     1. 推荐使用Github的issue,方便其他朋友查阅已有的问题。: https://github.com/ferventdesert/Hawk/issues
     2. 加入QQ群： 546750531(Hawk数据抓取交流)
     3. 给作者发邮件:  buptzym@qq.com    
-   </system:String>
+    </system:String>
+
+    <system:String x:Key="drag_desc">
+      将`{0}`模块拖入到`{1}`列
+    </system:String>
+    <system:String x:Key="set_param_desc1">
+      设置`{0}`值为`{1}`
+    </system:String>
+    <system:String x:Key="set_param_desc2">
+      将`{0}`填为`{1}`
+    </system:String>
+    <system:String x:Key="reason_desc1">
+      其目的是{0}
+    </system:String>
+    <system:String x:Key="reason_desc2">
+      作用为{0}
+    </system:String>
+
+
     <system:String x:Key="qa_list" xml:space="preserve">
 
     # 常见问题
@@ -3863,10 +4034,10 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     如何使用？你需要配置一个**{{smartcrawler_name}}**。
     将它的行为，模拟到和浏览器一致。
 
-    第一种方法，查看浏览器的请求，参考  ，将请求详情复制过来，注意选择GET和POST。
+    第一种方法，查看浏览器的请求，参考  ，将{{http_header}}复制过来，注意选择GET和POST。
 
     之后，将嗅探到的地址拷贝到{{smartcrawler_name}}的URL输入框中，查看是否能正确获取内容。
-    如果是POST请求，就更复杂一些。在数据清洗模块中，{{smartcrawler_name}}拖入的列需要是对应的URL，你还需要构造出每次访问的post数据，单独作为一列。在{{smartcrawler_name}}中如下配置：
+    如果是POST请求，就更复杂一些。在{{smartetl_name}}模块中，{{smartcrawler_name}}拖入的列需要是对应的URL，你还需要构造出每次访问的post数据，单独作为一列。在{{smartcrawler_name}}中如下配置：
     
     ![image_1ao1rk5bb1am4pl31j2l1a0l1otpm.png-18.7kB][3]
     注意列名需要用方括号括起来，否则每次POST数据都会是所填的数据。
@@ -3894,20 +4065,20 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     另一方面，Chrome会执行js代码，而js可能会改变网页的结构，因此XPath也就对应地发生变化了。这会通常会导致从Chrome拷贝出来的XPath在Hawk中不能使用。
     Hawk未来不会考虑支持加入执行js代码的功能，因此，如果搜索XPath，还请以Hawk得到的结果为准。多搜多看，通常就能建立感觉。
 
-    ### 手气不错的问题
-    很多人使用手气不错会失败。这是因为：
+    ### {{feellucky}}的问题
+    很多人使用{{feellucky}}会失败。这是因为：
 
-    #### 不是所有的网页都支持直接点击【手气不错】
-    手气不错需要特定的网页结构（列表），如果整个网页没有显著的列表节点，则搜索失败，此时就会提示 手气不错失败。
+    #### 不是所有的网页都支持直接点击【{{feellucky}}】
+    {{feellucky}}需要特定的网页结构（列表），如果整个网页没有显著的列表节点，则搜索失败，此时就会提示 {{feellucky}}失败。
 
-    #### 手气不错会自动规约父节点
-    使用手气不错后，嗅探器会找到列表节点的父节点，以及挂载在父节点上的多个子节点，从而形成一个树状结构:
+    #### {{feellucky}}会自动规约父节点
+    使用{{feellucky}}后，嗅探器会找到列表节点的父节点，以及挂载在父节点上的多个子节点，从而形成一个树状结构:
 
     - 父节点(/html/div[2]/div[3]/div[4])
     - 子节点1(/a[1])
     - 子节点2(/a[2]/@href)
     - 其他省略 有时候，父节点的xpath是不稳定的，举个例子，北京上海的二手房页面，上海会在列表上面增加一个广告banner，从而真正的父节点就会发生变化。为了应对这种变化，通常的做法是手工修改【父节点XPath】，继续举例子，父节点的id为`house_list`，且在网页中全局唯一，你就可以使用另外一种父节点表示法`//*[@id='house_list']`（写法可以参考其他XPath教程），而子节点表达式不变。
-    Hawk在【手气不错】得到【确定】后，会询问是否提取父节点XPath，此时Hawk会自动提取【父节点XPath】到属性对话框中，从而方便修改。
+    Hawk在【{{feellucky}}】得到【确定】后，会询问是否提取父节点XPath，此时Hawk会自动提取【父节点XPath】到属性对话框中，从而方便修改。
 
     ### 获得的页面与浏览器上不一样？
 
@@ -3929,11 +4100,11 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     当一组采集器需要同一组请求参数时，可设置`共享源`自动同步，参考`3.2采集器高级用法`的最后一节。
 
 
-    ##  数据清洗
+    ##  {{smartetl_name}}
 
     ###  拖入`从爬虫转换`后没有任何数据。
 
-    `从爬虫转换`实际上搭建了采集器与数据清洗的桥梁，它要选择对应的{{smartcrawler_name}}才行，
+    `从爬虫转换`实际上搭建了采集器与{{smartetl_name}}的桥梁，它要选择对应的{{smartcrawler_name}}才行，
 
     ###  拖入`从爬虫转换`后，数据有了，但之前的列消失了
 
@@ -4017,6 +4188,16 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     点击view source，将所有文本，拷贝到{{smartcrawler_name}}，对应的**高级设置-请求参数**里即可。其实，Hawk做的也是类似的操作。
     </system:String>
 
+    <system:String x:Key="topic_news_grab" xml:space="preserve">
+      # 新闻博客抓取迁移专题
+
+      由于部分站长有抓取博客网站的需求，以及舆情分析的需求，本专题专门讨论这个问题。通常来说，传统的新闻网站是非常容易抓取的，它们追求页面点击率，因此访问迅速，且很少有防爬机制（微信公众号除外）。
+
+      ## 获取列表页
+      
+      
+      
+    </system:String>
     <system:String x:Key="topic_increase_get" xml:space="preserve">
    # 命令行增量和自动化专题
    
@@ -4073,13 +4254,13 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
 
     </system:String>
 
-    
-  <system:String x:Key="topic_supplier" xml:space="preserve">
+
+    <system:String x:Key="topic_supplier" xml:space="preserve">
    ## 回补数据方法
 
    本功能简直是神器，Hawk能够精确地记录失败的位置和上下文，并在重试时将配置错误和失败部分补充回来。配置非常简单，但功能很强大。
 
-   开启该功能，需要在系统设置中勾选{{is_generate_error_collection}}, 则{{smartetl_name}}在执行时，就会将错误的信息保存到一张新表中，除了当时错误时的参数输入列之外，增加的列如下：
+   开启该功能，需要在{{sysconfig}}中勾选{{is_generate_error_collection}}, 则{{smartetl_name}}在执行时，就会将错误的信息保存到一张新表中，除了当时错误时的参数输入列之外，增加的列如下：
 
    - __SysETL: 产生错误时的任务名
    - __SysTime: 错误时间
@@ -4228,9 +4409,9 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
 
 {{crawler_manual_get_header}}
 
-### 步骤2： 数据清洗流
+### 步骤2： {{smartetl_name}}流
 
-此处我简单描述一下，你可以新建一个`数据清洗`,生成所有要查询的专利号的ID。这个相对容易。比如拖入`从文本生成`：
+此处我简单描述一下，你可以新建一个`{{smartetl_name}}`,生成所有要查询的专利号的ID。这个相对容易。比如拖入`从文本生成`：
 
 ![image_1arbfidlrfs95nanvr1d9df511g.png-16.8kB](http://static.zybuluo.com/buptzym/ewb47tdmo3ku50prz6s7v812/image_1arbfidlrfs95nanvr1d9df511g.png)
 
@@ -4269,67 +4450,113 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
 
 
     </system:String>
-    <system:String x:Key="fast_doc" xml:space="preserve">
- # 快速教程
-    本文给不想看详细教程的同学使用，仔细阅读，可以让你战斗力爆棚：
 
-    ## 界面和交互
+    <system:String x:Key="fast_doc_ui" xml:space="preserve">
+
     1. 在【模块管理】页面，左侧是【任务管理】，双击图标即可新建和加载已有任务
     点击菜单【文件】可加载，保存任务，任务为xml文件。 软件根目录包含教学工程，可供学习。
     右侧是【数据管理】，空白处右键可新建连接，连接名上右键可配置，支持本地文件(xls,txt,json)，数据库(mongodb,sqlite)
     数据库需要连接后才能使用，可勾选【自动连接】.
     2. 软件右下角对应的是【系统状态视图】，左右侧分别是已加载的任务和数据集。
     左键查看，右键配置，空白处右键批量管理。 下面的图标可用于删除，拷贝，保存等功能，把任务或数据集拖到图标上试试！
-    3. 【{{smartcrawler_name}}】用于配置单个网页的抓取规则，【数据清洗】用于打造清洗流程，并调用前者。 复杂任务会创建多个清洗并互相调用。
+    3. 【{{smartcrawler_name}}】用于配置单个网页的抓取规则，【{{smartetl_name}}】用于打造清洗流程，并调用前者。 复杂任务会创建多个清洗并互相调用。
+    </system:String>
 
-    ## {{smartcrawler_name}}
-    1. 上方输入网址，点击刷新，选择工作模式(List列表页，生成多条数据；One详情页，单条数据, NoTransform是原始内容，不做转换)
-    2. 网页可在源码模式和浏览器模式下切换，后者仅供参考，不能动态执行js
-    3. 点击【手气不错】进入全自动模式，在弹出的结果下选择所需数据，可配置其名称和XPath，点击【刷新】更新
-    4. 也可以手工搜索字符，可快速定位元素和XPath，输入名称后手工添加属性。
-    5. 点击【提取测试】，可预览检查配置结果。
-    ### 2.1 高级功能(右侧配置面板)
-    1. 右侧【属性配置器】面板，点击【请求详情】，可修改网页编码，代理，cookie和请求方式等
-    2. 若是动态页面(ajax)，填入搜索字符，点击【自动嗅探】，在弹出的浏览器中翻到对应的关键字，Hawk就能自动捕捉真实请求
-    3. 超级模式下，Hawk会将源码中的js,html,json都转成html，更通用但性能较差
-    4. 填写【共享源】，本采集器同步共享源的【请求详情】，避免重复设置cookie代理等。
-    5. 详情页(One模式)也可以手气不错(Hawk3新功能)，搜索所需字段，不需要添加到属性列表，点击【手气不错】试试！
-    6. 网页地址也可以是本地文件路径，如D:\target.html, 用其他方法保存网页后，通过Hawk做数据清洗
 
-    ## 数据清洗
-    1. 左侧是所有模块列表，分为生成，转换，过滤和执行四种类型，可通过名称和拼音首字母快速检索。顺序组合可构成复杂任务。
-    右侧是数据预览，可将选中的模块拖入到右侧对应列上。 双击每个列上面的模块对其配置。将鼠标放在字段上可查看使用介绍。
-    预览时，处理是串行的，数据不会被写入，有缓存，调试所见即所得。 只有在执行模式下才会并行快速执行。
-    执行器可看做带有副作用(如写入文件)的转换器，
-    2. 生成器通常位于任务开头，可从文本，文件，数据库读取数据。 
-    多个生成器结果有四种方式组合：Merge:横向合并，Append:纵向拼接， Cross:笛卡尔集 , Mix:依次交叉，如121212..
-    3. 一些转换器也有类似{{smartcrawler_name}}的工作模式，后者本质上就是个高级的转换器。
-    4. 下方菜单栏可点击刷新，前后单步，可通过采样量来修改预览的数据量。配置完毕无误后，右侧面板点击【执行】即可。
-    ### 高级功能和提醒
-    1. 配置输入列可下拉选择，也可手工输入文本。列名不要为纯数字，否则无法正常显示。 
-    2. 很多问题来自于模块顺序不对，任何步骤错误，会导致连锁的问题，因此有必要使用单步调试，在调试到某步时，拖入的模块会插入到所在位置。
-    3. Python转换器：最后一行必须是可求值的表达式。例如有两列a,b,转换器输出列为c，表达式为a+b，则c列内容就是a+b。但表达式不能写c=a+b
-    - Python是强类型语言，输入的数据可能是字符串或数字，因此必要时需要做类型转换
-    - 通过填写库路径，可让转换器调用第三方模块。但这一功能支持不好。
-    4. 一般在List模式的转换器之前拖入【并行】，可大大提升并行速度。
-    5. 可在任务的各个位置拖入多个执行器(如【写入数据表】)，它保存的是当前状态的数据。
-    6. 子任务：任务可互相调用，功能非常强大，可用于处理多次跳转，详情页还包含列表的问题，比较复杂，需参考相关文档。
+    <system:String x:Key="fast_doc_crawler" xml:space="preserve">
+    
+    {{smartcrawler_name}} 模拟了浏览器的设计，填入网址，点击刷新，即可获取对应地址的html源码。
 
-    ### 对配置的约定
+    认识到网页是一棵树(DOM)后，每个XPath对应一个属性，即可从网页上获取单个或多个文档。{{smartcrawler_name}}的目的就是更快地通过手工或自动配置找到最优XPath。
+
+    ### 基本操作
+
+    - 左侧的区域，显示了html源码和浏览器视图（但不能执行js)，可通过上册tab页切换。
+    - 右侧是配置区域，可对关键字进行搜索，并对所有的属性进行管理。
+    - 在{{script_mode_list}}模式下，点击{{feellucky}}进入全自动模式，在弹出的结果下选择所需数据，可配置其名称和XPath。点击确定即可配置完毕。
+    - 可手工填入`{{search_keyword}}`，即可在网页上快速定位元素和XPath，可在多个结果间快速切换，找到所需数据后，输入名称后手工添加属性。
+    -  点击【{{key_624}}】，可预览检查配置结果。
+    
+    ### 高级功能
+    
+    1. 点击【{{http_header}}】，可修改网页编码，代理，cookie和请求方式等，网页出现乱码可用
+    2. 若希望自动登录，或获取动态页面(ajax)的真实地址，填入{{search_keyword}}，点击【自动嗅探】，在弹出的浏览器中翻到对应的关键字，Hawk就能自动捕捉真实请求
+    3. 超级模式下，Hawk会将源码中的js,html,json都转成html，从而使用{{feellucky}}, 更通用但性能较差
+    4. 填写【共享源】，本采集器同步共享源的【{{http_header}}】，避免重复设置cookie代理等。
+    5. 详情页({{script_mode_one}}模式)也可以{{feellucky}}(Hawk3新功能)，搜索所需字段，不需要添加到属性列表，点击{{feellucky}}试试！
+    6. 网页地址也可以是本地文件路径，如D:\target.html, 用其他方法保存网页后，再通过Hawk分析网页内容
+
+    </system:String>
+
+    <system:String x:Key="fast_doc_etl" xml:space="preserve">
+
+     {{smartetl_name}}可以通过组合多个不同的子模块，生成多样的功能，通过拖拽构造出一个工作流，它能够产生一个有限或无限的文档序列。比如下面：
+        
+        ![image_1auq4oooc1m8m9tc02sjv1j4o9.png-71.6kB](http://static.zybuluo.com/buptzym/gzr3u0z80478s31u9v1zdfw5/image_1auq4oooc1m8m9tc02sjv1j4o9.png)
+
+    ### 基本操作
+
+    - 左侧是所有模块列表，分为生成，转换，过滤和执行四种类型，可通过名称和拼音首字母快速检索。顺序组合可构成复杂任务。
+    - 右侧是数据预览，可将左侧选中的模块拖入到右侧对应列上。 双击每个列上面的模块对其配置。将鼠标停靠字段上可查看使用介绍
+    - 预览时，处理是串行的，数据不会被写入，有缓存，调试所见即所得。 只有在执行模式下才会并行快速执行。
+    - 执行器可看做带有副作用(如写入文件)的转换器，只有在执行时才会运行
+    - 生成器通常位于任务开头，可从文本，文件，数据库读取数据。生成器也能位于流的中间，通过多种模式与已有数据流组合
+    - 下方菜单栏可点击刷新，前后单步，可通过采样量来修改预览的数据量。配置完毕无误后，左侧面板点击执行即可。
+    - 很多问题来自于模块顺序不对，任何步骤错误，会导致连锁的问题，因此有必要使用单步调试，在调试到某步时，拖入的模块会插入到所在位置。
+
+    ### 高级功能和技巧
+
+    1. 输入列一般不用配置，需要时可下拉选择，也可手工输入文本。列名不要为纯数字，否则无法正常显示。 
+    2. 关于Python转换器：最后一行必须是可求值的表达式。例如有两列a,b,转换器输出列为c，表达式为a+b，则c列内容就是a+b。但表达式不能写c=a+b； Python是强类型语言，输入的数据可能是字符串或数字，因此必要时需要做类型转换；通过填写库路径，可让转换器调用第三方模块。
+    3. 可在任务的各个位置拖入多个执行器(如【写入数据表】)，它保存的是当前状态的数据。
+    4. 子任务：任务可互相调用，功能非常强大，可用于处理多次跳转，详情页还包含列表的问题，比较复杂，需参考相关文档。
+
+    </system:String>
+
+
+    <system:String x:Key="fast_doc_config" xml:space="preserve">
+
     - 具体数值，直接填入配置框即可
     - 涉及到输入多个列名，多个分隔符等，都默认用空格分割，例如`a b c`
-    - 当希望从`数据清洗`中读取其他列的数据到本参数，使用方括号表达式，例如`[col]`
-    - 希望将多个列的数据合并，可使用`合并多列`
+    - 当希望从本`{{smartetl_name}}`中读取其他列的数据到本参数，使用方括号表达式，例如`[col]`
+    - 当希望从全局配置中读取特定字段时，使用大括号表达式，例如`{YOUR_CONFIG}`
+    - 希望将多个列的数据合并作为参数时，可先使用`合并多列`，再使用对应的表达式
     - 配置子任务的模块范围时：`1:100`表示从1到100， `2:-2`表示从第2个模块到倒数第二个模块，可参考Python的slice写法
     - 配置子任务的字段映射时，可以用`a:b c:d`表示a列映射到b列，以此类推。
 
-    ## 一些忠告
-    1. Hawk除了做爬虫，还能做数据清洗，甚至批量执行命令，需要你来挖掘。
+    </system:String>
+
+    <system:String x:Key="fast_doc_advise" xml:space="preserve">
+
+    1. Hawk除了做爬虫，还能做{{smartetl_name}}，甚至批量执行命令，需要你来挖掘。
     2. Hawk对代理的支持不够（免费的就知足吧），避免过度抓取导致屏蔽。
     3. 记得经常保存任务，尽量将数据写入到数据库而非表里，否则程序可能崩溃难以挽回。
-    4. 如果任务出现异常，请截图软件，详细描述，将根目录下的log.dat发给buptzym@qq.com，我会尽快予以解答。使用问题烦请在GitHub的issue上提问，其他途径可能不会收到回复。
-    5. 如果你喜欢Hawk，请star该项目，欢迎给作者打赏，你的鼓励是作者改进软件的最大动力。
 
+    </system:String>
+
+    <system:String x:Key="fast_doc" xml:space="preserve">
+    # 快速教程
+    本文给不想看详细教程的同学使用，仔细阅读，可以让你战斗力爆棚：
+
+    ## 界面和交互
+    
+    {{fast_doc_ui}}
+
+    ## {{smartcrawler_name}}
+    
+    {{fast_doc_crawler}}
+
+    ## {{smartetl_name}}
+
+    {{fast_doc_etl}}
+
+    ### 对配置的约定
+   
+   {{fast_doc_config}}
+
+    ## 一些忠告
+    
+    {{fast_doc_advise}}
 
    {{how_to_ask}}
    
@@ -4380,7 +4607,7 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
     工程文件介绍如下：
 
     - Hawk.Core 底层基础类库
-    - Hawk.ETL  数据清洗和爬虫插件库
+    - Hawk.ETL  {{smartetl_name}}和爬虫插件库
     - Hawk.ETL.Controls 界面库
     - HawkScheduler 命令行调度器
     - HawK.exe 可执行程序和插件容器
@@ -4410,7 +4637,7 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
     这方面如果有任何问题，欢迎联系作者，不过我打赌，因为想新开发组件而找我的朋友，一年最多三个
     </system:String>
 
-   <system:String x:Key="super_copy" xml:space="preserve">
+    <system:String x:Key="super_copy" xml:space="preserve">
        ## 超级拷贝
        
        Hawk3.5增强了对拷贝功能的支持，使得操作更加简便。
@@ -4422,14 +4649,14 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
        - 可以直接粘贴到任何文本编辑器中，这在手动编辑xml工程文件时很有用。
        - 拷贝到本任务或其他任务的任一模块的上侧或下侧
 
-    ![数据清洗已加载模块列表](https://upload-images.jianshu.io/upload_images/9608527-f90a52002ca244bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+    ![{{smartetl_name}}已加载模块列表](https://upload-images.jianshu.io/upload_images/9608527-f90a52002ca244bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
         
        这带来了显著的好处，任务间能够更方便地共享配置和参数，方便重用。你亦可将配置拷贝到GitHub或其他社群中，方便他人定位问题。
-       </system:String>
+    </system:String>
     <system:String x:Key="project" xml:space="preserve">
       Hawk使用工程(Project)的概念描述一组任务的集合。在工程中，所有的任务可以互相引用，任务也可以访问内部的数据表，连接器和配置。 一个典型的工程包含以下内容：
 
-      - 任务： 多个网页采集器和数据清洗
+      - 任务： 多个网页采集器和{{smartetl_name}}
       - 数据表： 缓存的抓取结果，错误表和数据日志等，最大不超过10w
       - 连接器： 访问各种数据库的配置
       - 全局配置
@@ -4454,6 +4681,7 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
 
     
     </system:String>
+
     <system:String x:Key="hawk_doc" xml:space="preserve">
         
         {{hawk_front_desc}}
@@ -4471,8 +4699,6 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
 
         {{threadmanager_desc}}
 
-        {{market}}      
-
         {{debug_system}}
         
         {{log_info}}
@@ -4480,6 +4706,8 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
         {{language_config}}
 
         {{doc_system}}
+
+         {{market}}      
 
         # 数据表和数据库连接
         
@@ -4499,7 +4727,7 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
 
         {{tools_desc}}
 
-          {{subtask_desc}}
+        {{subtask_desc}}
 
         {{topic_ajax}}
 
@@ -4508,6 +4736,14 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
         {{develop}}
 
         {{qa_list}}
+
+        {{lianjia}}
+
+        {{dianping}}
+
+        {{baidubaijia}}
+
+        {{youku}}
 
         {{about}}
         

@@ -268,7 +268,7 @@ namespace Hawk.ETL.Process
         public ObservableCollection<CrawlItem> CrawlItems { get; set; }
 
         [LocalizedCategory("key_634")]
-        [LocalizedDisplayName("key_635")]
+        [LocalizedDisplayName("http_header")]
         [PropertyOrder(1)]
         [LocalizedDescription("key_636")]
         [TypeConverter(typeof (ExpandableObjectConverter))]
@@ -491,7 +491,7 @@ namespace Hawk.ETL.Process
                         }
                         else
                         {
-                            var str2 = String.Format("not_find_key",SelectText,"自动嗅探");
+                            var str2 = String.Format(GlobalHelper.Get("not_find_key"),SelectText,GlobalHelper.Get("key_639"));
                             var res = MessageBox.Show(str2, GlobalHelper.Get("key_655"), MessageBoxButton.YesNoCancel);
                             switch (res)
                             {

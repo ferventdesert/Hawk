@@ -308,7 +308,7 @@ namespace Hawk.ETL.Process
                             IDataObject data = Clipboard.GetDataObject();
                             var toolsConfig = (string)data.GetData(typeof(string));
                             var toolsDoc=FileConnectorXML.GetCollection(toolsConfig);
-                            var tools= toolsDoc.Select(d=>GetToolFromDocument(d));
+                            var tools= toolsDoc.Select(GetToolFromDocument);
                             foreach(var tool in tools)
                             {
                                 this.CurrentETLTools.Add(tool);
@@ -479,6 +479,7 @@ namespace Hawk.ETL.Process
             CurrentETLTools.CollectionChanged += (s, e) =>
             {
                 if (e.Action != NotifyCollectionChangedAction.Add) return;
+                bool canFresh = false;
                 foreach (var item in e.NewItems.OfType<INotifyPropertyChanged>())
                 {
                     var tool = item as ToolBase;
@@ -498,10 +499,11 @@ namespace Hawk.ETL.Process
                             return;
                         if(e2.PropertyName== "AnalyzeItem")
                             return;
-                        
-                        RefreshSamples();
+                        canFresh = true;
+                    
                     };
                 }
+                if(canFresh) RefreshSamples();
             };
             return true;
         }

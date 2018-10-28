@@ -18,6 +18,12 @@ namespace Hawk.ETL.Plugins.Transformers
 {
     public class XPathDetectorModel : PropertyChangeNotifier
     {
+
+        public class HtmlResult
+        {
+            public string Url { get; set; }
+            public string HTML { get; set; }
+        }
         private int _childCount;
         private string _xPath;
         private Window view;
@@ -25,8 +31,27 @@ namespace Hawk.ETL.Plugins.Transformers
         private string selectText = "";
         private string urlHTML;
         private CrawlItem _selectedItem;
+        private HtmlResult _selectedResult;
 
-        public XPathDetectorModel(string html, ScriptWorkMode workmode,Window theView,TextBox textbox)
+        public List<HtmlResult> HtmlResults { get; set; }
+
+        public HtmlResult SelectedResult
+        {
+            get { return _selectedResult; }
+            set
+            {
+                if (_selectedResult != value)
+                {
+                    _selectedResult = value;
+
+                    OnPropertyChanged("SelectedResult");
+                    OnPropertyChanged("URLHtml");
+                    ControlExtended.SafeInvoke(() => HtmlDoc.LoadHtml(SelectedResult.HTML));
+                }
+            }
+        }
+
+        public XPathDetectorModel(IEnumerable<HtmlResult> htmlResults , ScriptWorkMode workmode,Window theView,TextBox textbox)
         {
             HtmlDoc = new HtmlDocument();
             var xpathHelper =new Dictionary<string, string>()
@@ -37,8 +62,8 @@ namespace Hawk.ETL.Plugins.Transformers
 
 
             };
-            ControlExtended.SafeInvoke(() => HtmlDoc.LoadHtml(html));
-            URLHTML = html;
+          
+            HtmlResults = htmlResults.ToList();
             view = theView;
             htmlTextBox = textbox; 
             XPath=new TextEditSelector();
@@ -88,15 +113,8 @@ namespace Hawk.ETL.Plugins.Transformers
         [Browsable(false)]
         public string URLHTML
         {
-            get { return urlHTML; }
-            set
-            {
-                if (urlHTML != value)
-                {
-                    urlHTML = value;
-                    OnPropertyChanged("URLHTML");
-                }
-            }
+            get { return SelectedResult?.HTML; }
+           
         }
 
         public CrawlItem SelectedItem
@@ -108,7 +126,7 @@ namespace Hawk.ETL.Plugins.Transformers
                 {
                     _selectedItem = value;
 
-                    XPath.SelectItem = value.XPath;
+                    XPath._SelectItem = value.XPath;
 
                     if (htmlTextBox != null)
                     {
@@ -118,6 +136,8 @@ namespace Hawk.ETL.Plugins.Transformers
                             htmlTextBox.Focus();
                             htmlTextBox.SelectionStart = node.StreamPosition;
                             htmlTextBox.SelectionLength = node.OuterHtml.Length;
+                            if(node.StreamPosition>htmlTextBox.Text.Length)
+                                return;
                             var line = htmlTextBox.GetLineIndexFromCharacterIndex(node.StreamPosition); //返回指定字符串索引所在的行号
                             if (line > 0)
                             {
@@ -143,7 +163,7 @@ namespace Hawk.ETL.Plugins.Transformers
                     new[]
                     {
                         new Command(GlobalHelper.Get("key_652"),  obj =>Search() , icon: "refresh"),
-                        new Command(GlobalHelper.Get("key_652"),  obj =>SearchChild() , icon: "refresh"),
+                        new Command(GlobalHelper.Get("key_624"),  obj =>SearchChild() , icon: "refresh"),
                         new Command(GlobalHelper.Get("key_172"), obj =>
                         {
                             view.DialogResult = true;

@@ -86,7 +86,7 @@ namespace Hawk.ETL.Crawlers
             var window = new Window { Title = name };
             window.Content = view;
             var textBox=view.HtmlTextBox;
-            var xPathDetectorModel = new XPathDetectorModel(htmls.FirstOrDefault(),this.IsManyData,window,textBox);
+            var xPathDetectorModel = new XPathDetectorModel(htmlResults,this.IsManyData,window,textBox);
             view.DataContext = xPathDetectorModel;
             window.Activate();
             window.ShowDialog();
@@ -99,14 +99,14 @@ namespace Hawk.ETL.Crawlers
             }
         }
 
-        private List<string> htmls=new List<string>(); 
+        private List<XPathDetectorModel.HtmlResult> htmlResults=new List<XPathDetectorModel.HtmlResult>(); 
         protected override IEnumerable<IFreeDocument> InternalTransformManyData(IFreeDocument data)
         {
             var item = data[Column];
             var docu = new HtmlDocument();
-            if(htmls.Count<5)
-                htmls.Add(item.ToString());
-            
+            if (htmlResults.Count < 5)
+                htmlResults.Add(new XPathDetectorModel.HtmlResult() { HTML = item.ToString(), Url = "URL_" + htmlResults.Count });
+
 
             docu.LoadHtml(item.ToString());
            var  path = data.Query(XPath);
@@ -129,15 +129,16 @@ namespace Hawk.ETL.Crawlers
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {
             IsMultiYield = IsManyData==ScriptWorkMode.List;
-            htmls = new List<string>();
+            htmlResults =new List<XPathDetectorModel.HtmlResult>();
             return base.Init(docus);
         }
 
         public override object TransformData(IFreeDocument document)
         {
             var item = document[Column];
-            if (htmls.Count < 5)
-                htmls.Add(item.ToString());
+
+            if (htmlResults.Count < 5)
+                htmlResults.Add(new XPathDetectorModel.HtmlResult() {HTML = item.ToString(), Url = "URL_"+htmlResults.Count});
             if (item is IFreeDocument)
             {
                 return (item as IFreeDocument).GetDataFromXPath(XPath);

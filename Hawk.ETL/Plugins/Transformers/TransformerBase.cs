@@ -101,7 +101,11 @@ namespace Hawk.ETL.Plugins.Transformers
             get
             {
                 AnalyzeItem analyzer = null;
-                foreach (var _analyzer in this.Father.Analyzer?.Items)
+                if (Father == null)
+                    return null;
+                if (Father.Analyzer == null)
+                    return null;
+                foreach (var _analyzer in this.Father?.Analyzer?.Items)
                 {
                     if (_analyzer.Process.ObjectID == this.ObjectID)
                         analyzer = _analyzer;

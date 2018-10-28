@@ -306,7 +306,7 @@
                                     Margin="8,114.666,0,0" Grid.Column="1" />
                             <TextBlock Margin="8,114.666,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
                                        HorizontalAlignment="Left">
-                                <Run Language="zh-cn" Text="{DynamicResource key_635}" />
+                                <Run Language="zh-cn" Text="{DynamicResource http_header}" />
                             </TextBlock>
                         </Grid>
                     </GroupBox>

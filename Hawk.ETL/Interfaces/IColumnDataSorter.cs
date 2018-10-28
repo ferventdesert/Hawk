@@ -433,9 +433,9 @@ namespace Hawk.ETL.Interfaces
 
     public enum MergeType
     {
+        [LocalizedDescription("merge_cross")] Cross,
         [LocalizedDescription("merge_append")] Append,
         [LocalizedDescription("merge_merge")] Merge,
-        [LocalizedDescription("merge_cross")] Cross,
         [LocalizedDescription("merge_mix")] Mix,
         [LocalizedDescription("merge_outputonly")] OutputOnly
     }

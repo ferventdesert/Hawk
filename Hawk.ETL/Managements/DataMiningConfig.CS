@@ -29,7 +29,7 @@ namespace Hawk.ETL.Managements
         public override string SavePath => GetXMLFileLocation("MainConfig");
 
         [PropertyOrder(0)]
-        [LocalizedCategory("key_635")]
+        [LocalizedCategory("http_header")]
         [LocalizedDisplayName("key_126")]
         public int RequestCount
         {
@@ -105,7 +105,7 @@ namespace Hawk.ETL.Managements
 
 
         [PropertyOrder(1)]
-        [LocalizedCategory("key_635")]
+        [LocalizedCategory("http_header")]
         [LocalizedDisplayName("key_127")]
         public int ForbidCount
         {
@@ -123,7 +123,7 @@ namespace Hawk.ETL.Managements
 
 
         [PropertyOrder(2)]
-        [LocalizedCategory("key_635")]
+        [LocalizedCategory("http_header")]
         [LocalizedDisplayName("key_128")]
         public int MaxForbidCount
         {
@@ -139,7 +139,7 @@ namespace Hawk.ETL.Managements
         }
 
         [PropertyOrder(3)]
-        [LocalizedCategory("key_635")]
+        [LocalizedCategory("http_header")]
         [LocalizedDisplayName("key_129")]
         public int ParseErrorCount
         {
@@ -162,7 +162,7 @@ namespace Hawk.ETL.Managements
 
 
         [PropertyOrder(4)]
-        [LocalizedCategory("key_635")]
+        [LocalizedCategory("http_header")]
         [LocalizedDisplayName("key_130")]
         public int TimeoutCount
         {
@@ -182,7 +182,7 @@ namespace Hawk.ETL.Managements
 
 
         [PropertyOrder(4)]
-        [LocalizedCategory("key_635")]
+        [LocalizedCategory("http_header")]
         [LocalizedDisplayName("key_176")]
         [LocalizedDescription("proxy_setting_desc")]
         [PropertyEditor("CodeEditor")]
@@ -198,7 +198,7 @@ namespace Hawk.ETL.Managements
         }
 
         [PropertyOrder(8)]
-        [LocalizedCategory("key_635")]
+        [LocalizedCategory("http_header")]
         [LocalizedDisplayName("DisplayPopupMenu")]
         public bool DisplayPopupMenu
         {
@@ -217,7 +217,7 @@ namespace Hawk.ETL.Managements
 
         [PropertyOrder(5)]
         [LocalizedDisplayName("key_131")]
-        [LocalizedCategory("key_635")]
+        [LocalizedCategory("http_header")]
         public ReadOnlyCollection<ICommand> Commands
         {
             get

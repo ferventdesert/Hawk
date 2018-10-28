@@ -73,6 +73,8 @@ namespace Hawk.ETL.Managements
         }
         public void AddErrorLog(IFreeDocument item,Exception ex,IColumnProcess process)
         {
+            if(string.IsNullOrEmpty(errorLogName))
+                return;
             var param = item.Clone() as FreeDocument;
             param["__SysObjectID"] = process.ObjectID;
             param["__SysETL"] = (process as ToolBase)?.Father.Name;

@@ -520,6 +520,11 @@ namespace Hawk.ETL.Managements
             }, obj => true, "delete"));
             processAction.ChildActions.Add(new Command(GlobalHelper.Get("key_298"), obj =>
             {
+                if (MessageBox.Show(GlobalHelper.Get("delete_confirm"),GlobalHelper.Get("key_99"),MessageBoxButton.OKCancel) == MessageBoxResult.Cancel)
+                {
+                    return;
+                    
+                }
                 foreach (var process in GetSelectedProcess(obj))
                 {
                     if (process == null) return;
@@ -544,7 +549,7 @@ namespace Hawk.ETL.Managements
             processAction.ChildActions.Add(new Command(GlobalHelper.Get("find_ref"),
                 obj =>
                 {
-                    PrintReference(obj as IDataProcess);
+                    PrintReferenced(obj as IDataProcess);
 
                 },obj=>true, "home"));
 
@@ -690,7 +695,8 @@ namespace Hawk.ETL.Managements
                 languageMenu.ChildActions.Add(ba);
             }
             //  helpCommands.ChildActions.Add(languageMenu);
-
+            var remark=this.GenerateRemark();
+            File.WriteAllText("fuck.md",remark);
 
             return true;
         }
@@ -723,7 +729,11 @@ namespace Hawk.ETL.Managements
             }
         }
 
-        private void PrintReference(IDataProcess obj)
+        /// <summary>
+        /// 查找引用该模块的所有任务
+        /// </summary>
+        /// <param name="obj"></param>
+        private void PrintReferenced(IDataProcess obj)
         {
             if (obj is SmartETLTool)
             {

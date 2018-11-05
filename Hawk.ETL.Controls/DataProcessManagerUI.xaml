@@ -85,15 +85,18 @@
           
 
             <DataTemplate x:Key="DataTemplate2">
-                <StackPanel    HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Stretch" Width="Auto" Orientation="Horizontal"   >
-                    <Rectangle Width="20" Height="20" VerticalAlignment="Center" Margin="0,0,10,0" >
-                		<Rectangle.Fill>
-                			<VisualBrush Stretch="Fill"
-                				Visual="{Binding ProcessToDo[Type], Converter={StaticResource TaskMetroConverter}, Mode=OneWay}"  />
-                		</Rectangle.Fill>
-                	</Rectangle>
-                	<Label Content="{Binding Name}" ToolTip="{Binding Description}" Margin="5,5,0,5" VerticalAlignment="Center"  FontSize="14.667" HorizontalAlignment="Left" Width="Auto" />
-                </StackPanel>
+                <StackPanel Orientation="Vertical">
+            		<StackPanel    HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Stretch" Width="Auto" Orientation="Horizontal"   d:LayoutOverrides="Width"   >
+            			<Rectangle Width="20" Height="20" VerticalAlignment="Center" Margin="0,0,10,0" >
+            				<Rectangle.Fill>
+            					<VisualBrush Stretch="Fill"
+            						Visual="{Binding ProcessToDo[Type], Converter={StaticResource TaskMetroConverter}, Mode=OneWay}"  />
+            				</Rectangle.Fill>
+            			</Rectangle>
+            			<Label Content="{Binding Name}" ToolTip="{Binding Description}" Margin="5,5,0,5" VerticalAlignment="Center"  FontSize="14.667" HorizontalAlignment="Left" Width="Auto" />
+            		</StackPanel>
+            		<TextBlock TextWrapping="Wrap" Text="{Binding Remark}" Margin="10,0,0,0"/>
+            	</StackPanel>
             </DataTemplate>
         	<System:Double x:Key="LargeFont">14.667</System:Double>
             <DataTemplate x:Key="DataTemplateHelp">

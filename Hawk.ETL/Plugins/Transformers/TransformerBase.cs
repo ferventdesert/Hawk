@@ -153,6 +153,12 @@ namespace Hawk.ETL.Plugins.Transformers
         [Browsable(false)]
         public XFrmWorkAttribute Attribute => AttributeHelper.GetCustomAttribute(GetType());
 
+
+        [PropertyOrder(100)]
+        [LocalizedDisplayName("remark")]
+        [LocalizedDescription("remark_desc")]
+        public string Remark { get; set; }
+
         public virtual IEnumerable<string> InputColumns()
         {
             if (!string.IsNullOrEmpty(Column))

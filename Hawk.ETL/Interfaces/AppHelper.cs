@@ -216,7 +216,7 @@ namespace Hawk.ETL.Interfaces
             if (module == null)
             {
                 XLogSys.Print.Error(String.Format(GlobalHelper.Get("not_find_module"), name, moduleName, process_name));
-                throw new NullReferenceException($"can't find a ETL Module named {name}");
+                return null;
             }
             return module;
         }

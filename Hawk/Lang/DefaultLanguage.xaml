@@ -457,7 +457,7 @@
         保存到数据库
     </system:String>
     <system:String x:Key="TableGE_desc">
-        从数据管理中已有的数据表中生成，常用
+        从数据管理中已有的数据表中生成
     </system:String>
     <system:String x:Key="BfsGE">
         请求队列
@@ -752,6 +752,9 @@
     </system:String>
     <system:String x:Key="key_253">
         文件导出成功，是否要打开查看?
+    </system:String>
+        <system:String x:Key="delete_confirm">
+        是否要移除已选择的模块? 本操作不能撤回.
     </system:String>
     <system:String x:Key="key_550">
         尾串
@@ -2801,7 +2804,7 @@
         倒序
     </system:String>
     <system:String x:Key="RenameTF_desc" xml:space="preserve">
-        对列名进行修改,常用
+        对列名进行修改
 
         拖入的列是要修改的列，填写`输出列`后，原始列被删除，内容转移到新列上
 
@@ -3036,7 +3039,7 @@
         HTTP错误，类型:
     </system:String>
     <system:String x:Key="TableEX_desc">
-        将数据保存至软件的数据管理器中，之后可方便进行其他处理，拖入到任意一列皆可，常用
+        将数据保存至软件的数据管理器中，之后可方便进行其他处理，拖入到任意一列皆可
     </system:String>
     <system:String x:Key="key_551">
         包含首尾串
@@ -3047,6 +3050,7 @@
     <system:String x:Key="key_631">
         配置属性
     </system:String>
+
     <system:String x:Key="TrimTF_desc" xml:space="preserve">
         清除字符串前后和中间的空白符
         默认能去掉文本前后的空白字符，也可以通过勾选内部选项，清除文本中间的空白符
@@ -3236,6 +3240,7 @@
      <system:String x:Key="find_ref">
        查找所有引用
     </system:String>
+ 
     <system:String x:Key="key_216">
         当前连接
     </system:String>
@@ -3491,7 +3496,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
         双击可加载任务，右键可对任务进行删除等操作
     </system:String>
     <system:String x:Key="TextGE_desc">
-        每行一条数据，常用
+        按行生成数据
     </system:String>
     <system:String x:Key="key_703">
         没有在本任务中发现任何执行器。
@@ -3643,6 +3648,12 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     <system:String x:Key="default">
         默认值
     </system:String>
+      <system:String x:Key="remark">
+       注释
+    </system:String>
+      <system:String x:Key="remark_desc">
+        这里填写关于模块或任务的介绍，之后会在文档说明中展示它，可为空。
+    </system:String>
     <system:String x:Key="options">
         可选项
     </system:String>
@@ -3659,7 +3670,9 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     <system:String x:Key="filter_mode">
         过滤模式
     </system:String>
-
+    <system:String x:Key="doc_etl_read">
+      查看教程文档
+  </system:String>
     <system:String x:Key="filter_mode_by_item">
          按行过滤
     </system:String>
@@ -3982,8 +3995,19 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     <system:String x:Key="reason_desc2">
       作用为{0}
     </system:String>
+     <system:String x:Key="set_before">
+        需提前设置好: `{0}`
+    </system:String>
+     <system:String x:Key="doc_task_title">
+         ## 新建{0}:{1}
+    </system:String>
+      <system:String x:Key="doc_task_new">
+         在启动页面双击新建{0}，并设置其名称为`{1}`。
+    </system:String>
 
-
+ <system:String x:Key="doc_crawler_add_xpath">
+    {{key_160}}设置为`{0}`,类型选择为`{1}`, 目标为`{2}`，值为{3},  并点击`添加属性`。
+    </system:String>
     <system:String x:Key="qa_list" xml:space="preserve">
 
     # 常见问题
@@ -3992,7 +4016,10 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     ### 自动嗅探失败
     {{smartcrawler_name}}具备自动嗅探功能，本质上是替换掉了底层的代理。因此，所有的请求都通过Hawk内部，自然就能根据需求筛选出所需的请求。
 
-    但有些系统中安装了类似360等工具，会拒绝这类操作。导致嗅探失败。目前原因还没有找到。一些网站做了加密，因此即使输入检索字段，内容也不一定能检索得到。
+        
+
+
+
 
     ### 被封锁问题
 

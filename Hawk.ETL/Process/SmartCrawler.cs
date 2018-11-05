@@ -190,6 +190,14 @@ namespace Hawk.ETL.Process
             }
         }
 
+
+        [PropertyOrder(100)]
+        [LocalizedDisplayName("remark")]
+        [LocalizedDescription("remark_desc")]
+        public string Remark { get; set; }
+
+
+
         [Browsable(false)]
         public ReadOnlyCollection<ICommand> Commands3
         {
@@ -618,6 +626,7 @@ namespace Hawk.ETL.Process
             dict.Add("IsMultiData", IsMultiData);
             dict.Add("IsSuperMode", IsSuperMode);
             dict.Add("RootFormat", RootFormat);
+            dict.Add("Remark", Remark);
             dict.Add("ShareCookie", ShareCookie.SelectItem);
             dict.Add("HttpSet", Http.DictSerialize());
             dict.Children = new List<FreeDocument>();
@@ -721,6 +730,7 @@ namespace Hawk.ETL.Process
             base.DictDeserialize(dicts, scenario);
             URL = dicts.Set("URL", URL);
             RootXPath = dicts.Set("RootXPath", RootXPath);
+            Remark = dicts.Set("Remark", Remark);
             RootFormat = dicts.Set("RootFormat", RootFormat);
             ShareCookie.SelectItem = dicts.Set("ShareCookie", ShareCookie.SelectItem);
             IsMultiData = dicts.Set("IsMultiData", IsMultiData);

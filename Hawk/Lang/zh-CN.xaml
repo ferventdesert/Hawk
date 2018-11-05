@@ -3984,10 +3984,10 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
       将`{0}`模块拖入到`{1}`列
     </system:String>
     <system:String x:Key="set_param_desc1">
-      设置`{0}`值为`{1}`
+      设置 `{0}` 值为 `{1}`
     </system:String>
     <system:String x:Key="set_param_desc2">
-      将`{0}`填为`{1}`
+      将 `{0}` 填为 `{1}`
     </system:String>
     <system:String x:Key="reason_desc1">
       其目的是{0}

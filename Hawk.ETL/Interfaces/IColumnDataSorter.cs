@@ -370,6 +370,7 @@ namespace Hawk.ETL.Interfaces
             }
             list.Add(GenerateItemRemark(tool, new List<string>() { "Name" }));
             int index =1;
+            list.Add("\n");
             foreach (var item in tool.CurrentETLTools)
             {
                 list.Add(String.Format("{0}. {1}",index, GenerateRemark(item, true, manager)));

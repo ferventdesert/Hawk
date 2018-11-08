@@ -9,6 +9,7 @@ namespace Hawk.Core.Utils.Plugins
     {
         #region Constructors and Destructors
 
+        public static string KeepOrder = "__KeppOrder";
         public FreeDocument()
         {
             DataItems = new Dictionary<string, object>();

@@ -152,6 +152,12 @@ namespace Hawk.ETL.Interfaces
                     {
                         if (proj.CurrentProject.Parameter.TryGetValue(query, out value))
                             return value;
+                       
+                    }
+                    int result = 0;
+                    if (string.IsNullOrEmpty(query) == false && int.TryParse(query, out result)==false)
+                    {
+                        XLogSys.Print.Warn(string.Format(GlobalHelper.Get("config_not_found_warning"), query, input));
                     }
                 }
             }
@@ -169,10 +175,10 @@ namespace Hawk.ETL.Interfaces
         public static async Task<T> RunBusyWork<T>(this IMainFrm manager, Func<T> func, string title = "系统正忙", string message = "正在处理长时间操作")
         {
             var dock = manager as IDockableManager;
-            ControlExtended.UIInvoke(() => dock?.SetBusy(true, title, message));
+            ControlExtended.UIInvoke(() => dock?.SetBusy(ProgressBarState.Indeterminate, title, message));
 
             var item = await Task.Run(func);
-            ControlExtended.UIInvoke(() => dock?.SetBusy(false));
+            ControlExtended.UIInvoke(() => dock?.SetBusy(ProgressBarState.NoProgress));
 
             return item;
         }
@@ -193,7 +199,7 @@ namespace Hawk.ETL.Interfaces
             };
         }
 
-        public static T GetModule<T>(this IColumnProcess process, string name) where T :  class, IDataProcess
+        public static T GetTask<T>(this IColumnProcess process, string name) where T :  class, IDataProcess
         {
             var moduleName = (typeof(T) == typeof(SmartETLTool)) ? GlobalHelper.Get("smartetl_name") : GlobalHelper.Get("smartcrawler_name");
             if (String.IsNullOrEmpty(name))
@@ -210,7 +216,7 @@ namespace Hawk.ETL.Interfaces
             if (module == null)
             {
                 XLogSys.Print.Error(String.Format(GlobalHelper.Get("not_find_module"), name, moduleName, process_name));
-                throw new NullReferenceException($"can't find a ETL Module named {name}");
+                return null;
             }
             return module;
         }
@@ -273,7 +279,7 @@ namespace Hawk.ETL.Interfaces
 
         }
 
-        public static IDataProcess GetModule(this IProcessManager processManager,string typename, string name) 
+        public static IDataProcess GetTask(this IProcessManager processManager,string typename, string name) 
         {
             var module =
                processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == name&&d.TypeName==typename);

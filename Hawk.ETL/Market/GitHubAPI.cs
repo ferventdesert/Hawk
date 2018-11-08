@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -7,31 +8,124 @@ using System.Threading.Tasks;
 using Octokit;
 using System.Net;
 using System.Web.Security;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
+using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Fiddler;
+using Hawk.Core.Utils;
+using Hawk.Core.Utils.Logs;
+using Hawk.Core.Utils.MVVM;
+using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Managements;
+using ContentType = Octokit.ContentType;
 
 namespace Hawk.ETL.Market
 {
-    public class GitHubAPI
+    public class GitHubAPI :  PropertyChangeNotifier, IDictionarySerializable
 
     {
-
-        public string ProjectName { get; set; }
-
-        public string UserName { get; set; }
-
-        public string TargetDir { get; set; }
-
-        public async Task<IEnumerable<ProjectItem>>  GetProjects(string username=null, string project= null,string target=null)
+        public GitHubAPI()
         {
-            if (string.IsNullOrEmpty(username))
-                username = "ferventdesert";
-            if (string.IsNullOrEmpty(project) )
-                project = "Hawk-Projects";
-            if (string.IsNullOrEmpty(target) )
-                target = "链家";
+            client = new GitHubClient(new ProductHeaderValue("Hawk3"));
+            Login = "hawkpublic@yeah.net";
+            Password = "hawk1qaz2wsx";
+            MarketUrl = "https://github.com/ferventdesert/Hawk-Projects/tree/master/Hawk3";
+        }
 
-            var result = await client.Repository.Content.GetAllContents(username, project, target);
+        [Browsable(false)]
+        public string MarketShortUrl
+        {
+            get
+            {
+                string username = "?";
+                string project = "?";
+                string target = "?";
+                if (!this.GetRepoInfo(MarketUrl, out username, out project, out target))
+                {
+                   
+                    return null;
+                }
+                return username + "/" + project + "/"+target;
+
+
+            }
+        }
+
+        [LocalizedDescription("market_url_check")]
+        [LocalizedDisplayName("market_url")]
+        public string MarketUrl
+        {
+            get { return _marketUrl; }
+            set
+            {
+                if (_marketUrl != value)
+                {
+                    _marketUrl = value;
+                    OnPropertyChanged("MarketUrl");
+                    OnPropertyChanged("MarketShortUrl");
+                }
+            }
+        }
+
+        public bool GetRepoInfo(string url,out string userName,out string repoName,out string dir)
+        {
+            userName = null;
+            repoName = null;
+            dir = null;
+            var github = "https://github.com/";
+            if (url.StartsWith(github) == false)
+            {
+                return false;
+            }
+            url = url.Replace(github, "");
+            var keys = url.Split('/');
+            if (keys.Count() < 4)
+                return false;
+            userName = keys[0];
+            repoName = keys[1];
+            var branch = keys[3];
+            if (keys.Length > 4)
+                dir = keys[4];
+            return true;
+
+        }
+
+        [LocalizedCategory("user_login")]   
+        [LocalizedDisplayName("key_25")]
+        [PropertyOrder(0)]
+        public string Login { get; set; }
+
+        [LocalizedDisplayName("key_26")]
+        [LocalizedCategory("user_login")]
+        [PropertyOrder(1)]
+        [PropertyEditor("PasswordEditor")]
+        public string Password { get; set; }
+
+        [LocalizedDisplayName("keep_pass")]
+        [LocalizedCategory("user_login")]
+        [PropertyOrder(2)]
+        public bool IsKeepPassword { get; set; }
+
+        public async Task<IEnumerable<ProjectItem>>  GetProjects(string url=null)
+        {
+            if (url==null)
+            {
+                url = this.MarketUrl;
+            }
+            string username = null;
+            string project = null;
+            string target = null;
+            if (!this.GetRepoInfo(url, out username, out project, out target))
+            {
+                XLogSys.Print.Error(GlobalHelper.Get("market_url_check"));
+                return null;
+            }
+                
+            IReadOnlyList<RepositoryContent> result = null;
+
+            result = await client.Repository.Content.GetAllContents(username, project, target);
+            if (result == null)
+                return null;
+           
             var items=  result.Where(d => d.Type == ContentType.File&&(d.Name.EndsWith(".xml",true,null)||d.Name.EndsWith(".hproj",true,null))).Select(
                   d =>
                 {
@@ -60,63 +154,37 @@ namespace Hawk.ETL.Market
                 });
             return items;
         } 
-        public GitHubClient client;
+        private GitHubClient client;
+        private bool isConnect = false;
+        private string _marketUrl;
+
         public  void Connect()
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-             client = new GitHubClient(new ProductHeaderValue("my-Hawk-app"));
-            return;
-            
-            try
-            {
-                var clientId = "some-id-here";
-                var clientSecret = "some-id-here";
-
-                // NOTE: this is not required, but highly recommended!
-                // ask the ASP.NET Membership provider to generate a random value 
-                // and store it in the current user's session
-                string csrf = Membership.GeneratePassword(24, 1);
-
-                var request = new OauthLoginRequest(clientId)
-                {
-                    Scopes = { "user", "notifications" },
-                    State = csrf
-                };
-
-                // NOTE: user must be navigated to this URL
-                var oauthLoginUrl = client.Oauth.GetGitHubLoginUrl(request);
-                Console.WriteLine(oauthLoginUrl);
-
-                var miscellaneousRateLimit =  client.Miscellaneous.GetRateLimits().Result;
-
-                //  The "core" object provides your rate limit status except for the Search API.
-                var coreRateLimit = miscellaneousRateLimit.Resources.Core;
-
-                var howManyCoreRequestsCanIMakePerHour = coreRateLimit.Limit;
-                var howManyCoreRequestsDoIHaveLeft = coreRateLimit.Remaining;
-                var whenDoesTheCoreLimitReset = coreRateLimit.Reset; // UTC time
-
-                // the "search" object provides your rate limit status for the Search API.
-                var searchRateLimit = miscellaneousRateLimit.Resources.Search;
-
-                var howManySearchRequestsCanIMakePerMinute = searchRateLimit.Limit;
-                var howManySearchRequestsDoIHaveLeft = searchRateLimit.Remaining;
-                var whenDoesTheSearchLimitReset = searchRateLimit.Reset; // UTC time
-
-
-                var content =  client.Repository.Content.GetAllContents("ferventdesert", "Hawk-Projects","链家").Result;
-                var first=content.FirstOrDefault(d => d.Name.Contains("2020")).DownloadUrl;
-                var proj=    Hawk.ETL.Managements.Project.LoadFromUrl(first); 
-                Console.WriteLine(proj);
-
-            }
-            catch (Exception ex)
-            {
-                
-                throw;
-            }
-        
+         
+            client.Credentials=new Credentials (Login,Password);
+            isConnect = true;
         }
 
+        public FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
+        {
+           var dict=new FreeDocument();
+            dict.Add("Login", Login);
+            if (IsKeepPassword)
+                dict.Add("Password", Password);
+            dict.Add("IsKeepPassword", IsKeepPassword);
+            dict.Add("MarketUrl", MarketUrl);
+            return dict;
+        }
+
+        public void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
+        {
+            Login = docu.Set("Login", Login);
+            IsKeepPassword = docu.Set("IsKeepPassword", IsKeepPassword);
+            if(IsKeepPassword)
+                Password = docu.Set("Password", Password);
+
+            MarketUrl = docu.Set("MarketUrl", MarketUrl);
+        }
     }
 }

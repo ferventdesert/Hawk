@@ -4,6 +4,7 @@ using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 using Hawk.Core.Utils.Logs;
+using Hawk.ETL.Crawlers;
 
 namespace Hawk.ETL.Plugins.Web
 {

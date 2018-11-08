@@ -101,7 +101,11 @@ namespace Hawk.ETL.Plugins.Transformers
             get
             {
                 AnalyzeItem analyzer = null;
-                foreach (var _analyzer in this.Father.Analyzer?.Items)
+                if (Father == null)
+                    return null;
+                if (Father.Analyzer == null)
+                    return null;
+                foreach (var _analyzer in this.Father?.Analyzer?.Items)
                 {
                     if (_analyzer.Process.ObjectID == this.ObjectID)
                         analyzer = _analyzer;
@@ -148,6 +152,12 @@ namespace Hawk.ETL.Plugins.Transformers
 
         [Browsable(false)]
         public XFrmWorkAttribute Attribute => AttributeHelper.GetCustomAttribute(GetType());
+
+
+        [PropertyOrder(100)]
+        [LocalizedDisplayName("remark")]
+        [LocalizedDescription("remark_desc")]
+        public string Remark { get; set; }
 
         public virtual IEnumerable<string> InputColumns()
         {
@@ -207,7 +217,7 @@ namespace Hawk.ETL.Plugins.Transformers
                     name = crawlers[0].Name;
                 }
             }
-            var crawler = this.GetModule<SmartCrawler>(name);
+            var crawler = this.GetTask<SmartCrawler>(name);
             if (crawler != null)
             {
                 IsMultiYield = crawler?.IsMultiData == ScriptWorkMode.List;

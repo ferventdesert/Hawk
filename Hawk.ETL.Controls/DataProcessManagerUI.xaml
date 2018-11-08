@@ -85,15 +85,18 @@
           
 
             <DataTemplate x:Key="DataTemplate2">
-                <StackPanel    HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Stretch" Width="Auto" Orientation="Horizontal"   >
-                    <Rectangle Width="20" Height="20" VerticalAlignment="Center" Margin="0,0,10,0" >
-                		<Rectangle.Fill>
-                			<VisualBrush Stretch="Fill"
-                				Visual="{Binding ProcessToDo[Type], Converter={StaticResource TaskMetroConverter}, Mode=OneWay}"  />
-                		</Rectangle.Fill>
-                	</Rectangle>
-                	<Label Content="{Binding Name}" ToolTip="{Binding Description}" Margin="5,5,0,5" VerticalAlignment="Center"  FontSize="14.667" HorizontalAlignment="Left" Width="Auto" />
-                </StackPanel>
+                <StackPanel Orientation="Vertical">
+            		<StackPanel    HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Stretch" Width="Auto" Orientation="Horizontal"   d:LayoutOverrides="Width"   >
+            			<Rectangle Width="20" Height="20" VerticalAlignment="Center" Margin="0,0,10,0" >
+            				<Rectangle.Fill>
+            					<VisualBrush Stretch="Fill"
+            						Visual="{Binding ProcessToDo[Type], Converter={StaticResource TaskMetroConverter}, Mode=OneWay}"  />
+            				</Rectangle.Fill>
+            			</Rectangle>
+            			<Label Content="{Binding Name}" ToolTip="{Binding Description}" Margin="5,5,0,5" VerticalAlignment="Center"  FontSize="14.667" HorizontalAlignment="Left" Width="Auto" />
+            		</StackPanel>
+            		<TextBlock TextWrapping="Wrap" Text="{Binding Remark}" Margin="10,0,0,0"/>
+            	</StackPanel>
             </DataTemplate>
         	<System:Double x:Key="LargeFont">14.667</System:Double>
             <DataTemplate x:Key="DataTemplateHelp">
@@ -115,16 +118,17 @@
             </DataTemplate>
             <System:Double x:Key="UltraFont">21.333</System:Double>
             <DataTemplate x:Key="MarketItemTemplate">
-            	<Grid    HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Margin="0,10">
+            	<Grid  ToolTip="{Binding Description}"     HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Margin="0,10">
             		<Grid.ColumnDefinitions>
             			<ColumnDefinition Width="0.894*"/>
             			<ColumnDefinition Width="0.106*"/>
             		</Grid.ColumnDefinitions>
             		<Image Source="{Binding ImgURL}" Width="180" Height="100" Margin="0,0,0.75,0"/>
             		<StackPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0,8,0,14" Orientation="Vertical" Width="Auto" d:LayoutOverrides="Height">
-            			<Label Content="{Binding Name}" ToolTip="{Binding Description}" Margin="0" VerticalAlignment="Stretch"  FontSize="{DynamicResource UltraFont}" HorizontalAlignment="Left" Width="Auto" />
-            			<Label Content="{Binding Description}" ToolTip="{Binding Description}" Margin="0,10,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="Auto" />
-            			<Label Content="{Binding PublishTime}"  Margin="10,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="Auto" />
+            			<Label Content="{Binding Name}" Margin="0" VerticalAlignment="Stretch"  FontSize="{DynamicResource UltraFont}" HorizontalAlignment="Left" Width="Auto" />
+            			<Label Content="{Binding Author}"   Margin="0,10,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="Auto" />
+            			<Label Content="{Binding ShortDescription}"   Margin="0,10,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="Auto" />
+            			<Label Content="{Binding PublishTime}"  Margin="0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="Auto" />
             		</StackPanel>
             	</Grid>
             </DataTemplate>
@@ -274,7 +278,9 @@
         					<StackPanel Orientation="Horizontal" Margin="0,10,0,0">
         						<TextBlock TextWrapping="Wrap" Text="{Binding Author}" FontSize="{DynamicResource LargeFont}" Margin="0,0,20,0"/>
         						<TextBlock TextWrapping="Wrap" Text="{Binding PublishTime}" FontSize="{DynamicResource LargeFont}" Margin="0,0,20,0"/>
+									<TextBlock TextWrapping="Wrap" Text="{Binding ShortDescription}" FontSize="{DynamicResource LargeFont}" Margin="0,0,20,0"/>
         					</StackPanel>
+							
         					<TextBlock TextWrapping="Wrap" Text="{DynamicResource key_314}" FontSize="{DynamicResource LargeFont}" Margin="0,20,0,0"/>
 						     
         					<FlowDocumentScrollViewer  Grid.Row="0"
@@ -319,22 +325,15 @@
         				</StackPanel>
         			</ScrollViewer>
         			<StackPanel Margin="30,10,-223.667,0" Orientation="Horizontal" VerticalAlignment="Top" d:LayoutOverrides="Width">
-        				<Rectangle Width="20" Height="20" Margin="0,0,10,0" >
-        					<Rectangle.Fill>
-        						<VisualBrush Stretch="Fill"
-        							Visual="{Binding ConverterParameter=magnify, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
-        					</Rectangle.Fill>
-        				</Rectangle>
-        				<StackPanel Orientation="Horizontal" d:LayoutOverrides="Width">
-        					<TextBlock TextWrapping="Wrap" HorizontalAlignment="Left"><Run Language="zh-cn" Text="{DynamicResource key_730}" /></TextBlock>
-        					<TextBox TextWrapping="Wrap" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" MinWidth="100" Margin="20,0,0,0"/>
-        				</StackPanel>
+        				<TextBlock TextWrapping="Wrap" Text="{Binding GitHubApi.MarketShortUrl}" FontSize="{DynamicResource UltraFont}" Margin="0,10,0,0"/>
+        				<Button Style="{DynamicResource middleButton}" DataContext="{Binding BindingCommands.ChildActions[7].ChildActions[1]}" Width="35"
+        					Height="35" HorizontalAlignment="Left" Margin="20,0,0,0" d:LayoutOverrides="Height" />
         				<Button Style="{DynamicResource middleButton}" DataContext="{Binding BindingCommands.ChildActions[7].ChildActions[0]}" Width="35"
         					Height="35" HorizontalAlignment="Left" d:LayoutOverrides="Height" Margin="20,0,0,0" />
         			</StackPanel>
         			<ListBox x:Name="marketItemListBox"  DataContext="{Binding}" ToolTip="{DynamicResource key_725}"  SelectedItem="{Binding SelectedRemoteProject}" ItemsSource="{Binding MarketProjectList,IsAsync=True}"  HorizontalContentAlignment="Stretch" Margin="36,56.5,26.333,8"    ItemTemplate="{DynamicResource MarketItemTemplate}"  >
         				<ListBox.Resources>
-        					<ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding BindingCommands.ChildActions[7].ChildActions}"/>
+        					<ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding BindingCommands.ChildActions[8].ChildActions}"/>
 
         					<Style TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource {x:Type ListBoxItem}}">
         						<Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />

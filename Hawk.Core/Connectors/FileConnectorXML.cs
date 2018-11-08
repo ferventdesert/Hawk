@@ -10,6 +10,8 @@ using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using ICSharpCode.SharpZipLib.Zip;
 using System.Threading;
+using static System.Boolean;
+
 namespace Hawk.Core.Connectors
 {
     [XFrmWork("FileConnectorXML", "FileConnectorXML_desc", "")]
@@ -54,37 +56,72 @@ namespace Hawk.Core.Connectors
                     dict.Add(xnode.Attributes[i].Name, xnode.Attributes[i].Value);
                 }
             }
-
+            object _keeporder = false;
+            bool keeporder = false;
+            if (dict.TryGetValue(FreeDocument.KeepOrder, out _keeporder))
+            {
+                keeporder= Parse(_keeporder.ToString());
+            }
+            if (xnode.ChildNodes.Count < 20)
+                keeporder = true;
             if (xnode.HasChildNodes)
             {
-                Parallel.For(0,xnode.ChildNodes.Count, i =>
+                if (!keeporder)
                 {
-                    var docu = new FreeDocument();
-                    var n = xnode.ChildNodes[i];
-                  
-                    if (n.Name == "Children")
+                    Parallel.For(0, xnode.ChildNodes.Count, i =>
                     {
-                        if (dict.Children == null)
-                        {
-                            dict.Children = new List<FreeDocument>();
-                        }
+                        var docu = new FreeDocument();
+                        var n = xnode.ChildNodes[i];
 
-                        docu.Name = n.Name;
-                        XMLNode2Dict(n, docu);
-                        Monitor.Enter(dict);
-                        dict.Children.Add(docu);
-                        Monitor.Exit(dict);
-                    }
-                    else
+                        if (n.Name == "Children")
+                        {
+                            if (dict.Children == null)
+                            {
+                                dict.Children = new List<FreeDocument>();
+                            }
+
+                            docu.Name = n.Name;
+                            XMLNode2Dict(n, docu);
+                            Monitor.Enter(dict);
+                            dict.Children.Add(docu);
+                            Monitor.Exit(dict);
+                        }
+                        else
+                        {
+                            docu.Name = n.Name;
+                            XMLNode2Dict(n, docu);
+                            Monitor.Enter(dict);
+                            dict.Add(docu.Name, docu);
+                            Monitor.Exit(dict);
+                        }
+                    });
+                }
+                else
+                {
+                    for(var i=0;i< xnode.ChildNodes.Count;i++)
                     {
-                        docu.Name = n.Name;
-                        XMLNode2Dict(n, docu);
-                        Monitor.Enter(dict);
-                        dict.Add(docu.Name, docu);
-                        Monitor.Exit(dict);
+                        var docu = new FreeDocument();
+                        var n = xnode.ChildNodes[i];
+
+                        if (n.Name == "Children")
+                        {
+                            if (dict.Children == null)
+                            {
+                                dict.Children = new List<FreeDocument>();
+                            }
+                            docu.Name = n.Name;
+                            XMLNode2Dict(n, docu);
+                            dict.Children.Add(docu);
+                        }
+                        else
+                        {
+                            docu.Name = n.Name;
+                            XMLNode2Dict(n, docu);
+                            dict.Add(docu.Name, docu);
+                        }
                     }
-                });
-              
+                }
+
             }
         }
 
@@ -104,10 +141,7 @@ namespace Hawk.Core.Connectors
 
                 data.DictDeserialize(dict.DictSerialize());
                 var doc = data;
-                if (doc != null)
-                {
-                    doc.Children = dict.Children;
-                }
+                doc.Children = dict.Children;
                 yield return data;
             }
         }

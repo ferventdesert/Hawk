@@ -29,6 +29,7 @@ namespace Hawk.ETL.Crawlers
         ///     属性名称
         /// </summary>
         [LocalizedDisplayName("key_160")]
+        [PropertyOrder(0)]
         public string Name
         {
             get { return name; }
@@ -45,7 +46,7 @@ namespace Hawk.ETL.Crawlers
         public CrawlType CrawlType { get; set; }
 
         
-
+        [PropertyOrder(2)]
         [LocalizedDisplayName("key_162")]
         public SelectorFormat Format { get; set; }
 

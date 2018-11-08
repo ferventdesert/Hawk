@@ -190,6 +190,14 @@ namespace Hawk.ETL.Process
             }
         }
 
+
+        [PropertyOrder(100)]
+        [LocalizedDisplayName("remark")]
+        [LocalizedDescription("remark_desc")]
+        public string Remark { get; set; }
+
+
+
         [Browsable(false)]
         public ReadOnlyCollection<ICommand> Commands3
         {
@@ -444,6 +452,8 @@ namespace Hawk.ETL.Process
                                 htmlTextBox.Focus();
                                 htmlTextBox.SelectionStart = node.StreamPosition;
                                 htmlTextBox.SelectionLength = node.OuterHtml.Length;
+                                if(node.StreamPosition>=htmlTextBox.Text.Length)
+                                    return;
                                 var line = htmlTextBox.GetLineIndexFromCharacterIndex(node.StreamPosition); //返回指定字符串索引所在的行号
                                 if (line > 0)
                                 {
@@ -489,7 +499,7 @@ namespace Hawk.ETL.Process
                         }
                         else
                         {
-                            var str2 = String.Format("not_find_key",SelectText,"自动嗅探");
+                            var str2 = String.Format(GlobalHelper.Get("not_find_key"),SelectText,GlobalHelper.Get("key_639"));
                             var res = MessageBox.Show(str2, GlobalHelper.Get("key_655"), MessageBoxButton.YesNoCancel);
                             switch (res)
                             {
@@ -616,6 +626,7 @@ namespace Hawk.ETL.Process
             dict.Add("IsMultiData", IsMultiData);
             dict.Add("IsSuperMode", IsSuperMode);
             dict.Add("RootFormat", RootFormat);
+            dict.Add("Remark", Remark);
             dict.Add("ShareCookie", ShareCookie.SelectItem);
             dict.Add("HttpSet", Http.DictSerialize());
             dict.Children = new List<FreeDocument>();
@@ -719,6 +730,7 @@ namespace Hawk.ETL.Process
             base.DictDeserialize(dicts, scenario);
             URL = dicts.Set("URL", URL);
             RootXPath = dicts.Set("RootXPath", RootXPath);
+            Remark = dicts.Set("Remark", Remark);
             RootFormat = dicts.Set("RootFormat", RootFormat);
             ShareCookie.SelectItem = dicts.Set("ShareCookie", ShareCookie.SelectItem);
             IsMultiData = dicts.Set("IsMultiData", IsMultiData);
@@ -831,13 +843,14 @@ namespace Hawk.ETL.Process
         public string GetHtml(string url, out HttpStatusCode code,
             string post = null)
         {
-            string content = "";
-            code= HttpStatusCode.NotFound;
+            string result = "";
+            HttpHelper.HttpResponse response;
+            code = HttpStatusCode.NotFound;
             if (Regex.IsMatch(url, @"^[A-Z]:\\")) //本地文件
             {
                 if (File.Exists(url))
                 {
-                    content = File.ReadAllText(url, AttributeHelper.GetEncoding(this.Http.Encoding));
+                    result = File.ReadAllText(url, AttributeHelper.GetEncoding(this.Http.Encoding));
                     code = HttpStatusCode.Accepted;
                 }
               
@@ -879,16 +892,18 @@ namespace Hawk.ETL.Process
                         url = url.Replace(m.Groups[0].Value, paradict[str]);
                     }
                 }
-                WebHeaderCollection headerCollection;
-                 content = helper.GetHtml(Http, out headerCollection, out code, url, post);
+                 response = helper.GetHtml(Http,  url, post).Result;
+                 result = response.Html;
+                code = response.Code;
+
             }
-            content = JavaScriptAnalyzer.Decode(content);
+            result = JavaScriptAnalyzer.Decode(result);
             if (IsSuperMode)
             {
-                content = JavaScriptAnalyzer.Parse2XML(content);
+                result = JavaScriptAnalyzer.Parse2XML(result);
             }
 
-            return content;
+            return result;
         }
 
         public IEnumerable<FreeDocument> CrawlData(string url, out HtmlDocument doc, out HttpStatusCode code,
@@ -928,7 +943,7 @@ namespace Hawk.ETL.Process
                 HttpStatusCode code;
                 ConfigFile.GetConfig<DataMiningConfig>().RequestCount++;
                 return GetHtml(URL, out code);
-            });
+            },title:GlobalHelper.Get("long_visit_web"));
             if (URLHTML.Contains(GlobalHelper.Get("key_671")) &&
                 MessageBox.Show(GlobalHelper.Get("key_672") + URLHTML + GlobalHelper.Get("key_673"), GlobalHelper.Get("key_99"),
                     MessageBoxButton.OK) == MessageBoxResult.OK)

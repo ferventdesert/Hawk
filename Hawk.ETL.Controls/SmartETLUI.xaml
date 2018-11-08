@@ -501,6 +501,8 @@
                     </Button>
                     <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands5[6]}" Width="35"
                             Height="35" Margin="30,2.5,0,2.5" HorizontalAlignment="Left" BorderBrush="#FFFF4242" />
+                    <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands[9]}" Width="35"
+                    	Height="35" Margin="10,2.5,0,2.5" HorizontalAlignment="Left" BorderBrush="#FFFF4242" />
 
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"

@@ -28,13 +28,7 @@ namespace Hawk.ETL.Plugins.Executor
         [LocalizedDisplayName("key_22")]
         public string Table { get; set; }
 
-        public override bool Init(IEnumerable<IFreeDocument> datas)
-        {
-        
-            if (string.IsNullOrEmpty(Table))
-                throw new ArgumentNullException("Table is empty");
-            return base.Init(datas);
-        }
+      
 
         public override IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents)
         {

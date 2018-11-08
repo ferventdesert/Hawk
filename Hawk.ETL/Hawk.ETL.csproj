@@ -142,8 +142,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Crawlers\BuffHelper.cs" />
+    <Compile Include="Crawlers\CookieAwareWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Crawlers\CrawlItem.cs" />
     <Compile Include="Crawlers\FeelLuckyModel.cs" />
+    <Compile Include="Crawlers\HttpHelper.cs" />
+    <Compile Include="Crawlers\HttpItem.cs" />
     <Compile Include="Crawlers\JavaScriptAnalyzer.cs" />
     <Compile Include="Crawlers\NetworkManager.cs" />
     <Compile Include="Managements\CommandLineContainer.cs" />

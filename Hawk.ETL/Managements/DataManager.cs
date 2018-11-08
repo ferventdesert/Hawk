@@ -35,11 +35,11 @@ namespace Hawk.ETL.Managements
                 List<FreeDocument> datas = null;
                 try
                 {
-                    ControlExtended.SetBusy(true);
+                    ControlExtended.SetBusy(ProgressBarState.Indeterminate);
                     int count;
                     datas = await Task.Run(() => Connector.QueryEntities(SQL,
                         out count, TableInfo == null ? null : TableInfo.Name));
-                    ControlExtended.SetBusy(true);
+                    ControlExtended.SetBusy(ProgressBarState.NoProgress);
                 }
                 catch (Exception ex)
                 {
@@ -49,7 +49,7 @@ namespace Hawk.ETL.Managements
                 }
                 finally
                 {
-                    ControlExtended.SetBusy(false);
+                    ControlExtended.SetBusy(ProgressBarState.NoProgress);
                 }
                 GetQueryFunc(datas);
             }, obj => string.IsNullOrEmpty(SQL) == false, "page_search"));

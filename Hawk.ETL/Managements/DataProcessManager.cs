@@ -21,6 +21,8 @@ using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Market;
+using Hawk.ETL.Plugins.Generators;
+using Hawk.ETL.Plugins.Transformers;
 using Hawk.ETL.Process;
 using log4net;
 using log4net.Core;
@@ -58,7 +60,7 @@ namespace Hawk.ETL.Managements
         #region Events
 
         #endregion
-
+    
         #region Properties
 
         public IAction BindingCommands { get; private set; }
@@ -100,25 +102,40 @@ namespace Hawk.ETL.Managements
         public Project SelectedLocalProject
 
         {
-            get { return GetRemoteProjectContent().Result; }
+            get
+            {
+                //return null;
+                return GetRemoteProjectContent().Result;
+            }
         }
 
         private readonly Dictionary<ProjectItem, Project> RemoteProjectBuff = new Dictionary<ProjectItem, Project>();
 
-        public async Task<Project> GetRemoteProjectContent()
+        public async Task<Project> GetRemoteProjectContent(ProjectItem projectItem=null)
 
         {
+            if (projectItem == null)
+                projectItem = SelectedRemoteProject;
             Project project = null;
-            if (SelectedRemoteProject == null || SelectedRemoteProject.IsRemote == false)
+            if (projectItem == null || projectItem.IsRemote == false)
                 return null;
-            if (RemoteProjectBuff.TryGetValue(SelectedRemoteProject, out project))
+            ControlExtended.SetBusy(ProgressBarState.NoProgress);
+            if (RemoteProjectBuff.TryGetValue(projectItem, out project))
             {
                 return project;
             }
-            project = await Project.LoadFromUrl(SelectedRemoteProject.SavePath);
-            
-            RemoteProjectBuff.Add(SelectedRemoteProject, project);
-            project.DictDeserialize(SelectedRemoteProject.DictSerialize());
+            ControlExtended.SetBusy(ProgressBarState.Indeterminate);
+            project = await Project.LoadFromUrl(projectItem.SavePath);
+            ControlExtended.SetBusy(ProgressBarState.NoProgress);
+            if (RemoteProjectBuff.ContainsKey(projectItem))
+            {
+                RemoteProjectBuff[projectItem] = project;
+            }
+            else
+            {
+                RemoteProjectBuff.Add(SelectedRemoteProject, project);
+            }
+            project.DictDeserialize(projectItem.DictSerialize());
 
             return project;
         }
@@ -168,7 +185,7 @@ namespace Hawk.ETL.Managements
 
         #region Public Methods
 
-        public GitHubAPI GitHubApi { get; set; }
+        public GitHubAPI GitHubApi { get;private set; }
 
         private IDockableManager dockableManager;
 
@@ -331,10 +348,12 @@ namespace Hawk.ETL.Managements
                         foreach (var param in project.Parameters)
                         {
                             //TODO: how check if it is same? name?
-                            if (CurrentProject.Parameters.FirstOrDefault(d => d != param) != null)
+                            if (CurrentProject.Parameters.FirstOrDefault(d => d.Name != param.Name) == null)
                                 CurrentProject.Parameters.Add(param);
                         }
+                        CurrentProject.ConfigSelector.SelectItem = project.ConfigSelector.SelectItem;
                     }
+                 
                     (obj as ProcessTask).Load(true);
                 },
                 obj => obj is ProcessTask, "inbox_out"));
@@ -501,6 +520,11 @@ namespace Hawk.ETL.Managements
             }, obj => true, "delete"));
             processAction.ChildActions.Add(new Command(GlobalHelper.Get("key_298"), obj =>
             {
+                if (MessageBox.Show(GlobalHelper.Get("delete_confirm"),GlobalHelper.Get("key_99"),MessageBoxButton.OKCancel) == MessageBoxResult.Cancel)
+                {
+                    return;
+                    
+                }
                 foreach (var process in GetSelectedProcess(obj))
                 {
                     if (process == null) return;
@@ -522,7 +546,12 @@ namespace Hawk.ETL.Managements
             processAction.ChildActions.Add(new Command(GlobalHelper.Get("key_300"),
                 obj => { ControlExtended.DockableManager.ActiveThisContent(GlobalHelper.Get("ModuleMgmt")); },
                 obj => true, "home"));
+            processAction.ChildActions.Add(new Command(GlobalHelper.Get("find_ref"),
+                obj =>
+                {
+                    PrintReferenced(obj as IDataProcess);
 
+                },obj=>true, "home"));
 
             BindingCommands.ChildActions.Add(processAction);
             BindingCommands.ChildActions.Add(taskAction2);
@@ -547,9 +576,33 @@ namespace Hawk.ETL.Managements
                 GitHubApi.Connect();
                 MarketProjects.Clear();
                 MarketProjects.AddRange(await GitHubApi.GetProjects());
+               
             }, icon: "refresh"));
+            marketAction.ChildActions.Add(new Command(GlobalHelper.Get("key_240"), obj =>
+            {
+                var window = PropertyGridFactory.GetPropertyWindow(GitHubApi);
+                window.ShowDialog();
+
+            }, icon: "settings"));
 
             BindingCommands.ChildActions.Add(marketAction);
+
+
+           var  marketProjectAction=new BindingAction();
+
+            marketProjectAction.ChildActions.Add(new Command(GlobalHelper.Get("key_307"),async obj =>
+            {
+
+                var projectItem=obj as ProjectItem;
+                if(projectItem==null)
+                    return;
+                var keep = MessageBox.Show(GlobalHelper.Get("keep_old_datas"), GlobalHelper.Get("key_99"),
+                   MessageBoxButton.YesNoCancel);
+                if (keep == MessageBoxResult.Cancel)
+                    return;
+                var proj =await this.GetRemoteProjectContent(projectItem);
+                LoadProject(proj,keep == MessageBoxResult.Yes);
+            }, icon: "config"));
 
 
             var config = ConfigFile.GetConfig<DataMiningConfig>();
@@ -562,7 +615,7 @@ namespace Hawk.ETL.Managements
                         GlobalHelper.Get("key_303"));
                 }
             }
-
+            BindingCommands.ChildActions.Add(marketProjectAction);
             if (MainDescription.IsUIForm)
             {
                 ProgramNameFilterView =
@@ -642,7 +695,8 @@ namespace Hawk.ETL.Managements
                 languageMenu.ChildActions.Add(ba);
             }
             //  helpCommands.ChildActions.Add(languageMenu);
-
+            var remark=this.GenerateRemark();
+            File.WriteAllText("fuck.md",remark);
 
             return true;
         }
@@ -675,6 +729,45 @@ namespace Hawk.ETL.Managements
             }
         }
 
+        /// <summary>
+        /// 查找引用该模块的所有任务
+        /// </summary>
+        /// <param name="obj"></param>
+        private void PrintReferenced(IDataProcess obj)
+        {
+            if (obj is SmartETLTool)
+            {
+                var tool = obj as SmartETLTool;
+                var oldtools = CurrentProcessCollections.OfType<SmartETLTool>().SelectMany(d => d.CurrentETLTools).OfType<ETLBase>().Where(d => d.ETLSelector.SelectItem == tool.Name).ToList();
+                XLogSys.Print.Info(GlobalHelper.Get("smartetl_name"));
+                foreach (var oldtool in oldtools)
+                {
+                    XLogSys.Print.Info(string.Format("{0} :{1}", oldtool.Father.Name, oldtool.ObjectID));
+                }
+
+            }
+            if (obj is SmartCrawler)
+            {
+                var tool = obj as SmartCrawler;
+                var _name = tool.Name;
+                var oldCrawler = CurrentProcessCollections.OfType<SmartCrawler>()
+               .Where(d => d.ShareCookie.SelectItem == _name).ToList();
+                var oldEtls = CurrentProcessCollections.OfType<SmartETLTool>()
+                    .SelectMany(d => d.CurrentETLTools).OfType<ResponseTF>()
+                    .Where(d => d.CrawlerSelector.SelectItem == _name).ToList();
+                XLogSys.Print.Info(GlobalHelper.Get("smartcrawler_name"));
+                foreach (var oldtool in oldCrawler)
+                {
+                    XLogSys.Print.Info(string.Format("\t{0}", oldtool.Name));
+                }
+                XLogSys.Print.Info(GlobalHelper.Get("smartetl_name"));
+                foreach (var oldtool in oldEtls)
+                {
+                    XLogSys.Print.Info(string.Format("{0} :{1}", oldtool.Father.Name, oldtool.ObjectID));
+                }
+
+            }
+        }
         public ListCollectionView CurrentProcessView { get; set; }
         public ListCollectionView ProcessCollectionView { get; set; }
         private ListCollectionView marketCollectionView;
@@ -684,9 +777,16 @@ namespace Hawk.ETL.Managements
                 if (marketCollectionView == null)
                 {
                     GitHubApi.Connect();
-                    MarketProjects.Clear();
-                    MarketProjects.AddRange( GitHubApi.GetProjects().Result);
-                    marketCollectionView = new ListCollectionView(MarketProjects);
+                    var result = GitHubApi.GetProjects().Result;
+                    ControlExtended.SafeInvoke(
+                        () =>
+                        {
+                            MarketProjects.Clear();
+                            MarketProjects.AddRange(result);
+                            marketCollectionView = new ListCollectionView(MarketProjects);
+                        }
+                    ,LogType.Info, GlobalHelper.Get("market_login"),true);
+                 
                  
                 }
                 return marketCollectionView;
@@ -698,9 +798,29 @@ namespace Hawk.ETL.Managements
             SaveCurrentProject(true);
         }
 
+        private void SetWindowTitleName(string name)
+        {
+         
+            if (MainDescription.IsUIForm)
+            {
+                var window = MainFrmUI as Window;
+                if (window != null)
+                {
+                    var originTitle = ConfigurationManager.AppSettings["Title"];
+                    if (originTitle == null)
+                        originTitle = "";
+                    window.Title = name + " - " + originTitle;
+                }
+            }
+        }
         private Project LoadProject(string path = null, bool keepLast = false)
         {
             var project = Project.Load(path);
+            return LoadProject(project, keepLast);
+        }
+
+        private Project LoadProject(Project project, bool keepLast = false)
+        {
             if (project != null)
             {
                 var config = ConfigFile.GetConfig<DataMiningConfig>();
@@ -717,45 +837,36 @@ namespace Hawk.ETL.Managements
                 }
                 if (!keepLast)
                 {
-                    dataManager.DataCollections.Clear();
-                    CurrentProcessTasks.Clear();
-                    ProcessCollection.RemoveElementsNoReturn(d => true, RemoveOperation);
+                    CleanAllItems();
+
                 }
                 if (project.DataCollections?.Count > 0)
                 {
-//TODO: 添加名称重名？
+                    //TODO: 添加名称重名？
 
                     project.DataCollections.Execute(d => dataManager.AddDataCollection(d));
                 }
                 config.Projects.Insert(0, first);
-
                 CurrentProject = project;
-                var name = Path.GetFileName(project.SavePath);
+                var name = Path.GetFileNameWithoutExtension(project.SavePath);
                 if (string.IsNullOrEmpty(CurrentProject.Name))
-                    CurrentProject.Name = name;
-                if (MainDescription.IsUIForm)
                 {
-                    var window = MainFrmUI as Window;
-                    if (window != null)
-                    {
-                        var originTitle = ConfigurationManager.AppSettings["Title"];
-                        if (originTitle == null)
-                            originTitle = "";
-                        window.Title = CurrentProject.Name + " - " + originTitle;
-                    }
+                    CurrentProject.Name = name;
                 }
+
                 foreach (var task in project.Tasks)
                 {
                     task.Load(false);
                 }
+                if (project.ConfigSelector.SelectItem != null)
+                    this.CurrentProject.ConfigSelector.SelectItem = project.ConfigSelector.SelectItem;
                 NotifyCurrentProjectChanged();
                 config.SaveConfig();
                 project.LoadRunningTasks();
             }
-
             return project;
-        }
 
+        }
         private void SaveCurrentProject(bool isDefaultPosition = true)
         {
             if (CurrentProject == null)
@@ -783,6 +894,14 @@ namespace Hawk.ETL.Managements
             ConfigFile.Config.SaveConfig();
         }
 
+        private void CleanAllItems()
+        {
+            this.CurrentProcessTasks.Clear();
+            this.dataManager.CurrentConnectors.Clear();
+            this.dataManager.DataCollections.Clear();
+            ProcessCollection.RemoveElementsNoReturn(d => true, RemoveOperation);
+
+        }
         public void CreateNewProject()
         {
             var project = new Project();
@@ -793,6 +912,7 @@ namespace Hawk.ETL.Managements
 
             ConfigFile.GetConfig<DataMiningConfig>().Projects.Insert(0, newProj);
             CurrentProject = project;
+            CleanAllItems();
             var filemanager = new FileManager {Name = GlobalHelper.Get("recent_file")};
             CurrentProject.DBConnections.Add(filemanager);
 
@@ -938,6 +1058,14 @@ namespace Hawk.ETL.Managements
                     currentProject = value;
                     OnPropertyChanged("CurrentProject");
                     OnPropertyChanged("ProjectPropertyWindow");
+                    SetWindowTitleName(CurrentProject.Name);
+                    CurrentProject.PropertyChanged += (s, e) =>
+                    {
+                        if (e.PropertyName == "Name")
+                        {
+                            SetWindowTitleName(CurrentProject.Name);
+                        }
+                    };
                 }
             }
         }

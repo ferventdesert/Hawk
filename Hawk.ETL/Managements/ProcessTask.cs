@@ -126,7 +126,7 @@ namespace Hawk.ETL.Managements
 
         public virtual IDataProcess Load(bool addui)
         {
-            IDataProcess process=ProcessManager.GetModule(this.TaskType, this.Name);
+            IDataProcess process=ProcessManager.GetTask(this.TaskType, this.Name);
             if(process!=null)
                 return process;
             ControlExtended.SafeInvoke(() =>

@@ -32,8 +32,7 @@ namespace Hawk.ETL.Plugins.Filters
             IsDebugFilter = true;
         }
 
-        private bool lastState;
-        private bool? finalState;
+      
 
         #endregion
 
@@ -45,32 +44,10 @@ namespace Hawk.ETL.Plugins.Filters
             {
                 return true;
             }
-            if (finalState.HasValue)
-                return finalState.Value;
+          
             var r = true;
             r = data != null && FilteDataBase(data);
-
             var value = Revert ? !r : r;
-            switch (FilterWorkMode)
-            {
-                case FilterWorkMode.ByItem:
-                    return value;
-                case FilterWorkMode.PassWhenSuccess:
-                    if (lastState == false && value)
-                    {
-                        finalState = true;
-                        return true;
-                    }
-                    return false;
-                case FilterWorkMode.StopWhenFail:
-                    if (lastState && value == false)
-                    {
-                        finalState = false;
-                        return false;
-                    }
-                    return true;
-            }
-            lastState = value;
             return value;
         }
 

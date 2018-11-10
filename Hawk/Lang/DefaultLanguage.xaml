@@ -36,13 +36,13 @@
     <system:String x:Key="LongTask">
         正在进行长时间任务，请等待
     </system:String>
-        <system:String x:Key="short_desc">
+    <system:String x:Key="short_desc">
         简短描述
     </system:String>
-      <system:String x:Key="long_etl_task">
+    <system:String x:Key="long_etl_task">
         正在执行临时任务流，请稍后
     </system:String>
-          <system:String x:Key="long_visit_web">
+    <system:String x:Key="long_visit_web">
         正在从服务器刷新网页，请等待
     </system:String>
     <system:String x:Key="ModuleMgmt">
@@ -753,7 +753,7 @@
     <system:String x:Key="key_253">
         文件导出成功，是否要打开查看?
     </system:String>
-        <system:String x:Key="delete_confirm">
+    <system:String x:Key="delete_confirm">
         是否要移除已选择的模块? 本操作不能撤回.
     </system:String>
     <system:String x:Key="key_550">
@@ -1237,11 +1237,11 @@
        - 性能较差，大量的字符解析，js模式树解析
        - 兼容性一般：不是所有的文本都能转成树结构，因此必要时需要使用手动模式处理。
     </system:String>
-     <system:String x:Key="add_task_warning" xml:space="preserve">
+    <system:String x:Key="add_task_warning" xml:space="preserve">
           haha 
     </system:String>
-      <system:String x:Key="config_not_found_warning">
-       配置"{0}"在全局配置中不存在，请检查相关参数，原始配置为 {1}
+    <system:String x:Key="config_not_found_warning">
+       配置"{0}"在全局配置中不存在，请在首页->工程配置->全局参数中增加对应配置，或参考相关文档，原始配置为 {1}
     </system:String>
     <system:String x:Key="crawler_xpath_root" xml:space="preserve">
         ### 列表根路径
@@ -1399,7 +1399,7 @@
     <system:String x:Key="key_25">
         用户名
     </system:String>
-        <system:String x:Key="user_login">
+    <system:String x:Key="user_login">
         GitHub用户登录
     </system:String>
     <system:String x:Key="key_475">
@@ -1672,10 +1672,10 @@
     <system:String x:Key="key_110">
         常用
     </system:String>
-        <system:String x:Key="market_url">
+    <system:String x:Key="market_url">
        市场地址
     </system:String>
-     <system:String x:Key="market_url_check" xml:space="preserve">
+    <system:String x:Key="market_url_check" xml:space="preserve">
         市场的url必须以https://github.com开头，且包含repo名和首层文件夹，例如：
 
         从以下方式点击地址进入：
@@ -1921,6 +1921,12 @@
         - {{filter_mode_by_item}}
         - {{filter_mode_pass_when_success}}
         - {{filter_mode_pass_when_fail}}
+
+        除了{{filter_mode_by_item}}模式之外，其他模式是为了实现增量更新而实现的。例如，要实现一直翻页，直到所有数据都获取完时就停止的功能，就需要将空对象过滤器切换到 {{filter_mode_pass_when_fail}}模式，它会在发现任务出现不符合条件的第一条时，终止全部任务。
+
+        类似可参考{{filter_mode_pass_when_fail}}模式。
+
+        那如果希望在出现第n次不符合条件时终止任务呢？这就要借助子任务实现了，聪明的读者可以想一想。
         
     </system:String>
 
@@ -2616,7 +2622,7 @@
     <system:String x:Key="key_239">
         新建数据集
     </system:String>
-       <system:String x:Key="keep_pass">
+    <system:String x:Key="keep_pass">
         保存密码
     </system:String>
     <system:String x:Key="key_669">
@@ -3237,10 +3243,10 @@
     <system:String x:Key="key_50">
         文件不是合法的Json文件
     </system:String>
-     <system:String x:Key="find_ref">
+    <system:String x:Key="find_ref">
        查找所有引用
     </system:String>
- 
+
     <system:String x:Key="key_216">
         当前连接
     </system:String>
@@ -3648,10 +3654,10 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     <system:String x:Key="default">
         默认值
     </system:String>
-      <system:String x:Key="remark">
+    <system:String x:Key="remark">
        注释
     </system:String>
-      <system:String x:Key="remark_desc">
+    <system:String x:Key="remark_desc">
         这里填写关于模块或任务的介绍，之后会在文档说明中展示它，可为空。
     </system:String>
     <system:String x:Key="options">
@@ -3672,7 +3678,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     </system:String>
     <system:String x:Key="doc_etl_read">
       查看教程文档
-  </system:String>
+    </system:String>
     <system:String x:Key="filter_mode_by_item">
          按行过滤
     </system:String>
@@ -3847,8 +3853,9 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
 
        - 在绝大多数的按钮和菜单上，放置鼠标超过3秒钟，就会弹出完整的介绍和帮助。
        - 所有的模块在配置时，都可以在配置后显示其使用文档，包括功能简介，参数名和对应介绍，注意事项等。
+       - 当工程设计完成后，一键即可自动生成step by step的步骤说明。
        - 点击：帮助，即可弹出全局文档系统，在文档中，支持字体放缩，关键字搜索等，方便快速定位内容。
-
+    
        ![在按钮上自动弹出帮助](https://upload-images.jianshu.io/upload_images/9608527-b4180f98fec913e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
        Hawk的文档系统分为`新手模式`和`高手模式`：
@@ -3861,6 +3868,22 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
 
        ![{{smartetl_name}}可用模块列表](https://upload-images.jianshu.io/upload_images/9608527-d0e75e07893f4d91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+       ### 查看当前任务的设计指南
+       
+       当设计了一个任务，但希望教会别人如何设计相似的任务时，本功能就会非常实用（其实它是Hawk作者疲于写教程而设计的功能）。
+
+       在所有的任务或模块中，都可以在属性配置中，找到`注释(remark)`选项，作为任务的设计者，你可能有必要对任务进行简要的说明，或对某个模块的作用做下分析。 当然如果它非常易懂，则不填也可以。
+
+       在数据清洗界面的调试栏上，点击表情图标，即可生成对应的工程步骤介绍，下面展示了一个例子：
+
+       TODO: 增加一个图片
+       ```
+       1. 将`从文本生成`模块拖入到`target`列,将`文本`填为`ershoufang`,按行生成数据
+       2. 将`从文本生成`模块拖入到`city`列,设置`文本`值为`{city}`,按行生成数据
+       3.将`合并多列`模块拖入到`city`列,设置`格式`值为`https://{0}.lianjia.com`,设置`输出列`值为 `cityurl`,该模块可以将多个列合并成一个列
+       ```
+
+       未来教程系统将会与任务市场打通，实现上传一个任务，即可上传一个教程的理想。
 
        ### 文档编写和自动生成
        由于软件在不停地优化升级，会出现模块和文档不一致的问题。为了降低作者编写文档的负担，Hawk采用了自动文档生成的方式：
@@ -3984,10 +4007,10 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
       将`{0}`模块拖入到`{1}`列
     </system:String>
     <system:String x:Key="set_param_desc1">
-      设置`{0}`值为`{1}`
+      设置 `{0}` 值为 `{1}`
     </system:String>
     <system:String x:Key="set_param_desc2">
-      将`{0}`填为`{1}`
+      将 `{0}` 填为 `{1}`
     </system:String>
     <system:String x:Key="reason_desc1">
       其目的是{0}
@@ -3995,17 +4018,17 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     <system:String x:Key="reason_desc2">
       作用为{0}
     </system:String>
-     <system:String x:Key="set_before">
+    <system:String x:Key="set_before">
         需提前设置好: `{0}`
     </system:String>
-     <system:String x:Key="doc_task_title">
+    <system:String x:Key="doc_task_title">
          ## 新建{0}:{1}
     </system:String>
-      <system:String x:Key="doc_task_new">
+    <system:String x:Key="doc_task_new">
          在启动页面双击新建{0}，并设置其名称为`{1}`。
     </system:String>
 
- <system:String x:Key="doc_crawler_add_xpath">
+    <system:String x:Key="doc_crawler_add_xpath">
     {{key_160}}设置为`{0}`,类型选择为`{1}`, 目标为`{2}`，值为{3},  并点击`添加属性`。
     </system:String>
     <system:String x:Key="qa_list" xml:space="preserve">

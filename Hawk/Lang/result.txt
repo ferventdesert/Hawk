@@ -1,0 +1,840 @@
+key	chs	eng
+Closing	�Ƿ�ȷ���뿪Hawk?	Is it sure to leave Hawk?
+ConfigNull	�������κ��й������ļ����κ���Ϣ������	Do not contain any information about configuration files, please check.
+ControlLoad	�ؼ�����	Control loading
+Closing2	��{0}��������ܻ�û�б��棬\\n���ǡ�:���������˳��� \\n���񡿣��������˳���\\n��ȡ����:ȡ���˳�	[{0}] the task may not have been saved yet. \\n [is]: save the task and exit, \\n [no]: do not save exit, \\n [Cancel]: cancel exit
+DataMgmt	���ݹ���	data management
+SysState	ϵͳ״̬��ͼ	System state view
+DebugView	������Ϣ����	Debug information window
+Error	ʧ��	fail
+IconNotExist	ϵͳͼ���ļ�������	The system icon file does not exist
+LongTask	���ڴ���ʱ�����	Handling long - time operations
+ModuleMgmt	ģ�����	Module management
+Source	��Դ	source
+Start	��������	Normal start
+Tips	��ʾ��Ϣ	Hint information
+XPathExpError	����XPath���ʽ����	Maybe the XPath expression is wrong
+RemaindSave	��{0}��������ܻ�û�б��棬\n���ǡ�:���������˳��� \n���񡿣��������˳���\n��ȡ����:ȡ���˳�	[{0}] the task may not have been saved yet. \n [is]: save the task and exit, \n [no]: do not save exit, \n [Cancel]: cancel exit
+key_560	���߳�����	The number of Zi Xiancheng
+key_750	��ѡ������XPath����ֻ����id��class���ƽ��м�������ѡ��class��ֵ�name�������ǲ�������class=name�Ľڵ�	You can select a complete XPath, or only retrieve it based on ID or class name. For example, select class and fill in [name], which is to find all class=name nodes.
+key_718	������ʼ��	Normal initialization
+key_258	ִ��ɾ��������	Do you execute the delete operation?
+key_641	3.��̬������̽	3. dynamic requests for sniffing
+key_370	����	skip
+key_580	��ǩ	Label
+key_505	�ο���ʽ	Reference format
+key_69	������������д��	Enable self - added primary key write
+key_89	sql=	sql=
+key_0	�Ƿ񱣴浱ǰ���̵����ݣ���ֻ��һ�λ�����������	Do you save the content of the current project? You have only one chance to do this.
+key_67	�߼�����	advanced setting
+key_85	��ѡ��sqlite���ݿ��ļ�	Please select the SQLite database file
+key_739	���ݿ�����	Database configuration
+key_765	���XPath	xpath result
+SplitPageTF	��ҳ	paging
+key_497	������	Import column
+NullFT_desc	����ı��Ƿ�Ϊ�հ׷���null������	Check whether the text is blank or null, commonly used
+DataProcessManagerUI	DataProcessManager	DataProcessManager
+key_374	���ֵ	Maximum value
+key_120	���󷽷�	Request method
+key_614	��������	Arabic
+key_292	�ָ�	recovery
+StrExtractTF	�ַ���β��ȡ	Character first and end extraction
+smartetl_name	������ϴ	Data cleaning
+JoinDBTF_desc	������������ݿ��join������ƥ�䣬Ŀǰ���Բ�����	It is used to complete the join operation and matching with the database.
+key_350	�����ݿ�{0}������{1}�ɹ�д��{2}������	Write {2} entries to database {0} and table name {1} successfully.
+key_405	1.������	1. connector
+key_23	��������ַ	server address
+key_677	����	command
+key_164	����	available
+IFileConnector:IDictionarySerializable	�ļ����뵼�������ӿ�	File import and export basic interface
+key_91	ö�����⻯	Enumeration virtualization
+key_277	��������	Level setting
+key_777	�߳���	Thread number
+key_395	��ʱʱ��	Delay Time
+DataGridViewer_desc	IDataViewer	IDataViewer
+key_107	����	filter
+FolderGE	��ȡ�ļ����ļ�	Get a folder file
+SmartCrawlerUI	SmartCrawler	SmartCrawler
+key_523	�ظ�����	Repetitions
+key_180	�����ʴ���	Maximum number of access times
+key_711	����߳�������ֵ��ΧΪ0-30	The numerical range of the maximum number of threads is 0-30
+key_167	��ѡ	Reverse selection
+MergeRepeatTF	�ظ���ϲ�	Duplication combination
+key_779	�ɽ�ͼ�������Ҳ������е��Ϸ��հ��б���Ϊ�������ETLģ��	You can drag the icon into the upper blank list of the right data column to add the ETL module to the column.
+key_96	�޶�����Դ	Undefined resources
+key_210	������Χѡ��	Quantitative range selection
+FileConnectorXML	XML���뵼����	XML import and export
+key_3	ϵͳ��æ	The system is busy
+key_411	������-ѡ��	Subtask - Selection
+key_649	�Ѿ��ɹ����Ƶ�������	It has been successfully copied to the clipboard
+key_101	�Ѿ�ִ�гɹ�	Have been successful
+key_443	��ȡ����	Read configuration
+key_629	ˢ����ҳ	Refresh the web page
+key_143	��ͼ	view
+key_128	����ֹ��	Maximum prohibition
+GetIPLocation_desc	��ȡĳһip��ַ�ľ�γ������	Obtain the latitude and longitude coordinates of a IP address
+key_34	ִ��	implement
+key_197	XPath���ʽ:	Xpath exp
+ICustomClass	һ�������͵ļ򻯽ӿڣ����ڲ�ָ��ǿ���ܵĲ������	A weak type of simplified interface for the collection of plug-ins that do not specify strong functions.
+key_301	ģ��	Modular
+key_752	�ӽڵ�����	Number of subnodes
+key_700	�Ѽ���	Have been loaded
+key_730	���ټ���	Fast retrieval
+NlpTF	��Ȼ���Դ���	natural language processing
+key_769	��̬������̽	Dynamic request sniffing
+EtlGE	������-����	Subtask - generation
+key_579	ͨ�����н�����Ϣ����	Information retrieval through the city
+key_74	MongoDB���ݿⲻ�ڱ��أ��޷����Զ����ݿ��޸�	MongoDB database is not local, unable to start automatic database repair.
+EtlEX	������-ִ��	Subtask - Execution
+FileConnectorTable_desc	����Ʊ���ı��ļ�	Output tabs text file
+key_368	����ʱ����	Enabled when debugging
+key_9	��������	data description
+key_108	ת��	Transformation
+key_749	{attributes:EnumValues {x:Type connectors:SelectorFormat}}	{attributes:EnumValues {x:Type connectors:SelectorFormat}}
+key_791	DataContext=	DataContext =
+key_153	���	Plug-in unit
+key_226	ȷ��Ҫɾ����������	Are you sure you want to delete the connection?
+key_334	�ļ�{0}������	File {0} does not exist
+key_625	������������Ϊ��	The number of attributes can not be empty
+JoinDBTF	���ݿ�ƥ��	Database matching
+key_438	����	Code
+key_269	��������	Feedback problem
+key_719	����������	Inflow of data
+key_285	ɾ������	Delete task
+key_745	λ��:	Position:
+key_82	���·��	Browse path
+key_304	�����߳���ͼ	Working thread view
+key_162	ѡ����	selector
+key_627	��ȡ���ݲ��Խ��	Extracting data test results
+key_754	{Binding CanChange�� Converter={StaticResource BooleanToVisibilityConverter}}	{Binding CanChange�� Converter={StaticResource BooleanToVisibilityConverter}}
+key_178	������	generator
+key_156	��ʼ���س���	Start loading a set of programs
+key_767	���Թ���	Attribute management
+key_146	����������Ѽ���	The plug-in manager has been loaded
+key_616	�Զ����	automatic detection
+key_279	����	Function
+key_204	������ת��	No conversion
+key_256	��ǰ�ڴ������Ѿ������	The current memory data has been cleared
+key_756	�������	Sorting strategy
+key_354	��λΪ���룬Ҳ��ʹ�÷������﷨������[a]��ʾ��a���ж�ȡ��ʱ����	The unit is milliseconds, and the square brackets syntax can also be used, such as [a], to read the delay length from the a column.
+key_152	��ǰ�����ڲ������û�б����֣�	The current type is not found in the plug-in collection,
+key_148	��������ظ������������ļ�	The plug-in type is repeated, please check the configuration file
+DbEX_desc	�������ݿ����������д�룬ɾ���͸��£��������Ϊ�������	Perform database operations, including writing, deleting and updating, and dragged columns are the primary keys of the table.
+key_132	�������	wipe data
+EtlTF_desc	������ѡ����������Ϊת�������й���������ο�����ĵ�	Call the selected subtasks as the converter, refer to the relevant documents for subtasks.
+key_83	����	Load
+key_785	���	output
+ReReplaceTF	�����滻	Regular replacement
+DbGE_desc	�����ݿ��ȡ���ݣ�����ǰ��������ͼ����������	To read the contents from the database, you need to configure the connection in the data view ahead of time.
+key_768	�����ø�ֵ����������Path��Ӧ��Ϊ���ڵ����path����������������xpath·��	When this value is set, all attributes Path should be the child path of the parent node, rather than the complete XPath path.
+key_124	Post����	Post parameters
+key_465	ÿ��һ��	One line per line
+key_252	������������	Exporting data tasks
+key_347	��������ݿⲻ���ڸñ������ݵ�һ�����ݵ����Զ�������	If a database does not exist, it will automatically create tables based on columns of the first data.
+key_687	������	Sampling amount
+key_345	ѡ�����ݿ�	Select database
+key_727	Grid.RowSpan=	Grid.RowSpan=
+key_228	�ļ���ʧ��	File open failure
+key_740	��������	Fast link
+RangeGE_desc	����ĳ��Χ�ڵ���ֵ��	Generating a numerical column within a certain range
+key_242	תΪ���������ݼ�	Turn to a non virtual dataset
+key_317	���浱ǰ����	Save the current project
+key_448	ɸѡģʽ	Screening model
+key_248	�����ݿ����ӷ���ʧЧ	Failure of database connection service
+key_482	Post����	Post data
+key_594	γ����	Latitudinal column
+key_98	ִ��ʧ��	Failure to execute
+AddNewTF_desc	Ϊ���ݼ�������У�ֵΪĳ�̶�ֵ	Add a new column to a dataset with a value of a fixed value
+key_244	���浽���ݿ�	Save to the database
+TableGE_desc	�����ݹ��������е����ݱ������ɣ�����	Generated from data tables in data management, commonly used
+BfsGE	�������	Request queue
+key_264	Hawk�汾�������	Hawk version and check update
+IDataViewer	չʾ����	Display data
+SaveFileEX_desc	Ŀ������ҪΪ���������ͣ��ᱣ�����ӵ��ļ�����ͼƬ����Ƶ��	The target column needs to be a hyperlink type, which saves the linked files, such as pictures, videos, etc.
+key_431	�ݹ鵽����	Recursion to the following
+key_481	������ʱʱ��	Error delay time
+key_367	�����ȡ���󷵻�	Return the result back to return
+AutoIndexTF	����������	Self increasing key generation
+key_76	�޸�ʧ�ܣ����Ƿ�û�а�װMongoDB���ݿ�	Repair failed. Did you install MongoDB database?
+key_442	�ļ���ʽ	file format
+RandomGE	���������	Generating random number
+RepeatTF	�ظ���ǰֵ	Repeat the current value
+key_712	{0}�Ѿ���������ִ�У����������������ȡ�����������ˢ��	{0} already has tasks in execution. Please cancel the task in the task manager and refresh it.
+key_274	����ɳĮ���Ĳ���	Author Sha Mojun's blog
+key_268	������ʹ��Hawk�İ����������̳�	There are cases and complete tutorials for using Hawk
+key_581	��ҽԺ����ʳ��	Like a hospital, a gourmet food, etc
+key_418	�����������������	Setting the subtask call property
+key_518	��ֵΪС��0ʱ����ͬʱƥ����ֵ	When the equivalent value is less than 0, multiple values can be matched at the same time
+key_71	�򿪰�������	Open the help link
+key_104	����	sort
+FileConnectorCSV_desc	����ı���CSV���ŷָ��ļ�	Output text type CSV comma delimited file
+key_337	����	Grouping
+key_125	�Զ��ض���	redirect automatically
+key_573	����м�ո�	Clear the middle space
+DataProcessManager_desc	���㷨ģ��ʵ�ֹ������װ�������ṩ����	Manage and assemble the algorithm modules, but do not provide interface.
+key_371	��ȡ	Obtain
+key_656	��ѯXPathʱ���ڲ������쳣:{0}	An exception occurs internally when querying XPath: {0}
+FolderGE_desc	��ȡ�ļ����µ������ļ�	Get all the files under the folder
+RenameTF	�����޸���	Column name modifier
+key_196	XPath���ʽ����:	XPath expression error:
+key_177	���ı�����	From text generation
+FileConnectorJson	Json���뵼����	Json import and export
+key_166	ȫѡ	Total selection
+key_652	��������	Continue to search
+key_772	���û�ȡ���ݱ��ǰn��	Setting the front n rows to get the data table
+key_686	3.����	3. debug
+key_674	����ģʽ�������������չʾ���ݣ���鿴�����ı�����	In the super mode, the built-in browser does not display the contents. Please check the text on the left side.
+key_758	����	Sample
+key_344	ѡ�����ݿ�Ĳ���������룬ɾ�������µ�	Select database operations, such as insert, delete, update, etc.
+key_628	��⵽�б�ĸ��ڵ�Ϊ:{0}���Ƿ����ø��ڵ�·���� �˲����н����о����û�ʹ�ã�С���û���㡾��	The root node of the list is detected: {0}. Does the root node path be set? This operation is recommended by experienced users.
+key_20	���С	Table size
+key_360	��д�ɼ�����ģ�������	Fill in the name of the collector or module
+key_314	��������	Task description
+key_776	{Binding Attribute�� Converter={StaticResource GroupConverter}}	{Binding Attribute�� Converter={StaticResource GroupConverter}}
+key_287	�����б�2	Task list 2
+key_240	����	To configure
+key_695	������̽��	Debugging and exploration
+key_464	�ı�	text
+key_192	��ѡ����󣬻��Զ���ȡ�������ģ�XPath·����Ϊ��	After selecting this item, the news text is automatically extracted, and the XPath path can be empty.
+key_617	�������	Italian
+key_181	����������	Generator type
+key_558	���߳�����	The name of Zi Xiancheng
+key_753	��������	Evaluation score
+key_688	ֻ��ȡ���ݱ��ǰn��	Get the front n lines of the data table only
+key_537	����ֱ����д��ֵ������ͨ�������ű��ʽ�������д���	In addition to directly filling in numeric values, it can also be imported from other columns by square brackets.
+key_200	ģ������	Module name
+ReadFileTextGE_desc	��ȡ�ļ��е�ȫ�����ı����ݣ�ע���롾��ȡ�ļ����ݡ�����	Get all the plain text content in the file, note the difference with [read file data]
+IDataProcess	��������ģ��	Basic calculation module
+key_735	Grid.Row=	Grid.Row=
+key_781	����1����������������������ģ������	Step 1: set the module interval of the main task submission.
+DateRangeGE	��������ʱ��	Generation interval time
+key_88	sqlִ�д���:	SQL execution error:
+key_717	������	Input column
+not_find_key	�ڸ���ҳ���Ҳ����ؼ��� `{0}`�������Ƕ�̬����\n ���ǡ�����{1}�������������ҳ�淭�������ùؼ��ֵ�λ��\n ����:������̽����\n ��ȡ����:���������ѡ�	The keyword `{0}` can not be found in the web page, which may be a dynamic request, \n [{1}], and turn the browser page to the location containing the keyword, \n [no]: [cancelling]: [no longer reminded]
+rightclick_new	�Ҽ����½�����Դ	Right key can build a new data source
+doubleclick_new	˫��ͼ�����½�����	Double click the icon to create a new task
+brower_view	�������ͼ	Browser view
+remind_10	����д������ҳ���еĹؼ�����Ϣ����2.������ȡ��->�������ַ���	Please fill in the keyword information contained in the page: [2. attribute extraction] - > search character]
+step2	����2�����������������ж�Ӧ����������������������˵����ο�����ֱ�ӱ༭�ı���	Step 2: set the main task attribute column to the attribute name of the sub task. The drop-down menu only refers to it, and can edit the text box directly.
+task_run	{0}�Ѿ���������ִ�У����ڵ����������Ƿ�Ҫȡ����ǰ��������ִ�У�\n ��ȡ����:���������ѡ�	{0} already has tasks in execution. Is it necessary to cancel the current tasks due to tuning parameters? \n [cancellation]: [no more reminding]
+success_get	�Ѿ��ɹ���ȡ��̽�ֶΣ� ��ʵ�����ַ:\n{0}��\n���Զ���������ҳ�ɼ�������������Ϊ{1}\n {2}�Ѿ�ˢ������ҳ�ɼ���������	The sniffer field has been successfully obtained! The real request address: \n{0}, \n has automatically configured the webpage collector, the request type is {1}\n {2}, has refreshed the content of the webpage collector.
+fail_remind	����������`{0}`�� ģ��`{1}` �Ѿ�����5��û�гɹ���ȡ���ݣ�������Ҫ�����޸Ĳ��� \n ���ǡ������������ģʽ�� \n ���񡿣���ȡ����ǰ���� \n ��ȡ��������������ʾ��	The module `{1}`, which acts on the column name `{0}`, has not successfully acquired the data 5 times in a row, and may need to revise the parameter \n [yes] \n [no]: [cancel the current task] \n [Cancel]: [no longer prompt]
+key_191	��ȡ����	Get the text
+key_320	����ǰ�б�	To the current list
+RegexSplitTF	����ָ�	Regular segmentation
+key_155	����Ҫ��ȡ����ӿ����ƣ��Ѿ����л��棬��ʱ�ɽ����޸�	No need to get the plug-in interface name, it has been cached and can be modified at any time.
+JsonTF	ת��ΪJson	Convert to Json
+key_402	�ɲο�C# DateTime Format��ط����� ����yyyy-MM-dd��	Refer to C# DateTime Format related methods, such as yyyy-MM-dd, etc.
+key_704	��������	Serial task
+key_662	{0}  ���ܱ�ʶ��Ϊ��ȷ��{1}���ʽ������	{0} cannot be recognized as the correct {1} expression. Please check.
+key_332	���ݿ�����	Database connection
+key_154	�ӿ�	Interface
+key_595	����γ�����ڵ���	Columns representing latitudes
+key_790	��ǰ���ص������㷨ģ��	All of the algorithm modules that are currently loaded
+key_726	Grid.Column=	Grid.Column=
+key_253	�ļ������ɹ����Ƿ�Ҫ�򿪲鿴?	The file export is successful, do you want to open the view?
+key_550	β��	Tail string
+key_361	�Ƿ��첽	Whether or not asynchronous
+key_450	�Ƿ�ݹ�	Whether or not recursion
+FileConnectorExcel	EXCEL���뵼����	EXCEL import and export
+key_707	������	Subtask
+XPathTF2_desc	Ҫ����HTML�ı��У��ɽ�ҳ���е����࣬��Crossģʽ����������ʺ��������޷�ץȡȫ��ҳ�棬�����԰�����ץȡ��������������ҳ�ɼ���������ο��ĵ�-����ö��	To drag into the HTML text column, you can combine the classes in the page with the Cross mode, which is suitable for the crawler to capture all the pages, but can be captured by classification. Need to call webpage collector, specific reference document - class enumeration
+key_626	�б�ģʽ�£�����������������2��	In list mode, the number of attributes should not be less than 2
+key_592	��ѯ����	Inquiries
+Time2StrTF_desc	��ʱ������ת��Ϊ�ض���ʽ���ַ���	A string that converts a time type to a specific format
+key_217	��ѯ�ַ���	Query string
+key_495	ѡ����Ҫ���ӵı�	Select the table to connect
+key_610	������	Dutch
+key_778	{Binding GenerateMode�� Converter={StaticResource GeneratorConverter}}	{Binding GenerateMode�� Converter={StaticResource GeneratorConverter}}
+key_655	�Ƿ������Զ���̽	Whether automatic sniffing is enabled
+key_293	ȡ��	cancel
+key_340	�����Ѿ�����	The task has gone wrong.
+key_602	����	Chinese
+IColumnProcess	ETLģ��ӿ�	ETL module interface
+key_633	�Ƿ�ȷ�������������?	Is it sure that all properties are cleared?
+EtlTF	������-ת��	Subtask - conversion
+key_653	�Ҳ����������������Ľڵ㣬�������Ѿ����ؿ�ͷ	No other eligible nodes could be found. The searcher has returned to the beginning.
+key_399	���	interval
+key_797	Margin=	Edge =
+key_390	����ո�ָ���������Ա�ģ�������е�ֵ��ͬ���������Էֱ�����������	Fill in the column names separated by spaces, and lengthwise summation of all attributes with the same value in the module.
+key_8	��������	Total amount of data
+DbEX	д�����ݿ�	Write to the database
+XPathTF	XPathɸѡ��	XPath filter
+key_295	�½����Ʋɼ���	New or replicated collector
+key_381	��Сƥ����	Minimum matching number
+key_318	���Ϊ��ǰ����	Save as the current project
+key_313	����ͬ�����񣬽����Ǹ�����	There is a same name task that will cover the task
+XFrmWorkPropertyGrid_desc	��������ѡ��	Property configuration options
+key_254	���ļ�ʧ�ܣ�	Failed to open the file:
+key_70	��װʹ��˵��	Instructions for installation and use
+key_123	��ҳ���������ʱ����ѡ���л�UTF-8��GBK	When the page appears garbled, you can choose to switch UTF-8 or GBK.
+key_385	�ӳ����	Delay output
+CrawlerTF	������ת��	From the reptilian
+key_439	��ѡ��Ҫ��ȡ���ļ�	Please select the file to read
+key_208	λ�ڣ� ������{0}��ģ�� {1} ת������ ��Ϣ{2}	Located in {0} module {1} conversion error, information {2}
+key_685	ɾ�����νڵ�	Delete downstream nodes
+key_46	�Ѿ���������:	The number that has been imported:
+key_437	ѡ���ļ�	Select the file
+key_346	ѡ����Ҫ���ӵ����ݿ������������޷�ѡ�������á�ģ�����->������Դ����������Ҽ������µ����ݿ�������	Select the database service that you want to connect to, if this item can't be selected, configure [module management] - > [data source], and click right to create a new database connector
+key_353	��ʱֵ	Delay value
+key_250	���ݼ�	data set
+key_336	��ǰλ��	current location
+RegexFT_desc	��д������ʽ�������ı�	Writing regular expressions to filter text
+key_709	�ڲ���ģʽ����ʱ���̳߳������ص�����߳���	The maximum number of threads carried by thread pools when working in parallel mode
+EtlEX_desc	��������������Ϊִ������	Call other tasks as an executor block
+key_183	XPath���ʽ��д����	XPath expression is written in error:
+key_231	��ӵ����ݼ�	Add to the dataset
+key_151	������Ϣ	Warning information
+DataProcessManager_name	ģ�����	Module management
+key_31	��������	Connection name
+feellucky	��������	Good hands
+key_451	���Ƿ��ȡ���ļ��е����ļ�	Whether or not to get a subfile of a subfolder
+key_690	��һ��	The last step
+key_133	�����ť:	Click the button:
+key_90	���ݿ����⻯	Database virtualization
+key_2	ϵͳ�����쳣	Abnormality of the system
+key_751	������Ϣ	Other information
+key_501	�ĵ��б�[{}]��ת��Ϊ��������й��ɵ��б����ĵ���{}��������ļ�ֵ�Ը��ӵ����У�������ת����ֱ�ӽ�ֵ���뵽����	A list of documents: [{}], converted to a list of multiple rows of data; a single document: {}, attach the result's key value pair to the line; do not convert: put the value directly into a new column.
+key_275	����	Help
+key_4	������Ϣ����	Debug information window
+key_245	���뵽���ݿ�	Insert into the database
+key_542	��ԭ�ı�ÿ���ַ�ֱ�ӷָ	Divide each character in the original text directly
+key_517	ƥ����	Matching number
+key_221	��ҳ����������	Web crawler connector
+key_16	����	describe
+key_783	����	End
+key_736	�½�����	New task
+key_130	��ʱ��	Timeout number
+key_552	���صĽ�����Ƿ�����״���β��	Whether the first string and the tail string are included in the return result
+key_706	����	task
+key_283	ȷ�����������㷨ģ��ô��	Do you decide to save all the algorithm modules?
+key_485	ת��ѡ��	Conversion options
+key_691	��һ��	Next step
+key_11	���ݼ�����	Dataset name
+key_299	��������{0} �Ѿ���ɾ���� �������{1} Ҳ�Ѿ���ǿ��ȡ��	Because the task {0} has been deleted, the related task {1} has been forcibly cancelled.
+key_705	��������	Parallel task
+key_218	�������ݿ�Ĳ�ͬ�����ڴ˴�����JS��MongoDB���ͱ�׼SQL	Depending on the database, you can enter JS (MongoDB) and standard SQL here.
+key_526	�滻Ϊ	Replace
+key_604	����	Japanese
+DelayTF_desc	�ڹ������в�����ʱ�������߹̶����ȱ������汻�������λΪms	Insert delay in workflow, can sleep fixed length to avoid reptiles being banned, the unit is Ms.
+key_169	ɾ��	delete
+key_270	����bug���������ˣ���ӭ����	Is there a bug or a problem? Welcome feedback
+key_36	�ر�����	Close connection
+key_714	���ģ������Ƿ��޸�	Check whether the module parameters are modified
+NumberTF	��ȡ����	Digits
+key_804	�������ﵽ���㣬����Ϊ�����߾���	If the software helps you, you can donate for the developer.
+key_748	���ڵ�	root node
+key_665	ʹ�õ�ǰ�ӽڵ�XPath�����ĵ����Ҳ����κ��ӽڵ�	Using the current child node XPath, no child nodes can be found in the document.
+key_327	����{0}����	Load the {0} task
+HtmlTF_desc	ɾ��HTML��ǩ��ת�����	Delete the HTML label and the escape symbol
+key_603	Ӣ��	English
+key_382	ֻ��������ʽƥ����ı��Ľ���������ڵ��ڸ�ֵʱ���Żᱣ��Ĭ��Ϊ1	Only regular expressions match the result of the text to more than or equal to that value. The default is 1.
+key_643	ֹͣ	Stop it
+key_21	��������	Parameter setting
+key_593	�繫԰����վ��	Like a park, a station, etc
+SmartCrawler_desc	�ӵ�����ҳ�����ú���̽��������	Configuring and sniffing the required data from a single web page
+key_519	����ΪС��0��ƥ���������У�����������ÿո�ָ����в���Ҫ��ӣ�����_��ʾ����'_ ƥ��1 _'	If the number is less than 0 and matches a number of new columns, multiple column names can be separated by spaces. If the column does not need to be added, it can be represented by "","" such as ""matching 1"".
+key_605	��������	Spanish
+key_176	�����б�	Proxy list
+SQLiteDatabase_desc	�ṩSQLite���������ݿ����	A database service that provides SQLite interaction
+key_149	�ѳɹ���ʼ��	Successfully initialized
+key_634	2.�������	2. request parameters
+key_18	����	Name
+FileManager	�ļ�����	file management
+key_516	��Ҫ���������ʱѡList������ѡOne��None���ο�����ҳ�ɼ�����	When you want to export multiple results, select List, otherwise choose One or None, refer to webpage collector.
+key_262	����	about
+key_805	�汾�� 3.0	Version: 3
+key_529	��Ӧͷ	Response head
+ReadFileTextGE	��ȡ�ļ��ı�	Read the file text
+key_734	ItemsSource=	itemssource.
+key_646	��ģʽ�ܹ�ǿ��������ҳ���ݣ�����������Դ���һ��޸�ԭʼHtml����	This mode can strongly analyze web content, but consumes resources, and will modify the original Html content.
+key_53	�зָ��	Column Division
+key_466	����ʽ	sort order
+key_241	ת��������	Conversion table type
+key_728	HorizontalAlignment=	horizontalalignment =
+BaiduLocation_desc	ͨ���ٶ�API��ȡ��ǰ�ر�ľ�γ�����꣬��Ҫ��������������	To get the latitude and longitude coordinates of the current landmarks by Baidu API, we need to drag them into the columns representing the geographical names.
+key_290	�����б�����	Task list command
+key_296	��������	Save task
+key_205	�ĵ��б�	Document list
+key_415	����ӳ��	Attribute mapping
+RepeatFT_desc	���������ΪΨһ�������Զ�ȥ�أ��������ظ����ֵĵ�һ��	The column that is dragged is the unique primary key, which automatically restores the weight and keeps only the first item repeated.
+key_511	ִ�нű�	Execution script
+key_272	���֧�������߸���Hawk�Ķ���	Your support is the author's motivation to update Hawk
+key_25	�û���	User name
+key_475	�������������ֿ�ͷ�����򽫵����޷���ȷ��ʾ����	Column names cannot start with numbers, otherwise they will fail to display the column correctly.
+BaiduLocation	����λ��	Search location
+key_1	Hawk�����ڲ��쳣������	Hawk collapse due to internal anomalies
+HtmlTF	HTML�ַ�ת��	HTML character escape
+key_189	��Ҫ��ȡ����XPath�﷨�Ķ�����ʱѡList��ֻ��ȡһ��ѡOne������Ϊ�ɲο�����ҳ�ɼ�����	When you want to get multiple results that conform to the XPath syntax, select List and get only one selected One, which can be referred to as webpage collector.
+PythonTF_desc	ִ���ض���python�����ű������һ����ҪΪֵ���ͣ���Ϊ���еķ���ֵ	To execute a specific Python code or script, the last line needs to be a value type, which is the return value of the column.
+key_732	Margin=	Edge =
+key_325	�ű��Ѿ��ɹ�ִ��	The script has been successfully executed
+key_94	���򿪵��ļ�	A document that had been opened
+key_757	ѡ��	Select
+key_73	��������ʧ��	Insert data failure
+SplitPageTF_desc	������ҳ����ÿҳ�������з�ҳ������������Ϊ��ҳ���������ʹ��Pythonת�������ɼ���ؼ򻯲���	Paging operation is based on the total number of pages and the number of pages per page, and the total number of pages is dragged into columns. Compared with the use of Python converters, the operation can be greatly simplified.
+key_689	��������	Ejection sample
+key_188	����ģʽ	Working mode
+key_339	�����Ѿ�ǿ�б���ֹ	The task has been forced to be terminated
+key_615	������	Classical Chinese
+key_578	�������	Local city
+key_251	����Դ�Ѿ����ڣ������и��ǣ�û�б���	The data source already exists, does not cover, and does not save.
+key_708	ȷʵҪɾ��{0}��?	Do you really want to delete {0}?
+DictTF	����ת��	Matrix transposed
+key_419	������Χ���ʽ��������:	Subtask range expression error, please check:
+key_213	ִ�в�ѯ	Execute the query
+key_6	Ĭ����Դ	Default source
+key_636	����Cookie����������ѡ��	Setting up Cookie and other access options
+FileManager_desc	�ṩ����ʷ�ļ����������ݿ����	Providing database services that interact with historical files
+key_794	�Ѽ�������	Loaded task
+key_701	��ǰλ�ڹ������еĵ����й���ģ��	All work modules currently in the workflow
+key_724	����	Visit
+TransTF_desc	�ӵ�ǰ���Է���ΪĿ������	Translation from the current language to the target language
+XPathTF_desc	ͨ��XPathѡȡhtml�е��ӽڵ��ĵ��� Ҳ��ͨ��CssSelectorѡȡhtml�е��ӽڵ��ĵ������XPath����	Through XPath to select the child node document in HTML, you can also select the child node document in HTML through CssSelector, which is simpler than XPath.
+key_32	�Զ�����	Automatic connection
+key_13	�����ݵ�����	The type of the data
+key_410	ͼ�λ�����	Graphical configuration
+key_632	�������	Emptying property
+XFrmWorkPropertyGrid	����������	Attribute Configurator
+key_789	����������	Subtask attributes
+key_472	��ʼ����	Start index
+key_329	����·��	Save path
+key_300	�򿪻�ӭҳ��	Open the welcome page
+key_380	���ʽ	Expression
+key_608	����	Cantonese
+key_607	����˹��	Russian
+key_493	�ַ���ƥ�䣬��like��contains�ȣ�����sql��׼�﷨	String matching, such as like, contains, etc., is in line with SQL standard syntax.
+key_398	������yyyy-MM-dd HH:mm:ss:ffff��ʽ������д	Fill in the form of yyyy-MM-dd HH:mm:ss:ffff format.
+key_222	���ݵ���	Data import
+key_561	ÿ�����߳̽�Ҫ��ȡ��������������ʾ���������ɲ���	The number of threads that each child will acquire is used to display progress bars, but not to fill in.
+key_586	Ŀ��λ��	Target location
+key_40	��֧�ִ˹���	This function is not supported
+key_209	λ��{0}�е�{1}ģ���ڳ�ʼ��ʱ�����쳣��{2}�������������	The {1} module in the {0} column has an exception at initialization: {2}, please check the task parameters.
+EtlGE_desc	��������������Ϊ��������ʹ�������ڡ�������������	Calling other tasks as generators is similar to generating interval numbers.
+key_343	��������	Operation type
+TransTF	���Է���ת��	Translation of language
+key_172	ȷ�Ͻ��	Confirmation result
+key_699	2.��ϴ����	2. cleaning process
+key_801	��������κ�����ͷ�������ӭ��ϵ�ң�	If you have any questions and feedback, please contact me:
+key_618	ϣ����	Greek language
+key_630	���Ƶ����а�	Copy to the shear plate
+key_759	�����URL:	Please type URL:
+key_119	�˿�	port
+key_713	�Ѿ�ȡ��	Have been cancelled
+key_349	��������Ϊ{0}�ı�ʧ��	Create a table failure named {0}
+key_642	��ʼ	start
+key_237	���Ϊ	Save as
+key_792	ItemsSource=	itemssource.
+key_715	λ��	position
+key_731	ToolTip=	tooltip =
+key_60	���뷽ʽ	Encoding method
+key_246	���ݿ����	Database management
+key_741	���ݴ������	Data processing revolution
+key_775	���ټ���:	Fast retrieval:
+key_570	�������ÿ�������	Parameter settings may be mistaken
+key_255	ȷ��ɾ���ڴ�����ô��	Do you make sure that the memory data is deleted?
+key_645	����ģʽ	Supermodel
+key_147	��ʼ�Բ���ֵ��еĲ�����г�ʼ��	Initialization of the plug-in in the plug-in dictionary
+key_116	Header	Header
+key_39	�ļ�����	File encoding
+key_17	����ֵ	Virtual value
+key_298	�Ƴ�	remove
+RandomGE_desc	����ĳ��Χ�ں�ָ�������������	Generating a certain range and a specified number of random numbers
+key_110	����	Commonly used
+FileConnectorJson_desc	����ı���JSON�ļ�	Output text type JSON file
+key_14	Ȩ��	weight
+key_38	��׺��	Suffix name
+key_198	��ȡ�Ľڵ�����Ϊ0	The number of nodes obtained is 0
+key_115	1.��������	1. request settings
+ResponseTF	��ȡ������Ӧ	Obtaining request response
+key_214	��ѯ�����쳣	Query exception
+key_449	����windows���ļ�ͨ���ɸѡ�淶	Windows - based file wildcard screening specification
+key_755	�����л�ѡ����������ݣ��󷽿��޸�������	Left and right toggle to select the required data, and the left side can modify column names.
+key_263	��������	About the author
+key_737	˫��ͼ�����½�����	Double click the icon to create a new task
+FreeDocument_desc	�ɴ洢��ֵ����ʽ�������ĵ�	Free documents that can store the form of a key value pair
+SplitTF	�ַ����ָ�	String segmentation
+key_330	�汾	Edition
+RangeFT_desc	����ֵ����ɸѡ������Сֵ�����ֵ��Χ���ĵ�	From the numeric column, the document from the minimum to the maximum value is selected.
+key_357	����λ��	Save position
+key_743	��ӭʹ��Hawk3	Welcome to use Hawk3
+key_774	��������	Debug details
+key_492	ƥ�䷽ʽ	Matching method
+key_666	��ǰXPath���ڽڵ㲻�Ǹ��ڵ�ĺ���������Ӧ��XPath���Ƿ���ȻҪ���?	The current XPath node is not the descendant of the parent node. Please check the corresponding XPath. Do you still want to add it?
+key_45	����дExcel�ı�ͷ��Ϣ	Please fill out the Excel header information
+key_457	������д���֣��������÷����ű��ʽ����[a]��ʾ��a�л�ȡֵ��Ϊ����������ʵֵ	In addition to filling in numbers, you can also use square brackets, such as [a], to get values from a columns as the true values of this parameter.
+key_609	����	German
+key_498	join�ɹ�������Щ��	Which columns are inverted after join's success
+key_309	��Ŀ���Ϊ	Items are deposited as
+key_648	��дӵ����ȷcookie�Ĳɼ������ƣ�Ϊ��ʱ�������ã��ù��ܻ����ȡ����IP�����ԣ������ظ�������ҳ�ɼ���	Fill in the name of the collector with the correct cookie. It doesn't work for empty time. This function also gets the properties of agent IP and so on, avoiding duplication of web page collector.
+key_388	����ո�ָ���������Ա�ģ�������е�ֵ��ͬ���������Էֱ��������ϲ�����	Fill in the column names separated by spaces, and vertically merge arrays for all attributes with the same value in the module.
+key_541	���ַ�ֱ�ӷָ�	Direct segmentation by character
+key_312	���½�����	New tasks will be set up
+key_407	2.��������	2. operation table name
+GetRoute	��ȡ·����Ϣ	Access to path information
+key_387	�ϲ������ϵ�����	Attributes merged into a collection
+property	����	attribute
+key_681	����ģ��	Copy module
+key_265	��Ŀ��ҳ	Project Home
+xpath2_desc	Ҫ����HTML�ı��У��ɽ�ҳ���е����࣬��Crossģʽ����������ʺ��������޷�ץȡȫ��ҳ�棬�����԰�����ץȡ��������������ҳ�ɼ���������ο��ĵ�-XPathTF2	To drag into the HTML text column, you can combine the classes in the page with the Cross mode, which is suitable for the crawler to capture all the pages, but can be captured by classification. Need to call webpage collector, specific reference document -XPathTF2
+key_303	����Ĭ�Ϲ���	Load the default project
+key_417	���������	Subtask panel
+key_660	û�м�鵽�κο�ѡ���б�ҳ��	No optional list page was checked
+key_19	�ɿ�	Vacant
+key_348	���ݿ�����������Ϊ��	Database connector can not be empty
+key_414	�趨�����������ģ�鷶Χ������2:30��ʾ����������ĵ�2������30����ģ�齫�����ã�����ģ����ԣ�2:-1��ʾ�ӵ�2���������ڶ������ã�����python��slice�﷨��Ϊ����Ĭ��ȫ������	Set the module scope of the call subtask, for example at 2:30 that second or thirtieth sub modules that are called will be enabled, the other modules are ignored, the 2:-1 representation is from second to the countdown second, consistent with the python slice syntax, and the default is all invoked for the empty.
+key_606	̩��	Thai
+key_111	�����������	Batch insertion error
+key_675	����html�ĵ�	Parsing HTML documents
+key_315	���� {0} �Ѿ��ɹ�����	Task {0} has been successfully saved
+key_100	�ò���	The operation
+key_230	�ɱ༭�б�	Editable list
+key_333	�����б�	task list
+key_624	��ȡ����	Extraction test
+DeleteTF	ɾ������	Delete the column
+key_12	����	type
+key_673	��ͨ��ԭ������վ������Ϸ������˼�飬 ������д�ؼ��ֶ���ҳ���ݽ����Զ���̽	The reason is that the website has checked the validity of the request. It is recommended to fill in the keyword to automatically sniff the web page content.
+key_215	��ǰ��	Current table
+key_512	Python��·��	Python library path
+AddNewTF	�������	Add a new column
+CrawlerTF_desc	ʹ����ҳ�ɼ�����ȡ��ҳ���ݣ����������ҪΪ����������	Using web collectors to get web page data, dragged columns need to be hyperlinks, commonly used.
+key_185	��ȡģʽΪList��ѡ����ΪCssSelecorʱ�������趨���ڵ�·��	When the extraction mode is List and the selector is CssSelecor, the root node path must be set.
+key_117	2.��������	2. proxy settings
+key_678	1.ִ��	1. implementation
+key_696	���Է������	Debug analysis panel
+NearbySearch_desc	��ȡ��ǰ��γ��ĳһ�뾶��Χ�ڵ����е����Ҫ�����Ϊ�����ȵ���	To get all the objects in the radius of a latitude and longitude, we need to drag in a column representing longitude.
+GetRoute_desc	�ӵ�ǰ�������˶�����Ӧ���������ʱ��	The time needed to move from the current place name to the corresponding coordinates.
+DebugManagerUI	DebugManager	DebugManager
+NumRangeFT_desc	ѡ��һ���������У�������ǰ100����ѡȡ50��	Select a certain number of lines, such as skip the first 100, and select 50.
+key_326	�����ظ����ظ�����	The task cannot be reloaded repeatedly
+key_179	�������	Proxy strategy
+key_27	���ݿ�����	Database type
+key_375	��Сֵ	minimum value
+key_746	ѡ��	Choice
+key_647	����Դ	Shared source
+key_394	BFS��ʼλ��	BFS starting position
+RegexTF	����ת����	Regular converter
+key_335	����״̬	Ergodic state
+key_29	���ݿ��������Ϊ��	Database table name can not be empty
+key_338	����{0}���Ѿ��ɹ����	The task [{0}] has been successfully completed
+key_234	�鿴����	View properties
+key_764	�����ַ�	Search character
+key_522	�ظ�ģʽ	Duplication pattern
+key_694	�������	Jump to the end
+key_175	����ת��Ϊjson����	Try converting to JSON error:
+key_622	����	search
+key_799	�ٷֱ�	Percentage
+key_671	�����Զ��ض���	Try automatic redirection
+key_389	�������	Summation attribute
+key_294	�½�����������ϴ	New or duplicated data cleaning
+key_54	����ͷ��Ϣ	Header information
+key_323	����{0}����ʱδ���ֶ�Ӧ�Ľű��ļ�{1}	No corresponding script file {1} was found when loading {0} project.
+key_738	VerticalAlignment=	VerticalAlignment=
+key_720	����������	Outflow data
+PythonTF	Pythonת����	Python converter
+JsonTF_desc	���ַ���ת��Ϊjson��������ֵ����ͣ�	Convert from string to JSON (array or dictionary type)
+key_75	���ݿ�����ʧ�ܣ��������ݿ����ã����ֶ��趨MongoDB���ݿ�İ�װ·���Է����Զ��޸�	Database connection failed. Please check database configuration or manually set up MongoDB database installation path to facilitate automatic repair.
+key_650	���ڲ�ѯXPath	Query XPath
+key_667	�Ѿ�����ͬ�������ԣ��Ƿ���Ȼ���?	Has the property of the same name already existed, is it still added?
+ToListTF	�����	Start parallel
+key_289	ȡ������	Cancel the task
+key_103	������Ϣ	error message
+key_28	���ݿ�����	Database name
+key_400	������1'h '3'm '5's'��ʽ������д	Fill in the 1'h'3'm'5's'format
+key_422	����ģʽ	Generation mode
+key_81	SQLLite�������쳣	SQLLite connector exception
+key_321	�Ѿ��ɹ���������	The task has been successfully covered
+key_324	�������{0}��λ����{1}�У���{2}��{3}	Compile error: {0}, located in {1} row, from {2} to {3}
+DelayTF	��ʱ	delayed
+key_171	��һ��	Next
+not_find_module	û���ҵ�����Ϊ'{0}'��{1}�����顰{2}���Ƿ���д����	The {1} named'{0}'was not found. Please check if ""{2}"" has filled in the error.
+key_613	��������	Portuguese
+key_716	{Binding Process.Attribute�� Converter={StaticResource GroupConverter}}	{Binding Process.Attribute�� Converter={StaticResource GroupConverter}}
+key_359	����ѡ��	Reptilian selection
+key_227	�鿴	See
+TrimTF	����հ׷�	Clear the blank
+key_232	����������ݼ�	Add a virtual dataset
+FileConnectorCSV	CSV���뵼����	CSV import and export
+key_697	���Է���	Debug analysis
+key_99	��ʾ��Ϣ	Hint information
+key_297	��ʾ������	Display and configure
+key_462	ѡ����Ҫ���ӵ����ݱ�	Select the data table that you want to connect to
+ToListTF_desc	��ģ����ִ��ʱ���Ὣ��ģ��֮ǰ����ʵ������ת��Ϊʵ�ʵ�list��������߲�������	When executed, the module will instantiate the flow before this module and convert it to the actual list to improve the parallel performance.
+NullFT	�ն��������	Empty object filter
+key_278	Web����ͳ��	Web request statistics
+key_93	���ݱ��б�	List of data tables
+key_202	��ҳ�ɼ���	Webpage collector
+key_638	2.������ȡ	2. attribute extraction
+key_506	Ϊ�˷����û��������˵����ṩ��������ҳ�ɼ������õ�url�����޸ĺ�ʹ��	To facilitate users, the URL in the drop-down menu is provided with the existing webpage collector, which can be modified and used.
+key_461	���ݱ�	Data sheet
+key_771	�Ƿ񼤻�	Is it activated
+key_310	����򿪵��ļ�	Recently opened files
+key_494	������	Connector
+key_469	����ֵ	Generated value
+key_432	��Ҫ���������ʱѡList������ѡOne���ο�����ҳ�ɼ�����	When you want to export multiple results, select List, otherwise choose One, refer to webpage collector.
+key_35	�������ݿ�	Connection database
+key_131	����	operation
+key_562	���鲢������	Packet parallel number
+key_577	����	Beijing
+key_243	�������������ϴ�ת�����ܻ�ռ�ýϸߵ��ڴ�͵��³��������ȷ��������?	The volume of data in this collection is large. Conversion may occupy higher memory and cause the program to crash. Do you want to continue?
+key_680	������й���	Emptying all the tools
+GetIPLocation	��ȡIP������	Get the coordinates of the IP
+key_412	�����ѡ����õ������������	The name of the subtask that is entered or selected for the call
+key_773	�Զ�ˢ��	auto refresh
+key_68	������������	Self increasing primary key name
+key_276	����	debugging
+key_161	Ŀ������	Target content
+key_612	����	French
+key_798	�����߳�	Working thread
+key_366	��	Seek inverse
+key_670	HTML��ȡ����ʧ�ܣ�url:{0}�� �쳣Ϊ{1}	HTML has failed to extract data, url:{0}, and an exception of {1}
+Time2StrTF	ʱ��ת�ַ���	Time string
+key_163	·��	Route
+key_538	ÿҳ����	Transactions per page
+key_247	����������	Add a new connection
+key_796	ItemTemplate=	itemtemplate =
+ReadFileGe	��ȡ�ļ�����	Read file data
+key_559	��ÿ�����߳��������	The name of each child thread
+AddNew_desc	Ϊ���ݼ�AddNewTF��ֵΪĳ�̶�ֵ	For the data set AddNewTF, the value is a fixed value
+MergeTF	�ϲ�����	Merge multi column
+MergeTF_format	����'http:\\{0}:{1}��{2}...'�����е����Ϊ0��֮���1��2�ֱ����������ĵ�0�͵�1��ֵ	It is like'http:\\{0}: {1}, {2}... ""The ordinal number of the input column is 0, followed by 1 and 2 represent zeroth and first values of other items, respectively.
+MergeTF_desc	���������ϳ�ͬһ�У�����'http:\\{0}:{1}��{2}...'�����е����Ϊ0��֮���1��2�ֱ����������ĵ�0�͵�1��ֵ������	The multiple columns are combined into the same column, such as'http:\\{0}: {1}, {2}... 'the sequence number of the input column is 0, then the 1, and 2 represents zeroth and first values of the other items, which are commonly used.
+ResponseTF_desc	ʹ����ҳ�ɼ�����ȡ��ҳ���ݣ��õ���Ӧ�ֶε�ֵ����ӵ���Ӧ��������	Using web collectors to get web page data, get the value of the response field and add it to the corresponding attribute.
+key_105	����	adviser
+RegexSplitTF_desc	ʹ��������ʽ�ָ��ַ���	Using regular expressions to split strings
+key_225	ɾ������	Delete connection
+DebugManager_desc	���������Ϣ	Output debug information
+FileExistFT	·���Ƿ����	Does the path exist
+key_159	�����	Start caching
+key_211	1.����ѡ��	1. basic options
+key_784	����	input
+key_288	��ʼ����	Start the task
+XPathTF2	����ö��	Class enumeration
+key_47	�ܹ�	In total
+key_795	��ǰ���ص��������ݣ����ڴ˽��й���	All data currently loaded can be managed here.
+DictTF_desc	��������ת��Ϊ�����ݣ��������Ϊkey	The column data is converted to row data, and the column drawn is key.
+DbGE	�����ݿ�����	From database generation
+key_568	����	Enable
+key_224	��������	configure connections
+key_259	ǿ��ˢ������ʧ��	Forced refresh connection failure
+key_236	�������κ�����	No data exists
+IDataBaseConnector	���ݿ��������ӿ�	Database connector interface
+FileConnectorXML_desc	���������XML�ļ�	Output and input XML files
+StrExtractTF_desc	��ȡ�ַ����У����״���β���м���ı�����	Extract the text content from the first string to the tail string in the string.
+key_679	ɾ���ڵ�	Delete node
+key_233	ɾ����	Delete table
+key_544	�����ȡ�ָ��ĵ�0��Ԫ�أ�������0����ȡ������һ��Ԫ�أ�������-1 \n��������ƥ���ţ��м��Կո�ָ������С�Ҳ��Ҫ��֮һ��Ӧ\n	If you want to get the zeroth elements after the division, fill in 0, get the first element of the countdown, then fill in -1 \n to enter multiple matching numbers, split the middle in space, and [output column] need to correspond to one of the \n
+key_118	����IP	Proxy IP
+key_182	��ǰ��������	Current proxy index
+key_174	����ģʽ����ʧ��	Super schema parsing failure
+key_271	����	donation
+key_546	����ָ���ÿո�ָ���з���\\t���Ʊ����\\t	Multiple separators are separated by spaces, line breaks with \\t, tabs using \\t.
+RegexFT	����ɸѡ��	Regular filter
+key_692	���빤��ģ�飬����:	Insert the work module, name:
+ICustomView	��ʵ�������滻����Ľӿ�	The interface of self-service replacement can be realized
+key_513	����Ҫ���õ�����Python�⣬���ָ�����·����һ��һ��	If you need to refer to the third party Python library, you can specify the path of the library, one line, one line.
+key_239	�½����ݼ�	New dataset
+key_669	HTML��ȡ����ʧ�ܣ�url:{0}	HTML has failed to extract data, url:{0}
+key_664	����ӽڵ�XPath��ȷ��	Check the XPath correctness of the child node
+key_747	��ȡ����	Acquisition strategy
+key_302	���	Add to
+key_657	�����������	A good hand panel
+key_22	����	Table name
+key_72	����ʧ��	Insert failure
+key_307	������Ŀ	Load project
+key_193	ץȡĿ��	Capture the target
+FreeDocument	�����ĵ�	Free document
+FileConnectorExcel_desc	�����׼EXCEL�ļ���Ч�ʽϵ�	Output standard EXCEL file, low efficiency
+SplitTF_desc	ͨ���ַ��ָ��ַ���	Character segmentation string
+WriteFileTextTF_desc	д���ļ��е��ı��������ڲ���ģʽ��ͬʱд���ļ����ܻᵼ�����⣬��˾���ʹ�ô���ģʽ	Writing text in a file, because writing files in parallel mode may cause problems, try to use serial mode as much as possible.
+key_413	���÷�Χ	Call range
+NumberTF_desc	��ȡ��ǰ���г��ֵ���ֵ	Extract the number that appears in the current column
+key_503	д�����������м�ʹ�ÿո�ָ��ϲ������У������Ϊ��	Write multiple column names, use spaces in the middle to segment them, and merge the input columns.
+DateRangeGE_desc	����ĳ��Χ�ڵ����ں�ʱ��	Generate a range of dates and times
+key_639	�Զ���̽	Automatic sniffing
+key_502	������	Other items
+key_698	����ģ������	Debug module properties
+key_565	�Ƿ�ÿ�����̲߳��뵽��������У��Ӷ���ʾ����	Whether each child thread is inserted into the task queue to display progress
+key_165	����1	Sample 1
+key_702	ȷ����ִ��?	Determine startup execution?
+key_409	2.����ѡ��	2. call options
+key_173	�˳�	Sign out
+key_331	��ǰ�����ļ���·�������ڣ������¹���	The current path of the project file does not exist, generating new projects.
+key_416	Դ����:Ŀ�������� ���ӳ���м��ÿո�ָ����A:B C:D�� ��ʾ�������е�A��B�����л���C��D�����ƴ��ݵ���������	Source property: the target attribute is divided into multiple maps with space, such as A:B C:D, representing the A in the main task, and the B attribute column will be passed to the subtask with the name of C, D
+key_766	��������	New attributes
+key_729	���������	Saved tasks
+key_433	�����	Output column
+key_621	����0	Property 0
+key_114	HTTP����URL:{0}������:{1}	HTTP error, URL:{0}, type: {1}
+RepeatTF_desc	�Ե�ǰ�н����ظ�������	Repeating the generation of the current line
+key_722	������Ϊ������	Skip because of the input
+key_587	Դ����	Source city
+MongoDBConnector_desc	�ṩMongoDB���������ݿ����	A database service that provides MongoDB interaction
+key_311	�Ƿ�ȷ����������?	Do you determine the saving task?
+key_651	����{0}	Attribute {0}
+key_693	���˵���ͷ	Back to the beginning
+key_319	�Ѿ��ɹ����	Have been added successfully
+key_549	�״�	First string
+key_257	ȷ�������ݱ�	Determine the pair of data tables
+key_249	���������ӷ���ɹ���	The data connection service is successful!
+key_121	��ʱʱ��	timeout
+key_267	ʹ���ĵ�	Using documents
+key_127	��ֹ��	Prohibition
+NlpTF_desc	ͨ�������ƻ�ȡ����Ȼ���Դ����ܣ������ִʣ����Ա�ע��������ȡ��	Natural Language Processing's functions are acquired through language cloud, including word segmentation, part of speech tagging, topic extraction, etc.
+key_760	Դ����ͼ	Source view
+key_787	����2�����������������ж�Ӧ����������������������˵����ο�����ֱ�ӱ༭�ı���	Step 2: set the main task attribute column to the attribute name of the sub task. The drop-down menu only refers to it, and can edit the text box directly.
+key_533	����	Reverse order
+RenameTF_desc	�����������޸ģ�����	Modifying the names of the columns is often used
+key_684	���Ե��ò�	Debug this step
+key_611	����	Korean
+key_199	1.������Ϣ	1. basic information
+key_454	����	Number
+key_637	��ȡ��ǩ	Extract label
+key_793	ItemTemplate=	itemtemplate =
+key_145	����������ļ��д����Ѿ��ؽ�	The plug-in configuration file has been erroneous and has been rebuilt
+key_788	����������	Primary task attributes
+key_84	�½�	Newly build
+key_763	������ȡ	Attribute extraction
+key_426	��ѡ�󣬱����������ӵ������������	After the check, the task will be added to the task manager.
+key_106	����	generate
+key_386	����ѡ��ѡ��ʹ��ö��ʽ�������豣֤�ڱ�ģ��֮��û�����������������빴ѡ��ѡ��	Use this enumeration iteration to ensure that there is no other operation after this module, otherwise check this option.
+key_24	1.���ӹ���	1. connection management
+MongoDBConnector	MongoDB	MongoDB
+key_619	Ӧ�������˺�	Application center account
+WriteFileTextTF	д���ļ��ı�	Write the file text
+key_144	�����ļ��Ѿ��ɹ�����Ϊ	The layout file has been successfully saved to
+key_150	������ʱж�ز��������ɳ��������ȷ��������	Uninstalling the plug-in at runtime can cause the program to crash.
+ReReplaceTF_desc	ͨ��������ʽ�滻��ֵ	Replacing numeric values with regular expressions
+key_286	ִ������ű�	Executing task scripts
+key_640	��������	Save the request
+RepeatFT	ɾ���ظ���	Delete duplicate items
+key_7	������	Column characteristics
+key_273	����	Blog
+key_141	����	layout
+key_102	ִ��ʧ�ܣ�������Ϣ  {0}	Failure to execute, error message {0}
+key_682	����	Move up
+key_238	�½��򿽱�	New or copy
+key_654	�ڸ���ҳ���Ҳ����ؼ��� {0}�������Ƕ�̬���󣬿������á�{1}�������������ҳ�淭�������ùؼ��ֵ�λ��	The keyword {0} is not found in the web page, it may be dynamic request, {1} can be enabled, and the browser page can be turned to the location containing the keyword.
+key_490	��ѯ������	Query multiple data
+key_122	�������	Request coding
+key_644	��������	Parameter configuration
+key_280	��������б�	Emptying task list
+key_762	��������	Task name
+key_491	���ø���ʱ�����ѯ��������������ͬʱ��ͬһ�б���Ϊ����	When this item is enabled, it queries multiple qualified items and saves the same column as an array.
+key_543	�ո�ָ�	Space segmentation
+key_672	��վ��ʾ:	Website prompts:
+key_786	Height=	Height=
+MergeRepeatTF_desc	���ظ��������У����кϲ�����	For repeated data rows, merge operations
+RangeFT	��ֵ��Χ������	Numerical range filter
+key_659	��ҳ�ṹ������	Web page structure calculation
+key_281	ȷ����������㷨ģ��ô��	Do you want to clear all the algorithm modules?
+key_129	����������	Parse error number
+key_112	�ֵ����л�ʧ��	Dictionary serialization failure
+key_170	��һ��	The previous
+key_168	����	copy
+key_97	ִ�гɹ�	Implementation success
+key_92	�����ļ�	Open a new file
+TableEX	д�����ݱ�	Write a data table
+key_113	HTTP��������:	HTTP error, type:
+TableEX_desc	�����ݱ�������������ݹ������У�֮��ɷ�����������������뵽����һ�нԿɣ�����	The data is saved to the data manager of the software, and then it can be easily processed.
+key_551	������β��	Include the first and the end string
+key_721	������	Error number
+key_631	��������	Configuration properties
+TrimTF_desc	����ַ���ǰ����м�Ŀհ׷�	Clear the blank character before and after the string and in the middle
+key_803	ɳĮ֮ӥ	Desert Eagle
+key_87	����d:\\test\\mydb.sqlite	For example, d:\\test\\mydb.sqlite
+debug_desc	��ҳ��չʾ������ģ���ִ�д���������������������һ�����ε����������������룬���к�ɫ��ѡģ�飬����ʾ��ģ�����ÿ���������	This page shows the number of executions of all modules, the flow of outflow data, the general upstream outflow is equal to the downstream inflow, and if there is a red box selection module, it suggests that the module configuration may be problematic.
+key_658	��������	Attribute configuration
+key_566	��ģ��Ҫ������е�����	The name of the column to be processed by this module
+key_55	����	attribute
+key_229	û���ڱ��еķ��ֿ��õ�����	Data that is not available in the table
+key_316	��ǰ������û�а����κ����������������ҳ�У���Ҫ�����������뵽��ǰ������	There are no tasks in the current project. Please insert the tasks you want to save in the task management page to the current project.
+FileConnectorTable	�ı����뵼����	Text import and export
+RegexTF_desc	ͨ��������ʽ��ȡ����	Extracting content through regular expressions
+key_223	ϵͳ״̬��ͼ	System state view
+key_589	�˶�����	Motion scheme
+key_10	���⻯���ݼ�	Virtualized dataset
+key_668	�ɹ��������	Successfully add properties
+key_266	����Hawk�Ŀ�Դ��Ŀ��ַ	Access to the open source project address of Hawk
+key_401	����ʱ���ʽ	Generation time format
+MySQLConnector_desc	IDataBaseConnector	IDataBaseConnector
+FileExistFT_desc	�ж�ĳһ���ļ��Ƿ��Ѿ���ָ��·����	Determine whether a file is already on the specified path.
+key_282	����ȫ������	Save the whole task
+MySQLConnector	MySQL���ݿ�	MySQL database
+key_683	����	Move down
+key_308	������Ŀ	Save the project
+SaveFileEX	���泬�����ļ�	Save hyperlink file
+key_190	�߼�ѡ��	Advanced options
+UrlTF	URL�ַ�ת��	URL character escape
+key_574	�հ׷��滻Ϊ�ո�	The blank character is replaced by a space
+DeleteTF_desc	���ý����˰ɣ�����	You don't have to explain it.
+SQLiteDatabase	SQLite���ݿ�	SQLite database
+key_569	���Ҫ��������е�����	The name of the column that you want to output
+key_95	�����ڶ���	No definition
+key_588	Ŀ�����	Target city
+key_534	��ѡ�����ѡ��Ӻ����ĵ�n��	When this item is checked, select the next number of item n
+DataManager_desc	�鿴�ͷ�������	View and analyze data
+key_126	��������	Total number of requests
+key_661	����̽����	Start sniffer service
+RangeGE	����������	Generated interval number
+NearbySearch	��������	Search the neighborhood
+key_322	���ع����ļ���λ��Ϊ{0}	Load the project file, the location is {0}
+key_802	d:LayoutOverrides=	d:LayoutOverrides=
+key_545	�ָ��ַ�	Split character
+key_555	ת����ʽ	Conversion format
+key_305	�ļ�	file
+key_26	����	Password
+key_284	���ر�����	Load this task
+key_596	�����뾶	Search radius
+key_306	�½���Ŀ	New project
+key_635	��������	Request details
+DataManager	���ݹ���	data management
+key_663	ʹ�õ�ǰ���ڵ�{0} {1}�����ĵ����Ҳ����κθ��ڵ�	Using the current parent node {0} {1}, no parent node can be found in the document.
+key_15	����	Primary key
+IConfigFile	�����ļ��ӿ�	Configuration file interface
+key_710	����߳���	Maximum number of threads
+key_504	��ʽ	format
+key_782	��ʼ	Start
+key_480	����ظ�����	Maximum repetitions
+key_434	��ԭ�����д��ݵ���������У�������ÿո�ָ�	The column is passed from the original task to the sub task, and multiple columns are separated by spaces.
+key_597	���н��	All results
+key_50	�ļ����ǺϷ���Json�ļ�	The file is not a legitimate Json file
+key_216	��ǰ����	Current connection
+UrlTF_desc	�Գ�����url����URL�������ַ��������Խ���Զ�̷���	Generate URL encoded strings for hyperlink URL for remote access.
+IXPlugin	XFrmWork��������ӿ�	XFrmWork basic plug-in interface
+AutoIndexTF_desc	�Զ�����һ������ʼ������ʼ����������	Automatically generates a self added new column from the start index.
+key_406	ѡ����Ҫ���ӵ����ݿ����	Select the database services that you want to connect to
+key_425	��ӵ�����	Add to the task
+key_530	Ҫ��ȡ����Ӧͷ�����ƣ����֮���ÿո�ָ�����ִ�Сд	The name of the response head to be obtained is divided by spaces, and is not case sensitive.
+key_800	��лʹ�� HAWK	Thank you for using HAWK
+key_458	������������1��3��5��7��9������Ϊ2	If you want to generate arrays 1, 3, 5, 7, 9, the interval is 2.
+key_5	��Դ	source
+key_780	�ɽ�ͼ�������Ҳ������е��Ϸ��հ��б���Ϊ�������ģ��	You can drag the icon into the upper blank list of the right data column to add a module to the column.
+key_184	·���������󣬷��ؿսڵ�:	The path parsing is incorrect and returns to the empty node:
+key_496	������	Table primary key
+SmartETLTool_desc	������ɸѡת���ͺϲ��������������ݿ���	Filter, transform and merge data, and export them to the database.
+key_564	��ʾ��������	Display independent tasks
+LayoutManager	���ֹ�����	Layout manager
+key_291	��ͣ	suspend
+key_33	���ݿ�ɾ��ʧ��:	Database deletion failed:
+key_30	����״̬	Connection state
+key_563	��������Ӻϲ�Ϊһ������ִ�У������С�������������Ч����Ч��	Combining multiple seeds into one task execution can effectively improve the efficiency of small seed tasks.
+ReadFileGe_desc	���ļ��ж�ȡ�������ݣ�Ϊ�˱�֤��ȷ��ȡ���������ļ���ʽ�Ͷ�ȡ����	Data content is read from file. To ensure correct reading, file format and read attribute need to be configured.
+key_203	��û����д��Ӧ����:{0}	You did not fill out the corresponding parameters: {0}
+key_725	˫���ɼ��������Ҽ��ɶ��������ɾ���Ȳ���	Double click to load tasks, right button can delete tasks, and other operations.
+TextGE_desc	ÿ��һ�����ݣ�����	A piece of data per line, commonly used
+key_703	û���ڱ������з����κ�ִ������	No executor was found in this task.
+key_86	���ݿ�·��	Database path
+key_37	�����¿�	Create a new library
+key_567	����	introduce
+key_109	δ֪	Unknown
+key_408	3.����	3. quantity
+key_328	�ű�·��	Script path
+key_160	��������	Attribute name
+click_refresh	�����ˢ�¡���ˢ�½��	Click ""Refresh"" to refresh the result
+click_commit	�����ȷ�Ͻ���������ύ	Click ""confirmation result"" to submit
+key_142	ˢ��	Refresh
+TableGE	�����ݱ�����	From data table generation
+key_358	·�����ļ���������D:\\file.txt�� ��ͨ��'[]'���������У� \n ��ΪĿ¼����������ʽ��/�������ļ�������ͨ��url�Զ�����	The path or file name, such as D:\\file.txt, can be referenced by '[]' 'to the other columns, and if \n is a directory name, it must be explicitly / end, and the file name will be automatically parsed through URL
+key_235	�����ʽ	Browsing mode
+key_206	���ĵ�	Single document

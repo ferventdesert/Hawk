@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -28,10 +29,8 @@ namespace Hawk.Core.Utils.Plugins
                 return item;
             var desc = AttributeHelper.GetAttributes<DescriptionAttribute>(type).FirstOrDefault();
             var des = desc == null ? type.ToString() : desc.Description;
-            return new XFrmWorkAttribute
+            return new XFrmWorkAttribute(type.Name, des) 
             {
-                Name = type.Name,
-                Description = des,
                 MyType = type
             };
         }
@@ -66,7 +65,7 @@ namespace Hawk.Core.Utils.Plugins
             {
                 return GetPluginCollection(interfaceName).IndexOf(rc);
             }
-            throw new Exception($"当前类型{className}在接口{interfaceName}插件集合中没有发现");
+            throw new Exception(GlobalHelper.Get("key_152")+GlobalHelper.Get("key_153") +className+GlobalHelper.Get("key_154")+interfaceName);
         }
 
         public static object GetObjectInstance(Type pluginType)
@@ -292,6 +291,15 @@ namespace Hawk.Core.Utils.Plugins
             var plugins = GetPluginCollection(interfaceName);
             XFrmWorkAttribute first = null;
             first = name != null
+                ? plugins.Where(d => d.MyType.Name == name).OrderByDescending(d => d.GroupName).FirstOrDefault()
+                : plugins.OrderByDescending(d => d.GroupName).FirstOrDefault();
+            return first;
+        }
+        public static XFrmWorkAttribute GetFirstPluginAttr(Type interfaceName, string name = null)
+        {
+            var plugins = GetPluginCollection(interfaceName);
+            XFrmWorkAttribute first = null;
+            first = name != null
                 ? plugins.Where(d => d.Name == name).OrderByDescending(d => d.GroupName).FirstOrDefault()
                 : plugins.OrderByDescending(d => d.GroupName).FirstOrDefault();
             return first;
@@ -379,7 +387,7 @@ namespace Hawk.Core.Utils.Plugins
             {
                 return;
             }
-            XLogSys.Print.Debug("不需要获取插件接口名称，已经进行缓存,随时可进行修改");
+            XLogSys.Print.Debug(GlobalHelper.Get("key_155"));
             var dllFile = new List<string>();
 
             foreach (var folder in OrderedSearchFolder)
@@ -394,7 +402,7 @@ namespace Hawk.Core.Utils.Plugins
 
             foreach (var file in dllFile)
             {
-                XLogSys.Print.Debug("开始加载程序集" + file);
+                XLogSys.Print.Debug(GlobalHelper.Get("key_156") + file);
                 Type[] types;
                 Assembly assembly;
                 try

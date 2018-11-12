@@ -14,34 +14,37 @@ namespace Hawk.ETL.Managements
         private bool _isPause;
         private bool _isStart;
         private AutoResetEvent autoReset;
-        private int currentIndex;
+        private int _outputIndex;
         private string name;
         private int _percent;
         private bool _isSelected;
+        private bool _isCanceled;
+
+        public int Total { get; set; }
 
         protected TaskBase()
         {
             autoReset = new AutoResetEvent(false);
-            ProcessManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
+            ProcessManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
 
            
         }
 
-        [Browsable(false)]
-        public bool IsSelected
+        
+        public string PubliserName
         {
-            get { return _isSelected; }
-            set
+            get
             {
-                if (_isSelected != value)
-                {
-                    _isSelected = value;
-                    OnPropertyChanged("IsSelected");
-                    
-                }
-                
+                if (Publisher == null)
+                    return null;
+                var pub = Publisher as IDataProcess;
+                if (pub == null)
+                    return null;
+                return pub.Name;
             }
         }
+
+
 
         /// <summary>
         /// 任务发布者
@@ -60,34 +63,40 @@ namespace Hawk.ETL.Managements
             autoReset.WaitOne();
             return true;
         }
-        [LocalizedCategory("遍历状态")]
-        [LocalizedDisplayName("当前位置")]
-        public int CurrentIndex
+        [LocalizedCategory("key_335")]
+        [LocalizedDisplayName("key_336")]
+        public int OutputIndex
         {
-            get { return currentIndex; }
+            get { return _outputIndex; }
             set
             {
-                if (currentIndex == value) return;
-                currentIndex = value;
-                OnPropertyChanged("CurrentIndex");
+                if (_outputIndex == value) return;
+                _outputIndex = value;
+                OnPropertyChanged("OutputIndex");
             }
         }
-        [LocalizedDisplayName("分组")]
+        [LocalizedDisplayName("key_337")]
         [PropertyOrder(4)]
         public string Group { get; set; }
 
         /// <summary>
         ///     该计算任务的介绍
         /// </summary>
-        [LocalizedDisplayName("任务描述")]
+        [LocalizedDisplayName("key_314")]
         [PropertyOrder(3)]
         [PropertyEditor("CodeEditor")]
         public string Description { get; set; }
 
-     
-    
+        [LocalizedDisplayName("key_567")]
+        [PropertyOrder(100)]
+        [PropertyEditor("MarkdownEditor")]
+        public string Document
+        {
+            get { return Description; }
+        }
 
-        [LocalizedDisplayName("名称")]
+
+        [LocalizedDisplayName("key_18")]
         [PropertyOrder(1)]
         public string Name
         {
@@ -139,10 +148,21 @@ namespace Hawk.ETL.Managements
         [Browsable(false)]
         public IProcessManager ProcessManager { get; set; }
 
-       
 
         [Browsable(false)]
-        public bool IsCanceled { get; private set; }
+        public bool IsCanceled
+        {
+            get { return _isCanceled; }
+            private set
+            {
+                if (_isCanceled != value)
+                {
+                    _isCanceled = value;
+                    OnPropertyChanged("IsCanceled");
+                }
+            }
+        }
+
         public bool CheckCancel()
         {
             return CancellationToken.IsCancellationRequested;

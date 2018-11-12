@@ -1,12 +1,14 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Interfaces;
 
 namespace Hawk.ETL.Plugins.Filters
 {
-    [XFrmWork("数值范围过滤器","从数值列中筛选出从最小值到最大值范围的文档")]
+    [XFrmWork("RangeFT","RangeFT_desc")]
     public class RangeFT : NullFT
     {
         #region Constants and Fields
@@ -17,17 +19,17 @@ namespace Hawk.ETL.Plugins.Filters
 
         #region Properties
 
-        [LocalizedDisplayName("最大值")]
+        [LocalizedDisplayName("key_374")]
         public string Max { get; set; }
 
-        [LocalizedDisplayName("最小值")]
+        [LocalizedDisplayName("key_375")]
         public string Min { get; set; }
 
         #endregion
 
         #region Public Methods
 
-     
+        public override string KeyConfig => String.Format("min {0},max {1}", Min,Max);
 
         public override bool FilteDataBase(IFreeDocument data)
         {

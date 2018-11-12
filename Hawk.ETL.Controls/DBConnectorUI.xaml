@@ -6,12 +6,63 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:mvvm="clr-namespace:Hawk.Core.Utils.MVVM;assembly=Hawk.Core"
              xmlns:connectors="clr-namespace:Hawk.Core.Connectors;assembly=Hawk.Core"
-             xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" x:Name="userControl" x:Class="Hawk.ETL.Controls.DBConnectorUI"
+             xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" xmlns:System="clr-namespace:System;assembly=mscorlib" x:Name="userControl" x:Class="Hawk.ETL.Controls.DBConnectorUI"
              mc:Ignorable="d" d:DesignHeight="473"
              d:DesignWidth="766">
     
 
-<Grid>
-     
-    </Grid>
+	<UserControl.Resources>
+        <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
+       
+        <System:Double x:Key="LargeFont">14.667</System:Double>
+		<DataTemplate x:Key="DataTemplate1">
+			<StackPanel Orientation="Horizontal" mvvm:ListItemDoubleClick.Property="Commands[2].ChildActions[2]" >
+				<Rectangle Width="15" Height="15" Margin="0,0,10,0" >
+					<Rectangle.Fill>
+						<VisualBrush Stretch="Fill"
+							Visual="{Binding ConverterParameter=paper, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+					</Rectangle.Fill>
+				</Rectangle>
+				<TextBlock TextWrapping="Wrap" Text="{Binding Name}"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,1" FontSize="{DynamicResource LargeFont}" />
+				<TextBlock TextWrapping="Wrap" Text="{Binding Count}" VerticalAlignment="Center" HorizontalAlignment="Stretch"  Margin="20,0,0,0" FontSize="{DynamicResource LargeFont}"/>
+			</StackPanel>
+		</DataTemplate>
+        <Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource {x:Type ContextMenu}}">
+            <Setter Property="ItemContainerStyle"  Value="{StaticResource {x:Type MenuItem}}"/>
+            <Setter Property="DataContext"  Value="{Binding Data, Source={StaticResource BindingProxy}}"/>
+        </Style>
+    </UserControl.Resources>
+    
+
+ 
+	<Grid d:LayoutOverrides="Width">
+
+
+
+		<ListBox x:Name="dataListBox" x:FieldModifier="public" ToolTip="{DynamicResource key_795}" SelectionMode="Extended"  MouseMove="ListBox_MouseMove_1" DataContext="{Binding PluginDictionary[DataManager]}" ItemsSource="{Binding DataCollections}" ItemTemplate="{DynamicResource DataTemplate1}" Margin="0,0,0,20" >
+			<ListBox.Resources>
+                <ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding PluginDictionary[DataManager].Commands[2].ChildActions}"  />
+				<Style TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource {x:Type ListBoxItem}}">
+					<Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />
+				</Style>
+			</ListBox.Resources>
+			<ListBox.ContextMenu>
+                <ContextMenu   ItemsSource="{Binding PluginDictionary[DataManager].Commands[3].ChildActions}"/>
+			</ListBox.ContextMenu>
+		</ListBox>
+		<StackPanel  DataContext="{Binding PluginDictionary[DataManager].Commands[2].ChildActions}" HorizontalAlignment="Right" Margin="0,0,4,0" Orientation="Horizontal" VerticalAlignment="Bottom">
+			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [3]}" />
+			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [0]}" />
+			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [1]}" />
+			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [4]}" />
+			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [5]}" />
+		</StackPanel>
+		<Rectangle Opacity="0.2" Width="80" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="80" Margin="0,0,0,20" >
+			<Rectangle.Fill>
+				<VisualBrush Stretch="Fill"
+					Visual="{Binding ConverterParameter=column_three, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+			</Rectangle.Fill>
+		</Rectangle>
+	</Grid>
+  
 </UserControl>

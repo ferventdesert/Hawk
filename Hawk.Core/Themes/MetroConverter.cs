@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Hawk.Core.Utils.Plugins;
+using Hawk.Core.Utils.Logs;
 
 namespace Hawk.Core.Themes
 {
@@ -26,9 +27,9 @@ namespace Hawk.Core.Themes
                }
                catch (Exception ex)
                {
-                   
-                    
-               }
+
+                XLogSys.Print.Warn(ex);
+            }
               foundIcons = dict
                 .OfType<DictionaryEntry>()
                 .Where(de => de.Value is Canvas).ToDictionary(d=> d.Key,d=>d.Value);

@@ -8,7 +8,7 @@ namespace Hawk.ETL.Controls
     /// <summary>
     /// DebugManagerUI.xaml 的交互逻辑
     /// </summary>
-    [XFrmWork("调试信息窗口",  "输出调试信息", "")]
+   [XFrmWork("DebugManager")]
     public partial class DebugManagerUI : UserControl, ICustomView
     {
         #region Constructors and Destructors

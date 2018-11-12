@@ -16,7 +16,7 @@ namespace XFrmWork.DataBase
 
 
 
-    [XFrmWork("MySQL数据库", "IDataBaseConnector", "提供MySQL交互的数据库服务", "")]
+    [XFrmWork("MySQLConnector", "MySQLConnector_desc", "提供MySQL交互的数据库服务", "")]
     public class MySQLConnector : DBConnectorBase
     {
 
@@ -106,7 +106,7 @@ namespace XFrmWork.DataBase
             }
             catch (Exception ex)
             {
-
+                XLogSys.Print.Warn(ex);
                 IsUseable = false;
 
             }

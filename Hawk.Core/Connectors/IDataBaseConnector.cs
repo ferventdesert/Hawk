@@ -64,7 +64,7 @@ namespace Hawk.Core.Connectors
     /// <summary>
     ///     基本数据库管理接口
     /// </summary>
-    [Interface("数据库连接器接口")]
+    [Interface("IDataBaseConnector")]
     public interface IDataBaseConnector
     {
         /// <summary>

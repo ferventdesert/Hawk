@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +33,16 @@ namespace Hawk.Core.Utils
     public static class ExtendEnumerable
     {
         private static readonly Random random = new Random(unchecked((int) DateTime.Now.Ticks));
-
+        
+        public static List<T> IListConvert<T>(this IList list) where T:class
+        {
+            var newlist = new List<T>();
+            foreach(var item in list)
+            {
+                newlist.Add(item as T);
+            }
+            return newlist;
+        }
         public static string GenerateRandomString(int length)
         {
             var checkCode = string.Empty;
@@ -110,20 +120,21 @@ namespace Hawk.Core.Utils
             return document;
         }
 
-        public static string Query(this IFreeDocument document, string query)
+        public static Dictionary<string, string> ToDict(string parameter, char split=' ')
         {
-            if (query == null)
-                return null;
-            query = query.Trim();
-            if (query.StartsWith("[") && query.EndsWith("]"))
+            var dict=new Dictionary<string,string>();
+            if (string.IsNullOrEmpty(parameter))
+                return dict; 
+            foreach (var item in parameter.Split('\n'))
             {
-                var len = query.Length;
-                query = query.Substring(1, len - 2);
-                var result = document?[query];
-                return result?.ToString();
+                var items = item.Split(split);
+                if(items.Length!=2)
+                    continue;
+                dict[items[0]] = dict[items[1]];
             }
-            return query;
-        }
+            return dict;
+        } 
+       
 
         public static IEnumerable<IFreeDocument> Cross(this IEnumerable<IFreeDocument> datas,
             IEnumerable<IFreeDocument> target)
@@ -246,6 +257,9 @@ namespace Hawk.Core.Utils
 
         public static void AddRange<T>(this IList<T> source, IEnumerable<T> items)
         {
+            if(source==null||items==null)
+                return;
+           
             foreach (var d in items)
             {
                 source.Add(d);
@@ -563,7 +577,7 @@ namespace Hawk.Core.Utils
                 }
                 item = (T) Convert.ChangeType(dat[key], typeof (T));
             }
-            catch (Exception ex)
+            catch (Exception )
             {
             }
 
@@ -832,7 +846,9 @@ namespace Hawk.Core.Utils
         public static void RemoveElementsNoReturn<TSource>(
             this IList<TSource> source, Func<TSource, bool> filter, Action<TSource> method = null)
         {
-            var indexs = (from d in source where filter(d) select source.IndexOf(d)).ToList();
+            var indexs = (from d in source where filter(d) select source.IndexOf(d))?.ToList();
+            if(!indexs.Any())
+                return;
             indexs.Sort();
             for (var i = indexs.Count - 1; i >= 0; i--)
             {
@@ -926,7 +942,7 @@ namespace Hawk.Core.Utils
                 }
                 catch (Exception ex)
                 {
-                    XLogSys.Print.Error("字典序列化失败" + ex);
+                    XLogSys.Print.Error(GlobalHelper.Get("key_112") + ex);
                     return null;
                 }
 
@@ -979,7 +995,7 @@ namespace Hawk.Core.Utils
                 }
                 catch (Exception ex)
                 {
-                    XLogSys.Print.Error("字典序列化失败" + ex);
+                    XLogSys.Print.Error(GlobalHelper.Get("key_112") + ex);
                     return default(T);
                 }
 

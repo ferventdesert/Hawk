@@ -35,7 +35,7 @@ namespace Hawk.ETL.Interfaces
 
         IList<IFreeDocument> Get(string name);
 
-        DataCollection GetCollection(string name);
+        DataCollection GetSelectedCollection(string name);
         DataCollection ReadFile(string fileName, string fomrat = null);
         DataCollection ReadCollection(IDataBaseConnector connector, string tableName, bool isVirtual);
         #endregion

@@ -14,7 +14,7 @@ namespace Hawk.ETL.Controls
     /// <summary>
     ///     FeelLuckPanel.xaml 的交互逻辑
     /// </summary>
-    [XFrmWork("手气不错面板")]
+    [XFrmWork("key_657")]
     public partial class FeelLuckPanel : UserControl, ICustomView
     {
         public FeelLuckPanel()

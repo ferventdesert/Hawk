@@ -3,7 +3,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Core.Connectors
 {
-    [Interface( "配置文件接口")]
+    [Interface( "IConfigFile")]
     public interface IConfigFile : INotifyPropertyChanged, IDictionarySerializable
     {
         #region Properties
@@ -19,12 +19,12 @@ namespace Hawk.Core.Connectors
         T Get<T>(string item);
 
         bool Set<T>(string key, T value);
-        
+
         #endregion
 
         #region Public Methods
 
-
+        int Increase(string name);
         void RebuildConfig();
         void ReadConfig(string path = null);
 

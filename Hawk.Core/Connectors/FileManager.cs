@@ -14,7 +14,7 @@ using EncodingType = Hawk.Core.Utils.EncodingType;
 
 namespace Hawk.Core.Connectors
 {
-    [XFrmWork("文件管理",  "提供与历史文件交互的数据库服务", "")]
+    [XFrmWork("FileManager",  "FileManager_desc", "")]
     public class FileManager : VirtualConnectorBase, IEnumerableProvider<IDictionarySerializable>
     {
         [Browsable(false)]
@@ -63,8 +63,8 @@ namespace Hawk.Core.Connectors
             return GetEntities2(tableName, mount, skip);
         }
 
-        [LocalizedCategory("参数设置")]
-        [LocalizedDisplayName("编码方式")]
+        [LocalizedCategory("key_21")]
+        [LocalizedDisplayName("key_60")]
         public EncodingType EncodingType { get; set; }
 
         private IEnumerable<FreeDocument> GetEntities2(

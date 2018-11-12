@@ -6,24 +6,13 @@ using Hawk.ETL.Plugins.Transformers;
 
 namespace Hawk.ETL.Plugins.Filters
 {
-    [XFrmWork("空对象过滤器", "检查文本是否为空白符或null，常用")]
+    [XFrmWork("NullFT", "NullFT_desc")]
     public class NullFT : ToolBase, IColumnDataFilter
     {
-        #region Constructors and Destructors
-
-        public NullFT()
-        {
-            Enabled = true;
-            Column = "";
-            IsDebugFilter = true;
-        }
-
-        #endregion
-
-        [LocalizedCategory("1.基本选项")]
+        [LocalizedCategory("key_211")]
         [PropertyOrder(6)]
-        [LocalizedDisplayName("求反")]
-        [LocalizedDescription("将结果取反后返回")]
+        [LocalizedDisplayName("key_366")]
+        [LocalizedDescription("key_367")]
         public bool Revert { get; set; }
 
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
@@ -34,6 +23,19 @@ namespace Hawk.ETL.Plugins.Filters
             return dict;
         }
 
+        #region Constructors and Destructors
+
+        public NullFT()
+        {
+            Enabled = true;
+            Column = "";
+            IsDebugFilter = true;
+        }
+
+      
+
+        #endregion
+
         #region IColumnDataFilter
 
         public bool FilteData(IFreeDocument data)
@@ -42,16 +44,23 @@ namespace Hawk.ETL.Plugins.Filters
             {
                 return true;
             }
+          
             var r = true;
             r = data != null && FilteDataBase(data);
-
-            return Revert ? !r : r;
+            var value = Revert ? !r : r;
+            return value;
         }
 
-        [LocalizedCategory("1.基本选项")]
+        [LocalizedCategory("key_211")]
         [PropertyOrder(8)]
-        [LocalizedDisplayName("调试时启用")]
+        [LocalizedDisplayName("key_368")]
         public bool IsDebugFilter { get; set; }
+
+
+        [LocalizedCategory("key_211")]
+        [PropertyOrder(8)]
+        [LocalizedDisplayName("filter_mode")]
+        public FilterWorkMode FilterWorkMode { get; set; }
 
         public virtual bool FilteDataBase(IFreeDocument data)
 

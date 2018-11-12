@@ -4,25 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mvvm="clr-namespace:Hawk.Core.Utils.MVVM;assembly=Hawk.Core"
-         
+          xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
              xmlns:Hawk_Core_Connectors="clr-namespace:Hawk.Core.Connectors;assembly=Hawk.Core"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
 
              x:Class="Hawk.ETL.Controls.SystemStateViewer"
              mc:Ignorable="d" 
-             d:DesignHeight="678.667" d:DesignWidth="262">
+             d:DesignHeight="258.667" d:DesignWidth="258">
 	<UserControl.Resources>
       
         <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
-        <Style    TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
-        	  <Setter Property="Header" Value="{Binding Text}" />
-            <Setter Property="Command" Value="{Binding}" />
-
-            <Setter Property="ItemsSource" Value="{Binding ChildActions}" />
-            <Setter Property="CommandParameter" Value="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}, Mode=FindAncestor}}"/>
-        </Style>
+     
 		<Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource {x:Type ContextMenu}}">
-			<Setter Property="ItemContainerStyle"  Value="{StaticResource {x:Type MenuItem}}"/>
+			  <Setter Property="ItemContainerStyle"  Value="{StaticResource {x:Type MenuItem}}"/>
 				<Setter Property="DataContext"  Value="{Binding Data, Source={StaticResource BindingProxy}}"/>
 		</Style>
 		   	<system:Double x:Key="LargeFont">14.667</system:Double>
@@ -55,25 +49,7 @@
                 </Setter>
             </Style>
 			
-			 <DataTemplate x:Key="ListViewTemplate">
-            <Grid Height="Auto" Width="Auto">
-			 		<Border BorderBrush="Black" BorderThickness="1"/>
-			 		<ProgressBar Height="Auto"   Value="{Binding Percent}" VerticalAlignment="Stretch" Opacity="0.2"/>
-			 		<TextBlock  Text="{Binding Name}"  d:LayoutOverrides="Width, Height"  />
-			 	</Grid>
-        </DataTemplate>
-		<DataTemplate x:Key="DataTemplate1">
-            <StackPanel Orientation="Horizontal" mvvm:ListItemDoubleClick.Property="Commands[2].ChildActions[2]" >
-            		<Rectangle Width="15" Height="15" Margin="0,0,10,0" >
-					<Rectangle.Fill>
-						<VisualBrush Stretch="Fill"
-							Visual="{Binding ConverterParameter=paper, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
-					</Rectangle.Fill>
-				</Rectangle>
-				<TextBlock TextWrapping="Wrap" Text="{Binding Name}"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,1" FontSize="{DynamicResource LargeFont}" />
-				<TextBlock TextWrapping="Wrap" Text="{Binding Count}" VerticalAlignment="Center" HorizontalAlignment="Stretch"  Margin="20,0,0,0" FontSize="{DynamicResource LargeFont}"/>
-			</StackPanel>
-		</DataTemplate>
+		
 		
 		<Style x:Key="ButtonFocusVisual">
 			<Setter Property="Control.Template">
@@ -112,151 +88,53 @@
 				</StackPanel>
 		</DataTemplate>
 	</UserControl.Resources>
-    <Grid>
-    	<Grid.RowDefinitions>
-    		<RowDefinition Height="0.4*"/>
-    		<RowDefinition Height="0.4*"/>
-    		<RowDefinition Height="0.3*"/>
-    	</Grid.RowDefinitions>
-		<Grid Margin="8,0" MinHeight="200" d:LayoutOverrides="Height">
-			<ListBox x:Name="processListBox" ToolTip="当前加载的所有算法模块" SelectedItem="{Binding SelectedProcess}" Margin="0,30,0,20" MouseMove="processListBox_MouseMove" DataContext="{Binding PluginDictionary[模块管理]}" ItemsSource="{Binding ProcessCollectionView}"  ItemTemplate="{DynamicResource DataTemplate2}"  >
-				<ListBox.Resources>
-					<ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding PluginDictionary[模块管理].BindingCommands.ChildActions[4].ChildActions}"/>
+	<Grid Margin="0" MinHeight="100" d:LayoutOverrides="Height">
+		<Rectangle Width="80" Height="80" Margin="0,0,0,20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Opacity="0.2" >
+			<Rectangle.Fill>
+				<VisualBrush Stretch="Fill"
+					Visual="{Binding ConverterParameter=layout, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
+			</Rectangle.Fill>
+		</Rectangle>
+		<ListBox x:FieldModifier="public" x:Name="processListBox" ToolTip="{DynamicResource key_790}"  Margin="0,0,0,20" MouseMove="processListBox_MouseMove" DataContext="{Binding PluginDictionary[DataProcessManager]}" ItemsSource="{Binding ProcessCollectionView}"  ItemTemplate="{DynamicResource DataTemplate2}" SelectionMode="Extended"  >
+			<ListBox.Resources>
+				<ContextMenu x:Key="resourceContextMenu"  DataContext="{Binding SysProcessManager.BindingCommands.ChildActions[4].ChildActions}">
+					   <MenuItem Header="{Binding Text}" Command="{Binding}" DataContext="{Binding [0]}"  />
+            		   <MenuItem Header="{Binding Text}" Command="{Binding}" DataContext="{Binding [2]}"  />
+					   <MenuItem Header="{Binding Text}" Command="{Binding}" DataContext="{Binding [3]}"  />
+            		   <MenuItem Header="{Binding Text}" Command="{Binding}" DataContext="{Binding [4]}"  />
+					   <MenuItem Header="{Binding Text}" Command="{Binding}" DataContext="{Binding [6]}"  />
+					   <MenuItem Header="{Binding Text}" Command="{Binding}" DataContext="{Binding [7]}"  />
+				</ContextMenu>
 
-					<Style TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource {x:Type ListBoxItem}}">
-						<Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />
-						<Setter Property="AllowDrop" Value="True" />
-					</Style>
-				</ListBox.Resources>
-				<ListBox.GroupStyle>
-					<GroupStyle ContainerStyle="{StaticResource GroupContainerStyle}">
-						<GroupStyle.HeaderTemplate>
-							<DataTemplate>
-								<Border BorderBrush="Black" BorderThickness="1" Height="30">
-									<TextBlock Text="{Binding Name}"  FontWeight="Bold" />
-								</Border>
-							</DataTemplate>
-						</GroupStyle.HeaderTemplate>
-					</GroupStyle>
-				</ListBox.GroupStyle>
-				<ListBox.ContextMenu>
-					<ContextMenu   ItemsSource="{Binding PluginDictionary[模块管理].BindingCommands.ChildActions[0].ChildActions}"/>
+				<Style TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource {x:Type ListBoxItem}}">
+					<Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />
+					<Setter Property="AllowDrop" Value="True" />
+				</Style>
+			</ListBox.Resources>
+			<ListBox.GroupStyle>
+				<GroupStyle ContainerStyle="{StaticResource GroupContainerStyle}">
+					<GroupStyle.HeaderTemplate>
+						<DataTemplate>
+							<Border BorderBrush="Black" BorderThickness="1" Height="30">
+								<TextBlock Text="{Binding Name}"  FontWeight="Bold" />
+							</Border>
+						</DataTemplate>
+					</GroupStyle.HeaderTemplate>
+				</GroupStyle>
+			</ListBox.GroupStyle>
+			<ListBox.ContextMenu>
+				<ContextMenu   ItemsSource="{Binding PluginDictionary[DataProcessManager].BindingCommands.ChildActions[0].ChildActions}"/>
 
-				</ListBox.ContextMenu>         
-			</ListBox>
-			<StackPanel   DataContext="{Binding PluginDictionary[模块管理].BindingCommands.ChildActions[4].ChildActions}"  HorizontalAlignment="Right" Margin="0,0,12,0" Orientation="Horizontal" VerticalAlignment="Bottom">
+			</ListBox.ContextMenu>         
+		</ListBox>
+		<StackPanel   DataContext="{Binding PluginDictionary[DataProcessManager].BindingCommands.ChildActions[4].ChildActions}"  HorizontalAlignment="Right" Margin="0,0,12,0" Orientation="Horizontal" VerticalAlignment="Bottom">
 			  
-				<Button Style="{DynamicResource miniButton}" DataContext="{Binding [5]}" />
-				<Button Style="{DynamicResource miniButton}" DataContext="{Binding [0]}" />
-                <Button Style="{DynamicResource miniButton}" DataContext="{Binding [1]}" />
-                <Button Style="{DynamicResource miniButton}" DataContext="{Binding [2]}" />
-				<Button Style="{DynamicResource miniButton}" DataContext="{Binding [4]}" />  
+			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [5]}" />
+			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [0]}" />
+			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [1]}" />  
+			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [2]}" />  
+			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [4]}" />  
 							
-			</StackPanel>
-			<StackPanel HorizontalAlignment="Left" Margin="0,0,-3,0" Orientation="Horizontal" VerticalAlignment="Top" d:LayoutOverrides="GridBox">
-				<Rectangle Width="20" Height="20" Margin="0,0,10,0" >
-					<Rectangle.Fill>
-						<VisualBrush Stretch="Fill"
-							Visual="{Binding ConverterParameter=layout, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
-					</Rectangle.Fill>
-				</Rectangle>
-		 
-				<TextBlock TextWrapping="Wrap" FontSize="21.333" VerticalAlignment="Top"  Grid.Row="2" HorizontalAlignment="Left" Grid.Column="1"><Run Language="zh-cn" Text="已加载任务" /></TextBlock>
-			</StackPanel>
-		</Grid>
-		<Grid Margin="8,0" MinHeight="200" Grid.Row="1" d:LayoutOverrides="Height">
-			  <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="0" Orientation="Horizontal" Grid.Row="2" VerticalAlignment="Top">
-        	  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
-                                <Rectangle.Fill>
-                                    <VisualBrush Stretch="Fill"
-                                                 Visual="{Binding ConverterParameter=column_three, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
-                                </Rectangle.Fill>
-                            </Rectangle>
-		 
-        <TextBlock TextWrapping="Wrap" FontSize="21.333" VerticalAlignment="Top"  Grid.Row="2" HorizontalAlignment="Left" Grid.Column="1"><Run Language="zh-cn" Text="数据表" /></TextBlock>
-       </StackPanel>
-	   
-	   
-		 
-			<ListBox x:Name="dataListBox" ToolTip="当前加载的所有数据，可在此进行管理" SelectedItem="{Binding SelectedDataCollection}" MouseMove="ListBox_MouseMove_1" DataContext="{Binding PluginDictionary[数据管理]}" ItemsSource="{Binding DataCollections}" ItemTemplate="{DynamicResource DataTemplate1}" Margin="0,30,0,20">
-				<ListBox.Resources>
-					<ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding PluginDictionary[数据管理].Commands[2].ChildActions}"/>
-					<Style TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource {x:Type ListBoxItem}}">
-						<Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />
-					</Style>
-				</ListBox.Resources>
-				<ListBox.ContextMenu>
-					<ContextMenu   ItemsSource="{Binding PluginDictionary[数据管理].Commands[3].ChildActions}"/>
-
-				</ListBox.ContextMenu>
-			</ListBox>
-			<StackPanel  DataContext="{Binding PluginDictionary[数据管理].Commands[2].ChildActions}" HorizontalAlignment="Right" Margin="0,0,4,0" Orientation="Horizontal" VerticalAlignment="Bottom">
-					<Button Style="{DynamicResource miniButton}" DataContext="{Binding [3]}" />
-	
-				<Button Style="{DynamicResource miniButton}" DataContext="{Binding [0]}" />
-				<Button Style="{DynamicResource miniButton}" DataContext="{Binding [1]}" />
-							<Button Style="{DynamicResource miniButton}" DataContext="{Binding [4]}" />
-			 
-			
-				<Button Style="{DynamicResource miniButton}" DataContext="{Binding [5]}" />
-			
-			</StackPanel>
-		</Grid>
-	 
-			<Grid Margin="8,0"  DataContext="{Binding PluginDictionary[模块管理]}" MinHeight="150" Grid.Row="2" >
-				 
-				<ListView   ItemsSource="{Binding CurrentProcessTasks}" Margin="0,30,0,20">
-    	
-					<ListView.View>
-						<GridView>
-							<GridViewColumn Header="选择">
-								<GridViewColumn.CellTemplate>
-									<DataTemplate>
-										<CheckBox IsChecked="{Binding IsSelected}"/>	 
-									</DataTemplate>
-								</GridViewColumn.CellTemplate>
-								<!--脑残的xaml-->        
-							</GridViewColumn>
-								<GridViewColumn Header="暂停">
-								<GridViewColumn.CellTemplate>
-									<DataTemplate>
-										<CheckBox IsChecked="{Binding IsPause}"/>	 
-									</DataTemplate>
-								</GridViewColumn.CellTemplate>
-								<!--脑残的xaml-->        
-							</GridViewColumn>
-							
-							<GridViewColumn Header="名称" CellTemplate="{StaticResource ListViewTemplate}"  >
-								
-							</GridViewColumn>
-							<GridViewColumn Header="位置" DisplayMemberBinding="{Binding CurrentIndex}" />
-						 
-						</GridView>
-					</ListView.View> 	           	 
-				</ListView>
-				<StackPanel VerticalAlignment="Bottom"   DataContext="{Binding BindingCommands.ChildActions[2].ChildActions}"  HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="1" Margin="20,0,0,0">
-					<Button Style="{DynamicResource miniButton}" DataContext="{Binding [0]}" />
-					<Button Style="{DynamicResource miniButton}" DataContext="{Binding [1]}" />
-					<Button Style="{DynamicResource miniButton}" DataContext="{Binding [2]}" />
-					<Button Style="{DynamicResource miniButton}" DataContext="{Binding [3]}" />  	
-					<Button Style="{DynamicResource miniButton}" DataContext="{Binding [4]}" />  	
-				</StackPanel>
-				<StackPanel HorizontalAlignment="Left" Margin="0" Orientation="Horizontal" VerticalAlignment="Top" d:LayoutOverrides="GridBox">
-					<Rectangle Width="20" Height="20" Margin="0,0,10,0" >
-						<Rectangle.Fill>
-							<VisualBrush Stretch="Fill"
-								Visual="{Binding ConverterParameter=hourglass, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
-						</Rectangle.Fill>
-					</Rectangle>
-		 
-					<TextBlock TextWrapping="Wrap" FontSize="21.333" VerticalAlignment="Top"  Grid.Row="2" HorizontalAlignment="Left" Grid.Column="1"><Run Language="zh-cn" Text="工作线程" /></TextBlock>
-				</StackPanel>
-    	 
-            
-			</Grid>
-			<GridSplitter Height="1" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" d:LayoutOverrides="VerticalAlignment, GridBox"/>
-			<GridSplitter Height="1" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0" Grid.Row="2"/>
-            
-		
+		</StackPanel>
 	</Grid>
 </UserControl>

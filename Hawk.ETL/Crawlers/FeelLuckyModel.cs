@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Hawk.Core.Utils;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -6,7 +7,6 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using HtmlAgilityPack;
 
@@ -24,7 +24,7 @@ namespace Hawk.ETL.Crawlers
            )
         {
             CrawTargets = crawTargets;
-            SortMethod = scriptWorkMode == ScriptWorkMode.List ? SortMethod.按面积排序 : SortMethod.按列数排序; ;
+            SortMethod = scriptWorkMode == ScriptWorkMode.List ? SortMethod.SortByArea : SortMethod.SortByColumn; ;
             var targets = CrawTargets.OrderByDescending(sortLogic)
                 ;
             this.ScriptWorkMode = scriptWorkMode;
@@ -87,16 +87,16 @@ namespace Hawk.ETL.Crawlers
                     this,
                     new[]
                     {
-                        new Command("新建",
+                        new Command(GlobalHelper.Get("key_84"),
                             d =>
                             {
-                                CrawlItems.Add(new CrawlItem {Name = "属性_" + CrawlItems.Count});
+                                CrawlItems.Add(new CrawlItem {Name = GlobalHelper.Get("propery")+"_" + CrawlItems.Count});
                             }, null, "add"),
-                        new Command("全选",
+                        new Command(GlobalHelper.Get("key_166"),
                             d => CrawlItems.Execute(d2 => d2.IsSelected = true), null, "check"),
-                        new Command("反选",
+                        new Command(GlobalHelper.Get("key_167"),
                             d => CrawlItems.Execute(d2 => d2.IsSelected = !d2.IsSelected), null, "redo"),
-                        new Command("复制",
+                        new Command(GlobalHelper.Get("key_168"),
                             d =>
                             {
                                 var items = CrawlItems.Where(d2 => d2.IsSelected).ToList();
@@ -107,7 +107,7 @@ namespace Hawk.ETL.Crawlers
                                     CrawlItems.Add(newItem);
                                 }
                             }, null, "page_add"),
-                        new Command("删除",
+                        new Command(GlobalHelper.Get("key_169"),
                             d =>
                             {
                                 CrawlItems.RemoveElementsNoReturn(d2 => d2.IsSelected);
@@ -124,19 +124,19 @@ namespace Hawk.ETL.Crawlers
                     this,
                     new[]
                     {
-                        new Command("刷新", obj => { Refresh(); }, icon: "refresh"),
-                        new Command("上一个", obj =>
+                        new Command(GlobalHelper.Get("key_142"), obj => { Refresh(); }, icon: "refresh"),
+                        new Command(GlobalHelper.Get("key_170"), obj =>
                         {
                             if (Position > 0)
                                 Position--;
                         }, obj => Position > 0, "arrow_left"),
-                        new Command("下一个", obj => { Position++; }, obj => Position < Total, "arrow_right"),
-                        new Command("确认结果", obj =>
+                        new Command(GlobalHelper.Get("next"), obj => { Position++; }, obj => Position < Total, "arrow_right"),
+                        new Command(GlobalHelper.Get("key_172"), obj =>
                         {
                             parent.DialogResult = true;
                             parent.Close();
                         }, icon: "check"),
-                        new Command("退出", obj =>
+                        new Command(GlobalHelper.Get("key_173"), obj =>
                         {
                             parent.DialogResult = false;
                             parent.Close();
@@ -149,15 +149,15 @@ namespace Hawk.ETL.Crawlers
         private double sortLogic(XPathAnalyzer.CrawTarget d)
         {
             var item = d.Score;
-            if (sortMethod == SortMethod.按行数排序)
+            if (sortMethod == SortMethod.SortByRow)
             {
                 return d.NodeCount;
             }
-            if (sortMethod == SortMethod.按列数排序)
+            if (sortMethod == SortMethod.SortByColumn)
             {
                 return d.ColumnCount;
             }
-            if (sortMethod == SortMethod.按面积排序)
+            if (sortMethod == SortMethod.SortByArea)
             {
                 return d.ColumnCount*d.NodeCount;
             }

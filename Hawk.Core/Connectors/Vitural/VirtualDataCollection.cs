@@ -25,7 +25,7 @@ namespace Hawk.Core.Connectors.Vitural
 
         public override string Source => VirtualData.ItemsProvider.Name;
 
-        [LocalizedDisplayName("虚拟化数据集")]
+        [LocalizedDisplayName("key_10")]
         public override bool IsVirtual => true;
 
 

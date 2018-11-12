@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -9,7 +10,6 @@ using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using System.Windows.Input;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
@@ -122,25 +122,25 @@ namespace Hawk.ETL.Plugins.Generators
                     new[]
                     {
 
-                        new Command("刷新", async obj => await Mother.MainFrm.RunBusyWork(Refresh), icon: "refresh"),
-                        new Command("确认结果", obj =>
+                        new Command(GlobalHelper.Get("key_142"), async obj => await Mother.MainFrm.RunBusyWork(Refresh), icon: "refresh"),
+                        new Command(GlobalHelper.Get("key_172"), obj =>
                         {
                             parent.DialogResult = true;
 
                             parent.Close();
                         }, icon: "check"),
-                        new Command("退出", obj =>
+                        new Command(GlobalHelper.Get("key_173"), obj =>
                         {
                             parent.DialogResult = false;
                             parent.Close();
                         }, icon: "close"),
-                        new Command("添加", obj =>
+                        new Command(GlobalHelper.Get("key_302"), obj =>
                         {
                             var pair = new MappingPair(motherkeys,subkeys);
                             MappingPairs.Add(pair);
                             
                         }, icon: "add"),
-                        new Command("删除", obj => { MappingPairs.Remove(obj as MappingPair); }, obj => obj is MappingPair,
+                        new Command(GlobalHelper.Get("key_169"), obj => { MappingPairs.Remove(obj as MappingPair); }, obj => obj is MappingPair,
                             "add")
                     }
                     );
@@ -206,16 +206,35 @@ namespace Hawk.ETL.Plugins.Generators
             public TextEditSelector Source { get; set; }
             public TextEditSelector Target { get; set; }
         }
+        
     }
+
+    public class ETLSpliter
+    {
+        //public List<IColumnProcess> GetSplit(IList<IColumnProcess> etls, IColumnProcess splitPos,bool isBefore,out List<IColumnProcess>subETL)
+        //{
+        //    subETL = null;
+        //    var pos = etls.IndexOf(splitPos);
+        //    if(pos==-1)
+        //        throw new  ArgumentException("module not exists");
+        //    if (isBefore)
+        //    {
+        //        subETL = etls.Take(pos).ToList();
+                 
+        //    }
+           
+            
+        //} 
+    }
+
 
     public class ETLBase : ToolBase, INotifyPropertyChanged
     {
         protected readonly IProcessManager processManager;
-        private string _etlSelector;
 
         public ETLBase()
         {
-            processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
+            processManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
             ETLSelector = new TextEditSelector {GetItems = this.GetAllETLNames()};
             ETLRange = "";
             Column = "column";
@@ -223,9 +242,11 @@ namespace Hawk.ETL.Plugins.Generators
             MappingSet = "";
         }
 
-        [LocalizedCategory("2.调用选项")]
+        [Browsable(false)]
+        public override string KeyConfig =>ETLSelector?.SelectItem;
+        [LocalizedCategory("key_409")]
         [PropertyOrder(1)]
-        [LocalizedDisplayName("图形化配置")]
+        [LocalizedDisplayName("key_410")]
         public ReadOnlyCollection<ICommand> Commands
         {
             get
@@ -234,31 +255,29 @@ namespace Hawk.ETL.Plugins.Generators
                     this,
                     new[]
                     {
-                        new Command("配置", obj => SetConfig(), obj => !string.IsNullOrEmpty(ETLSelector.SelectItem),
+                        new Command(GlobalHelper.Get("key_240"), obj => SetConfig(), obj => !string.IsNullOrEmpty(ETLSelector.SelectItem),
                             "refresh")
                     }
                     );
             }
         }
 
-        [LocalizedCategory("2.调用选项")]
-        [LocalizedDisplayName("子任务-选择")]
+        [LocalizedCategory("key_409")]
+        [LocalizedDisplayName("key_411")]
         [PropertyOrder(0)]
-        [LocalizedDescription("输入或选择调用的子任务的名称")]
+        [LocalizedDescription("key_412")]
         public TextEditSelector ETLSelector { get; set; }
 
-        [LocalizedCategory("2.调用选项")]
-        [LocalizedDisplayName("调用范围")]
+        [LocalizedCategory("key_409")]
+        [LocalizedDisplayName("key_413")]
         [PropertyOrder(2)]
-        [LocalizedDescription(
-            "设定调用子任务的模块范围，例如2:30表示被调用任务的第2个到第30个子模块将会启用，其他模块忽略，2:-1表示从第2个到倒数第二个启用，符合python的slice语法，为空则默认全部调用"
-            )]
+        [LocalizedDescription("key_414")]
         public string ETLRange { get; set; }
 
-        [LocalizedCategory("2.调用选项")]
-        [LocalizedDisplayName("属性映射")]
+        [LocalizedCategory("key_409")]
+        [LocalizedDisplayName("key_415")]
         [PropertyOrder(3)]
-        [LocalizedDescription("源属性:目标属性列 多个映射中间用空格分割，例如A:B C:D, 表示主任务中的A,B属性列会以C,D的名称传递到子任务中")]
+        [LocalizedDescription("key_416")]
         public string MappingSet { get; set; }
      
 
@@ -268,10 +287,10 @@ namespace Hawk.ETL.Plugins.Generators
         {
             Init(null);
             var subTaskModel = new SubTaskModel(Father, etl, this,this.Father.Documents.GetKeys().ToArray(),etl.Documents.GetKeys().ToArray());
-            var view = PluginProvider.GetObjectInstance<ICustomView>("子任务面板") as UserControl;
+            var view = PluginProvider.GetObjectInstance<ICustomView>(GlobalHelper.Get("key_417")) as UserControl;
             view.DataContext = subTaskModel;
 
-            var name = "设置子任务调用属性";
+            var name = GlobalHelper.Get("key_418");
             var window = new Window {Title = name};
             window.Content = view;
             subTaskModel.SetView(view, window);
@@ -291,7 +310,7 @@ namespace Hawk.ETL.Plugins.Generators
         {
             if (string.IsNullOrEmpty(ETLSelector.SelectItem))
                 return false;
-            etl = this.GetModule<SmartETLTool>(ETLSelector.SelectItem);
+            etl = this.GetTask<SmartETLTool>(ETLSelector.SelectItem);
             etl?.InitProcess(true);
             return etl != null;
         }
@@ -340,7 +359,7 @@ namespace Hawk.ETL.Plugins.Generators
                 }
                 catch (Exception ex)
                 {
-                    XLogSys.Print.Error("子任务范围表达式错误，请检查:" + ex.Message);
+                    XLogSys.Print.Error(GlobalHelper.Get("key_419") + ex.Message);
                 }
             }
             return true;
@@ -360,10 +379,10 @@ namespace Hawk.ETL.Plugins.Generators
         }
     }
 
-    [XFrmWork("子任务-生成", "调用其他任务作为生成器，使用类似于“生成区间数”")]
+    [XFrmWork("EtlGE", "EtlGE_desc")]
     public class EtlGE : ETLBase, IColumnGenerator
     {
-        [LocalizedDisplayName("生成模式")]
+        [LocalizedDisplayName("gene_mode")]
         public MergeType MergeType { get; set; }
 
         public IEnumerable<IFreeDocument> Generate(IFreeDocument document = null)
@@ -394,13 +413,13 @@ namespace Hawk.ETL.Plugins.Generators
     }
 
 
-    [XFrmWork("子任务-执行", "调用其他任务，作为执行器块")]
+    [XFrmWork("EtlEX", "EtlEX_desc")]
     public class EtlEX : ETLBase, IDataExecutor
     {
         private EnumerableFunc func;
 
-        [LocalizedDisplayName("添加到任务")]
-        [LocalizedDescription("勾选后，本子任务会添加到任务管理器中")]
+        [LocalizedDisplayName("key_425")]
+        [LocalizedDescription("key_426")]
         public bool AddTask { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
@@ -428,8 +447,8 @@ namespace Hawk.ETL.Plugins.Generators
                     var name = doc[Column];
                     ControlExtended.UIInvoke(() =>
                     {
-                        var task = TemporaryTask.AddTempTask("ETL" + name, func(new List<IFreeDocument> {doc}),
-                            d => d.ToList());
+                        var task = TemporaryTask<FreeDocument>.AddTempTaskSimple("ETL" + name, func(new List<IFreeDocument> {doc}),
+                            d => d.LastOrDefault());
                         processManager.CurrentProcessTasks.Add(task);
                     });
                 }
@@ -443,7 +462,7 @@ namespace Hawk.ETL.Plugins.Generators
         }
     }
 
-    [XFrmWork("矩阵转置", "将列数据转换为行数据，拖入的列为key","transform_rotate_right")]
+    [XFrmWork("DictTF", "DictTF_desc","transform_rotate_right")]
     public class DictTF : TransformerBase
     {
         public override bool Init(IEnumerable<IFreeDocument> docus)
@@ -452,7 +471,7 @@ namespace Hawk.ETL.Plugins.Generators
             return base.Init(docus);
         }
 
-        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas, AnalyzeItem analyzer)
         {
             if (string.IsNullOrEmpty(Column))
             {
@@ -462,7 +481,6 @@ namespace Hawk.ETL.Plugins.Generators
                 }
                 yield break;
             }
-            var hasyield = false;
             var results = datas.ToList();
             var columns = results.Select(d => d[Column].ToString()).ToList();
             var all_keys = results.GetKeys(count: 100).ToList();
@@ -489,7 +507,7 @@ namespace Hawk.ETL.Plugins.Generators
         }
     }
 
-    [XFrmWork("子任务-转换", "调用所选的子任务作为转换器，有关子任务，请参考相关文档")]
+    [XFrmWork("EtlTF", "EtlTF_desc")]
     public class EtlTF : ETLBase, IColumnDataTransformer
     {
         private EnumerableFunc func;
@@ -501,16 +519,16 @@ namespace Hawk.ETL.Plugins.Generators
             IsCycle = false;
         }
 
-        [LocalizedDisplayName("递归到下列")]
+        [LocalizedDisplayName("key_431")]
         public bool IsCycle { get; set; }
 
-        [LocalizedDisplayName("工作模式")]
-        [LocalizedDescription("当要输出多个结果时选List，否则选One,参考“网页采集器”")]
+        [LocalizedDisplayName("key_188")]
+        [LocalizedDescription("etl_script_mode")]
         public ScriptWorkMode IsManyData { get; set; }
 
-        [LocalizedCategory("1.基本选项")]
-        [LocalizedDisplayName("输出列")]
-        [LocalizedDescription("从原任务中传递到子任务的列，多个列用空格分割")]
+        [LocalizedCategory("key_211")]
+        [LocalizedDisplayName("key_433")]
+        [LocalizedDescription("key_434")]
         public string NewColumn { get; set; }
 
         [Browsable(false)]
@@ -536,7 +554,7 @@ namespace Hawk.ETL.Plugins.Generators
         [Browsable(false)]
         public bool IsMultiYield => IsManyData == ScriptWorkMode.List;
 
-        public IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        public IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas, AnalyzeItem analyzer)
         {
             foreach (var data in datas)
             {

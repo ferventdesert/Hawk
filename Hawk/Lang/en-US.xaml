@@ -1,0 +1,3348 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="key">
+        eng
+
+    </system:String>
+    <system:String x:Key="Closing">
+        Is it sure to leave Hawk?
+
+    </system:String>
+    <system:String x:Key="ConfigNull">
+        Do not contain any information about configuration files, please check.
+
+    </system:String>
+    <system:String x:Key="ControlLoad">
+        Control loading
+
+    </system:String>
+    <system:String x:Key="Closing2">
+        [{0}] the task may not have been saved yet. \\n [is]: save the task and exit, \\n [no]: do not save exit, \\n [Cancel]: cancel exit
+
+    </system:String>
+    <system:String x:Key="DataMgmt">
+        data management
+
+    </system:String>
+    <system:String x:Key="SysState">
+        System state view
+
+    </system:String>
+    <system:String x:Key="DebugView">
+        Debug information window
+
+    </system:String>
+    <system:String x:Key="Error">
+        fail
+
+    </system:String>
+    <system:String x:Key="IconNotExist">
+        The system icon file does not exist
+
+    </system:String>
+    <system:String x:Key="LongTask">
+        Handling long - time operations
+
+    </system:String>
+    <system:String x:Key="ModuleMgmt">
+        Module management
+
+    </system:String>
+    <system:String x:Key="Source">
+        source
+
+    </system:String>
+    <system:String x:Key="Start">
+        Normal start
+
+    </system:String>
+    <system:String x:Key="Tips">
+        Hint information
+
+    </system:String>
+    <system:String x:Key="XPathExpError">
+        Maybe the XPath expression is wrong
+
+    </system:String>
+    <system:String x:Key="RemaindSave">
+        [{0}] the task may not have been saved yet. \n [is]: save the task and exit, \n [no]: do not save exit, \n [Cancel]: cancel exit
+
+    </system:String>
+    <system:String x:Key="key_560">
+        The number of Zi Xiancheng
+
+    </system:String>
+    <system:String x:Key="key_750">
+        You can select a complete XPath, or only retrieve it based on ID or class name. For example, select class and fill in [name], which is to find all class=name nodes.
+
+    </system:String>
+    <system:String x:Key="key_718">
+        Normal initialization
+
+    </system:String>
+    <system:String x:Key="key_258">
+        Do you execute the delete operation?
+
+    </system:String>
+    <system:String x:Key="key_641">
+        3. dynamic requests for sniffing
+
+    </system:String>
+    <system:String x:Key="key_370">
+        skip
+
+    </system:String>
+    <system:String x:Key="key_580">
+        Label
+
+    </system:String>
+    <system:String x:Key="key_505">
+        Reference format
+
+    </system:String>
+    <system:String x:Key="key_69">
+        Enable self - added primary key write
+
+    </system:String>
+    <system:String x:Key="key_89"> sql=
+
+    </system:String>
+    <system:String x:Key="key_0">
+        Do you save the content of the current project? You have only one chance to do this.
+
+    </system:String>
+    <system:String x:Key="key_67">
+        advanced setting
+
+    </system:String>
+    <system:String x:Key="key_85">
+        Please select the SQLite database file
+
+    </system:String>
+    <system:String x:Key="key_739">
+        Database configuration
+
+    </system:String>
+    <system:String x:Key="key_765">
+        xpath result
+
+    </system:String>
+    <system:String x:Key="SplitPageTF">
+        paging
+
+    </system:String>
+    <system:String x:Key="key_497">
+        Import column
+
+    </system:String>
+    <system:String x:Key="NullFT_desc">
+        Check whether the text is blank or null, commonly used
+
+    </system:String>
+    <system:String x:Key="DataProcessManagerUI">
+        DataProcessManager
+
+    </system:String>
+    <system:String x:Key="key_374">
+        Maximum value
+
+    </system:String>
+    <system:String x:Key="key_120">
+        Request method
+
+    </system:String>
+    <system:String x:Key="key_614">
+        Arabic
+
+    </system:String>
+    <system:String x:Key="key_292">
+        recovery
+
+    </system:String>
+    <system:String x:Key="StrExtractTF">
+        Character first and end extraction
+
+    </system:String>
+    <system:String x:Key="smartetl_name">
+        Data cleaning
+
+    </system:String>
+    <system:String x:Key="JoinDBTF_desc">
+        It is used to complete the join operation and matching with the database.
+
+    </system:String>
+    <system:String x:Key="key_350">
+        Write {2} entries to database {0} and table name {1} successfully.
+
+    </system:String>
+    <system:String x:Key="key_405">
+        1. connector
+
+    </system:String>
+    <system:String x:Key="key_23">
+        server address
+
+    </system:String>
+    <system:String x:Key="key_677">
+        command
+
+    </system:String>
+    <system:String x:Key="key_164">
+        available
+
+    </system:String>
+    <system:String x:Key="IFileConnector:IDictionarySerializable">
+        File import and export basic interface
+
+    </system:String>
+    <system:String x:Key="key_91">
+        Enumeration virtualization
+
+    </system:String>
+    <system:String x:Key="key_277">
+        Level setting
+
+    </system:String>
+    <system:String x:Key="key_777">
+        Thread number
+
+    </system:String>
+    <system:String x:Key="key_395">
+        Delay Time
+
+    </system:String>
+    <system:String x:Key="DataGridViewer_desc">
+        IDataViewer
+
+    </system:String>
+    <system:String x:Key="key_107">
+        filter
+
+    </system:String>
+    <system:String x:Key="FolderGE">
+        Get a folder file
+
+    </system:String>
+    <system:String x:Key="SmartCrawlerUI">
+        SmartCrawler
+
+    </system:String>
+    <system:String x:Key="key_523">
+        Repetitions
+
+    </system:String>
+    <system:String x:Key="key_180">
+        Maximum number of access times
+
+    </system:String>
+    <system:String x:Key="key_711">
+        The numerical range of the maximum number of threads is 0-30
+
+    </system:String>
+    <system:String x:Key="key_167">
+        Reverse selection
+
+    </system:String>
+    <system:String x:Key="MergeRepeatTF">
+        Duplication combination
+
+    </system:String>
+    <system:String x:Key="key_779">
+        You can drag the icon into the upper blank list of the right data column to add the ETL module to the column.
+
+    </system:String>
+    <system:String x:Key="key_96">
+        Undefined resources
+
+    </system:String>
+    <system:String x:Key="key_210">
+        Quantitative range selection
+
+    </system:String>
+    <system:String x:Key="FileConnectorXML">
+        XML import and export
+
+    </system:String>
+    <system:String x:Key="key_3">
+        The system is busy
+
+    </system:String>
+    <system:String x:Key="key_411">
+        Subtask - Selection
+
+    </system:String>
+    <system:String x:Key="key_649">
+        It has been successfully copied to the clipboard
+
+    </system:String>
+    <system:String x:Key="key_101">
+        Have been successful
+
+    </system:String>
+    <system:String x:Key="key_443">
+        Read configuration
+
+    </system:String>
+    <system:String x:Key="key_629">
+        Refresh the web page
+
+    </system:String>
+    <system:String x:Key="key_143">
+        view
+
+    </system:String>
+    <system:String x:Key="key_128">
+        Maximum prohibition
+
+    </system:String>
+    <system:String x:Key="GetIPLocation_desc">
+        Obtain the latitude and longitude coordinates of a IP address
+
+    </system:String>
+    <system:String x:Key="key_34">
+        implement
+
+    </system:String>
+    <system:String x:Key="key_197">
+        Xpath exp
+
+    </system:String>
+    <system:String x:Key="ICustomClass">
+        A weak type of simplified interface for the collection of plug-ins that do not specify strong functions.
+
+    </system:String>
+    <system:String x:Key="key_301">
+        Modular
+
+    </system:String>
+    <system:String x:Key="key_752">
+        Number of subnodes
+
+    </system:String>
+    <system:String x:Key="key_700">
+        Have been loaded
+
+    </system:String>
+    <system:String x:Key="key_730">
+        Fast retrieval
+
+    </system:String>
+    <system:String x:Key="NlpTF">
+        natural language processing
+
+    </system:String>
+    <system:String x:Key="key_769">
+        Dynamic request sniffing
+
+    </system:String>
+    <system:String x:Key="EtlGE">
+        Subtask - generation
+
+    </system:String>
+    <system:String x:Key="key_579">
+        Information retrieval through the city
+
+    </system:String>
+    <system:String x:Key="key_74">
+        MongoDB database is not local, unable to start automatic database repair.
+
+    </system:String>
+    <system:String x:Key="EtlEX">
+        Subtask - Execution
+
+    </system:String>
+    <system:String x:Key="FileConnectorTable_desc">
+        Output tabs text file
+
+    </system:String>
+    <system:String x:Key="key_368">
+        Enabled when debugging
+
+    </system:String>
+    <system:String x:Key="key_9">
+        data description
+
+    </system:String>
+    <system:String x:Key="key_108">
+        Transformation
+
+    </system:String>
+    <system:String x:Key="key_749">
+        {attributes:EnumValues {x:Type connectors:SelectorFormat}}
+
+    </system:String>
+    <system:String x:Key="key_791">
+        DataContext =
+
+    </system:String>
+    <system:String x:Key="key_153">
+        Plug-in unit
+
+    </system:String>
+    <system:String x:Key="key_226">
+        Are you sure you want to delete the connection?
+
+    </system:String>
+    <system:String x:Key="key_334">
+        File {0} does not exist
+
+    </system:String>
+    <system:String x:Key="key_625">
+        The number of attributes can not be empty
+
+    </system:String>
+    <system:String x:Key="JoinDBTF">
+        Database matching
+
+    </system:String>
+    <system:String x:Key="key_438">
+        Code
+
+    </system:String>
+    <system:String x:Key="key_269">
+        Feedback problem
+
+    </system:String>
+    <system:String x:Key="key_719">
+        Inflow of data
+
+    </system:String>
+    <system:String x:Key="key_285">
+        Delete task
+
+    </system:String>
+    <system:String x:Key="key_745">
+        Position:
+
+    </system:String>
+    <system:String x:Key="key_82">
+        Browse path
+
+    </system:String>
+    <system:String x:Key="key_304">
+        Working thread view
+
+    </system:String>
+    <system:String x:Key="key_162">
+        selector
+
+    </system:String>
+    <system:String x:Key="key_627">
+        Extracting data test results
+
+    </system:String>
+    <system:String x:Key="key_178">
+        generator
+
+    </system:String>
+    <system:String x:Key="key_156">
+        Start loading a set of programs
+
+    </system:String>
+    <system:String x:Key="key_767">
+        Attribute management
+
+    </system:String>
+    <system:String x:Key="key_146">
+        The plug-in manager has been loaded
+
+    </system:String>
+    <system:String x:Key="key_616">
+        automatic detection
+
+    </system:String>
+    <system:String x:Key="key_279">
+        Function
+
+    </system:String>
+    <system:String x:Key="key_204">
+        No conversion
+
+    </system:String>
+    <system:String x:Key="key_256">
+        The current memory data has been cleared
+
+    </system:String>
+    <system:String x:Key="key_756">
+        Sorting strategy
+
+    </system:String>
+    <system:String x:Key="key_354">
+        The unit is milliseconds, and the square brackets syntax can also be used, such as [a], to read the delay length from the a column.
+
+    </system:String>
+    <system:String x:Key="key_152">
+        The current type is not found in the plug-in collection,
+
+    </system:String>
+    <system:String x:Key="key_148">
+        The plug-in type is repeated, please check the configuration file
+
+    </system:String>
+    <system:String x:Key="DbEX_desc">
+        Perform database operations, including writing, deleting and updating, and dragged columns are the primary keys of the table.
+
+    </system:String>
+    <system:String x:Key="key_132">
+        wipe data
+
+    </system:String>
+    <system:String x:Key="EtlTF_desc">
+        Call the selected subtasks as the converter, refer to the relevant documents for subtasks.
+
+    </system:String>
+    <system:String x:Key="key_83">
+        Load
+
+    </system:String>
+    <system:String x:Key="key_785">
+        output
+
+    </system:String>
+    <system:String x:Key="ReReplaceTF">
+        Regular replacement
+
+    </system:String>
+    <system:String x:Key="DbGE_desc">
+        To read the contents from the database, you need to configure the connection in the data view ahead of time.
+
+    </system:String>
+    <system:String x:Key="key_768">
+        When this value is set, all attributes Path should be the child path of the parent node, rather than the complete XPath path.
+
+    </system:String>
+    <system:String x:Key="key_124">
+        Post parameters
+
+    </system:String>
+    <system:String x:Key="key_465">
+        One line per line
+
+    </system:String>
+    <system:String x:Key="key_252">
+        Exporting data tasks
+
+    </system:String>
+    <system:String x:Key="key_347">
+        If a database does not exist, it will automatically create tables based on columns of the first data.
+
+    </system:String>
+    <system:String x:Key="key_687">
+        Sampling amount
+
+    </system:String>
+    <system:String x:Key="key_345">
+        Select database
+
+    </system:String>
+    <system:String x:Key="key_727"> Grid.RowSpan=
+
+    </system:String>
+    <system:String x:Key="key_228">
+        File open failure
+
+    </system:String>
+    <system:String x:Key="key_740">
+        Fast link
+
+    </system:String>
+    <system:String x:Key="RangeGE_desc">
+        Generating a numerical column within a certain range
+
+    </system:String>
+    <system:String x:Key="key_242">
+        Turn to a non virtual dataset
+
+    </system:String>
+    <system:String x:Key="key_317">
+        Save the current project
+
+    </system:String>
+    <system:String x:Key="key_448">
+        Screening model
+
+    </system:String>
+    <system:String x:Key="key_248">
+        Failure of database connection service
+
+    </system:String>
+    <system:String x:Key="key_482">
+        Post data
+
+    </system:String>
+    <system:String x:Key="key_594">
+        Latitudinal column
+
+    </system:String>
+    <system:String x:Key="key_98">
+        Failure to execute
+
+    </system:String>
+    <system:String x:Key="AddNewTF_desc">
+        Add a new column to a dataset with a value of a fixed value
+
+    </system:String>
+    <system:String x:Key="key_244">
+        Save to the database
+
+    </system:String>
+    <system:String x:Key="TableGE_desc">
+        Generated from data tables in data management, commonly used
+
+    </system:String>
+    <system:String x:Key="BfsGE">
+        Request queue
+
+    </system:String>
+    <system:String x:Key="key_264">
+        Hawk version and check update
+
+    </system:String>
+    <system:String x:Key="IDataViewer">
+        Display data
+
+    </system:String>
+    <system:String x:Key="SaveFileEX_desc">
+        The target column needs to be a hyperlink type, which saves the linked files, such as pictures, videos, etc.
+
+    </system:String>
+    <system:String x:Key="key_431">
+        Recursion to the following
+
+    </system:String>
+    <system:String x:Key="key_481">
+        Error delay time
+
+    </system:String>
+    <system:String x:Key="key_367">
+        Return the result back to return
+
+    </system:String>
+    <system:String x:Key="AutoIndexTF">
+        Self increasing key generation
+
+    </system:String>
+    <system:String x:Key="key_76">
+        Repair failed. Did you install MongoDB database?
+
+    </system:String>
+    <system:String x:Key="key_442">
+        file format
+
+    </system:String>
+    <system:String x:Key="RandomGE">
+        Generating random number
+
+    </system:String>
+    <system:String x:Key="RepeatTF">
+        Repeat the current value
+
+    </system:String>
+    <system:String x:Key="key_712">
+        {0} already has tasks in execution. Please cancel the task in the task manager and refresh it.
+
+    </system:String>
+    <system:String x:Key="key_274">
+        Author Sha Mojun's blog
+
+    </system:String>
+    <system:String x:Key="key_268">
+        There are cases and complete tutorials for using Hawk
+
+    </system:String>
+    <system:String x:Key="key_581">
+        Like a hospital, a gourmet food, etc
+    </system:String>
+    <system:String x:Key="key_418">
+        Setting the subtask call property
+
+    </system:String>
+    <system:String x:Key="key_518">
+        When the equivalent value is less than 0, multiple values can be matched at the same time
+
+    </system:String>
+    <system:String x:Key="key_71">
+        Open the help link
+
+    </system:String>
+    <system:String x:Key="key_104">
+        sort
+
+    </system:String>
+    <system:String x:Key="FileConnectorCSV_desc">
+        Output text type CSV comma delimited file
+
+    </system:String>
+    <system:String x:Key="key_337">
+        Grouping
+
+    </system:String>
+    <system:String x:Key="key_125">
+        redirect automatically
+
+    </system:String>
+    <system:String x:Key="key_573">
+        Clear the middle space
+
+    </system:String>
+    <system:String x:Key="DataProcessManager_desc">
+        Manage and assemble the algorithm modules, but do not provide interface.
+
+    </system:String>
+    <system:String x:Key="key_371">
+        Obtain
+
+    </system:String>
+    <system:String x:Key="key_656">
+        An exception occurs internally when querying XPath: {0}
+
+    </system:String>
+    <system:String x:Key="FolderGE_desc">
+        Get all the files under the folder
+
+    </system:String>
+    <system:String x:Key="RenameTF">
+        Column name modifier
+
+    </system:String>
+    <system:String x:Key="key_196">
+        XPath expression error:
+
+    </system:String>
+    <system:String x:Key="key_177">
+        From text generation
+
+    </system:String>
+    <system:String x:Key="FileConnectorJson">
+        Json import and export
+
+    </system:String>
+    <system:String x:Key="key_166">
+        Total selection
+
+    </system:String>
+    <system:String x:Key="key_652">
+        Continue to search
+
+    </system:String>
+    <system:String x:Key="key_772">
+        Setting the front n rows to get the data table
+
+    </system:String>
+    <system:String x:Key="key_686">
+        3. debug
+
+    </system:String>
+    <system:String x:Key="key_674">
+        In the super mode, the built-in browser does not display the contents. Please check the text on the left side.
+
+    </system:String>
+    <system:String x:Key="key_758">
+        Sample
+
+    </system:String>
+    <system:String x:Key="key_344">
+        Select database operations, such as insert, delete, update, etc.
+
+    </system:String>
+    <system:String x:Key="key_628">
+        The root node of the list is detected: {0}. Does the root node path be set? This operation is recommended by experienced users.
+
+    </system:String>
+    <system:String x:Key="key_20">
+        Table size
+
+    </system:String>
+    <system:String x:Key="key_360">
+        Fill in the name of the collector or module
+
+    </system:String>
+    <system:String x:Key="key_314">
+        Task description
+
+    </system:String>
+    <system:String x:Key="key_776">
+        {Binding Attribute�?Converter={StaticResource GroupConverter}}
+
+    </system:String>
+    <system:String x:Key="key_287">
+        Task list 2
+
+    </system:String>
+    <system:String x:Key="key_240">
+        To configure
+
+    </system:String>
+    <system:String x:Key="key_695">
+        Debugging and exploration
+
+    </system:String>
+    <system:String x:Key="key_464">
+        text
+
+    </system:String>
+    <system:String x:Key="key_192">
+        After selecting this item, the news text is automatically extracted, and the XPath path can be empty.
+
+    </system:String>
+    <system:String x:Key="key_617">
+        Italian
+
+    </system:String>
+    <system:String x:Key="key_181">
+        Generator type
+
+    </system:String>
+    <system:String x:Key="key_558">
+        The name of Zi Xiancheng
+
+    </system:String>
+    <system:String x:Key="key_753">
+        Evaluation score
+
+    </system:String>
+    <system:String x:Key="key_688">
+        Get the front n lines of the data table only
+
+    </system:String>
+    <system:String x:Key="key_537">
+        In addition to directly filling in numeric values, it can also be imported from other columns by square brackets.
+
+    </system:String>
+    <system:String x:Key="key_200">
+        Module name
+
+    </system:String>
+    <system:String x:Key="ReadFileTextGE_desc">
+        Get all the plain text content in the file, note the difference with [read file data]
+
+    </system:String>
+    <system:String x:Key="IDataProcess">
+        Basic calculation module
+
+    </system:String>
+    <system:String x:Key="key_735"> Grid.Row=
+
+    </system:String>
+    <system:String x:Key="key_781">
+        Step 1: set the module interval of the main task submission.
+
+    </system:String>
+    <system:String x:Key="DateRangeGE">
+        Generation interval time
+
+    </system:String>
+    <system:String x:Key="key_88">
+        SQL execution error:
+
+    </system:String>
+    <system:String x:Key="key_717">
+        Input column
+
+    </system:String>
+    <system:String x:Key="not_find_key">
+        The keyword `{0}` can not be found in the web page, which may be a dynamic request, \n [{1}], and turn the browser page to the location containing the keyword, \n [no]: [cancelling]: [no longer reminded]
+
+    </system:String>
+    <system:String x:Key="rightclick_new">
+        Right key can build a new data source
+
+    </system:String>
+    <system:String x:Key="doubleclick_new">
+        Double click the icon to create a new task
+
+    </system:String>
+    <system:String x:Key="brower_view">
+        Browser view
+
+    </system:String>
+    <system:String x:Key="remind_10">
+        Please fill in the keyword information contained in the page: [2. attribute extraction] - > search character]
+
+    </system:String>
+    <system:String x:Key="step2">
+        Step 2: set the main task attribute column to the attribute name of the sub task. The drop-down menu only refers to it, and can edit the text box directly.
+
+    </system:String>
+    <system:String x:Key="task_run">
+        {0} already has tasks in execution. Is it necessary to cancel the current tasks due to tuning parameters? \n [cancellation]: [no more reminding]
+
+    </system:String>
+    <system:String x:Key="success_get">
+        The sniffer field has been successfully obtained! The real request address: \n{0}, \n has automatically configured the webpage collector, the request type is {1}\n {2}, has refreshed the content of the webpage collector.
+
+    </system:String>
+    <system:String x:Key="fail_remind">
+        The module `{1}`, which acts on the column name `{0}`, has not successfully acquired the data 5 times in a row, and may need to revise the parameter \n [yes] \n [no]: [cancel the current task] \n [Cancel]: [no longer prompt]
+
+    </system:String>
+    <system:String x:Key="key_191">
+        Get the text
+
+    </system:String>
+    <system:String x:Key="key_320">
+        To the current list
+
+    </system:String>
+    <system:String x:Key="RegexSplitTF">
+        Regular segmentation
+
+    </system:String>
+    <system:String x:Key="key_155">
+        No need to get the plug-in interface name, it has been cached and can be modified at any time.
+
+    </system:String>
+    <system:String x:Key="JsonTF">
+        Convert to Json
+
+    </system:String>
+    <system:String x:Key="key_402">
+        Refer to C# DateTime Format related methods, such as yyyy-MM-dd, etc.
+
+    </system:String>
+    <system:String x:Key="key_704">
+        Serial task
+
+    </system:String>
+    <system:String x:Key="key_662">
+        {0} cannot be recognized as the correct {1} expression. Please check.
+
+    </system:String>
+    <system:String x:Key="key_332">
+        Database connection
+
+    </system:String>
+    <system:String x:Key="key_154">
+        Interface
+
+    </system:String>
+    <system:String x:Key="key_595">
+        Columns representing latitudes
+
+    </system:String>
+    <system:String x:Key="key_790">
+        All of the algorithm modules that are currently loaded
+
+    </system:String>
+    <system:String x:Key="key_726"> Grid.Column=
+
+    </system:String>
+    <system:String x:Key="key_253">
+        The file export is successful, do you want to open the view?
+
+    </system:String>
+    <system:String x:Key="key_550">
+        Tail string
+
+    </system:String>
+    <system:String x:Key="key_361">
+        Whether or not asynchronous
+
+    </system:String>
+    <system:String x:Key="key_450">
+        Whether or not recursion
+
+    </system:String>
+    <system:String x:Key="FileConnectorExcel">
+        EXCEL import and export
+
+    </system:String>
+    <system:String x:Key="key_707">
+        Subtask
+
+    </system:String>
+    <system:String x:Key="XPathTF2_desc">
+        To drag into the HTML text column, you can combine the classes in the page with the Cross mode, which is suitable for the crawler to capture all the pages, but can be captured by classification. Need to call webpage collector, specific reference document - class enumeration
+
+    </system:String>
+    <system:String x:Key="key_626">
+        In list mode, the number of attributes should not be less than 2
+
+    </system:String>
+    <system:String x:Key="key_592">
+        Inquiries
+
+    </system:String>
+    <system:String x:Key="Time2StrTF_desc">
+        A string that converts a time type to a specific format
+
+    </system:String>
+    <system:String x:Key="key_217">
+        Query string
+
+    </system:String>
+    <system:String x:Key="key_495">
+        Select the table to connect
+
+    </system:String>
+    <system:String x:Key="key_610">
+        Dutch
+
+    </system:String>
+    <system:String x:Key="key_778">
+        {Binding GenerateMode�?Converter={StaticResource GeneratorConverter}}
+
+    </system:String>
+    <system:String x:Key="key_655">
+        Whether automatic sniffing is enabled
+
+    </system:String>
+    <system:String x:Key="key_293">
+        cancel
+
+    </system:String>
+    <system:String x:Key="key_340">
+        The task has gone wrong.
+
+    </system:String>
+    <system:String x:Key="key_602">
+        Chinese
+
+    </system:String>
+    <system:String x:Key="IColumnProcess">
+        ETL module interface
+
+    </system:String>
+    <system:String x:Key="key_633">
+        Is it sure that all properties are cleared?
+
+    </system:String>
+    <system:String x:Key="EtlTF">
+        Subtask - conversion
+
+    </system:String>
+    <system:String x:Key="key_653">
+        No other eligible nodes could be found. The searcher has returned to the beginning.
+
+    </system:String>
+    <system:String x:Key="key_399">
+        interval
+
+    </system:String>
+    <system:String x:Key="key_797">
+        Edge =
+
+    </system:String>
+    <system:String x:Key="key_390">
+        Fill in the column names separated by spaces, and lengthwise summation of all attributes with the same value in the module.
+
+    </system:String>
+    <system:String x:Key="key_8">
+        Total amount of data
+
+    </system:String>
+    <system:String x:Key="DbEX">
+        Write to the database
+
+    </system:String>
+    <system:String x:Key="XPathTF">
+        XPath filter
+
+    </system:String>
+    <system:String x:Key="key_295">
+        New or replicated collector
+
+    </system:String>
+    <system:String x:Key="key_381">
+        Minimum matching number
+
+    </system:String>
+    <system:String x:Key="key_318">
+        Save as the current project
+
+    </system:String>
+    <system:String x:Key="key_313">
+        There is a same name task that will cover the task
+
+    </system:String>
+    <system:String x:Key="XFrmWorkPropertyGrid_desc">
+        Property configuration options
+
+    </system:String>
+    <system:String x:Key="key_254">
+        Failed to open the file:
+
+    </system:String>
+    <system:String x:Key="key_70">
+        Instructions for installation and use
+
+    </system:String>
+    <system:String x:Key="key_123">
+        When the page appears garbled, you can choose to switch UTF-8 or GBK.
+
+    </system:String>
+    <system:String x:Key="key_385">
+        Delay output
+
+    </system:String>
+    <system:String x:Key="CrawlerTF">
+        From the reptilian
+
+    </system:String>
+    <system:String x:Key="key_439">
+        Please select the file to read
+
+    </system:String>
+    <system:String x:Key="key_208">
+        Located in {0} module {1} conversion error, information {2}
+
+    </system:String>
+    <system:String x:Key="key_685">
+        Delete downstream nodes
+
+    </system:String>
+    <system:String x:Key="key_46">
+        The number that has been imported:
+
+    </system:String>
+    <system:String x:Key="key_437">
+        Select the file
+
+    </system:String>
+    <system:String x:Key="key_346">
+        Select the database service that you want to connect to, if this item can't be selected, configure [module management] - > [data source], and click right to create a new database connector
+
+    </system:String>
+    <system:String x:Key="key_353">
+        Delay value
+
+    </system:String>
+    <system:String x:Key="key_250">
+        data set
+
+    </system:String>
+    <system:String x:Key="key_336">
+        current location
+
+    </system:String>
+    <system:String x:Key="RegexFT_desc">
+        Writing regular expressions to filter text
+
+    </system:String>
+    <system:String x:Key="key_709">
+        The maximum number of threads carried by thread pools when working in parallel mode
+
+    </system:String>
+    <system:String x:Key="EtlEX_desc">
+        Call other tasks as an executor block
+
+    </system:String>
+    <system:String x:Key="key_183">
+        XPath expression is written in error:
+
+    </system:String>
+    <system:String x:Key="key_231">
+        Add to the dataset
+
+    </system:String>
+    <system:String x:Key="key_151">
+        Warning information
+
+    </system:String>
+    <system:String x:Key="DataProcessManager_name">
+        Module management
+
+    </system:String>
+    <system:String x:Key="key_31">
+        Connection name
+
+    </system:String>
+    <system:String x:Key="feellucky">
+        Good hands
+
+    </system:String>
+    <system:String x:Key="key_451">
+        Whether or not to get a subfile of a subfolder
+
+    </system:String>
+    <system:String x:Key="key_690">
+        The last step
+
+    </system:String>
+    <system:String x:Key="key_133">
+        Click the button:
+
+    </system:String>
+    <system:String x:Key="key_90">
+        Database virtualization
+
+    </system:String>
+    <system:String x:Key="key_2">
+        Abnormality of the system
+
+    </system:String>
+    <system:String x:Key="key_751">
+        Other information
+
+    </system:String>
+    <system:String x:Key="key_501">
+        A list of documents: [{}], converted to a list of multiple rows of data; a single document: {}, attach the result's key value pair to the line; do not convert: put the value directly into a new column.
+
+    </system:String>
+    <system:String x:Key="key_275">
+        Help
+
+    </system:String>
+    <system:String x:Key="key_4">
+        Debug information window
+
+    </system:String>
+    <system:String x:Key="key_245">
+        Insert into the database
+
+    </system:String>
+    <system:String x:Key="key_542">
+        Divide each character in the original text directly
+
+    </system:String>
+    <system:String x:Key="key_517">
+        Matching number
+
+    </system:String>
+    <system:String x:Key="key_221">
+        Web crawler connector
+
+    </system:String>
+    <system:String x:Key="key_16">
+        describe
+
+    </system:String>
+    <system:String x:Key="key_783">
+        End
+
+    </system:String>
+    <system:String x:Key="key_736">
+        New task
+
+    </system:String>
+    <system:String x:Key="key_130">
+        Timeout number
+
+    </system:String>
+    <system:String x:Key="key_552">
+        Whether the first string and the tail string are included in the return result
+
+    </system:String>
+    <system:String x:Key="key_706">
+        task
+
+    </system:String>
+    <system:String x:Key="key_283">
+        Do you decide to save all the algorithm modules?
+
+    </system:String>
+    <system:String x:Key="key_485">
+        Conversion options
+
+    </system:String>
+    <system:String x:Key="key_691">
+        Next step
+
+    </system:String>
+    <system:String x:Key="key_11">
+        Dataset name
+
+    </system:String>
+    <system:String x:Key="key_299">
+        Because the task {0} has been deleted, the related task {1} has been forcibly cancelled.
+
+    </system:String>
+    <system:String x:Key="key_705">
+        Parallel task
+
+    </system:String>
+    <system:String x:Key="key_218">
+        Depending on the database, you can enter JS (MongoDB) and standard SQL here.
+
+    </system:String>
+    <system:String x:Key="key_526">
+        Replace
+
+    </system:String>
+    <system:String x:Key="key_604">
+        Japanese
+
+    </system:String>
+    <system:String x:Key="DelayTF_desc">
+        Insert delay in workflow, can sleep fixed length to avoid reptiles being banned, the unit is Ms.
+
+    </system:String>
+    <system:String x:Key="key_169">
+        delete
+
+    </system:String>
+    <system:String x:Key="key_270">
+        Is there a bug or a problem? Welcome feedback
+
+    </system:String>
+    <system:String x:Key="key_36">
+        Close connection
+
+    </system:String>
+    <system:String x:Key="key_714">
+        Check whether the module parameters are modified
+
+    </system:String>
+    <system:String x:Key="NumberTF">
+        Digits
+
+    </system:String>
+    <system:String x:Key="key_804">
+        If the software helps you, you can donate for the developer.
+
+    </system:String>
+    <system:String x:Key="key_748">
+        root node
+
+    </system:String>
+    <system:String x:Key="key_665">
+        Using the current child node XPath, no child nodes can be found in the document.
+
+    </system:String>
+    <system:String x:Key="key_327">
+        Load the {0} task
+
+    </system:String>
+    <system:String x:Key="HtmlTF_desc">
+        Delete the HTML label and the escape symbol
+
+    </system:String>
+    <system:String x:Key="key_603">
+        English
+
+    </system:String>
+    <system:String x:Key="key_382">
+        Only regular expressions match the result of the text to more than or equal to that value. The default is 1.
+
+    </system:String>
+    <system:String x:Key="key_643">
+        Stop it
+
+    </system:String>
+    <system:String x:Key="key_21">
+        Parameter setting
+
+    </system:String>
+    <system:String x:Key="key_593">
+        Like a park, a station, etc
+
+    </system:String>
+    <system:String x:Key="SmartCrawler_desc">
+        Configuring and sniffing the required data from a single web page
+
+    </system:String>
+    <system:String x:Key="key_519">
+        If the number is less than 0 and matches a number of new columns, multiple column names can be separated by spaces. If the column does not need to be added, it can be represented by "","" such as ""matching 1"".
+
+    </system:String>
+    <system:String x:Key="key_605">
+        Spanish
+
+    </system:String>
+    <system:String x:Key="key_176">
+        Proxy list
+
+    </system:String>
+    <system:String x:Key="SQLiteDatabase_desc">
+        A database service that provides SQLite interaction
+
+    </system:String>
+    <system:String x:Key="key_149">
+        Successfully initialized
+
+    </system:String>
+    <system:String x:Key="key_634">
+        2. request parameters
+
+    </system:String>
+    <system:String x:Key="key_18">
+        Name
+
+    </system:String>
+    <system:String x:Key="FileManager">
+        file management
+
+    </system:String>
+    <system:String x:Key="key_516">
+        When you want to export multiple results, select List, otherwise choose One or None, refer to webpage collector.
+
+    </system:String>
+    <system:String x:Key="key_262">
+        about
+
+    </system:String>
+    <system:String x:Key="key_805">
+        Version: 3
+
+    </system:String>
+    <system:String x:Key="key_529">
+        Response head
+
+    </system:String>
+    <system:String x:Key="ReadFileTextGE">
+        Read the file text
+
+    </system:String>
+    <system:String x:Key="key_734">
+        itemssource.
+
+    </system:String>
+    <system:String x:Key="key_646">
+        This mode can strongly analyze web content, but consumes resources, and will modify the original Html content.
+
+    </system:String>
+    <system:String x:Key="key_53">
+        Column Division
+
+    </system:String>
+    <system:String x:Key="key_466">
+        sort order
+
+    </system:String>
+    <system:String x:Key="key_241">
+        Conversion table type
+
+    </system:String>
+    <system:String x:Key="key_728">
+        horizontalalignment =
+
+    </system:String>
+    <system:String x:Key="BaiduLocation_desc">
+        To get the latitude and longitude coordinates of the current landmarks by Baidu API, we need to drag them into the columns representing the geographical names.
+
+    </system:String>
+    <system:String x:Key="key_290">
+        Task list command
+
+    </system:String>
+    <system:String x:Key="key_296">
+        Save task
+
+    </system:String>
+    <system:String x:Key="key_205">
+        HtmlDoc list
+
+    </system:String>
+    <system:String x:Key="key_415">
+        Attribute mapping
+
+    </system:String>
+    <system:String x:Key="RepeatFT_desc">
+        The column that is dragged is the unique primary key, which automatically restores the weight and keeps only the first item repeated.
+
+    </system:String>
+    <system:String x:Key="key_511">
+        Execution script
+
+    </system:String>
+    <system:String x:Key="key_272">
+        Your support is the author's motivation to update Hawk
+
+    </system:String>
+    <system:String x:Key="key_25">
+        User name
+
+    </system:String>
+    <system:String x:Key="key_475">
+        Column names cannot start with numbers, otherwise they will fail to display the column correctly.
+
+    </system:String>
+    <system:String x:Key="BaiduLocation">
+        Search location
+
+    </system:String>
+    <system:String x:Key="key_1">
+        Hawk collapse due to internal anomalies
+
+    </system:String>
+    <system:String x:Key="HtmlTF">
+        HTML character escape
+
+    </system:String>
+    <system:String x:Key="key_189">
+        When you want to get multiple results that conform to the XPath syntax, select List and get only one selected One, which can be referred to as webpage collector.
+
+    </system:String>
+    <system:String x:Key="PythonTF_desc">
+        To execute a specific Python code or script, the last line needs to be a value type, which is the return value of the column.
+
+    </system:String>
+    <system:String x:Key="key_732">
+        Edge =
+
+    </system:String>
+    <system:String x:Key="key_325">
+        The script has been successfully executed
+
+    </system:String>
+    <system:String x:Key="key_94">
+        A document that had been opened
+
+    </system:String>
+    <system:String x:Key="key_757">
+        Select
+
+    </system:String>
+    <system:String x:Key="key_73">
+        Insert data failure
+
+    </system:String>
+    <system:String x:Key="SplitPageTF_desc">
+        Paging operation is based on the total number of pages and the number of pages per page, and the total number of pages is dragged into columns. Compared with the use of Python converters, the operation can be greatly simplified.
+
+    </system:String>
+    <system:String x:Key="key_689">
+        Ejection sample
+
+    </system:String>
+    <system:String x:Key="key_188">
+        Working mode
+
+    </system:String>
+    <system:String x:Key="key_339">
+        The task has been forced to be terminated
+
+    </system:String>
+    <system:String x:Key="key_615">
+        Classical Chinese
+
+    </system:String>
+    <system:String x:Key="key_578">
+        Local city
+
+    </system:String>
+    <system:String x:Key="key_251">
+        The data source already exists, does not cover, and does not save.
+
+    </system:String>
+    <system:String x:Key="key_708">
+        Do you really want to delete {0}?
+
+    </system:String>
+    <system:String x:Key="DictTF">
+        Matrix transposed
+
+    </system:String>
+    <system:String x:Key="key_419">
+        Subtask range expression error, please check:
+
+    </system:String>
+    <system:String x:Key="key_213">
+        Execute the query
+
+    </system:String>
+    <system:String x:Key="key_6">
+        Default source
+
+    </system:String>
+    <system:String x:Key="key_636">
+        Setting up Cookie and other access options
+
+    </system:String>
+    <system:String x:Key="FileManager_desc">
+        Providing database services that interact with historical files
+
+    </system:String>
+    <system:String x:Key="key_794">
+        Loaded task
+
+    </system:String>
+    <system:String x:Key="key_701">
+        All work modules currently in the workflow
+
+    </system:String>
+    <system:String x:Key="key_724">
+        Visit
+
+    </system:String>
+    <system:String x:Key="TransTF_desc">
+        Translation from the current language to the target language
+
+    </system:String>
+    <system:String x:Key="XPathTF_desc">
+        Through XPath to select the child node document in HTML, you can also select the child node document in HTML through CssSelector, which is simpler than XPath.
+
+    </system:String>
+    <system:String x:Key="key_32">
+        Automatic connection
+
+    </system:String>
+    <system:String x:Key="key_13">
+        The type of the data
+
+    </system:String>
+    <system:String x:Key="key_410">
+        Graphical configuration
+
+    </system:String>
+    <system:String x:Key="key_632">
+        Emptying property
+
+    </system:String>
+    <system:String x:Key="XFrmWorkPropertyGrid">
+        Attribute Configurator
+
+    </system:String>
+    <system:String x:Key="key_789">
+        Subtask attributes
+
+    </system:String>
+    <system:String x:Key="key_472">
+        Start index
+
+    </system:String>
+    <system:String x:Key="key_329">
+        Save path
+
+    </system:String>
+    <system:String x:Key="key_300">
+        Open the welcome page
+
+    </system:String>
+    <system:String x:Key="key_380">
+        Expression
+
+    </system:String>
+    <system:String x:Key="key_608">
+        Cantonese
+
+    </system:String>
+    <system:String x:Key="key_607">
+        Russian
+
+    </system:String>
+    <system:String x:Key="key_493">
+        String matching, such as like, contains, etc., is in line with SQL standard syntax.
+
+    </system:String>
+    <system:String x:Key="key_398">
+        Fill in the form of yyyy-MM-dd HH:mm:ss:ffff format.
+
+    </system:String>
+    <system:String x:Key="key_222">
+        Data import
+
+    </system:String>
+    <system:String x:Key="key_561">
+        The number of threads that each child will acquire is used to display progress bars, but not to fill in.
+
+    </system:String>
+    <system:String x:Key="key_586">
+        Target location
+
+    </system:String>
+    <system:String x:Key="key_40">
+        This function is not supported
+
+    </system:String>
+    <system:String x:Key="key_209">
+        The {1} module in the {0} column has an exception at initialization: {2}, please check the task parameters.
+
+    </system:String>
+    <system:String x:Key="EtlGE_desc">
+        Calling other tasks as generators is similar to generating interval numbers.
+
+    </system:String>
+    <system:String x:Key="key_343">
+        Operation type
+
+    </system:String>
+    <system:String x:Key="TransTF">
+        Translation of language
+
+    </system:String>
+    <system:String x:Key="key_172">
+        Confirmation result
+
+    </system:String>
+    <system:String x:Key="key_699">
+        2. cleaning process
+
+    </system:String>
+    <system:String x:Key="key_801">
+        If you have any questions and feedback, please contact me:
+
+    </system:String>
+    <system:String x:Key="key_618">
+        Greek language
+
+    </system:String>
+    <system:String x:Key="key_630">
+        Copy to the shear plate
+
+    </system:String>
+    <system:String x:Key="key_759">
+        Please type URL:
+
+    </system:String>
+    <system:String x:Key="key_119">
+        port
+
+    </system:String>
+    <system:String x:Key="key_713">
+        Have been cancelled
+
+    </system:String>
+    <system:String x:Key="key_349">
+        Create a table failure named {0}
+
+    </system:String>
+    <system:String x:Key="key_642">
+        start
+
+    </system:String>
+    <system:String x:Key="key_237">
+        Save as
+
+    </system:String>
+    <system:String x:Key="key_792">
+        itemssource.
+
+    </system:String>
+    <system:String x:Key="key_715">
+        position
+
+    </system:String>
+    <system:String x:Key="key_60">
+        Encoding method
+
+    </system:String>
+    <system:String x:Key="key_246">
+        Database management
+
+    </system:String>
+    <system:String x:Key="key_741">
+        Data processing revolution
+
+    </system:String>
+    <system:String x:Key="key_775">
+        Fast retrieval:
+
+    </system:String>
+    <system:String x:Key="key_570">
+        Parameter settings may be mistaken
+
+    </system:String>
+    <system:String x:Key="key_255">
+        Do you make sure that the memory data is deleted?
+
+    </system:String>
+    <system:String x:Key="key_645">
+        Supermodel
+
+    </system:String>
+    <system:String x:Key="key_147">
+        Initialization of the plug-in in the plug-in dictionary
+
+    </system:String>
+    <system:String x:Key="key_116">
+        Header
+
+    </system:String>
+    <system:String x:Key="key_39">
+        File encoding
+
+    </system:String>
+    <system:String x:Key="key_17">
+        Virtual value
+
+    </system:String>
+    <system:String x:Key="key_298">
+        remove
+
+    </system:String>
+    <system:String x:Key="RandomGE_desc">
+        Generating a certain range and a specified number of random numbers
+
+    </system:String>
+    <system:String x:Key="key_110">
+        Commonly used
+
+    </system:String>
+    <system:String x:Key="FileConnectorJson_desc">
+        Output text type JSON file
+
+    </system:String>
+    <system:String x:Key="key_14">
+        weight
+
+    </system:String>
+    <system:String x:Key="key_38">
+        Suffix name
+
+    </system:String>
+    <system:String x:Key="key_198">
+        The number of nodes obtained is 0
+
+    </system:String>
+    <system:String x:Key="request_config">
+        1. request settings
+
+    </system:String>
+    <system:String x:Key="ResponseTF">
+        Obtaining request response
+
+    </system:String>
+    <system:String x:Key="key_214">
+        Query exception
+
+    </system:String>
+    <system:String x:Key="key_449">
+        Windows - based file wildcard screening specification
+
+    </system:String>
+    <system:String x:Key="key_755">
+        Left and right toggle to select the required data, and the left side can modify column names.
+
+    </system:String>
+    <system:String x:Key="key_263">
+        About the author
+
+    </system:String>
+    <system:String x:Key="key_737">
+        Double click the icon to create a new task
+
+    </system:String>
+    <system:String x:Key="FreeHtmlDoc_desc">
+        Free documents that can store the form of a key value pair
+
+    </system:String>
+    <system:String x:Key="SplitTF">
+        String segmentation
+
+    </system:String>
+    <system:String x:Key="key_330">
+        Edition
+
+    </system:String>
+    <system:String x:Key="RangeFT_desc">
+        From the numeric column, the document from the minimum to the maximum value is selected.
+
+    </system:String>
+    <system:String x:Key="key_357">
+        Save position
+
+    </system:String>
+    <system:String x:Key="key_743">
+        Welcome to use Hawk3
+
+    </system:String>
+    <system:String x:Key="key_774">
+        Debug details
+
+    </system:String>
+    <system:String x:Key="key_492">
+        Matching method
+
+    </system:String>
+    <system:String x:Key="key_666">
+        The current XPath node is not the descendant of the parent node. Please check the corresponding XPath. Do you still want to add it?
+
+    </system:String>
+    <system:String x:Key="key_45">
+        Please fill out the Excel header information
+
+    </system:String>
+    <system:String x:Key="key_457">
+        In addition to filling in numbers, you can also use square brackets, such as [a], to get values from a columns as the true values of this parameter.
+
+    </system:String>
+    <system:String x:Key="key_609">
+        German
+
+    </system:String>
+    <system:String x:Key="key_498">
+        Which columns are inverted after join's success
+
+    </system:String>
+    <system:String x:Key="key_309">
+        Items are deposited as
+
+    </system:String>
+    <system:String x:Key="key_648">
+        Fill in the name of the collector with the correct cookie. It doesn't work for empty time. This function also gets the properties of agent IP and so on, avoiding duplication of web page collector.
+
+    </system:String>
+    <system:String x:Key="key_388">
+        Fill in the column names separated by spaces, and vertically merge arrays for all attributes with the same value in the module.
+
+    </system:String>
+    <system:String x:Key="key_541">
+        Direct segmentation by character
+
+    </system:String>
+    <system:String x:Key="key_312">
+        New tasks will be set up
+
+    </system:String>
+    <system:String x:Key="key_407">
+        2. operation table name
+
+    </system:String>
+    <system:String x:Key="GetRoute">
+        Access to path information
+
+    </system:String>
+    <system:String x:Key="key_387">
+        Attributes merged into a collection
+
+    </system:String>
+    <system:String x:Key="property">
+        attribute
+
+    </system:String>
+    <system:String x:Key="key_681">
+        Copy module
+
+    </system:String>
+    <system:String x:Key="key_265">
+        Project Home
+
+    </system:String>
+    <system:String x:Key="xpath2_desc">
+        To drag into the HTML text column, you can combine the classes in the page with the Cross mode, which is suitable for the crawler to capture all the pages, but can be captured by classification. Need to call webpage collector, specific reference document -XPathTF2
+
+    </system:String>
+    <system:String x:Key="key_303">
+        Load the default project
+
+    </system:String>
+    <system:String x:Key="key_417">
+        Subtask panel
+
+    </system:String>
+    <system:String x:Key="key_660">
+        No optional list page was checked
+
+    </system:String>
+    <system:String x:Key="key_19">
+        Vacant
+
+    </system:String>
+    <system:String x:Key="key_348">
+        Database connector can not be empty
+
+    </system:String>
+    <system:String x:Key="key_414">
+        Set the module scope of the call subtask, for example at 2:30 that second or thirtieth sub modules that are called will be enabled, the other modules are ignored, the 2:-1 representation is from second to the countdown second, consistent with the python slice syntax, and the default is all invoked for the empty.
+
+    </system:String>
+    <system:String x:Key="key_606">
+        Thai
+
+    </system:String>
+    <system:String x:Key="key_111">
+        Batch insertion error
+
+    </system:String>
+    <system:String x:Key="key_675">
+        Parsing HTML documents
+
+    </system:String>
+    <system:String x:Key="key_315">
+        Task {0} has been successfully saved
+
+    </system:String>
+    <system:String x:Key="key_100">
+        The operation
+
+    </system:String>
+    <system:String x:Key="key_230">
+        Editable list
+
+    </system:String>
+    <system:String x:Key="key_333">
+        task list
+
+    </system:String>
+    <system:String x:Key="key_624">
+        Extraction test
+
+    </system:String>
+    <system:String x:Key="DeleteTF">
+        Delete the column
+
+    </system:String>
+    <system:String x:Key="key_12">
+        type
+
+    </system:String>
+    <system:String x:Key="key_673">
+        The reason is that the website has checked the validity of the request. It is recommended to fill in the keyword to automatically sniff the web page content.
+
+    </system:String>
+    <system:String x:Key="key_215">
+        Current table
+
+    </system:String>
+    <system:String x:Key="key_512">
+        Python library path
+
+    </system:String>
+    <system:String x:Key="AddNewTF">
+        Add a new column
+
+    </system:String>
+    <system:String x:Key="CrawlerTF_desc">
+        Using web collectors to get web page data, dragged columns need to be hyperlinks, commonly used.
+
+    </system:String>
+    <system:String x:Key="key_185">
+        When the extraction mode is List and the selector is CssSelecor, the root node path must be set.
+
+    </system:String>
+    <system:String x:Key="key_117">
+        2. proxy settings
+
+    </system:String>
+    <system:String x:Key="key_678">
+        1. implementation
+
+    </system:String>
+    <system:String x:Key="key_696">
+        Debug analysis panel
+
+    </system:String>
+    <system:String x:Key="NearbySearch_desc">
+        To get all the objects in the radius of a latitude and longitude, we need to drag in a column representing longitude.
+
+    </system:String>
+    <system:String x:Key="GetRoute_desc">
+        The time needed to move from the current place name to the corresponding coordinates.
+
+    </system:String>
+    <system:String x:Key="DebugManagerUI">
+        DebugManager
+
+    </system:String>
+    <system:String x:Key="NumRangeFT_desc">
+        Select a certain number of lines, such as skip the first 100, and select 50.
+
+    </system:String>
+    <system:String x:Key="key_326">
+        The task cannot be reloaded repeatedly
+
+    </system:String>
+    <system:String x:Key="key_179">
+        Proxy strategy
+
+    </system:String>
+    <system:String x:Key="key_27">
+        Database type
+
+    </system:String>
+    <system:String x:Key="key_375">
+        minimum value
+
+    </system:String>
+    <system:String x:Key="key_746">
+        Choice
+
+    </system:String>
+    <system:String x:Key="key_647">
+        Shared source
+
+    </system:String>
+    <system:String x:Key="key_394">
+        BFS starting position
+
+    </system:String>
+    <system:String x:Key="RegexTF">
+        Regular converter
+
+    </system:String>
+    <system:String x:Key="key_335">
+        Ergodic state
+
+    </system:String>
+    <system:String x:Key="key_29">
+        Database table name can not be empty
+
+    </system:String>
+    <system:String x:Key="key_338">
+        The task [{0}] has been successfully completed
+
+    </system:String>
+    <system:String x:Key="key_234">
+        View properties
+
+    </system:String>
+    <system:String x:Key="search_keyword">
+        Search character
+
+    </system:String>
+    <system:String x:Key="repeat_mode">
+        Duplication pattern
+
+    </system:String>
+    <system:String x:Key="jump_last">
+        Jump to the end
+
+    </system:String>
+    <system:String x:Key="key_175">
+        Try converting to JSON error:
+
+    </system:String>
+    <system:String x:Key="search">
+        search
+
+    </system:String>
+    <system:String x:Key="percent">
+        Percentage
+
+    </system:String>
+    <system:String x:Key="key_671">
+        Try automatic redirection
+
+    </system:String>
+    <system:String x:Key="key_389">
+        Summation attribute
+
+    </system:String>
+    <system:String x:Key="key_294">
+        New or duplicated data cleaning
+
+    </system:String>
+    <system:String x:Key="key_54">
+        Header information
+
+    </system:String>
+    <system:String x:Key="key_323">
+        No corresponding script file {1} was found when loading {0} project.
+
+    </system:String>
+    <system:String x:Key="key_738"> VerticalAlignment=
+
+    </system:String>
+    <system:String x:Key="key_720">
+        Outflow data
+
+    </system:String>
+    <system:String x:Key="PythonTF">
+        Python converter
+
+    </system:String>
+    <system:String x:Key="JsonTF_desc">
+        Convert from string to JSON (array or dictionary type)
+
+    </system:String>
+    <system:String x:Key="mongo_connect_error">
+        Database connection failed. Please check database configuration or manually set up MongoDB database installation path to facilitate automatic repair.
+
+    </system:String>
+    <system:String x:Key="key_650">
+        Query XPath
+
+    </system:String>
+    <system:String x:Key="add_column_sure">
+        Has the property of the same name already existed, is it still added?
+
+    </system:String>
+    <system:String x:Key="ToListTF">
+        Start parallel
+
+    </system:String>
+    <system:String x:Key="cancel_task">
+        Cancel the task
+
+    </system:String>
+    <system:String x:Key="error_message">
+        error message
+
+    </system:String>
+    <system:String x:Key="db_name">
+        Database name
+
+    </system:String>
+    <system:String x:Key="key_400">
+        Fill in the 1'h'3'm'5's'format
+
+    </system:String>
+    <system:String x:Key="gene_mode">
+        Generation mode
+
+    </system:String>
+    <system:String x:Key="key_81">
+        SQLLite connector exception
+
+    </system:String>
+    <system:String x:Key="cover_task_succ">
+        The task has been successfully covered
+
+    </system:String>
+    <system:String x:Key="key_324">
+        Compile error: {0}, located in {1} row, from {2} to {3}
+
+    </system:String>
+    <system:String x:Key="DelayTF">
+        Delay time
+
+    </system:String>
+    <system:String x:Key="next">
+        Next
+
+    </system:String>
+    <system:String x:Key="not_find_module">
+        The {1} named'{0}'was not found. Please check if ""{2}"" has filled in the error.
+
+    </system:String>
+    <system:String x:Key="key_613">
+        Portuguese
+
+    </system:String>
+    <system:String x:Key="key_716">
+        {Binding Process.Attribute�?Converter={StaticResource GroupConverter}}
+
+    </system:String>
+    <system:String x:Key="key_359">
+        Reptilian selection
+
+    </system:String>
+    <system:String x:Key="view">
+        See
+
+    </system:String>
+    <system:String x:Key="TrimTF">
+        Clear the blank
+
+    </system:String>
+    <system:String x:Key="key_232">
+        Add a virtual dataset
+
+    </system:String>
+    <system:String x:Key="FileConnectorCSV">
+        CSV import and export
+
+    </system:String>
+    <system:String x:Key="debugview">
+        Debug analysis
+
+    </system:String>
+    <system:String x:Key="key_99">
+        Hint information
+
+    </system:String>
+    <system:String x:Key="key_297">
+        Display and configure
+
+    </system:String>
+    <system:String x:Key="key_462">
+        Select the data table that you want to connect to
+
+    </system:String>
+    <system:String x:Key="ToListTF_desc">
+        When executed, the module will instantiate the flow before this module and convert it to the actual list to improve the parallel performance.
+
+    </system:String>
+    <system:String x:Key="NullFT">
+        Empty object filter
+
+    </system:String>
+    <system:String x:Key="sysconfig">
+        Web request statistics
+
+    </system:String>
+    <system:String x:Key="table_list">
+        List of data tables
+
+    </system:String>
+    <system:String x:Key="smartcrawler_name">
+        Webpage collector
+
+    </system:String>
+    <system:String x:Key="key_638">
+        2. attribute extraction
+
+    </system:String>
+    <system:String x:Key="key_506">
+        To facilitate users, the URL in the drop-down menu is provided with the existing webpage collector, which can be modified and used.
+
+    </system:String>
+    <system:String x:Key="table">
+        Data sheet
+
+    </system:String>
+    <system:String x:Key="key_771">
+        Is it activated
+
+    </system:String>
+    <system:String x:Key="recent_file">
+        Recently opened files
+
+    </system:String>
+    <system:String x:Key="connector">
+        Connector
+
+    </system:String>
+    <system:String x:Key="gene_value">
+        Generated value
+
+    </system:String>
+    <system:String x:Key="key_432">
+        When you want to export multiple results, select List, otherwise choose One, refer to webpage collector.
+
+    </system:String>
+    <system:String x:Key="connect_db">
+        Connection database
+
+    </system:String>
+    <system:String x:Key="key_131">
+        operation
+
+    </system:String>
+    <system:String x:Key="key_562">
+        Packet parallel number
+
+    </system:String>
+    <system:String x:Key="key_577">
+        Beijing
+
+    </system:String>
+    <system:String x:Key="key_243">
+        The volume of data in this collection is large. Conversion may occupy higher memory and cause the program to crash. Do you want to continue?
+
+    </system:String>
+    <system:String x:Key="clear_tool">
+        Emptying all the tools
+
+    </system:String>
+    <system:String x:Key="GetIPLocation">
+        Get the coordinates of the IP
+
+    </system:String>
+    <system:String x:Key="key_412">
+        The name of the subtask that is entered or selected for the call
+
+    </system:String>
+    <system:String x:Key="key_773">
+        auto refresh
+
+    </system:String>
+    <system:String x:Key="key_68">
+        Self increasing primary key name
+
+    </system:String>
+    <system:String x:Key="debug">
+        debugging
+
+    </system:String>
+    <system:String x:Key="target_value">
+        Target content
+
+    </system:String>
+    <system:String x:Key="key_612">
+        French
+
+    </system:String>
+    <system:String x:Key="key_798">
+        Working thread
+
+    </system:String>
+    <system:String x:Key="key_366">
+        Seek inverse
+
+    </system:String>
+    <system:String x:Key="key_670">
+        HTML has failed to extract data, url:{0}, and an exception of {1}
+
+    </system:String>
+    <system:String x:Key="Time2StrTF">
+        Time string
+
+    </system:String>
+    <system:String x:Key="key_163">
+        Route
+
+    </system:String>
+    <system:String x:Key="key_538">
+        Transactions per page
+
+    </system:String>
+    <system:String x:Key="key_247">
+        Add a new connection
+
+    </system:String>
+    <system:String x:Key="key_796">
+        itemtemplate =
+
+    </system:String>
+    <system:String x:Key="ReadFileGe">
+        Read file data
+
+    </system:String>
+    <system:String x:Key="key_559">
+        The name of each child thread
+
+    </system:String>
+    <system:String x:Key="AddNew_desc">
+        For the data set AddNewTF, the value is a fixed value
+
+    </system:String>
+    <system:String x:Key="MergeTF">
+        Merge multi column
+
+    </system:String>
+    <system:String x:Key="MergeTF_format">
+        It is like'http:\\{0}: {1}, {2}... ""The ordinal number of the input column is 0, followed by 1 and 2 represent zeroth and first values of other items, respectively.
+
+    </system:String>
+    <system:String x:Key="MergeTF_desc">
+        The multiple columns are combined into the same column, such as'http:\\{0}: {1}, {2}... 'the sequence number of the input column is 0, then the 1, and 2 represents zeroth and first values of the other items, which are commonly used.
+
+    </system:String>
+    <system:String x:Key="ResponseTF_desc">
+        Using web collectors to get web page data, get the value of the response field and add it to the corresponding attribute.
+
+    </system:String>
+    <system:String x:Key="key_105">
+        adviser
+
+    </system:String>
+    <system:String x:Key="RegexSplitTF_desc">
+        Using regular expressions to split strings
+
+    </system:String>
+    <system:String x:Key="key_225">
+        Delete connection
+
+    </system:String>
+    <system:String x:Key="DebugManager_desc">
+        Output debug information
+
+    </system:String>
+    <system:String x:Key="FileExistFT">
+        Does the path exist
+
+    </system:String>
+    <system:String x:Key="key_159">
+        Start caching
+
+    </system:String>
+    <system:String x:Key="key_211">
+        1. basic options
+
+    </system:String>
+    <system:String x:Key="key_784">
+        input
+
+    </system:String>
+    <system:String x:Key="key_288">
+        Start the task
+
+    </system:String>
+    <system:String x:Key="XPathTF2">
+        Class enumeration
+
+    </system:String>
+    <system:String x:Key="key_47">
+        In total
+
+    </system:String>
+    <system:String x:Key="key_795">
+        All data currently loaded can be managed here.
+
+    </system:String>
+    <system:String x:Key="DictTF_desc">
+        The column data is converted to row data, and the column drawn is key.
+
+    </system:String>
+    <system:String x:Key="DbGE">
+        From database generation
+
+    </system:String>
+    <system:String x:Key="key_568">
+        Enable
+
+    </system:String>
+    <system:String x:Key="key_224">
+        configure connections
+
+    </system:String>
+    <system:String x:Key="key_259">
+        Forced refresh connection failure
+
+    </system:String>
+    <system:String x:Key="key_236">
+        No data exists
+
+    </system:String>
+    <system:String x:Key="IDataBaseConnector">
+        Database connector interface
+
+    </system:String>
+    <system:String x:Key="FileConnectorXML_desc">
+        Output and input XML files
+
+    </system:String>
+    <system:String x:Key="StrExtractTF_desc">
+        Extract the text content from the first string to the tail string in the string.
+
+    </system:String>
+    <system:String x:Key="key_679">
+        Delete node
+
+    </system:String>
+    <system:String x:Key="key_233">
+        Delete table
+
+    </system:String>
+    <system:String x:Key="key_544">
+        If you want to get the zeroth elements after the division, fill in 0, get the first element of the countdown, then fill in -1 \n to enter multiple matching numbers, split the middle in space, and [output column] need to correspond to one of the \n
+
+    </system:String>
+    <system:String x:Key="key_118">
+        Proxy IP
+
+    </system:String>
+    <system:String x:Key="key_182">
+        Current proxy index
+
+    </system:String>
+    <system:String x:Key="key_174">
+        Super schema parsing failure
+
+    </system:String>
+    <system:String x:Key="key_271">
+        donation
+
+    </system:String>
+    <system:String x:Key="key_546">
+        Multiple separators are separated by spaces, line breaks with \\t, tabs using \\t.
+
+    </system:String>
+    <system:String x:Key="RegexFT">
+        Regular filter
+
+    </system:String>
+    <system:String x:Key="key_692">
+        Insert the work module, name:
+
+    </system:String>
+    <system:String x:Key="ICustomView">
+        The interface of self-service replacement can be realized
+
+    </system:String>
+    <system:String x:Key="key_513">
+        If you need to refer to the third party Python library, you can specify the path of the library, one line, one line.
+
+    </system:String>
+    <system:String x:Key="key_239">
+        New dataset
+
+    </system:String>
+    <system:String x:Key="key_669">
+        HTML has failed to extract data, url:{0}
+
+    </system:String>
+    <system:String x:Key="key_664">
+        Check the XPath correctness of the child node
+
+    </system:String>
+    <system:String x:Key="key_747">
+        Acquisition strategy
+
+    </system:String>
+    <system:String x:Key="key_302">
+        Add to
+
+    </system:String>
+    <system:String x:Key="key_657">
+        A good hand panel
+
+    </system:String>
+    <system:String x:Key="key_22">
+        Table name
+
+    </system:String>
+    <system:String x:Key="key_72">
+        Insert failure
+
+    </system:String>
+    <system:String x:Key="key_307">
+        Load project
+
+    </system:String>
+    <system:String x:Key="key_193">
+        Capture the target
+
+    </system:String>
+    <system:String x:Key="FreeHtmlDoc">
+        Free document
+
+    </system:String>
+    <system:String x:Key="FileConnectorExcel_desc">
+        Output standard EXCEL file, low efficiency
+
+    </system:String>
+    <system:String x:Key="SplitTF_desc">
+        Character segmentation string
+
+    </system:String>
+    <system:String x:Key="WriteFileTextTF_desc">
+        Writing text in a file, because writing files in parallel mode may cause problems, try to use serial mode as much as possible.
+
+    </system:String>
+    <system:String x:Key="key_413">
+        Call range
+
+    </system:String>
+    <system:String x:Key="NumberTF_desc">
+        Extract the number that appears in the current column
+
+    </system:String>
+    <system:String x:Key="key_503">
+        Write multiple column names, use spaces in the middle to segment them, and merge the input columns.
+
+    </system:String>
+    <system:String x:Key="DateRangeGE_desc">
+        Generate a range of dates and times
+
+    </system:String>
+    <system:String x:Key="key_639">
+        Automatic sniffing
+
+    </system:String>
+    <system:String x:Key="key_502">
+        Other items
+
+    </system:String>
+    <system:String x:Key="key_698">
+        Debug module properties
+
+    </system:String>
+    <system:String x:Key="key_565">
+        Whether each child thread is inserted into the task queue to display progress
+
+    </system:String>
+    <system:String x:Key="key_165">
+        Sample 1
+
+    </system:String>
+    <system:String x:Key="key_702">
+        Determine startup execution?
+
+    </system:String>
+    <system:String x:Key="key_409">
+        2. call options
+
+    </system:String>
+    <system:String x:Key="key_173">
+        Sign out
+
+    </system:String>
+    <system:String x:Key="key_331">
+        The current path of the project file does not exist, generating new projects.
+
+    </system:String>
+    <system:String x:Key="key_416">
+        Source property: the target attribute is divided into multiple maps with space, such as A:B C:D, representing the A in the main task, and the B attribute column will be passed to the subtask with the name of C, D
+
+    </system:String>
+    <system:String x:Key="key_766">
+        New attributes
+
+    </system:String>
+    <system:String x:Key="key_729">
+        Saved tasks
+
+    </system:String>
+    <system:String x:Key="key_433">
+        Output column
+
+    </system:String>
+    <system:String x:Key="key_621">
+        Property 0
+
+    </system:String>
+    <system:String x:Key="key_114">
+        HTTP error, URL:{0}, type: {1}
+
+    </system:String>
+    <system:String x:Key="RepeatTF_desc">
+        Repeating the generation of the current line
+
+    </system:String>
+    <system:String x:Key="key_722">
+        Skip because of the input
+
+    </system:String>
+    <system:String x:Key="key_587">
+        Source city
+
+    </system:String>
+    <system:String x:Key="MongoDBConnector_desc">
+        A database service that provides MongoDB interaction
+
+    </system:String>
+    <system:String x:Key="key_311">
+        Do you determine the saving task?
+
+    </system:String>
+    <system:String x:Key="key_651">
+        Attribute {0}
+
+    </system:String>
+    <system:String x:Key="key_693">
+        Back to the beginning
+
+    </system:String>
+    <system:String x:Key="key_319">
+        Have been added successfully
+
+    </system:String>
+    <system:String x:Key="key_549">
+        First string
+
+    </system:String>
+    <system:String x:Key="key_257">
+        Determine the pair of data tables
+
+    </system:String>
+    <system:String x:Key="key_249">
+        The data connection service is successful!
+
+    </system:String>
+    <system:String x:Key="key_121">
+        timeout
+
+    </system:String>
+    <system:String x:Key="key_267">
+        Using documents
+
+    </system:String>
+    <system:String x:Key="key_127">
+        Prohibition
+
+    </system:String>
+    <system:String x:Key="NlpTF_desc">
+        Natural Language Processing's functions are acquired through language cloud, including word segmentation, part of speech tagging, topic extraction, etc.
+
+    </system:String>
+    <system:String x:Key="key_760">
+        Source view
+
+    </system:String>
+    <system:String x:Key="key_787">
+        Step 2: set the main task attribute column to the attribute name of the sub task. The drop-down menu only refers to it, and can edit the text box directly.
+
+    </system:String>
+    <system:String x:Key="key_533">
+        Reverse order
+
+    </system:String>
+    <system:String x:Key="RenameTF_desc">
+        Modifying the names of the columns is often used
+
+    </system:String>
+    <system:String x:Key="key_684">
+        Debug this step
+
+    </system:String>
+    <system:String x:Key="key_611">
+        Korean
+
+    </system:String>
+    <system:String x:Key="key_199">
+        1. basic information
+
+    </system:String>
+    <system:String x:Key="key_454">
+        Number
+
+    </system:String>
+    <system:String x:Key="key_637">
+        Extract label
+
+    </system:String>
+    <system:String x:Key="key_793">
+        itemtemplate =
+
+    </system:String>
+    <system:String x:Key="key_145">
+        The plug-in configuration file has been erroneous and has been rebuilt
+
+    </system:String>
+    <system:String x:Key="key_788">
+        Primary task attributes
+
+    </system:String>
+    <system:String x:Key="key_84">
+        Newly build
+
+    </system:String>
+    <system:String x:Key="key_763">
+        Attribute extraction
+
+    </system:String>
+    <system:String x:Key="key_426">
+        After the check, the task will be added to the task manager.
+
+    </system:String>
+    <system:String x:Key="key_106">
+        generate
+
+    </system:String>
+    <system:String x:Key="key_386">
+        Use this enumeration iteration to ensure that there is no other operation after this module, otherwise check this option.
+
+    </system:String>
+    <system:String x:Key="key_24">
+        1. connection management
+
+    </system:String>
+    <system:String x:Key="MongoDBConnector">
+        MongoDB
+
+    </system:String>
+    <system:String x:Key="key_619">
+        Application center account
+
+    </system:String>
+    <system:String x:Key="WriteFileTextTF">
+        Write the file text
+
+    </system:String>
+    <system:String x:Key="key_144">
+        The layout file has been successfully saved to
+
+    </system:String>
+    <system:String x:Key="key_150">
+        Uninstalling the plug-in at runtime can cause the program to crash.
+
+    </system:String>
+    <system:String x:Key="ReReplaceTF_desc">
+        Replacing numeric values with regular expressions
+
+    </system:String>
+    <system:String x:Key="key_286">
+        Executing task scripts
+
+    </system:String>
+    <system:String x:Key="key_640">
+        Save the request
+
+    </system:String>
+    <system:String x:Key="RepeatFT">
+        Delete duplicate items
+
+    </system:String>
+    <system:String x:Key="key_7">
+        Column characteristics
+
+    </system:String>
+    <system:String x:Key="key_273">
+        Blog
+
+    </system:String>
+    <system:String x:Key="key_141">
+        layout
+
+    </system:String>
+    <system:String x:Key="key_102">
+        Failure to execute, error message {0}
+
+    </system:String>
+    <system:String x:Key="key_682">
+        Move up
+
+    </system:String>
+    <system:String x:Key="key_238">
+        New or copy
+
+    </system:String>
+    <system:String x:Key="key_654">
+        The keyword {0} is not found in the web page, it may be dynamic request, {1} can be enabled, and the browser page can be turned to the location containing the keyword.
+
+    </system:String>
+    <system:String x:Key="key_490">
+        Query multiple data
+
+    </system:String>
+    <system:String x:Key="key_122">
+        Request coding
+
+    </system:String>
+    <system:String x:Key="key_644">
+        Parameter configuration
+
+    </system:String>
+    <system:String x:Key="key_280">
+        Emptying task list
+
+    </system:String>
+    <system:String x:Key="key_762">
+        Task name
+
+    </system:String>
+    <system:String x:Key="key_491">
+        When this item is enabled, it queries multiple qualified items and saves the same column as an array.
+
+    </system:String>
+    <system:String x:Key="key_543">
+        Space segmentation
+
+    </system:String>
+    <system:String x:Key="key_672">
+        Website prompts:
+
+    </system:String>
+    <system:String x:Key="key_786"> Height=
+
+    </system:String>
+    <system:String x:Key="MergeRepeatTF_desc">
+        For repeated data rows, merge operations
+
+    </system:String>
+    <system:String x:Key="RangeFT">
+        Numerical range filter
+
+    </system:String>
+    <system:String x:Key="key_659">
+        Web page structure calculation
+
+    </system:String>
+    <system:String x:Key="key_281">
+        Do you want to clear all the algorithm modules?
+
+    </system:String>
+    <system:String x:Key="key_129">
+        Parse error number
+
+    </system:String>
+    <system:String x:Key="key_112">
+        Dictionary serialization failure
+
+    </system:String>
+    <system:String x:Key="key_170">
+        The previous
+
+    </system:String>
+    <system:String x:Key="key_168">
+        copy
+
+    </system:String>
+    <system:String x:Key="key_97">
+        Implementation success
+
+    </system:String>
+    <system:String x:Key="key_92">
+        Open a new file
+
+    </system:String>
+    <system:String x:Key="TableEX">
+        Write a data table
+
+    </system:String>
+    <system:String x:Key="key_113">
+        HTTP error, type:
+
+    </system:String>
+    <system:String x:Key="TableEX_desc">
+        The data is saved to the data manager of the software, and then it can be easily processed.
+
+    </system:String>
+    <system:String x:Key="key_551">
+        Include the first and the end string
+
+    </system:String>
+    <system:String x:Key="key_721">
+        Error number
+
+    </system:String>
+    <system:String x:Key="key_631">
+        Configuration properties
+
+    </system:String>
+    <system:String x:Key="TrimTF_desc">
+        Clear the blank character before and after the string and in the middle
+
+    </system:String>
+    <system:String x:Key="key_803">
+        Desert Eagle
+
+    </system:String>
+    <system:String x:Key="key_87">
+        For example, d:\\test\\mydb.sqlite
+
+    </system:String>
+    <system:String x:Key="debug_desc">
+        This page shows the number of executions of all modules, the flow of outflow data, the general upstream outflow is equal to the downstream inflow, and if there is a red box selection module, it suggests that the module configuration may be problematic.
+
+    </system:String>
+    <system:String x:Key="key_658">
+        Attribute configuration
+
+    </system:String>
+    <system:String x:Key="key_566">
+        The name of the column to be processed by this module
+
+    </system:String>
+    <system:String x:Key="key_55">
+        attribute
+
+    </system:String>
+    <system:String x:Key="key_229">
+        Data that is not available in the table
+
+    </system:String>
+    <system:String x:Key="key_316">
+        There are no tasks in the current project. Please insert the tasks you want to save in the task management page to the current project.
+
+    </system:String>
+    <system:String x:Key="FileConnectorTable">
+        Text import and export
+
+    </system:String>
+    <system:String x:Key="RegexTF_desc">
+        Extracting content through regular expressions
+
+    </system:String>
+    <system:String x:Key="key_223">
+        System state view
+
+    </system:String>
+    <system:String x:Key="key_589">
+        Motion scheme
+
+    </system:String>
+    <system:String x:Key="key_10">
+        Virtualized dataset
+
+    </system:String>
+    <system:String x:Key="key_668">
+        Successfully add properties
+
+    </system:String>
+    <system:String x:Key="key_266">
+        Access to the open source project address of Hawk
+
+    </system:String>
+    <system:String x:Key="key_401">
+        Generation time format
+
+    </system:String>
+    <system:String x:Key="MySQLConnector_desc">
+        IDataBaseConnector
+
+    </system:String>
+    <system:String x:Key="FileExistFT_desc">
+        Determine whether a file is already on the specified path.
+
+    </system:String>
+    <system:String x:Key="key_282">
+        Save the whole task
+
+    </system:String>
+    <system:String x:Key="MySQLConnector">
+        MySQL database
+
+    </system:String>
+    <system:String x:Key="key_683">
+        Move down
+
+    </system:String>
+    <system:String x:Key="key_308">
+        Save the project
+
+    </system:String>
+    <system:String x:Key="SaveFileEX">
+        Save hyperlink file
+
+    </system:String>
+    <system:String x:Key="key_190">
+        Advanced options
+
+    </system:String>
+    <system:String x:Key="UrlTF">
+        URL character escape
+
+    </system:String>
+    <system:String x:Key="key_574">
+        The blank character is replaced by a space
+
+    </system:String>
+    <system:String x:Key="DeleteTF_desc">
+        You don't have to explain it.
+
+    </system:String>
+    <system:String x:Key="SQLiteDatabase">
+        SQLite database
+
+    </system:String>
+    <system:String x:Key="key_569">
+        The name of the column that you want to output
+
+    </system:String>
+    <system:String x:Key="key_95">
+        No definition
+
+    </system:String>
+    <system:String x:Key="key_588">
+        Target city
+
+    </system:String>
+    <system:String x:Key="key_534">
+        When this item is checked, select the next number of item n
+
+    </system:String>
+    <system:String x:Key="DataManager_desc">
+        View and analyze data
+
+    </system:String>
+    <system:String x:Key="key_126">
+        Total number of requests
+
+    </system:String>
+    <system:String x:Key="key_661">
+        Start sniffer service
+
+    </system:String>
+    <system:String x:Key="RangeGE">
+        Generated interval number
+
+    </system:String>
+    <system:String x:Key="NearbySearch">
+        Search the neighborhood
+
+    </system:String>
+    <system:String x:Key="key_322">
+        Load the project file, the location is {0}
+
+    </system:String>
+    <system:String x:Key="key_802"> d:LayoutOverrides=
+
+    </system:String>
+    <system:String x:Key="key_545">
+        Split character
+
+    </system:String>
+    <system:String x:Key="key_555">
+        Conversion format
+
+    </system:String>
+    <system:String x:Key="key_305">
+        file
+
+    </system:String>
+    <system:String x:Key="key_26">
+        Password
+
+    </system:String>
+    <system:String x:Key="key_284">
+        Load this task
+
+    </system:String>
+    <system:String x:Key="key_596">
+        Search radius
+
+    </system:String>
+    <system:String x:Key="key_306">
+        New project
+
+    </system:String>
+    <system:String x:Key="key_635">
+        Request details
+
+    </system:String>
+    <system:String x:Key="DataManager">
+        data management
+
+    </system:String>
+    <system:String x:Key="key_663">
+        Using the current parent node {0} {1}, no parent node can be found in the document.
+
+    </system:String>
+    <system:String x:Key="key_15">
+        Primary key
+
+    </system:String>
+    <system:String x:Key="IConfigFile">
+        Configuration file interface
+
+    </system:String>
+    <system:String x:Key="key_710">
+        Maximum number of threads
+
+    </system:String>
+    <system:String x:Key="key_504">
+        format
+
+    </system:String>
+    <system:String x:Key="key_782">
+        Start
+
+    </system:String>
+    <system:String x:Key="key_480">
+        Maximum repetitions
+
+    </system:String>
+    <system:String x:Key="key_434">
+        The column is passed from the original task to the sub task, and multiple columns are separated by spaces.
+
+    </system:String>
+    <system:String x:Key="key_597">
+        All results
+
+    </system:String>
+    <system:String x:Key="key_50">
+        The file is not a legitimate Json file
+
+    </system:String>
+    <system:String x:Key="key_216">
+        Current connection
+
+    </system:String>
+    <system:String x:Key="UrlTF_desc">
+        Generate URL encoded strings for hyperlink URL for remote access.
+
+    </system:String>
+    <system:String x:Key="IXPlugin">
+        XFrmWork basic plug-in interface
+
+    </system:String>
+    <system:String x:Key="AutoIndexTF_desc">
+        Automatically generates a self added new column from the start index.
+
+    </system:String>
+    <system:String x:Key="key_406">
+        Select the database services that you want to connect to
+
+    </system:String>
+    <system:String x:Key="key_425">
+        Add to the task
+
+    </system:String>
+    <system:String x:Key="key_530">
+        The name of the response head to be obtained is divided by spaces, and is not case sensitive.
+
+    </system:String>
+    <system:String x:Key="key_800">
+        Thank you for using HAWK
+
+    </system:String>
+    <system:String x:Key="key_458">
+        If you want to generate arrays 1, 3, 5, 7, 9, the interval is 2.
+
+    </system:String>
+    <system:String x:Key="key_5">
+        source
+
+    </system:String>
+    <system:String x:Key="key_780">
+        You can drag the icon into the upper blank list of the right data column to add a module to the column.
+
+    </system:String>
+    <system:String x:Key="key_184">
+        The path parsing is incorrect and returns to the empty node:
+
+    </system:String>
+    <system:String x:Key="key_496">
+        Table primary key
+
+    </system:String>
+    <system:String x:Key="SmartETLTool_desc">
+        Filter, transform and merge data, and export them to the database.
+
+    </system:String>
+    <system:String x:Key="key_564">
+        Display independent tasks
+
+    </system:String>
+    <system:String x:Key="LayoutManager">
+        Layout manager
+
+    </system:String>
+    <system:String x:Key="key_291">
+        suspend
+
+    </system:String>
+    <system:String x:Key="key_33">
+        Database deletion failed:
+
+    </system:String>
+    <system:String x:Key="key_30">
+        Connection state
+
+    </system:String>
+    <system:String x:Key="key_563">
+        Combining multiple seeds into one task execution can effectively improve the efficiency of small seed tasks.
+
+    </system:String>
+    <system:String x:Key="ReadFileGe_desc">
+        Data content is read from file. To ensure correct reading, file format and read attribute need to be configured.
+
+    </system:String>
+    <system:String x:Key="key_203">
+        You did not fill out the corresponding parameters: {0}
+
+    </system:String>
+    <system:String x:Key="key_725">
+        Double click to load tasks, right button can delete tasks, and other operations.
+
+    </system:String>
+    <system:String x:Key="TextGE_desc">
+        A piece of data per line, commonly used
+
+    </system:String>
+    <system:String x:Key="key_703">
+        No executor was found in this task.
+
+    </system:String>
+    <system:String x:Key="key_86">
+        Database path
+
+    </system:String>
+    <system:String x:Key="key_37">
+        Create a new library
+
+    </system:String>
+    <system:String x:Key="key_567">
+        introduce
+
+    </system:String>
+    <system:String x:Key="key_109">
+        Unknown
+
+    </system:String>
+    <system:String x:Key="key_408">
+        3. quantity
+
+    </system:String>
+    <system:String x:Key="key_328">
+        Script path
+
+    </system:String>
+    <system:String x:Key="key_160">
+        Attribute name
+
+    </system:String>
+    <system:String x:Key="click_refresh">
+        Click ""Refresh"" to refresh the result
+
+    </system:String>
+    <system:String x:Key="click_commit">
+        Click ""confirmation result"" to submit
+
+    </system:String>
+    <system:String x:Key="key_142">
+        Refresh
+
+    </system:String>
+    <system:String x:Key="TableGE">
+        From data table generation
+
+    </system:String>
+    <system:String x:Key="key_358">
+        The path or file name, such as D:\\file.txt, can be referenced by '[]' 'to the other columns, and if \n is a directory name, it must be explicitly / end, and the file name will be automatically parsed through URL
+
+    </system:String>
+    <system:String x:Key="key_235">
+        Browsing mode
+
+    </system:String>
+    <system:String x:Key="key_206">
+        Single document
+
+    </system:String>
+</ResourceDictionary>

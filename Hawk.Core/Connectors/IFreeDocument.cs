@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Core.Connectors
@@ -22,8 +23,12 @@ namespace Hawk.Core.Connectors
     /// </summary>
     public enum ScriptWorkMode
     {
+        [LocalizedDescription("script_mode_list")]
         List,
+        [LocalizedDescription("script_mode_one")]
         One,
+
+        [LocalizedDescription("script_mode_none")]
         NoTransform,
     }
 
@@ -62,9 +67,14 @@ namespace Hawk.Core.Connectors
     /// </summary>
     public enum SortMethod
     {
-        按列数排序,
-        按行数排序,
-        按分数排序,
-        按面积排序
+        [LocalizedDescription("SortByColumn")]
+        SortByColumn,
+        [LocalizedDescription("SortByRow")]
+        SortByRow,
+        [LocalizedDescription("SortByScore")]
+        SortByScore,
+        [LocalizedDescription("SortByArea")]
+        SortByArea,
+      
     }
 }

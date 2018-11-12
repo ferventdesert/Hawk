@@ -59,8 +59,8 @@ namespace Hawk.ETL.Interfaces
         /// <summary>
         ///     模块名称
         /// </summary>
-        [LocalizedCategory("1.基本信息")]
-        [LocalizedDisplayName("模块名称")]
+        [LocalizedCategory("key_199")]
+        [LocalizedDisplayName("key_200")]
         public virtual string Name
         {
             get { return _name; }
@@ -69,15 +69,7 @@ namespace Hawk.ETL.Interfaces
                 if (_name == value) return;
                 _name = value;
                 OnPropertyChanged("Name");
-                if (MainDescription.IsUIForm)
-                {
-                    var dock = MainFrm as IDockableManager;
-                    var view = dock?.ViewDictionary.FirstOrDefault(d => d.Model == this);
-                    if(view==null)
-                        return;
-                    dynamic container = view.Container;
-                    container.Title =  _name;
-                }
+             
             }
         }
 

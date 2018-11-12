@@ -3,11 +3,7 @@ Hawk: Advanced ETL & Crawler Stream Engine
 
 ***
 
-Welcome to use Hawk!
-
-![Hawk](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Hawk/Hawk.ico)
-
-Hawk can graphically crawle webpage, process data WYSIWYG without programming, which written in C#/WPF, open source according to the GPL protocol.
+Welcome to use Hawk! Hawk can graphically crawle webpage, clean, process and save data without programming， written in C#/WPF, open source according to the GPL protocol.
 
 - Github : https://github.com/ferventdesert/Hawk
 - Documentation: https://ferventdesert.github.io/Hawk/
@@ -16,9 +12,7 @@ Hawk can graphically crawle webpage, process data WYSIWYG without programming, w
 
 ## Introduction
 
-The meaning of Hawk is "Eagle", which can kill prey efficiently and accurately. Its design idea comes from **Lisp** language , and its function mimics **awk** in Unix.
-
-![splash](https://github.com/ferventdesert/Hawk/blob/master/Hawk/splash.jpg?raw=true)
+The meaning of Hawk is "Eagle", which can kill prey efficiently and accurately. Its design idea comes from Lisp language , and its function mimics awk in Unix.
 
 The key features are as follows:
 
@@ -31,11 +25,11 @@ The key features are as follows:
 
 Super fast & Smart crawling webpage:
 
-![2.gif-3330.9kB] (http://static.zybuluo.com/buptzym/10kykg6qhqvsabbq8yj32pt0/2.gif)
+[2.gif-3330.9kB] (http://static.zybuluo.com/buptzym/10kykg6qhqvsabbq8yj32pt0/2.gif)
 
 WYSIWYG ETL:
 
-![1.gif-1001.8kB] (http://static.zybuluo.com/buptzym/qkl0vavjn6cj007qfk2k3gqg/1.gif) 
+[1.gif-1001.8kB] (http://static.zybuluo.com/buptzym/qkl0vavjn6cj007qfk2k3gqg/1.gif) 
 
 ## Upgrade History
 

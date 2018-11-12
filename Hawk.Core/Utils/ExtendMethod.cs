@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -129,6 +130,7 @@ namespace Hawk.Core.Utils
             }
             catch (Exception ex)
             {
+                XLogSys.Print.Warn(ex);
                 throw;
             }
 
@@ -149,7 +151,7 @@ namespace Hawk.Core.Utils
         public static T Get<T>(this ICollection<T> collection, string name, bool? isAddToList = true)
             where T : class, IProcess
         {
-            var process = collection.FirstOrDefault(d => name == d.TypeName);
+            var process = collection.FirstOrDefault(d => name == d.GetType().Name);
             if (process != null) return process;
             var newProcess =
                 PluginProvider.GetPluginCollection(typeof (T)).FirstOrDefault(d => d.Name == name);
@@ -163,7 +165,7 @@ namespace Hawk.Core.Utils
             {
                 collection.Add(newProcess.MyType);
 
-                var newone = collection.FirstOrDefault(d => name == d.TypeName);
+                var newone = collection.FirstOrDefault(d => name == d.GetType().Name);
 
                 return newone;
             }
@@ -241,7 +243,7 @@ namespace Hawk.Core.Utils
                     }
                     catch (Exception ex)
                     {
-                        XLogSys.Print.Warn($"批量插入错误{ex.Message}");
+                        XLogSys.Print.Warn(GlobalHelper.Get("key_111")+ ex.Message);
                     }
 
                     list = new List<T>();

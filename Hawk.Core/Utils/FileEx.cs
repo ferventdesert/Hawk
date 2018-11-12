@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Plugins;
 
@@ -89,10 +90,13 @@ namespace Hawk.Core.Utils
         public static void WriteAll(this IFileConnector connector,IEnumerable<IFreeDocument> data )
         {
 
-           
+            Monitor.Enter(connector);//锁定，保持同步
 
-                var r = connector.WriteData(data).LastOrDefault();
 
+            var r = connector.WriteData(data).LastOrDefault();
+
+            Monitor.Exit(connector);//锁定，保持同步 
+            Thread.Sleep(200);
         }
 
         public static void LineRead(string filename, Action<string> act,Encoding code= null)

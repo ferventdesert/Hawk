@@ -6,7 +6,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("时间转字符串",  "将时间类型转换为特定格式的字符串")]
+    [XFrmWork("Time2StrTF",  "Time2StrTF_desc")]
     public class Time2StrTF : TransformerBase
     {
         public Time2StrTF()
@@ -14,7 +14,7 @@ namespace Hawk.ETL.Plugins.Transformers
             Format = "yyyy-MM-dd";
         }
 
-        [LocalizedDisplayName("转换格式")]
+        [LocalizedDisplayName("key_555")]
         public string Format { get; set; }
  
         public override object TransformData(IFreeDocument document)

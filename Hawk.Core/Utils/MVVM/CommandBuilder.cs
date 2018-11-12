@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -86,13 +87,22 @@ namespace Hawk.Core.Utils.MVVM
 
         void ICommand.Execute(object parameter)
         {
-            ControlExtended.SafeInvoke(() => Execute?.Invoke(parameter),LogType.Info,"点击按钮: "+this.Text);
+            ControlExtended.SafeInvoke(() => Execute?.Invoke(parameter),LogType.Info,GlobalHelper.Get("key_133")+this.Text);
 
         }
 
         bool ICommand.CanExecute(object parameter)
         {
-            return CanExecute(parameter);
+            try
+            {
+
+               return CanExecute(parameter);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
         }
 
         public override string ToString()
@@ -113,17 +123,17 @@ namespace Hawk.Core.Utils.MVVM
         {
             var commands2 = new ReadOnlyCollection<ICommand>(newCommands);
             return commands2;
-            ReadOnlyCollection<ICommand> commands; //这里会造成恐怖的问题，一个Object只能缓存一个命令集合？显然可以有多个啊!
-            if (BufferDictionary.TryGetValue(type, out commands))
-            {
-                return commands;
-            }
-            else
-            {
-                commands = new ReadOnlyCollection<ICommand>(newCommands);
-                BufferDictionary.Add(type, commands);
-                return commands;
-            }
+            //ReadOnlyCollection<ICommand> commands; //这里会造成恐怖的问题，一个Object只能缓存一个命令集合？显然可以有多个啊!
+            //if (BufferDictionary.TryGetValue(type, out commands))
+            //{
+            //    return commands;
+            //}
+            //else
+            //{
+            //    commands = new ReadOnlyCollection<ICommand>(newCommands);
+            //    BufferDictionary.Add(type, commands);
+            //    return commands;
+            //}
         }
     }
 }

@@ -11,8 +11,8 @@
     <UserControl.Resources>
         <ContextMenu x:Key="resourceContextMenu"
         					DataContext="{Binding Data.Binding CrawlItemCommands, Source={StaticResource BindingProxy}}">
-            <MenuItem DataContext="{Binding [3]}" Style="{DynamicResource CommandMenuItem}" />
-            <MenuItem DataContext="{Binding [4]}" Style="{DynamicResource CommandMenuItem}" />
+            <MenuItem DataContext="{Binding [3]}"  />
+            <MenuItem DataContext="{Binding [4]}"  />
             >
         </ContextMenu>
     </UserControl.Resources>
@@ -26,49 +26,49 @@
             </ListView.Resources>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="选中">
+                    <GridViewColumn Header="{DynamicResource key_757}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox IsChecked="{Binding IsSelected}"  HorizontalAlignment="Center" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="名称" Width="100">
+                    <GridViewColumn Header="{DynamicResource key_18}" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding Name}" HorizontalAlignment="Center" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="选择器" Width="100">
+                    <GridViewColumn Header="{DynamicResource key_162}" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox ItemsSource="{attributes:EnumValues {x:Type connectors:SelectorFormat}}" SelectedItem="{Binding Format}" HorizontalAlignment="Center" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="路径" Width="200">
+                    <GridViewColumn Header="{DynamicResource key_163}" Width="200">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding XPath}" HorizontalAlignment="Center" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="获取策略" Width="100">
+                    <GridViewColumn Header="{DynamicResource key_747}" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox ItemsSource="{attributes:EnumValues {x:Type connectors:CrawlType}}" SelectedItem="{Binding CrawlType}" HorizontalAlignment="Center" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="启用">
+                    <GridViewColumn Header="{DynamicResource key_568}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox IsChecked="{Binding IsEnabled}"  HorizontalAlignment="Center" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="样例">
+                    <GridViewColumn Header="{DynamicResource key_758}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding SampleData1}"  HorizontalAlignment="Center" />

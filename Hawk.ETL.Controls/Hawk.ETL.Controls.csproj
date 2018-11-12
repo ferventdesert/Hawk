@@ -45,6 +45,7 @@
       <HintPath>..\Includes\System.Windows.Controls.WpfPropertyGrid.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -65,6 +66,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\TextToFlowDocumentConverter.cs" />
+    <Compile Include="DataViewers\FlowDocumentViewer.cs" />
+    <Compile Include="XPathDetector.xaml.cs">
+      <DependentUpon>XPathDetector.xaml</DependentUpon>
+    </Compile>
     <Page Include="DataProcessManagerUI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -150,6 +156,10 @@
     <Compile Include="TaskManagerView.xaml.cs">
       <DependentUpon>TaskManagerView.xaml</DependentUpon>
     </Compile>
+    <Page Include="XPathDetector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

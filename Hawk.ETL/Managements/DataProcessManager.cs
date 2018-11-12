@@ -2,20 +2,28 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Configuration;
 using System.Globalization;
+using System.IO;
 using System.Linq;
-using System.Resources;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.WpfPropertyGrid;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
+using AutoUpdaterDotNET;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
+using Hawk.ETL.Market;
+using Hawk.ETL.Plugins.Generators;
+using Hawk.ETL.Plugins.Transformers;
 using Hawk.ETL.Process;
 using log4net;
 using log4net.Core;
@@ -23,9 +31,7 @@ using log4net.Repository.Hierarchy;
 
 namespace Hawk.ETL.Managements
 {
-
-  
-    [XFrmWork("模块管理", "对算法模块实现管理和组装，但不提供界面", "")]
+    [XFrmWork("DataProcessManager_name", "DataProcessManager_desc", "")]
     public class DataProcessManager : AbstractPlugIn, IProcessManager, IView
     {
         private FreeDocument configDocument;
@@ -34,20 +40,18 @@ namespace Hawk.ETL.Managements
 
         private IDataManager dataManager;
 
+        public WPFPropertyGrid ProjectPropertyWindow => PropertyGridFactory.GetInstance(CurrentProject);
 
-        //TODO
-        private XFrmWorkPropertyGrid propertyGridWindow;
+        public WPFPropertyGrid SystemConfigWindow => PropertyGridFactory.GetInstance(ConfigFile.GetConfig());
 
         private string searchText;
-
-        private IDataProcess selectedProcess;
 
         #endregion
 
         #region Events
 
         #endregion
-
+    
         #region Properties
 
         public IAction BindingCommands { get; private set; }
@@ -64,56 +68,120 @@ namespace Hawk.ETL.Managements
             {
                 if (searchText == value) return;
                 searchText = value;
-                if (ProjectTaskList.CanFilter)
+                if (MarketProjectList.CanFilter)
                 {
-                    ProjectTaskList.Filter = FilterMethod;
+                    MarketProjectList.Filter = FilterMethod;
                 }
                 OnPropertyChanged("SearchText");
             }
         }
 
-        public IDataProcess SelectedProcess
+
+        public ProjectItem SelectedRemoteProject
+
         {
-            get { return selectedProcess; }
+            get { return _selectedRemoteProject; }
             set
             {
-                if (selectedProcess == value) return;
-                selectedProcess = value;
-
-                OnPropertyChanged("SelectedProcess");
+                if (_selectedRemoteProject == value) return;
+                _selectedRemoteProject = value;
+                OnPropertyChanged("SelectedRemoteProject");
+                OnPropertyChanged("SelectedLocalProject");
             }
         }
 
-        public TaskBase SelectedTask
+        public Project SelectedLocalProject
 
         {
-            get { return _selectedTask; }
-            set
+            get
             {
-                if (_selectedTask == value) return;
-                _selectedTask = value;
-                OnPropertyChanged("SelectedTask");
-                ShowConfigUI(value);
+                //return null;
+                return GetRemoteProjectContent().Result;
             }
         }
+
+        private readonly Dictionary<ProjectItem, Project> RemoteProjectBuff = new Dictionary<ProjectItem, Project>();
+
+        public async Task<Project> GetRemoteProjectContent(ProjectItem projectItem=null)
+
+        {
+            if (projectItem == null)
+                projectItem = SelectedRemoteProject;
+            Project project = null;
+            if (projectItem == null || projectItem.IsRemote == false)
+                return null;
+            ControlExtended.SetBusy(ProgressBarState.NoProgress);
+            Monitor.Enter(RemoteProjectBuff);
+            if (RemoteProjectBuff.TryGetValue(projectItem, out project))
+            {
+                Monitor.Exit(RemoteProjectBuff);
+                return project;
+            }
+            Monitor.Exit(RemoteProjectBuff);
+            ControlExtended.SetBusy(ProgressBarState.Indeterminate);
+            project = await Project.LoadFromUrl(projectItem.SavePath);
+            ControlExtended.SetBusy(ProgressBarState.NoProgress);
+            Monitor.Enter(RemoteProjectBuff);
+            if (RemoteProjectBuff.ContainsKey(projectItem))
+            {
+                RemoteProjectBuff[projectItem] = project;
+            }
+            else
+            {
+                RemoteProjectBuff.Add(SelectedRemoteProject, project);
+            }
+            Monitor.Exit(RemoteProjectBuff);
+            project.DictDeserialize(projectItem.DictSerialize());
+
+            return project;
+        }
+
 
         public ICollection<IDataProcess> CurrentProcessCollections => ProcessCollection;
-
-
+        private ListBox processView;
+        private ListView currentProcessTasksView;
         public FrmState FrmState => FrmState.Large;
 
 
         public object UserControl => null;
 
-        private IDataProcess GetProcess(object data)
+        private IEnumerable<IDataProcess> GetSelectedProcess(object data)
         {
-            if (data != null) return data as IDataProcess;
-            return SelectedProcess ?? null;
+            if (data != null)
+            {
+                yield return data as IDataProcess;
+                yield break;
+            }
+            if (processView == null)
+                yield break;
+
+
+            foreach (var item in processView.SelectedItems.IListConvert<IDataProcess>())
+
+                yield return item;
+        }
+
+        public ObservableCollection<ProjectItem> MarketProjects { get; set; }
+
+        private IEnumerable<TaskBase> GetSelectedTask(object data)
+        {
+            if (data != null)
+            {
+                yield return data as TaskBase;
+                yield break;
+            }
+            if (processView == null)
+                yield break;
+            foreach (var item in currentProcessTasksView.SelectedItems.IListConvert<TaskBase>())
+
+                yield return item;
         }
 
         #endregion
 
         #region Public Methods
+
+        public GitHubAPI GitHubApi { get;private set; }
 
         private IDockableManager dockableManager;
 
@@ -128,134 +196,117 @@ namespace Hawk.ETL.Managements
 
         public void SaveCurrentTasks()
         {
+            CurrentProject.Tasks.Clear();
             foreach (var process in CurrentProcessCollections)
             {
                 SaveTask(process, false);
             }
             CurrentProject.Save();
         }
+
         public override bool Init()
         {
             base.Init();
+            GitHubApi = new GitHubAPI();
+            MarketProjects = new ObservableCollection<ProjectItem>();
             dockableManager = MainFrmUI as IDockableManager;
-            dataManager = MainFrmUI.PluginDictionary["数据管理"] as IDataManager;
-            propertyGridWindow = MainFrmUI.PluginDictionary["属性配置器"] as XFrmWorkPropertyGrid;
+            dataManager = MainFrmUI.PluginDictionary["DataManager"] as IDataManager;
 
-            var aboutAuthor=new BindingAction("关于", d =>
+            var aboutAuthor = new BindingAction(GlobalHelper.Get("key_262"), d =>
             {
-                var view = PluginProvider.GetObjectInstance<ICustomView>("关于作者");
+                var view = PluginProvider.GetObjectInstance<ICustomView>(GlobalHelper.Get("key_263"));
                 var window = new Window();
-                window.Title = "关于作者";
+                window.Title = GlobalHelper.Get("key_263");
                 window.Content = view;
                 window.ShowDialog();
-            }) {Description = "Hawk版本与检查更新", Icon = "information"};
-            var mainlink = new BindingAction("项目主页",  d =>
+            }) {Description = GlobalHelper.Get("key_264"), Icon = "information"};
+            var mainlink = new BindingAction(GlobalHelper.Get("key_265"), d =>
             {
                 var url = "https://github.com/ferventdesert/Hawk";
                 System.Diagnostics.Process.Start(url);
-            }) {Description = "访问Hawk的开源项目地址",Icon = "home"};
-            var helplink = new BindingAction("使用文档", d =>
+            }) {Description = GlobalHelper.Get("key_266"), Icon = "home"};
+            var helplink = new BindingAction(GlobalHelper.Get("key_267"), d =>
             {
-                var url = "https://github.com/ferventdesert/Hawk/wiki";
+                var url = "https://ferventdesert.github.io/Hawk/";
                 System.Diagnostics.Process.Start(url);
             })
-            { Description = "这里有使用Hawk的案例与完整教程" ,Icon = "question" };
+            {Description = GlobalHelper.Get("key_268"), Icon = "question"};
 
-            var feedback = new BindingAction("反馈问题", d =>
+            var feedback = new BindingAction(GlobalHelper.Get("key_269"), d =>
             {
                 var url = "https://github.com/ferventdesert/Hawk/issues";
                 System.Diagnostics.Process.Start(url);
             })
-            { Description = "出现bug或者问题了？欢迎反馈" ,Icon = "reply_people"};
+            {Description = GlobalHelper.Get("key_270"), Icon = "reply_people"};
 
 
-            var giveme = new BindingAction("捐赠", d =>
+            var giveme = new BindingAction(GlobalHelper.Get("key_271"), d =>
             {
-                var url = "https://github.com/ferventdesert/Hawk/wiki/8-%E5%85%B3%E4%BA%8E%E4%BD%9C%E8%80%85%E5%92%8C%E6%8D%90%E8%B5%A0";
+                var url =
+                    "https://github.com/ferventdesert/Hawk/wiki/8-%E5%85%B3%E4%BA%8E%E4%BD%9C%E8%80%85%E5%92%8C%E6%8D%90%E8%B5%A0";
                 System.Diagnostics.Process.Start(url);
             })
-            { Description = "你的支持是作者更新Hawk的动力" , Icon = "smiley_happy"};
-            var blog = new BindingAction("博客", d =>
+            {Description = GlobalHelper.Get("key_272"), Icon = "smiley_happy"};
+            var blog = new BindingAction(GlobalHelper.Get("key_273"), d =>
             {
                 var url = "http://www.cnblogs.com/buptzym/";
                 System.Diagnostics.Process.Start(url);
-            }){Description = "作者沙漠君的博客", Icon = "tower"};
-         
-            var helpCommands = new BindingAction("帮助") {Icon = "magnify"};
+            }) {Description = GlobalHelper.Get("key_274"), Icon = "tower"};
+
+            var update = new BindingAction(GlobalHelper.Get("checkupgrade"),
+                d =>
+                {
+                    AutoUpdater.Start("https://raw.githubusercontent.com/ferventdesert/Hawk/global/Hawk/autoupdate.xml");
+                })
+            {Description = GlobalHelper.Get("checkupgrade"), Icon = "arrow_up"};
+            var helpCommands = new BindingAction(GlobalHelper.Get("key_275")) {Icon = "magnify"};
             helpCommands.ChildActions.Add(mainlink);
             helpCommands.ChildActions.Add(helplink);
-        
+
             helpCommands.ChildActions.Add(feedback);
             helpCommands.ChildActions.Add(giveme);
             helpCommands.ChildActions.Add(blog);
             helpCommands.ChildActions.Add(aboutAuthor);
+            helpCommands.ChildActions.Add(update);
             MainFrmUI.CommandCollection.Add(helpCommands);
 
-            Hierarchy hierarchy = (Hierarchy)LogManager.GetRepository();
-            var debugCommand= new BindingAction("调试")
+            var hierarchy = (Hierarchy) LogManager.GetRepository();
+            var debugCommand = new BindingAction(GlobalHelper.Get("debug"))
             {
-                ChildActions = new ObservableCollection<ICommand>()
+                ChildActions = new ObservableCollection<ICommand>
                 {
-                    new BindingAction("级别设置")
+                    new BindingAction(GlobalHelper.Get("key_277"))
                     {
                         ChildActions =
-                            new ObservableCollection<ICommand>()
+                            new ObservableCollection<ICommand>
                             {
-                                new BindingAction("Debug",obj=>hierarchy.Root.Level=Level.Debug),
-                                new BindingAction("Info",obj=>hierarchy.Root.Level=Level.Info),
-                                new BindingAction("Warn",obj=>hierarchy.Root.Level=Level.Warn),
-                                new BindingAction("Error",obj=>hierarchy.Root.Level=Level.Error),
-                                new BindingAction("Fatal",obj=>hierarchy.Root.Level=Level.Fatal),
+                                new BindingAction("Debug", obj => hierarchy.Root.Level = Level.Debug),
+                                new BindingAction("Info", obj => hierarchy.Root.Level = Level.Info),
+                                new BindingAction("Warn", obj => hierarchy.Root.Level = Level.Warn),
+                                new BindingAction("Error", obj => hierarchy.Root.Level = Level.Error),
+                                new BindingAction("Fatal", obj => hierarchy.Root.Level = Level.Fatal)
                             }
                     }
                 },
-
                 Icon = ""
             };
 
             MainFrmUI.CommandCollection.Add(debugCommand);
-            debugCommand?.ChildActions.Add(new BindingAction("Web请求统计", obj =>
-            {
-
-                if (debugGrid == null)
-                {
-                    debugGrid = PropertyGridFactory.GetInstance(RequestManager.Instance);
-                }
-                else
-                {
-                    debugGrid.SetObjectView(RequestManager.Instance);
-                }
-               
-                dynamic control =
-                    (this.MainFrmUI as IDockableManager).ViewDictionary.FirstOrDefault(d => d.View == debugGrid)
-                    ?.Container;
-                if (control != null)
-                {
-                    control.Show();
-                }
-
-                else
-                {
-                    (this.MainFrmUI as IDockableManager).AddDockAbleContent(FrmState.Mini, debugGrid, "Web请求统计");
-                }
-
-
-                
-
-            }){Icon = "graph_line"});
             ProcessCollection = new ObservableCollection<IDataProcess>();
 
 
             CurrentProcessTasks = new ObservableCollection<TaskBase>();
-            BindingCommands = new BindingAction("运行");
+            BindingCommands = new BindingAction(GlobalHelper.Get("key_279"));
             var sysCommand = new BindingAction();
 
             sysCommand.ChildActions.Add(
                 new Command(
-                    "清空任务列表",
+                    GlobalHelper.Get("key_280"),
                     obj =>
                     {
-                        if (MessageBox.Show("确定清空所有算法模块么？", "提示信息", MessageBoxButton.OKCancel) ==
+                        if (
+                            MessageBox.Show(GlobalHelper.Get("key_281"), GlobalHelper.Get("key_99"),
+                                MessageBoxButton.OKCancel) ==
                             MessageBoxResult.OK)
                         {
                             ProcessCollection.RemoveElementsNoReturn(d => true, RemoveOperation);
@@ -265,10 +316,12 @@ namespace Hawk.ETL.Managements
 
             sysCommand.ChildActions.Add(
                 new Command(
-                    "保存全部任务",
+                    GlobalHelper.Get("key_282"),
                     obj =>
                     {
-                        if (MessageBox.Show("确定保存所有算法模块么？", "提示信息", MessageBoxButton.OKCancel) ==
+                        if (
+                            MessageBox.Show(GlobalHelper.Get("key_283"), GlobalHelper.Get("key_99"),
+                                MessageBoxButton.OKCancel) ==
                             MessageBoxResult.OK)
                         {
                             SaveCurrentTasks();
@@ -281,25 +334,32 @@ namespace Hawk.ETL.Managements
             var taskAction1 = new BindingAction();
 
 
-            taskAction1.ChildActions.Add(new Command("加载本任务",
-                obj => (obj as ProcessTask).Load(true),
+            taskAction1.ChildActions.Add(new Command(GlobalHelper.Get("key_284"),
+                async obj =>
+                {
+                    var project = await GetRemoteProjectContent();
+                    if (project != null)
+                    {
+                        foreach (var param in project.Parameters)
+                        {
+                            //TODO: how check if it is same? name?
+                            if (CurrentProject.Parameters.FirstOrDefault(d => d.Name == param.Name) == null)
+                                CurrentProject.Parameters.Add(param);
+                        }
+                        CurrentProject.ConfigSelector.SelectItem = project.ConfigSelector.SelectItem;
+                    }
+                 
+                    (obj as ProcessTask).Load(true);
+                },
                 obj => obj is ProcessTask, "inbox_out"));
 
-     
-            taskAction1.ChildActions.Add(new Command("删除任务",
-                obj => CurrentProject.Tasks.Remove(obj as ProcessTask),
-                obj => obj is ProcessTask,"delete"));
-            taskAction1.ChildActions.Add(new Command("执行任务脚本",
-             (obj=>(obj as ProcessTask).EvalScript()),
-             obj =>(obj is ProcessTask)&& CurrentProcessCollections.FirstOrDefault(d => d.Name == (obj as ProcessTask).Name) != null));
-            taskAction1.ChildActions.Add(new Command("配置",obj=>PropertyGridFactory.GetPropertyWindow(obj).ShowDialog()
-            ));
 
+         
 
 
             BindingCommands.ChildActions.Add(taskAction1);
-            var taskAction2 = new BindingAction("任务列表2");
-            taskAction2.ChildActions.Add(new Command("开始任务",
+            var taskAction2 = new BindingAction(GlobalHelper.Get("key_287"));
+            taskAction2.ChildActions.Add(new Command(GlobalHelper.Get("key_288"),
                 obj =>
                 {
                     var task = obj as TaskBase;
@@ -311,7 +371,7 @@ namespace Hawk.ETL.Managements
                     return task != null && task.IsStart == false;
                 }, "play"));
 
-            taskAction2.ChildActions.Add(new Command("取消任务",
+            taskAction2.ChildActions.Add(new Command(GlobalHelper.Get("cancel_task"),
                 obj =>
                 {
                     var task = obj as TaskBase;
@@ -329,115 +389,121 @@ namespace Hawk.ETL.Managements
                 }, "cancel"));
 
 
-            var taskListAction = new BindingAction("任务列表命令");
+            var runningTaskActions = new BindingAction(GlobalHelper.Get("key_290"));
 
-            taskListAction.ChildActions.Add(new Command("全选",
-                d => CurrentProcessTasks.Execute(d2 => d2.IsSelected = true), null, "check"));
 
-            taskListAction.ChildActions.Add(new Command("反选",
-                d => CurrentProcessTasks.Execute(d2 => d2.IsSelected =!d2.IsSelected), null, "redo"));
+            runningTaskActions.ChildActions.Add(new Command(GlobalHelper.Get("key_291"),
+                d => GetSelectedTask(d).Execute(d2 => d2.IsPause = true), d=>ProcessTaskCanExecute(d,true), "pause"));
+            runningTaskActions.ChildActions.Add(new Command(GlobalHelper.Get("key_292"),
+                d => GetSelectedTask(d).Execute(d2 => d2.IsPause = false), d=> ProcessTaskCanExecute(d,false), "play"));
 
-            taskListAction.ChildActions.Add(new Command("暂停",
-                d => CurrentProcessTasks.Where(d2 => d2.IsSelected).Execute(d2 => d2.IsPause = true), null, "pause"));
-            taskListAction.ChildActions.Add(new Command("恢复",
-                d => CurrentProcessTasks.Where(d2 => d2.IsSelected).Execute(d2 => d2.IsPause = false), null, "play"));
+            runningTaskActions.ChildActions.Add(new Command(GlobalHelper.Get("key_293"),
+                d =>
+                {
+                    var selectedTasks = GetSelectedTask(d).ToList();
+                    CurrentProcessTasks.RemoveElementsNoReturn(d2 => selectedTasks.Contains(d2), d2 => d2.Remove());
+                }, d => ProcessTaskCanExecute(d, null), "delete"));
 
-            taskListAction.ChildActions.Add(new Command("取消",
-               d => CurrentProcessTasks.RemoveElementsNoReturn(d2=>d2.IsSelected,d2=>d2.Remove()), null,"delete"));
 
-            BindingCommands.ChildActions.Add(taskListAction);
+            runningTaskActions.ChildActions.Add(new Command(GlobalHelper.Get("property"),
+            d =>
+            {
+                var selectedTasks = GetSelectedTask(d).FirstOrDefault();
+                PropertyGridFactory.GetPropertyWindow(selectedTasks).ShowDialog();
 
-            BindingCommands.ChildActions.Add(taskListAction);
+            }, d => ProcessTaskCanExecute(d, null), "settings"));
+
+
+
+            BindingCommands.ChildActions.Add(runningTaskActions);
+            BindingCommands.ChildActions.Add(runningTaskActions);
+
 
             var processAction = new BindingAction();
 
+            dynamic processview =
+                (MainFrmUI as IDockableManager).ViewDictionary.FirstOrDefault(d => d.Name == GlobalHelper.Get("key_794"))
+                    .View;
+            processView = processview.processListBox as ListBox;
 
 
+            var dataTimer = new DispatcherTimer();
+            var tickInterval = ConfigFile.GetConfig().Get<int>("AutoSaveTime");
+            if (tickInterval > 0)
+            {
+                dataTimer.Tick += timeCycle;
+                dataTimer.Interval = new TimeSpan(0, 0, 0, tickInterval);
+                dataTimer.Start();
+            }
 
 
-
-            processAction.ChildActions.Add(new Command("新建或复制数据清洗", obj =>
+            processAction.ChildActions.Add(new Command(GlobalHelper.Get("key_294"), obj =>
             {
                 if (obj != null)
                 {
-                    var process = GetProcess(obj);
-                    if (process == null) return;
-                    var old = obj as IDataProcess;
-                    if (old == null)
-                        return;
-
-                    //ProcessCollection.Remove(old);
-                    var name = process.GetType().ToString().Split('.').Last();
-
-                    var item = GetOneInstance(name, true, true);
-                    (process as IDictionarySerializable).DictCopyTo(item as IDictionarySerializable);
-                    item.Init();
-                    item.Name = old.Name + "_copy";
-                    ProcessCollection.Add(item);
-
-                }
-                else
-                {
-                    var plugin = this.GetOneInstance("SmartETLTool", true, true, true) as SmartETLTool;
-                    plugin.Init();
-                    ControlExtended.DockableManager.ActiveModelContent(plugin);
-                }
-              
-
-            }, obj => true, "add"));
-
-            processAction.ChildActions.Add(new Command("新建或复制采集器", obj =>
-            {
-                if (obj == null)
-                {
-                    var plugin = this.GetOneInstance("SmartCrawler", true, true, true) as SmartCrawler;
-                    plugin.Init();
-                    ControlExtended.DockableManager.ActiveModelContent(plugin);
-                }
-                else
-                {
-                    var process = GetProcess(obj);
-                    if (process == null) return;
-                    var old = obj as IDataProcess;
-                    if (old == null)
-                        return;
-
-                    //ProcessCollection.Remove(old);
-                    var name = process.GetType().ToString().Split('.').Last();
-
-                    var item = GetOneInstance(name, true, true);
-                    (process as IDictionarySerializable).DictCopyTo(item as IDictionarySerializable);
-                    item.Init();
-                    item.Name = old.Name + "_copy";
-                    ProcessCollection.Add(item);
-                }
-               
-               
-
-            }, obj => true, "cloud_add"));
-
-       
-
-            processAction.ChildActions.Add(new Command("保存任务", obj =>
-            {
-                var process = obj as IDataProcess;
-                if (process == null)
-                {
-                    foreach (var target in CurrentProcessCollections)
+                    foreach (var process in GetSelectedProcess(obj))
                     {
-                        SaveTask(target, false);
-                    
+                        if (process == null) return;
+                        var old = obj as IDataProcess;
+                        if (old == null)
+                            return;
+
+                        var name = process.GetType().ToString().Split('.').Last();
+                        var item = GetOneInstance(name, true, true);
+                        (process as IDictionarySerializable).DictCopyTo(item as IDictionarySerializable);
+                        item.Init();
+                        item.Name = process.Name + "_copy";
                     }
                 }
                 else
                 {
-                    SaveTask(process, true);
+                    var plugin = GetOneInstance("SmartETLTool", true, true, true) as SmartETLTool;
+                    plugin.Init();
+                    ControlExtended.DockableManager.ActiveModelContent(plugin);
                 }
-              
-            }, obj => true,"save"));
-            processAction.ChildActions.Add(new Command("显示并配置", obj =>
+            }, obj => true, "add"));
+
+            processAction.ChildActions.Add(new Command(GlobalHelper.Get("key_295"), obj =>
             {
-                var process = GetProcess(obj);
+                if (obj == null)
+                {
+                    var plugin = GetOneInstance("SmartCrawler", true, true, true) as SmartCrawler;
+                    plugin.Init();
+                    ControlExtended.DockableManager.ActiveModelContent(plugin);
+                }
+                else
+                {
+                    foreach (var process in GetSelectedProcess(obj))
+                    {
+                        if (process == null) return;
+                        var name = process.GetType().ToString().Split('.').Last();
+                        var item = GetOneInstance(name, true, true);
+
+                        (process as IDictionarySerializable).DictCopyTo(item as IDictionarySerializable);
+                        item.Init();
+                        item.Name = process.Name + "_copy";
+                    }
+                }
+            }, obj => true, "cloud_add"));
+
+
+            processAction.ChildActions.Add(new Command(GlobalHelper.Get("key_296"), obj =>
+            {
+                if (obj == null)
+                {
+                    SaveCurrentTasks();
+                }
+                else
+                {
+                    foreach (var process in GetSelectedProcess(obj))
+                    {
+                        SaveTask(process, false);
+                    }
+                }
+            }, obj => true, "save"));
+            processAction.ChildActions.Add(new Command(GlobalHelper.Get("key_297"), obj =>
+            {
+                var process = GetSelectedProcess(obj).FirstOrDefault();
                 if (process == null) return;
                 var view = (MainFrmUI as IDockableManager).ViewDictionary.FirstOrDefault(d => d.Model == process);
                 if (view == null)
@@ -445,37 +511,54 @@ namespace Hawk.ETL.Managements
                     LoadProcessView(process);
                 }
                 (MainFrmUI as IDockableManager).ActiveModelContent(process);
-                ShowConfigUI(process);
-            }, obj => true, "delete"));
-            processAction.ChildActions.Add(new Command("移除", obj =>
+             
+                process.Init();
+            }, obj => true, "tv"));
+            processAction.ChildActions.Add(new Command(GlobalHelper.Get("key_298"), obj =>
             {
-                var process = GetProcess(obj);
-                if (process == null) return;
-
-                RemoveOperation(process);
-                ProcessCollection.Remove(process);
-                var tasks = this.CurrentProcessTasks.Where(d => d.Publisher == process).ToList();
-                if (tasks.Any())
+                if (MessageBox.Show(GlobalHelper.Get("delete_confirm"),GlobalHelper.Get("key_99"),MessageBoxButton.OKCancel) == MessageBoxResult.Cancel)
                 {
-                    foreach (var item in tasks)
-                    {
-                        item.Remove();
-                        XLogSys.Print.Warn($"由于任务{process.Name} 已经被删除， 相关任务${item.Name} 也已经被强行取消");
-                    }
-
+                    return;
                 }
-                ShowConfigUI(null);
-            }, obj => true, "delete"));
-            processAction.ChildActions.Add(new Command("打开欢迎页面", obj =>
-            {
-                ControlExtended.DockableManager.ActiveThisContent("模块管理");
-            }, obj => true, "home"));
+                foreach (var process in GetSelectedProcess(obj))
+                {
+                    if (process == null) return;
 
+                    RemoveOperation(process);
+                    ProcessCollection.Remove(process);
+                    var tasks = CurrentProcessTasks.Where(d => d.Publisher == process).ToList();
+                    if (tasks.Any())
+                    {
+                        foreach (var item in tasks)
+                        {
+                            item.Remove();
+                            XLogSys.Print.Warn(string.Format(GlobalHelper.Get("key_299"), process.Name, item.Name));
+                        }
+                    }
+                }
+            }, obj => true, "delete"));
+            processAction.ChildActions.Add(new Command(GlobalHelper.Get("key_300"),
+                obj => { ControlExtended.DockableManager.ActiveThisContent(GlobalHelper.Get("ModuleMgmt")); },
+                obj => true, "home"));
+            processAction.ChildActions.Add(new Command(GlobalHelper.Get("find_ref"),
+                obj =>
+                {
+                    PrintReferenced(obj as IDataProcess);
+
+                },obj=>true, "diagram"));
+            processAction.ChildActions.Add(new Command(GlobalHelper.Get("property"),
+              obj =>
+              {
+                  PropertyGridFactory.GetPropertyWindow(obj).ShowDialog();
+
+              }, obj => true, "settings"));
 
             BindingCommands.ChildActions.Add(processAction);
             BindingCommands.ChildActions.Add(taskAction2);
-            var attributeactions = new BindingAction("模块");
-            attributeactions.ChildActions.Add(new Command("添加", obj =>
+
+
+            var attributeactions = new BindingAction(GlobalHelper.Get("key_301"));
+            attributeactions.ChildActions.Add(new Command(GlobalHelper.Get("key_302"), obj =>
             {
                 var attr = obj as XFrmWorkAttribute;
                 if (attr == null)
@@ -483,8 +566,50 @@ namespace Hawk.ETL.Managements
 
                 var process = GetOneInstance(attr.MyType.Name, newOne: true, isAddUI: true);
                 process.Init();
-            },icon:"add"));
+            }, icon: "add"));
             BindingCommands.ChildActions.Add(attributeactions);
+
+
+            var marketAction = new BindingAction();
+            marketAction.ChildActions.Add(new Command(GlobalHelper.Get("connect_market"), async obj =>
+            {
+                GitHubApi.Connect();
+                MarketProjects.Clear();
+                ControlExtended.SetBusy(ProgressBarState.Indeterminate,message:GlobalHelper.Get("get_remote_projects"));
+                MarketProjects.AddRange(await GitHubApi.GetProjects());
+                ControlExtended.SetBusy(ProgressBarState.NoProgress);
+
+            }, icon: "refresh"));
+            marketAction.ChildActions.Add(new Command(GlobalHelper.Get("key_240"), obj =>
+            {
+                var window = PropertyGridFactory.GetPropertyWindow(GitHubApi);
+                window.ShowDialog();
+
+            }, icon: "settings"));
+
+            BindingCommands.ChildActions.Add(marketAction);
+
+
+           var  marketProjectAction=new BindingAction();
+
+            marketProjectAction.ChildActions.Add(new Command(GlobalHelper.Get("key_307"),async obj =>
+            {
+
+                var projectItem=obj as ProjectItem;
+                var keep = MessageBoxResult.Yes;
+                if(projectItem==null)
+                    return;
+                if (this.CurrentProcessCollections.Any() || this.dataManager.DataCollections.Any())
+                {
+                    keep = MessageBox.Show(GlobalHelper.Get("keep_old_datas"), GlobalHelper.Get("key_99"),
+                        MessageBoxButton.YesNoCancel);
+                    if (keep == MessageBoxResult.Cancel)
+                        return;
+                }
+                var proj =await this.GetRemoteProjectContent(projectItem);
+                LoadProject(proj,keep == MessageBoxResult.Yes);
+            }, icon: "config"));
+
 
             var config = ConfigFile.GetConfig<DataMiningConfig>();
             if (config.Projects.Any())
@@ -492,64 +617,110 @@ namespace Hawk.ETL.Managements
                 var project = config.Projects.FirstOrDefault();
                 if (project != null)
                 {
-                    ControlExtended.SafeInvoke(() =>
-                    {
-                        currentProject = ProjectItem.LoadProject(project.SavePath);
-                        NotifyCurrentProjectChanged();
-                    }, LogType.Info, "加载默认工程");
+                    ControlExtended.SafeInvoke(() => { CurrentProject = LoadProject(project.SavePath); }, LogType.Info,
+                        GlobalHelper.Get("key_303"));
                 }
             }
-
+            BindingCommands.ChildActions.Add(marketProjectAction);
             if (MainDescription.IsUIForm)
             {
                 ProgramNameFilterView =
                     new ListCollectionView(PluginProvider.GetPluginCollection(typeof (IDataProcess)).ToList());
 
                 ProgramNameFilterView.GroupDescriptions.Clear();
-                             ProgramNameFilterView.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
-                var taskView = PluginProvider.GetObjectInstance<ICustomView>("工作线程视图");
+                ProgramNameFilterView.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
+                var taskView = PluginProvider.GetObjectInstance<ICustomView>(GlobalHelper.Get("key_304"));
                 var userControl = taskView as UserControl;
                 if (userControl != null)
                 {
                     userControl.DataContext = this;
+                    dynamic control = userControl;
+                    currentProcessTasksView = control.currentProcessTasksView;
                     ((INotifyCollectionChanged) CurrentProcessTasks).CollectionChanged += (s, e) =>
                     {
-                        ControlExtended.UIInvoke(() => {
+                        ControlExtended.UIInvoke(() =>
+                        {
                             if (e.Action == NotifyCollectionChangedAction.Add)
                             {
-                                dockableManager.ActiveThisContent("工作线程视图");
+                                dockableManager.ActiveThisContent(GlobalHelper.Get("key_304"));
                             }
                         });
-                     
                     }
                         ;
-                    dockableManager.AddDockAbleContent(taskView.FrmState, this, taskView, "工作线程视图");
+                    dockableManager.AddDockAbleContent(taskView.FrmState, this, taskView, GlobalHelper.Get("key_304"));
                 }
                 ProcessCollectionView = new ListCollectionView(ProcessCollection);
                 ProcessCollectionView.GroupDescriptions.Clear();
                 ProcessCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("TypeName"));
 
 
-    
-                OnPropertyChanged("ProjectTaskList");
-                ProjectTaskList = new ListCollectionView(CurrentProject.Tasks);
-                ProjectTaskList.GroupDescriptions.Clear();
-
-                ProjectTaskList.GroupDescriptions.Add(new PropertyGroupDescription("TypeName"));
-                OnPropertyChanged("ProjectTaskList");
+               
             }
 
-            var file = MainFrmUI.CommandCollection.FirstOrDefault(d => d.Text == "文件");
-            file.ChildActions.Add(new BindingAction("新建项目", obj => CreateNewProject()) {Icon = "add"});
-            file.ChildActions.Add(new BindingAction("加载项目", obj => LoadProject()) {Icon = "inbox_out"});
-            file.ChildActions.Add(new BindingAction("保存项目", obj => SaveCurrentProject()) {Icon = "save"});
-            file.ChildActions.Add(new BindingAction("项目另存为", obj => SaveCurrentProject(false)) {Icon = "save"});
-            file.ChildActions.Add(new BindingAction("最近打开的文件")
+            var fileCommand = MainFrmUI.CommandCollection.FirstOrDefault(d => d.Text == GlobalHelper.Get("key_305"));
+            fileCommand.ChildActions.Add(new BindingAction(GlobalHelper.Get("key_306"), obj => CreateNewProject())
+            {
+                Icon = "add"
+            });
+            fileCommand.ChildActions.Add(new BindingAction(GlobalHelper.Get("key_307"), obj =>
+            {
+                var keep= MessageBoxResult.No;
+                if (this.CurrentProcessCollections.Any() || this.dataManager.DataCollections.Any())
+                {
+                    keep = MessageBox.Show(GlobalHelper.Get("keep_old_datas"), GlobalHelper.Get("key_99"),
+                        MessageBoxButton.YesNoCancel);
+                    if (keep == MessageBoxResult.Cancel)
+                        return;
+                }
+                LoadProject(keepLast: keep == MessageBoxResult.Yes);
+            }) {Icon = "inbox_out"});
+            fileCommand.ChildActions.Add(new BindingAction(GlobalHelper.Get("key_308"), obj => SaveCurrentProject())
+            {
+                Icon = "save"
+            });
+            fileCommand.ChildActions.Add(new BindingAction(GlobalHelper.Get("key_309"), obj => SaveCurrentProject(false))
+            {
+                Icon = "save"
+            });
+            fileCommand.ChildActions.Add(new BindingAction(GlobalHelper.Get("generate_project_doc"), obj =>
+            {
+                if(CurrentProject==null)
+                    return;
+                var doc = this.GenerateRemark(this.ProcessCollection);
+                var docItem = new DocumentItem() { Title = this.CurrentProject.Name, Document = doc };
+                PropertyGridFactory.GetPropertyWindow(docItem).ShowDialog();
+            },obj=>CurrentProject!=null)
+            {
+                Icon = "help"
+            });
+            fileCommand.ChildActions.Add(new BindingAction(GlobalHelper.Get("recent_file"))
             {
                 Icon = "save",
-                ChildActions =  new ObservableCollection<ICommand>(config.Projects.Select(d=>new BindingAction(d.SavePath, obj => LoadProject(d.SavePath) ) {Icon = "folder"}))
-           
+                ChildActions =
+                    new ObservableCollection<ICommand>(config.Projects.Select(d => new BindingAction(d.SavePath, obj =>
+                    {
+                        var keep = MessageBoxResult.No;
+                        if (this.CurrentProcessCollections.Any() || this.dataManager.DataCollections.Any())
+                        {
+                            keep = MessageBox.Show(GlobalHelper.Get("keep_old_datas"), GlobalHelper.Get("key_99"),
+                                MessageBoxButton.YesNoCancel);
+                            if (keep == MessageBoxResult.Cancel)
+                                return;
+                        }
+                        LoadProject(d.SavePath, keep == MessageBoxResult.Yes);
+                    }) {Icon = "folder"}))
             });
+            var languageMenu = new BindingAction(GlobalHelper.Get("key_lang")) {Icon = "layout"};
+
+            var files = Directory.GetFiles("Lang");
+            foreach (var f in files)
+            {
+                var ba = new BindingAction(f, obj => { AppHelper.LoadLanguage(f); }) {Icon = "layout"};
+
+                languageMenu.ChildActions.Add(ba);
+            }
+            //  helpCommands.ChildActions.Add(languageMenu);
+
             return true;
         }
 
@@ -557,8 +728,12 @@ namespace Hawk.ETL.Managements
         {
             var task = CurrentProject.Tasks.FirstOrDefault(d => d.Name == process.Name);
 
-            if (haveui == false || MessageBox.Show("是否确定保存任务?" + (task == null ? "将新建任务" : "存在同名任务，将覆盖该任务"), "提示信息",
-                MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+            if (haveui == false ||
+                MessageBox.Show(
+                    GlobalHelper.Get("key_311") +
+                    (task == null ? GlobalHelper.Get("key_312") : GlobalHelper.Get("key_313")),
+                    GlobalHelper.Get("key_99"),
+                    MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
                 configDocument = (process as IDictionarySerializable).DictSerialize();
                 if (task == null)
@@ -566,28 +741,127 @@ namespace Hawk.ETL.Managements
                     task = new ProcessTask
                     {
                         Name = process.Name,
-                        Description = "任务描述",
+                        Description = GlobalHelper.Get("key_314")
                     };
 
                     CurrentProject.Tasks.Add(task);
                 }
 
                 task.ProcessToDo = configDocument;
-                XLogSys.Print.Warn($"任务 {task.Name} 已经成功保存");
+                // XLogSys.Print.Warn(string.Format(GlobalHelper.Get("key_315"),task.Name));
             }
         }
 
+        private bool ProcessTaskCanExecute(object source,bool? shouldPause)
+        {
+            var tasks = GetSelectedTask(source).ToList();
+            if (tasks.Any()==false)
+                return false;
+            if (shouldPause == null)
+                return true;
+            if (tasks.TrueForAll(d => d.IsPause == shouldPause))
+                return false;
+            return true;
+
+        }
+        /// <summary>
+        /// 查找引用该模块的所有任务
+        /// </summary>
+        /// <param name="obj"></param>
+        private void PrintReferenced(IDataProcess obj)
+        {
+            if (obj is SmartETLTool)
+            {
+                var tool = obj as SmartETLTool;
+                var oldtools = CurrentProcessCollections.OfType<SmartETLTool>().SelectMany(d => d.CurrentETLTools).OfType<ETLBase>().Where(d => d.ETLSelector.SelectItem == tool.Name).ToList();
+                XLogSys.Print.Info("===================="+GlobalHelper.Get("smartetl_name")+"===================");
+                foreach (var oldtool in oldtools)
+                {
+                    XLogSys.Print.Info(string.Format("{0} :{1}", oldtool.Father.Name, oldtool.ObjectID));
+                }
+
+            }
+            if (obj is SmartCrawler)
+            {
+                var tool = obj as SmartCrawler;
+                var _name = tool.Name;
+                var oldCrawler = CurrentProcessCollections.OfType<SmartCrawler>()
+               .Where(d => d.ShareCookie.SelectItem == _name).ToList();
+                var oldEtls = CurrentProcessCollections.OfType<SmartETLTool>()
+                    .SelectMany(d => d.CurrentETLTools).OfType<ResponseTF>()
+                    .Where(d => d.CrawlerSelector.SelectItem == _name).ToList();
+                XLogSys.Print.Info("====================" + GlobalHelper.Get("smartcrawler_name")+"=================");
+                
+                foreach (var oldtool in oldCrawler)
+                {
+                    XLogSys.Print.Info(string.Format("\t{0}", oldtool.Name));
+                }
+                XLogSys.Print.Info(GlobalHelper.Get("smartetl_name"));
+                foreach (var oldtool in oldEtls)
+                {
+                    XLogSys.Print.Info(string.Format("{0} :{1}", oldtool.Father.Name, oldtool.ObjectID));
+                }
+
+            }
+            XLogSys.Print.Info("======================================================================");
+        }
         public ListCollectionView CurrentProcessView { get; set; }
         public ListCollectionView ProcessCollectionView { get; set; }
-        public ListCollectionView ProjectTaskList { get; set; }
+        private ListCollectionView marketCollectionView;
+        public ListCollectionView MarketProjectList {
+            get
+            {
+                if (marketCollectionView == null)
+                {
+                    GitHubApi.Connect();
+                    var result = GitHubApi.GetProjects().Result;
+                    ControlExtended.SafeInvoke(
+                        () =>
+                        {
+                            MarketProjects.Clear();
+                            MarketProjects.AddRange(result);
+                            marketCollectionView = new ListCollectionView(MarketProjects);
+                        }
+                    ,LogType.Info, GlobalHelper.Get("market_login"),true);
+                 
+                 
+                }
+                return marketCollectionView;
+            }
+        }
 
-        private void LoadProject(string path=null)
+        private void timeCycle(object sender, EventArgs e)
+        {
+            SaveCurrentProject(true);
+        }
+
+        private void SetWindowTitleName(string name)
+        {
+         
+            if (MainDescription.IsUIForm)
+            {
+                var window = MainFrmUI as Window;
+                if (window != null)
+                {
+                    var originTitle = ConfigurationManager.AppSettings["Title"];
+                    if (originTitle == null)
+                        originTitle = "";
+                    window.Title = name + " - " + originTitle;
+                }
+            }
+        }
+        private Project LoadProject(string path = null, bool keepLast = false)
         {
             var project = Project.Load(path);
+            return LoadProject(project, keepLast);
+        }
+
+        private Project LoadProject(Project project, bool keepLast = false)
+        {
             if (project != null)
             {
                 var config = ConfigFile.GetConfig<DataMiningConfig>();
-                config.Projects.RemoveElementsNoReturn(d=>string.IsNullOrWhiteSpace(d.SavePath));
+                config.Projects.RemoveElementsNoReturn(d => string.IsNullOrWhiteSpace(d.SavePath));
                 var first = config.Projects.FirstOrDefault(d => d.SavePath == project.SavePath);
                 if (first != null)
                 {
@@ -598,52 +872,93 @@ namespace Hawk.ETL.Managements
                     first = new ProjectItem();
                     project.DictCopyTo(first);
                 }
+                if (!keepLast)
+                {
+                    CleanAllItems();
 
+                }
+                if (project.DataCollections?.Count > 0)
+                {
+                    //TODO: 添加名称重名？
+
+                    project.DataCollections.Execute(d => dataManager.AddDataCollection(d));
+                }
                 config.Projects.Insert(0, first);
+                CurrentProject = project;
+                var name = Path.GetFileNameWithoutExtension(project.SavePath);
+                if (string.IsNullOrEmpty(CurrentProject.Name))
+                {
+                    CurrentProject.Name = name;
+                }
 
-                currentProject = project;
+                foreach (var task in project.Tasks)
+                {
+                    task.Load(false);
+                }
+                if (project.ConfigSelector.SelectItem != null)
+                    this.CurrentProject.ConfigSelector.SelectItem = project.ConfigSelector.SelectItem;
                 NotifyCurrentProjectChanged();
                 config.SaveConfig();
+                project.LoadRunningTasks();
             }
-        }
+            return project;
 
+        }
         private void SaveCurrentProject(bool isDefaultPosition = true)
         {
-            if (currentProject == null)
+            if (CurrentProject == null)
                 return;
-            if (CurrentProject.Tasks.Any() == false&& MessageBox.Show("当前工程中没有包含任何任务，请在任务管理页中，将要保存的任务插入到当前工程中","警告信息",MessageBoxButton.OKCancel)==MessageBoxResult.Cancel)
+            SaveCurrentTasks();
+            if (CurrentProject.Tasks.Any() == false &&
+                MessageBox.Show(GlobalHelper.Get("key_316"), GlobalHelper.Get("key_151"), MessageBoxButton.OKCancel) ==
+                MessageBoxResult.Cancel)
             {
                 return;
             }
             if (isDefaultPosition)
             {
-                ControlExtended.SafeInvoke(() => currentProject.Save(), LogType.Important, "保存当前工程");
+                ControlExtended.SafeInvoke(() => CurrentProject.Save(dataManager.DataCollections), LogType.Important,
+                    GlobalHelper.Get("key_317"));
                 var pro = ConfigFile.GetConfig<DataMiningConfig>().Projects.FirstOrDefault();
-                if (pro != null) pro.SavePath = currentProject.SavePath;
+                if (pro != null) pro.SavePath = CurrentProject.SavePath;
             }
             else
             {
-                currentProject.SavePath = null;
-                ControlExtended.SafeInvoke(() => currentProject.Save(), LogType.Important, "另存为当前工程");
+                CurrentProject.SavePath = null;
+                ControlExtended.SafeInvoke(() => CurrentProject.Save(dataManager.DataCollections), LogType.Important,
+                    GlobalHelper.Get("key_318"));
             }
             ConfigFile.Config.SaveConfig();
         }
 
-        private void CreateNewProject()
+        private void CleanAllItems()
         {
-            var pro = new Project();
-            pro.Save();
+            this.CurrentProcessTasks.Clear();
+            this.dataManager.CurrentConnectors.Clear();
+            this.dataManager.DataCollections.Clear();
+            ProcessCollection.RemoveElementsNoReturn(d => true, RemoveOperation);
 
-            var probase = new ProjectItem();
-            pro.DictCopyTo(probase);
-            ConfigFile.GetConfig<DataMiningConfig>().Projects.Insert(0, probase);
-            currentProject = pro;
+        }
+        public void CreateNewProject()
+        {
+            var project = new Project();
+            project.Save();
+
+            var newProj = new ProjectItem();
+            project.DictCopyTo(newProj);
+
+            ConfigFile.GetConfig<DataMiningConfig>().Projects.Insert(0, newProj);
+            CurrentProject = project;
+            CleanAllItems();
+            var filemanager = new FileManager {Name = GlobalHelper.Get("recent_file")};
+            CurrentProject.DBConnections.Add(filemanager);
+
             NotifyCurrentProjectChanged();
         }
 
         public override void SaveConfigFile()
         {
-            CurrentProject?.Save();
+            CurrentProject?.Save(dataManager.DataCollections);
 
             ConfigFile.GetConfig().SaveConfig();
         }
@@ -662,10 +977,9 @@ namespace Hawk.ETL.Managements
                 {
                     yield return process;
                 }
-
-
             }
-        } 
+        }
+
         #endregion
 
         #region Implemented Interfaces
@@ -673,8 +987,8 @@ namespace Hawk.ETL.Managements
         #region IProcessManager
 
         private Project currentProject;
-        private TaskBase _selectedTask;
         private WPFPropertyGrid debugGrid;
+        private ProjectItem _selectedRemoteProject;
 
 
         public IDataProcess GetOneInstance(string name, bool isAddToList = true, bool newOne = false,
@@ -687,7 +1001,7 @@ namespace Hawk.ETL.Managements
                 {
                     if (isAddToList)
                     {
-                     ;
+                        ;
                         process.SysDataManager = dataManager;
 
                         process.SysProcessManager = this;
@@ -698,26 +1012,52 @@ namespace Hawk.ETL.Managements
                             rc4.MainFrm = MainFrmUI;
                         }
                         var names =
-                            this.CurrentProcessCollections.Select(d => d.Name)
-                                .Concat(this.CurrentProject.Tasks.Select(d => d.Name));
-                        var count = names.Count(d => d.Contains( process.TypeName));
+                            CurrentProcessCollections.Select(d => d.Name);
+                        var count = names.Count(d => d.Contains(process.TypeName));
                         if (count > 0)
                             process.Name = process.TypeName + count;
-                        ProcessCollection.Add(process);
-                        XLogSys.Print.Info("已经成功添加" + process.TypeName + "到当前列表");
+                        CurrentProcessCollections.Add(process);
+                        XLogSys.Print.Info(GlobalHelper.Get("key_319") + process.TypeName + GlobalHelper.Get("key_320"));
                     }
 
                     if (isAddUI)
                     {
                         ControlExtended.UIInvoke(() => LoadProcessView(process));
-                  
-                        ControlExtended.UIInvoke(() => ShowConfigUI(process));
                     }
 
                     return process;
                 }
             }
             return ProcessCollection.Get(name, isAddToList);
+        }
+
+        public T GetTask<T>(string name) where T : class, IDataProcess
+        {
+            var module = CurrentProcessCollections.OfType<T>().FirstOrDefault(d => d.Name == name);
+            if (module != null)
+                return module;
+            var project = GetRemoteProjectContent().Result;
+            if (project != null)
+            {
+                var task = project.Tasks.FirstOrDefault(d => d.TaskType == typeof (T).Name && d.Name == name);
+                var newtask = task?.Load(false);
+                return newtask as T;
+            }
+            return null;
+        }
+
+        public DataCollection GetCollection(string name)
+        {
+            var collection = dataManager.DataCollections.FirstOrDefault(d => d.Name == name);
+            if (collection != null)
+                return collection;
+            var project = GetRemoteProjectContent().Result;
+            if (project != null)
+            {
+                collection = project.DataCollections.FirstOrDefault(d => d.Name == name);
+                return collection;
+            }
+            return null;
         }
 
 
@@ -729,6 +1069,16 @@ namespace Hawk.ETL.Managements
 
         public IList<TaskBase> CurrentProcessTasks { get; set; }
 
+        public int TaskRunningPercent
+        {
+            get
+            {
+                if (CurrentProcessTasks.Count == 0)
+                    return 0;
+                return CurrentProcessTasks[0].Percent;
+            }
+        }
+
         public Project CurrentProject
         {
             get
@@ -737,20 +1087,29 @@ namespace Hawk.ETL.Managements
                     currentProject = new Project();
                 return currentProject;
             }
-            set { currentProject = value; }
+            set
+            {
+                if (currentProject != value)
+                {
+                    currentProject = value;
+                    OnPropertyChanged("CurrentProject");
+                    OnPropertyChanged("ProjectPropertyWindow");
+                    SetWindowTitleName(CurrentProject.Name);
+                    CurrentProject.PropertyChanged += (s, e) =>
+                    {
+                        if (e.PropertyName == "Name")
+                        {
+                            SetWindowTitleName(CurrentProject.Name);
+                        }
+                    };
+                }
+            }
         }
 
         private void NotifyCurrentProjectChanged()
         {
             OnCurrentProjectChanged?.Invoke(this, new EventArgs());
             OnPropertyChanged("CurrentProject");
-
-
-            ProjectTaskList = new ListCollectionView(CurrentProject.Tasks);
-            ProjectTaskList.GroupDescriptions.Clear();
-
-            ProjectTaskList.GroupDescriptions.Add(new PropertyGroupDescription("TypeName"));
-            OnPropertyChanged("ProjectTaskList");
         }
 
         public event EventHandler OnCurrentProjectChanged;
@@ -782,7 +1141,7 @@ namespace Hawk.ETL.Managements
 
         private void LoadProcessView(IDataProcess rc)
         {
-            var view = PluginManager.AddCusomView(MainFrmUI as IDockableManager, rc.TypeName, rc as IView,rc.Name);
+            var view = PluginManager.AddCusomView(MainFrmUI as IDockableManager, rc.GetType().Name, rc as IView, rc.Name);
             var control = view as UserControl;
             if (control != null)
             {
@@ -798,20 +1157,15 @@ namespace Hawk.ETL.Managements
                 return;
             var configDocument = (process as IDictionarySerializable).DictSerialize();
             task.ProcessToDo = configDocument;
-            XLogSys.Print.Info("已经成功覆盖任务");
+            XLogSys.Print.Info(GlobalHelper.Get("cover_task_succ"));
         }
 
-        private void ShowConfigUI(object method)
-        {
-            propertyGridWindow?.SetObjectView(method);
-        }
 
         #endregion
-        
     }
 
 
-    public class ProcessGroupConverter:IValueConverter
+    public class ProcessGroupConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

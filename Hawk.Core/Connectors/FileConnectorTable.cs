@@ -1,16 +1,16 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 using EncodingType = Hawk.Core.Utils.EncodingType;
 
 namespace Hawk.Core.Connectors
 {
-    [XFrmWork("文本导入导出器", "输出制表符文本文件", "对基本文本文件进行导入和导出的工具")]
+    [XFrmWork("FileConnectorTable", "FileConnectorTable_desc", "对基本文本文件进行导入和导出的工具")]
     public class FileConnectorTable : FileConnector
     {
         #region Properties
@@ -44,11 +44,11 @@ namespace Hawk.Core.Connectors
             SplitString = docu.Set("SplitString", SplitString);
         }
 
-        [LocalizedDisplayName("列分割符")]
+        [LocalizedDisplayName("key_53")]
         public string SplitString { get; set; }
 
 
-        [LocalizedDisplayName("包含头信息")]
+        [LocalizedDisplayName("key_54")]
         public bool ContainHeader { get; set; }
 
         protected virtual string SplitChar => SplitString;
@@ -217,7 +217,7 @@ namespace Hawk.Core.Connectors
                     }
                     for (var i = 0; i < intColCount; i++)
                     {
-                        titles.Add("属性" + i);
+                        titles.Add(GlobalHelper.Get("key_55") + i);
                     }
                 }
                 var data = new FreeDocument();

@@ -61,13 +61,13 @@ namespace Hawk.ETL.Process
         }
 
         #endregion
-
+        [Browsable(false)]
         public ConfigFile Config => ConfigFile.GetConfig<DataMiningConfig>();
 
         #region Constants and Fields
 
         private ListBox alltoolList;
-
+        [Browsable(false)]
         public Analyzer Analyzer { get; set; }
         private DataGrid dataView;
 
@@ -78,7 +78,7 @@ namespace Hawk.ETL.Process
         #endregion
 
         #region Properties
-
+        [Browsable(false)]
         [LocalizedDisplayName("key_677")]
         [PropertyOrder(3)]
         [LocalizedCategory("key_678")]
@@ -152,7 +152,7 @@ namespace Hawk.ETL.Process
                             ;
                             XLogSys.Print.Warn(GlobalHelper.Get("cliptoboard"));
                         }, obj => obj != null, "clipboard_file"),
-                        new Command(GlobalHelper.Get("key_682"), obj =>
+                        new Command(GlobalHelper.Get("clip_up"), obj =>
                         {
                             var item = GetSelectedTools(obj).FirstOrDefault();
                             var index = CurrentETLTools.IndexOf(item);
@@ -161,14 +161,14 @@ namespace Hawk.ETL.Process
                                 var data = Clipboard.GetDataObject();
                                 var toolsConfig = (string) data.GetData(typeof (string));
                                 var toolsDoc = FileConnectorXML.GetCollection(toolsConfig);
-                                var tools = toolsDoc.Select(d => GetToolFromDocument(d));
+                                var tools = toolsDoc.Select(GetToolFromDocument);
                                 foreach (var tool in tools)
                                 {
                                     CurrentETLTools.Insert(index++, tool);
                                 }
                             });
                         }, obj => Clipboard.GetDataObject().GetFormats().Length != 0, "arrow_up"),
-                        new Command(GlobalHelper.Get("key_683"), obj =>
+                        new Command(GlobalHelper.Get("clip_down"), obj =>
                         {
                             var item = GetSelectedTools(obj).FirstOrDefault();
                             var index = CurrentETLTools.IndexOf(item) + 1;
@@ -198,10 +198,28 @@ namespace Hawk.ETL.Process
                         {
                             var doc = this.GenerateRemark(true, SysProcessManager);
                             var docItem= new DocumentItem() {Title = this.Name,Document = doc};
-                               var window = PropertyGridFactory.GetPropertyWindow(docItem);
-                        window.ShowDialog();
+                            PropertyGridFactory.GetPropertyWindow(docItem).ShowDialog();
                         },
-                            obj => this.CurrentETLTools.Count>0, "smiley_grumpy")
+                            obj => this.CurrentETLTools.Count>0, "smiley_grumpy"),
+                         new Command(GlobalHelper.Get("move_up"), obj =>
+                        {
+                            var item = GetSelectedTools(obj).FirstOrDefault();
+                            var index = CurrentETLTools.IndexOf(item);
+                            CurrentETLTools.Move(index,index-1);
+                            ETLMount = index + 1;
+                        },
+                            obj => true, "arrow_up"),
+
+                          new Command(GlobalHelper.Get("move_down"), obj =>
+                        {
+                           var item = GetSelectedTools(obj).FirstOrDefault();
+                            var index = CurrentETLTools.IndexOf(item);
+                            CurrentETLTools.Move(index,index+1);
+                            ETLMount = index + 1;
+                        },
+                            obj => true, "arrow_down"),
+
+
                     });
             }
         }
@@ -325,7 +343,7 @@ namespace Hawk.ETL.Process
                     );
             }
         }
-
+        [PropertyEditor("CodeEditor")]
         [PropertyOrder(100)]
         [LocalizedDisplayName("remark")]
         [LocalizedDescription("remark_desc")]
@@ -633,8 +651,7 @@ namespace Hawk.ETL.Process
                 splitPoint2++;
             var customerFunc3 = subEtls2.Skip(splitPoint2).Aggregate(isexecute: true, analyzer: Analyzer);
             var realCount = -1;
-            if (name == null)
-                name = GlobalHelper.Get("key_706");
+          
             if (lastTask != null)
             {
                 seeds = lastTask.Seeds?.ToList();
@@ -655,6 +672,8 @@ namespace Hawk.ETL.Process
             var mapperIndex1 = lastTask?.MapperIndex1 ?? 0;
             var mapperIndex2 = lastTask?.MapperIndex2 ?? 0;
             var task = new TemporaryTask<IFreeDocument>();
+            if (name == null)
+                name = GlobalHelper.Get("key_706");
             task.Name = name;
             if (lastTask != null)
                 task.IsPause = true;
@@ -741,7 +760,7 @@ namespace Hawk.ETL.Process
                 motherFunc(new List<IFreeDocument>()).Skip(mapperIndex1).Select(d =>
                 {
                     motherTask.MapperIndex1++;
-                    Thread.Sleep(2000);
+                    Thread.Sleep(500);
                     return d;
                 }),
                 d =>
@@ -840,8 +859,7 @@ namespace Hawk.ETL.Process
                     item.ObjectID = string.Format("{0}_{1}_{2}", item.TypeName, item.Column, CurrentETLTools.Count);
                     if (NeedConfig(item))
                     {
-                        var window = PropertyGridFactory.GetPropertyWindow(item);
-                        window.ShowDialog();
+                        PropertyGridFactory.GetPropertyWindow(item).ShowDialog();
                     }
                     ETLMount++;
                 }
@@ -900,7 +918,7 @@ namespace Hawk.ETL.Process
             return texts.FirstOrDefault(d => d.Contains(text)) != null;
         }
 
-
+        [Browsable(false)]
         [PropertyOrder(1)]
         [LocalizedCategory("key_678")]
         [LocalizedDisplayName("key_188")]
@@ -941,7 +959,7 @@ namespace Hawk.ETL.Process
                 }
             }
         }
-
+        [Browsable(false)]
         [LocalizedDescription("key_709")]
         [LocalizedDisplayName("key_395")]
         [NumberRange(1, 20, 1)]

@@ -11,8 +11,8 @@
     <UserControl.Resources>
         <ContextMenu x:Key="resourceContextMenu"
         					DataContext="{Binding Data.Binding CrawlItemCommands, Source={StaticResource BindingProxy}}">
-            <MenuItem DataContext="{Binding [3]}" Style="{DynamicResource CommandMenuItem}" />
-            <MenuItem DataContext="{Binding [4]}" Style="{DynamicResource CommandMenuItem}" />
+            <MenuItem DataContext="{Binding [3]}"  />
+            <MenuItem DataContext="{Binding [4]}"  />
             >
         </ContextMenu>
     </UserControl.Resources>

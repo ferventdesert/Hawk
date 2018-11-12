@@ -13,12 +13,7 @@
 
 	<UserControl.Resources>
         <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
-        <Style    TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
-            <Setter Property="Header" Value="{Binding Text}" />
-            <Setter Property="Command" Value="{Binding}" />
-            <Setter Property="ItemsSource" Value="{Binding ChildActions}" />
-            <Setter Property="CommandParameter" Value="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}, Mode=FindAncestor}}"/>
-        </Style>
+       
         <System:Double x:Key="LargeFont">14.667</System:Double>
 		<DataTemplate x:Key="DataTemplate1">
 			<StackPanel Orientation="Horizontal" mvvm:ListItemDoubleClick.Property="Commands[2].ChildActions[2]" >

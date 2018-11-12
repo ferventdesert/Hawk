@@ -30,8 +30,21 @@ namespace Hawk.ETL.Managements
            
         }
 
+        
+        public string PubliserName
+        {
+            get
+            {
+                if (Publisher == null)
+                    return null;
+                var pub = Publisher as IDataProcess;
+                if (pub == null)
+                    return null;
+                return pub.Name;
+            }
+        }
 
-     
+
 
         /// <summary>
         /// 任务发布者

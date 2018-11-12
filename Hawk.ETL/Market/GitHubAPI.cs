@@ -28,6 +28,7 @@ namespace Hawk.ETL.Market
             client = new GitHubClient(new ProductHeaderValue("Hawk3"));
             Login = "hawkpublic@yeah.net";
             Password = "hawk1qaz2wsx";
+            IsKeepPassword = true;
             MarketUrl = "https://github.com/ferventdesert/Hawk-Projects/tree/master/Hawk3";
         }
 
@@ -107,52 +108,61 @@ namespace Hawk.ETL.Market
 
         public async Task<IEnumerable<ProjectItem>>  GetProjects(string url=null)
         {
-            if (url==null)
+            try
             {
-                url = this.MarketUrl;
-            }
-            string username = null;
-            string project = null;
-            string target = null;
-            if (!this.GetRepoInfo(url, out username, out project, out target))
-            {
-                XLogSys.Print.Error(GlobalHelper.Get("market_url_check"));
-                return null;
-            }
-                
-            IReadOnlyList<RepositoryContent> result = null;
-
-            result = await client.Repository.Content.GetAllContents(username, project, target);
-            if (result == null)
-                return null;
-           
-            var items=  result.Where(d => d.Type == ContentType.File&&(d.Name.EndsWith(".xml",true,null)||d.Name.EndsWith(".hproj",true,null))).Select(
-                  d =>
+                if (url == null)
                 {
-                    var projectItem = new ProjectItem()
-                    {
-                        IsRemote = true,
-                        SavePath = d.DownloadUrl
-                    };
-                    var suffix = d.Name.Split('.').Last();
-                    var name = d.Name.Replace("."+suffix, "");
-                    projectItem.Name = name;
-                    var meta = name + ".meta";
-                    var metafile = result.FirstOrDefault(d2 => d2.Name == meta);
-                    if (metafile != null)
-                    {
-                        var response =  WebRequest.Create(metafile.DownloadUrl).GetResponse().GetResponseStream();
-                        using (StreamReader reader = new StreamReader(response,Encoding.UTF8))
-                        {
-                            var item= reader.ReadToEnd();
-                            var metainfo = ParameterItem.GetParameters(item);
-                            projectItem.DictDeserialize(metainfo.ToDictionary(d2=>d2.Key,d2=>(object)d2.Value));
-                        }
-                    }
-                    return projectItem;
+                    url = this.MarketUrl;
+                }
+                string username = null;
+                string project = null;
+                string target = null;
+                if (!this.GetRepoInfo(url, out username, out project, out target))
+                {
+                    XLogSys.Print.Error(GlobalHelper.Get("market_url_check"));
+                    return null;
+                }
 
-                });
-            return items;
+                IReadOnlyList<RepositoryContent> result = null;
+
+                result = await client.Repository.Content.GetAllContents(username, project, target);
+                if (result == null)
+                    return null;
+
+                var items = result.Where(d => d.Type == ContentType.File && (d.Name.EndsWith(".xml", true, null) || d.Name.EndsWith(".hproj", true, null))).Select(
+                      d =>
+                      {
+                          var projectItem = new ProjectItem()
+                          {
+                              IsRemote = true,
+                              SavePath = d.DownloadUrl
+                          };
+                          var suffix = d.Name.Split('.').Last();
+                          var name = d.Name.Replace("." + suffix, "");
+                          projectItem.Name = name;
+                          var meta = name + ".meta";
+                          var metafile = result.FirstOrDefault(d2 => d2.Name == meta);
+                          if (metafile != null)
+                          {
+                              var response = WebRequest.Create(metafile.DownloadUrl).GetResponse().GetResponseStream();
+                              using (StreamReader reader = new StreamReader(response, Encoding.UTF8))
+                              {
+                                  var item = reader.ReadToEnd();
+                                  var metainfo = ParameterItem.GetParameters(item);
+                                  projectItem.DictDeserialize(metainfo.ToDictionary(d2 => d2.Key, d2 => (object)d2.Value));
+                              }
+                          }
+                          return projectItem;
+
+                      });
+                return items;
+            }
+            catch (Exception ex)
+            {
+                XLogSys.Print.Error(ex.Message);
+                return new List<ProjectItem>();
+            }
+          
         } 
         private GitHubClient client;
         private bool isConnect = false;

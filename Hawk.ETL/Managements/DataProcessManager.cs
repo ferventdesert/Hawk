@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -39,19 +40,9 @@ namespace Hawk.ETL.Managements
 
         private IDataManager dataManager;
 
+        public WPFPropertyGrid ProjectPropertyWindow => PropertyGridFactory.GetInstance(CurrentProject);
 
-        //TODO
-        private XFrmWorkPropertyGrid propertyGridWindow;
-
-        public WPFPropertyGrid ProjectPropertyWindow
-        {
-            get { return PropertyGridFactory.GetInstance(CurrentProject); }
-        }
-
-        public WPFPropertyGrid SystemConfigWindow
-        {
-            get { return PropertyGridFactory.GetInstance(ConfigFile.GetConfig()); }
-        }
+        public WPFPropertyGrid SystemConfigWindow => PropertyGridFactory.GetInstance(ConfigFile.GetConfig());
 
         private string searchText;
 
@@ -120,13 +111,17 @@ namespace Hawk.ETL.Managements
             if (projectItem == null || projectItem.IsRemote == false)
                 return null;
             ControlExtended.SetBusy(ProgressBarState.NoProgress);
+            Monitor.Enter(RemoteProjectBuff);
             if (RemoteProjectBuff.TryGetValue(projectItem, out project))
             {
+                Monitor.Exit(RemoteProjectBuff);
                 return project;
             }
+            Monitor.Exit(RemoteProjectBuff);
             ControlExtended.SetBusy(ProgressBarState.Indeterminate);
             project = await Project.LoadFromUrl(projectItem.SavePath);
             ControlExtended.SetBusy(ProgressBarState.NoProgress);
+            Monitor.Enter(RemoteProjectBuff);
             if (RemoteProjectBuff.ContainsKey(projectItem))
             {
                 RemoteProjectBuff[projectItem] = project;
@@ -135,6 +130,7 @@ namespace Hawk.ETL.Managements
             {
                 RemoteProjectBuff.Add(SelectedRemoteProject, project);
             }
+            Monitor.Exit(RemoteProjectBuff);
             project.DictDeserialize(projectItem.DictSerialize());
 
             return project;
@@ -171,7 +167,7 @@ namespace Hawk.ETL.Managements
         {
             if (data != null)
             {
-                yield return data as ProcessTask;
+                yield return data as TaskBase;
                 yield break;
             }
             if (processView == null)
@@ -215,7 +211,6 @@ namespace Hawk.ETL.Managements
             MarketProjects = new ObservableCollection<ProjectItem>();
             dockableManager = MainFrmUI as IDockableManager;
             dataManager = MainFrmUI.PluginDictionary["DataManager"] as IDataManager;
-            propertyGridWindow = MainFrmUI.PluginDictionary["XFrmWorkPropertyGrid"] as XFrmWorkPropertyGrid;
 
             var aboutAuthor = new BindingAction(GlobalHelper.Get("key_262"), d =>
             {
@@ -232,7 +227,7 @@ namespace Hawk.ETL.Managements
             }) {Description = GlobalHelper.Get("key_266"), Icon = "home"};
             var helplink = new BindingAction(GlobalHelper.Get("key_267"), d =>
             {
-                var url = "https://github.com/ferventdesert/Hawk/wiki";
+                var url = "https://ferventdesert.github.io/Hawk/";
                 System.Diagnostics.Process.Start(url);
             })
             {Description = GlobalHelper.Get("key_268"), Icon = "question"};
@@ -348,7 +343,7 @@ namespace Hawk.ETL.Managements
                         foreach (var param in project.Parameters)
                         {
                             //TODO: how check if it is same? name?
-                            if (CurrentProject.Parameters.FirstOrDefault(d => d.Name != param.Name) == null)
+                            if (CurrentProject.Parameters.FirstOrDefault(d => d.Name == param.Name) == null)
                                 CurrentProject.Parameters.Add(param);
                         }
                         CurrentProject.ConfigSelector.SelectItem = project.ConfigSelector.SelectItem;
@@ -359,17 +354,7 @@ namespace Hawk.ETL.Managements
                 obj => obj is ProcessTask, "inbox_out"));
 
 
-            taskAction1.ChildActions.Add(new Command(GlobalHelper.Get("key_285"),
-                obj => CurrentProject.Tasks.Remove(obj as ProcessTask),
-                obj => obj is ProcessTask, "delete"));
-            taskAction1.ChildActions.Add(new Command(GlobalHelper.Get("key_286"),
-                (obj => (obj as ProcessTask).EvalScript()),
-                obj =>
-                    (obj is ProcessTask) &&
-                    CurrentProcessCollections.FirstOrDefault(d => d.Name == (obj as ProcessTask).Name) != null));
-            taskAction1.ChildActions.Add(new Command(GlobalHelper.Get("key_240"),
-                obj => PropertyGridFactory.GetPropertyWindow(obj).ShowDialog()
-                ));
+         
 
 
             BindingCommands.ChildActions.Add(taskAction1);
@@ -408,16 +393,27 @@ namespace Hawk.ETL.Managements
 
 
             runningTaskActions.ChildActions.Add(new Command(GlobalHelper.Get("key_291"),
-                d => GetSelectedTask(d).Execute(d2 => d2.IsPause = true), null, "pause"));
+                d => GetSelectedTask(d).Execute(d2 => d2.IsPause = true), d=>ProcessTaskCanExecute(d,true), "pause"));
             runningTaskActions.ChildActions.Add(new Command(GlobalHelper.Get("key_292"),
-                d => GetSelectedTask(d).Execute(d2 => d2.IsPause = false), null, "play"));
+                d => GetSelectedTask(d).Execute(d2 => d2.IsPause = false), d=> ProcessTaskCanExecute(d,false), "play"));
 
             runningTaskActions.ChildActions.Add(new Command(GlobalHelper.Get("key_293"),
                 d =>
                 {
                     var selectedTasks = GetSelectedTask(d).ToList();
                     CurrentProcessTasks.RemoveElementsNoReturn(d2 => selectedTasks.Contains(d2), d2 => d2.Remove());
-                }, null, "delete"));
+                }, d => ProcessTaskCanExecute(d, null), "delete"));
+
+
+            runningTaskActions.ChildActions.Add(new Command(GlobalHelper.Get("property"),
+            d =>
+            {
+                var selectedTasks = GetSelectedTask(d).FirstOrDefault();
+                PropertyGridFactory.GetPropertyWindow(selectedTasks).ShowDialog();
+
+            }, d => ProcessTaskCanExecute(d, null), "settings"));
+
+
 
             BindingCommands.ChildActions.Add(runningTaskActions);
             BindingCommands.ChildActions.Add(runningTaskActions);
@@ -515,15 +511,14 @@ namespace Hawk.ETL.Managements
                     LoadProcessView(process);
                 }
                 (MainFrmUI as IDockableManager).ActiveModelContent(process);
-                ShowConfigUI(process);
+             
                 process.Init();
-            }, obj => true, "delete"));
+            }, obj => true, "tv"));
             processAction.ChildActions.Add(new Command(GlobalHelper.Get("key_298"), obj =>
             {
                 if (MessageBox.Show(GlobalHelper.Get("delete_confirm"),GlobalHelper.Get("key_99"),MessageBoxButton.OKCancel) == MessageBoxResult.Cancel)
                 {
                     return;
-                    
                 }
                 foreach (var process in GetSelectedProcess(obj))
                 {
@@ -541,7 +536,6 @@ namespace Hawk.ETL.Managements
                         }
                     }
                 }
-                ShowConfigUI(null);
             }, obj => true, "delete"));
             processAction.ChildActions.Add(new Command(GlobalHelper.Get("key_300"),
                 obj => { ControlExtended.DockableManager.ActiveThisContent(GlobalHelper.Get("ModuleMgmt")); },
@@ -551,7 +545,13 @@ namespace Hawk.ETL.Managements
                 {
                     PrintReferenced(obj as IDataProcess);
 
-                },obj=>true, "home"));
+                },obj=>true, "diagram"));
+            processAction.ChildActions.Add(new Command(GlobalHelper.Get("property"),
+              obj =>
+              {
+                  PropertyGridFactory.GetPropertyWindow(obj).ShowDialog();
+
+              }, obj => true, "settings"));
 
             BindingCommands.ChildActions.Add(processAction);
             BindingCommands.ChildActions.Add(taskAction2);
@@ -575,8 +575,10 @@ namespace Hawk.ETL.Managements
             {
                 GitHubApi.Connect();
                 MarketProjects.Clear();
+                ControlExtended.SetBusy(ProgressBarState.Indeterminate,message:GlobalHelper.Get("get_remote_projects"));
                 MarketProjects.AddRange(await GitHubApi.GetProjects());
-               
+                ControlExtended.SetBusy(ProgressBarState.NoProgress);
+
             }, icon: "refresh"));
             marketAction.ChildActions.Add(new Command(GlobalHelper.Get("key_240"), obj =>
             {
@@ -594,12 +596,16 @@ namespace Hawk.ETL.Managements
             {
 
                 var projectItem=obj as ProjectItem;
+                var keep = MessageBoxResult.Yes;
                 if(projectItem==null)
                     return;
-                var keep = MessageBox.Show(GlobalHelper.Get("keep_old_datas"), GlobalHelper.Get("key_99"),
-                   MessageBoxButton.YesNoCancel);
-                if (keep == MessageBoxResult.Cancel)
-                    return;
+                if (this.CurrentProcessCollections.Any() || this.dataManager.DataCollections.Any())
+                {
+                    keep = MessageBox.Show(GlobalHelper.Get("keep_old_datas"), GlobalHelper.Get("key_99"),
+                        MessageBoxButton.YesNoCancel);
+                    if (keep == MessageBoxResult.Cancel)
+                        return;
+                }
                 var proj =await this.GetRemoteProjectContent(projectItem);
                 LoadProject(proj,keep == MessageBoxResult.Yes);
             }, icon: "config"));
@@ -658,10 +664,14 @@ namespace Hawk.ETL.Managements
             });
             fileCommand.ChildActions.Add(new BindingAction(GlobalHelper.Get("key_307"), obj =>
             {
-                var keep = MessageBox.Show(GlobalHelper.Get("keep_old_datas"), GlobalHelper.Get("key_99"),
-                    MessageBoxButton.YesNoCancel);
-                if (keep == MessageBoxResult.Cancel)
-                    return;
+                var keep= MessageBoxResult.No;
+                if (this.CurrentProcessCollections.Any() || this.dataManager.DataCollections.Any())
+                {
+                    keep = MessageBox.Show(GlobalHelper.Get("keep_old_datas"), GlobalHelper.Get("key_99"),
+                        MessageBoxButton.YesNoCancel);
+                    if (keep == MessageBoxResult.Cancel)
+                        return;
+                }
                 LoadProject(keepLast: keep == MessageBoxResult.Yes);
             }) {Icon = "inbox_out"});
             fileCommand.ChildActions.Add(new BindingAction(GlobalHelper.Get("key_308"), obj => SaveCurrentProject())
@@ -672,16 +682,31 @@ namespace Hawk.ETL.Managements
             {
                 Icon = "save"
             });
+            fileCommand.ChildActions.Add(new BindingAction(GlobalHelper.Get("generate_project_doc"), obj =>
+            {
+                if(CurrentProject==null)
+                    return;
+                var doc = this.GenerateRemark(this.ProcessCollection);
+                var docItem = new DocumentItem() { Title = this.CurrentProject.Name, Document = doc };
+                PropertyGridFactory.GetPropertyWindow(docItem).ShowDialog();
+            },obj=>CurrentProject!=null)
+            {
+                Icon = "help"
+            });
             fileCommand.ChildActions.Add(new BindingAction(GlobalHelper.Get("recent_file"))
             {
                 Icon = "save",
                 ChildActions =
                     new ObservableCollection<ICommand>(config.Projects.Select(d => new BindingAction(d.SavePath, obj =>
                     {
-                        var keep = MessageBox.Show(GlobalHelper.Get("keep_old_datas"), GlobalHelper.Get("key_99"),
-                            MessageBoxButton.YesNoCancel);
-                        if (keep == MessageBoxResult.Cancel)
-                            return;
+                        var keep = MessageBoxResult.No;
+                        if (this.CurrentProcessCollections.Any() || this.dataManager.DataCollections.Any())
+                        {
+                            keep = MessageBox.Show(GlobalHelper.Get("keep_old_datas"), GlobalHelper.Get("key_99"),
+                                MessageBoxButton.YesNoCancel);
+                            if (keep == MessageBoxResult.Cancel)
+                                return;
+                        }
                         LoadProject(d.SavePath, keep == MessageBoxResult.Yes);
                     }) {Icon = "folder"}))
             });
@@ -695,8 +720,6 @@ namespace Hawk.ETL.Managements
                 languageMenu.ChildActions.Add(ba);
             }
             //  helpCommands.ChildActions.Add(languageMenu);
-            var remark=this.GenerateRemark();
-            File.WriteAllText("fuck.md",remark);
 
             return true;
         }
@@ -729,6 +752,18 @@ namespace Hawk.ETL.Managements
             }
         }
 
+        private bool ProcessTaskCanExecute(object source,bool? shouldPause)
+        {
+            var tasks = GetSelectedTask(source).ToList();
+            if (tasks.Any()==false)
+                return false;
+            if (shouldPause == null)
+                return true;
+            if (tasks.TrueForAll(d => d.IsPause == shouldPause))
+                return false;
+            return true;
+
+        }
         /// <summary>
         /// 查找引用该模块的所有任务
         /// </summary>
@@ -739,7 +774,7 @@ namespace Hawk.ETL.Managements
             {
                 var tool = obj as SmartETLTool;
                 var oldtools = CurrentProcessCollections.OfType<SmartETLTool>().SelectMany(d => d.CurrentETLTools).OfType<ETLBase>().Where(d => d.ETLSelector.SelectItem == tool.Name).ToList();
-                XLogSys.Print.Info(GlobalHelper.Get("smartetl_name"));
+                XLogSys.Print.Info("===================="+GlobalHelper.Get("smartetl_name")+"===================");
                 foreach (var oldtool in oldtools)
                 {
                     XLogSys.Print.Info(string.Format("{0} :{1}", oldtool.Father.Name, oldtool.ObjectID));
@@ -755,7 +790,8 @@ namespace Hawk.ETL.Managements
                 var oldEtls = CurrentProcessCollections.OfType<SmartETLTool>()
                     .SelectMany(d => d.CurrentETLTools).OfType<ResponseTF>()
                     .Where(d => d.CrawlerSelector.SelectItem == _name).ToList();
-                XLogSys.Print.Info(GlobalHelper.Get("smartcrawler_name"));
+                XLogSys.Print.Info("====================" + GlobalHelper.Get("smartcrawler_name")+"=================");
+                
                 foreach (var oldtool in oldCrawler)
                 {
                     XLogSys.Print.Info(string.Format("\t{0}", oldtool.Name));
@@ -767,6 +803,7 @@ namespace Hawk.ETL.Managements
                 }
 
             }
+            XLogSys.Print.Info("======================================================================");
         }
         public ListCollectionView CurrentProcessView { get; set; }
         public ListCollectionView ProcessCollectionView { get; set; }
@@ -986,7 +1023,6 @@ namespace Hawk.ETL.Managements
                     if (isAddUI)
                     {
                         ControlExtended.UIInvoke(() => LoadProcessView(process));
-                        ControlExtended.UIInvoke(() => ShowConfigUI(process));
                     }
 
                     return process;
@@ -1124,10 +1160,6 @@ namespace Hawk.ETL.Managements
             XLogSys.Print.Info(GlobalHelper.Get("cover_task_succ"));
         }
 
-        private void ShowConfigUI(object method)
-        {
-            propertyGridWindow?.SetObjectView(method);
-        }
 
         #endregion
     }

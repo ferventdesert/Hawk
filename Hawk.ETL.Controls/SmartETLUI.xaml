@@ -32,13 +32,15 @@
 
         <ContextMenu x:Key="resourceContextMenu"
                      DataContext="{Binding Data.Commands, Source={StaticResource BindingProxy}}">
-            <MenuItem DataContext="{Binding [0]}" Style="{DynamicResource CommandMenuItem}" />
-            <MenuItem DataContext="{Binding [1]}" Style="{DynamicResource CommandMenuItem}" />
-            <MenuItem DataContext="{Binding [3]}" Style="{DynamicResource CommandMenuItem}" />
-            <MenuItem DataContext="{Binding [4]}" Style="{DynamicResource CommandMenuItem}" />
-            <MenuItem DataContext="{Binding [5]}" Style="{DynamicResource CommandMenuItem}" />
-            <MenuItem DataContext="{Binding [6]}" Style="{DynamicResource CommandMenuItem}" />
-            <MenuItem DataContext="{Binding [7]}" Style="{DynamicResource CommandMenuItem}" />
+            <MenuItem DataContext="{Binding [0]}"  />
+            <MenuItem DataContext="{Binding [1]}"   />
+            <MenuItem DataContext="{Binding [3]}"   />
+            <MenuItem DataContext="{Binding [4]}"  />
+            <MenuItem DataContext="{Binding [5]}"  />
+            <MenuItem DataContext="{Binding [6]}"   />
+            <MenuItem DataContext="{Binding [7]}"   />
+			<MenuItem DataContext="{Binding [10]}"   />
+            <MenuItem DataContext="{Binding [11]}"   />
         </ContextMenu>
         <Style TargetType="{x:Type ListViewItem}">
             <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
@@ -255,8 +257,7 @@
                     <ListBox.ContextMenu>
                         <ContextMenu DataContext="{Binding Data.Commands, Source={StaticResource BindingProxy}}">
 
-                            <MenuItem Style="{StaticResource CommandMenuItem}" DataContext="{Binding [2]}" />
-
+                        
                         </ContextMenu>
                     </ListBox.ContextMenu>
 
@@ -386,8 +387,8 @@
             <ColumnDefinition Width="0.684*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.264*" />
-            <RowDefinition Height="0.736*" />
+            <RowDefinition Height="0.2*" />
+            <RowDefinition Height="0.8*" />
         </Grid.RowDefinitions>
         <Grid Grid.Column="1" Grid.RowSpan="2" Margin="8,0,0,0" d:LayoutOverrides="GridBox">
             <Grid.RowDefinitions>
@@ -528,8 +529,8 @@
 
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.256*" />
-                        <RowDefinition Height="0.69*" />
+                        <RowDefinition Height="0.2*" />
+                        <RowDefinition Height="0.8*" />
 
                     </Grid.RowDefinitions>
 

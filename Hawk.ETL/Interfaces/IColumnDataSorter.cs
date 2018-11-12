@@ -163,7 +163,15 @@ namespace Hawk.ETL.Interfaces
         /// <returns></returns>
         public static IEnumerable<AbstractProcessMethod> GetReference(this SmartETLTool etl, IProcessManager manager)
         {
-            return etl.CurrentETLTools.SelectMany(d => d.GetReference(manager));
+            return etl.CurrentETLTools.SelectMany(d => d.GetReference(manager)).Distinct();
+        }
+
+        public static IEnumerable<SmartCrawler> GetReference(this SmartCrawler etl, IProcessManager manager)
+        {
+            var item = manager.GetTask<SmartCrawler>(etl.ShareCookie.SelectItem);
+            if (item != null)
+                yield return item;
+
         }
 
         public static string GetAllToolMarkdownDoc()
@@ -412,11 +420,12 @@ namespace Hawk.ETL.Interfaces
                 list.Add(GlobalHelper.RandomFormatArgs("reason_desc", tool.Remark));
             }
             list.Add(GenerateItemRemark(tool,new List<string>() {"Remark" , "MainPluginLocation","URL" },false));
-
+                int index =1;
+            list.Add("\n");
             foreach (var crawlItem in tool.CrawlItems)
             {
                 list.Add(GlobalHelper.FormatArgs("doc_crawler_add_xpath", crawlItem.Name, crawlItem.Format, crawlItem.CrawlType,
-                    crawlItem.XPath));
+                    crawlItem.XPath,index++));
             }
             return "\n".Join(list);
         }

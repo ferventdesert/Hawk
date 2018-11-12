@@ -42,7 +42,7 @@
         </StackPanel>
         <ScrollViewer Grid.ColumnSpan="2" Grid.Column="1" Margin="8,13.568,13.487,32.25" Grid.RowSpan="3">
         	<Grid>
-        		<Grid Height="25.672" Margin="0,30,-0.001,0"  VerticalAlignment="Top" d:LayoutOverrides="Width, VerticalMargin"  >
+        		<Grid Height="25.672" Margin="0,30,-0.001,0"  VerticalAlignment="Top"   >
         			<TextBlock Margin="0,0,0,2" TextWrapping="Wrap" Text="{DynamicResource key_765}" HorizontalAlignment="Left" Width="84" d:LayoutOverrides="Height" VerticalAlignment="Center" />
         			<ComboBox     DataContext="{Binding XPath}" IsEditable="True" Text="{Binding _SelectItem}" ItemsSource="{Binding Collection}" Margin="90.5,0,86.208,0" />
         			<Button  DataContext="{Binding Commands[1]}" Content="{Binding Text}" Command="{Binding}" HorizontalAlignment="Right" Width="41.5" VerticalAlignment="Center" />

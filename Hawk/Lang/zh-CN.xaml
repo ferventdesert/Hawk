@@ -626,6 +626,7 @@
     <system:String x:Key="key_695">
         调试与探查
     </system:String>
+    
     <system:String x:Key="key_464">
         文本
     </system:String>
@@ -2323,7 +2324,7 @@
         提示信息
     </system:String>
     <system:String x:Key="key_297">
-        显示并配置
+        显示用户界面
     </system:String>
     <system:String x:Key="key_462">
         选择所要连接的数据表
@@ -2890,9 +2891,16 @@
     <system:String x:Key="key_102">
         执行失败,错误信息  {0}
     </system:String>
-    <system:String x:Key="key_682">
+    <system:String x:Key="clip_up">
         将拷贝模块插入上方
     </system:String>
+        <system:String x:Key="move_up">
+        上移
+    </system:String>
+         <system:String x:Key="move_down">
+        下移
+    </system:String>
+      
     <system:String x:Key="key_238">
         新建或拷贝
     </system:String>
@@ -3123,7 +3131,7 @@
     <system:String x:Key="MySQLConnector">
         MySQL数据库
     </system:String>
-    <system:String x:Key="key_683">
+    <system:String x:Key="clip_down">
         将拷贝模块插入下方  
     </system:String>
     <system:String x:Key="key_308">
@@ -3200,6 +3208,9 @@
     </system:String>
     <system:String x:Key="key_306">
         新建工程
+    </system:String>
+        <system:String x:Key="generate_project_doc">
+        生成工程教学文档
     </system:String>
     <system:String x:Key="http_header">
         Http请求详情
@@ -3981,13 +3992,13 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     </system:String>
 
     <system:String x:Key="drag_desc">
-      将`{0}`模块拖入到`{1}`列
+      将 `{0}` 模块拖入到 `{1}` 列
     </system:String>
     <system:String x:Key="set_param_desc1">
-      设置 `{0}` 值为 `{1}`
+      设置 `{0}` 值为 `{1}` 
     </system:String>
     <system:String x:Key="set_param_desc2">
-      将 `{0}` 填为 `{1}`
+      将 `{0}` 填为 `{1}` 
     </system:String>
     <system:String x:Key="reason_desc1">
       其目的是{0}
@@ -4006,7 +4017,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     </system:String>
 
  <system:String x:Key="doc_crawler_add_xpath">
-    {{key_160}}设置为`{0}`,类型选择为`{1}`, 目标为`{2}`，值为{3},  并点击`添加属性`。
+    {4}. {{key_160}}设置为`{0}`,类型`{1}`, 目标`{2}`，值`{3}`,  并点击`添加属性`。
     </system:String>
     <system:String x:Key="qa_list" xml:space="preserve">
 

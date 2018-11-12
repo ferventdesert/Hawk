@@ -49,12 +49,7 @@
 
 
             <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
-            <Style    TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
-                <Setter Property="Header" Value="{Binding Text}" />
-                <Setter Property="Command" Value="{Binding}" />
-                <Setter Property="ItemsSource" Value="{Binding ChildActions}" />
-                <Setter Property="CommandParameter" Value="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}, Mode=FindAncestor}}"/>
-            </Style>
+        
             <Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource {x:Type ContextMenu}}">
                 <Setter Property="ItemContainerStyle"  Value="{StaticResource {x:Type MenuItem}}"/>
                 <Setter Property="DataContext"  Value="{Binding Data, Source={StaticResource BindingProxy}}"/>
@@ -95,7 +90,7 @@
             			</Rectangle>
             			<Label Content="{Binding Name}" ToolTip="{Binding Description}" Margin="5,5,0,5" VerticalAlignment="Center"  FontSize="14.667" HorizontalAlignment="Left" Width="Auto" />
             		</StackPanel>
-            		<TextBlock TextWrapping="Wrap" Text="{Binding Remark}" Margin="10,0,0,0"/>
+            		<TextBlock TextWrapping="Wrap" Text="{Binding ProcessToDo[Remark]}" Margin="10,0,0,0"/>
             	</StackPanel>
             </DataTemplate>
         	<System:Double x:Key="LargeFont">14.667</System:Double>
@@ -406,7 +401,7 @@
         	</TabItem>
         </TabControl>
         <TextBlock TextWrapping="Wrap" Margin="34,20,0,0" HorizontalAlignment="Left" FontSize="64" Opacity="0.175" VerticalAlignment="Bottom" Foreground="Black"><Run Text="Hawk"/></TextBlock>
-        <TextBlock TextWrapping="Wrap" ToolTip="{DynamicResource hawk_front_desc}" HorizontalAlignment="Left" FontSize="64" Margin="30,0,0,0" VerticalAlignment="Bottom"><Run Language="zh-cn" Text="H"/><Run Text="awk"/><Run Foreground="#FF10AB8B" Language="zh-cn" Text=" 3"/></TextBlock>
+        <TextBlock TextWrapping="Wrap" ToolTip="{DynamicResource hawk_front_desc}" HorizontalAlignment="Left" FontSize="64" Margin="30,0,0,0" VerticalAlignment="Bottom"><Run Language="zh-cn" Text="H"/><Run Text="awk"/><Run Foreground="#FF10AB8B" Language="zh-cn" Text=" 5"/></TextBlock>
         <StackPanel VerticalAlignment="Bottom" Margin="270,0,0,30" HorizontalAlignment="Left" Width="235.283" Grid.ColumnSpan="2">
             <TextBlock TextWrapping="Wrap" FontSize="16" Foreground="#FFA1A1A1" HorizontalAlignment="Left"><Run Text="{DynamicResource key_741}"/></TextBlock>
         	<TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="16" Foreground="#FFA1A1A1" Margin="0,8,0,0"><Run Text="Smart ETL Crawler Engine"/></TextBlock>

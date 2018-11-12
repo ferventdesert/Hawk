@@ -98,7 +98,7 @@ namespace HawkScheduler
                 Console.ReadKey();
             }
             task.Load(false);
-            Console.WriteLine("projec load successful");
+            Console.WriteLine("project load successful");
             var realTask =
                 processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == options.TaskName) as SmartETLTool;
             var queuelists = processManager.CurrentProcessTasks as ObservableCollection<TaskBase>;

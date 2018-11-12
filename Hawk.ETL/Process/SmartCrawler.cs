@@ -190,11 +190,13 @@ namespace Hawk.ETL.Process
             }
         }
 
-
+        [PropertyEditor("CodeEditor")]
         [PropertyOrder(100)]
         [LocalizedDisplayName("remark")]
         [LocalizedDescription("remark_desc")]
         public string Remark { get; set; }
+
+
 
 
 

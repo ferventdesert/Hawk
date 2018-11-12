@@ -14,15 +14,9 @@
 	<UserControl.Resources>
       
         <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
-        <Style    TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
-        	  <Setter Property="Header" Value="{Binding Text}" />
-            <Setter Property="Command" Value="{Binding}" />
-
-            <Setter Property="ItemsSource" Value="{Binding ChildActions}" />
-            <Setter Property="CommandParameter" Value="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}, Mode=FindAncestor}}"/>
-        </Style>
+     
 		<Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource {x:Type ContextMenu}}">
-			<Setter Property="ItemContainerStyle"  Value="{StaticResource {x:Type MenuItem}}"/>
+			  <Setter Property="ItemContainerStyle"  Value="{StaticResource {x:Type MenuItem}}"/>
 				<Setter Property="DataContext"  Value="{Binding Data, Source={StaticResource BindingProxy}}"/>
 		</Style>
 		   	<system:Double x:Key="LargeFont">14.667</system:Double>
@@ -103,7 +97,14 @@
 		</Rectangle>
 		<ListBox x:FieldModifier="public" x:Name="processListBox" ToolTip="{DynamicResource key_790}"  Margin="0,0,0,20" MouseMove="processListBox_MouseMove" DataContext="{Binding PluginDictionary[DataProcessManager]}" ItemsSource="{Binding ProcessCollectionView}"  ItemTemplate="{DynamicResource DataTemplate2}" SelectionMode="Extended"  >
 			<ListBox.Resources>
-				<ContextMenu x:Key="resourceContextMenu"  ItemsSource="{Binding PluginDictionary[DataProcessManager].BindingCommands.ChildActions[4].ChildActions}"/>
+				<ContextMenu x:Key="resourceContextMenu"  DataContext="{Binding SysProcessManager.BindingCommands.ChildActions[4].ChildActions}">
+					   <MenuItem Header="{Binding Text}" Command="{Binding}" DataContext="{Binding [0]}"  />
+            		   <MenuItem Header="{Binding Text}" Command="{Binding}" DataContext="{Binding [2]}"  />
+					   <MenuItem Header="{Binding Text}" Command="{Binding}" DataContext="{Binding [3]}"  />
+            		   <MenuItem Header="{Binding Text}" Command="{Binding}" DataContext="{Binding [4]}"  />
+					   <MenuItem Header="{Binding Text}" Command="{Binding}" DataContext="{Binding [6]}"  />
+					   <MenuItem Header="{Binding Text}" Command="{Binding}" DataContext="{Binding [7]}"  />
+				</ContextMenu>
 
 				<Style TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource {x:Type ListBoxItem}}">
 					<Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />

@@ -12,7 +12,7 @@
         <ContextMenu x:Key="resourceContextMenu"
         					DataContext="{Binding Data.Commands, Source={StaticResource BindingProxy}}">
 
-            <MenuItem DataContext="{Binding [4]}" Style="{DynamicResource CommandMenuItem}" />
+            <MenuItem DataContext="{Binding [4]}"  />
 
         </ContextMenu>
     </UserControl.Resources>

@@ -32,6 +32,7 @@ namespace Hawk.ETL.Managements
 
         private bool WasAborted { get; set; }
         private bool WasCanceled { get; set; }
+        [Browsable(false)]
         public Action TaskAction { get; set; }
 
         public int MapperIndex1
@@ -60,6 +61,7 @@ namespace Hawk.ETL.Managements
         }
 
 
+        [Browsable(false)]
         public IList<IFreeDocument> Seeds { get; set; }
 
         /// <summary>

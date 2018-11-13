@@ -77,11 +77,11 @@
     
         <ul>
         
-            <li><a class="toctree-l3" href="#1">1.工程文件描述</a></li>
+            <li><a class="toctree-l3" href="#1">1.市场的界面使用</a></li>
         
             <li><a class="toctree-l3" href="#2">2.账号系统</a></li>
         
-            <li><a class="toctree-l3" href="#3">3.市场的界面使用</a></li>
+            <li><a class="toctree-l3" href="#3">3.工程文件描述</a></li>
         
             <li><a class="toctree-l3" href="#4">4.使用远端的任务</a></li>
         
@@ -226,7 +226,33 @@
                 <h1 id="hawk">Hawk任务市场</h1>
 <p>为了方便用户间共享高质量的工程，形成良好的社区环境，在Hawk5中提供了市场功能。</p>
 <p>在设计任务市场的整体架构时，花了不少时间，最终采用了最轻量却也可能是最合理的方案：Github。 Github提供了文件存取，合并和历史版本等功能，同时也符合Hawk的开源精神。 任务市场分为两期进行开发，第一期只支持访问，Hawk用户设计了工程后，通过merge request的方式提交到主分支。 第二期则支持软件内上传，同时增加积分奖励系统。</p>
-<h2 id="1">1.工程文件描述</h2>
+<h2 id="1">1.市场的界面使用</h2>
+<p><img alt="任务市场主页" src="https://upload-images.jianshu.io/upload_images/9608527-112a974fdfe5f482.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p>左侧包含了当前repo对应目录下的所有工程，点击每个工程，右侧即可展示其包含的数据表，任务集合，参数和介绍等：</p>
+<p><img alt="详情设置" src="https://upload-images.jianshu.io/upload_images/9608527-004b6a173f41c568.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p>为了避免误操作，无法双击工程，而需要通过鼠标右键加载的方式加载，之后即可像本地工程一样加载远端工程文件。</p>
+<h2 id="2">2.账号系统</h2>
+<p>可在任务市场界面中，点击配置图标，即可对GitHub账号做配置：</p>
+<p><img alt="设置Github登陆页" src="https://upload-images.jianshu.io/upload_images/9608527-527f119b593fb4b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p>如果你打算使用Hawk的基本功能，并不打算上传和分享任务，甘当伸手党的话，则可以使用Hawk提供的公共账号。但有如下功能与限制：</p>
+<ul>
+<li>公共账号只能访问Hawk作者建立的公共仓库</li>
+<li>下载工程的权利会受限</li>
+<li>在软件中提出issue</li>
+</ul>
+<p>你可以登录自己的Github账号，可选择保存账号和密码，则下次使用时不需要再次登录。其带来的功能如下：</p>
+<ul>
+<li>可访问其他用户提供的Hawk仓库</li>
+<li>能够自行上传和保存工程文件</li>
+<li>能够自由调用市场的子任务</li>
+<li>给Hawk作者点star</li>
+</ul>
+<blockquote>
+<p>Hawk和其作者，保证不会访问或传输用户的账号和密码，它将会保存在用户PC端的token中。</p>
+</blockquote>
+<p>对于要上传的任务，会经过作者审核。通过后上传到公共仓库。未来Hawk的整个生态，都会围绕在Github展开。</p>
+<h2 id="3">3.工程文件描述</h2>
+<p>当你希望自己设计工程，并与其他人分享时，可阅读本章节。Hawk真心希望这样的读者能越多越好。</p>
 <p>在Git的repo目录中，创建一级目录，通过以下方式组织文件：</p>
 <ul>
 <li>proj1.xml</li>
@@ -239,8 +265,8 @@
 <pre><code>Name: 填写工程名字
 ShortDescription: 一句话介绍
 Description: 长介绍，支持markdown，如果你愿意，可以放置自己的转账二维码。
-ImgUrl:  封面图像Url
-Tasks: [task1,task2,task3]
+ImgUrl: 封面图像Url
+Tasks: [task1,task2,task3]  #可选，便于搜索服务建立索引
 </code></pre>
 
 <p>以下是一些建议：</p>
@@ -250,38 +276,12 @@ Tasks: [task1,task2,task3]
 <li>我们强烈建议使用meta文件描述元信息，这样会大大增加用户访问和查看工程的效率，它避免了Hawk读取整个工程文件，</li>
 <li>不要在Hawk工程中包含任何敏感信息，包括cookie，甚至用户名和密码等。未来Hawk在上传工程时，都会自动将cookie等信息删除后再上传。并通过工程中配置的前置任务，引导用户自行登录并获取cookie.</li>
 </ul>
-<h2 id="2">2.账号系统</h2>
-<p>如果你打算使用Hawk的基本功能，并不打算上传和分享任务，甘当伸手党的话，则可以使用Hawk提供的公共账号。但有如下功能与限制：</p>
-<ul>
-<li>公共账号只能访问Hawk作者建立的公共仓库</li>
-<li>下载工程的权利会受限</li>
-<li>在软件中提出issue</li>
-</ul>
-<p>你可以登录自己的Github账号，可选择保存账号和密码，则下次使用时不需要再次登录。其带来的功能如下：</p>
-<ul>
-<li>可访问其他用户提供的Hawk仓库</li>
-<li>能够自行上传和保存工程文件。</li>
-<li>能够自由调用市场的子任务</li>
-<li>给Hawk作者点star</li>
-</ul>
-<blockquote>
-<p>Hawk和其作者，保证不会访问或传输用户的账号和密码，它将会保存在用户PC端的token中。</p>
-</blockquote>
-<p>对于要上传的任务，会经过作者审核。通过后上传到公共仓库。未来Hawk的整个生态，都会围绕在Github展开。</p>
-<h2 id="3">3.市场的界面使用</h2>
-<p>//TODO: 界面描述</p>
-<p>左侧包含了当前repo对应目录下的所有工程，点击每个工程，右侧即可展示其包含的数据表，任务集合，参数和介绍等。</p>
-<p>双击工程，即可像加载本地工程一样加载远端工程文件。</p>
 <h2 id="4">4.使用远端的任务</h2>
 <p>除了加载整个工程完成特定任务外，还支持加载远端工程中特定的任务。有两种方式使用远端任务：</p>
-<ol>
-<li>手动加载任务</li>
-</ol>
+<h3 id="41">4.1.手动加载任务</h3>
 <p>在右侧的任务列表上点右键，即可加载当前任务。
 任务在初始化时，会自动将远程的依赖任务和数据加载出来。之后远端任务即可像本地任务一样使用，没有任何区别。</p>
-<ol>
-<li>自动引用任务</li>
-</ol>
+<h3 id="42">4.2.自动引用任务</h3>
 <p>这是Hawk革命性的功能，在数据清洗中，可以使用如下语法，调用远程仓库的子任务和数据清洗：
 remote://RepoUser/Repo/DirName/ProjectName/TaskName</p>
 <p>每次软件启动时，就会自动从远端加载当前任务。</p>

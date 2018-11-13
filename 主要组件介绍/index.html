@@ -295,11 +295,15 @@
 <li>在绝大多数的按钮和菜单上，放置鼠标超过3秒钟，就会弹出完整的介绍和帮助。</li>
 <li>所有的模块在配置时，都可以在配置后显示其使用文档，包括功能简介，参数名和对应介绍，注意事项等。</li>
 <li>点击：帮助，即可弹出全局文档系统，在文档中，支持字体放缩，关键字搜索等，方便快速定位内容。</li>
+<li>每个任务或工程，都可以生成其对应的教程文档，极大地减少了做教程写文档的负担</li>
 </ul>
 <p><img alt="在按钮上自动弹出帮助" src="https://upload-images.jianshu.io/upload_images/9608527-b4180f98fec913e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p>为一个数据清洗任务自动生成其step by step的教程文档（点击调试工具栏中最右侧的哭脸按钮即可）</p>
+<p><img alt="自动生成文档" src="https://upload-images.jianshu.io/upload_images/9608527-2c744653119ba88a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p>亦可在 文件-&gt;生成工程教学文档， 生成当前工程的全部文档。在初期其可读性可能不够好，之后会继续完善。</p>
 <p>Hawk的文档系统分为<code>新手模式</code>和<code>高手模式</code>：</p>
 <ul>
-<li>模式的切换，可以在系统配置，显示详细描述中进行切换</li>
+<li>模式的切换，可以在系统配置，新手模式中进行切换</li>
 <li>新手模式：文档详尽，尤其是在数据清洗的模块列表中，以详细介绍的形式呈现，方便直观地了解各模块功能</li>
 <li>老手模式：文档极简，仅提供新手模式第一段的内容。</li>
 </ul>
@@ -317,8 +321,8 @@
 <ul>
 <li>使用space=preserve来指定某个变量为多行文档。</li>
 <li>使用<code>{{KEY_NAME}}</code>来引用其他变量，生成文档时会自动替换</li>
-<li>过长的文档，可以在resource目录下新建YOUR_MD.md,则可以使用<code>{{YOUR_MD}}</code>来引用它。</li>
-<li>变量之间可以按树结构调用，但不能出现循环引用，并生成最终文档</li>
+<li>过长的文档，可以在resource目录下新建YOUR_MD.md,则可以使用<code>{{YOUR_MD}}</code>来引用它。文件名只能使用英文</li>
+<li>变量之间可以互相调用，但不能出现循环引用，并生成最终文档</li>
 </ul>
 <p>建议修改对应的xaml文件后，通过git向主干提交merge request，这样能保证文档质量。那如何预览生成的文档效果？  执行如下命令:</p>
 <pre><code>pip install mkdocs

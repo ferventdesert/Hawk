@@ -23,13 +23,17 @@ The key features are as follows:
 - Tasks can be save, pause, restart & reused.
 - Focus on crawler but power is far beyond that.
 
-Super fast & Smart crawling webpage:
 
-[2.gif-3330.9kB] (http://static.zybuluo.com/buptzym/10kykg6qhqvsabbq8yj32pt0/2.gif)
+![splash](https://upload-images.jianshu.io/upload_images/9608527-2185c11706ccf618.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+Fast & Smart webpage crawling :
+
+![2.gif-3330.9kB] (http://static.zybuluo.com/buptzym/10kykg6qhqvsabbq8yj32pt0/2.gif)
 
 WYSIWYG ETL:
 
-[1.gif-1001.8kB] (http://static.zybuluo.com/buptzym/qkl0vavjn6cj007qfk2k3gqg/1.gif) 
+![1.gif-1001.8kB] (http://static.zybuluo.com/buptzym/qkl0vavjn6cj007qfk2k3gqg/1.gif) 
 
 ## Upgrade History
 

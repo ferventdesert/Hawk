@@ -36,13 +36,13 @@
     <system:String x:Key="LongTask">
         正在进行长时间任务，请等待
     </system:String>
-        <system:String x:Key="short_desc">
+    <system:String x:Key="short_desc">
         简短描述
     </system:String>
-      <system:String x:Key="long_etl_task">
+    <system:String x:Key="long_etl_task">
         正在执行临时任务流，请稍后
     </system:String>
-          <system:String x:Key="long_visit_web">
+    <system:String x:Key="long_visit_web">
         正在从服务器刷新网页，请等待
     </system:String>
     <system:String x:Key="ModuleMgmt">
@@ -626,7 +626,7 @@
     <system:String x:Key="key_695">
         调试与探查
     </system:String>
-    
+
     <system:String x:Key="key_464">
         文本
     </system:String>
@@ -754,7 +754,7 @@
     <system:String x:Key="key_253">
         文件导出成功，是否要打开查看?
     </system:String>
-        <system:String x:Key="delete_confirm">
+    <system:String x:Key="delete_confirm">
         是否要移除已选择的模块? 本操作不能撤回.
     </system:String>
     <system:String x:Key="key_550">
@@ -1238,10 +1238,10 @@
        - 性能较差，大量的字符解析，js模式树解析
        - 兼容性一般：不是所有的文本都能转成树结构，因此必要时需要使用手动模式处理。
     </system:String>
-     <system:String x:Key="add_task_warning" xml:space="preserve">
+    <system:String x:Key="add_task_warning" xml:space="preserve">
           haha 
     </system:String>
-      <system:String x:Key="config_not_found_warning">
+    <system:String x:Key="config_not_found_warning">
        配置"{0}"在全局配置中不存在，请检查相关参数，原始配置为 {1}
     </system:String>
     <system:String x:Key="crawler_xpath_root" xml:space="preserve">
@@ -1400,7 +1400,7 @@
     <system:String x:Key="key_25">
         用户名
     </system:String>
-        <system:String x:Key="user_login">
+    <system:String x:Key="user_login">
         GitHub用户登录
     </system:String>
     <system:String x:Key="key_475">
@@ -1525,9 +1525,33 @@
         通过XPath或CSS选取html中的子节点文档
 
         当输入的单元格内容为html文档，而又想提取其部分数据，用 {{smartcrawler_name}} 又`杀鸡用牛刀`，则可以考虑使用它。
+
+        {{XPathTF_ui}}
+
         {{xpath_desc}}
 
         {{css_desc}}
+    </system:String>
+    <system:String x:Key="XPathTF_ui" xml:space="preserve">
+    
+    ## 图形化的XPath筛选器
+
+    有时使用{{smartcrawler_name}}太重，但自行填写XPath又门槛太高，新的Hawk支持图形化搜索和设置XPath，极大地简化了填写XPath的负担。 在{{XPathTF}}模块的配置项中，点击 {{key_410}}，即可弹出其图形化配置界面：
+
+    ![XPath筛选器](https://upload-images.jianshu.io/upload_images/9608527-36ff6f7642332de8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+    首先需让该工作流正常刷新，这样本模块才能获得页面的URL和对应的html。 你可以在最上方的地址栏里，切换不同的url地址，进而切换不同的web页面。
+
+    其使用和{{smartcrawler_name}}神似，虽然做了一些简化，步骤如下：
+    
+    1. 在源代码页面的下方，输入要查找的关键字，点击搜索，即可列出当前页面所有命中的关键字和XPath。
+    2. 点选不同的XPath，采集器会在页面不同配置跳转，进而帮助选择你真正要挑选的页面地址，进而会发现右上角的xpath也发生了改变
+    3. 如果你只是希望获取一条数据（即{{script_mode_one}}模式），则点击确定保存结果即可
+    4. 如果希望获取多条数据({{script_mode_list}})，则需要对右上角的xpath进行修改，修改其路径为你要获取的xpath父路径（这可能需要一些经验和技巧），点击{{key_624}}即可
+    5. 多次修改，直到获得正确的地址即可。点击保存后返回。
+
+    除了使用关键字之外，在右上角XPath下拉菜单上，还能选择填入常用的XPath表达式，如获取所有图片等，此处不再赘述。
+
     </system:String>
     <system:String x:Key="key_32">
         自动连接
@@ -1673,17 +1697,24 @@
     <system:String x:Key="key_110">
         常用
     </system:String>
-        <system:String x:Key="market_url">
+    <system:String x:Key="market_url">
        市场地址
     </system:String>
-     <system:String x:Key="market_url_check" xml:space="preserve">
+    <system:String x:Key="market_url_check" xml:space="preserve">
         市场的url必须以https://github.com开头，且包含repo名和首层文件夹，例如：
 
         从以下方式点击地址进入：
         TODO:增加图片
+
+         > https://github.com/ferventdesert/Hawk-Projects/tree/master/Hawk3
+
+        并在如下界面进行配置:
+
+        ![设置Github登陆页](https://upload-images.jianshu.io/upload_images/9608527-527f119b593fb4b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
         
 
-        > https://github.com/ferventdesert/Hawk-Projects/tree/master/Hawk3
+       
     </system:String>
     <system:String x:Key="FileConnectorJson_desc">
         输出文本型JSON文件
@@ -1950,7 +1981,7 @@
     - {{merge_mix}} 
     - {{merge_merge}}
 
-    ![生成器的四种模式](https://images2018.cnblogs.com/blog/287060/201805/287060-20180506160537169-568274026.png)
+    ![生成器的四种模式](https://upload-images.jianshu.io/upload_images/9608527-98d152405743cd6d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
     </system:String>
     <system:String x:Key="subtask_desc" xml:space="preserve">
@@ -1994,7 +2025,7 @@
     
     Hawk3中还提供了图形化配置的界面，大大简化了配置难度，在任何子任务调用的模块里，都可以点击`配置`进入配置页面：
     
-    ![子任务的配置界面](https://images2018.cnblogs.com/blog/287060/201805/287060-20180506160707394-384705130.png)
+    ![子任务的配置界面](https://upload-images.jianshu.io/upload_images/9608527-aa038bac6624eb0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
     
     ## 注意事项
 
@@ -2324,7 +2355,7 @@
         提示信息
     </system:String>
     <system:String x:Key="key_297">
-        显示用户界面
+        显示并配置
     </system:String>
     <system:String x:Key="key_462">
         选择所要连接的数据表
@@ -2617,7 +2648,7 @@
     <system:String x:Key="key_239">
         新建数据集
     </system:String>
-       <system:String x:Key="keep_pass">
+    <system:String x:Key="keep_pass">
         保存密码
     </system:String>
     <system:String x:Key="key_669">
@@ -2894,13 +2925,13 @@
     <system:String x:Key="clip_up">
         将拷贝模块插入上方
     </system:String>
-        <system:String x:Key="move_up">
+    <system:String x:Key="move_up">
         上移
     </system:String>
-         <system:String x:Key="move_down">
+    <system:String x:Key="move_down">
         下移
     </system:String>
-      
+
     <system:String x:Key="key_238">
         新建或拷贝
     </system:String>
@@ -3001,7 +3032,7 @@
         -  先尝试最简单的例子，根据兴趣阅读下面的快速入门，一步一步按照步骤操作。
         -  链家二手房： 学习基本操作，{{feellucky}}和基本{{smartetl_name}}
         -  大众点评： 了解翻页，清洗的动态传值
-        -  TODO: 百度百家？动态嗅探的用法
+        -  百度百家？动态嗅探的用法
         -  做两个例子后，阅读`Hawk一页纸技巧`，必读，3分钟让您获得大量实用的经验
         -  成为老司机后，即可阅读之后的详细内容，网页采集器，动态嗅探等内容后，也有对应的例子
         -  有任何困惑，都可以在`常见问题`中找到
@@ -3209,7 +3240,7 @@
     <system:String x:Key="key_306">
         新建工程
     </system:String>
-        <system:String x:Key="generate_project_doc">
+    <system:String x:Key="generate_project_doc">
         生成工程教学文档
     </system:String>
     <system:String x:Key="http_header">
@@ -3248,10 +3279,10 @@
     <system:String x:Key="key_50">
         文件不是合法的Json文件
     </system:String>
-     <system:String x:Key="find_ref">
+    <system:String x:Key="find_ref">
        查找所有引用
     </system:String>
- 
+
     <system:String x:Key="key_216">
         当前连接
     </system:String>
@@ -3659,10 +3690,10 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     <system:String x:Key="default">
         默认值
     </system:String>
-      <system:String x:Key="remark">
+    <system:String x:Key="remark">
        注释
     </system:String>
-      <system:String x:Key="remark_desc">
+    <system:String x:Key="remark_desc">
         这里填写关于模块或任务的介绍，之后会在文档说明中展示它，可为空。
     </system:String>
     <system:String x:Key="options">
@@ -3683,7 +3714,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     </system:String>
     <system:String x:Key="doc_etl_read">
       查看教程文档
-  </system:String>
+    </system:String>
     <system:String x:Key="filter_mode_by_item">
          按行过滤
     </system:String>
@@ -3738,7 +3769,43 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
 
       在设计任务市场的整体架构时，花了不少时间，最终采用了最轻量却也可能是最合理的方案：Github。 Github提供了文件存取，合并和历史版本等功能，同时也符合Hawk的开源精神。 任务市场分为两期进行开发，第一期只支持访问，Hawk用户设计了工程后，通过merge request的方式提交到主分支。 第二期则支持软件内上传，同时增加积分奖励系统。
 
+      ## 市场的界面使用
+
+      ![任务市场主页](https://upload-images.jianshu.io/upload_images/9608527-112a974fdfe5f482.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+      左侧包含了当前repo对应目录下的所有工程，点击每个工程，右侧即可展示其包含的数据表，任务集合，参数和介绍等：
+
+     ![详情设置](https://upload-images.jianshu.io/upload_images/9608527-004b6a173f41c568.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+ 
+      为了避免误操作，无法双击工程，而需要通过鼠标右键加载的方式加载，之后即可像本地工程一样加载远端工程文件。
+      
+     ## 账号系统
+
+      可在任务市场界面中，点击配置图标，即可对GitHub账号做配置：
+
+      ![设置Github登陆页](https://upload-images.jianshu.io/upload_images/9608527-527f119b593fb4b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+      如果你打算使用Hawk的基本功能，并不打算上传和分享任务，甘当伸手党的话，则可以使用Hawk提供的公共账号。但有如下功能与限制：
+       
+       - 公共账号只能访问Hawk作者建立的公共仓库
+       - 下载工程的权利会受限
+       - 在软件中提出issue
+      
+      你可以登录自己的Github账号，可选择保存账号和密码，则下次使用时不需要再次登录。其带来的功能如下：
+      
+      -  可访问其他用户提供的Hawk仓库
+      -  能够自行上传和保存工程文件
+      -  能够自由调用市场的子任务
+      -  给Hawk作者点star
+
+      > Hawk和其作者，保证不会访问或传输用户的账号和密码，它将会保存在用户PC端的token中。
+
+      对于要上传的任务，会经过作者审核。通过后上传到公共仓库。未来Hawk的整个生态，都会围绕在Github展开。
+
+
       ## 工程文件描述
+
+      当你希望自己设计工程，并与其他人分享时，可阅读本章节。Hawk真心希望这样的读者能越多越好。
 
       在Git的repo目录中，创建一级目录，通过以下方式组织文件：
       
@@ -3766,33 +3833,9 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
       - 我们强烈建议使用meta文件描述元信息，这样会大大增加用户访问和查看工程的效率，它避免了Hawk读取整个工程文件，
       - 不要在Hawk工程中包含任何敏感信息，包括cookie，甚至用户名和密码等。未来Hawk在上传工程时，都会自动将cookie等信息删除后再上传。并通过工程中配置的前置任务，引导用户自行登录并获取cookie.
 
-      ## 账号系统
-
-      如果你打算使用Hawk的基本功能，并不打算上传和分享任务，甘当伸手党的话，则可以使用Hawk提供的公共账号。但有如下功能与限制：
-       
-       - 公共账号只能访问Hawk作者建立的公共仓库
-       - 下载工程的权利会受限
-       - 在软件中提出issue
+     
+    
       
-      你可以登录自己的Github账号，可选择保存账号和密码，则下次使用时不需要再次登录。其带来的功能如下：
-      
-      -  可访问其他用户提供的Hawk仓库
-      -  能够自行上传和保存工程文件。
-      -  能够自由调用市场的子任务
-      -  给Hawk作者点star
-
-      > Hawk和其作者，保证不会访问或传输用户的账号和密码，它将会保存在用户PC端的token中。
-
-      对于要上传的任务，会经过作者审核。通过后上传到公共仓库。未来Hawk的整个生态，都会围绕在Github展开。
-
-      ## 市场的界面使用
-
-      //TODO: 界面描述
-
-      左侧包含了当前repo对应目录下的所有工程，点击每个工程，右侧即可展示其包含的数据表，任务集合，参数和介绍等。
-      
-      双击工程，即可像加载本地工程一样加载远端工程文件。
- 
       ## 使用远端的任务
       
       除了加载整个工程完成特定任务外，还支持加载远端工程中特定的任务。有两种方式使用远端任务：
@@ -3854,13 +3897,21 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     </system:String>
     <system:String x:Key="doc_system" xml:space="preserve">
        ## 帮助文档系统
+
        由于Hawk的使用较为复杂，因此提供了内置的文档系统。  
 
        - 在绝大多数的按钮和菜单上，放置鼠标超过3秒钟，就会弹出完整的介绍和帮助。
        - 所有的模块在配置时，都可以在配置后显示其使用文档，包括功能简介，参数名和对应介绍，注意事项等。
        - 点击：帮助，即可弹出全局文档系统，在文档中，支持字体放缩，关键字搜索等，方便快速定位内容。
+       - 每个任务或工程，都可以生成其对应的教程文档，极大地减少了做教程写文档的负担
 
        ![在按钮上自动弹出帮助](https://upload-images.jianshu.io/upload_images/9608527-b4180f98fec913e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+       为一个数据清洗任务自动生成其step by step的教程文档（点击调试工具栏中最右侧的哭脸按钮即可）
+
+       ![自动生成文档](https://upload-images.jianshu.io/upload_images/9608527-2c744653119ba88a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+       亦可在 文件->{{generate_project_doc}}， 生成当前工程的全部文档。在初期其可读性可能不够好，之后会继续完善。
 
        Hawk的文档系统分为`新手模式`和`高手模式`：
 
@@ -3874,6 +3925,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
 
 
        ### 文档编写和自动生成
+
        由于软件在不停地优化升级，会出现模块和文档不一致的问题。为了降低作者编写文档的负担，Hawk采用了自动文档生成的方式：
        
        - 各模块的介绍都基于C#的反射进行，当模块参数变化时可自动更新
@@ -3992,13 +4044,13 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     </system:String>
 
     <system:String x:Key="drag_desc">
-      将 `{0}` 模块拖入到 `{1}` 列
+      将`{0}`模块拖入到`{1}`列
     </system:String>
     <system:String x:Key="set_param_desc1">
-      设置 `{0}` 值为 `{1}` 
+      设置`{0}`值为`{1}`
     </system:String>
     <system:String x:Key="set_param_desc2">
-      将 `{0}` 填为 `{1}` 
+      将`{0}`填为`{1}`
     </system:String>
     <system:String x:Key="reason_desc1">
       其目的是{0}
@@ -4006,18 +4058,18 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     <system:String x:Key="reason_desc2">
       作用为{0}
     </system:String>
-     <system:String x:Key="set_before">
+    <system:String x:Key="set_before">
         需提前设置好: `{0}`
     </system:String>
-     <system:String x:Key="doc_task_title">
+    <system:String x:Key="doc_task_title">
          ## 新建{0}:{1}
     </system:String>
-      <system:String x:Key="doc_task_new">
+    <system:String x:Key="doc_task_new">
          在启动页面双击新建{0}，并设置其名称为`{1}`。
     </system:String>
 
- <system:String x:Key="doc_crawler_add_xpath">
-    {4}. {{key_160}}设置为`{0}`,类型`{1}`, 目标`{2}`，值`{3}`,  并点击`添加属性`。
+    <system:String x:Key="doc_crawler_add_xpath">
+    {{key_160}}设置为`{0}`,类型选择为`{1}`, 目标为`{2}`，值为{3},  并点击`添加属性`。
     </system:String>
     <system:String x:Key="qa_list" xml:space="preserve">
 
@@ -4088,6 +4140,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     不过，能配置Hawk去做这样的请求的人，一定也能够写Python了，算了，他还是去写Python吧，别跳Hawk这个坑了。
 
     ### Path搜索相关问题
+    
     {{smartcrawler_name}}中，填写关键字，却发现无法找到XPath。
     可能的原因：
 

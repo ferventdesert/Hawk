@@ -35,7 +35,7 @@ namespace Hawk.ETL.Plugins.Executor
             foreach (var document in documents)
             {
                 var name = AppHelper.Query(Table, document);
-                Monitor.Enter(dataManager);
+                Monitor.Enter(this);
                 collection = dataManager.DataCollections.FirstOrDefault(d => d.Name == name);
                 if (collection == null)
                 {
@@ -47,6 +47,7 @@ namespace Hawk.ETL.Plugins.Executor
                     }
 
                 }
+                Monitor.Exit(this);
                 if (collection == null)
                 {
                     XLogSys.Print.Error(GlobalHelper.Get("create_collection_error"));
@@ -54,7 +55,7 @@ namespace Hawk.ETL.Plugins.Executor
                     continue;
                 }
                 
-                Monitor.Exit(dataManager);
+             
              
                     ControlExtended.UIInvoke(() =>
                     {

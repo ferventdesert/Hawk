@@ -13,6 +13,10 @@ namespace Hawk.ETL.Plugins.Executor
     [XFrmWork("DelayTF", "DelayTF_desc","timer_stop")]
     public class DelayTF : TransformerBase
     {
+        public DelayTF()
+        {
+            DelayTime = "1000";
+        }
         [LocalizedDisplayName("key_353")]
         [LocalizedDescription("key_354")]
         public string DelayTime { get; set; }

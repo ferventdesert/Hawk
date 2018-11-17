@@ -198,7 +198,9 @@ namespace Hawk.ETL.Process
                         {
                             var doc = this.GenerateRemark(true, SysProcessManager);
                             var docItem= new DocumentItem() {Title = this.Name,Document = doc};
-                            PropertyGridFactory.GetPropertyWindow(docItem).ShowDialog();
+                            var window=PropertyGridFactory.GetPropertyWindow(docItem);
+                            window.Title = GlobalHelper.Get("key_267");
+                            window.ShowDialog();
                         },
                             obj => this.CurrentETLTools.Count>0, "smiley_grumpy"),
                          new Command(GlobalHelper.Get("move_up"), obj =>
@@ -672,7 +674,7 @@ namespace Hawk.ETL.Process
             var mapperIndex1 = lastTask?.MapperIndex1 ?? 0;
             var mapperIndex2 = lastTask?.MapperIndex2 ?? 0;
             var task = new TemporaryTask<IFreeDocument>();
-            if (name == null)
+            if  (String.IsNullOrEmpty(name))
                 name = GlobalHelper.Get("key_706");
             task.Name = name;
             if (lastTask != null)
@@ -808,12 +810,12 @@ namespace Hawk.ETL.Process
                     return;
                 }
 
-                if (isWait && SysProcessManager.CurrentProcessTasks.Count <= maxThreadCount)
+                if (isWait && SysProcessManager.CurrentProcessTasks.Count(d=>d.Publisher==this) <= maxThreadCount)
                 {
                     motherTask.IsPause = false;
                     isWait = false;
                 }
-                if (motherTask.IsPause == false && SysProcessManager.CurrentProcessTasks.Count > maxThreadCount)
+                if (motherTask.IsPause == false && SysProcessManager.CurrentProcessTasks.Count(d=>d.Publisher==this) > maxThreadCount)
                 {
                     motherTask.IsPause = true;
                     isWait = true;
@@ -947,9 +949,9 @@ namespace Hawk.ETL.Process
             {
                 if (_maxThreadCount != value)
                 {
-                    if (value > 30)
+                    if (value > 20)
                     {
-                        value = 30;
+                        value = 20;
                         XLogSys.Print.Warn(GlobalHelper.Get("key_711"));
                     }
                     if (value <= 0)
@@ -1126,7 +1128,6 @@ namespace Hawk.ETL.Process
                     var tool = CurrentTool;
                     var outputCol = new List<string>();
                     var inputCol = new List<string>();
-
                     if (tool != null)
                     {
                         inputCol.Add(tool.Column);
@@ -1189,7 +1190,7 @@ namespace Hawk.ETL.Process
                     {
                         case "Percent":
 
-                            dock.SetBusy(ProgressBarState.Normal, GlobalHelper.Get("long_etl_task"),
+                            dock.SetBusy(ProgressBarState.Normal, message: GlobalHelper.Get("long_etl_task"),
                                 percent: temptask.Percent);
                             break;
                         case "IsStart":

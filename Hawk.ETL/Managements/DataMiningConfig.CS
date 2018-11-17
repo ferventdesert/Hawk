@@ -52,10 +52,11 @@ namespace Hawk.ETL.Managements
         {
             get { return this.Get<int>("AutoSaveTime"); }
             set
+
             {
+                if (value < 60&&value>0)
+                    value = 60;
                 this.Set<int>("AutoSaveTime", value);
-
-
             }
         }
       [Browsable(false)] 

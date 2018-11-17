@@ -17,8 +17,13 @@ namespace Hawk.Core.Utils
            if (Application.Current == null)
                return name;
             str = Application.Current.TryFindResource(name);
-            if (str == null)
+           if (str == null)
+#if DEBUG
+               // throw new  Exception(name+"not found");
+               return name;
+#else
                 return name;
+#endif
             return str.ToString();
         }
 

@@ -348,7 +348,7 @@ namespace Hawk.ETL.Managements
                         }
                         CurrentProject.ConfigSelector.SelectItem = project.ConfigSelector.SelectItem;
                     }
-                 
+
                     (obj as ProcessTask).Load(true);
                 },
                 obj => obj is ProcessTask, "inbox_out"));
@@ -895,8 +895,12 @@ namespace Hawk.ETL.Managements
                 {
                     task.Load(false);
                 }
-                if (project.ConfigSelector.SelectItem != null)
+                if (string.IsNullOrEmpty(project.ConfigSelector.SelectItem) == false)
                     this.CurrentProject.ConfigSelector.SelectItem = project.ConfigSelector.SelectItem;
+                else
+                {
+                    this.CurrentProject.ConfigSelector.SetDefault();
+                }
                 NotifyCurrentProjectChanged();
                 config.SaveConfig();
                 project.LoadRunningTasks();

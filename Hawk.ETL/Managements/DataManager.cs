@@ -40,6 +40,7 @@ namespace Hawk.ETL.Managements
                     datas = await Task.Run(() => Connector.QueryEntities(SQL,
                         out count, TableInfo == null ? null : TableInfo.Name));
                     ControlExtended.SetBusy(ProgressBarState.NoProgress);
+                    XLogSys.Print.Info(GlobalHelper.Get("key_325"));
                 }
                 catch (Exception ex)
                 {

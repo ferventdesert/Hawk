@@ -118,7 +118,7 @@ namespace Hawk.ETL.Managements
                 return project;
             }
             Monitor.Exit(RemoteProjectBuff);
-            ControlExtended.SetBusy(ProgressBarState.Indeterminate);
+            ControlExtended.SetBusy(ProgressBarState.Indeterminate, message:GlobalHelper.Get("get_remote_market_data"));
             project = await Project.LoadFromUrl(projectItem.SavePath);
             ControlExtended.SetBusy(ProgressBarState.NoProgress);
             Monitor.Enter(RemoteProjectBuff);
@@ -211,7 +211,12 @@ namespace Hawk.ETL.Managements
             MarketProjects = new ObservableCollection<ProjectItem>();
             dockableManager = MainFrmUI as IDockableManager;
             dataManager = MainFrmUI.PluginDictionary["DataManager"] as IDataManager;
-
+            ProcessCollection = new ObservableCollection<IDataProcess>();
+            CurrentProcessTasks = new ObservableCollection<TaskBase>();
+            if (!MainDescription.IsUIForm)
+            {
+                return true;
+            }
             var aboutAuthor = new BindingAction(GlobalHelper.Get("key_262"), d =>
             {
                 var view = PluginProvider.GetObjectInstance<ICustomView>(GlobalHelper.Get("key_263"));
@@ -292,10 +297,7 @@ namespace Hawk.ETL.Managements
             };
 
             MainFrmUI.CommandCollection.Add(debugCommand);
-            ProcessCollection = new ObservableCollection<IDataProcess>();
-
-
-            CurrentProcessTasks = new ObservableCollection<TaskBase>();
+         
             BindingCommands = new BindingAction(GlobalHelper.Get("key_279"));
             var sysCommand = new BindingAction();
 
@@ -401,7 +403,7 @@ namespace Hawk.ETL.Managements
                 d =>
                 {
                     var selectedTasks = GetSelectedTask(d).ToList();
-                    CurrentProcessTasks.RemoveElementsNoReturn(d2 => selectedTasks.Contains(d2), d2 => d2.Remove());
+                    CurrentProcessTasks.Where(d2 => selectedTasks.Contains(d2)).ToList().Execute( d2 => d2.Remove());
                 }, d => ProcessTaskCanExecute(d, null), "delete"));
 
 
@@ -421,6 +423,7 @@ namespace Hawk.ETL.Managements
 
             var processAction = new BindingAction();
 
+          
             dynamic processview =
                 (MainFrmUI as IDockableManager).ViewDictionary.FirstOrDefault(d => d.Name == GlobalHelper.Get("key_794"))
                     .View;

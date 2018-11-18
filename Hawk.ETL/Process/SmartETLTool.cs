@@ -632,28 +632,12 @@ namespace Hawk.ETL.Process
             }
         }
 
-        private TemporaryTask<IFreeDocument> AddSubTask(List<IFreeDocument> seeds, List<IColumnProcess> subEtls,
+        private TemporaryTask<IFreeDocument> AddSubTask(List<IFreeDocument> seeds, EnumerableFunc mapperFunc1, EnumerableFunc mapperFunc2,EnumerableFunc customerFunc3,
             ToListTF motherListTF = null,
             TemporaryTask<IFreeDocument> lastTask = null, string name = null, bool isAdd = true)
         {
-            ToListTF subTaskToListTF;
-            ToListTF subTaskToListTF2;
-
-            var splitPoint1 = subEtls.GetParallelPoint(false, out subTaskToListTF);
-            var mapperFunc1 = subEtls.Take(splitPoint1).Aggregate(isexecute: true, analyzer: Analyzer);
-            if (subTaskToListTF != null)
-                splitPoint1++;
-
-            var subEtls2 = subEtls.Skip(splitPoint1).ToList();
-            var splitPoint2 = subEtls2.GetParallelPoint(false, out subTaskToListTF2);
-
-
-            var mapperFunc2 = subEtls2.Take(splitPoint2).Aggregate(isexecute: true, analyzer: Analyzer);
-            if (subTaskToListTF != null)
-                splitPoint2++;
-            var customerFunc3 = subEtls2.Skip(splitPoint2).Aggregate(isexecute: true, analyzer: Analyzer);
-            var realCount = -1;
           
+        
             if (lastTask != null)
             {
                 seeds = lastTask.Seeds?.ToList();
@@ -662,7 +646,7 @@ namespace Hawk.ETL.Process
             if (seeds == null)
                 seeds = new List<IFreeDocument>();
 
-
+            var realCount = -1;
             if (motherListTF != null)
             {
                 var d2 = seeds.FirstOrDefault();
@@ -757,12 +741,33 @@ namespace Hawk.ETL.Process
             motherTask.Name = motherName;
             if (lastMotherTask != null)
                 motherTask.IsPause = true;
+
+            ToListTF subTaskToListTf;
+            ToListTF subTaskToListTf2;
+
+            var splitPoint1 = subEtls.GetParallelPoint(false, out subTaskToListTf);
+            var mapperFunc1 = subEtls.Take(splitPoint1).Aggregate(isexecute: true, analyzer: Analyzer);
+            if (subTaskToListTf != null)
+                splitPoint1++;
+
+            var subEtls2 = subEtls.Skip(splitPoint1).ToList();
+            var splitPoint2 = subEtls2.GetParallelPoint(false, out subTaskToListTf2);
+
+
+            var mapperFunc2 = subEtls2.Take(splitPoint2).Aggregate(isexecute: true, analyzer: Analyzer);
+            if (subTaskToListTf != null)
+                splitPoint2++;
+            var customerFunc3 = subEtls2.Skip(splitPoint2).Aggregate(isexecute: true, analyzer: Analyzer);
+
+
+
+
             TemporaryTask<IFreeDocument>.AddTempTaskSimple(motherTask
                 ,
                 motherFunc(new List<IFreeDocument>()).Skip(mapperIndex1).Select(d =>
                 {
                     motherTask.MapperIndex1++;
-                    Thread.Sleep(500);
+                    Thread.Sleep(300);
                     return d;
                 }),
                 d =>
@@ -773,12 +778,12 @@ namespace Hawk.ETL.Process
                         return;
                     }
 
-                    AddSubTask(taskBuff.ToList(), subEtls, motherListTF);
+                    AddSubTask(taskBuff.ToList(), mapperFunc1,mapperFunc2,customerFunc3,  motherListTF);
                     taskBuff.Clear();
                 });
             if (lastRunningTasks != null)
                 foreach (var subTask in lastRunningTasks.Where(d => d.Level == 1))
-                    AddSubTask(null, subEtls,
+                    AddSubTask(null, mapperFunc1, mapperFunc2, customerFunc3, 
                         motherListTF, subTask);
             SysProcessManager.CurrentProcessTasks.Add(motherTask);
             motherTask.IsFormal = true;
@@ -793,7 +798,7 @@ namespace Hawk.ETL.Process
             }
             motherTask.Level = 0;
             motherTask.Publisher = this;
-            timer.Interval = TimeSpan.FromMilliseconds(200);
+            timer.Interval = TimeSpan.FromMilliseconds(100);
         
 
             timer.Tick += (s, e) =>

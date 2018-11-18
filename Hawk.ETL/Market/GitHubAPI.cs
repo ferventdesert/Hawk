@@ -126,35 +126,41 @@ namespace Hawk.ETL.Market
                 IReadOnlyList<RepositoryContent> result = null;
 
                 result = await client.Repository.Content.GetAllContents(username, project, target);
-                if (result == null)
-                    return null;
 
-                var items = result.Where(d => d.Type == ContentType.File && (d.Name.EndsWith(".xml", true, null) || d.Name.EndsWith(".hproj", true, null))).Select(
-                      d =>
-                      {
-                          var projectItem = new ProjectItem()
-                          {
-                              IsRemote = true,
-                              SavePath = d.DownloadUrl
-                          };
-                          var suffix = d.Name.Split('.').Last();
-                          var name = d.Name.Replace("." + suffix, "");
-                          projectItem.Name = name;
-                          var meta = name + ".meta";
-                          var metafile = result.FirstOrDefault(d2 => d2.Name == meta);
-                          if (metafile != null)
-                          {
-                              var response = WebRequest.Create(metafile.DownloadUrl).GetResponse().GetResponseStream();
-                              using (StreamReader reader = new StreamReader(response, Encoding.UTF8))
-                              {
-                                  var item = reader.ReadToEnd();
-                                  var metainfo = ParameterItem.GetParameters(item);
-                                  projectItem.DictDeserialize(metainfo.ToDictionary(d2 => d2.Key, d2 => (object)d2.Value));
-                              }
-                          }
-                          return projectItem;
+                var items = result?.Where(d => d.Type == ContentType.File && (d.Name.EndsWith(".xml", true, null) || d.Name.EndsWith(".hproj", true, null))).Select(
+                    d =>
+                    {
+                        var projectItem = new ProjectItem()
+                        {
+                            IsRemote = true,
+                            SavePath = d.DownloadUrl
+                        };
+                        var suffix = d.Name.Split('.').Last();
+                        var name = d.Name.Replace("." + suffix, "");
+                        projectItem.Name = name;
+                        var meta = name + ".meta";
+                        var metafile = result.FirstOrDefault(d2 => d2.Name == meta);
+                        if (metafile != null)
+                        {
+                            Task.Factory.StartNew(() =>
+                            {
+                                var response = WebRequest.Create(metafile.DownloadUrl).GetResponse().GetResponseStream();
+                                using (StreamReader reader = new StreamReader(response, Encoding.UTF8))
+                                {
+                                    var item = reader.ReadToEnd();
+                                    var metainfo = ParameterItem.GetParameters(item);
+                                    ControlExtended.UIInvoke(() =>
+                                    {
+                                        projectItem.DictDeserialize(metainfo.ToDictionary(d2 => d2.Key, d2 => (object)d2.Value));
+                                    });
+                                  
+                                }
+                            });
+                         
+                        }
+                        return projectItem;
 
-                      });
+                    });
                 return items;
             }
             catch (Exception ex)

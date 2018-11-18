@@ -15,6 +15,7 @@ using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
 using Hawk.ETL.Process;
+using NPOI.OpenXml4Net.Exceptions;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
@@ -33,6 +34,19 @@ namespace Hawk.ETL.Plugins.Transformers
         [LocalizedDescription("key_566")]
         public TextEditSelector ColumnSelector { get; set; }
 
+        public bool Assert(bool result, string name="", bool isthrow = true)
+        {
+            if (result == false)
+            {
+                var str = GlobalHelper.FormatArgs("condition_check", this.ObjectID, name);
+                XLogSys.Print.Warn(str);
+                if(isthrow)
+                    throw  new  InvalidOperationException(str);
+
+            }
+            return result;
+
+        }
         [Browsable(false)]
         public virtual string KeyConfig
         {

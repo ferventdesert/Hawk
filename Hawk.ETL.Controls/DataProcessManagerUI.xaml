@@ -7,8 +7,8 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
 
 
-             xmlns:Connectors="clr-namespace:Hawk.Core.Connectors;assembly=Hawk.Core" xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:Hawk_Core_Themes="clr-namespace:Hawk.Core.Themes;assembly=Hawk.Core"
-    xmlns:converters="clr-namespace:Hawk.ETL.Controls.Converters"
+             xmlns:Connectors="clr-namespace:Hawk.Core.Connectors;assembly=Hawk.Core" xmlns:System="clr-namespace:System;assembly=mscorlib"
+    xmlns:themes="clr-namespace:Hawk.ETL.Controls.Themes"
     x:Class="Hawk.ETL.Controls.DataProcessManagerUI"
 
 
@@ -16,7 +16,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
           
-            <Hawk_Core_Themes:TaskMetroConverter x:Key="TaskMetroConverter"/>
+            <themes:TaskMetroConverter x:Key="TaskMetroConverter"/>
 
    <Style x:Key="GroupContainerStyle" TargetType="{x:Type GroupItem}">
                 <Setter Property="Template">

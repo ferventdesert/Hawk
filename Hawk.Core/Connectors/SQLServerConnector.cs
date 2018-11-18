@@ -27,7 +27,7 @@ namespace Hawk.Core.Connectors
 
         #region Public Methods
 
-        public override void BatchInsert(IEnumerable<IFreeDocument> insertItems, string tableName)
+        public override void BatchInsert(IEnumerable<IFreeDocument> insertItems, List<string> keys, string tableName)
         {
             var sqlConn = new SqlConnection(
                 ConnectionString); //连接数据库
@@ -40,7 +40,7 @@ namespace Hawk.Core.Connectors
             {
                 foreach (var dictionarySerializable in insertItems)
                 {
-                    sqlComm.CommandText = Insert(dictionarySerializable, tableName);
+                    sqlComm.CommandText = Insert(dictionarySerializable,keys, tableName);
                     sqlComm.ExecuteNonQuery();
                 }
             }

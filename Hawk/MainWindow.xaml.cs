@@ -122,7 +122,7 @@ namespace Hawk
             XLogSys.Print.Info(Title + GlobalHelper.Get("Start"));
 
 
-            AutoUpdater.Start("https://raw.githubusercontent.com/ferventdesert/Hawk/global/Hawk/autoupdate.xml");
+            AutoUpdater.Start("https://raw.githubusercontent.com/ferventdesert/Hawk/master/Hawk/autoupdate.xml");
             Closing += (s, e) =>
             {
                 List<IDataProcess> revisedTasks;

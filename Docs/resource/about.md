@@ -6,6 +6,12 @@
 Hawk是沙漠君周六日坐在马桶上“呕心沥血”地改出来的。真的比不上那些商用软件的“妖艳贱货”，真的，“能用”就是对它最大的赞美了。Hawk任何问题，欢迎给我发邮件。
 > buptzym@qq.com
 
+Hawk的支持QQ群：546750531
+
+如果Hawk帮到了你，欢迎给Hawk的GitHub点个star。 关注“沙漠之鹰”公众号，或通过支付宝给Hawk作者打赏！
+
+![Hawk打赏](https://upload-images.jianshu.io/upload_images/9608527-480b130ff401df52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ## 更新日志
 
 本日志记录每个版本相比上一版新增的功能，对于bug修复则可参考源代码下的`Docs/update.md`。

@@ -88,6 +88,19 @@ namespace Hawk.Core.Utils
                 collection.Remove(item);
             }
         }
+
+        public static IFreeDocument MergeToDocument(this IEnumerable<IFreeDocument> docs)
+        {
+            var keys = docs.GetKeys();
+            var doc = new FreeDocument();
+            foreach (var key in keys)
+            {
+                doc[key] = docs.Select(d => d[key]).FirstOrDefault(d => d != null);
+            }
+            return doc;
+        }
+
+
         public static IEnumerable<T> Init<T>(this IEnumerable<T> items, Func<T, bool> init = null)
         {
             var count = 0;

@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 
     xmlns:mvvm="clr-namespace:Hawk.Core.Utils.MVVM;assembly=Hawk.Core"
-    xmlns:themes="clr-namespace:Hawk.Core.Themes;assembly=Hawk.Core"
     xmlns:local="clr-namespace:Hawk.ETL.Controls"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:adorners="clr-namespace:Hawk.ETL.Controls.Adorners"
@@ -14,6 +13,7 @@
     xmlns:attributes="clr-namespace:System.Windows.Controls.WpfPropertyGrid.Attributes;assembly=System.Windows.Controls.WpfPropertyGrid"
     xmlns:connectors="clr-namespace:Hawk.Core.Utils.Plugins;assembly=Hawk.Core"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:themes="clr-namespace:Hawk.ETL.Controls.Themes"
     x:Class="Hawk.ETL.Controls.ETLSmartView"
     mc:Ignorable="d"
     d:DesignHeight="855.5" d:DesignWidth="1576">

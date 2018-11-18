@@ -74,9 +74,14 @@ namespace HawkScheduler
             Console.WriteLine();
             Console.WriteLine("project file: {0} ...", options.ProjectFile);
             var container = new CommandLineContainer();
-          
+           
             var processManager = container.PluginDictionary["DataProcessManager"] as DataProcessManager;
             var project = Project.Load(options.ProjectFile);
+            if (project == null)
+            {
+                Console.WriteLine($"project {options.ProjectFile} is not exists or format error, exit..." );
+                return;
+            }
             var dataManager = container.PluginDictionary["DataManager"] as DataManager;
 
          

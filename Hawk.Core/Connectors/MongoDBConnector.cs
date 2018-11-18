@@ -101,20 +101,15 @@ namespace Hawk.Core.Connectors
                    firstOrDefault.ColumnInfos.FirstOrDefault(d => d.Name == AutoIndexName) != null;
         }
 
-        public override void BatchInsert(IEnumerable<IFreeDocument> source, string dbTableName)
+        public override void BatchInsert(IEnumerable<IFreeDocument> source, List<string> keys,string dbTableName)
         {
-            if (TableNames.Collection.FirstOrDefault(d => d.Name == dbTableName) == null)
-            {
-                CreateIndexTable(dbTableName);
-                RefreshTableNames();
-            }
+       
             var collection = DB.GetCollection<Document>(dbTableName);
             if (collection == null) //需要重建
             {
             }
 
             var index = 0;
-            //  public bool InsertEntity(IDictionarySerializable user, string tableName, string key, out int index)
             foreach (var item in source)
             {
                 try

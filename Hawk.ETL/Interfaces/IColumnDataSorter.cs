@@ -494,10 +494,7 @@ namespace Hawk.ETL.Interfaces
 
         {
             IEnumerable<IColumnProcess> order;
-            if (isLastBetter)
-                order = etls.Reverse();
-            else
-                order = etls;
+           
 
             var pl = etls.OfType<ToListTF>().FirstOrDefault();
             if (pl != null)
@@ -505,9 +502,10 @@ namespace Hawk.ETL.Interfaces
                 plTF = pl;
                 return etls.IndexOf(pl);
             }
-            var ignoreTF = new List<Type> {typeof (DelayTF), typeof (RepeatTF)};
+            var ignoreTf = new List<Type> {typeof (DelayTF), typeof (RepeatTF)};
             plTF = null;
-            foreach (var etl in order)
+            var pos=new List<int>();
+            foreach (var etl in etls)
             {
                 var index = etls.IndexOf(etl);
                 var generator = etl as IColumnGenerator;
@@ -515,14 +513,23 @@ namespace Hawk.ETL.Interfaces
                 {
                     if ((generator.GenerateCount() != 1 && index == 0) ||
                         (generator.MergeType == MergeType.Cross && index > 0))
-                        return index + 1;
+                        pos.Add(index);
                 }
                 var trans = etl as IColumnDataTransformer;
-                if (trans != null && trans.IsMultiYield && ignoreTF.Contains(trans.GetType()) == false)
-                    return index + 1;
+                if (trans != null && trans.IsMultiYield && ignoreTf.Contains(trans.GetType()) == false)
+                    pos.Add(index);
                 index++;
             }
-
+            if (pos.Count > 1)
+            {
+                if(isLastBetter)
+                    return pos[pos.Count - 2] + 1;
+                return pos[0] + 1;
+            }
+            if(pos.Count==1)
+            {
+                return pos[0]+1;
+            }
             return 1;
         }
 

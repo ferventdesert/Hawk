@@ -111,8 +111,11 @@ namespace Hawk.ETL.Crawlers
 
                 var docu = objhttpitem.GetHeaderParameter();
                 if (response.Headers["set-cookie"] != null)
-                    docu["Cookie"] = MergeCookie(docu["Cookie"].ToString(), response.Headers["set-cookie"]);
-
+                {
+                    var cookieStr = response.Headers["set-cookie"];
+                   // cookieStr = Regex.Replace(cookieStr, ",(?[^=;]=[^;];)", ";$1");
+                    docu["Cookie"] = MergeCookie(docu["Cookie"].ToString(), cookieStr);
+                }
                 statusCode = response.StatusCode;
                 objhttpitem.Parameters = HttpItem.HeaderToString(docu);
                 //GZIIP处理
@@ -161,9 +164,14 @@ namespace Hawk.ETL.Crawlers
                 MemoryStream stream;
 
                 var docu = objhttpitem.GetHeaderParameter();
-                if (response.Headers["set-cookie"] != null)
-                    docu["Cookie"] = MergeCookie(docu["Cookie"].ToString(), response.Headers["set-cookie"]);
-
+                {
+                    if (response.Headers["set-cookie"] != null)
+                    {
+                        var cookieStr = response.Headers["set-cookie"];
+                        //cookieStr = Regex.Replace(cookieStr, ",(?[^=;]=[^;];)", ";$1");
+                        docu["Cookie"] = MergeCookie(docu["Cookie"].ToString(), cookieStr);
+                    }
+                }
                 httpResponse.ResponseHeaders= response.Headers;
                 httpResponse.Code = response.StatusCode;
                 objhttpitem.Parameters = HttpItem.HeaderToString(docu);

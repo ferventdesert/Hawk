@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Hawk.Core.Utils.Logs;
+using Microsoft.HockeyApp;
 
 namespace Hawk.Core.Utils.MVVM
 {
@@ -87,8 +88,9 @@ namespace Hawk.Core.Utils.MVVM
 
         void ICommand.Execute(object parameter)
         {
+           
             ControlExtended.SafeInvoke(() => Execute?.Invoke(parameter),LogType.Info,GlobalHelper.Get("key_133")+this.Text);
-
+            HockeyClient.Current.TrackEvent(this.Text);
         }
 
         bool ICommand.CanExecute(object parameter)

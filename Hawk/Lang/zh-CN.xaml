@@ -1351,7 +1351,7 @@
         关于
     </system:String>
     <system:String x:Key="key_805">
-        版本： 3.0
+        版本： 5.0
     </system:String>
     <system:String x:Key="key_529">
         响应头
@@ -1767,7 +1767,7 @@
         保存位置
     </system:String>
     <system:String x:Key="key_743">
-        欢迎使用Hawk3
+        欢迎使用Hawk
     </system:String>
     <system:String x:Key="key_774">
         调试详情
@@ -2935,6 +2935,9 @@
     <system:String x:Key="key_238">
         新建或拷贝
     </system:String>
+    <system:String x:Key="codition_check">
+        任务参数设置有误， 请检查模块 {0}， 参数名 {1}
+    </system:String>
     <system:String x:Key="key_654">
         在该网页中找不到关键字 {0},可能是动态请求，可以启用【{1}】,并将浏览器页面翻到包含该关键字的位置
     </system:String>
@@ -2976,7 +2979,7 @@
 
         项目文档： https://ferventdesert.github.io/Hawk/
         
-        示例工程文件： https://github.com/ferventdesert/Hawk-Projects
+        示例工程文件： https://github.com/ferventdesert/Hawk-Projects/Hawk3
 
         ## 介绍
 
@@ -3001,6 +3004,15 @@
         以获取大众点评的所有北京美食为例，使用本软件可在10分钟内完成配置，在1小时之内**自动并行抓取**全部内容，并能监视任务工作情况。而手工编写代码，即使是使用python，一个熟练的程序员也可能需要一天以上：
 
         ![1.gif-1001.8kB](http://static.zybuluo.com/buptzym/qkl0vavjn6cj007qfk2k3gqg/1.gif)
+
+        ## 联系作者
+
+        Hawk的支持QQ群：546750531
+
+        如果Hawk帮到了你，欢迎给Hawk的GitHub点个star。 关注“沙漠之鹰”公众号，或通过支付宝给Hawk作者打赏！
+
+         ![Hawk打赏小](https://upload-images.jianshu.io/upload_images/9608527-c5cac76b8af81a45.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
         ## 相关资源
 
@@ -4044,19 +4056,22 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     </system:String>
 
     <system:String x:Key="drag_desc">
-      将`{0}`模块拖入到`{1}`列
+      将 `{0}` 模块拖入到 `{1}` 列
     </system:String>
     <system:String x:Key="set_param_desc1">
-      设置`{0}`值为`{1}`
+      设置 `{0}` 值为 `{1}`
     </system:String>
     <system:String x:Key="set_param_desc2">
-      将`{0}`填为`{1}`
+      将 `{0}` 填为 `{1}` 
     </system:String>
     <system:String x:Key="reason_desc1">
       其目的是{0}
     </system:String>
     <system:String x:Key="reason_desc2">
       作用为{0}
+    </system:String>
+     <system:String x:Key="get_remote_market_data">
+      正在读取远程市场的工程数据
     </system:String>
     <system:String x:Key="set_before">
         需提前设置好: `{0}`

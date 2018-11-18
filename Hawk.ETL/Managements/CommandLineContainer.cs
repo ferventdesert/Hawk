@@ -18,7 +18,7 @@ namespace Hawk.ETL.Managements
             MainDescription.IsUIForm = false;
             MainDescription.MainFrm = this;
             PluginManager.MainFrmUI = this;
-            var MainStartUpLocation = @"D:\TopCoder\Bin";
+            var MainStartUpLocation = @"D:\TopCoder\Hawk\Bin";
             ;
             PluginManager.Init(new[] { MainStartUpLocation });
             PluginManager.LoadPlugins();

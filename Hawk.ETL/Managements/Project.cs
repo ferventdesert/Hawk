@@ -94,6 +94,7 @@ namespace Hawk.ETL.Managements
             Author = docu.Set("Author", Author);
             ImgURL = docu.Set("ImgURL", ImgURL);
             PublishTime = docu.Set("PublishTime", PublishTime);
+            OnPropertyChanged("");
         }
     }
 

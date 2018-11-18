@@ -28,10 +28,10 @@ namespace XFrmWork.DataBase
         }
         
         
-        public override void BatchInsert(IEnumerable<IFreeDocument> source, string dbTableName)
+        public override void BatchInsert(IEnumerable<IFreeDocument> source, List<string>keys, string dbTableName)
         {
-
-            var sqlStringList = source.Select(d => this.Insert(d, dbTableName)).ToList();
+         
+            var sqlStringList = source.Select(d => this.Insert(d,keys, dbTableName)).ToList();
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = dbConn;
             MySqlTransaction tx = dbConn.BeginTransaction();

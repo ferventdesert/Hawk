@@ -52,7 +52,7 @@ namespace Hawk.Core.Connectors
 
             catch (Exception e)
             {
-                XLogSys.Print.Error(GlobalHelper.Get("key_81"), e);
+                XLogSys.Print.Error(GlobalHelper.FormatArgs("key_81", e.Message));
             }
 
             return dt;
@@ -149,6 +149,12 @@ namespace Hawk.Core.Connectors
             }
         }
 
+        public override void DropTable(string tableName)
+        {
+            var sql = $"Drop TABLE {GetTableName(tableName)}";
+            GetDataTable(sql);
+        }
+
         [LocalizedDisplayName("key_34")]
         [PropertyOrder(20)]
         public override ReadOnlyCollection<ICommand> Commands
@@ -188,7 +194,7 @@ namespace Hawk.Core.Connectors
 
         #region Public Methods
 
-        public override void BatchInsert(IEnumerable<IFreeDocument> source, string dbTableName)
+        public override void BatchInsert(IEnumerable<IFreeDocument> source,List<string>keys, string dbTableName)
         {
             using (var cnn = new SQLiteConnection(ConnectionString))
             {
@@ -196,33 +202,24 @@ namespace Hawk.Core.Connectors
 
                 using (var mytrans = cnn.BeginTransaction())
                 {
-                    foreach (var data in source.Init(d =>
+                    foreach (var data in source)
                     {
-                        if (TableNames.Collection.FirstOrDefault(d2 => d2.Name == dbTableName) == null)
-                        {
-                            var txt = d.DictSerialize(Scenario.Database);
-                            var sb = string.Join(",",
-                                txt.Select(d2 => $"{d2.Key} {DataTypeConverter.ToType(d2.Value)}"));
-                            var sql = $"CREATE TABLE {GetTableName(dbTableName)} ({sb})";
-                            ExecuteNonQuery(sql, cnn );
-                        }
-                        return true;
-                    }))
                         try
                         {
-                            var sql = Insert(data, dbTableName);
+                            var sql = Insert(data,keys, dbTableName);
                             var mycommand = new SQLiteCommand(sql, cnn, mytrans);
                             mycommand.CommandTimeout = 180;
                             mycommand.ExecuteNonQuery();
                         }
                         catch (Exception ex)
                         {
-                            XLogSys.Print.Warn($"insert sqllite database error {ex.Message}");
+                            XLogSys.Print.Warn($"insert sqlite database error {ex.Message}");
                         }
 
-                    mytrans.Commit();
+                        mytrans.Commit();
 
-                    cnn.Close();
+                        cnn.Close();
+                    }
                 }
             }
         }

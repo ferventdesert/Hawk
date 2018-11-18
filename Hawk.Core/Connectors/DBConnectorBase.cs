@@ -220,26 +220,33 @@ namespace Hawk.Core.Connectors
             AutoConnect = false;
         }
 
-        protected virtual string Insert(IFreeDocument data, string dbTableName)
+    
+
+        protected virtual string Insert(IFreeDocument data, List<string>keys, string dbTableName)
         {
             FreeDocument item = data.DictSerialize(Scenario.Database);
             var sb = new StringBuilder();
-            foreach (var o in item)
+            foreach (var key in keys)
             {
-                string value;
-                if (o.Value is DateTime)
+                object ovalue;
+                if(!data.TryGetValue(key,out ovalue))
                 {
-                    value = ((DateTime) o.Value).ToString("s");
+                    ovalue = "null";
+                }
+                string value;
+                if (ovalue is DateTime)
+                {
+                    value = ((DateTime)ovalue).ToString("s");
                 }
                 else
                 {
-                    if (o.Value == null)
+                    if (ovalue == null)
                     {
                         value = "null";
                     }
                     else
                     {
-                        value = o.Value.ToString();
+                        value = ovalue.ToString();
                     }
                 }
                 value = value.Replace("'", "''");
@@ -423,7 +430,7 @@ namespace Hawk.Core.Connectors
         [LocalizedDisplayName("key_32")]
         public bool AutoConnect { get; set; }
 
-        public virtual void BatchInsert(IEnumerable<IFreeDocument> source, string dbTableName)
+        public virtual void BatchInsert(IEnumerable<IFreeDocument> source,List<string>keys, string dbTableName)
         {
             throw new NotImplementedException();
         }

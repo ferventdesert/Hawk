@@ -3,6 +3,7 @@ using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
@@ -27,7 +28,13 @@ namespace Hawk.ETL.Plugins.Executor
             ConnectorSelector.GetItems = () => dataManager.CurrentConnectors.ToList();
             TableNames = new TextEditSelector();
             ConnectorSelector.SelectChanged +=
-                (s, e) => TableNames.SetSource(ConnectorSelector.SelectItem.RefreshTableNames().Select(d=>d.Name));
+                (s, e) =>
+                {
+                    var text=  TableNames.SelectItem;
+                    TableNames.SetSource(ConnectorSelector.SelectItem.RefreshTableNames().Select(d => d.Name));
+                    if(string.IsNullOrEmpty(text)==false)
+                        TableNames.SelectItem = text;
+                };
             TableNames.SelectChanged += (s, e) => { InformPropertyChanged("TableNames"); };
         }
         [Browsable(false)]
@@ -47,27 +54,42 @@ namespace Hawk.ETL.Plugins.Executor
         [LocalizedDescription("key_347")]
         public TextEditSelector TableNames { get; set; }
 
-        private bool InitTable(IFreeDocument document)
+
+        private List<string> columns =new List<string>(); 
+
+        private List<string> InitTable(IEnumerable<IFreeDocument> documents)
         {
-            var tableName = AppHelper.Query(TableNames.SelectItem,document);
+       
+            var tableName = AppHelper.Query(TableNames.SelectItem,documents.FirstOrDefault());
             if (string.IsNullOrEmpty(tableName) == false)
             {
                 if (!(ConnectorSelector.SelectItem != null).SafeCheck(GlobalHelper.Get("key_348")))
                 {
-                    return false;
+                    return columns;
                 }
-                if (ConnectorSelector.SelectItem?.RefreshTableNames().FirstOrDefault(d => d.Name == tableName) == null)
-
+                Monitor.Enter(this);
+                if (ConnectorSelector.SelectItem?.RefreshTableNames().FirstOrDefault(d => d.Name.ToLower() == tableName.ToLower()) == null)
                 {
+                    var document = documents.MergeToDocument();
+                    columns = document.GetKeys();
                     if (!ConnectorSelector.SelectItem.CreateTable(document, tableName))
                     {
+                        Monitor.Exit(this);
                         throw new Exception(String.Format(GlobalHelper.Get("key_349"),tableName));
                     }
-                    return true;
+                  
+                    ConnectorSelector.SelectItem?.RefreshTableNames();
+                    Monitor.Exit(this);
+                    return columns;
                 }
-                return true;
+                if (columns.Count == 0)
+                {
+                    columns = documents.GetKeys().ToList();
+                }
+                Monitor.Exit(this);
+                return columns;
             }
-            return false;
+            return columns;
         }
 
         public override IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents)
@@ -83,15 +105,22 @@ namespace Hawk.ETL.Plugins.Executor
                     return connector.WriteData(documents);
                 }
                 return
-                    documents.BatchDo(InitTable, list =>
+                    documents.BatchDo(InitTable, (list,columns) =>
                     {
-                        
-                        ConnectorSelector.SelectItem.BatchInsert(list, tableName);
-                        XLogSys.Print.Info(string.Format(GlobalHelper.Get("key_350"),ConnectorSelector.SelectItem.Name,TableNames.SelectItem,list.Count));
+                        var first = list.FirstOrDefault();
+                        if(first==null)
+                            return;
+                        tableName = first.Query(tableName);
+                        ConnectorSelector.SelectItem.BatchInsert(list, (List<string>)columns, tableName);
+                        XLogSys.Print.Debug(string.Format(GlobalHelper.Get("key_350"),ConnectorSelector.SelectItem.Name, tableName, list.Count));
                     });
             }
             return
-                documents.Init(InitTable).Select(
+                documents.Init(d =>
+                {
+                    var result= InitTable(new List<IFreeDocument>() {d});
+                    return result.Count > 0;
+                }).Select(
                     document =>
                     {
                         var v = document[Column];
@@ -105,7 +134,8 @@ namespace Hawk.ETL.Plugins.Executor
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
-            return true;
+             columns = new List<string>();
+            return Assert(ConnectorSelector.SelectItem!=null, GlobalHelper.Get("key_345")) &&Assert(string.IsNullOrEmpty(TableNames.SelectItem)==false, GlobalHelper.Get("key_22"));
         }
 
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)

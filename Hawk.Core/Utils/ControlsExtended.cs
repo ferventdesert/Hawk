@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Hawk.Core.Utils;
 using System.IO;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Windows.Controls;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
+using Microsoft.HockeyApp;
 using Microsoft.Win32;
 
 namespace Hawk.Core.Utils
@@ -128,6 +130,9 @@ namespace Hawk.Core.Utils
             catch (Exception ex)
             {
                 var str = name + GlobalHelper.Get("key_102");
+                var dict=new Dictionary<string,string>();
+                dict.Add("key", str);
+                (HockeyClient.Current as HockeyClient).HandleException(ex);
                 switch (type)
                 {
                     case LogType.Debug:

@@ -98,9 +98,10 @@
 		<ListBox x:FieldModifier="public" x:Name="processListBox" ToolTip="{DynamicResource key_790}"  Margin="0,0,0,20" MouseMove="processListBox_MouseMove" DataContext="{Binding PluginDictionary[DataProcessManager]}" ItemsSource="{Binding ProcessCollectionView}"  ItemTemplate="{DynamicResource DataTemplate2}" SelectionMode="Extended"  >
 			<ListBox.Resources>
 				<ContextMenu x:Key="resourceContextMenu"  DataContext="{Binding SysProcessManager.BindingCommands.ChildActions[4].ChildActions}">
-					   <MenuItem Header="{Binding Text}" Command="{Binding}" DataContext="{Binding [0]}"  />
+                    <MenuItem Header="{Binding Text}" Command="{Binding}" DataContext="{Binding [3]}"  />
+                     <MenuItem Header="{Binding Text}" Command="{Binding}" DataContext="{Binding [0]}"  />
             		   <MenuItem Header="{Binding Text}" Command="{Binding}" DataContext="{Binding [2]}"  />
-					   <MenuItem Header="{Binding Text}" Command="{Binding}" DataContext="{Binding [3]}"  />
+					 
             		   <MenuItem Header="{Binding Text}" Command="{Binding}" DataContext="{Binding [4]}"  />
 					   <MenuItem Header="{Binding Text}" Command="{Binding}" DataContext="{Binding [6]}"  />
 					   <MenuItem Header="{Binding Text}" Command="{Binding}" DataContext="{Binding [7]}"  />

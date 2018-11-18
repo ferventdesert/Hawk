@@ -35,7 +35,8 @@ namespace Hawk.Core.Utils
             if (value == null)
                 return Brushes.Transparent;
             int count = (int)value;
-            return count > 0? Brushes.Aqua:Brushes.Transparent;
+            var brush = new SolidColorBrush(new Color() {B=190,A=100});
+            return count > 0? brush : Brushes.Transparent;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

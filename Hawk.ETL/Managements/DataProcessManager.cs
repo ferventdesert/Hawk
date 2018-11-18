@@ -395,7 +395,7 @@ namespace Hawk.ETL.Managements
 
 
             runningTaskActions.ChildActions.Add(new Command(GlobalHelper.Get("key_291"),
-                d => GetSelectedTask(d).Execute(d2 => d2.IsPause = true), d=>ProcessTaskCanExecute(d,true), "pause"));
+                d => GetSelectedTask(d).Execute(d2 => d2.IsPause = true), d=>true, "pause"));
             runningTaskActions.ChildActions.Add(new Command(GlobalHelper.Get("key_292"),
                 d => GetSelectedTask(d).Execute(d2 => d2.IsPause = false), d=> ProcessTaskCanExecute(d,false), "play"));
 
@@ -1043,6 +1043,7 @@ namespace Hawk.ETL.Managements
             var module = CurrentProcessCollections.OfType<T>().FirstOrDefault(d => d.Name == name);
             if (module != null)
                 return module;
+            return null;
             var project = GetRemoteProjectContent().Result;
             if (project != null)
             {

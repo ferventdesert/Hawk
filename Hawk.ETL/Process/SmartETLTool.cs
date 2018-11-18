@@ -202,7 +202,7 @@ namespace Hawk.ETL.Process
                             window.Title = GlobalHelper.Get("key_267");
                             window.ShowDialog();
                         },
-                            obj => this.CurrentETLTools.Count>0, "smiley_grumpy"),
+                            obj => this.CurrentETLTools.Count>0, "question"),
                          new Command(GlobalHelper.Get("move_up"), obj =>
                         {
                             var item = GetSelectedTools(obj).FirstOrDefault();

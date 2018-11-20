@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>过滤器 - Hawk doc</title>
+  <title>Hawk2:120项改进开源超级爬虫Hawk 2.0 重磅发布! - Hawk doc</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
@@ -17,8 +17,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "\u8fc7\u6ee4\u5668";
-    var mkdocs_page_input_path = "\u8fc7\u6ee4\u5668.md";
+    var mkdocs_page_name = "Hawk2:120\u9879\u6539\u8fdb\u5f00\u6e90\u8d85\u7ea7\u722c\u866bHawk 2.0 \u91cd\u78c5\u53d1\u5e03!";
+    var mkdocs_page_input_path = "Hawk2.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -102,29 +102,9 @@
                     
     <a class="" href="../常用/">常用</a>
                 </li>
-                <li class=" current">
+                <li class="">
                     
-    <a class="current" href="./">过滤器</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l3"><a href="#_1">过滤器</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l4" href="#nullft">空对象过滤器(NullFT)</a></li>
-        
-            <li><a class="toctree-l4" href="#rangeft">数值范围过滤器(RangeFT)</a></li>
-        
-            <li><a class="toctree-l4" href="#regexft">正则筛选器(RegexFT)</a></li>
-        
-            <li><a class="toctree-l4" href="#repeatft">删除重复项(RepeatFT)</a></li>
-        
-            <li><a class="toctree-l4" href="#numrangeft">数量范围选择(NumRangeFT)</a></li>
-        
-        </ul>
-    
-
-    </ul>
+    <a class="" href="../过滤器/">过滤器</a>
                 </li>
                 <li class="">
                     
@@ -200,9 +180,25 @@
                     
     <a class="" href="../Hawk1/">Hawk1:如何从互联网采集海量数据？租房,二手房,薪酬</a>
                 </li>
-                <li class="">
+                <li class=" current">
                     
-    <a class="" href="../Hawk2/">Hawk2:120项改进开源超级爬虫Hawk 2.0 重磅发布!</a>
+    <a class="current" href="./">Hawk2:120项改进开源超级爬虫Hawk 2.0 重磅发布!</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#hawk2-120hawk-20">Hawk2 120项改进开源超级爬虫Hawk 2.0 重磅发布!</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#1">1.二鹰新增哪些特性呢？</a></li>
+        
+            <li><a class="toctree-l4" href="#2">2.沙漠君写了完整的文档！</a></li>
+        
+            <li><a class="toctree-l4" href="#3">3.在哪里获得？~~</a></li>
+        
+        </ul>
+    
+
+    </ul>
                 </li>
                 <li class="">
                     
@@ -252,11 +248,11 @@
     
       
         
-          <li>模块和算子 &raquo;</li>
+          <li>发布文章 &raquo;</li>
         
       
     
-    <li>过滤器</li>
+    <li>Hawk2:120项改进开源超级爬虫Hawk 2.0 重磅发布!</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -266,141 +262,61 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="_1">过滤器</h1>
-<h2 id="nullft">空对象过滤器(NullFT)</h2>
-<p>检查文本是否为空白符或null，常用</p>
-<p>可以过滤掉所有内容为空，或字符串全部都是空字符的情况</p>
-<h3 id="revert">求反(Revert):</h3>
-<ul>
-<li>类型:Boolean 默认值:False</li>
-<li>将结果取反后返回
-例如筛选器判断为<code>正确</code>，则返回错误</li>
-</ul>
-<h3 id="isdebugfilter">调试时启用(IsDebugFilter):</h3>
-<ul>
-<li>类型:Boolean 默认值:True</li>
-<li>没有描述</li>
-</ul>
-<h3 id="filterworkmode">过滤模式(FilterWorkMode):</h3>
-<ul>
-<li>类型:FilterWorkMode 默认值:ByItem</li>
-<li>没有描述</li>
-</ul>
+                <h1 id="hawk2-120hawk-20">Hawk2 120项改进开源超级爬虫Hawk 2.0 重磅发布!</h1>
 <hr />
-<h2 id="rangeft">数值范围过滤器(RangeFT)</h2>
-<p>从数值列中筛选出从最小值到最大值范围的文档</p>
-<p>可以填写最大值和最小值，只有本列的值处在该范围内的文档可被留下。若该单元格的内容不是数字，则会被忽略。</p>
-<h3 id="max">最大值(Max):</h3>
+<p><img alt="image_1b57e17dr6sg1k6v110jdg5vb59.png-211.3kB" src="http://static.zybuluo.com/buptzym/u38igawl6n0fogip19ivlj8l/image_1b57e17dr6sg1k6v110jdg5vb59.png" /></p>
+<p>沙漠君在历时半年，修改无数bug，更新一票新功能后，在今天隆重推出最新改进的超级爬虫Hawk 2.0!</p>
+<p>啥？你不知道Hawk干吗用的？ 这是采集数据的挖掘机，网络猎杀的重狙！半年多以前，沙漠君写了一篇小软文，推出了Hawk。关注的人超级多有木有！</p>
+<p>Github上的小星星一下子增加到400！超多妹子在沙漠君的粉丝应援团里疯狂崇拜！然而这不是重点！重点是Hawk真的好多"小"问题...</p>
+<p>有朋友哭诉，刚启动小鹰它就冒烟了，还是烤肉味的！好不容易把小虫虫做好，碰了一下显示器，结果小虫虫就扑街了！</p>
+<p>每次听到反馈，我都超想好好地把小鹰改造一番。但是！！你们想不到沙漠君工作有多忙！只有在洗手间的时候，我才空在手纸上写代码！</p>
+<p>然而！自己挖的坑，哭着也要把它填完！这不，Hawk 2.0横空出世了！</p>
+<h2 id="1">1.二鹰新增哪些特性呢？</h2>
+<p>每当我在妹子们前炫耀Hawk的时候，每点一次鼠标，妹子们就一片赞叹，对，就这个效果。</p>
+<h3 id="11">1.1.裹脚布杀手：全面支持动态页面</h3>
+<p>二鹰全面支持动态网页，ajax和瀑布流。这是啥？你在刷微博看杨臭脚的时候，浏览器的地址显示你家幂幂的名字了吗？ 没有吧？这就是动态网页，地址是隐藏在网页之中的！</p>
+<p>怎么办？你只要把随便一条微博的一个关键词输入到“搜索关键字”那里，点“开始”自动嗅探。二鹰就会帮你抓到这个请求。不论再臭再长的裹脚布都不怕。</p>
+<p><img alt="image_1b57e1s4h8edjo01bce1n4j14uqm.png-58kB" src="http://static.zybuluo.com/buptzym/am6qg3b1ms940cpqks9bz40n/image_1b57e1s4h8edjo01bce1n4j14uqm.png" /></p>
+<p>大家都很喜爱鹰1的“手气不错”功能，但之前只能处理html，而很难处理内嵌js和json， 现在只要你勾选“超级模式”，不论返回的是何种数据类型。直接点“手气不错”，数据表格就完整出来了！其他什么都不用干！</p>
+<p>啊啊啊太强大了，理论上没有二鹰抓不到的网站，除非你的关键字实在太蠢，或者网站做得太高级...</p>
+<h3 id="12">1.2.反反爬虫：增加代理</h3>
+<p>诶诶诶，你又被网站封IP了？谁让你这么不温柔？没有关系，在网页采集器里配置代理，小虫虫就又能接着干活了。</p>
+<p>我知道你肯定会问，哪里找代理？那沙漠君就不造了。出门淘宝，想免费的话去翻一翻代理网站，或者搜索“ADSL拨号” 。但是不要用Hawk来做任何非法的用途哦（这段好多敏感词，捂脸）</p>
+<p>(爬数据适可而止，小心被查水表哦，严肃脸)</p>
+<h3 id="13120">1.3.120项改进和优化</h3>
+<p>沙漠君本来在吃着火锅改着代码，但惊讶于Hawk中居然藏了那么多的bug，吓得我火锅里的毛肚都烫老了！ 不过话说回来，只有这样你们才会想起我呀~</p>
+<p>于是在发布第一版后的三个月，我断断续续修复了大概120个bug，错误清单上面长长的一片:</p>
 <ul>
-<li>类型:String</li>
-<li>没有描述</li>
+<li>在某些win7机器上运行不了啊</li>
+<li>开启嗅探再关闭软件，突然上不了网了啦</li>
+<li>把爬虫转换拖进去没反应啦，其实就是你没配置好...
+...</li>
 </ul>
-<h3 id="min">最小值(Min):</h3>
-<ul>
-<li>类型:String</li>
-<li>没有描述</li>
-</ul>
-<h3 id="revert_1">求反(Revert):</h3>
-<ul>
-<li>类型:Boolean 默认值:False</li>
-<li>将结果取反后返回
-例如筛选器判断为<code>正确</code>，则返回错误</li>
-</ul>
-<h3 id="isdebugfilter_1">调试时启用(IsDebugFilter):</h3>
-<ul>
-<li>类型:Boolean 默认值:True</li>
-<li>没有描述</li>
-</ul>
-<h3 id="filterworkmode_1">过滤模式(FilterWorkMode):</h3>
-<ul>
-<li>类型:FilterWorkMode 默认值:ByItem</li>
-<li>没有描述</li>
-</ul>
-<hr />
-<h2 id="regexft">正则筛选器(RegexFT)</h2>
-<p>编写正则表达式来过滤文本</p>
-<p>需要列名，输入正则表达式，和其最小匹配的内容数量，即可过滤内容。
-有关正则表达式，可参考<a href="https://www.jb51.net/tools/zhengze.html">这里</a></p>
-<h3 id="script">表达式(Script):</h3>
-<ul>
-<li>类型:String</li>
-<li>没有描述</li>
-</ul>
-<h3 id="count">最小匹配数(Count):</h3>
-<ul>
-<li>类型:Int32 默认值:1</li>
-<li>只有正则表达式匹配该文本的结果数量大于等于该值时，才会保留，默认为1</li>
-</ul>
-<h3 id="revert_2">求反(Revert):</h3>
-<ul>
-<li>类型:Boolean 默认值:False</li>
-<li>将结果取反后返回
-例如筛选器判断为<code>正确</code>，则返回错误</li>
-</ul>
-<h3 id="isdebugfilter_2">调试时启用(IsDebugFilter):</h3>
-<ul>
-<li>类型:Boolean 默认值:True</li>
-<li>没有描述</li>
-</ul>
-<h3 id="filterworkmode_2">过滤模式(FilterWorkMode):</h3>
-<ul>
-<li>类型:FilterWorkMode 默认值:ByItem</li>
-<li>没有描述</li>
-</ul>
-<hr />
-<h2 id="repeatft">删除重复项(RepeatFT)</h2>
-<p>以拖入的列为唯一主键，按行进行去重，仅保留重复出现的第一项</p>
-<h3 id="revert_3">求反(Revert):</h3>
-<ul>
-<li>类型:Boolean 默认值:False</li>
-<li>将结果取反后返回
-例如筛选器判断为<code>正确</code>，则返回错误</li>
-</ul>
-<h3 id="isdebugfilter_3">调试时启用(IsDebugFilter):</h3>
-<ul>
-<li>类型:Boolean 默认值:True</li>
-<li>没有描述</li>
-</ul>
-<h3 id="filterworkmode_3">过滤模式(FilterWorkMode):</h3>
-<ul>
-<li>类型:FilterWorkMode 默认值:ByItem</li>
-<li>没有描述</li>
-</ul>
-<hr />
-<h2 id="numrangeft">数量范围选择(NumRangeFT)</h2>
-<p>选择一定数量的行，如跳过前100行，再选取50条</p>
-<p>不需要列名，它可以跳过并选择部分文档，类似于sql语句中的skip和limit关键字。
-注意:</p>
-<ul>
-<li>当skip数量过大，而目标数据是延迟执行时，skip会需要相当长的时间，而任务进度条没有任何反应，因此尽量避免这种设计</li>
-</ul>
-<h3 id="skip">跳过(Skip):</h3>
-<ul>
-<li>类型:Int32 默认值:0</li>
-<li>没有描述</li>
-</ul>
-<h3 id="take">获取(Take):</h3>
-<ul>
-<li>类型:Int32 默认值:0</li>
-<li>没有描述</li>
-</ul>
-<h3 id="revert_4">求反(Revert):</h3>
-<ul>
-<li>类型:Boolean 默认值:False</li>
-<li>将结果取反后返回
-例如筛选器判断为<code>正确</code>，则返回错误</li>
-</ul>
-<h3 id="isdebugfilter_4">调试时启用(IsDebugFilter):</h3>
-<ul>
-<li>类型:Boolean 默认值:True</li>
-<li>没有描述</li>
-</ul>
-<h3 id="filterworkmode_4">过滤模式(FilterWorkMode):</h3>
-<ul>
-<li>类型:FilterWorkMode 默认值:ByItem</li>
-<li>没有描述</li>
-</ul>
-<hr />
+<p>不好意思，根本列不完，列完你也看不完。</p>
+<p>不过，优化了这么多，我还是实现了前向兼容，之前大家设计的工程文件都能继续使用。反正不会随随便便就崩溃了。</p>
+<p>其实Hawk的子流系统是个超酷的功能，可惜我觉得100个人里有一个会用就不错了。这是个啥呢？ 简单说，你可以搭积木，先设计小虫虫，再拼成大虫虫。甚至支持自己和自己拼起来(专业点叫尾递归。邪恶点叫69？啊不要想歪)。</p>
+<p>借助子流和内置的Python脚本系统，二鹰能达到图灵完备，实现任意复杂的逻辑，甚至能做刷票！反正口说无凭，你仔细去感受一下就是了。</p>
+<h2 id="2">2.沙漠君写了完整的文档！</h2>
+<p>大家最多的反馈，是XXX怎么用啊？泥萌也知道对程序猿来说，写文档就像和产品经理吵架一样痛苦。 我还是咬咬牙，决定写完整的文档！</p>
+<p>程序员写文档一般都不是给地球人看的。但是沙漠君忍了。 恩，6个完整的手把手的例子，到每个模块的概要说明，想要的基本都能找到。如果有任何问题，直接在GitHub上留言提问，沙漠君实在受不了一个问题重复回答一百遍啊一百遍！</p>
+<p><img alt="image_1b57e2langm7164uj5qv7dsgt13.png-224.3kB" src="http://static.zybuluo.com/buptzym/jec1kfi9yxvp90zwi5060iyy/image_1b57e2langm7164uj5qv7dsgt13.png" /></p>
+<p>文档也许现在不全，不过没关系，我会慢慢补充的，总得给我点时间啦。如果还有bug捏？我保证一口老血吐在你的屏幕上！ 当然，如果bug够高级，你心爱的沙漠君可能会给你发红包哦。</p>
+<h2 id="3">3.在哪里获得？~~</h2>
+<p>Hawk号称是数据界的小确幸，它已经被全国政协，妇联工商联，各大企事业单位和个人广泛使用。</p>
+<p>Hawk完全免费开源！ 目前所有的文档和发行版，都在GitHub上能找到，直接搜索Hawk即可。 之前的百度云，CSDN下载都可能不再维护。如果你喜欢它，最少是不是该成为沙漠之鹰微信公号的粉丝呀？是不是该在GitHub上Star一下呀？感兴趣的更多的细节，都可以在GiHub上找到。</p>
+<p>下载地址：</p>
+<blockquote>
+<p>https://github.com/ferventdesert/Hawk/releases</p>
+</blockquote>
+<p>百度云地址(方便部分朋友无法访问Github)：</p>
+<blockquote>
+<p>http://pan.baidu.com/s/1hsPuGRE 密码：n0bu</p>
+</blockquote>
+<p>录制高清视频地址：</p>
+<blockquote>
+<p>http://pan.baidu.com/s/1kVG1gs3 密码：hp8w</p>
+</blockquote>
+<p>如果还找不到？ 沙漠之鹰留言或留邮箱，链接和安装包直接发给你！</p>
               
             </div>
           </div>
@@ -408,10 +324,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../执行器/" class="btn btn-neutral float-right" title="执行器">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../Hawk3/" class="btn btn-neutral float-right" title="Hawk3:终于等到你: 图形化开源爬虫Hawk 3发布!">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../常用/" class="btn btn-neutral" title="常用"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Hawk1/" class="btn btn-neutral" title="Hawk1:如何从互联网采集海量数据？租房,二手房,薪酬"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -437,10 +353,10 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../常用/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../Hawk1/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../执行器/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../Hawk3/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

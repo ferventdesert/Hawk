@@ -949,7 +949,7 @@ namespace Hawk.ETL.Managements
             {
                 Task.Factory.StartNew(() =>
                 {
-                    ControlExtended.SetBusy(ProgressBarState.Indeterminate,message:GlobalHelper.Get("key_308"));
+                    ControlExtended.SetBusy(ProgressBarState.Indeterminate, message: GlobalHelper.Get("key_308"));
                     ControlExtended.SafeInvoke(() =>
                     {
                         CurrentProject.Save(dataManager.DataCollections);

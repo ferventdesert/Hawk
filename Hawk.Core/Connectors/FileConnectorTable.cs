@@ -68,7 +68,7 @@ namespace Hawk.Core.Connectors
             }
             return input;
         }
-        private static Regex reg = new Regex("[ \\[ \\] \\^ \\-*×――(^)$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”-]");
+        private static Regex reg = new Regex("[ ()\\[ \\] \\^ \\-*×――(^)$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”-]");
         public static string ReplaceErrorChars(string input)
         {
             return reg.Replace(input, "");

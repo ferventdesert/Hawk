@@ -18,6 +18,11 @@ namespace Hawk.ETL.Crawlers
         [LocalizedDisplayName("key_159")]
         public bool EnableBuffer { get; set; }
 
+
+        public void SetBuffSize(int size)
+        {
+            maxBufferCount = size;
+        }
         public BuffHelper (int size)
         {
             EnableBuffer = true;

@@ -24,6 +24,11 @@ namespace Hawk.ETL.Plugins.Transformers
         private bool _enabled;
         protected bool IsExecute = true;
 
+        public bool GetExecute()
+        {
+            return IsExecute;
+        }
+
         protected ToolBase()
         {
             ColumnSelector = new TextEditSelector();

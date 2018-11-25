@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Utils.Plugins;
 using EncodingType = Hawk.Core.Utils.EncodingType;
+using System.Text.RegularExpressions;
 
 namespace Hawk.Core.Connectors
 {
@@ -67,7 +68,11 @@ namespace Hawk.Core.Connectors
             }
             return input;
         }
-
+        private static Regex reg = new Regex("[ \\[ \\] \\^ \\-*×――(^)$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”-]");
+        public static string ReplaceErrorChars(string input)
+        {
+            return reg.Replace(input, "");
+        }
         public static string ReplaceSplitString2(string input, string splitchar)
         {
             if (input == null)

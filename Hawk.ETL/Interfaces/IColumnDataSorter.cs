@@ -560,7 +560,7 @@ namespace Hawk.ETL.Interfaces
                 if (analyzeItem != null)
                 {
                     analyzeItem.Error++;
-                    analyzeItem.Analyzer.AddErrorLog(item, ex, ge);
+                        analyzeItem.Analyzer.AddErrorLog(item, ex, ge);
                 }
 
                 XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), ge.Column, ge.TypeName, res));

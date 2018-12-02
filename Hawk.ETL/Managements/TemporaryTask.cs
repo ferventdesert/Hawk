@@ -227,7 +227,7 @@ namespace Hawk.ETL.Managements
                     }
                     catch (Exception ex)
                     {
-                        XLogSys.Print.Error(GlobalHelper.Get("key_340") + ex);
+                        XLogSys.Print.Error(GlobalHelper.Get("key_340") + ex.Message);
                         IsStart = false;
                     }
 

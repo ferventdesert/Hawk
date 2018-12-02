@@ -2333,6 +2333,9 @@
     <system:String x:Key="not_find_module">
         没有找到名称为'{0}'的{1}，请检查“{2}”是否填写错误
     </system:String>
+      <system:String x:Key="error_column">
+        在保存到数据集时，列名 {0} 中不应包含标点符号等特殊字符，请进行修改
+    </system:String>
     <system:String x:Key="key_613">
         葡萄牙语
     </system:String>

@@ -61,10 +61,7 @@ namespace Hawk.ETL.Plugins.Transformers
         [LocalizedDisplayName("key_567")]
         [PropertyOrder(100)]
         [PropertyEditor("MarkdownEditor")]
-        public string Document
-        {
-            get { return ETLHelper.GetMarkdownScript(GetType()); }
-        }
+        public string Document => ETLHelper.GetMarkdownScript(GetType());
 
         public virtual void Finish()
         {
@@ -73,6 +70,11 @@ namespace Hawk.ETL.Plugins.Transformers
         public virtual bool Init(IEnumerable<IFreeDocument> docus)
         {
             return true;
+        }
+
+        public virtual IEnumerable<IFreeDocument> CheckDatas(IEnumerable<IFreeDocument> docs)
+        {
+            return docs;
         }
 
         public virtual void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
@@ -321,7 +323,7 @@ namespace Hawk.ETL.Plugins.Transformers
                         analyzer.Analyzer.AddErrorLog(data, ex, this);
                     else
                     {
-                        XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), this.Column, this.TypeName, ex));
+                        XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), this.Column, this.TypeName, ex.Message));
                     }
                 }
 

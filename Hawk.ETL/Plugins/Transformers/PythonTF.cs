@@ -80,7 +80,7 @@ namespace Hawk.ETL.Plugins.Transformers
                     analyzer.Analyzer.AddErrorLog(data, ex, this);
                     else
                     {
-                       XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), this.Column, this.TypeName, ex));
+                       XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), this.Column, this.TypeName, ex.Message));
                     }
                    continue; 
                 }

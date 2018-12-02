@@ -454,8 +454,8 @@ namespace Hawk.ETL.Managements
                 {
                     var tick = ConfigFile.GetConfig().Get<int>("AutoSaveTime");
                     if (tick <= 0)
-                        tick = int.MaxValue;               
-                    this.datatTimer.Interval = new TimeSpan(0, 0, 0, tickInterval);
+                        tick = 1000000;               
+                    this.datatTimer.Interval = new TimeSpan(0, 0, 0, tick);
 
                 }
             };
@@ -903,6 +903,7 @@ namespace Hawk.ETL.Managements
                     CleanAllItems();
 
                 }
+                dataManager.LoadDataConnections(project.DBConnections);
                 if (project.DataCollections?.Count > 0)
                 {
                     //TODO: 添加名称重名？
@@ -989,7 +990,7 @@ namespace Hawk.ETL.Managements
             CurrentProject = project;
             CleanAllItems();
             var filemanager = new FileManager {Name = GlobalHelper.Get("recent_file")};
-            CurrentProject.DBConnections.Add(filemanager);
+            dataManager.CurrentConnectors.Add(filemanager);
 
             NotifyCurrentProjectChanged();
         }

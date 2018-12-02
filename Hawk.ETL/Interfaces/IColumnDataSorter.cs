@@ -38,6 +38,10 @@ namespace Hawk.ETL.Interfaces
 
         bool Enabled { get; set; }
 
+
+        IEnumerable<IFreeDocument> CheckDatas(IEnumerable<IFreeDocument> docs);
+
+
         SmartETLTool Father { get; set; }
         string Description { get; }
         string TypeName { get; }
@@ -511,7 +515,7 @@ namespace Hawk.ETL.Interfaces
                 var generator = etl as IColumnGenerator;
                 if (generator != null)
                 {
-                    if ((generator.GenerateCount() != 1 && index == 0) ||
+                    if ((generator.GenerateCount() >1 && index == 0) ||
                         (generator.MergeType == MergeType.Cross && index > 0))
                         pos.Add(index);
                 }
@@ -594,7 +598,7 @@ namespace Hawk.ETL.Interfaces
             catch (Exception ex)
             {
                 if (analyzeItem != null) analyzeItem.HasInit = false;
-                XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_209"), tool.Column, tool.TypeName, ex));
+                XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_209"), tool.Column, tool.TypeName, ex.Message));
                 return func;
             }
             if (!tool.Enabled)
@@ -693,6 +697,11 @@ namespace Hawk.ETL.Interfaces
                             break;
                     }
                 }
+            }
+            if (isexecute == false)
+            {
+                var func1 = func;
+                func = source => tool.CheckDatas(func1(source));
             }
             return func;
         }

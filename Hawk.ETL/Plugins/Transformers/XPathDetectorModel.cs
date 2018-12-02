@@ -102,10 +102,7 @@ namespace Hawk.ETL.Plugins.Transformers
         }
 
         [Browsable(false)]
-        public string URLHTML
-        {
-            get { return SelectedResult?.HTML; }
-        }
+        public string URLHTML => SelectedResult?.HTML;
 
         public CrawlItem SelectedItem
         {

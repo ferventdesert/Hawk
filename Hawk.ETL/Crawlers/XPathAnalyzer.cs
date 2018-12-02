@@ -273,6 +273,7 @@ namespace Hawk.ETL.Crawlers
                 }
 
                 value = value.Replace(' ', '_');
+                value = ExtendEnumerable.ReplaceErrorChars(value);
                 if (!string.IsNullOrEmpty(value))
                     return value;
             }
@@ -286,7 +287,10 @@ namespace Hawk.ETL.Crawlers
                         value = attr;
                     }
                     if (!string.IsNullOrEmpty(value))
+                    {
+                        value = ExtendEnumerable.ReplaceErrorChars(value);
                         return value;
+                    }
                 }
             }
             return null;
@@ -377,7 +381,7 @@ namespace Hawk.ETL.Crawlers
                         XPath = result.Count%2 == 0 ? node1.XPath : node2.XPath
                     };
                     result.Add(crawlItem);
-                    if (result.Count > 50)
+                    if (result.Count > 100)
                     {
                        throw  new Exception("本根节点通过手气不错检测出的属性数超过100个，继续查找下一个根节点");
                     }

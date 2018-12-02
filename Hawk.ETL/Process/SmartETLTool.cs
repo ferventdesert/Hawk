@@ -835,7 +835,7 @@ namespace Hawk.ETL.Process
         {
             if (motherTask.ShouldPause == false)
 
-                motherTask.IsPause = SysProcessManager.CurrentProcessTasks.Count(d2 => d2.Publisher == this) > maxThreadCount;
+                motherTask.IsPause = SysProcessManager.CurrentProcessTasks.OfType<TemporaryTask<IFreeDocument>>().Count(d2 => d2.Publisher == this&&d2.Level==1) >= maxThreadCount;
             if(check)
 
                 motherTask.CheckWait();

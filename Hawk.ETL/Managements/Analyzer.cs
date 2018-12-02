@@ -76,7 +76,7 @@ namespace Hawk.ETL.Managements
             if (!(process as ToolBase).GetExecute())
             {
 
-               XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), process.Column, process.TypeName, ex));
+               XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), process.Column, process.TypeName, ex.Message));
                 return;
             }
             if (string.IsNullOrEmpty(errorLogName))
@@ -100,7 +100,7 @@ namespace Hawk.ETL.Managements
                 }
                 else
                 {
-                    XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), process.Column, process.TypeName, ex));
+                    XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), process.Column, process.TypeName, ex.Message));
                 }
             });
            

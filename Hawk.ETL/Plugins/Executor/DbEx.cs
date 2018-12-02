@@ -32,8 +32,11 @@ namespace Hawk.ETL.Plugins.Executor
                 {
                     var text=  TableNames.SelectItem;
                     TableNames.SetSource(ConnectorSelector.SelectItem.RefreshTableNames().Select(d => d.Name));
-                    if(string.IsNullOrEmpty(text)==false)
+                    if (string.IsNullOrEmpty(text) == false)
+                    {
+                        TableNames._SelectItem = text;
                         TableNames.SelectItem = text;
+                    }
                 };
             TableNames.SelectChanged += (s, e) => { InformPropertyChanged("TableNames"); };
         }

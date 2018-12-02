@@ -68,18 +68,7 @@ namespace Hawk.Core.Connectors
             }
             return input;
         }
-        private static Regex reg = new Regex("[ ()\\[ \\] \\^ \\-*×――(^)$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”-]");
-        public static string ReplaceErrorChars(string input)
-        {
-            return reg.Replace(input, "");
-        }
-        public static string ReplaceSplitString2(string input, string splitchar)
-        {
-            if (input == null)
-                return "";
-            input = input.Replace("\"\"", "\"");
-            return input.Trim('"');
-        }
+      
 
         public void Save()
         {
@@ -160,9 +149,6 @@ namespace Hawk.Core.Connectors
             streamWriter.Write(line);
         }
 
-        //这段代码像屎一样又臭又长
-        //English Edition: This code like shit. 
-        //不要怪我，我就是懒
         public override IEnumerable<FreeDocument> ReadFile(Action<int> alreadyGetSize = null)
         {
             var titles = new List<string>();

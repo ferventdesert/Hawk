@@ -203,7 +203,7 @@ namespace Hawk.Core.Connectors
                     }
                     else
                     {
-                        var attr = docu.CreateAttribute(FileConnectorTable.ReplaceErrorChars(item.Key));
+                        var attr = docu.CreateAttribute(item.Key);
                         attr.InnerText = item.Value?.ToString() ?? "";
                         node.Attributes.Append(attr);
                     }

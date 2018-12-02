@@ -62,7 +62,7 @@ namespace Hawk.Core.Connectors
             {
                 keeporder= Parse(_keeporder.ToString());
             }
-            if (xnode.ChildNodes.Count < 20)
+            if (xnode.ChildNodes.Count < 200)
                 keeporder = true;
             if (xnode.HasChildNodes)
             {

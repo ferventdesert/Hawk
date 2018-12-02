@@ -204,6 +204,15 @@ namespace Hawk.ETL.Managements
             CurrentProject.Save();
         }
 
+        private bool NeedSave()
+        {
+            if (this.CurrentProcessCollections.Any() || this.dataManager.DataCollections.Any())
+            {
+                return true;
+            }
+            return false;
+        }
+        private DispatcherTimer datatTimer;
         public override bool Init()
         {
             base.Init();
@@ -217,6 +226,7 @@ namespace Hawk.ETL.Managements
             {
                 return true;
             }
+            this.datatTimer = new DispatcherTimer();
             var aboutAuthor = new BindingAction(GlobalHelper.Get("key_262"), d =>
             {
                 var view = PluginProvider.GetObjectInstance<ICustomView>(GlobalHelper.Get("key_263"));
@@ -395,9 +405,9 @@ namespace Hawk.ETL.Managements
 
 
             runningTaskActions.ChildActions.Add(new Command(GlobalHelper.Get("key_291"),
-                d => GetSelectedTask(d).Execute(d2 => d2.IsPause = true), d=>true, "pause"));
+                d => GetSelectedTask(d).Execute(d2 => { d2.IsPause = true; d2.ShouldPause = true; }), d=>true, "pause"));
             runningTaskActions.ChildActions.Add(new Command(GlobalHelper.Get("key_292"),
-                d => GetSelectedTask(d).Execute(d2 => d2.IsPause = false), d=> ProcessTaskCanExecute(d,false), "play"));
+                d => GetSelectedTask(d).Execute(d2 => { d2.IsPause = false;d2.ShouldPause = false; }), d=> ProcessTaskCanExecute(d,false), "play"));
 
             runningTaskActions.ChildActions.Add(new Command(GlobalHelper.Get("key_293"),
                 d =>
@@ -429,16 +439,26 @@ namespace Hawk.ETL.Managements
                     .View;
             processView = processview.processListBox as ListBox;
 
-
-            var dataTimer = new DispatcherTimer();
             var tickInterval = ConfigFile.GetConfig().Get<int>("AutoSaveTime");
             if (tickInterval > 0)
             {
-                dataTimer.Tick += timeCycle;
-                dataTimer.Interval = new TimeSpan(0, 0, 0, tickInterval);
-                dataTimer.Start();
-            }
 
+
+                this.datatTimer.Tick += timeCycle;
+                this.datatTimer.Interval = new TimeSpan(0, 0, 0, tickInterval);
+                this.datatTimer.Start();
+            }
+            ConfigFile.GetConfig().PropertyChanged += (s, e) =>
+            {
+                if(e.PropertyName== "AutoSaveTime")
+                {
+                    var tick = ConfigFile.GetConfig().Get<int>("AutoSaveTime");
+                    if (tick <= 0)
+                        tick = 1000000;               
+                    this.datatTimer.Interval = new TimeSpan(0, 0, 0, tick);
+
+                }
+            };
 
             processAction.ChildActions.Add(new Command(GlobalHelper.Get("key_294"), obj =>
             {
@@ -602,7 +622,7 @@ namespace Hawk.ETL.Managements
                 var keep = MessageBoxResult.Yes;
                 if(projectItem==null)
                     return;
-                if (this.CurrentProcessCollections.Any() || this.dataManager.DataCollections.Any())
+                if (NeedSave())
                 {
                     keep = MessageBox.Show(GlobalHelper.Get("keep_old_datas"), GlobalHelper.Get("key_99"),
                         MessageBoxButton.YesNoCancel);
@@ -668,7 +688,7 @@ namespace Hawk.ETL.Managements
             fileCommand.ChildActions.Add(new BindingAction(GlobalHelper.Get("key_307"), obj =>
             {
                 var keep= MessageBoxResult.No;
-                if (this.CurrentProcessCollections.Any() || this.dataManager.DataCollections.Any())
+                if (NeedSave())
                 {
                     keep = MessageBox.Show(GlobalHelper.Get("keep_old_datas"), GlobalHelper.Get("key_99"),
                         MessageBoxButton.YesNoCancel);
@@ -703,7 +723,7 @@ namespace Hawk.ETL.Managements
                     new ObservableCollection<ICommand>(config.Projects.Select(d => new BindingAction(d.SavePath, obj =>
                     {
                         var keep = MessageBoxResult.No;
-                        if (this.CurrentProcessCollections.Any() || this.dataManager.DataCollections.Any())
+                        if (NeedSave())
                         {
                             keep = MessageBox.Show(GlobalHelper.Get("keep_old_datas"), GlobalHelper.Get("key_99"),
                                 MessageBoxButton.YesNoCancel);
@@ -835,8 +855,11 @@ namespace Hawk.ETL.Managements
 
         private void timeCycle(object sender, EventArgs e)
         {
-            SaveCurrentProject(true);
-        }
+
+           
+              if (NeedSave())
+                    SaveCurrentProject(true);
+       } 
 
         private void SetWindowTitleName(string name)
         {
@@ -880,6 +903,7 @@ namespace Hawk.ETL.Managements
                     CleanAllItems();
 
                 }
+                dataManager.LoadDataConnections(project.DBConnections);
                 if (project.DataCollections?.Count > 0)
                 {
                     //TODO: 添加名称重名？
@@ -924,10 +948,18 @@ namespace Hawk.ETL.Managements
             }
             if (isDefaultPosition)
             {
-                ControlExtended.SafeInvoke(() => CurrentProject.Save(dataManager.DataCollections), LogType.Important,
-                    GlobalHelper.Get("key_317"));
-                var pro = ConfigFile.GetConfig<DataMiningConfig>().Projects.FirstOrDefault();
-                if (pro != null) pro.SavePath = CurrentProject.SavePath;
+                Task.Factory.StartNew(() =>
+                {
+                    ControlExtended.SetBusy(ProgressBarState.Indeterminate, message: GlobalHelper.Get("key_308"));
+                    ControlExtended.SafeInvoke(() =>
+                    {
+                        CurrentProject.Save(dataManager.DataCollections);
+                    }, LogType.Important,
+                        GlobalHelper.Get("key_317"));
+                    var pro = ConfigFile.GetConfig<DataMiningConfig>().Projects.FirstOrDefault();
+                    if (pro != null) pro.SavePath = CurrentProject.SavePath;
+                    ControlExtended.SetBusy(ProgressBarState.NoProgress);
+                });
             }
             else
             {
@@ -958,7 +990,7 @@ namespace Hawk.ETL.Managements
             CurrentProject = project;
             CleanAllItems();
             var filemanager = new FileManager {Name = GlobalHelper.Get("recent_file")};
-            CurrentProject.DBConnections.Add(filemanager);
+            dataManager.CurrentConnectors.Add(filemanager);
 
             NotifyCurrentProjectChanged();
         }

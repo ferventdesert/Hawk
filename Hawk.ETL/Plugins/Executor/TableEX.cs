@@ -28,7 +28,22 @@ namespace Hawk.ETL.Plugins.Executor
         [LocalizedDisplayName("key_22")]
         public string Table { get; set; }
 
-      
+        public override IEnumerable<IFreeDocument> CheckDatas(IEnumerable<IFreeDocument> docs)
+        {
+            foreach (var doc in docs)
+            {
+                foreach (var key in doc.Keys)
+                {
+
+                    if (ExtendEnumerable.UnsafeColumnMatcher.IsMatch(key))
+                    {
+                        throw new InvalidOperationException(GlobalHelper.FormatArgs("error_check", this.ObjectID,  GlobalHelper.FormatArgs("error_column",key)));
+                    }
+                }
+                yield return doc;
+            }
+           
+        }
 
         public override IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents)
         {

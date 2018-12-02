@@ -73,7 +73,13 @@ namespace Hawk.ETL.Managements
         }
         public void AddErrorLog(IFreeDocument item,Exception ex,IColumnProcess process)
         {
-            if(string.IsNullOrEmpty(errorLogName))
+            if (!(process as ToolBase).GetExecute())
+            {
+
+               XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), process.Column, process.TypeName, ex.Message));
+                return;
+            }
+            if (string.IsNullOrEmpty(errorLogName))
                 return;
             var param = item.Clone() as FreeDocument;
             param["__SysObjectID"] = process.ObjectID;
@@ -94,7 +100,7 @@ namespace Hawk.ETL.Managements
                 }
                 else
                 {
-                    XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), process.Column, process.TypeName, ex));
+                    XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), process.Column, process.TypeName, ex.Message));
                 }
             });
            

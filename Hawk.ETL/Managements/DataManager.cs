@@ -633,10 +633,9 @@ namespace Hawk.ETL.Managements
             if (processManager?.CurrentProject != null)
 
             {
-                LoadDataConnections();
+                LoadDataConnections(processManager.CurrentProject.DBConnections);
             }
-            processManager.OnCurrentProjectChanged += (s, e) => LoadDataConnections();
-
+          
             if (MainDescription.IsUIForm)
             {
                 ConfigUI = PropertyGridFactory.GetInstance(_dbConnections.FirstOrDefault());
@@ -654,10 +653,10 @@ namespace Hawk.ETL.Managements
         {
         }
 
-        private void LoadDataConnections()
+        public void LoadDataConnections(ICollection<IDataBaseConnector> connectors )
         {
             CurrentConnectors.Clear();
-            _dbConnections.AddRange( processManager?.CurrentProject?.DBConnections);
+            _dbConnections.AddRange(connectors);
             InformPropertyChanged("CurrentConnectors");
             foreach (var  dataBaseConnector in CurrentConnectors.Where(d => d.AutoConnect
                 ))

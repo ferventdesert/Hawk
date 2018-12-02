@@ -501,6 +501,9 @@
     <system:String x:Key="RepeatTF">
         重复当前值
     </system:String>
+    <system:String x:Key="condition_check">
+        条件检查失败， 模块名为 {0} ,属性名为 {1}
+    </system:String>
     <system:String x:Key="key_712">
         {0}已经有任务在执行，为了避免副作用，请在任务管理器中取消该任务后再刷新
     </system:String>
@@ -1345,6 +1348,7 @@
     <system:String x:Key="key_634">
         2.请求参数
     </system:String>
+ 
     <system:String x:Key="key_18">
         名称
     </system:String>
@@ -2333,6 +2337,9 @@
     </system:String>
     <system:String x:Key="not_find_module">
         没有找到名称为'{0}'的{1}，请检查“{2}”是否填写错误
+    </system:String>
+      <system:String x:Key="error_column">
+        在保存到数据集时，列名 {0} 中不应包含标点符号等特殊字符，请进行修改
     </system:String>
     <system:String x:Key="key_613">
         葡萄牙语

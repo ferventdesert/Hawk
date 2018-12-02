@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Logs;
@@ -33,7 +34,21 @@ namespace Hawk.Core.Utils
     public static class ExtendEnumerable
     {
         private static readonly Random random = new Random(unchecked((int) DateTime.Now.Ticks));
-        
+
+        public static Regex UnsafeColumnMatcher = new Regex("[ ()\\[ \\] \\^ *×――(^)$%~!@#$…&%￥+=<>《》!！??？:：•`·、。，；,.;\"‘’“”-]");
+        public static string ReplaceErrorChars(string input)
+        {
+            return UnsafeColumnMatcher.Replace(input, "");
+        }
+        public static string ReplaceSplitString(string input, string splitchar)
+        {
+            if (input == null)
+                return "";
+            input = input.Replace("\"\"", "\"");
+            return input.Trim('"');
+        }
+
+
         public static List<T> IListConvert<T>(this IList list) where T:class
         {
             var newlist = new List<T>();
@@ -955,7 +970,7 @@ namespace Hawk.Core.Utils
                 }
                 catch (Exception ex)
                 {
-                    XLogSys.Print.Error(GlobalHelper.Get("key_112") + ex);
+                    XLogSys.Print.Error(GlobalHelper.Get("key_112") + ex.Message);
                     return null;
                 }
 

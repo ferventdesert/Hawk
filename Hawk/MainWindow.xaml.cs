@@ -295,6 +295,7 @@ namespace Hawk
                 }
         }
 
+
         private LayoutAnchorable Factory(string name, object content)
         {
             var layout = new LayoutAnchorable {Title = name, Content = content};

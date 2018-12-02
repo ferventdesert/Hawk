@@ -498,6 +498,8 @@ namespace Hawk.ETL.Process
                 foreach (var child in doc.Children)
                 {
                     var tool = GetToolFromDocument(child);
+                    if(string.IsNullOrEmpty(tool.ObjectID))
+                        tool.ObjectID = string.Format("{0}_{1}_{2}", tool.TypeName, tool.Column, CurrentETLTools.Count);
                     CurrentETLTools.Add(tool);
                 }
             ETLMount = CurrentETLTools.Count;
@@ -701,9 +703,7 @@ namespace Hawk.ETL.Process
             task.Start();
             return task;
         }
-
-        private bool isWait;
-
+        
         private int maxThreadCount
         {
             get { return GenerateMode == GenerateMode.SerialMode ? 1 : MaxThreadCount; }
@@ -718,8 +718,8 @@ namespace Hawk.ETL.Process
 
             var timer = new DispatcherTimer();
             if (GenerateMode == GenerateMode.SerialMode && DelayTime > 0)
-                etls = etls.AddModule(d => d.GetType() == typeof (CrawlerTF),
-                    d => new DelayTF {DelayTime = DelayTime.ToString()}, true).ToList();
+                etls = etls.AddModule(d => d.GetType() == typeof(CrawlerTF),
+                    d => new DelayTF { DelayTime = DelayTime.ToString() }, true).ToList();
             ToListTF motherListTF;
 
             var taskBuff = new List<IFreeDocument>();
@@ -767,16 +767,26 @@ namespace Hawk.ETL.Process
                 motherFunc(new List<IFreeDocument>()).Skip(mapperIndex1).Select(d =>
                 {
                     motherTask.MapperIndex1++;
-                    Thread.Sleep(300);
+                    if (this.SysProcessManager.CurrentProcessTasks.Contains(motherTask) == false)
+                    {
+                        motherTask.Remove();
+
+                    }
+                    PauseCheck(motherTask);
+                    var delay = this.DelayTime;
+                    if (GenerateMode == GenerateMode.ParallelMode)
+                        delay = 0;
+                    Thread.Sleep(Math.Max(100, delay));
                     return d;
                 }),
                 d =>
                 {
-                    taskBuff.Add(d);
-                    if (taskBuff.Count < motherListTF?.GroupMount)
-                    {
-                        return;
-                    }
+                taskBuff.Add(d);
+                if (taskBuff.Count < motherListTF?.GroupMount)
+                {
+                    return;
+                }
+                    PauseCheck(motherTask);
 
                     AddSubTask(taskBuff.ToList(), mapperFunc1,mapperFunc2,customerFunc3,  motherListTF);
                     taskBuff.Clear();
@@ -815,22 +825,22 @@ namespace Hawk.ETL.Process
                     return;
                 }
 
-                if (isWait && SysProcessManager.CurrentProcessTasks.Count(d=>d.Publisher==this) <= maxThreadCount)
-                {
-                    motherTask.IsPause = false;
-                    isWait = false;
-                }
-                if (motherTask.IsPause == false && SysProcessManager.CurrentProcessTasks.Count(d=>d.Publisher==this) > maxThreadCount)
-                {
-                    motherTask.IsPause = true;
-                    isWait = true;
-                }
+                PauseCheck(motherTask,false);
             };
 
             timer.Start();
         }
 
+        private void PauseCheck(TaskBase motherTask, bool check = true)
+        {
+            if (motherTask.ShouldPause == false)
 
+                motherTask.IsPause = SysProcessManager.CurrentProcessTasks.OfType<TemporaryTask<IFreeDocument>>().Count(d2 => d2.Publisher == this&&d2.Level==1) >= maxThreadCount;
+            if(check)
+
+                motherTask.CheckWait();
+
+        }
         private bool NeedConfig(IDictionarySerializable item)
         {
             var config = item.DictSerialize();

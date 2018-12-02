@@ -23,7 +23,10 @@ namespace Hawk.ETL.Plugins.Transformers
 
         public CrawlerTF()
         {
-            PropertyChanged += (s, e) => { buffHelper.Clear(); };
+            PropertyChanged += (s, e) => {
+                if (e.PropertyName == "AnalyzeItem" || e.PropertyName == "")
+                    return;
+                    buffHelper.Clear(); };
         }
         static  SmartCrawler defaultCrawler=new SmartCrawler();
 
@@ -39,6 +42,10 @@ namespace Hawk.ETL.Plugins.Transformers
             base.Init(datas);
 
             IsMultiYield = Crawler?.IsMultiData == ScriptWorkMode.List && Crawler.CrawlItems.Count > 0;
+            if(IsMultiYield)
+            {
+                buffHelper.SetBuffSize(5);
+            }
             return true;
         }
         [PropertyOrder(2)]
@@ -78,7 +85,8 @@ namespace Hawk.ETL.Plugins.Transformers
                         ConfigFile.GetConfig<DataMiningConfig>().ParseErrorCount++;
                         throw new Exception(string.Format(GlobalHelper.Get("key_669"), url));
                     }
-                     buffHelper.Set(bufkey, htmldoc);
+                    if(this.IsExecute==false)
+                        buffHelper.Set(bufkey, htmldoc);
                     return docs;
                 }
                 throw new Exception("Web Request Error:" + code);

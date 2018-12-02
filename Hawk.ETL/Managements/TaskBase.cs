@@ -19,6 +19,7 @@ namespace Hawk.ETL.Managements
         private int _percent;
         private bool _isSelected;
         private bool _isCanceled;
+        private bool _shouldPause;
 
         public int Total { get; set; }
 
@@ -138,7 +139,8 @@ namespace Hawk.ETL.Managements
 
         public virtual void Remove()
         {
-            ControlExtended.UIInvoke(() => ProcessManager.CurrentProcessTasks.Remove(this));
+            if(ProcessManager.CurrentProcessTasks.Contains(this))
+                 ControlExtended.UIInvoke(() => ProcessManager.CurrentProcessTasks.Remove(this));
             CancellationToken?.Cancel();
             autoReset.Close();
             IsStart = false;
@@ -167,6 +169,20 @@ namespace Hawk.ETL.Managements
         {
             return CancellationToken.IsCancellationRequested;
         }
+
+        /// <summary>
+        /// 指示用户意愿
+        /// </summary>
+        public bool ShouldPause
+        {
+            get { return _shouldPause; }
+            set
+            {
+                IsPause = value;
+                _shouldPause = value;
+            }
+        }
+
         [Browsable(false)]
         public bool IsPause
         {

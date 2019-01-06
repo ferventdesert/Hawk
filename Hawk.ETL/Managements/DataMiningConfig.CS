@@ -22,6 +22,12 @@ namespace Hawk.ETL.Managements
         public DataMiningConfig()
         {
             Projects = new List<ProjectItem>();
+            MaxForbidCount = 10;
+            IsAddErrorCollection = true;
+            AutoSaveTime = 300;
+            FiddlerPort = 8888;
+            AutoStartStopFiddler = true;
+
         }
 
         #endregion
@@ -120,6 +126,33 @@ namespace Hawk.ETL.Managements
                 }
             }
         }
+
+        [PropertyOrder(1)]
+        [LocalizedCategory("key_641")]
+        [LocalizedDisplayName("key_119")]
+        public int FiddlerPort 
+        {
+            get { return this.Get<int>("FiddlerPort"); }
+            set
+            {
+                this.Set<int>("FiddlerPort", value);
+
+
+            }
+        }
+
+        [PropertyOrder(2)]
+        [LocalizedCategory("key_641")]
+        [LocalizedDisplayName("auto_startstop_fiddler")]
+        public bool AutoStartStopFiddler 
+        {
+            get { return this.Get<bool>("AutoStartStopFiddler"); }
+            set
+            {
+                this.Set<bool>("AutoStartStopFiddler", value);
+            }
+        }
+
 
 
 
@@ -244,7 +277,9 @@ namespace Hawk.ETL.Managements
         {
             MaxForbidCount = 10;
             IsAddErrorCollection = true;
-            AutoSaveTime = 60;
+            AutoSaveTime = 300;
+            FiddlerPort = 8888;
+            AutoStartStopFiddler = true;
         }
 
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)

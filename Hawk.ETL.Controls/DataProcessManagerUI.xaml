@@ -15,7 +15,11 @@
              mc:Ignorable="d"  d:DesignWidth="972.666" d:DesignHeight="465.502">
     <UserControl.Resources>
         <ResourceDictionary>
-          
+            <Style TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                <Setter Property="AllowDrop" Value="True" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            </Style>
             <themes:TaskMetroConverter x:Key="TaskMetroConverter"/>
 
    <Style x:Key="GroupContainerStyle" TargetType="{x:Type GroupItem}">
@@ -56,7 +60,7 @@
             </Style>
 
             <DataTemplate x:Key="DataTemplateList">
-            	<StackPanel Orientation="Horizontal" Width="300" Margin="0,4">
+                <StackPanel Background="Transparent"  mvvm:ListItemDoubleClick.Property="BindingCommands.ChildActions[6].ChildActions[0]" Orientation="Horizontal"  Margin="0,4">
             		        	  <Rectangle Width="20" Height="20" Margin="0,0,10,0" >
                                 <Rectangle.Fill>
                                     <VisualBrush Stretch="Fill"
@@ -64,7 +68,7 @@
                                 </Rectangle.Fill>
                             </Rectangle>
 		 
-            		<StackPanel  Height="Auto"  mvvm:ListItemDoubleClick.Property="BindingCommands.ChildActions[6].ChildActions[0]" Margin="0" Width="Auto">
+            		<StackPanel  Height="Auto"   Margin="0" Width="Auto">
             			<TextBlock Margin="0,0,0,8" TextWrapping="Wrap" Text="{Binding Name}"  d:LayoutOverrides="Width" FontSize="{DynamicResource LargeFont}" FontWeight="Normal"/>
             			<TextBlock TextWrapping="Wrap"   Text="{Binding Description}"  />
             		</StackPanel>
@@ -115,16 +119,20 @@
             <DataTemplate x:Key="MarketItemTemplate">
             	<Grid  ToolTip="{Binding Description}"     HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Margin="0,10">
             		<Grid.ColumnDefinitions>
-            			<ColumnDefinition Width="0.894*"/>
-            			<ColumnDefinition Width="0.106*"/>
+            			<ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+            			<ColumnDefinition Width="Auto"/>
             		</Grid.ColumnDefinitions>
             		<Image Source="{Binding ImgURL}" Width="180" Height="100" Margin="0,0,0.75,0"/>
-            		<StackPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0,8,0,14" Orientation="Vertical" Width="Auto" d:LayoutOverrides="Height">
+            		<StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="0,8,0,14" Orientation="Vertical" Width="Auto" d:LayoutOverrides="Height">
             			<Label Content="{Binding Name}" Margin="0" VerticalAlignment="Stretch"  FontSize="{DynamicResource UltraFont}" HorizontalAlignment="Left" Width="Auto" />
             			<Label Content="{Binding Author}"   Margin="0,10,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="Auto" />
             			<Label Content="{Binding ShortDescription}"   Margin="0,10,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="Auto" />
             			<Label Content="{Binding PublishTime}"  Margin="0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="Auto" />
             		</StackPanel>
+                    <Button Style="{DynamicResource middleButton}" DataContext="{Binding DataContext.BindingCommands.ChildActions[8].ChildActions[0],ElementName=userControl}" Width="35"
+        				Command="{Binding}" CommandParameter="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}, Mode=FindAncestor}}"	Height="35" HorizontalAlignment="Right" VerticalAlignment="Center" d:LayoutOverrides="Height" Grid.Column="2" Margin="0,0,20,0" />
+                    
             	</Grid>
             </DataTemplate>
             <DataTemplate x:Key="DataCollectionTemplate">
@@ -134,7 +142,7 @@
 
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
+    <Grid x:Name="userControl">
     	<Grid.RowDefinitions>
     		<RowDefinition Height="90"/>
     		<RowDefinition Height="0"/>
@@ -148,7 +156,7 @@
         	<ColumnDefinition Width="0.3*"/>
         </Grid.ColumnDefinitions>
         <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="3" Grid.RowSpan="4"/>
-        <TabControl Margin="0,1.76,0,0" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="2">
+        <TabControl SelectedIndex="{Binding MainTabIndex}" Margin="0,1.76,0,0" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="2">
         	<TabItem >
         		<TabItem.Header>
         		  <StackPanel HorizontalAlignment="Left" Margin="0" Orientation="Horizontal"
@@ -225,8 +233,8 @@
         				</Rectangle>
         				<TextBlock TextWrapping="Wrap" FontSize="21.333" VerticalAlignment="Top"  Grid.Row="2" HorizontalAlignment="Left" Grid.Column="1"><Run Language="zh-cn" Text="{DynamicResource key_736}" /></TextBlock>
         			</StackPanel>
-        			<ListBox x:Name="listboxProcessMethodList" ToolTip="{DynamicResource doubleclick_new}" ItemsSource="{Binding ProgramNameFilterView}"  x:FieldModifier="public"      ItemTemplate="{DynamicResource DataTemplateList}" Margin="30,34.24,30,0" VerticalAlignment="Top"/>
-        			<StackPanel Grid.Column="0" HorizontalAlignment="Left" Margin="30,170,0,0" Orientation="Horizontal" VerticalAlignment="Top">
+                    <ListBox x:Name="listboxProcessMethodList" ToolTip="{DynamicResource doubleclick_new}" ItemsSource="{Binding ProgramNameFilterView}"  x:FieldModifier="public"      ItemTemplate="{DynamicResource DataTemplateList}" Margin="30,34.24,30,0" VerticalAlignment="Top"/>
+                    <StackPanel Grid.Column="0" HorizontalAlignment="Left" Margin="30,170,0,0" Orientation="Horizontal" VerticalAlignment="Top">
         				<Rectangle Width="20" Height="20" Margin="0,0,10,0" >
         					<Rectangle.Fill>
         						<VisualBrush Stretch="Fill"
@@ -332,8 +340,9 @@
 
         					<Style TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource {x:Type ListBoxItem}}">
         						<Setter Property="ContextMenu" Value="{StaticResource resourceContextMenu}" />
-
-        					</Style>
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                            </Style>
         				</ListBox.Resources>
 
 

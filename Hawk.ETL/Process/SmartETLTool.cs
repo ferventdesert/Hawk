@@ -1067,7 +1067,7 @@ namespace Hawk.ETL.Process
                     {
                         if (e.ChangedButton != MouseButton.Left)
                             return;
-                        var process = currentToolList.SelectedItem as IColumnProcess;
+                        var process = currentToolList.SelectedValue as IColumnProcess;
                         if (process == null)
                             return;
                         var oldProp = process.UnsafeDictSerializePlus();

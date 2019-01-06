@@ -431,7 +431,7 @@ namespace Hawk.ETL.Interfaces
                 list.Add(GlobalHelper.FormatArgs("doc_crawler_add_xpath", crawlItem.Name, crawlItem.Format, crawlItem.CrawlType,
                     crawlItem.XPath,index++));
             }
-            return "\n".Join(list);
+            return "\n\n".Join(list);
         }
 
         public static string GenerateRemarkPlus(this SmartETLTool tool, bool addnew, IProcessManager manager)

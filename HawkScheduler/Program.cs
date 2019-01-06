@@ -10,6 +10,7 @@ using CommandLine.Text;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Crawlers;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
 using Hawk.ETL.Process;
@@ -58,8 +59,24 @@ namespace HawkScheduler
 
     internal class Program
     {
+        public static string url = "http://www.cnblogs.com/";
+
+        private static void unitTest()
+        {
+            var doc = XPathAnalyzer.GetHtmlDocument(url);
+          
+            var datas = XPathAnalyzer.GetDataFromURL(url);
+           
+            var properties = doc.DocumentNode.SearchPropertiesSmartList();
+
+       
+            var firstOrDefault = properties.FirstOrDefault();
+            datas = doc.DocumentNode.GetDataFromXPath(firstOrDefault.CrawItems).ToList();
+         
+        }
         private static void Main(string[] args)
         {
+            unitTest();
             var options = new Options();
             var parser = new Parser(with => with.HelpWriter = Console.Error);
 

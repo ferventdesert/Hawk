@@ -105,11 +105,11 @@ namespace Hawk.ETL.Plugins.Executor
                 if (isdir)
                 {
                     path = folder.ToString();
-                    if (path.EndsWith("/") == false)
-                        path += "/";
-                    path += url;
-                    path = getFileName(path);
-                    //path += getFileName(url);
+                   if (path.EndsWith("\\") == false)
+                        path += "\\";
+                    //path += url;
+                    //path = getFileName(path);
+                    path += getFileName(url);
                 }
                 if (File.Exists(path))
                     {

@@ -74,6 +74,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\AutoSaveWindow.cs" />
+    <Compile Include="Controls\PopupWindowBase.cs" />
     <Compile Include="DataViewers\FlowDocumentViewer.cs" />
     <Compile Include="Themes\MetroConverter.cs" />
     <Compile Include="XPathDetector.xaml.cs">

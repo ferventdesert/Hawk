@@ -502,16 +502,23 @@ namespace Hawk.ETL.Process
                         else
                         {
                             var str2 = String.Format(GlobalHelper.Get("not_find_key"),SelectText,GlobalHelper.Get("key_639"));
-                            var res = MessageBox.Show(str2, GlobalHelper.Get("key_655"), MessageBoxButton.YesNoCancel);
-                            switch (res)
-                            {
-                                case MessageBoxResult.Yes:
-                                    StartVisit();
-                                    break;
-                                case MessageBoxResult.Cancel:
-                                    isDynamicRemind = false;
-                                    break;
 
+                            if (ConfigFile.Config.Get<bool>("AutoStartStopFiddler"))
+                            { 
+                                var res = MessageBox.Show(str2, GlobalHelper.Get("key_655"), MessageBoxButton.YesNoCancel);
+                                switch (res)
+                                {
+                                    case MessageBoxResult.Yes:
+                                        StartVisit();
+                                        break;
+                                    case MessageBoxResult.Cancel:
+                                        isDynamicRemind = false;
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                  XLogSys.Print.Info(str2);                                
                             }
                         }
                      
@@ -566,7 +573,7 @@ namespace Hawk.ETL.Process
             if (IsMultiData == ScriptWorkMode.One)
                 existItems = new List<CrawlItem> {new CrawlItem {Name = "temp", XPath = SelectXPath}};
             var task = TemporaryTask<XPathAnalyzer.CrawTarget>.AddTempTaskSimple(GlobalHelper.Get("key_659"),
-                HtmlDoc.DocumentNode.SearchPropertiesSmart(IsMultiData, existItems, RootXPath, RootFormat, IsAttribute).Take(40),
+                HtmlDoc.DocumentNode.SearchPropertiesSmart(IsMultiData, existItems, RootXPath, RootFormat, IsAttribute),
                 crawTarget =>
                 {
                     
@@ -647,7 +654,7 @@ namespace Hawk.ETL.Process
         {
             if (IsRunning)
                 return;
-            if (string.IsNullOrWhiteSpace(SelectText))
+            if (string.IsNullOrWhiteSpace(SelectText) && ConfigFile.Config.Get<bool>("AutoStartStopFiddler")==true)
             {
                 MessageBox.Show(GlobalHelper.Get("remind_10"));
                 return;
@@ -658,12 +665,14 @@ namespace Hawk.ETL.Process
                 if (url.StartsWith("http") == false)
                     url = "http://" + url;
 
-
+                CONFIG.IgnoreServerCertErrors = true;
                 CONFIG.bMITM_HTTPS = true;
                 FiddlerApplication.AfterSessionComplete += FiddlerApplicationAfterSessionComplete;
-
-                FiddlerApplication.Startup(8888, true, true);
+                var port = ConfigFile.Config.Get<int>("FiddlerPort");
+                FiddlerApplication.Startup(port, true, true,true);
+               
                 System.Diagnostics.Process.Start(url);
+                XLogSys.Print.Info(GlobalHelper.FormatArgs("fiddler_start", "localhost", port));
                 OnPropertyChanged("IsRunning");
             }, LogType.Important, GlobalHelper.Get("key_661"));
         }
@@ -672,8 +681,9 @@ namespace Hawk.ETL.Process
         {
             if (oSession.oRequest.headers == null)
                 return;
-            var httpitem = new HttpItem {Parameters = oSession.oRequest.headers.ToString()};
 
+            var httpitem = new HttpItem {Parameters = oSession.oRequest.headers.ToString()};
+            XLogSys.Print.Debug("visiting... "+ oSession.url);
 
             if ((oSession.BitFlags & SessionFlags.IsHTTPS) != 0)
             {
@@ -689,7 +699,8 @@ namespace Hawk.ETL.Process
             }
 
             httpitem.Postdata = Encoding.Default.GetString(oSession.RequestBody);
-
+            
+           
 
             if (string.IsNullOrWhiteSpace(SelectText) == false)
             {
@@ -701,18 +712,23 @@ namespace Hawk.ETL.Process
                     return;
                 }
             }
-            StopVisit();
+            if (string.IsNullOrWhiteSpace(SelectText) == true)
+            {
+                return;
+            }
+            if (ConfigFile.Config.Get<bool>("AutoStartStopFiddler"))
+                StopVisit();
             httpitem.DictCopyTo(Http);
             var post = "";
             if (Http.Method == MethodType.POST)
             {
-                post = "post请求的内容为:\n" + httpitem.Postdata + "\n";
+                post = "POST content is:\n" + httpitem.Postdata + "\n";
             }
             var window = MainFrm as Window;
             ControlExtended.UIInvoke(() => { if (window != null) window.Topmost = true; });
-            var info = string.Format("success_get",oSession.url,Http.Method,post);
+            var info = GlobalHelper.FormatArgs("success_get",oSession.url,Http.Method,post);
             XLogSys.Print.Info(info);
-            IsSuperMode = true;
+            //IsSuperMode = false;
             ControlExtended.UIInvoke(() => { if (window != null) window.Topmost = false; });
             SniffSucceed?.Invoke(this, new EventArgs());
             URL = oSession.url;

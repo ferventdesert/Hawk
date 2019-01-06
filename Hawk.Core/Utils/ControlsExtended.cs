@@ -132,7 +132,7 @@ namespace Hawk.Core.Utils
                 var str = name + GlobalHelper.Get("key_102");
                 var dict=new Dictionary<string,string>();
                 dict.Add("key", str);
-                (HockeyClient.Current as HockeyClient).HandleException(ex);
+                //(HockeyClient.Current as HockeyClient).HandleException(ex);
                 switch (type)
                 {
                     case LogType.Debug:

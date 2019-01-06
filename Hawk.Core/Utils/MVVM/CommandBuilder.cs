@@ -90,7 +90,7 @@ namespace Hawk.Core.Utils.MVVM
         {
            
             ControlExtended.SafeInvoke(() => Execute?.Invoke(parameter),LogType.Info,GlobalHelper.Get("key_133")+this.Text);
-            HockeyClient.Current.TrackEvent(this.Text);
+            //HockeyClient.Current.TrackEvent(this.Text);
         }
 
         bool ICommand.CanExecute(object parameter)

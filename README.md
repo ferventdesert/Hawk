@@ -1,5 +1,4 @@
-
-Hawk: Advanced ETL & Crawler Stream Engine 
+# Hawk: Advanced Crawler& ETL tool written in C#/WPF
 
 ***
 
@@ -56,4 +55,3 @@ Hawk的含义为“鹰”，能够高效，准确地捕杀猎物。它的思想�
 - 能从各类数据库和文件实现导入导出
 - 任务可以被保存和复用
 - 其最适合的领域是爬虫和数据清洗，但其威力远超于此。
-

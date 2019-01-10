@@ -1206,6 +1206,8 @@
 
       ![{{feellucky}}配置](https://upload-images.jianshu.io/upload_images/9608527-00a31b3a6f387c74.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+        ![](http://images2018.cnblogs.com/blog/287060/201805/287060-20180512203827617-1470633207.gif)
+
         左右切换选择你想要的数据集，之后在下面的属性栏对结果进行微调。
         添加一个属性，{{feellucky}}就能更准确地进行。添加两个属性，即可选定唯一区域。
 
@@ -1213,6 +1215,9 @@
 
         Hawk3新增功能，当网页中包含多达几十种属性时，挨个添加会变得特别烦琐，这在某种商品属性页特别常见。
         为了解决这个问题，将关键字加入到`{{search_keyword}}`中，此时不要将其添加到属性列表中，直接点击{{feellucky}}即可。  
+
+
+        ![单文档模式下的手气不错](http://images2018.cnblogs.com/blog/287060/201805/287060-20180512221426878-671049210.gif)
 
         TODO: 描述得更详细一些
  
@@ -2442,12 +2447,12 @@
     </system:String>
     <system:String x:Key="smartcrawler_script_mode" xml:space="preserve">
 
-        - {{script_mode_list}}: 会输出多份文档，通常在网页的列表页中使用
-        - {{script_mode_one}}:  输出单份文档，一般在网页的详情页中使用
+        - {{script_mode_list}}: 会输出多份文档，通常在网页的列表页中使用， 如二手房的列表页面，新闻的列表页
+        - {{script_mode_one}}:  输出单份文档，一般在网页的详情页中使用，如京东的订单页，新闻
         - {{script_mode_none}}:  直接输出网页源代码，放置于Content列中
 
         注意:
-
+        - 一个复杂的页面可能包含多个列表和详情，因此模式的选择主要取决于要抓取的数据是什么
         - 当在 {{script_mode_list}}或 {{script_mode_one}}模式，且属性数量为0时，也和 {{script_mode_none}}行为一致
     </system:String>
 
@@ -2997,11 +3002,13 @@
 
         欢迎使用Hawk! HAWK无需编程，可见即所得的图形化数据采集和清洗工具，依据GPL协议开源。
 
-        项目主页：https://github.com/ferventdesert/Hawk
+        项目主页: https://github.com/ferventdesert/Hawk
 
-        项目文档： https://ferventdesert.github.io/Hawk/
+        项目文档: https://ferventdesert.github.io/Hawk/
+
+        下载地址: https://github.com/ferventdesert/Hawk/releases 
         
-        示例工程文件： https://github.com/ferventdesert/Hawk-Projects/Hawk3
+        示例工程文件: https://github.com/ferventdesert/Hawk-Projects/Hawk3
 
         ## 介绍
 
@@ -3517,6 +3524,8 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
 
         右下角分别是暂停，继续和删除任务。
 
+        ![task.gif](https://upload-images.jianshu.io/upload_images/9608527-335caab3c02d66e4.gif?imageMogr2/auto-orient/strip)
+
         注意:
 
         1. 当工作流有误时（比如该列所有数据都空，却在该列添加了 {{NullFT}}，那么所有数据都会被过滤）可能不会产生任何数据输出。此时进度条并不会向前推进，产生卡死的假象。此时可强行将其删除
@@ -3814,6 +3823,8 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
 
       在设计任务市场的整体架构时，花了不少时间，最终采用了最轻量却也可能是最合理的方案：Github。 Github提供了文件存取，合并和历史版本等功能，同时也符合Hawk的开源精神。 任务市场分为两期进行开发，第一期只支持访问，Hawk用户设计了工程后，通过merge request的方式提交到主分支。 第二期则支持软件内上传，同时增加积分奖励系统。
 
+     ![market.gif](https://upload-images.jianshu.io/upload_images/9608527-87b29be0b908a9b6.gif?imageMogr2/auto-orient/strip)
+
       ## 市场的界面使用
 
       ![任务市场主页](https://upload-images.jianshu.io/upload_images/9608527-112a974fdfe5f482.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
@@ -3822,7 +3833,8 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
 
      ![详情设置](https://upload-images.jianshu.io/upload_images/9608527-004b6a173f41c568.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
  
-      为了避免误操作，无法双击工程，而需要通过鼠标右键加载的方式加载，之后即可像本地工程一样加载远端工程文件。
+      为了避免误操作，无法双击工程，而需要通过鼠标右键加载的方式加载，之后即可像本地工程一样加载远端工程文件。当然也可以在右侧任务列表上加载单个任务，Hawk只会加载它和它依赖的任务列表.
+
       
      ## 账号系统
 
@@ -3908,6 +3920,8 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
       
       例如，针对链家开发爬虫时，不同的城市会有细微区别，如xpath，或名称... 因此可针对不同城市建立配置，切换配置即可在不同城市间切换，Hawk的模块在执行时会动态地获取这些数据。大大提升了重用性。
 
+      ![param.gif](https://upload-images.jianshu.io/upload_images/9608527-5bbd735f89deb817.gif?imageMogr2/auto-orient/strip)
+
       
       ![全局参数设置](https://upload-images.jianshu.io/upload_images/9608527-e15c3d72444a9b81.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
@@ -3949,6 +3963,10 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
        - 所有的模块在配置时，都可以在配置后显示其使用文档，包括功能简介，参数名和对应介绍，注意事项等。
        - 点击：帮助，即可弹出全局文档系统，在文档中，支持字体放缩，关键字搜索等，方便快速定位内容。
        - 每个任务或工程，都可以生成其对应的教程文档，极大地减少了做教程写文档的负担
+
+        下面的动图描述了Hawk文档的使用：
+
+       ![doc.gif](https://upload-images.jianshu.io/upload_images/9608527-f387d3e209c69d30.gif?imageMogr2/auto-orient/strip)
 
        ![在按钮上自动弹出帮助](https://upload-images.jianshu.io/upload_images/9608527-b4180f98fec913e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
@@ -4103,7 +4121,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     <system:String x:Key="reason_desc2">
       作用为{0}
     </system:String>
-     <system:String x:Key="get_remote_market_data">
+    <system:String x:Key="get_remote_market_data">
       正在读取远程市场的工程数据
     </system:String>
     <system:String x:Key="set_before">
@@ -4592,10 +4610,23 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
 
     <system:String x:Key="fast_doc_ui" xml:space="preserve">
 
-    1. 在【模块管理】页面，左侧是【任务管理】，双击图标即可新建和加载已有任务
-    点击菜单【文件】可加载，保存任务，任务为xml文件。 软件根目录包含教学工程，可供学习。
-    右侧是【数据管理】，空白处右键可新建连接，连接名上右键可配置，支持本地文件(xls,txt,json)，数据库(mongodb,sqlite)
-    数据库需要连接后才能使用，可勾选【自动连接】.
+    ### 主工作区
+     启动后，在欢迎页面有三个tab页： 新建任务，任务市场和参数设置。欢迎页面非常重要，能够新建任务，或者浏览相关文档和帮助。
+
+    ![front.gif](https://upload-images.jianshu.io/upload_images/9608527-845b571fd3b4c7e0.gif?imageMogr2/auto-orient/strip)
+     
+    
+    1. 新建任务：双击图标即可新建和加载已有任务
+    2. 点击tab菜单【文件】可加载，保存任务，任务为xml文件。 
+    3. 下侧是【数据管理】，空白处右键可新建连接，连接名上右键可配置，支持本地文件(xls,txt,json)，数据库(mongodb,sqlite)。数据库需要连接后才能使用，可勾选【自动连接】.
+    ### 状态区
+    在Hawk主界面右侧是当前的状态，包括三个区域：
+    
+    - 已加载任务
+    - 数据管理：可显示生成的或从文件中导出的表
+    - 工作线程视图：正在执行的任务都会显示在这里
+    
+ 
     2. 软件右下角对应的是【系统状态视图】，左右侧分别是已加载的任务和数据集。
     左键查看，右键配置，空白处右键批量管理。 下面的图标可用于删除，拷贝，保存等功能，把任务或数据集拖到图标上试试！
     3. 【{{smartcrawler_name}}】用于配置单个网页的抓取规则，【{{smartetl_name}}】用于打造清洗流程，并调用前者。 复杂任务会创建多个清洗并互相调用。
@@ -4609,8 +4640,14 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
     认识到网页是一棵树(DOM)后，每个XPath对应一个属性，即可从网页上获取单个或多个文档。{{smartcrawler_name}}的目的就是更快地通过手工或自动配置找到最优XPath。
 
     ### 基本操作
+      
+    ![手气不错](http://images2018.cnblogs.com/blog/287060/201805/287060-20180512203827617-1470633207.gif)
 
-    - 左侧的区域，显示了html源码和浏览器视图（但不能执行js)，可通过上册tab页切换。
+    工作模式的介绍:
+
+    {{smartcrawler_script_mode}}
+
+    - 左侧的区域，显示了html源码和浏览器视图（但不能执行js)，可通过上侧tab页切换。
     - 右侧是配置区域，可对关键字进行搜索，并对所有的属性进行管理。
     - 在{{script_mode_list}}模式下，点击{{feellucky}}进入全自动模式，在弹出的结果下选择所需数据，可配置其名称和XPath。点击确定即可配置完毕。
     - 可手工填入`{{search_keyword}}`，即可在网页上快速定位元素和XPath，可在多个结果间快速切换，找到所需数据后，输入名称后手工添加属性。
@@ -4623,6 +4660,11 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
     3. 超级模式下，Hawk会将源码中的js,html,json都转成html，从而使用{{feellucky}}, 更通用但性能较差
     4. 填写【共享源】，本采集器同步共享源的【{{http_header}}】，避免重复设置cookie代理等。
     5. 详情页({{script_mode_one}}模式)也可以{{feellucky}}(Hawk3新功能)，搜索所需字段，不需要添加到属性列表，点击{{feellucky}}试试！
+    
+
+    ![单文档模式下的手气不错](http://images2018.cnblogs.com/blog/287060/201805/287060-20180512221426878-671049210.gif)
+
+    
     6. 网页地址也可以是本地文件路径，如D:\target.html, 用其他方法保存网页后，再通过Hawk分析网页内容
 
     </system:String>
@@ -4632,6 +4674,9 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
      {{smartetl_name}}可以通过组合多个不同的子模块，生成多样的功能，通过拖拽构造出一个工作流，它能够产生一个有限或无限的文档序列。比如下面：
         
         ![image_1auq4oooc1m8m9tc02sjv1j4o9.png-71.6kB](http://static.zybuluo.com/buptzym/gzr3u0z80478s31u9v1zdfw5/image_1auq4oooc1m8m9tc02sjv1j4o9.png)
+
+    ![etl.gif](https://upload-images.jianshu.io/upload_images/9608527-1d80b51babfb5233.gif?imageMogr2/auto-orient/strip)
+
 
     ### 基本操作
 
@@ -4810,11 +4855,9 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
        - 由于Hawk在不断发展，早期版本的工程可能并不能兼容目前软件。
        - 当工程较大时，加载和保存都会消耗一定的时间。
 
-      {{auto_save}}
-    
       {{proj_format}}
-
-      {{super_copy}}
+      
+      {{auto_save}}
 
       {{global_config}}
 
@@ -4885,6 +4928,15 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
         {{youku}}
 
         {{about}}
+
+        {{hawk1}}
+
+        {{hawk2}}
+        
+        {{hawk3}}
+        
+        {{hawk5}}
+        
         
         {{story1}}
         

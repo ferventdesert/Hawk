@@ -24,7 +24,7 @@ namespace Hawk.ETL.Managements
 
         public ProjectItem()
         {
-            ImgURL = "http://www.qq3721.com/d/file/gexing/fzltupian/20111115/50eb4ad266abdf7cc719d1f99d3e3fcf.jpg";
+            ImgURL = "https://upload-images.jianshu.io/upload_images/9608527-0b84afa59939835c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240";
             Description = GlobalHelper.Get("no_desc");
             PublishTime= DateTime.Now;
             

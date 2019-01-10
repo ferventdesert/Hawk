@@ -27,8 +27,16 @@ namespace Hawk.ETL.Managements
             AutoSaveTime = 300;
             FiddlerPort = 8888;
             AutoStartStopFiddler = true;
-
+            Login = "hawkpublic@yeah.net";
+            Password = "hawk1qaz2wsx";
+            IsKeepPassword = true;
+            MarketUrl = "https://github.com/ferventdesert/Hawk-Projects/tree/master/Hawk3";
         }
+
+
+      
+
+
 
         #endregion
 
@@ -152,7 +160,65 @@ namespace Hawk.ETL.Managements
                 this.Set<bool>("AutoStartStopFiddler", value);
             }
         }
+        [LocalizedCategory("user_login")]
+        [LocalizedDescription("market_url_check")]
+        [LocalizedDisplayName("market_url")]
+        public string MarketUrl
+        {
+            get { return   this.Get<string>("MarketUrl"); ; }
+            set
+            {
+                this.Set<string>("MarketUrl", value);
+              
+            }
+        }
 
+
+        [LocalizedDisplayName("keep_pass")]
+        [LocalizedCategory("user_login")]
+        [PropertyOrder(2)]
+        public bool IsKeepPassword
+        {
+            get { return this.Get<bool>("IsKeepPassword"); }
+            set
+            {
+                this.Set("IsKeepPassword", value);
+
+
+            }
+        } 
+
+
+
+        [LocalizedCategory("user_login")]
+        [LocalizedDisplayName("key_25")]
+        [PropertyOrder(0)]
+        public string Login
+        {
+            get { return this.Get<string>("Login"); }
+            set
+            {
+                this.Set<string>("Login", value);
+
+
+            }
+        }
+
+
+        [LocalizedDisplayName("key_26")]
+        [LocalizedCategory("user_login")]
+        [PropertyOrder(1)]
+        [PropertyEditor("PasswordEditor")]
+        public string Password
+        {
+            get { return this.Get<string>("Password"); }
+            set
+            {
+                this.Set<string>("Password", value);
+
+
+            }
+        }
 
 
 

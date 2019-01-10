@@ -11,6 +11,7 @@ using System.Web.Security;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Fiddler;
+using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
@@ -20,16 +21,20 @@ using ContentType = Octokit.ContentType;
 
 namespace Hawk.ETL.Market
 {
-    public class GitHubAPI :  PropertyChangeNotifier, IDictionarySerializable
+    public class GitHubAPI :  PropertyChangeNotifier 
 
     {
         public GitHubAPI()
         {
             client = new GitHubClient(new ProductHeaderValue("Hawk3"));
-            Login = "hawkpublic@yeah.net";
-            Password = "hawk1qaz2wsx";
-            IsKeepPassword = true;
-            MarketUrl = "https://github.com/ferventdesert/Hawk-Projects/tree/master/Hawk3";
+            DataMiningConfig.GetConfig().PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == "MarketUrl")
+                {
+                    OnPropertyChanged("MarketShortUrl");
+                }
+            };
+
         }
 
         [Browsable(false)]
@@ -40,34 +45,21 @@ namespace Hawk.ETL.Market
                 string username = "?";
                 string project = "?";
                 string target = "?";
+                var MarketUrl = ConfigFile.GetConfig().Get<string>("MarketUrl");
                 if (!this.GetRepoInfo(MarketUrl, out username, out project, out target))
                 {
-                   
+
                     return null;
                 }
-                return username + "/" + project + "/"+target;
+                return username + "/" + project + "/" + target;
 
 
             }
         }
 
-        [LocalizedDescription("market_url_check")]
-        [LocalizedDisplayName("market_url")]
-        public string MarketUrl
-        {
-            get { return _marketUrl; }
-            set
-            {
-                if (_marketUrl != value)
-                {
-                    _marketUrl = value;
-                    OnPropertyChanged("MarketUrl");
-                    OnPropertyChanged("MarketShortUrl");
-                }
-            }
-        }
 
-        public bool GetRepoInfo(string url,out string userName,out string repoName,out string dir)
+
+        public bool GetRepoInfo(string url, out string userName, out string repoName, out string dir)
         {
             userName = null;
             repoName = null;
@@ -83,37 +75,18 @@ namespace Hawk.ETL.Market
                 return false;
             userName = keys[0];
             repoName = keys[1];
-            var branch = keys[3];
             if (keys.Length > 4)
                 dir = keys[4];
             return true;
 
         }
 
-        [LocalizedCategory("user_login")]   
-        [LocalizedDisplayName("key_25")]
-        [PropertyOrder(0)]
-        public string Login { get; set; }
-
-        [LocalizedDisplayName("key_26")]
-        [LocalizedCategory("user_login")]
-        [PropertyOrder(1)]
-        [PropertyEditor("PasswordEditor")]
-        public string Password { get; set; }
-
-        [LocalizedDisplayName("keep_pass")]
-        [LocalizedCategory("user_login")]
-        [PropertyOrder(2)]
-        public bool IsKeepPassword { get; set; }
 
         public async Task<IEnumerable<ProjectItem>>  GetProjects(string url=null)
         {
             try
             {
-                if (url == null)
-                {
-                    url = this.MarketUrl;
-                }
+              
                 string username = null;
                 string project = null;
                 string target = null;
@@ -174,33 +147,14 @@ namespace Hawk.ETL.Market
         private bool isConnect = false;
         private string _marketUrl;
 
-        public  void Connect()
+        public  void Connect(string login,string password)
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
          
-            client.Credentials=new Credentials (Login,Password);
+            client.Credentials=new Credentials (login,password);
             isConnect = true;
         }
 
-        public FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
-        {
-           var dict=new FreeDocument();
-            dict.Add("Login", Login);
-            if (IsKeepPassword)
-                dict.Add("Password", Password);
-            dict.Add("IsKeepPassword", IsKeepPassword);
-            dict.Add("MarketUrl", MarketUrl);
-            return dict;
-        }
-
-        public void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
-        {
-            Login = docu.Set("Login", Login);
-            IsKeepPassword = docu.Set("IsKeepPassword", IsKeepPassword);
-            if(IsKeepPassword)
-                Password = docu.Set("Password", Password);
-
-            MarketUrl = docu.Set("MarketUrl", MarketUrl);
-        }
+     
     }
 }

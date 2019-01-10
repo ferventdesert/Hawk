@@ -606,20 +606,14 @@ namespace Hawk.ETL.Managements
             var marketAction = new BindingAction();
             marketAction.ChildActions.Add(new Command(GlobalHelper.Get("connect_market"), async obj =>
             {
-                GitHubApi.Connect();
+                GitHubApi.Connect(ConfigFile.GetConfig().Get<string>("Login"), ConfigFile.GetConfig().Get<string>("Password"));
                 MarketProjects.Clear();
                 ControlExtended.SetBusy(ProgressBarState.Indeterminate,message:GlobalHelper.Get("get_remote_projects"));
-                MarketProjects.AddRange(await GitHubApi.GetProjects());
+                MarketProjects.AddRange(await GitHubApi.GetProjects(ConfigFile.GetConfig().Get<string>("MarketUrl")));
                 ControlExtended.SetBusy(ProgressBarState.NoProgress);
 
             }, icon: "refresh"));
-            marketAction.ChildActions.Add(new Command(GlobalHelper.Get("key_240"), obj =>
-            {
-                var window = PropertyGridFactory.GetPropertyWindow(GitHubApi);
-                window.ShowDialog();
-
-            }, icon: "settings"));
-
+          
             BindingCommands.ChildActions.Add(marketAction);
 
 
@@ -850,8 +844,8 @@ namespace Hawk.ETL.Managements
             {
                 if (marketCollectionView == null)
                 {
-                    GitHubApi.Connect();
-                    var result = GitHubApi.GetProjects().Result;
+                    GitHubApi.Connect(ConfigFile.GetConfig().Get<string>("Login"), ConfigFile.GetConfig().Get<string>("Password"));
+                    var result = GitHubApi.GetProjects(ConfigFile.GetConfig().Get<string>("MarketUrl")).Result;
                     ControlExtended.SafeInvoke(
                         () =>
                         {
@@ -1000,11 +994,10 @@ namespace Hawk.ETL.Managements
 
         private void CleanAllItems()
         {
-            this.CurrentProcessTasks.Clear();
+            this.CurrentProcessTasks.RemoveElementsNoReturn(d=>true,d=>d.Remove());
             this.dataManager.CurrentConnectors.Clear();
             this.dataManager.DataCollections.Clear();
             ProcessCollection.RemoveElementsNoReturn(d => true, RemoveOperation);
-
         }
         public void CreateNewProject()
         {

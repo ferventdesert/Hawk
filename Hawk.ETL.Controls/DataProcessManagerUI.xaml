@@ -329,8 +329,7 @@
         			</ScrollViewer>
         			<StackPanel Margin="30,10,-223.667,0" Orientation="Horizontal" VerticalAlignment="Top" d:LayoutOverrides="Width">
         				<TextBlock TextWrapping="Wrap" Text="{Binding GitHubApi.MarketShortUrl}" FontSize="{DynamicResource UltraFont}" Margin="0,10,0,0"/>
-        				<Button Style="{DynamicResource middleButton}" DataContext="{Binding BindingCommands.ChildActions[7].ChildActions[1]}" Width="35"
-        					Height="35" HorizontalAlignment="Left" Margin="20,0,0,0" d:LayoutOverrides="Height" />
+        			
         				<Button Style="{DynamicResource middleButton}" DataContext="{Binding BindingCommands.ChildActions[7].ChildActions[0]}" Width="35"
         					Height="35" HorizontalAlignment="Left" d:LayoutOverrides="Height" Margin="20,0,0,0" />
         			</StackPanel>

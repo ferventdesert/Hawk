@@ -608,6 +608,13 @@ Hawk3 发布
 14. http嗅探设置 ok
 
 15. 合并多列，如果没有该列的话，返回原值
+
   ControlExtended.SetBusy(ProgressBarState.Indeterminate, message:GlobalHelper.Get("get_remote_market_data"));
             project = await Project.LoadFromUrl(projectItem.SavePath);
             ControlExtended.SetBusy(ProgressBarState.NoProgress);
+
+# 2019年1月7日
+
+1. 自动跳转到参数设置，会闪烁 ok
+2. 新建任务时，之前的任务并没有取消 ok
+3. 无法修改github的地址 ok

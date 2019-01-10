@@ -35,7 +35,7 @@ namespace Hawk.Core.Utils
     {
         private static readonly Random random = new Random(unchecked((int) DateTime.Now.Ticks));
 
-        public static Regex UnsafeColumnMatcher = new Regex("[ ()\\[ \\] \\^ *×――(^)$%~!@#$…&%￥+=<>《》!！??？:：•`·、。，；,.;\"‘’“”-]");
+        public static Regex UnsafeColumnMatcher = new Regex("[ ()\\[ \\] \\^ *×――(^)$%~!@#$…&%￥+=<>《》!！??？:：•`·、。，；,.;\"‘’“”]");
         public static string ReplaceErrorChars(string input)
         {
             return UnsafeColumnMatcher.Replace(input, "");

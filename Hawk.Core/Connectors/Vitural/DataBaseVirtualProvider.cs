@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using Hawk.Core.Utils.Plugins;
@@ -28,12 +29,11 @@ namespace Hawk.Core.Connectors.Vitural
             {
                 return  count.Value;
             }
-            return 0;
         }
 
         public string Name 
         {
-            get { return "数据库虚拟化"; }
+            get { return GlobalHelper.Get("key_90"); }
         }
 
         private List<T> buffer;

@@ -3,32 +3,34 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 
 namespace Hawk.ETL.Plugins.Generators
 {
-    [XFrmWork("生成区间数","生成某范围内的数值列")]
+    [XFrmWork("RangeGE", "RangeGE_desc")]
     public class RangeGE : GeneratorBase
     {
         public RangeGE()
         {
             Interval = 1.ToString();
-            MaxValue = MinValue = Interval =   "1";
+            MaxValue = MinValue = Interval = "1";
             Column = "id";
         }
 
-        [LocalizedDisplayName("最小值")]
+        [LocalizedDisplayName("key_375")]
         public string MinValue { get; set; }
 
-        [LocalizedDisplayName("最大值")]
+        [LocalizedDisplayName("key_374")]
+        [LocalizedDescription("key_457")]
         public string MaxValue { get; set; }
 
-        [LocalizedDisplayName("间隔")]
-        [LocalizedDescription("如1,3,5,7,9，间隔为2")]
+        [LocalizedDisplayName("key_399")]
+        [LocalizedDescription("key_458")]
         public string Interval { get; set; }
 
+        [Browsable(false)]
+        public override string KeyConfig => string.Format("{0}:{1}:{2}", MinValue, MaxValue, Interval);
 
         public override int? GenerateCount()
         {
@@ -45,31 +47,26 @@ namespace Hawk.ETL.Plugins.Generators
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
-          
-
             if (Interval == "0")
                 Interval = 1.ToString();
             return base.Init(datas);
         }
 
-        public override IEnumerable<FreeDocument> Generate(IFreeDocument document = null)
+        public override IEnumerable<IFreeDocument> Generate(IFreeDocument document = null)
         {
             int interval;
             double max, min;
-            if (int.TryParse(document.Query( Interval), out interval)&& 
+            if (int.TryParse(document.Query(Interval), out interval) &&
                 double.TryParse(document.Query(MinValue), out min) && double.TryParse(document.Query(MaxValue), out max))
             {
                 for (var i = min; i <= max; i += interval)
                 {
-                   
-                        var item = new FreeDocument();
+                    var item = new FreeDocument();
 
-                        item.Add(Column, Math.Round(i, 5));
-                        yield return item;
+                    item.Add(Column, Math.Round(i, 5));
+                    yield return item;
                 }
             }
-              
-          
         }
     }
 }

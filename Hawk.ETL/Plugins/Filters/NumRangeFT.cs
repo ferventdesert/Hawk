@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
@@ -6,7 +7,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Plugins.Filters
 {
-    [XFrmWork("数量范围选择","选择一定数量的行，如跳过前100条，选取50条" )]
+    [XFrmWork("key_210","NumRangeFT_desc","filter_alphabetical" )]
     public class NumRangeFT : NullFT
     {
         private int skip;
@@ -15,7 +16,7 @@ namespace Hawk.ETL.Plugins.Filters
 
         private int index = 0;
 
-        [LocalizedDisplayName("跳过")]
+        [LocalizedDisplayName("key_370")]
         public int Skip
         {
             get { return skip; }
@@ -35,6 +36,8 @@ namespace Hawk.ETL.Plugins.Filters
             this.index = 0;
             return base.Init(datas);
         }
+        [Browsable(false)]
+        public override string KeyConfig => String.Format("skip {0},take {1}",Skip,Take);
 
         public override bool FilteDataBase(IFreeDocument data)
         {
@@ -44,7 +47,7 @@ namespace Hawk.ETL.Plugins.Filters
         }
 
 
-        [LocalizedDisplayName("获取")]
+        [LocalizedDisplayName("key_371")]
         public int Take
         {
             get { return take; }

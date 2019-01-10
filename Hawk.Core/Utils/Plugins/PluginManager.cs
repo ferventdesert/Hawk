@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -39,16 +40,12 @@ namespace Hawk.Core.Utils.Plugins
 
         #region Properties
 
-     
+
 
         /// <summary>
         /// 文件命令菜单
         /// </summary>
-        public BindingAction FileCommands => new BindingAction("文件")
-        {
-            ChildActions =
-                new ObservableCollection<ICommand> (),
-        };
+        public BindingAction FileCommands { get; set; }
 
         public FrmState FrmState => FrmState.Mini;
 
@@ -77,24 +74,31 @@ namespace Hawk.Core.Utils.Plugins
         public bool Init(IEnumerable<string> pluginFolders)
         {
             this.PluginFolders = pluginFolders.ToList();
-            XLogSys.Print.Info("插件管理器已加载");
+            FileCommands = new BindingAction(GlobalHelper.Get("key_305"))
+            {
+                ChildActions =
+                    new ObservableCollection<ICommand>(),
+                Icon = "disk"
+            };
+            XLogSys.Print.Info(GlobalHelper.Get("key_146"));
             this.MainFrmUI.CommandCollection = new ObservableCollection<IAction> { this.FileCommands  };
 
             this.MainFrmUI.PluginDictionary = new Dictionary<string, IXPlugin>();
-
             PluginProvider.OrderedSearchFolder = this.PluginFolders.ToArray();
             PluginProvider.MainConfigFolder = this.MainFrmUI.MainPluginLocation;
             PluginProvider.GetAllPluginName(false);
+          
 
             PluginProvider.GetAllPlugins(false);
             List<XFrmWorkAttribute> plugins = PluginProvider.GetPluginCollection(typeof(IXPlugin));
             if (PluginLoadControllor.IsNormalLoaded == false)
             {
                 PluginLoadControllor.Instance.AddBuildLogic<IXPlugin>(plugins);
+                PluginProvider.SaveConfigFile();
             }
-            PluginProvider.SaveConfigFile();
+      
 
-            XLogSys.Print.Info("开始对插件字典中的插件进行初始化");
+            XLogSys.Print.Info(GlobalHelper.Get("key_147"));
             //var pluginCommands = new BindingAction("插件");
             //foreach (XFrmWorkAttribute plugin in PluginProvider.GetPluginCollection(typeof(IXPlugin)))
             //{
@@ -133,6 +137,7 @@ namespace Hawk.Core.Utils.Plugins
         /// <returns></returns>
         public bool LoadPlugins(int minPriority = 1, int maxPriority = 99)
         {
+           
             IList<IXPlugin> plugins = new List<IXPlugin>();
             PluginProvider.LoadOrderedPlugins<IXPlugin>(
                 d => plugins.Add(this.AddNewPlugin(d)), minPriority, maxPriority);
@@ -154,14 +159,14 @@ namespace Hawk.Core.Utils.Plugins
             foreach (IXPlugin plugin in orderdPlugins)
             {
                 var rc3 = plugin as IMainFrmMenu;
-                if (rc3 != null)
+                if (rc3 != null &&rc3.BindingCommands!=null)
                 {
                     this.MainFrmUI.CommandCollection.Add(rc3.BindingCommands);
                 }
                 var ui = plugin as IView;
                 if (ui != null)
                 {
-                   var control=  AddCusomView(this.MainFrmUI as IDockableManager,plugin.TypeName,ui);
+                   var control=  AddCusomView(this.MainFrmUI as IDockableManager,plugin.GetType().Name,ui,plugin.Name);
                     if (control is UserControl)
                     {
                         (control as UserControl).DataContext = ui;
@@ -177,7 +182,7 @@ namespace Hawk.Core.Utils.Plugins
         /// <param name="plugin"></param>
         /// <param name="model"></param>
         /// <param name="bindingAction"></param>
-        public  static object AddCusomView(IDockableManager dockableManager, string pluginName, IView model)
+        public  static object AddCusomView(IDockableManager dockableManager, string pluginName, IView model,string name)
         {
             if (dockableManager == null || model == null)
                 return null;
@@ -185,7 +190,7 @@ namespace Hawk.Core.Utils.Plugins
             FrmState frm;
             frm = model.FrmState;
            
-            XFrmWorkAttribute first = PluginProvider.GetFirstPlugin(typeof(ICustomView), pluginName);
+            XFrmWorkAttribute first = PluginProvider.GetFirstPluginAttr(typeof(ICustomView), pluginName);
 
             if (first != null)
             {
@@ -201,7 +206,7 @@ namespace Hawk.Core.Utils.Plugins
             XFrmWorkAttribute attr = PluginProvider.GetPluginAttribute(model.GetType());
 
             dockableManager.AddDockAbleContent(
-                frm, view1, new[] { pluginName, attr.LogoURL, attr.Description });
+                frm, view1, new[] { name, attr.LogoURL, attr.Description });
             dockableManager.ViewDictionary.Last().Model = model;
             return view1;
         }
@@ -229,6 +234,7 @@ namespace Hawk.Core.Utils.Plugins
             
                 rc.Value.SaveConfigFile();
             }
+            if(!PluginLoadControllor.IsNormalLoaded)
             PluginProvider.SaveConfigFile();
         }
 
@@ -241,19 +247,19 @@ namespace Hawk.Core.Utils.Plugins
             if (this.MainFrmUI.PluginDictionary.ContainsKey(describe.Name))
             {
 
-              XLogSys.Print.Error($"插件类型{describe.Name}发现重复，请检查配置文件");
+              XLogSys.Print.Error(GlobalHelper.Get("key_148") + describe.Name);
                 return null;
             }
             var plugin = PluginProvider.GetObjectInstance(describe.MyType) as IXPlugin;
          
-            this.MainFrmUI.PluginDictionary.Add(describe.Name, plugin);
+            this.MainFrmUI.PluginDictionary.Add(plugin.GetType().Name, plugin);
 
             if (plugin != null)
             {
                 plugin.MainFrmUI = this.MainFrmUI;
             }
 
-            XLogSys.Print.Info(plugin.TypeName + "已成功初始化");
+            XLogSys.Print.Info(plugin.TypeName + GlobalHelper.Get("key_149"));
 
             return plugin;
         }
@@ -265,7 +271,7 @@ namespace Hawk.Core.Utils.Plugins
             {
                 return;
             }
-            if (MessageBox.Show("在运行时卸载插件可能造成程序崩溃,确定继续？", "警告信息", MessageBoxButton.YesNo, MessageBoxImage.Warning) !=
+            if (MessageBox.Show(GlobalHelper.Get("key_150"), GlobalHelper.Get("key_151"), MessageBoxButton.YesNo, MessageBoxImage.Warning) !=
                 MessageBoxResult.Yes)
             {
                 return;

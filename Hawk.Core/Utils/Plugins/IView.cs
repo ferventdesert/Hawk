@@ -1,4 +1,6 @@
-﻿namespace Hawk.Core.Utils.Plugins
+﻿using System.Windows.Controls.WpfPropertyGrid.Attributes;
+
+namespace Hawk.Core.Utils.Plugins
 {
     /// <summary>
     /// 实现界面效果必须满足的接口
@@ -17,6 +19,15 @@
 
     }
 
+    public enum GenerateMode
+    {
+        [LocalizedDescription("serial_mode")]
+        SerialMode,
+        [LocalizedDescription("parallel_mode")]
+        ParallelMode
+    }
+
+
     /// <summary>
     /// 显示位置
     /// </summary>
@@ -27,6 +38,7 @@
         Middle,
         Large,
         Float,
+        Mini2,
         /// <summary>
         /// 用于项目内部自身处理需求
         /// </summary>

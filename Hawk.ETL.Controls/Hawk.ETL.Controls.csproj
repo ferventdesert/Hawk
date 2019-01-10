@@ -14,6 +14,8 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <TargetFrameworkProfile />
+    <Utf8Output>true</Utf8Output>
+    <ExpressionBlendVersion>4.0.20621.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,8 +37,23 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.HockeyApp.Core45, Version=4.1.6.1005, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\Hawk.Core\packages\HockeySDK.WPF.4.1.6\lib\net45\Microsoft.HockeyApp.Core45.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.HockeyApp.Kit, Version=4.1.6.1005, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\Hawk.Core\packages\HockeySDK.WPF.4.1.6\lib\net45\Microsoft.HockeyApp.Kit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Controls.WpfPropertyGrid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Includes\System.Windows.Controls.WpfPropertyGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -48,6 +65,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
     <Reference Include="Xceed.Wpf.DataGrid">
       <HintPath>..\Includes\Xceed.Wpf.DataGrid.dll</HintPath>
     </Reference>
@@ -56,6 +74,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\AutoSaveWindow.cs" />
+    <Compile Include="Controls\PopupWindowBase.cs" />
+    <Compile Include="DataViewers\FlowDocumentViewer.cs" />
+    <Compile Include="Themes\MetroConverter.cs" />
+    <Compile Include="XPathDetector.xaml.cs">
+      <DependentUpon>XPathDetector.xaml</DependentUpon>
+    </Compile>
     <Page Include="DataProcessManagerUI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -76,6 +101,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="FeelLuckPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AnalyzerUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SmartCrawlerUI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -83,6 +116,10 @@
     <Page Include="SmartETLUI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SubTaskView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SystemStateViewer.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -108,11 +145,20 @@
     <Compile Include="DebugManagerUI.xaml.cs">
       <DependentUpon>DebugManagerUI.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FeelLuckPanel.xaml.cs">
+      <DependentUpon>FeelLuckPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AnalyzerUI.xaml.cs">
+      <DependentUpon>AnalyzerUI.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SmartCrawlerUI.xaml.cs">
       <DependentUpon>SmartCrawlerUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="SmartETLUI.xaml.cs">
       <DependentUpon>SmartETLUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SubTaskView.xaml.cs">
+      <DependentUpon>SubTaskView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SystemStateViewer.xaml.cs">
       <DependentUpon>SystemStateViewer.xaml</DependentUpon>
@@ -120,6 +166,18 @@
     <Compile Include="TaskManagerView.xaml.cs">
       <DependentUpon>TaskManagerView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Themes\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Theme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="XPathDetector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -139,6 +197,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -151,8 +210,10 @@
       <Name>Hawk.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Themes\" />
+    <Resource Include="Images\微信公众平台.jpg" />
+    <Resource Include="Images\支付宝捐赠.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

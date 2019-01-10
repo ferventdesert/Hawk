@@ -5,36 +5,39 @@ using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Interfaces;
 using Hawk.ETL.Plugins.Transformers;
 
 namespace Hawk.ETL.Plugins.Executor
 {
-    [XFrmWork("延时","在工作流中插入延时，单位为ms")]
+    [XFrmWork("DelayTF", "DelayTF_desc","timer_stop")]
     public class DelayTF : TransformerBase
     {
-      
+        public DelayTF()
+        {
+            DelayTime = "1000";
+        }
+        [LocalizedDisplayName("key_353")]
+        [LocalizedDescription("key_354")]
+        public string DelayTime { get; set; }
+
+        [Browsable(false)]
+        public override string KeyConfig => DelayTime; 
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {
             IsMultiYield = true;
             return base.Init(docus);
         }
-        [LocalizedDisplayName("延时值")]
-        [LocalizedDescription("单位为毫秒")]
-        public string DelayTime { get; set; }
 
-        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        protected override IEnumerable<IFreeDocument> InternalTransformManyData(IFreeDocument data)
         {
-            foreach (var data in datas)
+            var r = data.Query(DelayTime);
+            var result = 100;
+            if (int.TryParse(r, out result))
             {
-                var r = data.Query(DelayTime);
-                int result = 100;
-                if(int.TryParse(r,out result))
-                { 
-                    Thread.Sleep(result);
-                }
-
-                yield return data;
+                Thread.Sleep(result);
             }
+            return new List<IFreeDocument>() {data};
         }
     }
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<item>
+    <version>5.0.0.0</version>
+    <url>https://github.com/ferventdesert/Hawk/releases/download/v5.0-beta/Hawk5.zip</url>
+    <changelog>https://github.com/ferventdesert/Hawk/releases</changelog>
+    <mandatory>false</mandatory>
+</item>

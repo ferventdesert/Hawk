@@ -4,6 +4,8 @@
     {
         public static string ToType(object value)
         {
+            if (value == null)
+                return "text";
             var type = value.GetType().Name;
             switch (type)
             {

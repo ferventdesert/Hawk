@@ -8,7 +8,7 @@
     <Grid>
     	<RichTextBox x:Name="richtextBox" x:FieldModifier="public">
     		<FlowDocument>
-    			<Paragraph><Run Text="RichTextBox"/></Paragraph>
+    			<Paragraph><Run Text="{DynamicResource key_743}"/></Paragraph>
     		</FlowDocument>
     	</RichTextBox>
     </Grid>

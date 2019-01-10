@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Hawk.Core.Connectors;
+using Hawk.ETL.Managements;
 
 namespace Hawk.ETL.Interfaces
 {
@@ -19,9 +20,9 @@ namespace Hawk.ETL.Interfaces
         /// </summary>
         bool IsMultiYield { get; }
 
-        IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas);
+        IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas,AnalyzeItem analyzer);
 
 
-       
+
     }
 }

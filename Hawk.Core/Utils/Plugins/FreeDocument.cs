@@ -5,11 +5,11 @@ using Hawk.Core.Connectors;
 
 namespace Hawk.Core.Utils.Plugins
 {
-    [XFrmWork("自由文档",  "可存储键值对形式的自由文档", "")]
     public partial class FreeDocument : IFreeDocument, IDictionary<string, object>
     {
         #region Constructors and Destructors
 
+        public static string KeepOrder = "__KeppOrder";
         public FreeDocument()
         {
             DataItems = new Dictionary<string, object>();
@@ -280,11 +280,14 @@ namespace Hawk.Core.Utils.Plugins
         {
             //  yield return new KeyValuePair<string, object>("Name", Name);
 
+            bool hasChild = false;
             foreach (var dataItem in DataItems)
             {
+                if (dataItem.Key == "Children")
+                    hasChild = true;
                 yield return dataItem;
             }
-            if (Children != null)
+            if (Children != null&&hasChild==false)
                 yield return new KeyValuePair<string, object>("Children", Children);
         }
 

@@ -1,8 +1,8 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using Hawk.Core.Utils.Logs;
-using XFrmWork.Data.Serialize;
 
 namespace Hawk.Core.Utils.Plugins
 {
@@ -185,7 +185,7 @@ namespace Hawk.Core.Utils.Plugins
                     catch (Exception ex)
                     {
                         loadControllor = new PluginLoadControllor();
-                        XLogSys.Print.Fatal(ex.Message + ",插件配置文件有错误，已经重建");
+                        XLogSys.Print.Fatal(ex.Message + GlobalHelper.Get("key_145"));
                         IsNormalLoaded = false;
                     }
                 }

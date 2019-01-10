@@ -1,9 +1,11 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Core.Utils
@@ -35,7 +37,6 @@ namespace Hawk.Core.Utils
                     return new ASCIIEncoding();
                 case EncodingType.Unknown:
                     return new UTF8Encoding();
-                    break;
                 default:
                     return null;
             }
@@ -62,7 +63,7 @@ namespace Hawk.Core.Utils
             {
                 double t2 = Convert.ToDouble(item);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 return false;
             }
@@ -73,8 +74,15 @@ namespace Hawk.Core.Utils
         {
             if (type.IsEnum)
                 return true;
-            return type == typeof(int) || type == typeof(bool) || type == typeof(double) ||   type == typeof(Single) || type == typeof(string) || type == typeof(short) ||
+            return type == typeof(int) || type == typeof(bool) || type == typeof(DateTime) || type == typeof(TimeSpan) || type == typeof(double) ||   type == typeof(Single) || type == typeof(string) || type == typeof(short) ||
                    type == typeof(byte);
+        }
+
+        public static bool IsEditableType(Type type)
+        {
+            if (IsPOCOType(type))
+                return true;
+            return type==typeof(ExtendSelector<string>)|| type== typeof(TextEditSelector);
         }
 
         public static bool IsBaseType(Type a, Type baseType)
@@ -135,11 +143,12 @@ namespace Hawk.Core.Utils
                 var xFrmWorkAttribute = attribute as XFrmWorkAttribute;
                 if (xFrmWorkAttribute != null)
                 {
+                    xFrmWorkAttribute.MyType = source;
                     return xFrmWorkAttribute;
                 }
             }
 
-            return new XFrmWorkAttribute("不存在定义", "NULL", "NULL", "无定义资源");
+            return new XFrmWorkAttribute(GlobalHelper.Get("key_95"), "NULL", "NULL", GlobalHelper.Get("key_96"));
         }
 
         /// <summary>
@@ -150,11 +159,7 @@ namespace Hawk.Core.Utils
         public static string GetDescription(Enum source)
         {
             var attr = GetCustomAttribute<DescriptionAttribute>(source);
-            if (attr == null)
-            {
-                return null;
-            }
-            return attr.Description;
+            return attr?.Description;
         }
 
 

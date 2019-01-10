@@ -12,14 +12,15 @@ namespace Hawk.ETL.Plugins.Transformers
         Encode,
       
     }
-    [XFrmWork("URL字符转义","对超链接url生成URL编码后的字符串，用以进行远程访问")]
+    [XFrmWork("UrlTF","UrlTF_desc")]
     public class UrlTF : TransformerBase
     {
         public UrlTF()
         {
         }
-
-        [LocalizedDisplayName("转换选项")]
+        [Browsable(false)]
+        public override string KeyConfig => ConvertType.ToString();
+        [LocalizedDisplayName("key_485")]
         public ConvertType ConvertType { get; set; }
 
         public override object TransformData(IFreeDocument document)
@@ -38,13 +39,15 @@ namespace Hawk.ETL.Plugins.Transformers
             return "";
         }
     }
-    [XFrmWork("HTML字符转义",  "删除HTML标签和转义符号")]
+    [XFrmWork("HtmlTF",  "HtmlTF_desc")]
     public class HtmlTF : TransformerBase
     {
 
-        [LocalizedDisplayName("转换选项")]
+        [LocalizedDisplayName("key_485")]
         public ConvertType ConvertType { get; set; }
 
+        [Browsable(false)]
+        public override string KeyConfig => ConvertType.ToString(); 
         public override object TransformData(IFreeDocument document)
         {
             object item = document[Column];

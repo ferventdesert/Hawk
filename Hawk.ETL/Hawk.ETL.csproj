@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\Hawk.Core\packages\Microsoft.Net.Compilers.2.9.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\Hawk.Core\packages\Microsoft.Net.Compilers.2.9.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,8 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Hawk.ETL</RootNamespace>
     <AssemblyName>Hawk.ETL</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,12 +34,31 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoUpdater.NET, Version=1.4.11.0, Culture=neutral, PublicKeyToken=501435c91b35f4bc, processorArchitecture=MSIL">
+      <HintPath>..\Hawk.Core\packages\Autoupdater.NET.Official.1.4.11\lib\net40\AutoUpdater.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Octokit, Version=0.32.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Hawk.Core\packages\Octokit.0.32.0\lib\netstandard1.1\Octokit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FiddlerCore4">
       <HintPath>..\Includes\FiddlerCore4.dll</HintPath>
     </Reference>
-    <Reference Include="HtmlAgilityPack">
-      <HintPath>..\Includes\HtmlAgilityPack.dll</HintPath>
+    <Reference Include="FSharp.Core, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\Hawk.Core\packages\FSharp.Core.4.0.0.1\lib\net40\FSharp.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.8.7.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\Hawk.Core\packages\HtmlAgilityPack.1.8.7\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\Hawk.Core\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="IronPython, Version=2.7.5.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -53,15 +77,49 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Hawk\Includes\Jint.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Includes\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Dynamic, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Includes\Microsoft.Dynamic.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Scripting, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL" />
+    <Reference Include="NPOI, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\Hawk.Core\packages\NPOI.2.3.0\lib\net40\NPOI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\Hawk.Core\packages\NPOI.2.3.0\lib\net40\NPOI.OOXML.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\Hawk.Core\packages\NPOI.2.3.0\lib\net40\NPOI.OpenXml4Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\Hawk.Core\packages\NPOI.2.3.0\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="ScrapySharp.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Hawk.Core\packages\ScrapySharp.2.6.2\lib\net45\ScrapySharp.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ScrapySharpAsync, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Hawk.Core\packages\ScrapySharp.2.6.2\lib\net45\ScrapySharpAsync.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Includes\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -69,6 +127,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Includes\System.Windows.Controls.WpfPropertyGrid.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -77,13 +136,29 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="Xceed.Wpf.Toolkit, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Includes\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="YamlDotNet, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Hawk.Core\packages\YamlDotNet.5.2.0\lib\net45\YamlDotNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Crawlers\BuffHelper.cs" />
+    <Compile Include="Crawlers\CookieAwareWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Crawlers\CrawlItem.cs" />
+    <Compile Include="Crawlers\FeelLuckyModel.cs" />
+    <Compile Include="Crawlers\HttpHelper.cs" />
+    <Compile Include="Crawlers\HttpItem.cs" />
     <Compile Include="Crawlers\JavaScriptAnalyzer.cs" />
     <Compile Include="Crawlers\NetworkManager.cs" />
-    <Compile Include="Crawlers\ProxyProvider.cs" />
+    <Compile Include="Managements\CommandLineContainer.cs" />
+    <Compile Include="Managements\DataMiningConfig.cs" />
+    <Compile Include="Market\GitHubAPI.cs" />
+    <Compile Include="Plugins\Generators\ProxyGE.cs" />
     <Compile Include="Crawlers\XPath.cs" />
     <Compile Include="Crawlers\XPathAnalyzer.cs" />
     <Compile Include="Crawlers\XPathTF.cs" />
@@ -96,7 +171,7 @@
     <Compile Include="Interfaces\IDataManager.cs" />
     <Compile Include="Interfaces\IDataProcess.cs" />
     <Compile Include="Interfaces\IProcessManager.cs" />
-    <Compile Include="Managements\DataMiningConfig.cs" />
+    <Compile Include="Managements\Analyzer.cs" />
     <Compile Include="Managements\DataManager.cs" />
     <Compile Include="Managements\DataProcessManager.cs" />
     <Compile Include="Managements\ProcessTask.cs" />
@@ -112,9 +187,11 @@
     <Compile Include="Plugins\Filters\RegexFT.cs" />
     <Compile Include="Plugins\Filters\RepeatFT.cs" />
     <Compile Include="Plugins\Filters\NumRangeFT.cs" />
+    <Compile Include="Plugins\Generators\DateRangeGE.cs" />
     <Compile Include="Plugins\Generators\FileContentGenerator.cs" />
     <Compile Include="Plugins\Generators\FolderGeneator.cs" />
     <Compile Include="Plugins\Generators\DbGE.cs" />
+    <Compile Include="Plugins\Generators\RandomGE.cs" />
     <Compile Include="Plugins\Generators\RangeGE.cs" />
     <Compile Include="Plugins\Generators\TableGE.cs" />
     <Compile Include="Plugins\Generators\TextGE.cs" />
@@ -129,6 +206,7 @@
     <Compile Include="Plugins\Transformers\JoinDBTF.cs" />
     <Compile Include="Plugins\Transformers\RepeatTF.cs" />
     <Compile Include="Plugins\Transformers\ResponseTF.cs" />
+    <Compile Include="Plugins\Transformers\SupplierTF.cs" />
     <Compile Include="Plugins\Transformers\Time2StrTF.cs" />
     <Compile Include="Plugins\Generators\EtlGE.cs" />
     <Compile Include="Plugins\Transformers\HtmlTF.cs" />
@@ -144,6 +222,7 @@
     <Compile Include="Plugins\Transformers\ToListTF.cs" />
     <Compile Include="Plugins\Transformers\TransformerBase.cs" />
     <Compile Include="Plugins\Transformers\TrimTF.cs" />
+    <Compile Include="Plugins\Transformers\XPathDetectorModel.cs" />
     <Compile Include="Plugins\Web\BaiduLocation.cs" />
     <Compile Include="Plugins\Web\GetIPLocation.cs" />
     <Compile Include="Plugins\Web\GetRoute.cs" />
@@ -163,7 +242,19 @@
   <ItemGroup>
     <Folder Include="Plugins\Visual\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild" Condition="'$(SkipPlatformVerification)' == 'true'">
+    <PropertyGroup>
+      <ErrorText>此项目引用这台计算机上缺少的 NuGet 程序包。使用 NuGet 程序包还原可下载这些程序包。有关详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\Hawk.Core\packages\Microsoft.Net.Compilers.2.9.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\Hawk.Core\packages\Microsoft.Net.Compilers.2.9.0\build\Microsoft.Net.Compilers.props'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

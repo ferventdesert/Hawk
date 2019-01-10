@@ -18,7 +18,7 @@ namespace Hawk.ETL.Plugins.Web
         语义角色标注
     }
 
-    [XFrmWork("自然语言处理","通过语言云获取的自然语言处理功能，包括分词，词性标注，主题提取等")]
+    [XFrmWork("NlpTF","通过语言云获取的NlpTF功能，包括分词，词性标注，主题提取等")]
     public class NlpTF : TransformerBase
     {
         public NlpTF()
@@ -90,10 +90,10 @@ namespace Hawk.ETL.Plugins.Web
                 item.Encoding = EncodingType.UTF8;
                 var helper = new HttpHelper();
                 HttpStatusCode code;
-                var result = helper.GetHtml(item,out code);
-                if(code==HttpStatusCode.OK)
-                    buffHelper.Set(param, result);
-                return result;
+                var response = helper.GetHtml(item).Result;
+                if(response.Code== HttpStatusCode.OK)
+                    buffHelper.Set(param, response.Html);
+                return response;
 
             }
             return docs;

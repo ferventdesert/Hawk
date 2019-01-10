@@ -1,16 +1,16 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 using Jayrock.Json;
 using Jayrock.Json.Conversion;
 
 namespace Hawk.Core.Connectors
 {
-    [XFrmWork("Json导入导出器",  "输出文本型JSON文件", "")]
+    [XFrmWork("FileConnectorJson",  "FileConnectorJson_desc", "")]
     public class FileConnectorJson : FileConnector
     {
         #region Properties
@@ -40,7 +40,7 @@ namespace Hawk.Core.Connectors
 
             if (totals == null)
             {
-                throw new Exception("文件不是合法的Json文件");
+                throw new Exception(GlobalHelper.Get("key_50"));
             }
             var array = totals as JsonArray;
             if (array != null)
@@ -124,7 +124,7 @@ namespace Hawk.Core.Connectors
 
         }
 
-        private object Node2Item(object dic)
+        private static  object Node2Item(object dic)
         {
             JsonObject js = new JsonObject();
             if (dic is IFreeDocument)
@@ -155,7 +155,7 @@ namespace Hawk.Core.Connectors
             return js;
         }
 
-        protected JsonObject GetJsonObject(IFreeDocument data)
+        public static JsonObject GetJsonObject(IFreeDocument data)
         {
             IEnumerable<KeyValuePair<string, object>> dicts =
                           data.DictSerialize();

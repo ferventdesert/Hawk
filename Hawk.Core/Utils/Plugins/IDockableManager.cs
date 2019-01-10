@@ -94,11 +94,40 @@ namespace Hawk.Core.Utils.Plugins
         /// </summary>
         /// <param name="isBusy"></param>
         /// <param name="title"></param>
-        void SetBusy(bool isBusy, string title = "系统正忙", string message = "正在处理长时间操作", int percent = 0);
+         void SetBusy(ProgressBarState state = ProgressBarState.Normal, string title = "系统正忙",
+            string message = "正在处理长时间操作", int percent = 0);
 
 
-       
+
     }
+
     
-   
+    //
+    // 摘要:
+    //     Represents the thumbnail progress bar state.
+    public enum ProgressBarState
+    {
+        //
+        // 摘要:
+        //     No progress is displayed.
+        NoProgress = 0,
+        //
+        // 摘要:
+        //     The progress is indeterminate (marquee).
+        Indeterminate = 1,
+        //
+        // 摘要:
+        //     Normal progress is displayed.
+        Normal = 2,
+        //
+        // 摘要:
+        //     An error occurred (red).
+        Error = 4,
+        //
+        // 摘要:
+        //     The operation is paused (yellow).
+        Paused = 8
+    }
+
+
 }

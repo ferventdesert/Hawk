@@ -6,7 +6,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("清除空白符", "清除字符串前后和中间的空白符")]
+    [XFrmWork("TrimTF", "TrimTF_desc")]
     public class TrimTF : TransformerBase
     {
         public TrimTF()
@@ -15,10 +15,10 @@ namespace Hawk.ETL.Plugins.Transformers
             ReplaceInnerBlank = true;
         }
 
-        [LocalizedDisplayName("清除中间空格")]
+        [LocalizedDisplayName("key_573")]
         public bool ReplaceBlank { get; set; }
 
-        [LocalizedDisplayName("空白符替换为空格")]
+        [LocalizedDisplayName("key_574")]
         public bool ReplaceInnerBlank { get; set; }
        
 

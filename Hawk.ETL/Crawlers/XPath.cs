@@ -7,7 +7,7 @@ namespace Hawk.ETL.Crawlers
 {
     public static class XPath 
     {
-        private static readonly Regex boxRegex = new Regex(@"\[\d{1,3}\]");
+        public static readonly Regex boxRegex = new Regex(@"\[\d{1,3}\]");
 
 
         
@@ -60,7 +60,7 @@ namespace Hawk.ETL.Crawlers
         } 
         public static string GetAttributeName(string path)
         {
-            return path.Replace("@", "").Replace("[1]", "");
+            return path.Replace("@", "").Replace("#","").Replace("[1]", "");
         }
 
         public static string  SubXPath(string path,int t)
@@ -86,6 +86,21 @@ namespace Hawk.ETL.Crawlers
             var start = Split(root).Count;
             var total = Split(path).Count;
             return SubXPath(path,start,total-start);
+        }
+
+        /// <summary>
+        /// 相比于takeoff，要去掉父xpath，同时还要自动下降一层
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public static string TakeOffPlus(string path, string root)
+        {
+            if (string.IsNullOrEmpty(root))
+                return path;
+            var start = Split(root).Count;
+            var total = Split(path).Count;
+            return SubXPath(path, start+1, total - start);
         }
 
         public static string RemoveFinalNum(string path)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Hawk.Core.Utils;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
@@ -15,8 +16,9 @@ namespace Hawk.Core.Connectors.Vitural
 
         }
 
-        protected string openfile = "打开新文件";
-        [LocalizedCategory("数据表列表")]
+        protected string openfile = GlobalHelper.Get("key_92");
+        [LocalizedCategory("table_list")]
+        [LocalizedDisplayName("key_94")]
         public ObservableCollection<TableInfo> CurrentTables { get; set; }
 
         public override List<TableInfo> RefreshTableNames()

@@ -21,15 +21,17 @@ namespace Hawk.Core.Utils.Plugins
 
         #region Constructors and Destructors
 
-        public XFrmWorkAttribute(
-            string name,  string description = "", string url = "", string groupName = "默认分组",int order=0)
+        public XFrmWorkAttribute(string name,  string description = "", string url = "", string groupName = "默认分组",int order=0)
         {
-            this.Name = name;
+            this.name = name; 
+            this.description = description; 
             this.GroupName = groupName;
-            this.Description = description;
             this.LogoURL = url;
             this.Order = order;
         }
+
+        private string name;
+        private string description;
 
         public XFrmWorkAttribute()
         {
@@ -50,7 +52,9 @@ namespace Hawk.Core.Utils.Plugins
         /// <summary>
         /// 描述
         /// </summary>
-        public string Description { get; set; }
+        public string Description {
+            get { return GlobalHelper.Get(description); }
+        }
 
         /// <summary>
         /// 管理分级机制，其具体定义和分级方法由插件管理器决定
@@ -65,7 +69,12 @@ namespace Hawk.Core.Utils.Plugins
         /// <summary>
         /// 插件名称
         /// </summary>
-        public string Name { get; set; }
+        public string Name {
+            get
+            {
+                return GlobalHelper.Get(name);
+            }
+        }
 
         #endregion
     }

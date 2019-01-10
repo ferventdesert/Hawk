@@ -1,0 +1,60 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hawk.ETL.Controls.Properties"
+             xmlns:Hawk_Core_Utils="clr-namespace:Hawk.Core.Utils;assembly=Hawk.Core" x:Class="Hawk.ETL.Controls.AnalyzerUI"
+             mc:Ignorable="d" 
+             d:DesignHeight="370.4" d:DesignWidth="461.6">
+	<UserControl.Resources>
+		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+		<Hawk_Core_Utils:GroupConverter x:Key="GroupConverter"/>
+        <Hawk_Core_Utils:IndexConverter x:Key="idxcvt"/>
+        <DataTemplate x:Key="NameTemplate">
+            <Grid Height="Auto" Width="Auto">
+			 			<Border BorderBrush="Red" BorderThickness="2" Visibility="{Binding MightError, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0"/>
+ 
+			 		<TextBlock  Text="{Binding Process.TypeName}"  d:LayoutOverrides="Width, Height"  />
+			 	</Grid>
+        </DataTemplate>
+	 
+	</UserControl.Resources>
+    <Grid Background="{DynamicResource NormalBorderBrush}">
+        <ListView    ToolTip="{DynamicResource debug_desc}"   SelectionMode="Single" DataContext="{Binding}"
+    		ItemsSource="{Binding Items}" Margin="8,10,8,40"  >
+
+    		<ListView.View>
+    			<GridView>
+    				<GridViewColumn Header="{DynamicResource key_568}">
+    					<GridViewColumn.CellTemplate>
+    						<DataTemplate>
+    							<CheckBox IsChecked="{Binding Process.Enabled}" HorizontalAlignment="Center" />
+    						</DataTemplate>
+    					</GridViewColumn.CellTemplate>
+    				</GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource key_745}"   DisplayMemberBinding="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                         AncestorType={x:Type ListViewItem}}, 
+                                         Converter={StaticResource idxcvt}}" />
+            
+                    <GridViewColumn Header="{DynamicResource key_12}" DisplayMemberBinding="{Binding Process.Attribute,Converter={StaticResource GroupConverter}}" />
+    				<GridViewColumn Header="{DynamicResource key_18}"  CellTemplate="{StaticResource NameTemplate}"  >
+    								
+					</GridViewColumn>
+    				<GridViewColumn Header="{DynamicResource key_717}" DisplayMemberBinding="{Binding Process.Column}"  Width="60"/>
+    				<GridViewColumn Header="{DynamicResource key_433}" DisplayMemberBinding="{Binding Process.NewColumn}" />
+						<GridViewColumn Header="{DynamicResource key_718}" DisplayMemberBinding="{Binding HasInit}" />
+					<GridViewColumn Header="{DynamicResource key_719}" DisplayMemberBinding="{Binding Input}"   />
+						<GridViewColumn Header="{DynamicResource key_720}" DisplayMemberBinding="{Binding Output}"   />
+						<GridViewColumn Header="{DynamicResource key_721}" DisplayMemberBinding="{Binding Error}"   />
+							<GridViewColumn Header="{DynamicResource key_722}" DisplayMemberBinding="{Binding EmptyInput}"   />
+								<GridViewColumn Header="{DynamicResource average_time}" DisplayMemberBinding="{Binding RunningTime}"   />
+    				<GridViewColumn Header="{DynamicResource key_16}" DisplayMemberBinding="{Binding Process.KeyConfig}"   />
+				</GridView>
+
+    		</ListView.View>
+				  
+    	</ListView>
+            
+    </Grid>
+</UserControl>

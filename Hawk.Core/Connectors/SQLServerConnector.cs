@@ -7,8 +7,8 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Core.Connectors
 {
-   // [XFrmWork("SQLServer数据库",  "提供SQLServer交互的数据库服务", "")]
-   [XFrmWorkIgnore]
+    // [XFrmWork("SQLServer数据库",  "提供SQLServer交互的数据库服务", "")]
+    [XFrmWorkIgnore]
     public class SQLServerConnector : DBConnectorBase
     {
         //用于连接sql server
@@ -17,13 +17,9 @@ namespace Hawk.Core.Connectors
 
         #region Constants and Fields
 
-   
-
         #endregion
 
         #region Properties
-
-        
 
         #endregion
 
@@ -31,21 +27,21 @@ namespace Hawk.Core.Connectors
 
         #region Public Methods
 
-        public override void BatchInsert(IEnumerable<IFreeDocument> insertItems, string tableName)
+        public override void BatchInsert(IEnumerable<IFreeDocument> insertItems, List<string> keys, string tableName)
         {
-            SqlConnection sqlConn = new SqlConnection(
-               ConnectionString);//连接数据库
+            var sqlConn = new SqlConnection(
+                ConnectionString); //连接数据库
 
-            SqlCommand sqlComm = new SqlCommand();
-             sqlComm.CommandType = CommandType.Text;
+            var sqlComm = new SqlCommand();
+            sqlComm.CommandType = CommandType.Text;
             sqlComm.Connection = sqlConn;
             sqlConn.Open();
             try
             {
                 foreach (var dictionarySerializable in insertItems)
                 {
-                         sqlComm.CommandText = this.Insert(dictionarySerializable, tableName);
-                        sqlComm.ExecuteNonQuery();
+                    sqlComm.CommandText = Insert(dictionarySerializable,keys, tableName);
+                    sqlComm.ExecuteNonQuery();
                 }
             }
             catch (Exception ex)
@@ -59,15 +55,14 @@ namespace Hawk.Core.Connectors
         }
 
         /// <summary>
-        /// 关闭连接
+        ///     关闭连接
         /// </summary>
         /// <returns></returns>
         public override bool CloseDB() //关闭连接
         {
-            if (this.IsUseable)
+            if (IsUseable)
             {
-                 
-                this.IsUseable = false;
+                IsUseable = false;
                 return true;
             }
             return false;
@@ -75,7 +70,7 @@ namespace Hawk.Core.Connectors
 
         public override bool ConnectDB() //数据库初始化
         {
-            using (var sqlCon = new SqlConnection(this.ConnectionString))
+            using (var sqlCon = new SqlConnection(ConnectionString))
             {
                 try
                 {
@@ -84,17 +79,15 @@ namespace Hawk.Core.Connectors
                 }
                 catch (Exception)
                 {
-
                     IsUseable = false;
                 }
             }
 
 
-
             return IsUseable;
         }
 
-      
+
         ///// <summary>
         ///// 删除表中满足特定条件的一行数据
         ///// </summary>
@@ -115,11 +108,6 @@ namespace Hawk.Core.Connectors
         //    this.sqlCon.Close();
         //}
 
-      
-
-    
- 
- 
 
         public bool IsChina(object obj)
         {
@@ -127,8 +115,8 @@ namespace Hawk.Core.Connectors
             {
                 return false;
             }
-            var cString = (string)obj;
-            for (int i = 0; i < cString.Length; i++)
+            var cString = (string) obj;
+            for (var i = 0; i < cString.Length; i++)
             {
                 if (Convert.ToInt32(Convert.ToChar(cString.Substring(i, 1))) < Convert.ToInt32(Convert.ToChar(128)))
                 {
@@ -143,9 +131,10 @@ namespace Hawk.Core.Connectors
 
         public override List<TableInfo> RefreshTableNames()
         {
-            var table = this.GetDataTable("select name from sysobjects where xtype='u'");
-            List<TableInfo> names = (from DataRow dr1 in table.Rows select  new TableInfo(dr1.ItemArray[0].ToString(),this)).ToList();
-            this.TableNames.SetSource(names);
+            var table = GetDataTable("select name from sysobjects where xtype='u'");
+            var names =
+                (from DataRow dr1 in table.Rows select new TableInfo(dr1.ItemArray[0].ToString(), this)).ToList();
+            TableNames.SetSource(names);
             return names;
         }
 
@@ -156,16 +145,13 @@ namespace Hawk.Core.Connectors
         protected override DataTable GetDataTable(string sql)
         {
             if (IsUseable == false) return new DataTable();
-            using (var sqlCon = new SqlConnection(this.ConnectionString))
+            using (var sqlCon = new SqlConnection(ConnectionString))
             {
                 var dataAda = new SqlDataAdapter(sql, sqlCon);
                 var table = new DataTable();
                 dataAda.Fill(table);
                 return table;
-
             }
-          
-           
         }
 
         protected override string GetTableName(string tableName)
@@ -173,7 +159,7 @@ namespace Hawk.Core.Connectors
             return "dbo." + tableName;
         }
 
-    /*    private void GetPrimaryKey(DataSet daset, string tablename, string key)
+        /*    private void GetPrimaryKey(DataSet daset, string tablename, string key)
         {
             if (this.sqlCon.State == ConnectionState.Closed)
             {

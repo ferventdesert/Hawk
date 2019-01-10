@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
+using Hawk.Core.Utils;
 using System.ComponentModel;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
+using Hawk.ETL.Plugins.Transformers;
+using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Plugins.Sorters
 {
-    public class ColumnDataSorterBase :PropertyChangeNotifier, IColumnDataSorter
+    public class ColumnDataSorterBase :ToolBase, IColumnDataSorter
     {
         public ColumnDataSorterBase()
         {
@@ -20,62 +21,24 @@ namespace Hawk.ETL.Plugins.Sorters
 
         
 
-        public   FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
+        public override  FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         { 
-            var dict = this.UnsafeDictSerialize();
-            dict.Add("Type",TypeName);
-            dict.Remove("ETLIndex"); 
-            dict.Add("Group", "排序");
-
+            var dict = base.DictSerialize();
+            dict.Add("Group", GlobalHelper.Get("key_104"));
             return dict;
         }
 
-        protected bool IsExecute; 
+   
+     
 
-        public void SetExecute(bool value)
-        {
-            IsExecute = value;
-        }
-
-
-
-        public   void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
-        {
-           this.UnsafeDictDeserialize(docu);
-        }
-
-        [LocalizedCategory("1.基本选项")]
-        [LocalizedDisplayName("排序方式")]
+        [LocalizedCategory("key_211")]
+        [LocalizedDisplayName("key_466")]
         public SortType SortType { get; set; }
 
-        private bool _enabled;
+     
 
 
-        [LocalizedCategory("1.基本选项")]
-        [LocalizedDisplayName("启用")]
-        [PropertyOrder(5)]
 
-        public bool Enabled
-        {
-            get { return _enabled; }
-            set
-            {
-                if (_enabled != value)
-                {
-                    _enabled = value;
-                    OnPropertyChanged("Enabled");
-                }
-
-
-            }
-        }
-
-        [Browsable(false)]
-        public int ETLIndex { get; set; }
-
-
-        [Browsable(false)]
-        public string Column { get;   set; }
 
         public virtual int Compare(IFreeDocument a, IFreeDocument b)
         {
@@ -87,40 +50,8 @@ namespace Hawk.ETL.Plugins.Sorters
             return false;
         }
 
-        public virtual void Finish()
-        {
-            
-        }
+   
 
-        public bool Init(IEnumerable<IFreeDocument> datas)
-        {
-            return true;
-
-        }
-
-        [LocalizedDisplayName("介绍")]
-        [PropertyOrder(100)]
-        public string Description { get; }
-
-        [LocalizedCategory("1.基本选项")]
-        [LocalizedDisplayName("类型")]
-        [PropertyOrder(0)]
-        public string TypeName
-        {
-            get
-            {
-                XFrmWorkAttribute item = AttributeHelper.GetCustomAttribute(GetType());
-                if (item == null)
-                    return GetType().ToString();
-                return item.Name;
-            }
-            
-        }
-        public override string ToString()
-        {
-
-            return this.TypeName + " " + Column;
-        }
 
         public int Compare(object x, object y)
         {

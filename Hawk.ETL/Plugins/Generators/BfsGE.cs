@@ -15,7 +15,7 @@ using HtmlAgilityPack;
 
 namespace Hawk.ETL.Plugins.Generators
 {
-    [XFrmWork("请求队列")]
+    [XFrmWork("BfsGE")]
     public class BfsGE : GeneratorBase
     {
         private  ConcurrentQueue<string> queue = new ConcurrentQueue<string>();
@@ -28,10 +28,10 @@ namespace Hawk.ETL.Plugins.Generators
 
         private SortedSet<int> URLHash { get; }
 
-        [LocalizedDisplayName("BFS起始位置")]
+        [LocalizedDisplayName("key_394")]
         public string StartURL { get; set; }
 
-        [LocalizedDisplayName("延时时间")]
+        [LocalizedDisplayName("key_395")]
         public int DelayTime { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
@@ -53,7 +53,7 @@ namespace Hawk.ETL.Plugins.Generators
                 queue.Enqueue(url);
             }
         }
-        public override IEnumerable<FreeDocument> Generate(IFreeDocument document = null)
+        public override IEnumerable<IFreeDocument> Generate(IFreeDocument document = null)
         {
 
             InsertQueue(StartURL);

@@ -33,12 +33,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>packages\HtmlAgilityPack.1.4.9.5\lib\Net40\HtmlAgilityPack.dll</HintPath>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\Includes\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="IronPython, Version=2.7.5.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -60,26 +57,43 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Includes\MongoDB.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\Includes\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\Includes\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NPOI, Version=2.0.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Includes\NPOI.dll</HintPath>
+    <Reference Include="NPOI, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>packages\NPOI.2.3.0\lib\net40\NPOI.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="NPOI.OOXML">
-      <HintPath>..\Includes\NPOI.OOXML.dll</HintPath>
+    <Reference Include="NPOI.OOXML, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>packages\NPOI.2.3.0\lib\net40\NPOI.OOXML.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="NPOI.OpenXml4Net">
-      <HintPath>..\Includes\NPOI.OpenXml4Net.dll</HintPath>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>packages\NPOI.2.3.0\lib\net40\NPOI.OpenXml4Net.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="NPOI.OpenXmlFormats">
-      <HintPath>..\Includes\NPOI.OpenXmlFormats.dll</HintPath>
+    <Reference Include="Microsoft.HockeyApp.Core45, Version=4.1.6.1005, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\Hawk.Core\packages\HockeySDK.WPF.4.1.6\lib\net45\Microsoft.HockeyApp.Core45.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.HockeyApp.Kit, Version=4.1.6.1005, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\Hawk.Core\packages\HockeySDK.WPF.4.1.6\lib\net45\Microsoft.HockeyApp.Kit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>packages\NPOI.2.3.0\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\Includes\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Controls.WpfPropertyGrid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -93,6 +107,12 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="ToastNotifications, Version=2.3.4.0, Culture=neutral, PublicKeyToken=e89d9d7314a7c797, processorArchitecture=MSIL">
+      <HintPath>packages\ToastNotifications.2.3.4\lib\net40\ToastNotifications.dll</HintPath>
+    </Reference>
+    <Reference Include="ToastNotifications.Messages, Version=2.3.4.0, Culture=neutral, PublicKeyToken=e89d9d7314a7c797, processorArchitecture=MSIL">
+      <HintPath>packages\ToastNotifications.Messages.2.3.4\lib\net40\ToastNotifications.Messages.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="Xceed.Wpf.DataGrid">
       <HintPath>..\Includes\Xceed.Wpf.DataGrid.dll</HintPath>
@@ -119,22 +139,15 @@
     <Compile Include="Connectors\IFileConnector.cs" />
     <Compile Include="Connectors\IFreeDocument.cs" />
     <Compile Include="Connectors\MongoDBConnector.cs" />
-    <Compile Include="Properties\Resources.en.Designer.cs">
-      <DependentUpon>Resources.en.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Themes\MetroConverter.cs" />
-    <Compile Include="Utils\CookieAwareWebClient.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Connectors\MySQLConnector.cs" />
+    <Compile Include="Connectors\SQLiteConnector.cs" />
+    <Compile Include="Utils\Converters.cs" />
     <Compile Include="Utils\CustomSerializer.cs" />
+    <Compile Include="Utils\DragAdorner.cs" />
     <Compile Include="Utils\ForceLazy.cs" />
+    <Compile Include="Utils\GlobalHelper.cs" />
+    <Compile Include="Utils\ListViewDragDropManager.cs" />
+    <Compile Include="Utils\MouseUtilities.cs" />
     <Compile Include="Utils\MVVM\BindingEvaluator.cs" />
     <Compile Include="Utils\MVVM\BindingProxy.cs" />
     <Compile Include="Utils\MVVM\DropHelper.cs" />
@@ -146,6 +159,8 @@
     <Compile Include="Utils\MVVM\ListScroll.cs" />
     <Compile Include="Utils\MVVM\ListSelector.cs" />
     <Compile Include="Utils\MVVM\WPFOperate.cs" />
+    <Compile Include="Utils\Permutation.cs" />
+    <Compile Include="Utils\Plugins\LayoutManager.cs" />
     <Compile Include="Utils\Plugins\XPropertyGrid.cs" />
     <Compile Include="Utils\SafeObservable.cs" />
     <Compile Include="Connectors\SQLServerConnector.cs" />
@@ -160,8 +175,6 @@
     <Compile Include="Connectors\Vitural\VirtualizingCollection.cs" />
     <Compile Include="Utils\CMDHelper.cs" />
     <Compile Include="Utils\FileEx.cs" />
-    <Compile Include="Utils\HttpHelper.cs" />
-    <Compile Include="Utils\HttpItem.cs" />
     <Compile Include="Utils\Plugins\IDictionarySerializable.cs" />
     <Compile Include="Utils\Plugins\IProcess.cs" />
     <Compile Include="Utils\Plugins\FreeDocument.cs" />
@@ -195,24 +208,11 @@
     <Compile Include="Utils\SerializableDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Themes\Icons.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Themes\Theme.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
+    <None Include="packages.config" />
+    <None Include="Utils\App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.en.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.en.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Folder Include="Themes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -31,7 +32,7 @@ namespace Hawk.Core.Connectors.Vitural
 
         public string Name
         {
-            get { return "枚举虚拟化"; }
+            get { return GlobalHelper.Get("key_91"); }
         }
 
         public IList<T> FetchRange(int startIndex, int count)

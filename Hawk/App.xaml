@@ -4,8 +4,14 @@
              xmlns:local="clr-namespace:Hawk"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="pack://application:,,,/ToastNotifications.Messages;component/Themes/Default.xaml" />
+            <ResourceDictionary Source="/Hawk.ETL.Controls;component/Themes/Theme.xaml" />
+            <ResourceDictionary Source="lang\zh-CN.xaml"/>
 
-        <ResourceDictionary Source="/Hawk.Core;component/Themes/Theme.xaml" />
-
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
+        
 </Application>

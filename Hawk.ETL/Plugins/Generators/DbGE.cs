@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
@@ -13,7 +14,7 @@ using TableInfo = Hawk.Core.Connectors.TableInfo;
 
 namespace Hawk.ETL.Plugins.Generators
 {
-    [XFrmWork("从连接器生成","从数据管理的连接器中生成序列" )]
+    [XFrmWork("DbGE","DbGE_desc","database" )]
     public class DbGE : GeneratorBase
     {
         private IDataManager dataManager;
@@ -21,46 +22,51 @@ namespace Hawk.ETL.Plugins.Generators
 
         public DbGE()
         {
-            dataManager = MainDescription.MainFrm.PluginDictionary["数据管理"] as IDataManager;
+            dataManager = MainDescription.MainFrm.PluginDictionary["DataManager"] as IDataManager;
  
          
             ConnectorSelector=new ExtendSelector<IDataBaseConnector>();
             ConnectorSelector.GetItems = () => dataManager.CurrentConnectors.ToList();
-            TableNames=new ExtendSelector<TableInfo>();
+            TableNames=new ExtendSelector<string>();
             Mount = -1;
-            ConnectorSelector.SelectChanged += (s, e) => TableNames.SetSource(ConnectorSelector.SelectItem.RefreshTableNames());
+            ConnectorSelector.SelectChanged += (s, e) => TableNames.SetSource(ConnectorSelector.SelectItem.RefreshTableNames().Select(d=>d.Name));
+            TableNames.SelectChanged += (s, e) => { this.InformPropertyChanged("TableNames"); };
         }
-
-        [LocalizedDisplayName("连接器")]
-        [LocalizedDescription("选择所要连接的数据库服务")]
+        [LocalizedCategory("key_21")]
+        [LocalizedDisplayName("key_405")]
+        [LocalizedDescription("key_406")]
         [PropertyOrder(1)]
         public ExtendSelector<IDataBaseConnector> ConnectorSelector { get; set; }
 
+        [Browsable(false)]
+        public override string KeyConfig => String.Format("{0}, {1}", ConnectorSelector?.SelectItem, TableNames.SelectItem);
+        [LocalizedCategory("key_21")]
+        [LocalizedDisplayName("key_407")]
+        [PropertyOrder(2)]
+        public ExtendSelector<string> TableNames { get; set; }
 
-        [LocalizedCategory("参数设置")]
-        [LocalizedDisplayName("操作表名")]
-        public ExtendSelector<TableInfo> TableNames { get; set; }
 
-
-        [LocalizedCategory("参数设置")]
-        [LocalizedDisplayName("数量")]
+        [LocalizedCategory("key_21")]
+        [LocalizedDisplayName("key_408")]
+        [PropertyOrder(3)]
         public int Mount { get; set; }
 
  
  
 
 
-        public override IEnumerable<FreeDocument> Generate(IFreeDocument document = null)
+        public override IEnumerable<IFreeDocument> Generate(IFreeDocument document = null)
         {
             var mount = 0;
             if (Mount < 0)
                 mount = int.MaxValue;
-            TableInfo table = TableNames.SelectItem;
+            var table =  this.ConnectorSelector.SelectItem?.RefreshTableNames().FirstOrDefault(d=>d.Name== TableNames.SelectItem);
             if (table != null)
             {
                 var con = new VirtualDataCollection(table.GetVirtualProvider<IFreeDocument>());
-                foreach (var item in con.ComputeData.Take(mount).Select(d => d.DictSerialize()))
+                foreach (var item in con.ComputeData.Take(mount))
                 {
+                    if(item!=null)
                     yield return item;
                 }
             }
@@ -79,7 +85,7 @@ namespace Hawk.ETL.Plugins.Generators
             }
             if (TableNames.SelectItem != null)
             {
-                dict.Add("Table", TableNames.SelectItem.Name);
+                dict.Add("Table", TableNames.SelectItem);
             }
           
             return dict;
@@ -93,7 +99,7 @@ namespace Hawk.ETL.Plugins.Generators
                 dataManager.CurrentConnectors.FirstOrDefault(d => d.Name == docu["Connector"].ToString());
 
             TableNames.SelectItem =
-                ConnectorSelector.SelectItem.RefreshTableNames().FirstOrDefault(d => d.Name == docu["Table"].ToString());
+                docu["Table"].ToString();
         }
     }
 }

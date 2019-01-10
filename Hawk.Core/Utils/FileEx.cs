@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Plugins;
 
@@ -13,6 +14,30 @@ namespace Hawk.Core.Utils
     /// </summary>
     public static class FileEx
     {
+
+
+        private static bool IsBetween(this IComparable item, IComparable a, IComparable b)
+        {
+            if (item.CompareTo(a) >= 0 && item.CompareTo(b) <= 0)
+                return true;
+            return false;
+        }
+        public static char GetCharSpellCode(char c)
+        {
+            byte[] data = Encoding.GetEncoding("gb2312").GetBytes(c.ToString());
+            if (data.Count() == 1)
+                return c;
+            ushort code = (ushort)((data[0] << 8) + data[1]);
+            ushort[] areaCode = {45217,45253,45761,46318,46826,47010,47297,47614,48119,48119,49062,49324,
+            49896,50371,50614,50622,50906,51387,51446,52218,52698,52698,52698,52980,53689,54481, 55290};
+
+            for (int i = 0; i < 26; i++)
+            {
+                if (code.IsBetween(areaCode[i], (ushort)(areaCode[i + 1] - 1)))
+                    return (char)('A' + i);
+            }
+            return c;
+        }
         /// <summary>
         /// 获取当前目录下固定后缀的文件名称列表 
         /// </summary>
@@ -65,10 +90,13 @@ namespace Hawk.Core.Utils
         public static void WriteAll(this IFileConnector connector,IEnumerable<IFreeDocument> data )
         {
 
-           
+            Monitor.Enter(connector);//锁定，保持同步
 
-                var r = connector.WriteData(data).LastOrDefault();
 
+            var r = connector.WriteData(data).LastOrDefault();
+
+            Monitor.Exit(connector);//锁定，保持同步 
+            Thread.Sleep(200);
         }
 
         public static void LineRead(string filename, Action<string> act,Encoding code= null)

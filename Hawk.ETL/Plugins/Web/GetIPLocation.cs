@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Web.Script.Serialization;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
+using Hawk.Core.Utils.Logs;
+using Hawk.ETL.Crawlers;
 
 namespace Hawk.ETL.Plugins.Web
 {
-    [XFrmWork("获取IP的坐标","获取某一ip地址的经纬度坐标")]
+    [XFrmWork("GetIPLocation","GetIPLocation_desc", "location")]
     public class GetIPLocation : BaiduSDKBase
     {
         public override object TransformData(IFreeDocument datas)
@@ -45,6 +46,7 @@ namespace Hawk.ETL.Plugins.Web
             }
             catch (Exception ex)
             {
+                XLogSys.Print.Warn(ex);
             }
             return true;
         }

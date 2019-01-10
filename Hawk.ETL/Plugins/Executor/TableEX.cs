@@ -1,15 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 
 namespace Hawk.ETL.Plugins.Executor
 {
-    [XFrmWork("写入数据表", "将数据保存至软件的数据管理器中，之后可方便进行其他处理，拖入到任意一列皆可")]
+    [XFrmWork("TableEX", "TableEX_desc", "column_three")]
     public class TableEX : DataExecutorBase
     {
         private readonly IDataManager dataManager;
@@ -17,43 +20,70 @@ namespace Hawk.ETL.Plugins.Executor
 
         public TableEX()
         {
-            dataManager = MainDescription.MainFrm.PluginDictionary["数据管理"] as IDataManager;
+            dataManager = MainDescription.MainFrm.PluginDictionary["DataManager"] as IDataManager;
         }
+        [Browsable(false)]
+        public override string KeyConfig => Table;
 
-
-        [LocalizedDisplayName("表名")]
+        [LocalizedDisplayName("key_22")]
         public string Table { get; set; }
 
-        public override bool Init(IEnumerable<IFreeDocument> datas)
+        public override IEnumerable<IFreeDocument> CheckDatas(IEnumerable<IFreeDocument> docs)
         {
-            collection = dataManager.DataCollections.FirstOrDefault(d => d.Name == Table);
-            if (collection == null && string.IsNullOrEmpty(Table) == false)
-
+            foreach (var doc in docs)
             {
-                collection = new DataCollection(new List<IFreeDocument>()) {Name = Table};
-                dataManager.AddDataCollection(collection);
-            }
+                foreach (var key in doc.Keys)
+                {
 
-            return base.Init(datas);
+                    if (ExtendEnumerable.UnsafeColumnMatcher.IsMatch(key))
+                    {
+                        throw new InvalidOperationException(GlobalHelper.FormatArgs("error_check", this.ObjectID,  GlobalHelper.FormatArgs("error_column",key)));
+                    }
+                }
+                yield return doc;
+            }
+           
         }
 
         public override IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents)
         {
-            foreach (var computeable in documents)
+            foreach (var document in documents)
             {
-                if (collection != null)
+                var name = AppHelper.Query(Table, document);
+                Monitor.Enter(this);
+                collection = dataManager.DataCollections.FirstOrDefault(d => d.Name == name);
+                if (collection == null)
                 {
+                  
+                    if (string.IsNullOrEmpty(name) == false)
+                    {
+                        collection = new DataCollection(new List<IFreeDocument>()) { Name = name };
+                        dataManager.AddDataCollection(collection);
+                    }
+
+                }
+                Monitor.Exit(this);
+                if (collection == null)
+                {
+                    XLogSys.Print.Error(GlobalHelper.Get("create_collection_error"));
+                    yield return document;
+                    continue;
+                }
+                
+             
+             
                     ControlExtended.UIInvoke(() =>
                     {
-
-                        var data = computeable.Clone();
+                        var data = document.Clone();
+                        Monitor.Enter(collection);
                         collection.ComputeData.Add(data);
                         collection.OnPropertyChanged("Count");
+                        Monitor.Exit(collection);
                     });
-                }
+             
                
 
-                yield return computeable;
+                yield return document;
             }
         }
     }

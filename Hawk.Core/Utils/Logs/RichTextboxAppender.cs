@@ -1,22 +1,47 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Media;
+using Hawk.Core.Connectors;
 using log4net;
 using log4net.Appender;
 using log4net.Core;
 using log4net.Repository.Hierarchy;
+using ToastNotifications;
+using ToastNotifications.Messages;
 
 namespace Hawk.Core.Utils.Logs
 {
     /// <summary>
-    /// Description of RichTextBoxAppender.
+    ///     Description of RichTextBoxAppender.
     /// </summary>
     public class RichTextBoxAppender : AppenderSkeleton
     {
+        #region Public Methods
+
+        public static void SetRichTextBox(RichTextBox rtb, StatusBar block = null, Notifier notifier = null)
+        {
+            rtb.IsReadOnly = true;
+
+            foreach (var appender in
+                GetAppenders())
+            {
+                var richTextBoxAppender = appender as RichTextBoxAppender;
+                if (richTextBoxAppender != null)
+                {
+                    richTextBoxAppender.RichTextBox = rtb;
+                    richTextBoxAppender.statusBar = block;
+                    richTextBoxAppender.notifier = notifier;
+                }
+            }
+        }
+
+        #endregion
+
         #region Constants and Fields
 
         private readonly object _lock = new object();
@@ -27,30 +52,10 @@ namespace Hawk.Core.Utils.Logs
 
         #region Properties
 
-
         private StatusBar statusBar;
 
         private RichTextBox RichTextBox;
-
-        #endregion
-
-        #region Public Methods
-
-        public static void SetRichTextBox(RichTextBox rtb, StatusBar block = null)
-        {
-            rtb.IsReadOnly = true;
-
-            foreach (IAppender appender in
-                GetAppenders())
-            {
-                var richTextBoxAppender = appender as RichTextBoxAppender;
-                if (richTextBoxAppender != null)
-                {
-                    richTextBoxAppender.RichTextBox = rtb;
-                    richTextBoxAppender.statusBar = block;
-                }
-            }
-        }
+        private Notifier notifier;
 
         #endregion
 
@@ -58,51 +63,78 @@ namespace Hawk.Core.Utils.Logs
 
         protected override void Append(LoggingEvent loggingevent)
         {
-            lock (this._lock)
+            lock (_lock)
             {
-                this.rcloggingevent = loggingevent;
+                rcloggingevent = loggingevent;
 
-                ControlExtended.UIBeginInvoke(this.WriteRichTextBox);
-
+                ControlExtended.UIBeginInvoke(WriteRichTextBox);
             }
         }
+
+        private string lastString;
+        private DateTime lastTime;
+        private int lastSameCount;
 
         private static IAppender[] GetAppenders()
         {
             var appenders = new ArrayList();
 
-            appenders.AddRange(((Hierarchy)LogManager.GetRepository()).Root.Appenders);
+            appenders.AddRange(((Hierarchy) LogManager.GetRepository()).Root.Appenders);
 
-            foreach (ILog log in LogManager.GetCurrentLoggers())
-            {
-                appenders.AddRange(((Logger)log.Logger).Appenders);
-            }
+            foreach (var log in LogManager.GetCurrentLoggers())
+                appenders.AddRange(((Logger) log.Logger).Appenders);
 
-            return (IAppender[])appenders.ToArray(typeof(IAppender));
+            return (IAppender[]) appenders.ToArray(typeof (IAppender));
         }
-
 
 
         private void WriteRichTextBox()
         {
             var writer = new StringWriter();
 
-            this.Layout.Format(writer, this.rcloggingevent);
+            Layout.Format(writer, rcloggingevent);
 
             var rc = new Run(writer.ToString());
-
-            switch (this.rcloggingevent.Level.ToString())
+            var message = writer.ToString().Split('\n')[0];
+            if (lastString == message)
+            {
+                lastSameCount++;
+                if (lastSameCount >= 4 && DateTime.Now - lastTime < TimeSpan.FromSeconds(5))
+                {
+                    lastTime = DateTime.Now;
+                    return;
+                }
+                lastTime = DateTime.Now;
+            }
+            else
+            {
+                lastString = message;
+                lastSameCount = 0;
+            }
+            var displayInfo = true;
+            var config = ConfigFile.GetConfig();
+            if (config != null)
+            {
+                displayInfo = config.Get<bool>("DisplayPopupMenu");
+            }
+            switch (rcloggingevent.Level.ToString())
             {
                 case "INFO":
 
                     break;
                 case "WARN":
+                    if(displayInfo)
+                        notifier?.ShowWarning(message);
                     rc.Foreground = Brushes.Yellow;
                     break;
                 case "ERROR":
+                    if (displayInfo)
+                        notifier?.ShowError(message);
                     rc.Foreground = Brushes.Orange;
                     break;
                 case "FATAL":
+                    if (displayInfo)
+                        notifier?.ShowError(message);
                     rc.Foreground = Brushes.DarkOrange;
                     break;
                 case "DEBUG":
@@ -112,20 +144,14 @@ namespace Hawk.Core.Utils.Logs
                     rc.Foreground = Brushes.White;
                     break;
             }
-            if (statusBar != null)
-            {
-                var bar = this.statusBar.Items.GetItemAt(0) as StatusBarItem;
-                if (bar != null)
-                {
-                    bar.Content = rc.Text;
-                }
-            }
-            if(RichTextBox==null)
+            var bar = statusBar?.Items.GetItemAt(0) as StatusBarItem;
+            if (bar != null)
+                bar.Content = rc.Text;
+            if (RichTextBox == null)
                 return;
-            var rc2 = this.RichTextBox.Document.Blocks.ElementAt(0) as Paragraph;
+            var rc2 = RichTextBox.Document.Blocks.ElementAt(0) as Paragraph;
             rc2.Inlines.Add(rc);
-            this.RichTextBox.ScrollToEnd();
-
+            RichTextBox.ScrollToEnd();
         }
 
         #endregion

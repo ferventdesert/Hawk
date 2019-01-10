@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -9,7 +10,6 @@ using System.Text;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using System.Windows.Input;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
@@ -19,6 +19,8 @@ namespace Hawk.Core.Connectors
     /// <summary>
     ///     列信息
     /// </summary>
+    /// 
+
     public class ColumnInfo : PropertyChangeNotifier, IDictionarySerializable
     {
         #region Constructors and Destructors
@@ -39,9 +41,9 @@ namespace Hawk.Core.Connectors
 
         private string dataType;
 
-        [LocalizedDisplayName("类型")]
+        [LocalizedDisplayName("key_12")]
         [Xceed.Wpf.Toolkit.PropertyGrid.Attributes.PropertyOrder(1)]
-        [LocalizedDescription("该数据的类型")]
+        [LocalizedDescription("key_13")]
         public string DataType
         {
             get { return dataType; }
@@ -55,29 +57,29 @@ namespace Hawk.Core.Connectors
             }
         }
 
-        [LocalizedDisplayName("权重")]
+        [LocalizedDisplayName("key_14")]
         [PropertyOrder(3)]
         public double Importance { get; set; }
 
-        [LocalizedDisplayName("主键")]
+        [LocalizedDisplayName("key_15")]
         [PropertyOrder(2)]
         public bool IsKey { get; set; }
 
 
-        [LocalizedDisplayName("描述")]
+        [LocalizedDisplayName("key_16")]
         [PropertyOrder(4)]
         public string Description { get; set; }
 
         /// <summary>
         ///     启用虚拟化，则该值在需要时被动态计算
         /// </summary>
-        [LocalizedDisplayName("虚拟值")]
+        [LocalizedDisplayName("key_17")]
         public bool IsVirtual { get; set; }
 
-        [LocalizedDisplayName("名称")]
+        [LocalizedDisplayName("key_18")]
         [PropertyOrder(0)]
         public string Name { get; set; }
-        [LocalizedDisplayName("可空")]
+        [LocalizedDisplayName("key_19")]
         [PropertyOrder(0)]
         public bool CanNull { get; set; }
 
@@ -133,16 +135,17 @@ namespace Hawk.Core.Connectors
             ColumnInfos=new List<ColumnInfo>();
         }
 
-        [LocalizedDisplayName("列特性")]
+        [Browsable(false)]
         public List<ColumnInfo> ColumnInfos { get; set; }
-
-        [LocalizedDisplayName("表大小")]
+        [PropertyOrder(1)]
+        [LocalizedDisplayName("key_20")]
         public int Size { get; set; }
 
-        [LocalizedDisplayName("名称")]
+        [PropertyOrder(0)]
+        [LocalizedDisplayName("key_18")]
         public string Name { get; set; }
-
-        [LocalizedDisplayName("描述")]
+        [PropertyOrder(2)]
+        [LocalizedDisplayName("key_16")]
         public string Description { get; set; }
 
         [Browsable(false)]
@@ -213,24 +216,40 @@ namespace Hawk.Core.Connectors
 
 
             TableNames = new ExtendSelector<TableInfo>();
+            TableNames.SetSource(new List<TableInfo>());
             AutoConnect = false;
         }
 
-        protected virtual string Insert(IFreeDocument data, string dbTableName)
+    
+
+        protected virtual string Insert(IFreeDocument data, List<string>keys, string dbTableName)
         {
             FreeDocument item = data.DictSerialize(Scenario.Database);
             var sb = new StringBuilder();
-            foreach (var o in item)
+            foreach (var key in keys)
             {
-                string value;
-                if (o.Value is DateTime)
+                object ovalue;
+                if(!data.TryGetValue(key,out ovalue))
                 {
-                    value = ((DateTime) o.Value).ToString("s");
+                    ovalue = "null";
+                }
+                string value;
+                if (ovalue is DateTime)
+                {
+                    value = ((DateTime)ovalue).ToString("s");
                 }
                 else
                 {
-                    value = o.Value.ToString();
+                    if (ovalue == null)
+                    {
+                        value = "null";
+                    }
+                    else
+                    {
+                        value = ovalue.ToString();
+                    }
                 }
+                value = value.Replace("'", "''");
                 sb.Append($"'{value}',");
             }
             sb.Remove(sb.Length - 1, 1);
@@ -289,28 +308,28 @@ namespace Hawk.Core.Connectors
         private bool _IsUseable;
         private string name;
 
-        [LocalizedCategory("参数设置")]
-        [LocalizedDisplayName("操作表名")]
+        [LocalizedCategory("key_21")]
+        [LocalizedDisplayName("key_22")]
         public ExtendSelector<TableInfo> TableNames { get; set; }
 
-        [LocalizedDisplayName("服务器地址")]
-        [LocalizedCategory("1.连接管理")]
+        [LocalizedDisplayName("key_23")]
+        [LocalizedCategory("key_24")]
         [PropertyOrder(2)]
-        public string Server { get; set; }
+        public virtual  string Server { get; set; }
 
-        [LocalizedDisplayName("用户名")]
-        [LocalizedCategory("1.连接管理")]
+        [LocalizedDisplayName("key_25")]
+        [LocalizedCategory("key_24")]
         [PropertyOrder(3)]
-        public string UserName { get; set; }
+        public virtual string UserName { get; set; }
 
-        [LocalizedDisplayName("密码")]
-        [LocalizedCategory("1.连接管理")]
+        [LocalizedDisplayName("key_26")]
+        [LocalizedCategory("key_24")]
         [PropertyOrder(4)]
       //  [PropertyEditor("PasswordEditor")]
-        public string Password { get; set; }
+        public virtual string Password { get; set; }
 
-        [LocalizedCategory("参数设置")]
-        [LocalizedDisplayName("数据库类型")]
+        [LocalizedCategory("key_21")]
+        [LocalizedDisplayName("key_27")]
         public string TypeName
         {
             get
@@ -340,22 +359,19 @@ namespace Hawk.Core.Connectors
         public virtual string ConnectionString { get; set; }
 
 
-        [LocalizedCategory("1.连接管理")]
-        [LocalizedDisplayName("数据库名称")]
+        [LocalizedCategory("key_24")]
+        [LocalizedDisplayName("db_name")]
         [PropertyOrder(2)]
-        public string DBName { get; set; }
+        public  virtual string DBName { get; set; }
 
+       
 
         public virtual bool CreateTable(IFreeDocument example, string name)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new Exception(GlobalHelper.Get("key_29"));
             FreeDocument txt = example.DictSerialize(Scenario.Database);
-            var sb = new StringBuilder();
-            foreach (var o in txt)
-            {
-                sb.Append(o.Key);
-                sb.AppendFormat(" {0},", DataTypeConverter.ToType(o.Value));
-            }
-            sb.Remove(sb.Length - 1, 1);
+            var sb = string.Join(",", txt.Select(d => $"{ ScriptHelper.RemoveSpecialCharacter(d.Key)} {DataTypeConverter.ToType(d.Value)}"));
             string sql = $"CREATE TABLE {GetTableName(name)} ({sb})";
             ExecuteNonQuery(sql);
             RefreshTableNames();
@@ -363,9 +379,9 @@ namespace Hawk.Core.Connectors
         }
 
 
-        [LocalizedCategory("1.连接管理")]
+        [LocalizedCategory("key_24")]
         [PropertyOrder(10)]
-        [LocalizedDisplayName("连接状态")]
+        [LocalizedDisplayName("key_30")]
         public bool IsUseable
         {
             get { return _IsUseable; }
@@ -387,9 +403,9 @@ namespace Hawk.Core.Connectors
             return new List<FreeDocument>();
         }
 
-        [LocalizedCategory("1.连接管理")]
+        [LocalizedCategory("key_24")]
         [PropertyOrder(1)]
-        [LocalizedDisplayName("连接名称")]
+        [LocalizedDisplayName("key_31")]
         public string Name
         {
             get { return name; }
@@ -409,12 +425,12 @@ namespace Hawk.Core.Connectors
 
         #region IDataBaseConnector
 
-        [LocalizedCategory("1.连接管理")]
+        [LocalizedCategory("key_24")]
         [PropertyOrder(5)]
-        [LocalizedDisplayName("自动连接")]
+        [LocalizedDisplayName("key_32")]
         public bool AutoConnect { get; set; }
 
-        public virtual void BatchInsert(IEnumerable<IFreeDocument> source, string dbTableName)
+        public virtual void BatchInsert(IEnumerable<IFreeDocument> source,List<string>keys, string dbTableName)
         {
             throw new NotImplementedException();
         }
@@ -441,6 +457,7 @@ namespace Hawk.Core.Connectors
             }
             catch (Exception ex)
             {
+                XLogSys.Print.Error(GlobalHelper.Get("key_33")+ ex.ToString() );
             }
         }
 
@@ -476,26 +493,25 @@ namespace Hawk.Core.Connectors
         public virtual void SaveOrUpdateEntity(
             IFreeDocument updateItem, string tableName,  IDictionary<string, object> keys,EntityExecuteType executeType=EntityExecuteType.InsertOrUpdate)
         {
-            var sb = new StringBuilder();
             FreeDocument data = updateItem.DictSerialize(Scenario.Database);
-
-            if (data.Count >= 1)
+            foreach (var key in data.Keys.ToList())
             {
-                foreach (var val in data)
-                {
-                    sb.Append($" {val.Key} = '{val.Value}',");
-                }
-
-                sb = sb.Remove(sb.Length - 1, 1);
+                var value = "";
+                if (data[key] != null)
+                    value = data[key].ToString();
+                value = value.Replace("'","''" );
+                data[key] = value;
             }
-
+            var str =",".Join( data.Select(d => $"{d.Key}='{d.Value}'"));            
+           
             try
             {
-                ExecuteNonQuery($"update {GetTableName(tableName)} set {sb} where {ToString()};");
+                ExecuteNonQuery($"update {GetTableName(tableName)} set {str} ");
             }
 
-            catch
+            catch (Exception e)
             {
+                XLogSys.Print.Debug($"insert database error {e.Message}");
             }
         }
 
@@ -542,7 +558,7 @@ namespace Hawk.Core.Connectors
 
         protected virtual string GetTableName(string tableName)
         {
-            return tableName.Replace(" ", "");
+            return  ScriptHelper.RemoveSpecialCharacter(tableName);
         }
 
         protected virtual DataTable GetDataTable(string sql)
@@ -559,9 +575,9 @@ namespace Hawk.Core.Connectors
 
         #endregion
 
-        [LocalizedDisplayName("执行")]
+        [LocalizedDisplayName("key_34")]
         [PropertyOrder(20)]
-        public ReadOnlyCollection<ICommand> Commands
+        public virtual  ReadOnlyCollection<ICommand> Commands
         {
             get
             {
@@ -569,17 +585,17 @@ namespace Hawk.Core.Connectors
                     this,
                     new[]
                     {
-                        new Command("连接数据库", obj =>
+                        new Command(GlobalHelper.Get("connect_db"), obj =>
                         {
 
-                            ControlExtended.SafeInvoke(() => ConnectDB(), LogType.Important, "连接数据库");
+                            ControlExtended.SafeInvoke(() => ConnectDB(), LogType.Important, GlobalHelper.Get("connect_db"));
                             if (IsUseable)
                             {
                                 RefreshTableNames();
                             }
-                        }, obj => IsUseable == false),
-                        new Command("关闭连接", obj => CloseDB(), obj => IsUseable),
-                        new Command("创建新库", obj => CreateDataBase(DBName), obj => string.IsNullOrEmpty(DBName) == false)
+                        }, obj => IsUseable == false,"connect"),
+                        new Command(GlobalHelper.Get("key_36"), obj => CloseDB(), obj => IsUseable,"close"),
+                        new Command(GlobalHelper.Get("key_37"), obj => CreateDataBase(DBName), obj => string.IsNullOrEmpty(DBName) == false,"add")
                     });
             }
         }

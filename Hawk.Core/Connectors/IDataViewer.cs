@@ -3,7 +3,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.Core.Connectors
 {
-    [Interface("展示数据")]
+    [Interface("IDataViewer")]
     public interface IDataViewer
     {
         object SetCurrentView(IEnumerable<IFreeDocument> datas);

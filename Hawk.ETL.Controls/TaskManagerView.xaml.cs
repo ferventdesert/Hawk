@@ -1,12 +1,11 @@
 ﻿using System.Windows.Controls;
 using Hawk.Core.Utils.Plugins;
-
 namespace Hawk.ETL.Controls
 {
     /// <summary>
     /// TaskManagerView.xaml 的交互逻辑
     /// </summary>
-  [XFrmWork("任务管理视图" )]
+    [XFrmWork("key_304" )]
     public partial class TaskManagerView : UserControl,ICustomView
     {
         public TaskManagerView()
@@ -14,6 +13,6 @@ namespace Hawk.ETL.Controls
             InitializeComponent();
         }
 
-        public FrmState FrmState => FrmState.Buttom;
+        public FrmState FrmState => FrmState.Mini2;
     }
 }

@@ -19,7 +19,7 @@ namespace Hawk.ETL.Controls.DataViewers
             InitializeComponent();
         }
     }
-    [XFrmWork("可编辑列表", "IDataViewer", "以可编辑列表模式查看数据")]
+    [XFrmWork("key_230", "DataGridViewer_desc")]
     public class DataGridViewer : PropertyChangeNotifier, IDataViewer
     {
         public object SetCurrentView(IEnumerable<IFreeDocument> datas)

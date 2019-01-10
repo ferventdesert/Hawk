@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Hawk.Core.Utils;
 using System.ComponentModel;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
 using Hawk.ETL.Plugins.Transformers;
@@ -14,30 +16,30 @@ using Jayrock.Json.Conversion;
 
 namespace Hawk.ETL.Plugins.Web
 {
-    [XFrmWork("语言翻译转换","从当前语言翻译为目标语言" )]
+    [XFrmWork("TransTF","TransTF_desc" )]
     public class TransTF : TransformerBase
     {
         private readonly HttpHelper helper;
 
         public Dictionary<string, string> language = new Dictionary<string, string>
         {
-            {"中文", "zh"},
-            {"英语", "en"},
-            {"日语", "jp"},
-            {"西班牙语", "spa"},
-            {"泰语", "th"},
-            {"俄罗斯语", "ru"},
-            {"粤语", "yue"},
-            {"德语", "de"},
-            {"荷兰语", "nl"},
-            {"韩语", "kor"},
-            {"法语", "fra"},
-            {"葡萄牙语", "pt"},
-            {"阿拉伯语", "ara"},
-            {"文言文", "wyw"},
-            {"自动检测", "auto"},
-            {"意大利语", "it"},
-            {"希腊语", "el"},
+            {GlobalHelper.Get("key_602"), "zh"},
+            {GlobalHelper.Get("key_603"), "en"},
+            {GlobalHelper.Get("key_604"), "jp"},
+            {GlobalHelper.Get("key_605"), "spa"},
+            {GlobalHelper.Get("key_606"), "th"},
+            {GlobalHelper.Get("key_607"), "ru"},
+            {GlobalHelper.Get("key_608"), "yue"},
+            {GlobalHelper.Get("key_609"), "de"},
+            {GlobalHelper.Get("key_610"), "nl"},
+            {GlobalHelper.Get("key_611"), "kor"},
+            {GlobalHelper.Get("key_612"), "fra"},
+            {GlobalHelper.Get("key_613"), "pt"},
+            {GlobalHelper.Get("key_614"), "ara"},
+            {GlobalHelper.Get("key_615"), "wyw"},
+            {GlobalHelper.Get("key_616"), "auto"},
+            {GlobalHelper.Get("key_617"), "it"},
+            {GlobalHelper.Get("key_618"), "el"},
         };
 
         BuffHelper<string> buffHelper=new BuffHelper<string>(50);
@@ -45,40 +47,46 @@ namespace Hawk.ETL.Plugins.Web
         {
             Source = new ExtendSelector<string>(language.Keys);
             Target = new ExtendSelector<string>(language.Keys);
-            Source.SelectItem = "自动检测";
-            Target.SelectItem = "自动检测";
-            ClientID = "0CupOSsCC4YaDozfkC9gE5EO";
+            Source.SelectItem = GlobalHelper.Get("key_616");
+            Target.SelectItem = GlobalHelper.Get("key_616");
             helper = new HttpHelper();
-     
+            ClientID = "";
+            Key = "";
             Target.SelectChanged += (s, e) => buffHelper.Clear();
         }
 
-        [LocalizedDisplayName("应用中心账号")]
+        [LocalizedDisplayName("key_619")]
         public string ClientID { get; set; }
 
-      
+        [LocalizedDisplayName("key")]
+        public string Key { get; set; }
 
         public ExtendSelector<string> Source { get; set; }
 
         public ExtendSelector<string> Target { get; set; }
-
+        private Random rand = new Random();
         public string Translate(string item)
         {
-            var res = buffHelper.Get(item);
-            if (res != null)
-                return res;
+            var query = buffHelper.Get(item);
+            if (query != null)
+                return query;
             if (string.IsNullOrWhiteSpace(item))
                 return item;
             var httpitem = new HttpItem();
-
-            string url =
-                $"http://openapi.baidu.com/public/2.0/bmt/translate?client_id={ClientID}&q={item}&from={language[Source.SelectItem]}&to={language[Target.SelectItem]}";
-            httpitem.URL = url;
+            rand.Next(32768, 65531);
+         
             HttpStatusCode code;
+            var salt = rand.Next(0, 9999999);
+            var md5_str = ClientID + item + salt + Key;
+            var sign=EncryptWithMD5(md5_str);
+          
+            var query_encode=  System.Web.HttpUtility.UrlEncode(item, System.Text.Encoding.UTF8);
+            string url =
+              $"http://api.fanyi.baidu.com/api/trans/vip/translate?appid={ClientID}&q={query_encode}&from={language[Source.SelectItem]}&to={language[Target.SelectItem]}&salt={salt}&sign={sign}";
 
-            string result = helper.GetHtml(httpitem,out code);
+            httpitem.URL = url;
+            string result = helper.GetHtml(httpitem).Result.Html;
             var r = JsonConvert.Import(result) as JsonObject;
-
             if (r.Contains("error_code ") == false)
             {
                 var sb = new StringBuilder();
@@ -96,20 +104,20 @@ namespace Hawk.ETL.Plugins.Web
             return "Error";
         }
 
-        public override void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
+        public static string EncryptWithMD5(string source)
         {
-            base.DictDeserialize(docu, scenario);
-            Source.SelectItem = docu.Set("Source", Source.SelectItem);
-            Target.SelectItem = docu.Set("Target", Target.SelectItem);
+            byte[] sor = Encoding.UTF8.GetBytes(source);
+            MD5 md5 = MD5.Create();
+            byte[] result = md5.ComputeHash(sor);
+            StringBuilder strbul = new StringBuilder(40);
+            for (int i = 0; i < result.Length; i++)
+            {
+                strbul.Append(result[i].ToString("x2"));//加密结果"x2"结果为32位,"x3"结果为48位,"x4"结果为64位
+
+            }
+            return strbul.ToString();
         }
 
-        public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
-        {
-            var dict= base.DictSerialize(scenario);
-            dict.Add("Source",Source.SelectItem);
-            dict.Add("Target",Target.SelectItem);
-            return dict;
-        }
 
         public override object TransformData(IFreeDocument datas)
         {

@@ -1,16 +1,16 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
-using NPOI.SS.UserModel;
+using NPOI.XSSF.Streaming;
 using NPOI.XSSF.UserModel;
 
 namespace Hawk.Core.Connectors
 {
-    [XFrmWork("EXCEL导入导出器",  "输出标准EXCEL文件，效率较低", "")]
+    [XFrmWork("FileConnectorExcel", "FileConnectorExcel_desc", "")]
     public class FileConnectorExcel : FileConnector
     {
         #region Properties
@@ -30,33 +30,35 @@ namespace Hawk.Core.Connectors
                 hssfworkbook = new XSSFWorkbook(file);
             }
 
-          
-            ISheet sheet = hssfworkbook.GetSheetAt(0);
 
+
+            var sheet = hssfworkbook.GetSheetAt(0);
 
             List<string> titles = null;
             try
             {
-               titles= sheet.GetRow(0).Cells.Select(d => d.StringCellValue).ToList();
-
+                titles = sheet.GetRow(0).Cells.Select(d => d.StringCellValue).ToList();
             }
             catch (Exception ex)
             {
-                
-                 throw  new Exception("请填写Excel的表头信息");
+                throw new Exception(GlobalHelper.Get("key_45"));
             }
-          
-            for (int i = 1; i < sheet.LastRowNum; i++)
+
+            for (var i = 1; i <= sheet.LastRowNum; i++)
             {
-                IRow row = sheet.GetRow(i);
-                var data =new FreeDocument(); 
+                var row = sheet.GetRow(i);
+                var data = new FreeDocument();
                 var dict = new Dictionary<string, object>();
-                for (int index = 0; index < titles.Count; index++)
+                for (var index = 0; index < titles.Count; index++)
                 {
-                    string title = titles[index];
-                    dict.Add(title, row.GetCell(index).ToString());
+                    var title = titles[index];
+                    var cell = row.GetCell(index);
+                    string value = "";
+                    if (cell != null)
+                        value = cell.ToString();
+                    dict.Set(title, value);
                 }
-             
+
                 if (data != null)
                 {
                     if (i == 1)
@@ -66,25 +68,25 @@ namespace Hawk.Core.Connectors
                 }
                 data.DictDeserialize(dict);
                 yield return data;
-                if(i%1000==0)
-                    XLogSys.Print.Info($"已经导入数量{i}，总共{sheet.LastRowNum}");
+                if (i%1000 == 0)
+                    XLogSys.Print.Info(GlobalHelper.Get("key_46")+ i+GlobalHelper.Get("key_47") + sheet.LastRowNum);
             }
         }
 
         public override IEnumerable<IFreeDocument> WriteData(IEnumerable<IFreeDocument> datas)
         {
-           
-            IWorkbook workbook = new XSSFWorkbook();
-            ISheet sheet1 = workbook.CreateSheet("Sheet1");
-            FileStream sw = File.Create(FileName);
+            var xssfWb = new XSSFWorkbook();
+            var wb = new SXSSFWorkbook(xssfWb, 1000);
+// IWorkbook workbook = new XSSFWorkbook();
+            var sheet1 = xssfWb.CreateSheet("Sheet1");
+            var sw = File.Create(FileName);
             using (var dis = new DisposeHelper(() =>
             {
-                workbook.Write(sw);
+                wb.Write(sw);
                 sw.Close();
             }))
             {
-
-                int rowIndex = 0;
+                var rowIndex = 0;
                 PropertyNames = datas.GetKeys().ToDictionary(d => d, d => d);
                 foreach (FreeDocument computeable in datas)
                 {
@@ -93,23 +95,21 @@ namespace Hawk.Core.Connectors
 
                     if (rowIndex == 0)
                     {
-                        IRow row1 = sheet1.CreateRow(rowIndex);
+                        var row1 = sheet1.CreateRow(rowIndex);
                         cellIndex = 0;
-                        foreach (var  o in this.PropertyNames)
+                        foreach (var  o in PropertyNames)
                         {
-
-
                             row1.CreateCell(cellIndex).SetCellValue(o.Value);
-                            sheet1.AutoSizeColumn(cellIndex,true);
+                            sheet1.AutoSizeColumn(cellIndex, true);
                             cellIndex++;
                         }
 
-                         rowIndex++;
+                        rowIndex++;
                     }
                     cellIndex = 0;
-                    IRow row = sheet1.CreateRow(rowIndex);
-                  
-                    foreach (object value in this.PropertyNames.Select(name => data[name.Key]))
+                    var row = sheet1.CreateRow(rowIndex);
+
+                    foreach (var value in PropertyNames.Select(name => data[name.Key]))
                     {
                         if (value is DateTime)
                         {
@@ -135,12 +135,8 @@ namespace Hawk.Core.Connectors
                     }
                     rowIndex++;
                     yield return computeable;
-                
-                
                 }
             }
-
-           
         }
 
         #endregion

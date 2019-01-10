@@ -1,64 +1,138 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
+using System.Windows.Input;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
+using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Interfaces;
+using Hawk.ETL.Plugins.Generators;
 using Hawk.ETL.Plugins.Transformers;
 using HtmlAgilityPack;
+using ScrapySharp.Extensions;
 
 namespace Hawk.ETL.Crawlers
 {
-    [XFrmWork("XPath筛选器", "通过XPath选取html中的子节点文档")]
+    [XFrmWork("XPathTF", "XPathTF_desc")]
     public class XPathTF : TransformerBase
     {
-        [LocalizedDisplayName("XPath路径")]
+        public XPathTF()
+        {
+            XPath = "";
+            IsManyData = ScriptWorkMode.One;
+            SelectorFormat= SelectorFormat.XPath;
+            XPath = "";
+        }
+        [PropertyOrder(3)]
+        [LocalizedDisplayName("key_163")]
         public string XPath { get; set; }
 
-        [LocalizedDisplayName("获取多个数据")]
-        [LocalizedDescription("当要获取符合XPath语法的多个结果时，勾选该选项")]
-        public bool IsManyData { get; set; }
+        [PropertyOrder(2)]
+        [LocalizedDisplayName("key_188")]
+        [LocalizedDescription("etl_script_mode")]
+        public ScriptWorkMode IsManyData { get; set; }
 
-        [LocalizedDisplayName("获取正文")]
-        [LocalizedDescription("勾选此项后，会自动提取新闻正文，XPath路径可为空")]
+        [LocalizedCategory("key_190")]
+        [LocalizedDisplayName("key_191")]
+        [LocalizedDescription("key_192")]
         public bool GetText { get; set; }
 
-        [LocalizedDisplayName("获取正文HTML")]
-        [LocalizedDescription("勾选此项后，会自动提取新闻正文的HTML，XPath路径可为空")]
-        public bool GetTextHtml { get; set; }
+       
 
-        [LocalizedDisplayName("获取节点数量")]
-        [LocalizedDescription("获取符合XPath语法的节点的数量")]
-        public bool GetCount { get; set; }
+        [PropertyOrder(0)]
+        [LocalizedDisplayName("key_162")]
+        [LocalizedDescription("")]
 
-        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        public SelectorFormat SelectorFormat { get; set; }
+
+        [PropertyOrder(1)]
+        [LocalizedDisplayName("key_193")]
+        [LocalizedDescription("")]
+        public CrawlType CrawlType { get; set; }
+
+
+        [PropertyOrder(1)]
+        [LocalizedDisplayName("key_410")]
+        public ReadOnlyCollection<ICommand> Commands
         {
-            foreach (var data in datas)
+            get
             {
-                var item = data[Column];
-                var docu = new HtmlDocument();
-
-                docu.LoadHtml(item.ToString());
-                var p2 = docu.DocumentNode.SelectNodes(XPath);
-                if (p2 == null)
-                    continue;
-                foreach (var node in p2)
-                {
-                    var doc = new FreeDocument();
-                    doc.Add("Text", node.GetNodeText());
-                    doc.Add("HTML", node.InnerHtml);
-                    doc.Add("OHTML", node.OuterHtml);
-                    yield return doc.MergeQuery(data, NewColumn);
-                }
+                return CommandBuilder.GetCommands(
+                    this,
+                    new[]
+                    {
+                        new Command(GlobalHelper.Get("key_240"), obj => SetConfig(), obj => this.SelectorFormat==SelectorFormat.XPath,
+                            "refresh")
+                    }
+                    );
             }
+        }
+        [Browsable(false)]
+        public override string KeyConfig => XPath;
+
+
+        private void SetConfig()
+        {
+
+           dynamic  view = PluginProvider.GetObjectInstance<ICustomView>(GlobalHelper.Get("xpath_detector")) as UserControl;
+
+            var name = GlobalHelper.Get("xpath_detector_desc");
+            var window = new Window { Title = name };
+            window.Content = view;
+            var textBox=view.HtmlTextBox;
+            var xPathDetectorModel = new XPathDetectorModel(htmlResults,this.IsManyData,window,textBox);
+            xPathDetectorModel.XPath._SelectItem = this.XPath;
+
+            view.DataContext = xPathDetectorModel;
+            window.Activate();
+            window.ShowDialog();
+            
+            if (window.DialogResult == true)
+            {
+                XPath = xPathDetectorModel.XPath.SelectItem;
+                OnPropertyChanged("XPath");
+                OnPropertyChanged("MappingSet");
+            }
+        }
+
+        private List<XPathDetectorModel.HtmlResult> htmlResults=new List<XPathDetectorModel.HtmlResult>(); 
+        protected override IEnumerable<IFreeDocument> InternalTransformManyData(IFreeDocument data)
+        {
+            var item = data[Column];
+            var docu = new HtmlDocument();
+            if (htmlResults.Count < 5)
+                htmlResults.Add(new XPathDetectorModel.HtmlResult() { HTML = item.ToString(), Url = "URL_" + htmlResults.Count });
+
+
+            docu.LoadHtml(item.ToString());
+           var  path = data.Query(XPath);
+
+            var p2 = docu.DocumentNode.SelectNodes(path, this.SelectorFormat);
+            if (p2 == null)
+                return new List<IFreeDocument>();
+            return p2.Select(node =>
+            {
+                var doc = new FreeDocument();
+               
+                 doc.MergeQuery(data, NewColumn);
+                doc.SetValue("Text", node.GetNodeText());
+                doc.SetValue("HTML", node.InnerHtml);
+                doc.SetValue("OHTML", node.OuterHtml);
+                return doc;
+            });
         }
 
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {
-            IsMultiYield = IsManyData;
+            IsMultiYield = IsManyData==ScriptWorkMode.List;
+            htmlResults =new List<XPathDetectorModel.HtmlResult>();
             return base.Init(docus);
         }
 
@@ -66,6 +140,8 @@ namespace Hawk.ETL.Crawlers
         {
             var item = document[Column];
 
+            if (htmlResults.Count < 5)
+                htmlResults.Add(new XPathDetectorModel.HtmlResult() {HTML = item.ToString(), Url = "URL_"+htmlResults.Count});
             if (item is IFreeDocument)
             {
                 return (item as IFreeDocument).GetDataFromXPath(XPath);
@@ -73,44 +149,27 @@ namespace Hawk.ETL.Crawlers
             var docu = new HtmlDocument();
 
             docu.LoadHtml(item.ToString());
+            string path;
             if (GetText)
             {
-                var path = docu.DocumentNode.GetTextNode();
-                var textnode = docu.DocumentNode.SelectSingleNode(path);
-                if (textnode != null)
-                    return textnode.GetNodeText();
+                 path = docu.DocumentNode.GetTextNode();
+                return docu.DocumentNode.GetDataFromXPath(path, CrawlType);
             }
-            if (GetTextHtml)
+            else
             {
-                var path = docu.DocumentNode.GetTextNode();
-                var textnode = docu.DocumentNode.SelectSingleNode(path);
-                if (textnode != null)
-                    return textnode.InnerHtml;
-            }
-            if (GetCount)
-            {
-                var textnode = docu.DocumentNode.SelectNodes(XPath);
-                return textnode.Count;
-            }
+                 path = document.Query(XPath);
+                return docu.DocumentNode.GetDataFromXPath(path, CrawlType, SelectorFormat);
 
-            var res = docu.DocumentNode.GetDataFromXPath(document.Query(XPath));
-            if (res == null)
-            {
+
             }
-            return res;
+          
         }
     }
-
-
-    [XFrmWork("门类枚举", "要拖入HTML文本列,可将页面中的门类，用Cross模式组合起来，适合于爬虫无法抓取全部页面，但可以按分类抓取的情况。需调用网页采集器，具体参考文档-门类枚举")]
+  
+    [XFrmWork("XPathTF2", "xpath2_desc")]
     public class XPathTF2 : ResponseTF
     {
         private Dictionary<string, string> xpaths;
-
-        public XPathTF2()
-        {
-            CrawlerSelector = "";
-        }
 
         [Browsable(false)]
         public override string HeaderFilter { get; set; }
@@ -118,10 +177,10 @@ namespace Hawk.ETL.Crawlers
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {
             base.Init(docus);
-            if (crawler == null)
+            if (Crawler == null)
                 return false;
             IsMultiYield = true;
-            xpaths = crawler.CrawlItems.GroupBy(d => d.Name).Select(d =>
+            xpaths = Crawler.CrawlItems.GroupBy(d => d.Name).Select(d =>
             {
                 var column = d.Key;
                 var path = XPath.GetMaxCompareXPath(d.Select(d2 => d2.XPath).ToList());
@@ -138,14 +197,14 @@ namespace Hawk.ETL.Crawlers
             {
                 nodes = docu.DocumentNode.SelectNodes(xpath);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                XLogSys.Print.Warn("XPath表达式错误: " + xpath);
+                XLogSys.Print.Warn(GlobalHelper.Get("key_196") + xpath);
                 return source;
             }
             if (nodes.Count == 0)
             {
-                XLogSys.Print.Warn("XPath表达式: " + xpath + "获取的节点数量为0");
+                XLogSys.Print.Warn(GlobalHelper.Get("key_197") + xpath + GlobalHelper.Get("key_198"));
                 return source;
             }
             var new_docs = nodes.Select(node =>
@@ -158,9 +217,8 @@ namespace Hawk.ETL.Crawlers
             return new_docs.Cross(source);
         }
 
-        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        protected override IEnumerable<IFreeDocument> InternalTransformManyData(IFreeDocument data)
         {
-            foreach (var data in datas)
             {
                 var item = data[Column];
                 var docu = new HtmlDocument();
@@ -169,14 +227,8 @@ namespace Hawk.ETL.Crawlers
                 var d = new FreeDocument();
                 d.MergeQuery(data, NewColumn);
                 IEnumerable<IFreeDocument> source = new List<IFreeDocument> {d};
-                foreach (var xpath in xpaths)
-                {
-                    source = Get(docu, source, xpath.Key, xpath.Value);
-                }
-                foreach (var r in source)
-                {
-                    yield return r;
-                }
+                source = xpaths.Aggregate(source, (current, xpath) => Get(docu, current, xpath.Key, xpath.Value));
+                return source.ToList();
             }
         }
     }

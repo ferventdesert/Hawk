@@ -11,15 +11,14 @@ using Hawk.ETL.Interfaces;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("数据库投影" )]
-    public class 
-        JoinDBTF : TransformerBase
+    [XFrmWork("JoinDBTF","JoinDBTF_desc" )]
+    public class JoinDBTF : TransformerBase
     {
         private readonly IDataManager dataManager;
 
         public JoinDBTF()
         {
-            dataManager = MainDescription.MainFrm.PluginDictionary["数据管理"] as IDataManager;
+            dataManager = MainDescription.MainFrm.PluginDictionary["DataManager"] as IDataManager;
             ConnectorSelector = new ExtendSelector<IDataBaseConnector>();
             TableSelector = new ExtendSelector<TableInfo>();
             ImportColumns = new ObservableCollection<string>();
@@ -52,29 +51,32 @@ namespace Hawk.ETL.Plugins.Transformers
             return base.Init(docus);
         }
 
-        [LocalizedDisplayName("查询多数据")]
-        [LocalizedDescription("启用该项时，会查询多个满足条件的项，同时将同一列保存为数组")]
+        [LocalizedDisplayName("key_490")]
+        [LocalizedDescription("key_491")]
         public bool IsMutliDatas { get; set; }
 
-        [LocalizedDisplayName("匹配方式")]
+        [LocalizedDisplayName("key_492")]
+        [LocalizedDescription("key_493")]
         public DBSearchStrategy SearchStrategy { get; set; }
 
-        [LocalizedDisplayName("连接器")]
-        [LocalizedDescription("选择所要连接的数据库服务")]
+        [LocalizedDisplayName("connector")]
+        [LocalizedDescription("key_406")]
         [PropertyOrder(1)]
         public ExtendSelector<IDataBaseConnector> ConnectorSelector { get; set; }
 
-        [LocalizedDisplayName("表名")]
-        [LocalizedDescription("选择所要连接的表")]
+        [LocalizedDisplayName("key_22")]
+        [LocalizedDescription("key_495")]
         [PropertyOrder(1)]
         public ExtendSelector<TableInfo> TableSelector { get; set; }
 
-        [LocalizedDisplayName("表主键")]
+        [LocalizedDisplayName("key_496")]
+        [LocalizedDescription("key_493")]
         public string KeyName { get; set; }
 
       
 
-        [LocalizedDisplayName("导入列")]
+        [LocalizedDisplayName("key_497")]
+        [LocalizedDescription("key_498")]
         public ObservableCollection<string> ImportColumns { get; set; }
 
          

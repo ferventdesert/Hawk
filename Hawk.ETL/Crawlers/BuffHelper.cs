@@ -15,9 +15,14 @@ namespace Hawk.ETL.Crawlers
       
         private int maxBufferCount;
 
-        [LocalizedDisplayName("启动缓存")]
+        [LocalizedDisplayName("key_159")]
         public bool EnableBuffer { get; set; }
 
+
+        public void SetBuffSize(int size)
+        {
+            maxBufferCount = size;
+        }
         public BuffHelper (int size)
         {
             EnableBuffer = true;
@@ -42,6 +47,22 @@ namespace Hawk.ETL.Crawlers
                 return (T)Convert.ChangeType(r,typeof(T));
             }
             return result;
+
+        }
+
+        public T GetOrCreate(string item,T defaultValue)
+        {
+            if (EnableBuffer == false || bufferDictionary.Count >= maxBufferCount)
+                return default(T);
+            if (bufferDictionary.ContainsKey(item))
+            {
+                var result = bufferDictionary[item];
+
+                return GetClone(result);
+            }
+            var result2= defaultValue;
+            bufferDictionary[item] = result2;
+            return result2;
 
         }
         public T Get(string item)

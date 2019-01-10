@@ -1,11 +1,12 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.ComponentModel;
 using System.Web.Script.Serialization;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
+using Hawk.ETL.Interfaces;
 using Hawk.ETL.Plugins.Transformers;
 
 namespace Hawk.ETL.Plugins.Web
@@ -24,17 +25,22 @@ namespace Hawk.ETL.Plugins.Web
         }
     }
 
-    [XFrmWork("搜索位置","通过百度API获取当前地标的经纬度坐标，需要拖入代表地名的列")]
+    [XFrmWork("BaiduLocation","BaiduLocation_desc","location")]
     public class BaiduLocation : BaiduSDKBase
     {
         public BaiduLocation()
         {
-            Region = "北京";
+            Region = GlobalHelper.Get("key_577");
         }
 
-        [LocalizedDisplayName("所属地市")]
-        [LocalizedDescription("通过地市进行信息检索")]
+        [LocalizedDisplayName("key_578")]
+        [LocalizedDescription("key_579")]
         public string Region { get; set; }
+
+
+        [LocalizedDisplayName("key_580")]
+        [LocalizedDescription("key_581")]
+        public string Tag { get; set; }
 
         public override object TransformData(IFreeDocument datas)
         {
@@ -52,8 +58,9 @@ namespace Hawk.ETL.Plugins.Web
 
 
                     var r = datas.Query(Region);
+                    var tag = datas.Query(Tag);
                     var apiUrl =
-                        $"http://api.map.baidu.com/place/v2/search?q={item}&region={r}&output={format}&ak={apikey}";
+                        $"http://api.map.baidu.com/place/v2/search?q={item}&region={r}&tag={tag}&output={format}&ak={apikey}";
 
 
                     //初始化方案信息实体类。
@@ -69,7 +76,7 @@ namespace Hawk.ETL.Plugins.Web
                 }
                 newlocation.DictCopyTo(datas);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
             }
             return true;
@@ -79,10 +86,13 @@ namespace Hawk.ETL.Plugins.Web
         {
             var first = info["results"][0];
             var newlocation = new FreeDocument();
-
-            newlocation["pos_name"] = first["name"];
+            foreach (var item in first)
+            {
+                newlocation[item.Key] = item.Value;
+            }
             newlocation["pos_lat"] = first["location"]["lat"];
             newlocation["pos_lng"] = first["location"]["lng"];
+
             return newlocation;
         }
     }

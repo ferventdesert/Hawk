@@ -7,7 +7,7 @@ namespace Hawk.ETL.Controls
     /// <summary>
     /// DataProcessManagerUI.xaml 的交互逻辑
     /// </summary>
-    [XFrmWork("模块管理", "替换模块管理界面")]
+    [XFrmWork("DataProcessManager")]
     public partial class DataProcessManagerUI : UserControl, ICustomView
     {
         #region Constants and Fields

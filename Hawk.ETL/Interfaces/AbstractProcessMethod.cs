@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Utils;
@@ -58,8 +59,8 @@ namespace Hawk.ETL.Interfaces
         /// <summary>
         ///     模块名称
         /// </summary>
-        [LocalizedCategory("1.基本信息")]
-        [LocalizedDisplayName("模块名称")]
+        [LocalizedCategory("key_199")]
+        [LocalizedDisplayName("key_200")]
         public virtual string Name
         {
             get { return _name; }
@@ -68,6 +69,7 @@ namespace Hawk.ETL.Interfaces
                 if (_name == value) return;
                 _name = value;
                 OnPropertyChanged("Name");
+             
             }
         }
 
@@ -87,6 +89,11 @@ namespace Hawk.ETL.Interfaces
         [Browsable(false)]
         public string TypeName => AttributeHelper.GetCustomAttribute(GetType()).Name;
 
+        [Browsable(false)]
+       public string LogoURL => AttributeHelper.GetCustomAttribute(GetType()).LogoURL;
+
+
+
         #endregion
 
         #region Implemented Interfaces
@@ -103,9 +110,6 @@ namespace Hawk.ETL.Interfaces
 
         public virtual void DictDeserialize(IDictionary<string, object> dicts, Scenario scenario = Scenario.Database)
         {
-
-
-
             Name = dicts.Set("Name", Name);
         }
 

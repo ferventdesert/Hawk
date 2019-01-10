@@ -13,12 +13,13 @@ namespace Hawk.ETL.Plugins.Generators
 {
    
 
-    [XFrmWork("获取文件夹文件","获取文件夹下的所有文件" )]
+    [XFrmWork("FolderGE","FolderGE_desc" ,"folder_open")]
     public class FolderGE : GeneratorBase
     {
         private List<string> fileList;
         private string _folderPath;
-
+        [Browsable(false)]
+        public override string KeyConfig => FolderPath;
 
         public FolderGE() 
         {
@@ -34,7 +35,7 @@ namespace Hawk.ETL.Plugins.Generators
         private string _pattern;
         private SearchOption _searchOption;
 
-        [LocalizedDisplayName("路径")]
+        [LocalizedDisplayName("key_163")]
         public string FolderPath
         {
             get { return _folderPath; }
@@ -48,8 +49,8 @@ namespace Hawk.ETL.Plugins.Generators
             }
         }
 
-        [LocalizedDisplayName("筛选模式")]
-        [LocalizedDescription("符合windows的文件筛选规范")]
+        [LocalizedDisplayName("key_448")]
+        [LocalizedDescription("key_449")]
         public string Pattern
         {
             get { return _pattern; }
@@ -63,7 +64,8 @@ namespace Hawk.ETL.Plugins.Generators
             }
         }
 
-        [LocalizedDisplayName("是否递归")]
+        [LocalizedDisplayName("key_450")]
+        [LocalizedDescription("key_451")]
         public SearchOption SearchOption
         {
             get { return _searchOption; }
@@ -100,7 +102,7 @@ namespace Hawk.ETL.Plugins.Generators
         {
             return fileList.Count;
         }
-        public override IEnumerable<FreeDocument> Generate(IFreeDocument document = null)
+        public override IEnumerable<IFreeDocument> Generate(IFreeDocument document = null)
         {
            
             foreach (string doc in fileList)

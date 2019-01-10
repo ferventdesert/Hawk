@@ -1,6 +1,9 @@
 ﻿using System.Globalization;
+using Hawk.Core.Utils;
 using System.Windows.Data;
 using System.Windows.Media;
+using Hawk.Core.Connectors;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Controls
@@ -39,15 +42,37 @@ namespace Hawk.ETL.Controls
     /// <summary>
     /// ETLSmartView.xaml 的交互逻辑
     /// </summary>
-    [XFrmWork("数据清洗" )]
+    [XFrmWork("SmartETLTool")]
     public partial class ETLSmartView : UserControl, ICustomView, IRemoteInvoke
     {
         public ETLSmartView()
         {
             this.InitializeComponent();
             this.ToolList.MouseDoubleClick += ToolList_MouseDoubleClick;
+            SetTemplate();
+            ConfigFile.GetConfig().PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == "IsDisplayDetail")
+                {
+                    SetTemplate();
+                }
+          
+            };
         }
 
+        void SetTemplate()
+        {
+            var isdetail = ConfigFile.GetConfig().Get<bool>("IsDisplayDetail");
+            var dataTemplate =
+                isdetail ? "DataTemplateList"
+                : "DataTemplateIcon";
+            var panelTempate =
+                isdetail ? "ItemsPanelTemplate2" : "ItemsPanelTemplate1";
+            ETLToolList.ItemTemplate = this.FindResource(dataTemplate) as DataTemplate;
+            ETLToolList.ItemsPanel = this.FindResource(panelTempate) as ItemsPanelTemplate;
+
+
+        }
         void ToolList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -57,8 +82,7 @@ namespace Hawk.ETL.Controls
                 {
                     return;
                 }
-
-                MessageBox.Show("可将图标拖入右侧数据列的上方空白列表处，为该列添加ETL模块");
+                MessageBox.Show(GlobalHelper.Get("key_779"));
 
             }
         }
@@ -115,9 +139,9 @@ namespace Hawk.ETL.Controls
 
         private void Rectangle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (e.ClickCount == 1)
+            if (e.ClickCount ==1)
             {
-                MessageBox.Show("可将图标拖入右侧数据列的上方空白列表处，为该列添加模块","提示信息");
+                XLogSys.Print.Warn(GlobalHelper.Get("key_780"));
             }
         }
     }

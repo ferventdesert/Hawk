@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
+using System.Windows.Controls.WpfPropertyGrid.Controls;
+using System.Windows.Input;
 using Hawk.Core.Connectors.Vitural;
 using Hawk.Core.Utils.Plugins;
 using Microsoft.Win32;
@@ -11,7 +14,7 @@ using EncodingType = Hawk.Core.Utils.EncodingType;
 
 namespace Hawk.Core.Connectors
 {
-    [XFrmWork("文件管理",  "提供与历史文件交互的数据库服务", "")]
+    [XFrmWork("FileManager",  "FileManager_desc", "")]
     public class FileManager : VirtualConnectorBase, IEnumerableProvider<IDictionarySerializable>
     {
         [Browsable(false)]
@@ -36,15 +39,32 @@ namespace Hawk.Core.Connectors
             return false;
         }
 
+        [Browsable(false)]
+
+        public override ReadOnlyCollection<ICommand> Commands => null;
+
+        [Browsable(false)] 
+        public override string Server { get; set; }
+
+
+        [Browsable(false)]
+        public override string DBName { get; set; }
+
+        [Browsable(false)]
+        public override string UserName { get; set; }
+        [Browsable(false)]
+        //  [PropertyEditor("PasswordEditor")]
+        public override string Password { get; set; }
+
 
         public override IEnumerable<FreeDocument> GetEntities(
             string tableName,  int mount = -1, int skip = 0)
         {
-            return GetEntities2(tableName,  mount, skip).ToList();
+            return GetEntities2(tableName, mount, skip);
         }
 
-        [LocalizedCategory("参数设置")]
-        [LocalizedDisplayName("编码方式")]
+        [LocalizedCategory("key_21")]
+        [LocalizedDisplayName("key_60")]
         public EncodingType EncodingType { get; set; }
 
         private IEnumerable<FreeDocument> GetEntities2(

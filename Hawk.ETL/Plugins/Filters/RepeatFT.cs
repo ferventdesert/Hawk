@@ -1,16 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Managements;
 using Hawk.ETL.Plugins.Transformers;
 
 namespace Hawk.ETL.Plugins.Filters
 {
-    [XFrmWork("重复项合并",  "对重复的数据行，进行合并操作")]
+    [XFrmWork("MergeRepeatTF", "MergeRepeatTF_desc","repeat")]
     public class MergeRepeatTF : TransformerBase
     {
         private SortedDictionary<string, IFreeDocument> dictionary;
@@ -19,24 +19,20 @@ namespace Hawk.ETL.Plugins.Filters
         {
             CollectionColumns = "";
             SumColumns = "";
-          
+            IsLazyLinq = false;
         }
 
-
-        [LocalizedDisplayName("延迟输出")]
-         [LocalizedDescription("不勾选此选项使用枚举式迭代，需保证在本模块之后没有其他操作，否则请勾选该选项")]
+        [LocalizedDisplayName("key_385")]
+        [LocalizedDescription("key_386")]
         public bool IsLazyLinq { get; set; }
 
-        [LocalizedDisplayName("集合式合并键")]
-        [LocalizedDescription("空格分割的列名，键相同的写入同一个集合")]
+        [LocalizedDisplayName("key_387")]
+        [LocalizedDescription("key_388")]
         public string CollectionColumns { get; set; }
 
-        [LocalizedDisplayName("求和式合并键")]
-        [LocalizedDescription("空格分割的列名，键相同的所有项进行求和")]
+        [LocalizedDisplayName("key_389")]
+        [LocalizedDescription("key_390")]
         public string SumColumns { get; set; }
-
-      
-
 
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {
@@ -47,24 +43,23 @@ namespace Hawk.ETL.Plugins.Filters
 
         //TODO: 此处不能使用枚举式迭代，除非在本模块之后没有其他操作
 
-        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas, AnalyzeItem analyzer)
         {
-            List<string> collColum = CollectionColumns.Split(' ').Select(d => d.Trim()).ToList();
-            List<string> sumColum = SumColumns.Split(' ').Select(d => d.Trim()).ToList();
-          
-            foreach (IFreeDocument data in datas)
+            var collColum = CollectionColumns.Split(' ').Select(d => d.Trim()).ToList();
+            var sumColum = SumColumns.Split(' ').Select(d => d.Trim()).ToList();
+
+            foreach (var data in datas)
             {
-                object item = data[Column];
+                var item = data[Column];
                 if (item == null)
                     continue;
-                string key = item.ToString();
- 
+                var key = item.ToString();
+
                 IFreeDocument v;
                 if (dictionary.TryGetValue(key, out v))
                 {
                     foreach (var r in data)
                     {
-                     
                         if (collColum.Contains(r.Key))
                         {
                             var list = v[r.Key] as IList;
@@ -85,18 +80,18 @@ namespace Hawk.ETL.Plugins.Filters
                         }
                         else if (sumColum.Contains(r.Key))
                         {
-                            object vnum = v[r.Key];
+                            var vnum = v[r.Key];
                             if (vnum == null)
                                 vnum = 0;
-                            double v4 = double.Parse(vnum.ToString());
-                            object v3 = data[r.Key];
+                            var v4 = double.Parse(vnum.ToString());
+                            var v3 = data[r.Key];
                             if (v3 == null)
                                 v3 = 0;
-                            double v5 = double.Parse(v3.ToString());
+                            var v5 = double.Parse(v3.ToString());
                             v4 += v5;
                             v[r.Key] = v4;
                         }
-                    
+
                         else
                         {
                             if (v[r.Key] == null)
@@ -112,10 +107,10 @@ namespace Hawk.ETL.Plugins.Filters
                     //显然应当先生成一个新的字典，否则会修改原有集合
                     var newfree = new FreeDocument();
                     data.DictCopyTo(newfree);
-                    foreach (string col in collColum)
+                    foreach (var col in collColum)
                     {
                         if (newfree[col] != null)
-                            newfree[col] = new List<object> { newfree[col] };
+                            newfree[col] = new List<object> {newfree[col]};
                         else
                         {
                             newfree[col] = new List<object>();
@@ -123,22 +118,21 @@ namespace Hawk.ETL.Plugins.Filters
                     }
 
                     dictionary.Add(key, newfree);
-                    if(IsLazyLinq==false)
+                    if (IsLazyLinq == false)
                         yield return newfree;
                 }
             }
-            if (IsLazyLinq == true)
+            if (IsLazyLinq)
             {
                 foreach (var item in dictionary)
                 {
                     yield return item.Value;
                 }
             }
-         
         }
     }
 
-    [XFrmWork("删除重复项",  "以拖入的列为键，自动去重，仅保留重复出现的第一项")]
+    [XFrmWork("RepeatFT", "RepeatFT_desc")]
     public class RepeatFT : NullFT
     {
         private ICollection<string> set;
@@ -146,16 +140,15 @@ namespace Hawk.ETL.Plugins.Filters
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
             set = new SortedSet<string>();
-            return  base.Init(datas);
+            return base.Init(datas);
         }
-
 
         public override bool FilteDataBase(IFreeDocument data)
         {
-            object item = data[Column];
+            var item = data[Column];
             if (item == null)
                 return false;
-            string key = item.ToString();
+            var key = item.ToString();
             if (set.Contains(key))
             {
                 return false;

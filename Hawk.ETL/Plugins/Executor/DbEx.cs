@@ -1,74 +1,144 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Crawlers;
 using Hawk.ETL.Interfaces;
 
 namespace Hawk.ETL.Plugins.Executor
 {
-    [XFrmWork("数据库操作", "进行数据库操作，包括写入和更新，拖入的列为表的主键")]
+    [XFrmWork("DbEX", "DbEX_desc")]
     public class DbEX : DataExecutorBase
     {
         private readonly IDataManager dataManager;
 
         public DbEX()
         {
-            dataManager = MainDescription.MainFrm.PluginDictionary["数据管理"] as IDataManager;
-            ConnectorSelector = new ExtendSelector<IDataBaseConnector>();
-            ConnectorSelector.SetSource(dataManager.CurrentConnectors);
-        }
+            dataManager = MainDescription.MainFrm.PluginDictionary["DataManager"] as IDataManager;
 
-        [LocalizedDisplayName("操作类型")]
-        [LocalizedDescription("选择数据对数据库的操作")]
+
+            ConnectorSelector = new ExtendSelector<IDataBaseConnector>();
+            ConnectorSelector.GetItems = () => dataManager.CurrentConnectors.ToList();
+            TableNames = new TextEditSelector();
+            ConnectorSelector.SelectChanged +=
+                (s, e) =>
+                {
+                    var text=  TableNames.SelectItem;
+                    TableNames.SetSource(ConnectorSelector.SelectItem.RefreshTableNames().Select(d => d.Name));
+                    if (string.IsNullOrEmpty(text) == false)
+                    {
+                        TableNames._SelectItem = text;
+                        TableNames.SelectItem = text;
+                    }
+                };
+            TableNames.SelectChanged += (s, e) => { InformPropertyChanged("TableNames"); };
+        }
+        [Browsable(false)]
+        public override string KeyConfig => ExecuteType+":"+TableNames?.SelectItem;
+        [LocalizedDisplayName("key_343")]
+        [PropertyOrder(3)]
+        [LocalizedDescription("key_344")]
         public EntityExecuteType ExecuteType { get; set; }
 
-        [LocalizedDisplayName("选择数据库")]
-        [LocalizedDescription("选择所要连接的数据库服务，如果该项无法选择，请配置【模块管理】->【数据源】，并点击右键创建新的数据库连接器")]
+        [LocalizedDisplayName("key_345")]
+        [LocalizedDescription("key_346")]
         [PropertyOrder(1)]
         public ExtendSelector<IDataBaseConnector> ConnectorSelector { get; set; }
 
-        [LocalizedDisplayName("表名")]
-        [LocalizedDescription("如果要新建表，则填写此项，若数据库中已经存在该表，则不执行建表操作")]
-        public string TableName { get; set; }
+        [LocalizedDisplayName("key_22")]
+        [PropertyOrder(2)]
+        [LocalizedDescription("key_347")]
+        public TextEditSelector TableNames { get; set; }
 
+
+        private List<string> columns =new List<string>(); 
+
+        private List<string> InitTable(IEnumerable<IFreeDocument> documents)
+        {
        
+            var tableName = AppHelper.Query(TableNames.SelectItem,documents.FirstOrDefault());
+            if (string.IsNullOrEmpty(tableName) == false)
+            {
+                if (!(ConnectorSelector.SelectItem != null).SafeCheck(GlobalHelper.Get("key_348")))
+                {
+                    return columns;
+                }
+                Monitor.Enter(this);
+                if (ConnectorSelector.SelectItem?.RefreshTableNames().FirstOrDefault(d => d.Name.ToLower() == tableName.ToLower()) == null)
+                {
+                    var document = documents.MergeToDocument();
+                    columns = document.GetKeys();
+                    if (!ConnectorSelector.SelectItem.CreateTable(document, tableName))
+                    {
+                        Monitor.Exit(this);
+                        throw new Exception(String.Format(GlobalHelper.Get("key_349"),tableName));
+                    }
+                  
+                    ConnectorSelector.SelectItem?.RefreshTableNames();
+                    Monitor.Exit(this);
+                    return columns;
+                }
+                if (columns.Count == 0)
+                {
+                    columns = documents.GetKeys().ToList();
+                }
+                Monitor.Exit(this);
+                return columns;
+            }
+            return columns;
+        }
+
         public override IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents)
         {
-            var con = TableName;
+            var tableName = TableNames.SelectItem;
 
             if (ExecuteType == EntityExecuteType.OnlyInsert)
             {
                 if (ConnectorSelector.SelectItem is FileManager)
                 {
-                    var connector = FileConnector.SmartGetExport(con);
+                    var connector = FileConnector.SmartGetExport(tableName);
 
-                    return connector.WriteData(documents.Select(d=>d as IFreeDocument)).Select(d=>d as IFreeDocument);
+                    return connector.WriteData(documents);
                 }
                 return
-                    documents.Select(
-                        document =>
-                        {
-                            ConnectorSelector.SelectItem?.SaveOrUpdateEntity(document, con, null, ExecuteType);
-                            return document;
-                        });
+                    documents.BatchDo(InitTable, (list,columns) =>
+                    {
+                        var first = list.FirstOrDefault();
+                        if(first==null)
+                            return;
+                        tableName = first.Query(tableName);
+                        ConnectorSelector.SelectItem.BatchInsert(list, (List<string>)columns, tableName);
+                        XLogSys.Print.Debug(string.Format(GlobalHelper.Get("key_350"),ConnectorSelector.SelectItem.Name, tableName, list.Count));
+                    });
             }
             return
-                documents.Select(
+                documents.Init(d =>
+                {
+                    var result= InitTable(new List<IFreeDocument>() {d});
+                    return result.Count > 0;
+                }).Select(
                     document =>
                     {
                         var v = document[Column];
-                        if (v == null || TableName == null) return document;
+                        if (v == null || tableName == null) return document;
 
-                        ConnectorSelector.SelectItem.SaveOrUpdateEntity(document, con,
+                        ConnectorSelector.SelectItem.SaveOrUpdateEntity(document, tableName,
                             new Dictionary<string, object> {{Column, v}}, ExecuteType);
                         return document;
                     });
+        }
+
+        public override bool Init(IEnumerable<IFreeDocument> datas)
+        {
+             columns = new List<string>();
+            return Assert(ConnectorSelector.SelectItem!=null, GlobalHelper.Get("key_345")) &&Assert(string.IsNullOrEmpty(TableNames.SelectItem)==false, GlobalHelper.Get("key_22"));
         }
 
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
@@ -78,41 +148,23 @@ namespace Hawk.ETL.Plugins.Executor
             {
                 dict.Add("Connector", ConnectorSelector.SelectItem.Name);
             }
-
+            if (TableNames.SelectItem != null)
+            {
+                dict.Add("Table", TableNames.SelectItem);
+            }
 
             return dict;
-        }
-
-        public override bool Init(IEnumerable<IFreeDocument> datas)
-        {
-
-            if (string.IsNullOrEmpty(TableName) == false)
-            {
-                if (!(ConnectorSelector.SelectItem != null).SafeCheck("数据库连接器不能为空"))
-                {
-                    return false;
-                }
-                if (ConnectorSelector.SelectItem?.RefreshTableNames().FirstOrDefault(d => d.Name == TableName) == null)
-
-                {
-                    var data = datas?.FirstOrDefault() ?? new FreeDocument();
-                    if (!ConnectorSelector.SelectItem.CreateTable(data, TableName))
-                    {
-                        throw new Exception($"创建名字为{TableName}的表失败");
-                    }
-                }
-            }
-            return true;
         }
 
         public override void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
         {
             base.DictDeserialize(docu);
+            ConnectorSelector.SetSource(dataManager.CurrentConnectors);
             ConnectorSelector.SelectItem =
                 dataManager.CurrentConnectors.FirstOrDefault(d => d.Name == docu["Connector"].ToString());
-            var connector = ConnectorSelector.SelectItem;
-            if (connector == null)
-                return;
+
+            TableNames.SelectItem = docu["Table"].ToString();
+               // ConnectorSelector.SelectItem?.RefreshTableNames().FirstOrDefault(d => d.Name == docu["Table"].ToString())?.Name;
         }
     }
 }

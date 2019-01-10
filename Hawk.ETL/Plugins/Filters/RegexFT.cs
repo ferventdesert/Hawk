@@ -10,7 +10,7 @@ using Hawk.ETL.Plugins.Web;
 
 namespace Hawk.ETL.Plugins.Filters
 {
-    [XFrmWork("路径是否存在", "判断某一个文件是否已经在指定路径上")]
+    [XFrmWork("FileExistFT", "FileExistFT_desc")]
     public class FileExistFT : TransformerBase
     {
         public override object TransformData(IFreeDocument data)
@@ -23,7 +23,7 @@ namespace Hawk.ETL.Plugins.Filters
 
       
     }
-    [XFrmWork("正则筛选器","编写正则表达式来过滤文本" )]
+    [XFrmWork("RegexFT","RegexFT_desc" )]
     public class RegexFT : NullFT
     {
           protected Regex regex;
@@ -35,13 +35,14 @@ namespace Hawk.ETL.Plugins.Filters
             Script = "";
         }
 
-        
-        [LocalizedDisplayName("表达式")]
+        [Browsable(false)]
+        public override string KeyConfig => Script;
+        [LocalizedDisplayName("key_380")]
         [PropertyEditor("CodeEditor")]
         public string Script { get; set; }
 
-        [LocalizedDisplayName("最小匹配数")]
-        [LocalizedDescription("只有正则匹配的数量大于等于该值时，才会通过")]
+        [LocalizedDisplayName("key_381")]
+        [LocalizedDescription("key_382")]
         public int Count { get; set; }
 
       

@@ -1,41 +1,43 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Crawlers;
+using Hawk.ETL.Interfaces;
 
 namespace Hawk.ETL.Plugins.Web
 {
-    [XFrmWork("获取路径信息","从当前地名，运动到对应坐标所需的时间")]
+    [XFrmWork("GetRoute","GetRoute_desc","map")]
     public  class GetRoute : BaiduSDKBase
     {
 
         public GetRoute()
         {
             ModeSelector=new ExtendSelector<string>(map.Keys);
-            SourceCity = "北京";
-            DestCity = "北京";
+            SourceCity = GlobalHelper.Get("key_577");
+            DestCity = GlobalHelper.Get("key_577");
 
         }
-        [LocalizedDisplayName("目标位置")]
-        [LocalizedDescription("通过地市进行信息检索")]
+        [LocalizedDisplayName("key_586")]
+        [LocalizedDescription("key_579")]
         public string Dest { get; set; }
 
-        [LocalizedDisplayName("源城市")]
-        [LocalizedDescription("通过地市进行信息检索")]
+        [LocalizedDisplayName("key_587")]
+        [LocalizedDescription("key_579")]
         public string SourceCity { get; set; }
 
 
-        [LocalizedDisplayName("目标城市")]
-        [LocalizedDescription("通过地市进行信息检索")]
+        [LocalizedDisplayName("key_588")]
+        [LocalizedDescription("key_579")]
         public string DestCity { get; set; }
 
         private Dictionary<string,string> map=new  Dictionary<string, string>() { {"公交","transit"}, {"驾车","driving"}, {"步行","walking"} };
 
-        [LocalizedDisplayName("运动方案")]
+        [LocalizedDisplayName("key_589")]
         [PropertyOrder(1)]
         public ExtendSelector<string> ModeSelector { get; set; }
 
@@ -111,7 +113,7 @@ namespace Hawk.ETL.Plugins.Web
                 }
                 newlocation.DictCopyTo(datas);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
             }
             return true;

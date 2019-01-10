@@ -14,18 +14,18 @@ namespace Hawk.Core.Connectors.Vitural
         {
         }
 
-        public VirtualDataCollection(IItemsProvider<IFreeDocument> data,  int pageTimeout = 30000)
+        public VirtualDataCollection(IItemsProvider<IFreeDocument> data,  int pageSize = 1000)
             : base()
         {
          
-            VirtualData = new VirtualizingCollection<IFreeDocument>(data,pageTimeout);
+            VirtualData = new VirtualizingCollection<IFreeDocument>(data,pageSize);
  
             data.AlreadyGetSize += (s, e) => OnPropertyChanged("Count");
         }
 
         public override string Source => VirtualData.ItemsProvider.Name;
 
-        [LocalizedDisplayName("虚拟化数据集")]
+        [LocalizedDisplayName("key_10")]
         public override bool IsVirtual => true;
 
 

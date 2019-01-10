@@ -1,13 +1,15 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Xml.Serialization;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Interfaces;
+using Hawk.ETL.Process;
 using IronPython.Hosting;
 using Microsoft.Scripting;
 
@@ -32,6 +34,21 @@ namespace Hawk.ETL.Managements
         [XmlIgnore]
         [Browsable(false)]
         public FreeDocument ProcessToDo { get; set; }
+
+
+        public string TaskType
+        {
+            get
+            {
+                if(ProcessToDo!=null)
+                    return ProcessToDo["Type"].ToString();
+                return null;
+            }
+        }
+        [XmlIgnore]
+        [Browsable(false)]
+
+        public string TypeName => ProcessToDo?["Type"].ToString()=="SmartETLTool"?GlobalHelper.Get("smartetl_name") :GlobalHelper.Get("smartcrawler_name");
 
         #endregion
 
@@ -67,14 +84,14 @@ namespace Hawk.ETL.Managements
             var script = ScriptPath;
            
             var path = Project.SavePath;
-            XLogSys.Print.DebugFormat("加载工程文件，位置为{0}",Project.SavePath);
+            XLogSys.Print.DebugFormat(GlobalHelper.Get("key_322"),Project.SavePath);
             var folder = new DirectoryInfo(path).Parent?.FullName;
             if (folder != null)
                 script = folder +"\\"+ script;
 
             if (!File.Exists(script))
             {
-                XLogSys.Print.WarnFormat("加载{0}工程时未发现对应的脚本文件{1}",Project.Name,ScriptPath);
+                XLogSys.Print.WarnFormat(GlobalHelper.Get("key_323"),Project.Name,ScriptPath);
                 return;
             }
                
@@ -99,35 +116,34 @@ namespace Hawk.ETL.Managements
                 var syntax = ex as SyntaxErrorException;
                 if (syntax != null)
                 {
-                    XLogSys.Print.ErrorFormat("编译错误：{0}，位置在{1}行,从{2}到{3}",ex.Message,syntax.Line, syntax.RawSpan.Start,syntax.RawSpan.End);
+                    XLogSys.Print.ErrorFormat(GlobalHelper.Get("key_324"),ex.Message,syntax.Line, syntax.RawSpan.Start,syntax.RawSpan.End);
                     return;
                 }
                 XLogSys.Print.Error(ex);
             }
-            XLogSys.Print.Info("脚本已经成功执行");
+            XLogSys.Print.Info(GlobalHelper.Get("key_325"));
         }
 
-        public virtual void Load(bool addui)
+        public virtual IDataProcess Load(bool addui)
         {
-            if (
-                (ProcessManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == this.Name) == null).SafeCheck("不能重复加载该任务") ==
-                false)
-                return;
+            IDataProcess process=ProcessManager.GetTask(this.TaskType, this.Name);
+            if(process!=null)
+                return process;
             ControlExtended.SafeInvoke(() =>
             {
-                var processname = ProcessToDo["Type"].ToString();
-                if (string.IsNullOrEmpty(processname))
-                    return;
-                var process = ProcessManager.GetOneInstance(processname, newOne: true,addUI: addui);
+                process = ProcessManager.GetOneInstance(this.TaskType, newOne: true,addUI: addui);
                 ProcessToDo.DictCopyTo(process as IDictionarySerializable);
                 process.Init();
                 EvalScript();
-            }, LogType.Important, $"加载{Name}任务", true);
+            }, LogType.Important, string.Format(GlobalHelper.Get("key_327"),Name), MainDescription.IsUIForm);
+            return process;
         }
 
-        [LocalizedDisplayName("脚本路径")]
+        [LocalizedDisplayName("key_328")]
         [PropertyOrder(6)]
         public string ScriptPath { get; set; }
+
+  
 
         #endregion
     }

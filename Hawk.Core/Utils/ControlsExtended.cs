@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using Hawk.Core.Utils;
+using System.IO;
 using System.Linq;
-using System.Net.Mime;
 using System.Windows;
 using System.Windows.Controls;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
+using Microsoft.HockeyApp;
 using Microsoft.Win32;
 
 namespace Hawk.Core.Utils
@@ -13,8 +16,9 @@ namespace Hawk.Core.Utils
     public enum FileOperate
     {
         Save,
-        Read,
+        Read
     }
+
     //扩展下所有Control类，把线程操作Invoke提出来。 
     public static class ControlExtended
     {
@@ -35,8 +39,11 @@ namespace Hawk.Core.Utils
             }
         }
 
-        public static bool UserCheck(string message, string title = "提示信息")
+        public static bool UserCheck(string message, string title = null)
+
         {
+            if (title == null)
+                title = GlobalHelper.Get("key_99");
             return MessageBox.Show(message, title, MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes;
         }
 
@@ -46,56 +53,60 @@ namespace Hawk.Core.Utils
             if (m != null)
                 manager.RemoveDockableContent(m.View);
         }
-        public static void AddDockAbleContent(this IDockableManager manager, FrmState thisState, object model, object thisControl, params string[] objects)
+
+        public static void AddDockAbleContent(this IDockableManager manager, FrmState thisState, object model,
+            object thisControl, params string[] objects)
         {
             manager.AddDockAbleContent(thisState, thisControl, objects);
             manager.ViewDictionary.Last().Model = model;
         }
+
         public static void RemoveDockAbleContent(this IDockableManager manager, object model)
         {
-
             manager.RemoveDockableContent(model);
         }
+
         public static void ActiveModelContent(this IDockableManager manager, object model)
         {
             var view = manager.ViewDictionary.FirstOrDefault(d => d.Model == model);
             if (view == null)
                 return;
+          
             manager.ActiveThisContent(view.View);
-
         }
 
         public static bool SafeCheck(this bool check, string name, LogType type = LogType.Info)
         {
-            bool res = check;
+            var res = check;
             if (res)
             {
                 if (type > LogType.Important)
                 {
-                    XLogSys.Print.Info( name+"  执行成功");
+                    XLogSys.Print.Info(name + GlobalHelper.Get("key_97"));
                 }
             }
             else
             {
-                name =     name +"  执行失败";
+                name = name + GlobalHelper.Get("key_98");
                 if (type > LogType.Debug)
                 {
                     XLogSys.Print.Warn(name);
                 }
                 if (type > LogType.Info)
                 {
-                    UIInvoke(() => { MessageBox.Show(name, "提示信息"); });
+                    UIInvoke(() => { MessageBox.Show(name, GlobalHelper.Get("key_99")); });
                 }
             }
             return res;
         }
 
-  
-        public static void SafeInvoke(this Action action, LogType type = LogType.Info, string name = null,bool isui=false)
+
+        public static void SafeInvoke(this Action action, LogType type = LogType.Info, string name = null,
+            bool isui = false)
         {
             if (name == null)
             {
-                name = "该操作";
+                name = GlobalHelper.Get("key_100");
             }
             try
             {
@@ -105,21 +116,23 @@ namespace Hawk.Core.Utils
                 {
                     action();
                 }
-            
-                string str = name + "已经执行成功";
+
+                var str = name + GlobalHelper.Get("key_101");
                 if (type >= LogType.Important)
                 {
                     XLogSys.Print.Info(str);
                 }
                 if (type >= LogType.Vital)
                 {
-                    UIInvoke(() => { MessageBox.Show(str, "提示信息"); });
+                    UIInvoke(() => { MessageBox.Show(str, GlobalHelper.Get("key_99")); });
                 }
-
             }
             catch (Exception ex)
             {
-                string str = name + "  执行失败,错误信息  {0}";
+                var str = name + GlobalHelper.Get("key_102");
+                var dict=new Dictionary<string,string>();
+                dict.Add("key", str);
+                //(HockeyClient.Current as HockeyClient).HandleException(ex);
                 switch (type)
                 {
                     case LogType.Debug:
@@ -130,41 +143,41 @@ namespace Hawk.Core.Utils
                         break;
                     case LogType.Important:
                         XLogSys.Print.ErrorFormat(str, ex.ToString());
-                        UIInvoke(() => { MessageBox.Show(String.Format(str, ex.Message), "错误信息"); });
+                        UIInvoke(() => { MessageBox.Show(string.Format(str, ex.Message), GlobalHelper.Get("error_message")); });
                         break;
                     case LogType.Vital:
                         XLogSys.Print.Fatal(str, ex);
-                        UIInvoke(() => { MessageBox.Show(String.Format(str, ex), "错误信息"); });
+                        UIInvoke(() => { MessageBox.Show(string.Format(str, ex), GlobalHelper.Get("error_message")); });
                         break;
                 }
             }
-
         }
 
-        public static bool SafeInvoke<T>(Func<T> action, ref T result, LogType type = LogType.Info, string name = null, bool isUIAction = false)
+        public static bool SafeInvoke<T>(Func<T> action, ref T result, LogType type = LogType.Info, string name = null,
+            bool isUIAction = false)
         {
             if (name == null)
             {
-                name = "该操作";
+                name = GlobalHelper.Get("key_100");
             }
             try
             {
-                T res = isUIAction == false ? action() : UIInvoke(action);
-                string str = name + "已经执行成功";
+                var res = isUIAction == false ? action() : UIInvoke(action);
+                var str = name + GlobalHelper.Get("key_101");
                 if (type >= LogType.Important)
                 {
                     XLogSys.Print.Info(str);
                 }
                 if (type >= LogType.Vital)
                 {
-                    UIInvoke(() => { MessageBox.Show(str, "提示信息"); });
+                    UIInvoke(() => { MessageBox.Show(str, GlobalHelper.Get("key_99")); });
                 }
                 result = res;
                 return true;
             }
             catch (Exception ex)
             {
-                string str = name + "  执行失败,错误信息  {0}";
+                var str = name + GlobalHelper.Get("key_102");
                 switch (type)
                 {
                     case LogType.Debug:
@@ -175,18 +188,17 @@ namespace Hawk.Core.Utils
                         break;
                     case LogType.Important:
                         XLogSys.Print.ErrorFormat(str, ex.ToString());
-                        UIInvoke(() => { MessageBox.Show(String.Format(str, ex.Message), "错误信息"); });
+                        UIInvoke(() => { MessageBox.Show(string.Format(str, ex.Message), GlobalHelper.Get("error_message")); });
                         break;
                     case LogType.Vital:
                         XLogSys.Print.Fatal(str, ex);
-                        UIInvoke(() => { MessageBox.Show(String.Format(str, ex), "错误信息"); });
+                        UIInvoke(() => { MessageBox.Show(string.Format(str, ex), GlobalHelper.Get("error_message")); });
                         break;
                 }
             }
             return false;
         }
 
-     
 
         public static bool CheckFilePath(this IFileConnector connector, FileOperate readOrWrite)
         {
@@ -195,9 +207,9 @@ namespace Hawk.Core.Utils
                 if (readOrWrite == FileOperate.Read)
                 {
                     var ofd = new OpenFileDialog();
-                   
+
                     ofd.DefaultExt = connector.ExtentFileName;
-                    ofd.Filter = string.Format("(*{0})|*{0}", connector.ExtentFileName);
+                    ofd.Filter = String.Join("|", connector.ExtentFileName.Split(' ').Select(d => string.Format("(*{0})|*{0}", d)));
 
                     if (ofd.ShowDialog() == true)
                     {
@@ -212,8 +224,8 @@ namespace Hawk.Core.Utils
                 {
                     var ofd = new SaveFileDialog();
                     ofd.FileName = connector.FileName;
-                    ofd.DefaultExt = connector.ExtentFileName;
-                    ofd.Filter = string.Format("(*{0})|*{0}", connector.ExtentFileName);
+                    ofd.DefaultExt = connector.ExtentFileName.Split(' ')[0];
+                    ofd.Filter = String.Join("|",  connector.ExtentFileName.Split(' ').Select(d=> string.Format("(*{0})|*{0}",d)));
 
                     if (ofd.ShowDialog() == true)
                     {
@@ -224,20 +236,28 @@ namespace Hawk.Core.Utils
                         return false;
                     }
                 }
-               
             }
           
+
             return true;
         }
-        public static void SetBusy(bool isBusy, string title = "系统正忙", string message = "正在处理长时间操作", int percent = 0)
+
+        public static void SetBusy(ProgressBarState state , string title = null, string message = null, int percent = 0)
         {
+            if (title == null)
+                title = GlobalHelper.Get("key_3");
+            if (message == null)
+                message = GlobalHelper.Get("LongTask");
             if (Application.Current == null)
                 return;
-            var item = Application.Current.MainWindow as IDockableManager;
-            if (item == null)
-                return;
-            UIInvoke(() => item.SetBusy(isBusy, title, message, percent));
-
+            ControlExtended.UIInvoke(() =>
+            {
+                var item = Application.Current.MainWindow as IDockableManager;
+                if (item == null)
+                    return;
+                UIInvoke(() => item.SetBusy(state, title, message, percent));
+            });
+          
         }
 
         public static void UIInvoke(this Control control, InvokeHandler handler)
@@ -254,7 +274,6 @@ namespace Hawk.Core.Utils
 
         public static void UIBeginInvoke(this Control control, InvokeHandler handler)
         {
-
             if (!control.Dispatcher.CheckAccess())
             {
                 control.Dispatcher.BeginInvoke(handler);
@@ -269,13 +288,18 @@ namespace Hawk.Core.Utils
         public static T UIInvoke<T>(Func<T> handler)
         {
             if (Application.Current == null)
-                return default(T); ;
-            var  dispatcher = Application.Current.Dispatcher;
+            {
+                if (MainDescription.IsUIForm == false)
+                    return handler();
+                return default(T);
+                ;
+            }
+            var dispatcher = Application.Current.Dispatcher;
             if (dispatcher == null)
                 return default(T);
             if (!dispatcher.CheckAccess())
             {
-                return (T)dispatcher.Invoke(handler);
+                return (T) dispatcher.Invoke(handler);
             }
             return handler.Invoke();
         }

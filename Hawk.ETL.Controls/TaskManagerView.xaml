@@ -1,71 +1,82 @@
 ﻿<UserControl
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mvvm="clr-namespace:Hawk.Core.Utils.MVVM;assembly=Hawk.Core" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Hawk.ETL.Controls.TaskManagerView"
-             d:DesignWidth="363.5" d:DesignHeight="146">
-	<UserControl.Resources>
-		  <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
-        <Style    TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
-        	  <Setter Property="Header" Value="{Binding Text}" />
-            <Setter Property="Command" Value="{Binding}" />
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mvvm="clr-namespace:Hawk.Core.Utils.MVVM;assembly=Hawk.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	    xmlns:Utils="clr-namespace:Hawk.Core.Utils;assembly=Hawk.Core"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+    x:Class="Hawk.ETL.Controls.TaskManagerView"
+    d:DesignWidth="372.833" d:DesignHeight="278.333">
+    <UserControl.Resources>
+        <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
+       
+        <Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource {x:Type ContextMenu}}">
+            <Setter Property="ItemContainerStyle" Value="{StaticResource {x:Type MenuItem}}" />
+            <Setter Property="DataContext" Value="{Binding Data, Source={StaticResource BindingProxy}}" />
+        </Style> 
+		   <ContextMenu x:Key="ResourceContextMenu"   DataContext="{Binding Data, Source={StaticResource BindingProxy}}"
+                             ItemsSource="{Binding BindingCommands.ChildActions[3].ChildActions}" />
 
-            <Setter Property="ItemsSource" Value="{Binding ChildActions}" />
-            <Setter Property="CommandParameter" Value="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}, Mode=FindAncestor}}"/>
+        <Style x:Key="CenterListViewItem2"   TargetType="{x:Type ListViewItem}"    BasedOn="{StaticResource  ResourceKey=CenterListViewItem}">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="ContextMenu" Value="{StaticResource ResourceContextMenu}" />
+
         </Style>
-		<Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource {x:Type ContextMenu}}">
-			<Setter Property="ItemContainerStyle"  Value="{StaticResource {x:Type MenuItem}}"/>
-				<Setter Property="DataContext"  Value="{Binding Data, Source={StaticResource BindingProxy}}"/>
-		</Style>
-	</UserControl.Resources>
-    <Grid>
-    	<Grid.RowDefinitions>
-    		<RowDefinition Height="0.858*"/>
-    		<RowDefinition Height="18"/>
-    	</Grid.RowDefinitions>
-    	<ListView   ItemsSource="{Binding CurrentProcessTasks}">
-    	
-    		<ListView.View>
-    			<GridView>
-    				<GridViewColumn Header="选择">
-    					<GridViewColumn.CellTemplate>
-    						<DataTemplate>
-    							<CheckBox IsChecked="{Binding IsSelected}"/>	 
-    						</DataTemplate>
-    					</GridViewColumn.CellTemplate>
-    					<!--脑残的xaml-->        
-    				</GridViewColumn>
-    				<GridViewColumn Header="名称" DisplayMemberBinding="{Binding Name}" />
-    				<GridViewColumn Header="百分比">
-    					<GridViewColumn.CellTemplate>
-    						<DataTemplate>
-    							<StackPanel Orientation="Horizontal">
-    								<ProgressBar Value="{Binding Percent}" Width="100" Margin="0,0,5,0"/>   
-    							 
-    							</StackPanel>
-    						</DataTemplate>
-    					</GridViewColumn.CellTemplate>
-    					<!--脑残的xaml-->        
-    				</GridViewColumn>
-    				<GridViewColumn Header="暂停">
-    					<GridViewColumn.CellTemplate>
-    						<DataTemplate>
-    							<CheckBox IsChecked="{Binding IsPause}"/>	 
-    						</DataTemplate>
-    					</GridViewColumn.CellTemplate>
-    					<!--脑残的xaml-->        
-    				</GridViewColumn>
-    				<GridViewColumn Header="位置" DisplayMemberBinding="{Binding CurrentIndex}" />
-    			</GridView>
-    		</ListView.View> 	           	 
-    	</ListView>
-    	<StackPanel VerticalAlignment="Top"   DataContext="{Binding BindingCommands.ChildActions[2].ChildActions}"  HorizontalAlignment="Left" Orientation="Horizontal" Grid.Row="1">
-    		<Button Style="{DynamicResource miniButton}" DataContext="{Binding [0]}" />
-    		<Button Style="{DynamicResource miniButton}" DataContext="{Binding [1]}" />
-    		<Button Style="{DynamicResource miniButton}" DataContext="{Binding [2]}" />
-    		<Button Style="{DynamicResource miniButton}" DataContext="{Binding [3]}" />  	
-			<Button Style="{DynamicResource miniButton}" DataContext="{Binding [4]}" />  	
-    	</StackPanel>
-    	 
-            
+
+    
+				   
+        <DataTemplate x:Key="ListViewTemplate">
+            <Grid Height="Auto" Width="Auto">
+                <Border BorderBrush="Black" BorderThickness="1" />
+                <ProgressBar Height="Auto" Value="{Binding Percent}" VerticalAlignment="Stretch" Opacity="0.5" />
+                <TextBlock Text="{Binding OutputIndex}" d:LayoutOverrides="Width, Height" HorizontalAlignment="Center" />
+            </Grid>
+        </DataTemplate>
+
+    </UserControl.Resources>
+    <Grid Margin="0" MinHeight="50">
+
+        <ListView x:FieldModifier="public" x:Name="currentProcessTasksView"
+                  ItemContainerStyle="{DynamicResource CenterListViewItem2}" ItemsSource="{Binding CurrentProcessTasks}"
+                  Margin="0,0,0,20" ToolTip="{DynamicResource threadmanager_desc}">
+            <ListView.Resources>
+          
+             
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+
+                    <GridViewColumn Header="{DynamicResource key_291}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsPause}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+
+                    </GridViewColumn>
+
+
+                    <GridViewColumn Header="{DynamicResource key_18}" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="{DynamicResource key_715}" Width="100"
+                                    CellTemplate="{StaticResource ListViewTemplate}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel VerticalAlignment="Bottom" DataContext="{Binding BindingCommands.ChildActions[2].ChildActions}"
+                    HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="1" Margin="20,0,0,0">
+            <Button Style="{DynamicResource miniButton}" DataContext="{Binding [0]}" />
+            <Button Style="{DynamicResource miniButton}" DataContext="{Binding [1]}" />
+            <Button Style="{DynamicResource miniButton}" DataContext="{Binding [2]}" />
+
+        </StackPanel>
+        <Rectangle Height="80" VerticalAlignment="Bottom" Opacity="0.2" Width="80" HorizontalAlignment="Right"
+                   Margin="0,0,0,20">
+            <Rectangle.Fill>
+                <VisualBrush Stretch="Fill"
+                             Visual="{Binding ConverterParameter=hourglass, Converter={StaticResource MetroConverter}, Mode=OneWay}" />
+            </Rectangle.Fill>
+        </Rectangle>
+
+
     </Grid>
 </UserControl>

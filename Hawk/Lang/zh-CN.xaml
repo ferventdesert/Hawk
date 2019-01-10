@@ -3964,7 +3964,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
        - 点击：帮助，即可弹出全局文档系统，在文档中，支持字体放缩，关键字搜索等，方便快速定位内容。
        - 每个任务或工程，都可以生成其对应的教程文档，极大地减少了做教程写文档的负担
 
-        下面的动图描述了Hawk文档的使用：
+        下面的动图描述了Hawk文档的使用：
 
        ![doc.gif](https://upload-images.jianshu.io/upload_images/9608527-f387d3e209c69d30.gif?imageMogr2/auto-orient/strip)
 

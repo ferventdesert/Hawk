@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\AutoSaveWindow.cs" />
+    <Compile Include="Controls\ETLTempTaskWindow.cs" />
     <Compile Include="Controls\PopupWindowBase.cs" />
     <Compile Include="DataViewers\FlowDocumentViewer.cs" />
     <Compile Include="Themes\MetroConverter.cs" />

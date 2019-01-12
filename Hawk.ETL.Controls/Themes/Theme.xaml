@@ -725,6 +725,47 @@
         <Setter Property="DisplayTime" Value="0:0:5"/>
         <Setter Property="Progress" Value="100"/>
     </Style>
+    <Style x:Key="ETLTempTaskWindow" TargetType="{x:Type Controls3:ETLTempTaskWindow}" >
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Controls3:ETLTempTaskWindow}">
+                    <Grid d:DesignWidth="510.4" d:DesignHeight="327.347" Background="{DynamicResource NormalBrush}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.3*"/>
+                            <ColumnDefinition Width="0.3*"/>
+                            <ColumnDefinition Width="0.3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.202*"/>
+                            <RowDefinition Height="0.598*"/>
+
+                            <RowDefinition Height="0.2*"/>
+
+                        </Grid.RowDefinitions>
+                        <Border BorderThickness="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" CornerRadius="20" Background="{DynamicResource NormalBrush}"  d:LayoutOverrides="GridBox">
+                            <Border.Effect>
+                                <DropShadowEffect/>
+                            </Border.Effect>
+                        </Border>
+                        <TextBlock   TextWrapping="Wrap" Text="{DynamicResource long_etl_task}"  Margin="10,0,0,0" Foreground="White" FontWeight="Bold" Grid.ColumnSpan="2" Grid.Row="1"/>
+                        <ProgressBar VerticalAlignment="Bottom" Value="{Binding BindingSource.Percent}" Grid.Row="1" Margin="6,0" Maximum="100" Grid.ColumnSpan="3" Height="10"/>
+                        <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands[0]}" Width="Auto"
+                            Height="35" HorizontalAlignment="Center" Grid.Row="2"  />
+                        <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands[1]}" Width="35"
+                            Height="35" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"  />
+                        <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands[2]}" Width="35"
+                            Height="35" HorizontalAlignment="Center" Grid.Column="2" Grid.Row="2" VerticalAlignment="Center"  />
+                        <TextBlock   TextWrapping="Wrap" Text="{DynamicResource etl_temp_window}" Margin="10,0,0,0" Foreground="White" FontWeight="Bold" Grid.ColumnSpan="2" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontSize="29.333"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Width" Value="500"/>
+        <Setter Property="Height" Value="200"/>
+        <Setter Property="Progress" Value="100"/>
+    </Style>
+
 
 
 

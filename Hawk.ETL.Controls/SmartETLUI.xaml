@@ -221,7 +221,7 @@
             </DataTemplate.Triggers>
         </DataTemplate>
         <DataTemplate x:Key="DataTemplateIcon">
-            <StackPanel Height="70" Margin="4" Width="60" ToolTip="{Binding Descrption}">
+            <StackPanel Height="70" Margin="4" Width="60" ToolTip="{Binding Description}">
                 <Rectangle Width="30" ToolTip="{Binding Description}" Height="30" HorizontalAlignment="Center"
                            VerticalAlignment="Center">
                     <Rectangle.Fill>

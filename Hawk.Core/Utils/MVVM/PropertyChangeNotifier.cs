@@ -14,7 +14,8 @@ namespace Hawk.Core.Utils.MVVM
             //this.VerifyPropertyName(propName);
             if (null != PropertyChanged)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+                ControlExtended.UIInvoke(() => PropertyChanged(this, new PropertyChangedEventArgs(propName)));
+             
             }
         }
 

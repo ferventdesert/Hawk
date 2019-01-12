@@ -143,6 +143,11 @@ namespace Hawk.ETL.Managements
                 tempTask.CheckWait();
                 foreach (var r in source)
                 {
+                    if (tempTask.CheckCancel())
+                    {
+                        tempTask.WasCanceled = true;
+                        break;
+                    }
                     foreach (var item in func != null ? func(r) : new List<T> { r })
                     {
                         tempTask.CheckWait();

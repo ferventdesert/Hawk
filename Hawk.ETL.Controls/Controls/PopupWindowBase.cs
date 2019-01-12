@@ -92,7 +92,7 @@ namespace Hawk.ETL.Controls.Controls
                DependencyProperty.Register("Progress", typeof(int), typeof(PopupWindowBase), new PropertyMetadata(0));
         [Category("SetProperty")]
         public int MaxProgress { get; set; }
-        public  void ShowDialogAdvance()
+        public  virtual void ShowDialogAdvance()
         {
           
             this.Progress = 0;
@@ -183,15 +183,15 @@ namespace Hawk.ETL.Controls.Controls
            
         }
 
-        private readonly CancellationTokenSource token = new CancellationTokenSource();
-        private void ButtonClick1()
+        protected readonly CancellationTokenSource token = new CancellationTokenSource();
+        protected virtual void ButtonClick1()
         {
             this.token.Cancel();
             this.DialogResult = true;
             this.Close();
         }
 
-        protected void ButtonClick2()
+        protected virtual void ButtonClick2()
         {
             this.token.Cancel();
             this.DialogResult = false;

@@ -9,7 +9,7 @@ Welcome to use Hawk! Hawk can graphically crawle webpage, clean, process and sav
 - Documentation: https://ferventdesert.github.io/Hawk/
 - Project Respository: https://github.com/ferventdesert/Hawk-Projects/Hawk3
 - Download:  https://github.com/ferventdesert/Hawk/releases
-
+- Download(chs): https://gitee.com/deserthawk/Hawk/attach_files
 ## Introduction
 
 The meaning of Hawk is "Eagle", which can kill prey efficiently and accurately. Its design idea comes from Lisp language , and its function mimics awk in Unix.
@@ -45,6 +45,7 @@ WYSIWYG ETL:
 - 项目文档： https://ferventdesert.github.io/Hawk/
 - 示例工程文件： https://github.com/ferventdesert/Hawk-Projects/Hawk3
 - 下载地址： https://github.com/ferventdesert/Hawk/releases
+- 国内下载地址:  https://gitee.com/deserthawk/Hawk/attach_files
 
 ## 介绍
 Hawk的含义为“鹰”，能够高效，准确地捕杀猎物。它的思想来源于Lisp语言，功能模仿了Linux工具awk。

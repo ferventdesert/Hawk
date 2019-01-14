@@ -65,6 +65,7 @@ namespace Hawk.ETL.Crawlers
                 if (sortMethod != value)
                 {
                     sortMethod = value;
+                    this.Position = 0;
                     CrawTargetView = new ListCollectionView(CrawTargets.OrderByDescending(sortLogic).ToList());
                     OnPropertyChanged("SortMethod");
                     OnPropertyChanged("CrawTargetView");

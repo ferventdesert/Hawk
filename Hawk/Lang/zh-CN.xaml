@@ -79,7 +79,7 @@
         执行删除操作吗？
     </system:String>
     <system:String x:Key="key_641">
-        3.动态请求嗅探
+        动态请求嗅探
     </system:String>
     <system:String x:Key="key_370">
         跳过
@@ -1646,6 +1646,9 @@
     <system:String x:Key="key_119">
         端口
     </system:String>
+        <system:String x:Key="auto_startstop_fiddler">
+        自动启停嗅探
+    </system:String>
     <system:String x:Key="key_713">
         已经取消
     </system:String>
@@ -2194,6 +2197,9 @@
     <system:String x:Key="key_326">
         不能重复加载该任务
     </system:String>
+     <system:String x:Key="is_load_remote_project">
+        是否加载远程市场的工程内容？
+    </system:String>
     <system:String x:Key="key_179">
         代理策略
     </system:String>
@@ -2332,11 +2338,17 @@
     <system:String x:Key="next">
         下一个
     </system:String>
+      <system:String x:Key="property_count_too_many">
+    本根节点通过手气不错检测出的属性数超过100个，继续查找下一个根节点
+    </system:String>
     <system:String x:Key="not_find_module">
         没有找到名称为'{0}'的{1}，请检查“{2}”是否填写错误
     </system:String>
       <system:String x:Key="error_column">
         在保存到数据集时，列名 {0} 中不应包含标点符号等特殊字符，请进行修改
+    </system:String>
+     <system:String x:Key="error_check">
+        对模块{0}进行检查，发现问题： {1}
     </system:String>
     <system:String x:Key="key_613">
         葡萄牙语
@@ -2399,6 +2411,9 @@
     </system:String>
     <system:String x:Key="using_param_name">
          当前参数组名称
+    </system:String>
+      <system:String x:Key="get_remote_projects">
+        获取远程市场的工程列表
     </system:String>
     <system:String x:Key="table_list">
         数据表列表
@@ -3144,6 +3159,13 @@
     <system:String x:Key="key_229">
         没有在表中的发现可用的数据
     </system:String>
+     
+    <system:String x:Key="auto_save_tooltip">
+       是否自动保存？
+    </system:String>
+ <system:String x:Key="auto_save_desc">
+       如果不做任何操作，Hawk将会在倒计时后自动保存数据和工程，并关闭窗口
+    </system:String>
     <system:String x:Key="key_316">
         当前工程中没有包含任何任务，是否继续保存？
     </system:String>
@@ -3267,9 +3289,13 @@
     <system:String x:Key="generate_project_doc">
         生成工程教学文档
     </system:String>
+      <system:String x:Key="fiddler_start">
+        嗅探服务已经开启， 端口为"http://{0}:{1}" ，允许远程连接。 若Hawk非正常关闭，会导致系统代理修改无法上网，请重启Hawk后，开启再关闭自动嗅探即可。
+    </system:String>
     <system:String x:Key="http_header">
         Http请求详情
     </system:String>
+    
     <system:String x:Key="DataManager">
         数据管理
     </system:String>
@@ -3936,7 +3962,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
        - 点击：帮助，即可弹出全局文档系统，在文档中，支持字体放缩，关键字搜索等，方便快速定位内容。
        - 每个任务或工程，都可以生成其对应的教程文档，极大地减少了做教程写文档的负担
 
-        下面的动图描述了Hawk文档的使用：
+        下面的动图描述了Hawk文档的使用：
 
        ![doc.gif](https://upload-images.jianshu.io/upload_images/9608527-f387d3e209c69d30.gif?imageMogr2/auto-orient/strip)
 

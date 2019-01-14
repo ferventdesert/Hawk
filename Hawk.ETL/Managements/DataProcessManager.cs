@@ -90,6 +90,19 @@ namespace Hawk.ETL.Managements
             }
         }
 
+        private int mainTabIndex;
+        public int MainTabIndex 
+
+        {
+            get { return mainTabIndex; }
+            set
+            {
+                if (mainTabIndex == value) return;
+                mainTabIndex = value;
+                OnPropertyChanged("MainTabIndex");
+            }
+        }
+
         public Project SelectedLocalProject
 
         {
@@ -128,7 +141,7 @@ namespace Hawk.ETL.Managements
             }
             else
             {
-                RemoteProjectBuff.Add(SelectedRemoteProject, project);
+                RemoteProjectBuff.Add(projectItem, project);
             }
             Monitor.Exit(RemoteProjectBuff);
             project.DictDeserialize(projectItem.DictSerialize());
@@ -194,17 +207,7 @@ namespace Hawk.ETL.Managements
             return true;
         }
 
-        public void SaveCurrentTasks()
-        {
-            CurrentProject.Tasks.Clear();
-            foreach (var process in CurrentProcessCollections)
-            {
-                SaveTask(process, false);
-            }
-            CurrentProject.Save();
-        }
-
-        private bool NeedSave()
+                private bool NeedSave()
         {
             if (this.CurrentProcessCollections.Any() || this.dataManager.DataCollections.Any())
             {
@@ -336,7 +339,7 @@ namespace Hawk.ETL.Managements
                                 MessageBoxButton.OKCancel) ==
                             MessageBoxResult.OK)
                         {
-                            SaveCurrentTasks();
+                            SaveCurrentProject();
                         }
                     }, obj => true,
                     "save"));
@@ -514,7 +517,7 @@ namespace Hawk.ETL.Managements
             {
                 if (obj == null)
                 {
-                    SaveCurrentTasks();
+                    SaveCurrentProject();
                 }
                 else
                 {
@@ -575,7 +578,14 @@ namespace Hawk.ETL.Managements
                   PropertyGridFactory.GetPropertyWindow(obj).ShowDialog();
 
               }, obj => true, "settings"));
+            processAction.ChildActions.Add(new Command(GlobalHelper.Get("param_group"),
+          obj =>
+          {
+              this.dockableManager.ActiveThisContent(GlobalHelper.Get("ModuleMgmt"));
+              MainTabIndex = 2;
+              
 
+          }, obj => true, "equalizer"));
             BindingCommands.ChildActions.Add(processAction);
             BindingCommands.ChildActions.Add(taskAction2);
 
@@ -596,20 +606,14 @@ namespace Hawk.ETL.Managements
             var marketAction = new BindingAction();
             marketAction.ChildActions.Add(new Command(GlobalHelper.Get("connect_market"), async obj =>
             {
-                GitHubApi.Connect();
+                GitHubApi.Connect(ConfigFile.GetConfig().Get<string>("Login"), ConfigFile.GetConfig().Get<string>("Password"));
                 MarketProjects.Clear();
                 ControlExtended.SetBusy(ProgressBarState.Indeterminate,message:GlobalHelper.Get("get_remote_projects"));
-                MarketProjects.AddRange(await GitHubApi.GetProjects());
+                MarketProjects.AddRange(await GitHubApi.GetProjects(ConfigFile.GetConfig().Get<string>("MarketUrl")));
                 ControlExtended.SetBusy(ProgressBarState.NoProgress);
 
             }, icon: "refresh"));
-            marketAction.ChildActions.Add(new Command(GlobalHelper.Get("key_240"), obj =>
-            {
-                var window = PropertyGridFactory.GetPropertyWindow(GitHubApi);
-                window.ShowDialog();
-
-            }, icon: "settings"));
-
+          
             BindingCommands.ChildActions.Add(marketAction);
 
 
@@ -622,6 +626,10 @@ namespace Hawk.ETL.Managements
                 var keep = MessageBoxResult.Yes;
                 if(projectItem==null)
                     return;
+                if (MessageBox.Show(GlobalHelper.Get("is_load_remote_project"), GlobalHelper.Get("key_99"),MessageBoxButton.OKCancel)==MessageBoxResult.Cancel)
+                {
+                    return;
+                }
                 if (NeedSave())
                 {
                     keep = MessageBox.Show(GlobalHelper.Get("keep_old_datas"), GlobalHelper.Get("key_99"),
@@ -631,7 +639,7 @@ namespace Hawk.ETL.Managements
                 }
                 var proj =await this.GetRemoteProjectContent(projectItem);
                 LoadProject(proj,keep == MessageBoxResult.Yes);
-            }, icon: "config"));
+            }, icon: "download"));
 
 
             var config = ConfigFile.GetConfig<DataMiningConfig>();
@@ -836,8 +844,8 @@ namespace Hawk.ETL.Managements
             {
                 if (marketCollectionView == null)
                 {
-                    GitHubApi.Connect();
-                    var result = GitHubApi.GetProjects().Result;
+                    GitHubApi.Connect(ConfigFile.GetConfig().Get<string>("Login"), ConfigFile.GetConfig().Get<string>("Password"));
+                    var result = GitHubApi.GetProjects(ConfigFile.GetConfig().Get<string>("MarketUrl")).Result;
                     ControlExtended.SafeInvoke(
                         () =>
                         {
@@ -856,10 +864,19 @@ namespace Hawk.ETL.Managements
         private void timeCycle(object sender, EventArgs e)
         {
 
-           
-              if (NeedSave())
+
+            if (NeedSave())
+            {
+                dynamic welcomeWindow =  PluginProvider.GetObjectInstance<ICustomView>(GlobalHelper.Get("auto_save_tooltip")) ;
+                
+                welcomeWindow.ShowDialogAdvance();
+
+                if (welcomeWindow.DialogResult==true)
+                {
                     SaveCurrentProject(true);
-       } 
+                }
+            }
+        } 
 
         private void SetWindowTitleName(string name)
         {
@@ -939,13 +956,18 @@ namespace Hawk.ETL.Managements
         {
             if (CurrentProject == null)
                 return;
-            SaveCurrentTasks();
+            CurrentProject.Tasks.Clear();
+            foreach (var process in CurrentProcessCollections)
+            {
+                SaveTask(process, false);
+            }
             if (CurrentProject.Tasks.Any() == false &&
                 MessageBox.Show(GlobalHelper.Get("key_316"), GlobalHelper.Get("key_151"), MessageBoxButton.OKCancel) ==
                 MessageBoxResult.Cancel)
             {
                 return;
             }
+         
             if (isDefaultPosition)
             {
                 Task.Factory.StartNew(() =>
@@ -972,11 +994,10 @@ namespace Hawk.ETL.Managements
 
         private void CleanAllItems()
         {
-            this.CurrentProcessTasks.Clear();
+            this.CurrentProcessTasks.RemoveElementsNoReturn(d=>true,d=>d.Remove());
             this.dataManager.CurrentConnectors.Clear();
             this.dataManager.DataCollections.Clear();
             ProcessCollection.RemoveElementsNoReturn(d => true, RemoveOperation);
-
         }
         public void CreateNewProject()
         {
@@ -1054,7 +1075,7 @@ namespace Hawk.ETL.Managements
                             CurrentProcessCollections.Select(d => d.Name);
                         var count = names.Count(d => d.Contains(process.TypeName));
                         if (count > 0)
-                            process.Name = process.TypeName + count;
+                            process.Name = process.TypeName + (count+1);
                         CurrentProcessCollections.Add(process);
                         XLogSys.Print.Info(GlobalHelper.Get("key_319") + process.TypeName + GlobalHelper.Get("key_320"));
                     }

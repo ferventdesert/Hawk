@@ -13,7 +13,8 @@
     xmlns:mvvm="clr-namespace:Hawk.Core.Utils.MVVM;assembly=Hawk.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:themes1="clr-namespace:Markdown.Xaml;assembly=System.Windows.Controls.WpfPropertyGrid"
-    xmlns:themes="clr-namespace:Hawk.ETL.Controls.Themes">
+    xmlns:themes="clr-namespace:Hawk.ETL.Controls.Themes"
+    xmlns:Controls3="clr-namespace:Hawk.ETL.Controls.Controls">
 
     <!-- Main Colors -->
     <themes:MetroConverter x:Key="MetroConverter" />
@@ -28,14 +29,14 @@
 
     <Color x:Key="BlackColor">#FF000000</Color>
     <Color x:Key="WhiteColor">White</Color>
-   
 
-   
+
+
     <SolidColorBrush x:Key="TextBrush" Color="White" />
     <SolidColorBrush x:Key="NormalBrush" Color="{StaticResource MainColor}" />
     <SolidColorBrush x:Key="NormalBorderBrush" Color="#FF333333" />
     <SolidColorBrush x:Key="HoverBrush" Color="{StaticResource HoverColor}" />
-    <SolidColorBrush x:Key="GlyphBrush" Color="#FFD1D1D1" />    
+    <SolidColorBrush x:Key="GlyphBrush" Color="#FFD1D1D1" />
 
     <LinearGradientBrush x:Key="PressedBrush" EndPoint="0.5,0.971" StartPoint="0.5,0.042">
         <GradientStop Color="#4C000000" Offset="0" />
@@ -43,7 +44,7 @@
         <GradientStop Color="#4C000000" Offset="0.467" />
         <GradientStop Color="#26FFFFFF" Offset="0.479" />
     </LinearGradientBrush>
- 
+
 
     <Style TargetType="FlowDocument" x:Key="DocumentStyle">
         <Setter Property="Foreground"
@@ -139,13 +140,13 @@
     <Style    TargetType="ToolTip">
         <Setter Property="Background" Value="{DynamicResource NormalBrush}"/>
 
-      
+
         <Setter Property ="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
 
                     <Grid>
-                      
+
                         <FlowDocumentScrollViewer  Grid.Row="0"
                                                   Grid.Column="1"  
                                                   VerticalAlignment="Stretch"
@@ -685,6 +686,88 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="AutoSaveWindow" TargetType="{x:Type Controls3:AutoSaveWindow}" >
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Controls3:AutoSaveWindow}">
+                    <Grid d:DesignWidth="510.4" d:DesignHeight="327.347" Background="{DynamicResource NormalBrush}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.463*"/>
+                            <ColumnDefinition Width="0.537*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.202*"/>
+                            <RowDefinition Height="0.598*"/>
+
+                            <RowDefinition Height="0.2*"/>
+
+                        </Grid.RowDefinitions>
+                        <Border BorderThickness="5" CornerRadius="20" Grid.RowSpan="3" Background="{DynamicResource NormalBrush}" Grid.ColumnSpan="2" d:LayoutOverrides="GridBox">
+                            <Border.Effect>
+                                <DropShadowEffect/>
+                            </Border.Effect>
+                        </Border>
+                        <TextBlock   TextWrapping="Wrap" Text="{DynamicResource auto_save_desc}"  Margin="10,0,0,0" Foreground="White" FontWeight="Bold" Grid.ColumnSpan="2" Grid.Row="1"/>
+                        <ProgressBar VerticalAlignment="Bottom" Value="{Binding Progress}" Grid.Row="1" Margin="6,0" Maximum="{Binding MaxProgress}" Grid.ColumnSpan="2"/>
+                        <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands[0]}" Width="Auto"
+                            Height="35" HorizontalAlignment="Center" Grid.Row="2"  />
+                        <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands[1]}" Width="35"
+                            Height="35" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"  />
+                        <TextBlock   TextWrapping="Wrap" Text="{DynamicResource auto_save_tooltip}" Margin="10,0,0,0" Foreground="White" FontWeight="Bold" Grid.ColumnSpan="2" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontSize="29.333"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Width" Value="500"/>
+        <Setter Property="Height" Value="200"/>
+        <Setter Property="DisplayTime" Value="0:0:5"/>
+        <Setter Property="Progress" Value="100"/>
+    </Style>
+    <Style x:Key="ETLTempTaskWindow" TargetType="{x:Type Controls3:ETLTempTaskWindow}" >
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Controls3:ETLTempTaskWindow}">
+                    <Grid d:DesignWidth="510.4" d:DesignHeight="327.347" Background="{DynamicResource NormalBrush}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.3*"/>
+                            <ColumnDefinition Width="0.3*"/>
+                            <ColumnDefinition Width="0.3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.202*"/>
+                            <RowDefinition Height="0.598*"/>
+
+                            <RowDefinition Height="0.2*"/>
+
+                        </Grid.RowDefinitions>
+                        <Border BorderThickness="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" CornerRadius="20" Background="{DynamicResource NormalBrush}"  d:LayoutOverrides="GridBox">
+                            <Border.Effect>
+                                <DropShadowEffect/>
+                            </Border.Effect>
+                        </Border>
+                        <TextBlock   TextWrapping="Wrap" Text="{DynamicResource long_etl_task}"  Margin="10,0,0,0" Foreground="White" FontWeight="Bold" Grid.ColumnSpan="2" Grid.Row="1"/>
+                        <ProgressBar VerticalAlignment="Bottom" Value="{Binding BindingSource.Percent}" Grid.Row="1" Margin="6,0" Maximum="100" Grid.ColumnSpan="3" Height="10"/>
+                        <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands[0]}" Width="Auto"
+                            Height="35" HorizontalAlignment="Center" Grid.Row="2"  />
+                        <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands[1]}" Width="35"
+                            Height="35" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"  />
+                        <Button Style="{DynamicResource middleButton}" DataContext="{Binding Commands[2]}" Width="35"
+                            Height="35" HorizontalAlignment="Center" Grid.Column="2" Grid.Row="2" VerticalAlignment="Center"  />
+                        <TextBlock   TextWrapping="Wrap" Text="{DynamicResource etl_temp_window}" Margin="10,0,0,0" Foreground="White" FontWeight="Bold" Grid.ColumnSpan="2" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontSize="29.333"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Width" Value="500"/>
+        <Setter Property="Height" Value="200"/>
+        <Setter Property="Progress" Value="100"/>
+    </Style>
+
+
+
 
     <Style TargetType="{x:Type RadioButton}">
         <Setter Property="ToolTipService.InitialShowDelay" Value="2000"/>
@@ -1539,7 +1622,7 @@
                         </Storyboard>
                     </ControlTemplate.Resources>
                     <Grid SnapsToDevicePixels="true" Margin="1,1,1,1">
-                        <Rectangle x:Name="Background" IsHitTestVisible="False" Opacity="0.25"
+                        <Rectangle x:Name="Background" IsHitTestVisible="True" Opacity="0.25"
                                    Fill="{StaticResource NormalBrush}" RadiusX="1" RadiusY="1" />
                         <Rectangle x:Name="HoverRectangle" IsHitTestVisible="False" Opacity="0"
                                    Fill="{StaticResource NormalBrush}" RadiusX="1" RadiusY="1" />
@@ -2806,17 +2889,17 @@
     </Style>
     <DropShadowBitmapEffect x:Key="PopupDropShadow" ShadowDepth="1.5" Softness="0.15" />
     <Style TargetType="{x:Type MenuItem}">
-         <Setter Property="Header" Value="{Binding Text}" />
-                <Setter Property="Command" Value="{Binding}" />
-                <Setter Property="ItemsSource" Value="{Binding ChildActions}" />
-                <Setter Property="CommandParameter" Value="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}, Mode=FindAncestor}}"/>
+        <Setter Property="Header" Value="{Binding Text}" />
+        <Setter Property="Command" Value="{Binding}" />
+        <Setter Property="ItemsSource" Value="{Binding ChildActions}" />
+        <Setter Property="CommandParameter" Value="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}, Mode=FindAncestor}}"/>
         <Setter Property="HorizontalContentAlignment"
                 Value="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
         <Setter Property="VerticalContentAlignment"
                 Value="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
-      
+
         <Setter Property="Template">
             <Setter.Value>
 
@@ -2885,10 +2968,10 @@
                                 </Grid>
                             </Popup>
                             <Rectangle Width="15" Height="15" x:Name="Icon" Margin="0,0,10,0" >
-                            	<Rectangle.Fill>
-                            		<VisualBrush Stretch="Fill"
+                                <Rectangle.Fill>
+                                    <VisualBrush Stretch="Fill"
                             			Visual="{Binding Icon, Converter={StaticResource MetroConverter}, Mode=OneWay}"  />
-                            	</Rectangle.Fill>
+                                </Rectangle.Fill>
                             </Rectangle>
                         </Grid>
                     </Border>
@@ -2918,7 +3001,7 @@
                         <Trigger Property="IsSuspendingPopupAnimation" Value="true">
                             <Setter Property="PopupAnimation" Value="None" TargetName="SubMenuPopup" />
                         </Trigger>
-                 
+
                         <Trigger Property="IsChecked" Value="true">
                             <Setter Property="Visibility" Value="Visible" TargetName="GlyphPanel" />
                             <Setter Property="Visibility" Value="Collapsed" TargetName="Icon" />
@@ -4129,12 +4212,12 @@
         </Style.Triggers>
     </Style>
     <Style   TargetType="{x:Type ListViewItem}"  BasedOn="{StaticResource ResourceKey=DefaultListViewItem}">
-     </Style>
-       <Style x:Key="CenterListViewItem"   TargetType="{x:Type ListViewItem}"    BasedOn="{StaticResource  ResourceKey=DefaultListViewItem}">
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-			
-			
-        </Style>
+    </Style>
+    <Style x:Key="CenterListViewItem"   TargetType="{x:Type ListViewItem}"    BasedOn="{StaticResource  ResourceKey=DefaultListViewItem}">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+
+    </Style>
 
     <Style x:Key="GridViewColumnHeaderGripper" TargetType="{x:Type Thumb}">
         <Setter Property="Canvas.Right" Value="-8.5" />

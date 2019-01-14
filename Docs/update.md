@@ -602,4 +602,34 @@ Hawk3 发布
 4. 更改全局配置后，sqlite表名失效
 5. sqlite插入失败
 6. 集合已经修改，可能无法执行保存操作
-7. 线程数量限制于自身产生的数量
+7. 线程数量限制于自身产生的数量 
+8. 手气不错有重复问题 ok
+9. 不安全的列名，全部替换掉
+
+# 2018年12月28日
+1. 手气不错速度极慢 ok
+2. 按行数排序时自动归0
+3. 链家等页面手气不错不工作 ok
+4. 弹出倒计时窗口保存 ok
+5. 共享源放到最下面 ok
+6. success_get ok
+7. https文件源不存在 pass
+8. 网页采集器文档没有换行 ok
+9. 任务市场新增按钮 
+10. 尝试手机登陆， 监听日志 ok
+11. 锁定monitor  
+12. 参数设置按钮  ok
+13. get remote object ok
+14. http嗅探设置 ok
+
+15. 合并多列，如果没有该列的话，返回原值
+
+  ControlExtended.SetBusy(ProgressBarState.Indeterminate, message:GlobalHelper.Get("get_remote_market_data"));
+            project = await Project.LoadFromUrl(projectItem.SavePath);
+            ControlExtended.SetBusy(ProgressBarState.NoProgress);
+
+# 2019年1月7日
+
+1. 自动跳转到参数设置，会闪烁 ok
+2. 新建任务时，之前的任务并没有取消 ok
+3. 无法修改github的地址 ok

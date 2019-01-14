@@ -1067,7 +1067,7 @@ namespace Hawk.ETL.Process
                     {
                         if (e.ChangedButton != MouseButton.Left)
                             return;
-                        var process = currentToolList.SelectedItem as IColumnProcess;
+                        var process = currentToolList.SelectedValue as IColumnProcess;
                         if (process == null)
                             return;
                         var oldProp = process.UnsafeDictSerializePlus();
@@ -1113,7 +1113,6 @@ namespace Hawk.ETL.Process
                 return;
             SmartGroupCollection.Clear();
             Documents.Clear();
-            shouldUpdate = false;
 
             shouldUpdate = true;
             if (!MainDescription.IsUIForm)
@@ -1191,7 +1190,35 @@ namespace Hawk.ETL.Process
                 , SampleMount);
             temptask.Publisher = this;
             AttachTask(temptask);
+
+            dynamic tempwindow = PluginProvider.GetObjectInstance<ICustomView>(GlobalHelper.Get("etl_temp_window"));
             SysProcessManager.CurrentProcessTasks.Add(temptask);
+            temptask.PropertyChanged += (s, e) =>
+            {
+                if (temptask.IsCanceled == true || temptask.IsPause)
+                {
+                    tempwindow.Close();
+                }
+             
+            };
+
+            tempwindow.DataContext = tempwindow;
+            tempwindow.BindingSource = temptask;
+           
+            tempwindow.ShowDialog();
+            
+            if (tempwindow.DialogResult == false)
+            {
+             
+                temptask.Remove();
+                if (tempwindow.Refresh)
+                {
+                        RefreshSamples(true);
+                }
+            }
+          
+          
+         
         }
 
         private void AttachTask(TemporaryTask<IFreeDocument> temptask)

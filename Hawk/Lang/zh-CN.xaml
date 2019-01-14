@@ -1109,14 +1109,10 @@
          
          {{smartcrawler_name}} 不能单独工作，而是沟通 {{smartcrawler_name}} 和{{smartetl_name}}的桥梁。本质上说， {{smartcrawler_name}} 是针对获取网页而特别定制的`{{smartetl_name}}模块`。
 
-         ## 主要配置介绍
+         ## 高级配置介绍
 
          {{crawler_xpath_root}}
          
-         ### 工作模式
-
-         {{smartcrawler_script_mode}}
-
          ## 抓取网页数据
 
          {{CrawlerTF_desc}}
@@ -1219,7 +1215,6 @@
 
         ![单文档模式下的手气不错](http://images2018.cnblogs.com/blog/287060/201805/287060-20180512221426878-671049210.gif)
 
-        TODO: 描述得更详细一些
  
     </system:String>
     <system:String x:Key="crawler_feellucky_how" xml:space="preserve">
@@ -1274,7 +1269,9 @@
 
         有时候，父节点的xpath是不稳定的，举个例子，北京上海的二手房页面，上海会在列表上面增加一个广告banner，从而真正的父节点就会发生变化，比如向后偏移了`div[1]变成了div[2]`。为了应对这种变化，通常的做法是手工修改【列表根路径】
         
-        ### 手动设置根路径 继续举例子，父节点的id为`house_list`，且在网页中全局唯一，你就可以使用另外一种父节点表示法`//*[@id='house_list']/li`（写法可以参考其他XPath教程），而子节点表达式不变。这样会让程序变得更加鲁棒。
+        ### 手动设置根路径 
+        
+        继续举例子，父节点的id为`house_list`，且在网页中全局唯一，你就可以使用另外一种父节点表示法`//*[@id='house_list']/li`（写法可以参考其他XPath教程），而子节点表达式不变。这样会让程序变得更加鲁棒。
     </system:String>
     <system:String x:Key="xpath_desc" xml:space="preserve">
         ### XPath
@@ -2437,6 +2434,7 @@
         - {{script_mode_none}}:  直接输出网页源代码，放置于Content列中
 
         注意:
+
         - 一个复杂的页面可能包含多个列表和详情，因此模式的选择主要取决于要抓取的数据是什么
         - 当在 {{script_mode_list}}或 {{script_mode_one}}模式，且属性数量为0时，也和 {{script_mode_none}}行为一致
     </system:String>
@@ -4613,19 +4611,24 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
 
     认识到网页是一棵树(DOM)后，每个XPath对应一个属性，即可从网页上获取单个或多个文档。{{smartcrawler_name}}的目的就是更快地通过手工或自动配置找到最优XPath。
 
-    ### 基本操作
-      
-    ![手气不错](http://images2018.cnblogs.com/blog/287060/201805/287060-20180512203827617-1470633207.gif)
+    ### 工作模式
 
-    工作模式的介绍:
+    使用采集器，首先要按照抓取的目标，选择合适的工作模式：
 
     {{smartcrawler_script_mode}}
 
+    ### 基本操作
+
     - 左侧的区域，显示了html源码和浏览器视图（但不能执行js)，可通过上侧tab页切换。
     - 右侧是配置区域，可对关键字进行搜索，并对所有的属性进行管理。
-    - 在{{script_mode_list}}模式下，点击{{feellucky}}进入全自动模式，在弹出的结果下选择所需数据，可配置其名称和XPath。点击确定即可配置完毕。
-    - 可手工填入`{{search_keyword}}`，即可在网页上快速定位元素和XPath，可在多个结果间快速切换，找到所需数据后，输入名称后手工添加属性。
     -  点击【{{key_624}}】，可预览检查配置结果。
+
+    在{{script_mode_list}}模式下，通常直接点击右上角的{{feellucky}}，在弹出的结果下选择所需数据，可配置其名称和XPath。点击确定即可配置完毕。即可自动获取绝大多数网页的目标内容。
+      
+    ![手气不错](http://images2018.cnblogs.com/blog/287060/201805/287060-20180512203827617-1470633207.gif)
+
+    可手工填入`{{search_keyword}}`，即可在网页上快速定位元素和XPath，可在多个结果间快速切换，找到所需数据后，输入属性名称后手工添加属性。
+
     
     ### 高级功能
     
@@ -4634,12 +4637,10 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
     3. 超级模式下，Hawk会将源码中的js,html,json都转成html，从而使用{{feellucky}}, 更通用但性能较差
     4. 填写【共享源】，本采集器同步共享源的【{{http_header}}】，避免重复设置cookie代理等。
     5. 详情页({{script_mode_one}}模式)也可以{{feellucky}}(Hawk3新功能)，搜索所需字段，不需要添加到属性列表，点击{{feellucky}}试试！
-    
+    6. 网页地址也可以是本地文件路径，如D:\target.html, 用其他方法保存网页后，再通过Hawk分析网页内容
 
     ![单文档模式下的手气不错](http://images2018.cnblogs.com/blog/287060/201805/287060-20180512221426878-671049210.gif)
 
-    
-    6. 网页地址也可以是本地文件路径，如D:\target.html, 用其他方法保存网页后，再通过Hawk分析网页内容
 
     </system:String>
 

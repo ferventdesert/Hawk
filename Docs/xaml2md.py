@@ -91,6 +91,8 @@ def generate_doc(dic,target='hawk_doc',output_folder='hawk'):
             splits= [r for r in l.split(' ') if r.strip()!='']
             header=splits[0]
             count= len(header)
+            if count>6:
+                print(l)
             pos[count-1]+=1
             for i in range(count,len(pos)):
                 pos[i]=0
@@ -109,17 +111,17 @@ def generate_doc(dic,target='hawk_doc',output_folder='hawk'):
                 l= '%s %s.%s'%(header,'.'.join([str(r) for r in pos[1:count]]),splits[1])
         
         file.write(l+'\n')
-    with codecs.open('%s/mkdocs.yml'%output_folder, 'w',encoding='utf-8') as f:
-        f.write('site_name: Hawk doc\n')
-        f.write('nav:\n')
-        for i,file in enumerate(titles):
-            if i==0:
-                title= 'Hawk' 
-            else:
-                title= file
-            f.write('    - %s.%s: %s.md\n'%(i+1,title,file))
-        f.write('theme: readthedocs\n')
-        f.close()
+    # with codecs.open('%s/mkdocs.yml'%output_folder, 'w',encoding='utf-8') as f:
+    #     f.write('site_name: Hawk doc\n')
+    #     f.write('nav:\n')
+    #     for i,file in enumerate(titles):
+    #         if i==0:
+    #             title= 'Hawk' 
+    #         else:
+    #             title= file
+    #         f.write("    - '%s': '%s.md'\n"%(title,file))
+    #     f.write('theme: readthedocs\n')
+    #     f.close()
 
 def usage():
     help='''
@@ -131,7 +133,7 @@ if __name__ == '__main__':
 
     import sys, getopt
     opts, args = getopt.getopt(sys.argv[1:], "hi:o:")
-    input_file='../Hawk/Lang/DefaultLanguage.xaml'
+    input_file='../Hawk/Lang/zh-CN.xaml'
     #input_file='en_us.xaml'
     output_folder="hawk"
     for op, value in opts:

@@ -97,8 +97,6 @@
     <system:String x:Key="key_69">
         启用自增主键
     </system:String>
-    <system:String x:Key="key_89"> sql=
-    </system:String>
     <system:String x:Key="key_0">
         是否保存当前工程的内容？您只有一次机会这样做，
     </system:String>
@@ -3005,8 +3003,12 @@
         项目文档: https://ferventdesert.github.io/Hawk/
 
         下载地址: https://github.com/ferventdesert/Hawk/releases 
+
+        国内备份下载地址： https://gitee.com/deserthawk/Hawk/attach_files
         
         示例工程文件: https://github.com/ferventdesert/Hawk-Projects/Hawk3
+
+        教学视频地址： https://space.bilibili.com/312273788/channel/detail?cid=68345
 
         ## 介绍
 
@@ -3034,34 +3036,44 @@
 
         ## 联系作者
 
-        Hawk的支持QQ群：546750531
+        开发者： 沙漠之鹰(desert), 升哥
+
+        Hawk的支持QQ群：546750531 （可能存在QQ搜不到的情况，原因未知），可通过扫描二维码进入：
+
+        ![QQ群二维码](https://upload-images.jianshu.io/upload_images/9608527-cea664ee2dd514e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
         如果Hawk帮到了你，欢迎给Hawk的GitHub点个star。 关注“沙漠之鹰”公众号，或通过支付宝给Hawk作者打赏！
 
          ![Hawk打赏小](https://upload-images.jianshu.io/upload_images/9608527-c5cac76b8af81a45.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
-        ## 相关资源
+        ## 教学视频和相关资源
 
-        友情提示：由于软件更新频繁，界面有较大变化。但Hawk1到Hawk3在操作思路上基本一致，只是文案和布局上有少许区别，因此老版本的视频同样可做重要的参考资料。
+        Hawk5的最新教学视频都在这里：（终于放在了友爱且无广告的B站）
 
-        - Hawk3
+        https://space.bilibili.com/312273788/channel/detail?cid=68345
 
-        [Hawk3视频教学字幕版-新功能展示](http://v.qq.com/x/page/d0660sxbebu.html)
+        目录如下：
 
-        - Hawk2
+        1. [入门介绍](https://www.bilibili.com/video/av46846593/): Hawk是什么，有哪些资源和文档，如何入门
+        2. [任务市场和基本操作](https://www.bilibili.com/video/av46846712/): 如何下载现成的任务，界面布局
+        3. [网页采集器(1)](https://www.bilibili.com/video/av46846825/) 多文档模式  手气不错，抓取列表型网页
+        4. [网页采集器(2)](https://www.bilibili.com/video/av46846942) 单文档模式  抓取详情型网页，大众点评
+        4. [网页采集器(3)](https://www.bilibili.com/video/av46847027) 动态嗅探  抓取瀑布流，共享参数，
+        5. [数据清洗(1)](https://www.bilibili.com/video/av46847092/)  入门：  模块的分类，基本操作
+        6. [数据清洗(2)]()  抓取新闻网页： 列表+详情页， 子任务的简单使用
+        7. [数据清洗(3)]()  如何下载文件  下载报纸PDF和图片，
+        8. [数据清洗(4)]()  如何读写数据表/数据库/文件 
+        9.  子任务专辑
+        10. 抓取手机app应用
+        11. 答疑和高级操作
+         
 
-        [抓取动态页面](https://v.qq.com/x/page/a03878tihmx.html)
+        友情提示：由于软件更新频繁，界面有较大变化。但Hawk1到Hawk3在操作思路上基本一致，只是文案和布局上有少许区别，因此老版本的视频同样可做重要的参考资料。视频地址如下：
 
-        [Hawk答疑](https://v.qq.com/x/page/n0387axmgg5.html)
-        
-        - Hawk1
-
-        [链家二手房](http://v.qq.com/page/w/9/2/w0189607h92.html)
-
-        [微信公共平台](http://v.qq.com/page/c/s/n/c0189jwd2sn.html)
-
-        [大众点评-北京美食](http://v.qq.com/page/z/g/h/z01891n1rgh.html)
+        https://www.bilibili.com/video/av47601331/
+      
 
         ## 如何阅读文档
 

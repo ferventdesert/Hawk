@@ -70,7 +70,7 @@
 
     </system:String>
     <system:String x:Key="key_560">
-        The number of Zi Xiancheng
+        sub-thread num
 
     </system:String>
     <system:String x:Key="key_750">
@@ -78,15 +78,15 @@
 
     </system:String>
     <system:String x:Key="key_718">
-        Normal initialization
+        normally initialized
 
     </system:String>
     <system:String x:Key="key_258">
-        Do you execute the delete operation?
+        Sure to execute deleting?
 
     </system:String>
     <system:String x:Key="key_641">
-        3. dynamic requests for sniffing
+        3. dynamic requests sniffing
 
     </system:String>
     <system:String x:Key="key_370">
@@ -102,14 +102,11 @@
 
     </system:String>
     <system:String x:Key="key_69">
-        Enable self - added primary key write
-
-    </system:String>
-    <system:String x:Key="key_89"> sql=
+        write self-added primarykey 
 
     </system:String>
     <system:String x:Key="key_0">
-        Do you save the content of the current project? You have only one chance to do this.
+        save project? You have only ONE chance to do this.
 
     </system:String>
     <system:String x:Key="key_67">
@@ -133,16 +130,14 @@
 
     </system:String>
     <system:String x:Key="key_497">
-        Import column
-
+        Import-column
     </system:String>
     <system:String x:Key="NullFT_desc">
-        Check whether the text is blank or null, commonly used
+        Check whether text is blank or null
 
     </system:String>
     <system:String x:Key="DataProcessManagerUI">
         DataProcessManager
-
     </system:String>
     <system:String x:Key="key_374">
         Maximum value
@@ -154,27 +149,21 @@
     </system:String>
     <system:String x:Key="key_614">
         Arabic
-
     </system:String>
     <system:String x:Key="key_292">
         recovery
-
     </system:String>
     <system:String x:Key="StrExtractTF">
-        Character first and end extraction
-
+        string-extraction
     </system:String>
     <system:String x:Key="smartetl_name">
-        Data cleaning
-
+        SmartETL
     </system:String>
     <system:String x:Key="JoinDBTF_desc">
         It is used to complete the join operation and matching with the database.
-
     </system:String>
     <system:String x:Key="key_350">
         Write {2} entries to database {0} and table name {1} successfully.
-
     </system:String>
     <system:String x:Key="key_405">
         1. connector
@@ -182,27 +171,21 @@
     </system:String>
     <system:String x:Key="key_23">
         server address
-
     </system:String>
     <system:String x:Key="key_677">
         command
-
     </system:String>
     <system:String x:Key="key_164">
         available
-
     </system:String>
     <system:String x:Key="IFileConnector:IDictionarySerializable">
         File import and export basic interface
-
     </system:String>
     <system:String x:Key="key_91">
         Enumeration virtualization
-
     </system:String>
     <system:String x:Key="key_277">
         Level setting
-
     </system:String>
     <system:String x:Key="key_777">
         Thread number
@@ -210,102 +193,79 @@
     </system:String>
     <system:String x:Key="key_395">
         Delay Time
-
     </system:String>
     <system:String x:Key="DataGridViewer_desc">
         IDataViewer
-
     </system:String>
     <system:String x:Key="key_107">
         filter
-
     </system:String>
     <system:String x:Key="FolderGE">
-        Get a folder file
-
+        Readfolder
     </system:String>
     <system:String x:Key="SmartCrawlerUI">
         SmartCrawler
-
     </system:String>
     <system:String x:Key="key_523">
-        Repetitions
-
+        RepetitionTime
     </system:String>
     <system:String x:Key="key_180">
-        Maximum number of access times
-
+        Maximum access time
     </system:String>
     <system:String x:Key="key_711">
-        The numerical range of the maximum number of threads is 0-30
-
+        range of threads is 0-30
     </system:String>
     <system:String x:Key="key_167">
-        Reverse selection
-
+        Reverse
     </system:String>
     <system:String x:Key="MergeRepeatTF">
         Duplication combination
-
     </system:String>
     <system:String x:Key="key_779">
-        You can drag the icon into the upper blank list of the right data column to add the ETL module to the column.
+        Drag  icon into the upper-right blank list, add ETL module to the column.
 
     </system:String>
     <system:String x:Key="key_96">
         Undefined resources
-
     </system:String>
     <system:String x:Key="key_210">
-        Quantitative range selection
-
+        RangeSelection
     </system:String>
     <system:String x:Key="FileConnectorXML">
-        XML import and export
-
+        XML-Exporter
     </system:String>
     <system:String x:Key="key_3">
-        The system is busy
-
+        System busy
     </system:String>
     <system:String x:Key="key_411">
-        Subtask - Selection
-
+        Subtask Selection
     </system:String>
     <system:String x:Key="key_649">
-        It has been successfully copied to the clipboard
-
+        Successfully copied to the clipboard
     </system:String>
     <system:String x:Key="key_101">
-        Have been successful
-
+        Executing successful
     </system:String>
     <system:String x:Key="key_443">
-        Read configuration
-
+        Configuration Reading
     </system:String>
     <system:String x:Key="key_629">
-        Refresh the web page
-
+        Refresh WebPage
     </system:String>
     <system:String x:Key="key_143">
-        view
-
+        View
     </system:String>
     <system:String x:Key="key_128">
-        Maximum prohibition
-
+        Maximum forbiddren Num
     </system:String>
     <system:String x:Key="GetIPLocation_desc">
-        Obtain the latitude and longitude coordinates of a IP address
-
+        Obtain latitude and longitude coordinates of a IP address
     </system:String>
     <system:String x:Key="key_34">
-        implement
-
+        Execute
     </system:String>
     <system:String x:Key="key_197">
-        Xpath exp
+        Xpath-exp
 
     </system:String>
     <system:String x:Key="ICustomClass">
@@ -317,19 +277,17 @@
 
     </system:String>
     <system:String x:Key="key_752">
-        Number of subnodes
-
+        Subnodes Num
     </system:String>
     <system:String x:Key="key_700">
-        Have been loaded
+        loaded
 
     </system:String>
     <system:String x:Key="key_730">
-        Fast retrieval
-
+        FastSearching
     </system:String>
     <system:String x:Key="NlpTF">
-        natural language processing
+        NLP
 
     </system:String>
     <system:String x:Key="key_769">
@@ -337,15 +295,14 @@
 
     </system:String>
     <system:String x:Key="EtlGE">
-        Subtask - generation
+        Subtask-Generation
 
     </system:String>
     <system:String x:Key="key_579">
-        Information retrieval through the city
-
+        searching through city name
     </system:String>
     <system:String x:Key="key_74">
-        MongoDB database is not local, unable to start automatic database repair.
+        MongoDB database is not local, unable to start automatic database repairing.
 
     </system:String>
     <system:String x:Key="EtlEX">
@@ -353,75 +310,55 @@
 
     </system:String>
     <system:String x:Key="FileConnectorTable_desc">
-        Output tabs text file
-
+        Output tabs-text file
     </system:String>
     <system:String x:Key="key_368">
         Enabled when debugging
-
     </system:String>
     <system:String x:Key="key_9">
         data description
-
     </system:String>
     <system:String x:Key="key_108">
         Transformation
-
-    </system:String>
-    <system:String x:Key="key_749">
-        {attributes:EnumValues {x:Type connectors:SelectorFormat}}
-
-    </system:String>
-    <system:String x:Key="key_791">
-        DataContext =
-
     </system:String>
     <system:String x:Key="key_153">
-        Plug-in unit
-
+        Plug-in 
     </system:String>
     <system:String x:Key="key_226">
-        Are you sure you want to delete the connection?
-
+        Sure you want to delete the connection?
     </system:String>
     <system:String x:Key="key_334">
         File {0} does not exist
-
     </system:String>
     <system:String x:Key="key_625">
-        The number of attributes can not be empty
+        Num of attributes can not be empty
 
     </system:String>
     <system:String x:Key="JoinDBTF">
         Database matching
-
     </system:String>
     <system:String x:Key="key_438">
         Code
-
     </system:String>
     <system:String x:Key="key_269">
-        Feedback problem
+        Feedback
 
     </system:String>
     <system:String x:Key="key_719">
-        Inflow of data
-
+        Inflow num
     </system:String>
     <system:String x:Key="key_285">
         Delete task
-
     </system:String>
     <system:String x:Key="key_745">
         Position:
-
     </system:String>
     <system:String x:Key="key_82">
         Browse path
 
     </system:String>
     <system:String x:Key="key_304">
-        Working thread view
+        Working thread View
 
     </system:String>
     <system:String x:Key="key_162">
@@ -445,7 +382,7 @@
 
     </system:String>
     <system:String x:Key="key_146">
-        The plug-in manager has been loaded
+        plug-in manager loaded
 
     </system:String>
     <system:String x:Key="key_616">
@@ -461,23 +398,22 @@
 
     </system:String>
     <system:String x:Key="key_256">
-        The current memory data has been cleared
+        current memory data has been cleared
 
     </system:String>
     <system:String x:Key="key_756">
         Sorting strategy
-
     </system:String>
     <system:String x:Key="key_354">
-        The unit is milliseconds, and the square brackets syntax can also be used, such as [a], to read the delay length from the a column.
+        The unit is milliseconds, and the square brackets syntax can also be used such as [a], to read the delay length from the a column.
 
     </system:String>
     <system:String x:Key="key_152">
-        The current type is not found in the plug-in collection,
+        current type is not found in the plug-in collection
 
     </system:String>
     <system:String x:Key="key_148">
-        The plug-in type is repeated, please check the configuration file
+        plug-in type is repeated, please check the configuration file
 
     </system:String>
     <system:String x:Key="DbEX_desc">
@@ -485,7 +421,7 @@
 
     </system:String>
     <system:String x:Key="key_132">
-        wipe data
+        wiping data
 
     </system:String>
     <system:String x:Key="EtlTF_desc">
@@ -521,7 +457,7 @@
 
     </system:String>
     <system:String x:Key="key_252">
-        Exporting data tasks
+        Exporting data task
 
     </system:String>
     <system:String x:Key="key_347">
@@ -534,9 +470,6 @@
     </system:String>
     <system:String x:Key="key_345">
         Select database
-
-    </system:String>
-    <system:String x:Key="key_727"> Grid.RowSpan=
 
     </system:String>
     <system:String x:Key="key_228">
@@ -560,11 +493,11 @@
 
     </system:String>
     <system:String x:Key="key_448">
-        Screening model
+        Filtering-model
 
     </system:String>
     <system:String x:Key="key_248">
-        Failure of database connection service
+        database connection service failed
 
     </system:String>
     <system:String x:Key="key_482">
@@ -608,31 +541,27 @@
 
     </system:String>
     <system:String x:Key="key_431">
-        Recursion to the following
+        Recursion to following-line
 
     </system:String>
     <system:String x:Key="key_481">
-        Error delay time
-
+        Error-delay time
     </system:String>
     <system:String x:Key="key_367">
-        Return the result back to return
-
+        Reverse result
     </system:String>
     <system:String x:Key="AutoIndexTF">
-        Self increasing key generation
+        Self-incr key generation
 
     </system:String>
     <system:String x:Key="key_76">
         Repair failed. Did you install MongoDB database?
-
     </system:String>
     <system:String x:Key="key_442">
         file format
-
     </system:String>
     <system:String x:Key="RandomGE">
-        Generating random number
+        Generating-random-number
 
     </system:String>
     <system:String x:Key="RepeatTF">
@@ -644,31 +573,27 @@
 
     </system:String>
     <system:String x:Key="key_274">
-        Author Sha Mojun's blog
+        Author's blog
 
     </system:String>
     <system:String x:Key="key_268">
-        There are cases and complete tutorials for using Hawk
+        Complete tutorials for using Hawk
 
     </system:String>
     <system:String x:Key="key_581">
-        Like a hospital, a gourmet food, etc
+        hospital, food, etc
     </system:String>
     <system:String x:Key="key_418">
-        Setting the subtask call property
-
+        Setting subtask property
     </system:String>
     <system:String x:Key="key_518">
-        When the equivalent value is less than 0, multiple values can be matched at the same time
-
+        When value less than 0, multiple values can be matched at the same time
     </system:String>
     <system:String x:Key="key_71">
         Open the help link
-
     </system:String>
     <system:String x:Key="key_104">
         sort
-
     </system:String>
     <system:String x:Key="FileConnectorCSV_desc">
         Output text type CSV comma delimited file
@@ -676,7 +601,6 @@
     </system:String>
     <system:String x:Key="key_337">
         Grouping
-
     </system:String>
     <system:String x:Key="key_125">
         redirect automatically
@@ -684,7 +608,6 @@
     </system:String>
     <system:String x:Key="key_573">
         Clear the middle space
-
     </system:String>
     <system:String x:Key="DataProcessManager_desc">
         Manage and assemble the algorithm modules, but do not provide interface.
@@ -711,23 +634,21 @@
 
     </system:String>
     <system:String x:Key="key_177">
-        From text generation
-
+        Generation from text
     </system:String>
     <system:String x:Key="FileConnectorJson">
         Json import and export
-
     </system:String>
     <system:String x:Key="key_166">
-        Total selection
+        select-all
 
     </system:String>
     <system:String x:Key="key_652">
-        Continue to search
+        Continue searching
 
     </system:String>
     <system:String x:Key="key_772">
-        Setting the front n rows to get the data table
+        Setting front n rows 
 
     </system:String>
     <system:String x:Key="key_686">
@@ -744,7 +665,6 @@
     </system:String>
     <system:String x:Key="key_344">
         Select database operations, such as insert, delete, update, etc.
-
     </system:String>
     <system:String x:Key="key_628">
         The root node of the list is detected: {0}. Does the root node path be set? This operation is recommended by experienced users.
@@ -755,24 +675,17 @@
 
     </system:String>
     <system:String x:Key="key_360">
-        Fill in the name of the collector or module
-
+        Fill in module name
     </system:String>
     <system:String x:Key="key_314">
         Task description
-
-    </system:String>
-    <system:String x:Key="key_776">
-        {Binding Attribute�?Converter={StaticResource GroupConverter}}
-
     </system:String>
     <system:String x:Key="key_287">
         Task list 2
 
     </system:String>
     <system:String x:Key="key_240">
-        To configure
-
+        configure
     </system:String>
     <system:String x:Key="key_695">
         Debugging and exploration
@@ -783,8 +696,7 @@
 
     </system:String>
     <system:String x:Key="key_192">
-        After selecting this item, the news text is automatically extracted, and the XPath path can be empty.
-
+        After selecting this item, the news text is automatically extracted (XPath can be empty)
     </system:String>
     <system:String x:Key="key_617">
         Italian
@@ -795,7 +707,7 @@
 
     </system:String>
     <system:String x:Key="key_558">
-        The name of Zi Xiancheng
+        sub-thread num
 
     </system:String>
     <system:String x:Key="key_753">
@@ -803,7 +715,7 @@
 
     </system:String>
     <system:String x:Key="key_688">
-        Get the front n lines of the data table only
+        Get the front n lines 
 
     </system:String>
     <system:String x:Key="key_537">
@@ -1149,7 +1061,7 @@
 
     </system:String>
     <system:String x:Key="feellucky">
-        Good hands
+        feel-lucky
 
     </system:String>
     <system:String x:Key="key_451">
@@ -1157,7 +1069,7 @@
 
     </system:String>
     <system:String x:Key="key_690">
-        The last step
+        last step
 
     </system:String>
     <system:String x:Key="key_133">

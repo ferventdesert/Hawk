@@ -17,6 +17,9 @@
         Control loading
 
     </system:String>
+    <system:String x:Key="param_group">
+         param-group set
+    </system:String>
     <system:String x:Key="Closing2">
         [{0}] the task may not have been saved yet. \\n [is]: save the task and exit, \\n [no]: do not save exit, \\n [Cancel]: cancel exit
 
@@ -86,7 +89,7 @@
 
     </system:String>
     <system:String x:Key="key_641">
-        3. dynamic requests sniffing
+        dynamic requests sniffing
 
     </system:String>
     <system:String x:Key="key_370">
@@ -1737,8 +1740,11 @@
 
     </system:String>
     <system:String x:Key="key_743">
-        Welcome to use Hawk3
+        Welcome to use Hawk
 
+    </system:String>
+    <system:String x:Key="project_set">
+        project settings
     </system:String>
     <system:String x:Key="key_774">
         Debug details
@@ -1751,6 +1757,15 @@
     <system:String x:Key="key_666">
         The current XPath node is not the descendant of the parent node. Please check the corresponding XPath. Do you still want to add it?
 
+    </system:String>
+      <system:String x:Key="configset">
+        config settings
+    </system:String>
+       <system:String x:Key="long_etl_task">
+         long time ETL task is running...
+    </system:String>
+    <system:String x:Key="long_visit_web">
+        refresh from website, please wait
     </system:String>
     <system:String x:Key="key_45">
         Please fill out the Excel header information

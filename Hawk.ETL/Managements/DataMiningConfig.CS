@@ -73,7 +73,7 @@ namespace Hawk.ETL.Managements
                 this.Set<int>("AutoSaveTime", value);
             }
         }
-      [Browsable(false)] 
+      //[Browsable(false)] 
         public string  Language
         {
             get { return this.Get<string>("Language"); }

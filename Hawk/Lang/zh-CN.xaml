@@ -70,7 +70,7 @@
     <system:String x:Key="key_560">
         子线程数量
     </system:String>
-    <system:String x:Key="key_750">  可填写完整XPath,或只根据id或class名称进行检索，如选择class，值填`name`，就是查找所有class=name的节点
+    <system:String x:Key="key_750">可填写完整XPath,或只根据id或class名称进行检索，如选择class，值填`name`，就是查找所有class=name的节点
     </system:String>
     <system:String x:Key="key_718">
         正常初始化
@@ -506,19 +506,19 @@
         {0}已经有任务在执行，为了避免副作用，请在任务管理器中取消该任务后再刷新
     </system:String>
     <system:String x:Key="keep_old_datas">
-         加载新工程时，是否保留原工程的数据集和任务？
+        加载新工程时，是否保留原工程的数据集和任务？
     </system:String>
     <system:String x:Key="key_274">
         作者沙漠君的博客
     </system:String>
     <system:String x:Key="author">
-      作者
+        作者
     </system:String>
     <system:String x:Key="publish_time">
-      发布时间
+        发布时间
     </system:String>
     <system:String x:Key="cover_img">
-       封面图
+        封面图
     </system:String>
     <system:String x:Key="key_268">
         这里有使用Hawk的案例与完整教程
@@ -840,7 +840,7 @@
         XPath转换器
     </system:String>
     <system:String x:Key="key_295">
-        新建或复制 {{smartcrawler_name}} 
+        新建或复制 {{smartcrawler_name}}
     </system:String>
     <system:String x:Key="key_381">
         最小匹配数
@@ -1092,7 +1092,7 @@
         如公园，车站等
     </system:String>
     <system:String x:Key="DisplayPopupMenu">
-       是否显示弹出式信息
+        是否显示弹出式信息
     </system:String>
     <system:String x:Key="SmartCrawler_desc">
         从单个网页中采集和嗅探所需数据
@@ -1243,7 +1243,7 @@
           haha 
     </system:String>
     <system:String x:Key="config_not_found_warning">
-       配置"{0}"在全局配置中不存在，请检查相关参数，原始配置为 {1}
+        配置"{0}"在全局配置中不存在，请检查相关参数，原始配置为 {1}
     </system:String>
     <system:String x:Key="crawler_xpath_root" xml:space="preserve">
         ### 列表根路径
@@ -1343,7 +1343,7 @@
     <system:String x:Key="key_634">
         2.请求参数
     </system:String>
- 
+
     <system:String x:Key="key_18">
         名称
     </system:String>
@@ -1644,7 +1644,7 @@
     <system:String x:Key="key_119">
         端口
     </system:String>
-        <system:String x:Key="auto_startstop_fiddler">
+    <system:String x:Key="auto_startstop_fiddler">
         自动启停嗅探
     </system:String>
     <system:String x:Key="key_713">
@@ -1705,7 +1705,7 @@
         常用
     </system:String>
     <system:String x:Key="market_url">
-       市场地址
+        市场地址
     </system:String>
     <system:String x:Key="market_url_check" xml:space="preserve">
         市场的url必须以https://github.com开头，且包含repo名和首层文件夹，例如：
@@ -1801,7 +1801,7 @@
         工程另存为
     </system:String>
     <system:String x:Key="key_648">
-        填写拥有正确cookie的采集器名称，为空时不起作用，该功能还会获取代理IP等属性，避免重复设置 {{smartcrawler_name}} 
+        填写拥有正确cookie的采集器名称，为空时不起作用，该功能还会获取代理IP等属性，避免重复设置 {{smartcrawler_name}}
     </system:String>
     <system:String x:Key="key_388">
         填入空格分割的列名，对本模块所在列的值相同的所有属性分别进行纵向合并数组
@@ -1885,7 +1885,7 @@
         删除该列
     </system:String>
     <system:String x:Key="key_12">
-        类型 
+        类型
     </system:String>
     <system:String x:Key="key_673">
         ,通常原因是网站对请求合法性做了检查, 建议填写关键字对网页内容进行自动嗅探
@@ -2195,7 +2195,7 @@
     <system:String x:Key="key_326">
         不能重复加载该任务
     </system:String>
-     <system:String x:Key="is_load_remote_project">
+    <system:String x:Key="is_load_remote_project">
         是否加载远程市场的工程内容？
     </system:String>
     <system:String x:Key="key_179">
@@ -2336,16 +2336,16 @@
     <system:String x:Key="next">
         下一个
     </system:String>
-      <system:String x:Key="property_count_too_many">
-    本根节点通过手气不错检测出的属性数超过100个，继续查找下一个根节点
+    <system:String x:Key="property_count_too_many">
+        本根节点通过手气不错检测出的属性数超过100个，继续查找下一个根节点
     </system:String>
     <system:String x:Key="not_find_module">
         没有找到名称为'{0}'的{1}，请检查“{2}”是否填写错误
     </system:String>
-      <system:String x:Key="error_column">
+    <system:String x:Key="error_column">
         在保存到数据集时，列名 {0} 中不应包含标点符号等特殊字符，请进行修改
     </system:String>
-     <system:String x:Key="error_check">
+    <system:String x:Key="error_check">
         对模块{0}进行检查，发现问题： {1}
     </system:String>
     <system:String x:Key="key_613">
@@ -2365,7 +2365,7 @@
     </system:String>
     <system:String x:Key="FileConnectorCSV">
         CSV导入导出器
-        
+
     </system:String>
     <system:String x:Key="debugview">
         调试分析
@@ -2405,12 +2405,12 @@
         工程设置
     </system:String>
     <system:String x:Key="param_group">
-         参数组设置
+        参数组设置
     </system:String>
     <system:String x:Key="using_param_name">
-         当前参数组名称
+        当前参数组名称
     </system:String>
-      <system:String x:Key="get_remote_projects">
+    <system:String x:Key="get_remote_projects">
         获取远程市场的工程列表
     </system:String>
     <system:String x:Key="table_list">
@@ -3171,12 +3171,12 @@
     <system:String x:Key="key_229">
         没有在表中的发现可用的数据
     </system:String>
-     
+
     <system:String x:Key="auto_save_tooltip">
-       是否自动保存？
+        是否自动保存？
     </system:String>
- <system:String x:Key="auto_save_desc">
-       如果不做任何操作，Hawk将会在倒计时后自动保存数据和工程，并关闭窗口
+    <system:String x:Key="auto_save_desc">
+        如果不做任何操作，Hawk将会在倒计时后自动保存数据和工程，并关闭窗口
     </system:String>
     <system:String x:Key="key_316">
         当前工程中没有包含任何任务，是否继续保存？
@@ -3190,7 +3190,7 @@
         输入负数n时，则会返回倒数第n个内容。如果没有发现匹配，则返回空
     </system:String>
     <system:String x:Key="key_223">
-        数据管理 
+        数据管理
     </system:String>
 
     <system:String x:Key="key_589">
@@ -3221,7 +3221,7 @@
         MySQL数据库
     </system:String>
     <system:String x:Key="clip_down">
-        将拷贝模块插入下方  
+        将拷贝模块插入下方
     </system:String>
     <system:String x:Key="key_308">
         保存工程
@@ -3301,13 +3301,13 @@
     <system:String x:Key="generate_project_doc">
         生成工程教学文档
     </system:String>
-      <system:String x:Key="fiddler_start">
+    <system:String x:Key="fiddler_start">
         嗅探服务已经开启， 端口为"http://{0}:{1}" ，允许远程连接。 若Hawk非正常关闭，会导致系统代理修改无法上网，请重启Hawk后，开启再关闭自动嗅探即可。
     </system:String>
     <system:String x:Key="http_header">
         Http请求详情
     </system:String>
-    
+
     <system:String x:Key="DataManager">
         数据管理
     </system:String>
@@ -3342,7 +3342,7 @@
         文件不是合法的Json文件
     </system:String>
     <system:String x:Key="find_ref">
-       查找所有引用
+        查找所有引用
     </system:String>
 
     <system:String x:Key="key_216">
@@ -3675,10 +3675,10 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
         串行模式
     </system:String>
     <system:String x:Key="parallel_mode">
-       并行模式
+        并行模式
     </system:String>
     <system:String x:Key="debug_mode">
-       调试模式
+        调试模式
     </system:String>
     <system:String x:Key="merge_append">
         按行纵向合并
@@ -3755,7 +3755,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
         默认值
     </system:String>
     <system:String x:Key="remark">
-       注释
+        注释
     </system:String>
     <system:String x:Key="remark_desc">
         这里填写关于模块或任务的介绍，之后会在文档说明中展示它，可为空。
@@ -3777,13 +3777,13 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
         过滤模式
     </system:String>
     <system:String x:Key="doc_etl_read">
-      查看教程文档
+        查看教程文档
     </system:String>
     <system:String x:Key="filter_mode_by_item">
-         按行过滤
+        按行过滤
     </system:String>
     <system:String x:Key="filter_mode_pass_when_success">
-        成功后通过之后的所有行     
+        成功后通过之后的所有行
     </system:String>
     <system:String x:Key="filter_mode_stop_when_fail">
         失败后拒绝之后所有行
@@ -4117,35 +4117,35 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     </system:String>
 
     <system:String x:Key="drag_desc">
-      将 `{0}` 模块拖入到 `{1}` 列
+        将 `{0}` 模块拖入到 `{1}` 列
     </system:String>
     <system:String x:Key="set_param_desc1">
-      设置 `{0}` 值为 `{1}`
+        设置 `{0}` 值为 `{1}`
     </system:String>
     <system:String x:Key="set_param_desc2">
-      将 `{0}` 填为 `{1}` 
+        将 `{0}` 填为 `{1}`
     </system:String>
     <system:String x:Key="reason_desc1">
-      其目的是{0}
+        其目的是{0}
     </system:String>
     <system:String x:Key="reason_desc2">
-      作用为{0}
+        作用为{0}
     </system:String>
     <system:String x:Key="get_remote_market_data">
-      正在读取远程市场的工程数据
+        正在读取远程市场的工程数据
     </system:String>
     <system:String x:Key="set_before">
         需提前设置好: `{0}`
     </system:String>
     <system:String x:Key="doc_task_title">
-         ## 新建{0}:{1}
+        ## 新建{0}:{1}
     </system:String>
     <system:String x:Key="doc_task_new">
-         在启动页面双击新建{0}，并设置其名称为`{1}`。
+        在启动页面双击新建{0}，并设置其名称为`{1}`。
     </system:String>
 
     <system:String x:Key="doc_crawler_add_xpath">
-    {{key_160}}设置为`{0}`,类型选择为`{1}`, 目标为`{2}`，值为{3},  并点击`添加属性`。
+        {{key_160}}设置为`{0}`,类型选择为`{1}`, 目标为`{2}`，值为{3},  并点击`添加属性`。
     </system:String>
     <system:String x:Key="qa_list" xml:space="preserve">
 
@@ -4661,7 +4661,7 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
     - 右侧是配置区域，可对关键字进行搜索，并对所有的属性进行管理。
     -  点击【{{key_624}}】，可预览检查配置结果。
 
-    在{{script_mode_list}}模式下，通常直接点击右上角的{{feellucky}}，在弹出的结果下选择所需数据，可配置其名称和XPath。点击确定即可配置完毕。即可自动获取绝大多数网页的目标内容。
+    在{{script_mode_list}}模式下，通常直接点击右上角的{{feellucky}}，在弹出的结果下选择所需数据，可配置其名称和XPath。点击确定即可配置完毕。即可自动获取绝大多数网页的目标内容。
       
     ![手气不错](http://images2018.cnblogs.com/blog/287060/201805/287060-20180512203827617-1470633207.gif)
 

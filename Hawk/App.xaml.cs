@@ -9,6 +9,7 @@ using System.Windows;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Microsoft.HockeyApp;
+using Hawk.ETL.Interfaces;
 namespace Hawk
 {
     /// <summary>
@@ -33,7 +34,7 @@ namespace Hawk
             });
 
 
-            // LoadLanguage();
+            AppHelper.LoadLanguage();
         }
 
 

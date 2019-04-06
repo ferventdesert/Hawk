@@ -7,8 +7,11 @@ using System.IO;
 using System.Linq;
 using CommandLine;
 using CommandLine.Text;
+using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Crawlers;
+using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
 using Hawk.ETL.Process;
 using log4net.Config;
@@ -51,60 +54,29 @@ namespace HawkScheduler
         }
     }
 
-    public class CommandLineContainer : IMainFrm, IDockableManager
-    {
-        public CommandLineContainer()
-        {
-            PluginManager = new PluginManager();
-            MainDescription.IsUIForm = false;
-            MainDescription.MainFrm = this;
-            PluginManager.MainFrmUI = this;
-            var MainStartUpLocation = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-            ;
-            PluginManager.Init(new[] {MainStartUpLocation});
-            PluginManager.LoadPlugins();
-        }
-
-        public PluginManager PluginManager { get; set; }
-
-        public void AddDockAbleContent(FrmState thisState, object thisControl, params string[] objects)
-        {
-        }
-
-        public void RemoveDockableContent(object model)
-        {
-        }
-
-        public void ActiveThisContent(object view)
-        {
-        }
-
-        public void ActiveThisContent(string name)
-        {
-        }
-
-        public event EventHandler<DockChangedEventArgs> DockManagerUserChanged;
-        public List<ViewItem> ViewDictionary { get; }
-
-        public void SetBusy(bool isBusy, string title = "系统正忙", string message = "正在处理长时间操作", int percent = 0)
-        {
-        }
-
-        public ObservableCollection<IAction> CommandCollection { get; set; }
-        public string MainPluginLocation { get; }
-        public Dictionary<string, IXPlugin> PluginDictionary { get; set; }
-        public event EventHandler<ProgramEventArgs> ProgramEvent;
-
-        public void InvokeProgramEvent(ProgramEventArgs e)
-        {
-        }
-    }
+  
 
 
     internal class Program
     {
+        public static string url = "http://www.cnblogs.com/";
+
+        private static void unitTest()
+        {
+            var doc = XPathAnalyzer.GetHtmlDocument(url);
+          
+            var datas = XPathAnalyzer.GetDataFromURL(url);
+           
+            var properties = doc.DocumentNode.SearchPropertiesSmartList();
+
+       
+            var firstOrDefault = properties.FirstOrDefault();
+            datas = doc.DocumentNode.GetDataFromXPath(firstOrDefault.CrawItems).ToList();
+         
+        }
         private static void Main(string[] args)
         {
+            unitTest();
             var options = new Options();
             var parser = new Parser(with => with.HelpWriter = Console.Error);
 
@@ -119,15 +91,27 @@ namespace HawkScheduler
             Console.WriteLine();
             Console.WriteLine("project file: {0} ...", options.ProjectFile);
             var container = new CommandLineContainer();
+           
+            var processManager = container.PluginDictionary["DataProcessManager"] as DataProcessManager;
+            var project = Project.Load(options.ProjectFile);
+            if (project == null)
+            {
+                Console.WriteLine($"project {options.ProjectFile} is not exists or format error, exit..." );
+                return;
+            }
+            var dataManager = container.PluginDictionary["DataManager"] as DataManager;
 
-            var processManager = container.PluginDictionary["模块管理"] as DataProcessManager;
-            var project = ProjectItem.LoadProject(options.ProjectFile);
+         
 
+            project.DataCollections.Execute(d=>dataManager.AddDataCollection(d));
             XmlConfigurator.Configure(new FileInfo("log4net_cmd.config"));
             processManager.CurrentProject = project;
             var task = project.Tasks.FirstOrDefault(d => d.Name == options.TaskName);
+
+          
             if (task == null)
             {
+                
                 Console.WriteLine("task not in project, project task lists:");
                 foreach (var _task in project.Tasks)
                 {
@@ -136,7 +120,7 @@ namespace HawkScheduler
                 Console.ReadKey();
             }
             task.Load(false);
-            Console.WriteLine("projec load successful");
+            Console.WriteLine("project load successful");
             var realTask =
                 processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == options.TaskName) as SmartETLTool;
             var queuelists = processManager.CurrentProcessTasks as ObservableCollection<TaskBase>;

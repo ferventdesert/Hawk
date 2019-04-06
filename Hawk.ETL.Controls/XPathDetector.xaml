@@ -1,0 +1,68 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hawk.ETL.Controls"
+             xmlns:System_Windows_Controls_WpfPropertyGrid="clr-namespace:System.Windows.Controls.WpfPropertyGrid;assembly=System.Windows.Controls.WpfPropertyGrid" x:Class="Hawk.ETL.Controls.XPathDetector"
+             mc:Ignorable="d" 
+             d:DesignHeight="331.542" d:DesignWidth="619.626"  Background="{DynamicResource NormalBrush}">
+    <UserControl.Resources>
+        <DataTemplate x:Key="DataTemplate1">
+            <StackPanel Margin="0,5">
+                <TextBlock Margin="0" TextWrapping="Wrap" Text="{Binding XPath}" FontSize="18"/>
+                <TextBlock Margin="0" TextWrapping="Wrap" Text="{Binding SampleData1}"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="DataTemplate2">
+        	<Grid>
+        		<TextBlock Margin="0,0,0,4.76" TextWrapping="Wrap" Text="{Binding Url}" d:LayoutOverrides="Width, Height"/>
+        	</Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.751*"/>
+            <RowDefinition Height="0.249*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.47*"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="0.388*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:FieldModifier="public" x:Name="HtmlTextBox" Text="{Binding URLHTML, Mode=OneWay}"  
+    		ScrollViewer.CanContentScroll="True" TextWrapping="WrapWithOverflow" Margin="8,46,8,9.458"
+    		VerticalScrollBarVisibility="Auto"
+    		Background="{DynamicResource NormalBorderBrush}" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="46.176,0,0,8" VerticalAlignment="Bottom" Grid.Column="2" Grid.Row="2">
+        	<Button  DataContext="{Binding Commands[2]}" Content="{Binding Text}" Command="{Binding}" Margin="15,0,0,0" />
+
+        	<Button  DataContext="{Binding Commands[3]}" Content="{Binding Text}" Command="{Binding}" Margin="15,0,0,0" />
+        </StackPanel>
+        <ScrollViewer Grid.ColumnSpan="2" Grid.Column="1" Margin="8,13.568,13.487,32.25" Grid.RowSpan="3">
+        	<Grid>
+        		<Grid Height="25.672" Margin="0,30,-0.001,0"  VerticalAlignment="Top"   >
+        			<TextBlock Margin="0,0,0,2" TextWrapping="Wrap" Text="{DynamicResource key_765}" HorizontalAlignment="Left" Width="84" d:LayoutOverrides="Height" VerticalAlignment="Center" />
+        			<ComboBox     DataContext="{Binding XPath}" IsEditable="True" Text="{Binding _SelectItem}" ItemsSource="{Binding Collection}" Margin="90.5,0,86.208,0" />
+        			<Button  DataContext="{Binding Commands[1]}" Content="{Binding Text}" Command="{Binding}" HorizontalAlignment="Right" Width="41.5" VerticalAlignment="Center" />
+        		</Grid>
+        		<ListBox     ItemsSource="{Binding ChildItems}" ItemTemplate="{DynamicResource DataTemplate1}" Margin="8,63.672,7.999,8" d:LayoutOverrides="Width"/>
+        	</Grid>
+        </ScrollViewer>
+        <TextBlock Margin="9,26.76,192,0" TextWrapping="Wrap" Text="{DynamicResource key_760}" VerticalAlignment="Top" />
+        <Grid Margin="9,5.612,8,8" Grid.Row="1" Grid.RowSpan="2">
+        	<Grid d:LayoutOverrides="Width" Height="35.042" VerticalAlignment="Top"  >
+        		<TextBlock Margin="0,4.432,0,6" TextWrapping="Wrap" Text="{DynamicResource search_keyword}" HorizontalAlignment="Left" Width="84" d:LayoutOverrides="Height" VerticalAlignment="Center" />
+
+        		<TextBox Margin="97.25,4.432,47.263,4" TextWrapping="Wrap"
+        			Text="{Binding SelectText}" System_Windows_Controls_WpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" VerticalAlignment="Center" />
+        		<Button  DataContext="{Binding Commands[0]}" Content="{Binding Text}" Command="{Binding}" HorizontalAlignment="Right" Width="41.5" VerticalAlignment="Center" />
+        	</Grid>
+        	<ListBox  SelectedItem="{Binding SelectedItem}"   ItemsSource="{Binding CrawlItems}" ItemTemplate="{DynamicResource DataTemplate1}" Margin="8,35.042,8,0" d:LayoutOverrides="Width"/>
+
+        </Grid>
+        <ComboBox Margin="57.5,4.76,8,0"  SelectedItem="{Binding SelectedResult}"  ItemsSource="{Binding HtmlResults}" VerticalAlignment="Top" d:LayoutOverrides="HorizontalAlignment" ItemTemplate="{DynamicResource DataTemplate2}" />
+
+    </Grid>
+</UserControl>

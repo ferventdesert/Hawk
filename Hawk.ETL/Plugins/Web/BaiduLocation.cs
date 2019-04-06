@@ -1,11 +1,12 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.ComponentModel;
 using System.Web.Script.Serialization;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
+using Hawk.ETL.Interfaces;
 using Hawk.ETL.Plugins.Transformers;
 
 namespace Hawk.ETL.Plugins.Web
@@ -24,21 +25,21 @@ namespace Hawk.ETL.Plugins.Web
         }
     }
 
-    [XFrmWork("搜索位置","通过百度API获取当前地标的经纬度坐标，需要拖入代表地名的列","location")]
+    [XFrmWork("BaiduLocation","BaiduLocation_desc","location")]
     public class BaiduLocation : BaiduSDKBase
     {
         public BaiduLocation()
         {
-            Region = "北京";
+            Region = GlobalHelper.Get("key_577");
         }
 
-        [LocalizedDisplayName("所属地市")]
-        [LocalizedDescription("通过地市进行信息检索")]
+        [LocalizedDisplayName("key_578")]
+        [LocalizedDescription("key_579")]
         public string Region { get; set; }
 
 
-        [LocalizedDisplayName("标签")]
-        [LocalizedDescription("如医院，美食等")]
+        [LocalizedDisplayName("key_580")]
+        [LocalizedDescription("key_581")]
         public string Tag { get; set; }
 
         public override object TransformData(IFreeDocument datas)
@@ -75,7 +76,7 @@ namespace Hawk.ETL.Plugins.Web
                 }
                 newlocation.DictCopyTo(datas);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
             }
             return true;

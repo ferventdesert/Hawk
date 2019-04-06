@@ -15,9 +15,14 @@ namespace Hawk.ETL.Crawlers
       
         private int maxBufferCount;
 
-        [LocalizedDisplayName("启动缓存")]
+        [LocalizedDisplayName("key_159")]
         public bool EnableBuffer { get; set; }
 
+
+        public void SetBuffSize(int size)
+        {
+            maxBufferCount = size;
+        }
         public BuffHelper (int size)
         {
             EnableBuffer = true;

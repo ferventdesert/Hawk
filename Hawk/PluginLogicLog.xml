@@ -8,19 +8,19 @@
       <value>
         <ArrayOfBuildLogic>
           <BuildLogic>
-            <Name>属性配置器</Name>
+            <Name>XFrmWorkPropertyGrid</Name>
             <Order>1</Order>
           </BuildLogic>
           <BuildLogic>
-            <Name>调试信息窗口</Name>
+            <Name>DebugManager</Name>
             <Order>1</Order>
           </BuildLogic>
           <BuildLogic>
-            <Name>数据管理</Name>
+            <Name>DataManager</Name>
             <Order>1</Order>
           </BuildLogic>
           <BuildLogic>
-            <Name>模块管理</Name>
+            <Name>DataProcessManager</Name>
             <Order>1</Order>
           </BuildLogic>
         </ArrayOfBuildLogic>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Net;
@@ -9,34 +10,31 @@ using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
+using Hawk.ETL.Interfaces;
+using Hawk.ETL.Managements;
 using Hawk.ETL.Plugins.Generators;
+using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("从爬虫转换", "使用网页采集器获取网页数据，拖入的列需要为超链，常用","carema")]
+    [XFrmWork("CrawlerTF", "CrawlerTF_desc", "carema")]
     public class CrawlerTF : ResponseTF
     {
-        private BfsGE generator;
 
         public CrawlerTF()
         {
-            MaxTryCount = "1";
-            ErrorDelay = 3000;
-            PropertyChanged += (s, e) => { buffHelper.Clear(); };
+            PropertyChanged += (s, e) => {
+                if (e.PropertyName == "AnalyzeItem" || e.PropertyName == "")
+                    return;
+                    buffHelper.Clear(); };
         }
+        static  SmartCrawler defaultCrawler=new SmartCrawler();
 
         [Browsable(false)]
         public override string HeaderFilter { get; set; }
 
-        [LocalizedCategory("高级设置")]
-        [LocalizedDisplayName("最大重复次数")]
-        public string MaxTryCount { get; set; }
-
-        [LocalizedCategory("高级设置")]
-        [LocalizedDisplayName("错误延时时间")]
-        public int ErrorDelay { get; set; }
-
-        [LocalizedDisplayName("Post数据")]
+        [PropertyOrder(1)]
+        [LocalizedDisplayName("key_482")]
         public string PostData { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> datas)
@@ -44,10 +42,17 @@ namespace Hawk.ETL.Plugins.Transformers
             base.Init(datas);
 
             IsMultiYield = Crawler?.IsMultiData == ScriptWorkMode.List && Crawler.CrawlItems.Count > 0;
-
-            return Crawler != null;
+            if(IsMultiYield)
+            {
+                buffHelper.SetBuffSize(5);
+            }
+            return true;
         }
-
+        [PropertyOrder(2)]
+        [LocalizedDisplayName("key_118")]
+        public string Proxy { get; set; }
+        [Browsable(false)]
+        public override string KeyConfig => CrawlerSelector.SelectItem;
         private IEnumerable<FreeDocument> GetDatas(IFreeDocument data)
         {
             var p = data[Column];
@@ -56,8 +61,12 @@ namespace Hawk.ETL.Plugins.Transformers
             var url = p.ToString();
             var bufkey = url;
             var post = data.Query(PostData);
-
-            if (Crawler.Http.Method == MethodType.POST)
+            var crawler = Crawler;
+            if (crawler == null)
+            {
+                crawler = defaultCrawler;
+            }
+            if (crawler.Http.Method == MethodType.POST)
             {
                 bufkey += post;
             }
@@ -66,28 +75,23 @@ namespace Hawk.ETL.Plugins.Transformers
             if (htmldoc == null)
             {
                 HttpStatusCode code;
-                var maxcount = 1;
-                int.TryParse(data.Query(MaxTryCount), out maxcount);
-
-                var count = 0;
-                while (count < maxcount)
+                
+                var docs = crawler.CrawlData(url, out htmldoc, out code, post);
+                var any = docs.Any();
+                if (HttpHelper.IsSuccess(code))
                 {
-                  var   docs = Crawler.CrawlData(url, out htmldoc, out code, post);
-                    if (HttpHelper.IsSuccess(code))
+                    if (!any)
                     {
-                        buffHelper.Set(bufkey, htmldoc);
-                        return docs;
+                        ConfigFile.GetConfig<DataMiningConfig>().ParseErrorCount++;
+                        throw new Exception(string.Format(GlobalHelper.Get("key_669"), url));
                     }
-                    Thread.Sleep(ErrorDelay);
-                    count++;
+                    if(this.IsExecute==false)
+                        buffHelper.Set(bufkey, htmldoc);
+                    return docs;
                 }
+                throw new Exception("Web Request Error:" + code);
             }
-            else
-            {
-                return Crawler.CrawlData(htmldoc.DocumentNode);
-            }
-            return new List<FreeDocument>(); 
-
+            return crawler.CrawlData(htmldoc.DocumentNode);
         }
 
         protected override IEnumerable<IFreeDocument> InternalTransformManyData(IFreeDocument data)
@@ -100,7 +104,7 @@ namespace Hawk.ETL.Plugins.Transformers
         {
             var docs = GetDatas(datas);
             var first = docs.FirstOrDefault();
-            if (first!=null)
+            if (first != null)
             {
                 first.DictCopyTo(datas);
             }

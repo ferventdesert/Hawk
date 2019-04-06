@@ -1,4 +1,6 @@
-﻿namespace Hawk.Core.Utils.Plugins
+﻿using System.Windows.Controls.WpfPropertyGrid.Attributes;
+
+namespace Hawk.Core.Utils.Plugins
 {
     /// <summary>
     /// 实现界面效果必须满足的接口
@@ -19,8 +21,10 @@
 
     public enum GenerateMode
     {
-        串行模式,
-        并行模式
+        [LocalizedDescription("serial_mode")]
+        SerialMode,
+        [LocalizedDescription("parallel_mode")]
+        ParallelMode
     }
 
 

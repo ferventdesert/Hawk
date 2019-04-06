@@ -64,7 +64,7 @@ namespace Hawk.Core.Connectors
     /// <summary>
     ///     基本数据库管理接口
     /// </summary>
-    [Interface("数据库连接器接口")]
+    [Interface("IDataBaseConnector")]
     public interface IDataBaseConnector
     {
         /// <summary>
@@ -98,7 +98,7 @@ namespace Hawk.Core.Connectors
         /// </summary>
         /// <param name="source">要保存的数据</param>
         /// <param name="dbTableName">表名称</param>
-        void BatchInsert(IEnumerable<IFreeDocument> source, string dbTableName);
+        void BatchInsert(IEnumerable<IFreeDocument> source, List<string> keys, string dbTableName);
 
         /// <summary>
         ///     获取当前目录下的表名

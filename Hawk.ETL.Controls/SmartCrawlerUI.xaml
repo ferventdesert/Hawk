@@ -11,13 +11,14 @@
              x:Class="Hawk.ETL.Controls.SmartCrawlerUI"
              d:DesignHeight="630.667" d:DesignWidth="943" mc:Ignorable="d">
     <UserControl.Resources>
+    	    <wpfPropertyGrid:EnumValueConverter x:Key="enumValueConverter" />
         <mvvm:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
         <DataTemplate x:Key="DataTemplate1">
             <StackPanel Orientation="Horizontal" Width="Auto">
                 <CheckBox Margin="0" IsChecked="{Binding IsSelected}" HorizontalAlignment="Left"
                           VerticalAlignment="Center" />
-                <TextBlock TextWrapping="Wrap" Text="名称" VerticalAlignment="Center" Margin="20,0,0,0" />
-                <TextBox ToolTip="名称" Text="{Binding Name}" Margin="5,0,0,0" TextWrapping="Wrap" Width="120"
+                <TextBlock TextWrapping="Wrap" Text="{DynamicResource key_18}" VerticalAlignment="Center" Margin="20,0,0,0" />
+                <TextBox Text="{Binding Name}" Margin="5,0,0,0" TextWrapping="Wrap" Width="120"
                          HorizontalAlignment="Left" VerticalAlignment="Center" />
                 <TextBlock TextWrapping="Wrap" Text="XPath" VerticalAlignment="Center" HorizontalAlignment="Center"
                            Margin="20,0,0,0" />
@@ -97,19 +98,19 @@
             <RowDefinition Height="50" />
             <RowDefinition Height="178*" />
         </Grid.RowDefinitions>
-        <Grid Margin="0,10,8,12.38" d:LayoutOverrides="Width">
+        <Grid Margin="0,10,8,12.38" d:LayoutOverrides="Width" ToolTip="{DynamicResource crawler_url_desc}" >
 
-            <Label Content="请键入URL:" VerticalAlignment="Center" HorizontalAlignment="Left" />
+            <Label Content="{DynamicResource key_759}" VerticalAlignment="Center" HorizontalAlignment="Left" />
             <TextBox wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True"
                      Text="{Binding URL, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" VerticalAlignment="Center"
-                     Margin="80,0,300,0" />
+                     Margin="80,0,300,0"  />
             <StackPanel Orientation="Horizontal" Margin="0,0,12.16,0" HorizontalAlignment="Right"
                         d:LayoutOverrides="HorizontalAlignment">
 
                 <Button DataContext="{Binding Commands3[0]}" Content="{Binding Text}" Command="{Binding}" Height="25"
                         VerticalAlignment="Top" Width="70" Margin="0,0,16,0" />
                 <Button DataContext="{Binding Commands2[2]}" Content="{Binding Text}" Command="{Binding}" Height="25"
-                        VerticalAlignment="Top" Width="70" Margin="0,0,8,0" />
+                        VerticalAlignment="Top" Width="70" Margin="0,0,8,0" ToolTip="{DynamicResource crawler_feellucky}" />
                 <Button DataContext="{Binding Commands2[3]}" Content="{Binding Text}" Command="{Binding}" Height="25"
                         VerticalAlignment="Top" Width="70" Margin="0,0,8,0" />
 
@@ -142,7 +143,7 @@
 
                             <TextBlock TextWrapping="Wrap" FontSize="16" VerticalAlignment="Top" Grid.Row="2"
                                        HorizontalAlignment="Left" Grid.Column="1">
-                                <Run Language="zh-cn" Text="源码视图" />
+                                <Run Language="zh-cn" Text="{DynamicResource key_760}" />
                             </TextBlock>
                         </StackPanel>
                     </TabItem.Header>
@@ -165,7 +166,7 @@
                             </Rectangle>
 
                             <TextBlock TextWrapping="Wrap" FontSize="16" VerticalAlignment="Top" Grid.Row="2"
-                                       HorizontalAlignment="Left" Grid.Column="1" Text="浏览器视图" />
+                                         HorizontalAlignment="Left" Grid.Column="1" Text="{DynamicResource brower_view}" />
                         </StackPanel>
                     </TabItem.Header>
                     <TabItem.Background>
@@ -190,51 +191,57 @@
 
                         <TextBlock Margin="0,0,0,2" TextWrapping="Wrap" HorizontalAlignment="Left"
                                    d:LayoutOverrides="Height" VerticalAlignment="Center">
-                            <Run Language="zh-cn" Text="任务名称" />
+                            <Run Text="{DynamicResource key_762}" />
                         </TextBlock>
                         <TextBox Margin="8,0,0,0" TextWrapping="Wrap" Text="{Binding Name}"
                                  wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" d:LayoutOverrides="Height"
                                  Grid.Column="1" FontSize="16" />
                     </Grid>
-                    <GroupBox Header="属性提取" MinHeight="115" Margin="8,8,8,0" Height="180" d:LayoutOverrides="Height">
+                    <GroupBox Header="{DynamicResource key_763}" MinHeight="115"  ToolTip="{DynamicResource SmartCrawler_manual_mode}" Margin="8,8,8,0" Height="180" d:LayoutOverrides="Height">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.3*" />
                                 <ColumnDefinition Width="0.7*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Margin="8,42.5,0,0" TextWrapping="Wrap" Text="搜索字符" VerticalAlignment="Top"
+                            <TextBlock Margin="8,42.5,0,0" TextWrapping="Wrap" Text="{DynamicResource search_keyword}" VerticalAlignment="Top"
                                        HorizontalAlignment="Left" />
                             <TextBox Grid.Column="1" Margin="8,42.5,80,0" TextWrapping="Wrap"
                                      Text="{Binding SelectText}" wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True"
                                      VerticalAlignment="Top" />
                             <TextBlock Margin="8,78,0,0" TextWrapping="Wrap" HorizontalAlignment="Left"
                                        VerticalAlignment="Top">
-                                <Run Language="zh-cn" Text="结果XPath" />
+                                <Run Language="zh-cn" Text="{DynamicResource key_765}" />
                             </TextBlock>
                             <TextBox Grid.Column="1" Margin="8,76,3.509,0" TextWrapping="Wrap"
                                      Text="{Binding SelectXPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      Height="40.907" VerticalAlignment="Top" />
                             <Button DataContext="{Binding Commands2[0]}" Content="{Binding Text}" Command="{Binding}"
                                     VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Right" Width="50"
-                                    Height="25" Margin="0,132.359,3.509,0" />
+                                    Height="25" Margin="0,132.359,3.509,0"  ToolTip="{DynamicResource crawler_url_desc}" />
                             <Button DataContext="{Binding Commands2[1]}" Content="{Binding Text}" Command="{Binding}"
                                     Margin="0,40.5,3.509,0" VerticalAlignment="Top" Grid.Column="1" Height="25"
                                     HorizontalAlignment="Right" Width="50" />
                             <TextBlock Margin="8,132.361,0,0" TextWrapping="Wrap" HorizontalAlignment="Left"
                                        VerticalAlignment="Top">
-                                <Run Language="zh-cn" Text="新增属性" />
+                                <Run Language="zh-cn" Text="{DynamicResource key_766}" />
                             </TextBlock>
                             <TextBox Grid.Column="1" Margin="8,132.364,80,0" TextWrapping="Wrap"
                                      Text="{Binding SelectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                     VerticalAlignment="Top" />
-                            <TextBlock Margin="8,8,0,0" TextWrapping="Wrap" Text="工作模式" VerticalAlignment="Top"
+                                     VerticalAlignment="Top"   />
+                            <TextBlock Margin="8,8,0,0" TextWrapping="Wrap" Text="{DynamicResource key_188}" VerticalAlignment="Top"
                                        HorizontalAlignment="Left" />
                             <ComboBox Grid.Column="1" Margin="8,5.01,80,0"
                                       ItemsSource="{attributes:EnumValues {x:Type connectors:ScriptWorkMode}}"
-                                      SelectedItem="{Binding IsMultiData}" VerticalAlignment="Top" />
+                                      SelectedItem="{Binding IsMultiData}" ToolTip="{DynamicResource smartcrawler_script_mode}" VerticalAlignment="Top" >
+                            		 <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding ., Converter={StaticResource enumValueConverter}}" />
+                </DataTemplate>
+           				 </ComboBox.ItemTemplate>                       
+									  </ComboBox>
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="属性管理" Margin="8,8,8,0" Height="150">
+                    <GroupBox Header="{DynamicResource key_767}" Margin="8,8,8,0" Height="150">
                         <Grid Margin="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.3*" />
@@ -242,8 +249,8 @@
                             </Grid.ColumnDefinitions>
 
 
-                            <TextBlock Margin="6.759,10,0,0" TextWrapping="Wrap" Text="根节点"
-                                       ToolTip="当设置该值后，所有属性Path都应该为父节点的子path，而不能是完整的xpath路径" VerticalAlignment="Top"
+                            <TextBlock Margin="6.759,10,0,0" TextWrapping="Wrap" Text="{DynamicResource key_748}"
+                                       VerticalAlignment="Top"  ToolTip="{DynamicResource crawler_xpath_root}"
                                        HorizontalAlignment="Left"
                                        d:LayoutOverrides="HorizontalAlignment, VerticalAlignment" />
                             <TextBox Margin="8,8,80,0" TextWrapping="Wrap"
@@ -252,14 +259,14 @@
                             <ComboBox Margin="51.692,8,0,0"
                                       ItemsSource="{attributes:EnumValues {x:Type connectors:SelectorFormat}}"
                                       SelectedItem="{Binding RootFormat}"
-                                      ToolTip="  可选择完整XPath,或只根据id或class名称进行检索，如选择class,值填【name】，就是查找所有class=name的节点"
+                                      ToolTip="{DynamicResource key_750}"  
                                       VerticalAlignment="Top" HorizontalAlignment="Left"
                                       d:LayoutOverrides="HorizontalAlignment, VerticalAlignment" Width="73.875" />
-                            <TextBlock Text="{Binding CrawlItems.Count, StringFormat=共计\{0\}种属性:}"
+                            <TextBlock Text="{Binding CrawlItems.Count, StringFormat=Total:\{0\}}"
                                        HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,60,0,0" />
                             <Button DataContext="{Binding Commands3[2]}" Content="{Binding Text}" Command="{Binding}"
                                     Height="25" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment"
-                                    HorizontalAlignment="Left" Width="80" Margin="8,60,0,0" Grid.Column="1" />
+                                    HorizontalAlignment="Left" Width="80" Margin="8,60,0,0" Grid.Column="1"/> 
                             <Button DataContext="{Binding Commands3[3]}" Content="{Binding Text}" Command="{Binding}"
                                     Height="25" VerticalAlignment="Top" Margin="136.8,60,0,0" Grid.Column="1"
                                     HorizontalAlignment="Left" Width="80" />
@@ -268,38 +275,38 @@
 
 
                     </GroupBox>
-                    <GroupBox Header="高级设置" Margin="8,8,8,0" Height="200" VerticalAlignment="Bottom">
+                    <GroupBox Header="{DynamicResource key_67}" Margin="8,8,8,0" Height="200" VerticalAlignment="Bottom">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.3*" />
                                 <ColumnDefinition Width="0.7*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Margin="8,8,0,0" TextWrapping="Wrap" Text="共享源" VerticalAlignment="Top"
+                            <TextBlock Margin="8,8,0,0" TextWrapping="Wrap" ToolTip="{DynamicResource crawler_share_cookie}" Text="{DynamicResource key_647}" VerticalAlignment="Top"
                                        HorizontalAlignment="Left" />
                             <ComboBox Margin="8,5.01,80,0" DataContext="{Binding ShareCookie}"
                                       ItemsSource="{Binding Collection}" SelectedItem="{Binding _SelectItem}"
-                                      VerticalAlignment="Top" Grid.Column="1" />
-                            <TextBlock Margin="8,42.5,0,0" TextWrapping="Wrap" Text="超级模式" VerticalAlignment="Top"
-                                       HorizontalAlignment="Left" />
+                                      VerticalAlignment="Top" Grid.Column="1"  ToolTip="{DynamicResource crawler_share_cookie}"/>
+                            <TextBlock Margin="8,42.5,0,0" TextWrapping="Wrap" Text="{DynamicResource key_645}" VerticalAlignment="Top"
+                                       HorizontalAlignment="Left"   ToolTip="{DynamicResource crawler_super_mode}"/>
                             <CheckBox Margin="8,42.5,80,0" IsChecked="{Binding IsSuperMode}"
-                                      ToolTip="该模式能够强力解析网页内容，但是消耗资源，且会修改原始Html内容" VerticalAlignment="Top"
-                                      Grid.Column="1" />
+                                      VerticalAlignment="Top"
+                                      Grid.Column="1"  ToolTip="{DynamicResource crawler_super_mode}"/>
                             <Button DataContext="{Binding Commands[0]}" Content="{Binding Text}" Command="{Binding}"
                                     Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="80"
-                                    Margin="8,78,0,0" Grid.Column="1" />
+                                    Margin="8,78,0,0" Grid.Column="1" ToolTip="{DynamicResource crawler_dynamic_sniff}" />
                             <Button DataContext="{Binding Commands[1]}" Content="{Binding Text}" Command="{Binding}"
                                     Height="25" VerticalAlignment="Top" Margin="136.8,78,0,0" Grid.Column="1"
                                     HorizontalAlignment="Left" Width="80" />
                             <TextBlock Margin="8,78,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
-                                       HorizontalAlignment="Left">
-                                <Run Language="zh-cn" Text="动态请求嗅探" />
+                                       HorizontalAlignment="Left" ToolTip="{DynamicResource crawler_dynamic_sniff}">
+                                <Run Language="zh-cn" Text="{DynamicResource key_769}" />
                             </TextBlock>
                             <Button DataContext="{Binding Commands[2]}" Content="{Binding Text}" Command="{Binding}"
                                     Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="80"
                                     Margin="8,114.666,0,0" Grid.Column="1" />
                             <TextBlock Margin="8,114.666,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
                                        HorizontalAlignment="Left">
-                                <Run Language="zh-cn" Text="请求详情" />
+                                <Run Language="zh-cn" Text="{DynamicResource http_header}" />
                             </TextBlock>
                         </Grid>
                     </GroupBox>

@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
+using Hawk.Core.Utils;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("列名修改器", "对列名进行修改,常用","page_edit")]
+    [XFrmWork("RenameTF", "RenameTF_desc","page_edit")]
     public class RenameTF : TransformerBase
     {
         public override bool Init(IEnumerable<IFreeDocument> docus)
@@ -16,11 +16,12 @@ namespace Hawk.ETL.Plugins.Transformers
             OneOutput = false;
             if (!string.IsNullOrEmpty(NewColumn))
             {
-                (Regex.IsMatch(NewColumn, "^\\d+")==false).SafeCheck("列名不能以数字开头，否则将导致无法正确显示该列", LogType.Important);
+                (Regex.IsMatch(NewColumn, "^\\d+")==false).SafeCheck(GlobalHelper.Get("key_475"), LogType.Important);
             }
             return base.Init(docus);
         }
-
+        [Browsable(false)]
+        public override string KeyConfig => NewColumn;
         [Browsable(false)]
         public override object TransformData(IFreeDocument document)
         {
@@ -44,7 +45,7 @@ namespace Hawk.ETL.Plugins.Transformers
         }
     }
 
-    [XFrmWork("删除该列","不用解释了吧，常用","delete")]
+    [XFrmWork("DeleteTF","DeleteTF_desc","delete")]
     public class DeleteTF : RenameTF
     {
         public override object TransformData(IFreeDocument document)
@@ -56,5 +57,8 @@ namespace Hawk.ETL.Plugins.Transformers
             }
             return null;
         }
+
+        [Browsable(false)]
+        public override string KeyConfig => Column;
     }
 }

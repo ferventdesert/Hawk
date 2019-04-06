@@ -8,19 +8,21 @@ using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Crawlers;
+using Hawk.ETL.Managements;
 using IronPython.Hosting;
 using IronPython.Runtime;
 using Microsoft.Scripting.Hosting;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("Python转换器", "执行特定的python代码或脚本，最后一行需要为值类型，作为该列的返回值")]
+    [XFrmWork("PythonTF", "PythonTF_desc")]
     public class PythonTF : TransformerBase
     {
         protected readonly ScriptEngine engine;
         protected readonly ScriptScope scope;
         private CompiledCode compiledCode;
-
+        [Browsable(false)]
+        public override string KeyConfig => Script.Substring(Math.Min(100, Script.Length));
         public PythonTF()
         {
             engine = Python.CreateEngine();
@@ -29,18 +31,18 @@ namespace Hawk.ETL.Plugins.Transformers
             ScriptWorkMode = ScriptWorkMode.NoTransform; 
         }
 
-        [DisplayName("工作模式")]
-        [Description("文档列表：[{}],转换为多个数据行构成的列表；单文档：{},将结果的键值对附加到本行；不进行转换：直接将值放入到新列")]
+        [LocalizedDisplayName("key_188")]
+        [LocalizedDescription("etl_script_mode")]
         public ScriptWorkMode ScriptWorkMode { get; set; }
 
-        [DisplayName("执行脚本")]
+        [LocalizedDisplayName("key_511")]
         [PropertyEditor("CodeEditor")]
         public string Script { get; set; }
 
 
-        [DisplayName("Python库路径")]
+        [LocalizedDisplayName("key_512")]
         [PropertyOrder(100)]
-        [Description("若需要引用第三方Python库，则可指定库的路径，一行一条")]
+        [LocalizedDescription("key_513")]
         [PropertyEditor("CodeEditor")]
         public string LibraryPath { get; set; }
 
@@ -62,16 +64,32 @@ namespace Hawk.ETL.Plugins.Transformers
             return true;
         }
 
-        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas, AnalyzeItem analyzer = null)
         {
             foreach (var data in datas)
             {
-                var d = eval(data);
+                object d;
+                try
+                {
+                    d = eval(data);
+                    
+                }
+                catch (Exception ex)
+                {
+                    if(analyzer!=null)
+                    analyzer.Analyzer.AddErrorLog(data, ex, this);
+                    else
+                    {
+                       XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), this.Column, this.TypeName, ex.Message));
+                    }
+                   continue; 
+                }
                 foreach (var item2 in ScriptHelper.ToDocuments(d))
                 {
                     var item3 = item2;
                     yield return item3.MergeQuery(data, NewColumn);
                 }
+
             }
         }
 

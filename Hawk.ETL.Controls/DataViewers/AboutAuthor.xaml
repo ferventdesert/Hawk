@@ -15,12 +15,12 @@
             <ColumnDefinition Width="0.493*"/>
             <ColumnDefinition Width="0.507*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="感谢使用 HAWK" FontSize="24" FontWeight="Bold" Margin="30,13,127,0" VerticalAlignment="Top"/>
-        <TextBlock Text="如果你有任何问题和反馈，欢迎联系我：" Margin="30,73,160,87.185" FontSize="16" Grid.ColumnSpan="2" d:LayoutOverrides="VerticalAlignment"/>
+        <TextBlock Text="{DynamicResource key_800}" FontSize="24" FontWeight="Bold" Margin="30,13,127,0" VerticalAlignment="Top"/>
+        <TextBlock Text="{DynamicResource key_801}" Margin="30,73,160,87.185" FontSize="16" Grid.ColumnSpan="2" d:LayoutOverrides="VerticalAlignment"/>
         <TextBlock Text="buptzym@qq.com" Margin="29,108,160,52.185" FontSize="16" FontWeight="Bold" Grid.ColumnSpan="2" d:LayoutOverrides="VerticalAlignment"/>
-        <TextBlock Margin="29,0,10,17" FontSize="16" VerticalAlignment="Bottom"><Run Text="欢迎关注微信公共号：《"/><Run FontWeight="Bold" Text="沙漠之鹰"/><Run Text="》"/></TextBlock>
-        <TextBlock Text="如果软件帮到了你，可以为开发者捐赠" Margin="10,0,10,17" FontSize="16" VerticalAlignment="Bottom" Grid.Column="1"/>
-        <TextBlock Text="版本： 3.0" Margin="222.342,13,0,0" FontSize="24" FontWeight="Bold" d:LayoutOverrides="GridBox" HorizontalAlignment="Left" Height="46.702" VerticalAlignment="Top"/>
+        <TextBlock Margin="29,0,10,17" FontSize="16" VerticalAlignment="Bottom"><Run Text="欢迎关注微信公共号：《"/><Run FontWeight="Bold" Text="{DynamicResource key_803}"/><Run Text="》"/></TextBlock>
+        <TextBlock Text="{DynamicResource key_804}" Margin="10,0,10,17" FontSize="16" VerticalAlignment="Bottom" Grid.Column="1"/>
+        <TextBlock Text="{DynamicResource key_805}" Margin="222.342,13,0,0" FontSize="24" FontWeight="Bold" d:LayoutOverrides="GridBox" HorizontalAlignment="Left" Height="46.702" VerticalAlignment="Top"/>
         <Image Grid.Row="1" Source="../Images/微信公众平台.jpg" Margin="80,22.407,80,18.408"/>
         <Image Grid.Row="1" Source="../Images/支付宝捐赠.png" Margin="90.692,22.407,106.854,18.408" Grid.Column="1"/>
     </Grid>

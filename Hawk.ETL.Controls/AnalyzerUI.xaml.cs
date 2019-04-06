@@ -18,7 +18,7 @@ namespace Hawk.ETL.Controls
     /// <summary>
     /// AnalyzerUI.xaml 的交互逻辑
     /// </summary>
-    [XFrmWork("调试分析面板")]
+    [XFrmWork("key_696")]
     public partial class AnalyzerUI : UserControl,ICustomView
     {
         public AnalyzerUI()

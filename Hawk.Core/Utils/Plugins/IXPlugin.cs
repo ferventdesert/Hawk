@@ -3,7 +3,7 @@
     /// <summary>
     /// XFrmwork基本插件接口
     /// </summary>
-    [Interface("XFrmWork基本插件接口" )]
+    [Interface("IXPlugin" )]
     public interface IXPlugin : IProcess
     {
         #region Properties

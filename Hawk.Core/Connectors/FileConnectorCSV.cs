@@ -6,7 +6,7 @@ using Microsoft.Win32;
 
 namespace Hawk.Core.Connectors
 {
-    [XFrmWork("CSV导入导出器", "输出文本型CSV逗号分隔文件", "")]
+    [XFrmWork("FileConnectorCSV", "FileConnectorCSV_desc", "")]
     public class FileConnectorCSV : FileConnectorTable
     {
         public static void CSVToDataTable(List<string> title, List<string[]> datas, string fileName, char split = ',')

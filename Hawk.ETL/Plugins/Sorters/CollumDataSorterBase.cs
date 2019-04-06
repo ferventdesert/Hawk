@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
+using Hawk.Core.Utils;
 using System.ComponentModel;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
-using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Plugins.Transformers;
@@ -25,15 +24,15 @@ namespace Hawk.ETL.Plugins.Sorters
         public override  FreeDocument DictSerialize(Scenario scenario = Scenario.Database)
         { 
             var dict = base.DictSerialize();
-            dict.Add("Group", "排序");
+            dict.Add("Group", GlobalHelper.Get("key_104"));
             return dict;
         }
 
    
      
 
-        [LocalizedCategory("1.基本选项")]
-        [LocalizedDisplayName("排序方式")]
+        [LocalizedCategory("key_211")]
+        [LocalizedDisplayName("key_466")]
         public SortType SortType { get; set; }
 
      

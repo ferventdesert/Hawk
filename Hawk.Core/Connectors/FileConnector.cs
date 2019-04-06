@@ -1,11 +1,11 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using EncodingType = Hawk.Core.Utils.EncodingType;
@@ -16,16 +16,23 @@ namespace Hawk.Core.Connectors
     {
         #region Constructors and Destructors
 
-        public static Dictionary<XFrmWorkAttribute, string> ConnectorDictionary;
+        public static Dictionary<XFrmWorkAttribute, string> ConnectorDictionary
+        {
+            get
+            {
+               var dict= new Dictionary<XFrmWorkAttribute, string>();
+                foreach (XFrmWorkAttribute item in PluginProvider.GetPluginCollection(typeof(IFileConnector)))
+                {
+                    var ins = PluginProvider.GetObjectInstance(item.MyType) as IFileConnector;
+                    dict.Add(item, ins.ExtentFileName);
+                }
+                return dict;
+            }
+        }
 
         static FileConnector()
         {
-            ConnectorDictionary = new Dictionary<XFrmWorkAttribute, string>();
-            foreach (XFrmWorkAttribute item in PluginProvider.GetPluginCollection(typeof(IFileConnector)))
-            {
-                var ins = PluginProvider.GetObjectInstance(item.MyType) as IFileConnector;
-                ConnectorDictionary.Add(item, ins.ExtentFileName);
-            }
+           
         }
 
         protected FileConnector()
@@ -41,13 +48,13 @@ namespace Hawk.Core.Connectors
         public virtual bool ShouldConfig => false;
 
 
-        [LocalizedDisplayName("后缀名")]
+        [LocalizedDisplayName("key_38")]
         public virtual string ExtentFileName => ".txt";
 
         [Browsable(false)]
         public string FileName { get; set; }
 
-        [LocalizedDisplayName("文件编码")]
+        [LocalizedDisplayName("key_39")]
         public EncodingType EncodingType { get; set; }
 
 
@@ -75,6 +82,9 @@ namespace Hawk.Core.Connectors
             ;
         }
 
+
+ 
+
         public static string GetItemString(IFreeDocument datas, string format = "xml")
         {
             return GetCollectionString(new List<IFreeDocument> { datas });
@@ -88,7 +98,7 @@ namespace Hawk.Core.Connectors
             {
                 sb.Append(v.Key.Name);
 
-                sb.Append($"|*{v.Value}|");
+                sb.Append($"|*{v.Value.Split(' ')[0]}|");
             }
             sb.Remove(sb.Length - 1, 1);
             return sb.ToString();
@@ -180,7 +190,7 @@ namespace Hawk.Core.Connectors
 
         public virtual string GetString(IEnumerable<IFreeDocument> datas)
         {
-            return "不支持此功能";
+            return GlobalHelper.Get("key_40");
         }
 
         #endregion

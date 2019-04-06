@@ -28,7 +28,8 @@ namespace Hawk.ETL.Crawlers
         /// <summary>
         ///     属性名称
         /// </summary>
-        [LocalizedDisplayName("属性名称")]
+        [LocalizedDisplayName("key_160")]
+        [PropertyOrder(0)]
         public string Name
         {
             get { return name; }
@@ -41,15 +42,15 @@ namespace Hawk.ETL.Crawlers
                 }
             }
         }
-        [LocalizedDisplayName("目标内容")]
+        [LocalizedDisplayName("target_value")]
         public CrawlType CrawlType { get; set; }
 
         
-
-        [LocalizedDisplayName("选择器")]
+        [PropertyOrder(2)]
+        [LocalizedDisplayName("key_162")]
         public SelectorFormat Format { get; set; }
 
-        [LocalizedDisplayName("路径")]
+        [LocalizedDisplayName("key_163")]
         [PropertyOrder(1)]
         public string XPath
         {
@@ -64,7 +65,7 @@ namespace Hawk.ETL.Crawlers
             }
         }
 
-        [LocalizedDisplayName("可用")]
+        [LocalizedDisplayName("key_164")]
         [PropertyOrder(2)]
         public bool IsEnabled { get; set; }
 
@@ -86,7 +87,7 @@ namespace Hawk.ETL.Crawlers
         /// <summary>
         ///     样例数据
         /// </summary>
-        [LocalizedDisplayName("样例1")]
+        [LocalizedDisplayName("key_165")]
         [PropertyOrder(3)]
         public string SampleData1 { get; set; }
 

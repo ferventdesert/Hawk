@@ -5,9 +5,10 @@ using System.Linq;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
-
+using Hawk.Core.Utils.Logs;
 namespace Hawk.Core.Connectors
 {
+    
     public abstract class ConfigFile : PropertyChangeNotifier, IConfigFile
     {
         #region Constants and Fields
@@ -62,6 +63,7 @@ namespace Hawk.Core.Connectors
             }
             catch (Exception ex)
             {
+                XLogSys.Print.Warn(ex);
                 if (instance == null)
                 {
                     throw new Exception();
@@ -73,7 +75,7 @@ namespace Hawk.Core.Connectors
             return instance;
         }
 
-        public static T GetConfig<T>(string name = null) where T : class, IConfigFile
+        public static T GetConfig<T>(string name = null) where T : class, IConfigFile, new()
         {
             if (name == null)
                 name = AttributeHelper.GetCustomAttribute(typeof(T)).Name;
@@ -85,6 +87,8 @@ namespace Hawk.Core.Connectors
 
             instance = PluginProvider.GetObjectInstance<IConfigFile>(name) ??
                        PluginProvider.GetObjectInstance(typeof (T)) as IConfigFile;
+            if (instance == null)
+                instance = new T() as IConfigFile;
             try
             {
                 instance.ReadConfig(instance.SavePath);
@@ -109,13 +113,20 @@ namespace Hawk.Core.Connectors
             return Configs.Get<T>(item);
         }
 
+        public virtual int Increase(string name)
+        {
+            var v=Config.Get<int>(name);
+            v++;
+            Config.Set(name, v);
+            return v;
+        }
         public virtual void ReadConfig(string path = null)
         {
             if (path == null)
             {
                 path = SavePath;
             }
-            IFileConnector json = FileConnector.SmartGetExport(path);
+            IFileConnector json = new FileConnectorXML();
             json.FileName = path;
             IDictionarySerializable da = json.ReadFile().FirstOrDefault();
             DictDeserialize(da.DictSerialize());
@@ -132,10 +143,10 @@ namespace Hawk.Core.Connectors
             {
                 path = SavePath;
             }
-            IFileConnector json = FileConnector.SmartGetExport(path);
-
+            IFileConnector json = new FileConnectorXML();
+            json.FileName = path;
             var Datas = new List<IFreeDocument> {DictSerialize()};
-            json.WriteAll(Datas);
+            json?.WriteAll(Datas);
         }
 
         /// <summary>

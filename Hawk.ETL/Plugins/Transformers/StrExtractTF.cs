@@ -5,7 +5,7 @@ using Hawk.Core.Utils.Plugins;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("字符首尾抽取", "提取字符串中，从首串到尾串中间的文本内容")]
+    [XFrmWork("StrExtractTF", "StrExtractTF_desc")]
     public  class StrExtractTF : TransformerBase
     {
         private string _former;
@@ -18,7 +18,7 @@ namespace Hawk.ETL.Plugins.Transformers
           
         }
 
-        [LocalizedDisplayName("首串")]
+        [LocalizedDisplayName("key_549")]
         public string Former
         {
             get { return _former; }
@@ -32,7 +32,7 @@ namespace Hawk.ETL.Plugins.Transformers
             }
         }
 
-        [LocalizedDisplayName("尾串")]
+        [LocalizedDisplayName("key_550")]
         public string End
         {
             get { return _end; }
@@ -47,8 +47,8 @@ namespace Hawk.ETL.Plugins.Transformers
         }
 
 
-        [LocalizedDisplayName("包含首尾串")]
-        [LocalizedDescription("返回的结果里是否包含首串和尾串")]
+        [LocalizedDisplayName("key_551")]
+        [LocalizedDescription("key_552")]
         public bool HaveStartEnd { get; set; }
         public override object TransformData(IFreeDocument datas)
         {

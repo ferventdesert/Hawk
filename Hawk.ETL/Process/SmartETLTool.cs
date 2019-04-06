@@ -5,11 +5,13 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.WpfPropertyGrid;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Hawk.Core.Connectors;
@@ -19,15 +21,16 @@ using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
+using Hawk.ETL.Plugins.Executor;
 using Hawk.ETL.Plugins.Generators;
 using Hawk.ETL.Plugins.Transformers;
+using Markdown.Xaml;
 using Xceed.Wpf.Toolkit;
 using MessageBox = System.Windows.MessageBox;
 
 namespace Hawk.ETL.Process
 {
-    [XFrmWork("数据清洗", "对数据筛选转换和合并，并导出到数据库中"
-        , "diagram", "数据采集和处理")]
+    [XFrmWork("smartetl_name", "SmartETLTool_desc", "diagram", "数据采集和处理")]
     public class SmartETLTool : AbstractProcessMethod, IView
     {
         #region Constructors and Destructors
@@ -39,9 +42,10 @@ namespace Hawk.ETL.Process
             SmartGroupCollection = new ObservableCollection<SmartGroup>();
             Documents = new ObservableCollection<IFreeDocument>();
             SampleMount = 20;
-            MaxThreadCount = 20;
+            MaxThreadCount = 5;
             IsUISupport = true;
             Analyzer = new Analyzer();
+
             IsAutoRefresh = true;
             AllETLTools.AddRange(
                 PluginProvider.GetPluginCollection(typeof (IColumnProcess)));
@@ -57,25 +61,27 @@ namespace Hawk.ETL.Process
         }
 
         #endregion
+        [Browsable(false)]
+        public ConfigFile Config => ConfigFile.GetConfig<DataMiningConfig>();
 
         #region Constants and Fields
 
         private ListBox alltoolList;
-
+        [Browsable(false)]
         public Analyzer Analyzer { get; set; }
         private DataGrid dataView;
 
         private ListView currentToolList;
         private ScrollViewer scrollViewer;
-        private string searchText = "常用";
+        private string searchText = GlobalHelper.Get("key_110");
 
         #endregion
 
         #region Properties
-
-        [LocalizedDisplayName("命令")]
+        [Browsable(false)]
+        [LocalizedDisplayName("key_677")]
         [PropertyOrder(3)]
-        [LocalizedCategory("1.执行")]
+        [LocalizedCategory("key_678")]
         public ReadOnlyCollection<ICommand> Commands3
         {
             get
@@ -84,8 +90,28 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("执行", obj => ExecuteAllExecutors(), icon: "play")
+                        new Command(GlobalHelper.Get("key_34"), obj => ExecuteAllExecutors(), icon: "play")
                     });
+            }
+        }
+
+
+        private IEnumerable<ToolBase> GetSelectedTools(object data = null)
+        {
+            if (currentToolList == null)
+                yield break;
+            if (data == null)
+            {
+                foreach (var col in currentToolList.SelectedItems.IListConvert<ToolBase>())
+                {
+                    yield return col;
+                }
+                yield break;
+            }
+
+            if (data is ToolBase)
+            {
+                yield return data as ToolBase;
             }
         }
 
@@ -99,48 +125,103 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("配置属性", obj => DropAction("Click", obj), obj => obj != null, "settings"),
-                        new Command("删除节点", obj => DropAction("Delete", obj), obj => obj != null, "delete"),
-                        new Command("清空所有工具", obj =>
+                        new Command(GlobalHelper.Get("key_631"), obj => DropAction("Click", obj), obj => obj != null,
+                            "settings"),
+                        new Command(GlobalHelper.Get("key_679"), obj => DropAction("Delete", obj), obj => obj != null,
+                            "delete"),
+                        new Command(GlobalHelper.Get("clear_tool"), obj =>
                         {
                             var item = obj as SmartGroup;
                             foreach (var ColumnProcess in item.Value)
-                            {
                                 CurrentETLTools.Remove(ColumnProcess);
-                            }
                             RefreshSamples();
                         }, obj => obj != null, "clear"),
-                        new Command("拷贝模块", obj =>
+                        new Command(GlobalHelper.Get("key_681"), obj =>
                         {
-                            var item = obj as IColumnProcess;
-                            var newitem = PluginProvider.GetObjectInstance<IColumnProcess>(item.TypeName);
-                            item.DictCopyTo(newitem);
-                            CurrentETLTools.Insert(CurrentETLTools.IndexOf(item), newitem);
+                            var tools = GetSelectedTools().ToList();
+                            Clipboard.SetDataObject(
+                                FileConnector.GetCollectionString(tools.Select(d => d.DictSerialize()).ToList()), false);
+                            XLogSys.Print.Warn(GlobalHelper.Get("cliptoboard"));
                         }, obj => obj != null, "clipboard_file"),
-                        new Command("上移", obj =>
+                        new Command(GlobalHelper.Get("cut_tools"), obj =>
                         {
-                            var item = obj as IColumnProcess;
-                            var index = CurrentETLTools.IndexOf(item);
-                            CurrentETLTools.Move(index, index - 1);
-                        }, obj => obj != null, "arrow_up"),
-                        new Command("下移", obj =>
+                            var tools = GetSelectedTools().ToList();
+                            CurrentETLTools.RemoveElementsNoReturn(d => tools.Contains(d));
+                            Clipboard.SetDataObject(
+                                FileConnector.GetCollectionString(tools.Select(d => d.DictSerialize()).ToList()), false);
+                            ;
+                            XLogSys.Print.Warn(GlobalHelper.Get("cliptoboard"));
+                        }, obj => obj != null, "clipboard_file"),
+                        new Command(GlobalHelper.Get("clip_up"), obj =>
                         {
-                            var item = obj as IColumnProcess;
+                            var item = GetSelectedTools(obj).FirstOrDefault();
                             var index = CurrentETLTools.IndexOf(item);
-                            CurrentETLTools.Move(index, index + 1);
-                        }, obj => obj != null, "arrow_down"),
-                        new Command("调试到该步", obj => { ETLMount = CurrentETLTools.IndexOf(obj as IColumnProcess); },
+                            ControlExtended.SafeInvoke(() =>
+                            {
+                                var data = Clipboard.GetDataObject();
+                                var toolsConfig = (string) data.GetData(typeof (string));
+                                var toolsDoc = FileConnectorXML.GetCollection(toolsConfig);
+                                var tools = toolsDoc.Select(GetToolFromDocument);
+                                foreach (var tool in tools)
+                                {
+                                    CurrentETLTools.Insert(index++, tool);
+                                }
+                            });
+                        }, obj => Clipboard.GetDataObject().GetFormats().Length != 0, "arrow_up"),
+                        new Command(GlobalHelper.Get("clip_down"), obj =>
+                        {
+                            var item = GetSelectedTools(obj).FirstOrDefault();
+                            var index = CurrentETLTools.IndexOf(item) + 1;
+                            ControlExtended.SafeInvoke(() =>
+                            {
+                                var data = Clipboard.GetDataObject();
+                                var toolsConfig = (string) data.GetData(typeof (string));
+                                var toolsDoc = FileConnectorXML.GetCollection(toolsConfig);
+                                var tools = toolsDoc.Select(d => GetToolFromDocument(d));
+                                foreach (var tool in tools)
+                                {
+                                    CurrentETLTools.Insert(index++, tool);
+                                }
+                            });
+                        }, obj => Clipboard.GetDataObject().GetFormats().Length != 0, "arrow_down"),
+                        new Command(GlobalHelper.Get("key_684"),
+                            obj => { ETLMount = CurrentETLTools.IndexOf(obj as IColumnProcess); },
                             obj => obj != null, "tag"),
-                        new Command("删除下游节点", obj =>
+                        new Command(GlobalHelper.Get("key_685"), obj =>
                         {
-                            if (MessageBox.Show("确实要删除所有下游吗?", "提示信息", MessageBoxButton.OKCancel) !=
-                                MessageBoxResult.OK)
-                                return;
                             var index = CurrentETLTools.IndexOf(obj as IColumnProcess);
-                            CurrentETLTools.KeepRange(0, index);
+                            CurrentETLTools.KeepRange(0, index + 1);
                             ETLMount = index + 1;
                         },
-                            obj => obj != null, "tag")
+                            obj => obj != null, "tag"),
+                        new Command(GlobalHelper.Get("doc_etl_read"), obj =>
+                        {
+                            var doc = this.GenerateRemark(true, SysProcessManager);
+                            var docItem= new DocumentItem() {Title = this.Name,Document = doc};
+                            var window=PropertyGridFactory.GetPropertyWindow(docItem);
+                            window.Title = GlobalHelper.Get("key_267");
+                            window.ShowDialog();
+                        },
+                            obj => this.CurrentETLTools.Count>0, "question"),
+                         new Command(GlobalHelper.Get("move_up"), obj =>
+                        {
+                            var item = GetSelectedTools(obj).FirstOrDefault();
+                            var index = CurrentETLTools.IndexOf(item);
+                            CurrentETLTools.Move(index,index-1);
+                            ETLMount = index + 1;
+                        },
+                            obj => true, "arrow_up"),
+
+                          new Command(GlobalHelper.Get("move_down"), obj =>
+                        {
+                           var item = GetSelectedTools(obj).FirstOrDefault();
+                            var index = CurrentETLTools.IndexOf(item);
+                            CurrentETLTools.Move(index,index+1);
+                            ETLMount = index + 1;
+                        },
+                            obj => true, "arrow_down"),
+
+
                     });
             }
         }
@@ -150,9 +231,7 @@ namespace Hawk.ETL.Process
             if (ETLMount < 0 || ETLMount >= CurrentETLTools.Count)
                 CurrentETLTools.Add(tool);
             else
-            {
                 CurrentETLTools.Insert(ETLMount, tool);
-            }
         }
 
         [Browsable(false)]
@@ -190,10 +269,10 @@ namespace Hawk.ETL.Process
 
 
         [Browsable(false)]
-        [LocalizedCategory("3.调试")]
+        [LocalizedCategory("key_686")]
         [PropertyOrder(1)]
-        [LocalizedDisplayName("采样量")]
-        [LocalizedDescription("只获取数据表的前n行")]
+        [LocalizedDisplayName("key_687")]
+        [LocalizedDescription("key_688")]
         public int SampleMount
         {
             get { return _SampleMount; }
@@ -220,36 +299,65 @@ namespace Hawk.ETL.Process
                     this,
                     new[]
                     {
-                        new Command("刷新", obj => { RefreshSamples(true); }, icon: "refresh"),
-                        new Command("弹出样例", obj => { RefreshSamples(); }, icon: "calendar"),
-                        new Command("上一步", obj =>
+                        new Command(GlobalHelper.Get("key_142"), obj => { RefreshSamples(true); }, icon: "refresh"),
+                        new Command(GlobalHelper.Get("key_689"), obj => { RefreshSamples(); }, icon: "calendar"),
+                        new Command(GlobalHelper.Get("key_690"), obj =>
                         {
                             if (ETLMount > 0)
                                 ETLMount--;
                         }, obj => ETLMount > 0, "arrow_left"),
-                        new Command("下一步", obj =>
+                        new Command(GlobalHelper.Get("key_691"), obj =>
                         {
                             ETLMount++;
                             if (CurrentTool != null)
-                            {
-                                XLogSys.Print.Info("插入工作模块，名称:" + CurrentTool?.ToString());
-                            }
+                                XLogSys.Print.Info(GlobalHelper.Get("key_692") + CurrentTool?.ToString());
                         }, obj => ETLMount < CurrentETLTools.Count, "arrow_right"),
-                        new Command("回退到开头", obj => { ETLMount = 0; }, icon: "align_left"),
-                        new Command("跳到最后", obj => { ETLMount = CurrentETLTools.Count; }, icon: "align_right"),
-                        new Command("调试与探查", obj => { EnterAnalyzer(); }, icon: "magnify_add")
+                        new Command(GlobalHelper.Get("key_693"), obj => { ETLMount = 0; }, icon: "align_left"),
+                        new Command(GlobalHelper.Get("jump_last"), obj => { ETLMount = CurrentETLTools.Count; },
+                            icon: "align_right"),
+                        new Command(GlobalHelper.Get("key_695"), obj => { EnterAnalyzer(); }, icon: "magnify_add")
                     }
                     );
             }
         }
 
+        [Browsable(false)]
+        public ReadOnlyCollection<ICommand> CommandsListView
+        {
+            get
+            {
+                return CommandBuilder.GetCommands(
+                    this,
+                    new[]
+                    {
+                        new Command(GlobalHelper.Get("paste_tools"), obj =>
+                        {
+                            var data = Clipboard.GetDataObject();
+                            var toolsConfig = (string) data.GetData(typeof (string));
+                            var toolsDoc = FileConnectorXML.GetCollection(toolsConfig);
+                            var tools = toolsDoc.Select(GetToolFromDocument);
+                            foreach (var tool in tools)
+                            {
+                                CurrentETLTools.Add(tool);
+                            }
+                        }, icon: "clipboard")
+                    }
+                    );
+            }
+        }
+        [PropertyEditor("CodeEditor")]
+        [PropertyOrder(100)]
+        [LocalizedDisplayName("remark")]
+        [LocalizedDescription("remark_desc")]
+        public string Remark { get; set; }
+
         private void EnterAnalyzer()
         {
-            var view = PluginProvider.GetObjectInstance<ICustomView>("调试分析面板") as UserControl;
+            var view = PluginProvider.GetObjectInstance<ICustomView>(GlobalHelper.Get("key_696")) as UserControl;
             view.DataContext = Analyzer;
 
             ControlExtended.DockableManager.AddDockAbleContent(
-                FrmState.Custom, view, "调试分析 ");
+                FrmState.Custom, view, GlobalHelper.Get("debugview"));
         }
 
         private WPFPropertyGrid debugGrid;
@@ -259,34 +367,25 @@ namespace Hawk.ETL.Process
         {
             get
             {
-                var t = CurrentETLTools.Where(d => !(d is IDataExecutor) && d.Enabled).ToList();
+                var t = CurrentETLTools; //.Where(d => !(d is IDataExecutor) && d.Enabled).ToList();
                 IColumnProcess current = null;
                 if (ETLMount <= t.Count && ETLMount > 1)
-                {
                     current = t[ETLMount - 1];
-                }
                 if (DisplayDetail)
                 {
                     if (debugGrid == null)
-                    {
                         debugGrid = PropertyGridFactory.GetInstance(current);
-                    }
                     else
-                    {
                         debugGrid.SetObjectView(current);
-                    }
                     dynamic control =
                         (MainFrm as IDockableManager).ViewDictionary.FirstOrDefault(d => d.View == debugGrid)
                             ?.Container;
                     if (control != null)
-                    {
                         control.Show();
-                    }
 
                     else
-                    {
-                        (MainFrm as IDockableManager).AddDockAbleContent(FrmState.Float, debugGrid, "调试模块属性");
-                    }
+                        (MainFrm as IDockableManager).AddDockAbleContent(FrmState.Float, debugGrid,
+                            GlobalHelper.Get("key_698"));
                 }
                 else
                 {
@@ -303,7 +402,7 @@ namespace Hawk.ETL.Process
             }
             set
             {
-                var t = CurrentETLTools.Where(d => !(d is IDataExecutor) && d.Enabled).ToList();
+                //var t = CurrentETLTools.Where(d => !(d is IDataExecutor) && d.Enabled).ToList();
                 ETLMount = CurrentETLTools.IndexOf(value) + 1;
             }
         }
@@ -317,9 +416,7 @@ namespace Hawk.ETL.Process
                 if (searchText == value) return;
                 searchText = value;
                 if (ETLToolsView.CanFilter)
-                {
                     ETLToolsView.Filter = FilterMethod;
-                }
                 OnPropertyChanged("SearchText");
             }
         }
@@ -327,13 +424,11 @@ namespace Hawk.ETL.Process
         [Browsable(false)]
         protected List<XFrmWorkAttribute> AllETLTools { get; set; }
 
-        [Browsable(false)]
-        public dynamic etls => CurrentETLTools;
 
         [Browsable(false)]
-        [LocalizedCategory("2.清洗流程")]
-        [LocalizedDisplayName("已加载")]
-        [LocalizedDescription("当前位于工作流中的的所有工作模块")]
+        [LocalizedCategory("key_699")]
+        [LocalizedDisplayName("key_700")]
+        [LocalizedDescription("key_701")]
         public ObservableCollection<IColumnProcess> CurrentETLTools { get; set; }
 
 
@@ -346,46 +441,67 @@ namespace Hawk.ETL.Process
         private void ExecuteAllExecutors()
         {
             var has_execute = CurrentETLTools.FirstOrDefault(d => d is IDataExecutor) != null;
-            var info = "确定启动执行?";
+            var info = GlobalHelper.Get("key_702");
             if (!has_execute)
-                info = info + "没有在本任务中发现任何执行器。";
+                info = info + GlobalHelper.Get("key_703");
             if (MainDescription.IsUIForm &&
-                ControlExtended.UserCheck(info, "警告信息"))
+                ControlExtended.UserCheck(info, GlobalHelper.Get("key_151")))
 
-            {
                 ExecuteDatas();
-            }
         }
 
         #endregion
 
         #region Public Methods
 
+        private ToolBase GetToolFromDocument(FreeDocument child)
+        {
+            var name = child["Type"].ToString();
+            var process = PluginProvider.GetObjectByType<IColumnProcess>(name);
+            if (process != null)
+            {
+                process.DictDeserialize(child);
+
+                process.Father = this;
+                var tool = process as ToolBase;
+                if (tool != null)
+                    tool.ColumnSelector.GetItems = () => all_columns;
+                return tool;
+            }
+            return null;
+        }
+
         public override void DictDeserialize(IDictionary<string, object> dicts, Scenario scenario = Scenario.Database)
         {
             shouldUpdate = false;
             base.DictDeserialize(dicts, scenario);
             MaxThreadCount = dicts.Set("MaxThreadCount", MaxThreadCount);
-            GenerateMode = dicts.Set("GenerateMode", GenerateMode);
+            Remark = dicts.Set("Remark", Remark);
+            object generatemode = null;
+
+            if (dicts.TryGetValue("GenerateMode", out generatemode))
+            {
+                if (generatemode.ToString() == "串行模式")
+                    GenerateMode = GenerateMode.SerialMode;
+                else if (generatemode.ToString() == "并行模式")
+                    GenerateMode = GenerateMode.ParallelMode;
+                else
+                {
+                    GenerateMode = dicts.Set("GenerateMode", GenerateMode);
+                }
+            }
+
+            DelayTime = dicts.Set("DelayTime", DelayTime);
             SampleMount = dicts.Set("SampleMount", SampleMount);
             var doc = dicts as FreeDocument;
             if (doc != null && doc.Children != null)
-            {
                 foreach (var child in doc.Children)
                 {
-                    var name = child["Type"].ToString();
-                    var process = PluginProvider.GetObjectByType<IColumnProcess>(name);
-                    if (process != null)
-                    {
-                        process.DictDeserialize(child);
-                        CurrentETLTools.Add(process);
-                        process.Father = this;
-                        var tool = process as ToolBase;
-                        if (tool != null)
-                            tool.ColumnSelector.GetItems = () => all_columns;
-                    }
+                    var tool = GetToolFromDocument(child);
+                    if(string.IsNullOrEmpty(tool.ObjectID))
+                        tool.ObjectID = string.Format("{0}_{1}_{2}", tool.TypeName, tool.Column, CurrentETLTools.Count);
+                    CurrentETLTools.Add(tool);
                 }
-            }
             ETLMount = CurrentETLTools.Count;
             shouldUpdate = true;
         }
@@ -396,6 +512,9 @@ namespace Hawk.ETL.Process
             dict.Add("MaxThreadCount", MaxThreadCount);
             dict.Add("GenerateMode", GenerateMode);
             dict.Add("SampleMount", SampleMount);
+            dict.Add("DelayTime", DelayTime);
+            dict.Add("Remark", Remark);
+            dict.Add(FreeDocument.KeepOrder, true);
             dict.Children = new List<FreeDocument>();
             dict.Children.AddRange(CurrentETLTools.Select(d => d.DictSerialize(scenario)));
             return dict;
@@ -404,10 +523,12 @@ namespace Hawk.ETL.Process
         public override bool Init()
         {
             mudoleHasInit = true;
+            Analyzer.DataManager = SysDataManager;
             RefreshSamples();
             CurrentETLTools.CollectionChanged += (s, e) =>
             {
                 if (e.Action != NotifyCollectionChangedAction.Add) return;
+                var canFresh = false;
                 foreach (var item in e.NewItems.OfType<INotifyPropertyChanged>())
                 {
                     var tool = item as ToolBase;
@@ -425,9 +546,12 @@ namespace Hawk.ETL.Process
                         }
                         if (IsAutoRefresh == false)
                             return;
-                        //RefreshSamples();
+                        if (e2.PropertyName == "AnalyzeItem")
+                            return;
+                        canFresh = true;
                     };
                 }
+                if (canFresh) RefreshSamples();
             };
             return true;
         }
@@ -462,127 +586,261 @@ namespace Hawk.ETL.Process
             foreach (var item in CurrentETLTools.Where(d => d.Enabled))
             {
                 if (isexecute == false && item is IDataExecutor)
-                {
                     continue;
-                }
                 item.Init(new List<IFreeDocument>());
             }
         }
 
-
-        public void ExecuteDatas()
+        [LocalizedCategory("key_199")]
+        [LocalizedDisplayName("key_200")]
+        public override string Name
         {
-            var etls = CurrentETLTools.Take(ETLMount).Where(d => d.Enabled).ToList();
-            var index = 0;
-
-
-            if (GenerateMode == GenerateMode.串行模式)
+            get { return _name; }
+            set
             {
-                var realfunc3 = etls.Aggregate(isexecute: true, analyzer: Analyzer);
-                var task = TemporaryTask.AddTempTask(Name + "串行任务", realfunc3.Invoke(),
-                    null);
-                task.IsSelected = true;
-                SysProcessManager.CurrentProcessTasks.Add(task);
-            }
-            else
-            {
-                var timer = new DispatcherTimer();
-                TemporaryTask paratask = null;
-                var tolistTransformer = etls.FirstOrDefault(d => d.TypeName == "启动并行") as ToListTF;
-
-                if (tolistTransformer != null)
+                if (_name == value) return;
+                if (mudoleHasInit && MainDescription.IsUIForm && string.IsNullOrEmpty(_name) == false &&
+                    string.IsNullOrEmpty(value) == false)
                 {
-                    index = etls.IndexOf(tolistTransformer);
+                    var dock = MainFrm as IDockableManager;
+                    var view = dock?.ViewDictionary.FirstOrDefault(d => d.Model == this);
+                    if (view != null)
+                    {
+                        dynamic container = view.Container;
+                        container.Title = _name;
+                    }
+                    var oldtools =
+                        SysProcessManager.CurrentProcessCollections.OfType<SmartETLTool>()
+                            .SelectMany(d => d.CurrentETLTools)
+                            .OfType<ETLBase>()
+                            .Where(d => d.ETLSelector.SelectItem == _name)
+                            .ToList();
 
-                    var beforefunc = etls.Take(index).Aggregate(isexecute: true, analyzer: Analyzer);
-                    var taskbuff = new List<IFreeDocument>();
-                    paratask = TemporaryTask.AddTempTask("并行任务", beforefunc(new List<IFreeDocument>())
-                        ,
-                        d2 =>
+                    if (oldtools.Count > 0)
+                    {
+                        var res = MessageBox.Show(string.Format(GlobalHelper.Get("check_if_rename"), TypeName,
+                            _name, value,
+                            string.Join(",", oldtools.Select(d => d.ObjectID)), ""), GlobalHelper.Get("Tips"),
+                            MessageBoxButton.YesNo);
+
+                        if (res == MessageBoxResult.Yes)
                         {
-                            if (taskbuff.Count < tolistTransformer.GroupMount)
-                            {
-                                taskbuff.Add(d2);
-                                return;
-                            }
-                            var newtaskbuff = taskbuff.ToList();
-                            taskbuff.Clear();
-                            if (paratask.IsPause == false &&
-                                SysProcessManager.CurrentProcessTasks.Count > MaxThreadCount)
-                            {
-                                iswait = true;
-                                paratask.IsPause = true;
-                            }
-                            var countstr = d2.Query(tolistTransformer.MountColumn);
-                            var name = d2.Query(tolistTransformer.IDColumn);
-                            if (name == null)
-                                name = "任务";
-
-                            var rcount = -1;
-                            int.TryParse(countstr, out rcount);
-                            var afterfunc = etls.Skip(index + 1).Aggregate(isexecute: true);
-                            var task = TemporaryTask.AddTempTask(name, afterfunc(newtaskbuff), d => { },
-                                null, rcount, false);
-                            if (tolistTransformer.DisplayProgress)
-                                ControlExtended.UIInvoke(() => SysProcessManager.CurrentProcessTasks.Add(task));
-                            task.Start();
-                        }, d => timer.Stop(), -1, false);
+                            oldtools.Execute(d => d.ETLSelector.SelectItem = value);
+                        }
+                    }
                 }
-                else
-                {
-                    var paraPoint = etls.GetParallelPoint();
-                    var beforefunc = etls.Take(paraPoint).Aggregate(isexecute: true);
-                    var generator = etls.FirstOrDefault() as IColumnGenerator;
-                    if (generator == null)
-                        return;
-                    var afterfunc = etls.Skip(paraPoint).Aggregate(isexecute: true);
-                    paratask = TemporaryTask.AddTempTask("并行任务", beforefunc(new List<IFreeDocument>()),
-                        d =>
-                        {
-                            if (paratask.IsPause == false &&
-                                SysProcessManager.CurrentProcessTasks.Count > MaxThreadCount)
-                            {
-                                iswait = true;
-                                paratask.IsPause = true;
-                            }
-                            var task = TemporaryTask.AddTempTask("子任务", afterfunc(new List<IFreeDocument> {d}),
-                                d2 => { },
-                                null, 1, false);
-                            ControlExtended.UIInvoke(() => SysProcessManager.CurrentProcessTasks.Add(task));
-                            task.Start();
-                        }, d => timer.Stop(), generator.GenerateCount() ?? (-1), false);
-                }
-                SysProcessManager.CurrentProcessTasks.Add(paratask);
-
-                timer.Interval = TimeSpan.FromSeconds(3);
-                timer.Tick += (s, e) =>
-                {
-                    if (paratask.IsCanceled)
-                    {
-                        timer.Stop();
-                        return;
-                    }
-
-
-                    if (paratask.IsStart == false)
-                    {
-                        paratask.Start();
-                        return;
-                    }
-
-                    if (iswait && SysProcessManager.CurrentProcessTasks.Count < MaxThreadCount)
-                    {
-                        paratask.IsPause = false;
-                        iswait = false;
-                    }
-                };
-
-                timer.Start();
+                _name = value;
+                OnPropertyChanged("Name");
             }
         }
 
-        private bool iswait;
+        private TemporaryTask<IFreeDocument> AddSubTask(List<IFreeDocument> seeds, EnumerableFunc mapperFunc1, EnumerableFunc mapperFunc2,EnumerableFunc customerFunc3,
+            ToListTF motherListTF = null,
+            TemporaryTask<IFreeDocument> lastTask = null, string name = null, bool isAdd = true)
+        {
+          
+        
+            if (lastTask != null)
+            {
+                seeds = lastTask.Seeds?.ToList();
+                name = lastTask.Name;
+            }
+            if (seeds == null)
+                seeds = new List<IFreeDocument>();
 
+            var realCount = -1;
+            if (motherListTF != null)
+            {
+                var d2 = seeds.FirstOrDefault();
+                name = d2[motherListTF.Column]?.ToString();
+                if (name == null)
+                    name = motherListTF.Column;
+                int.TryParse(d2.Query(motherListTF.MountColumn), out realCount);
+            }
+            var mapperIndex1 = lastTask?.MapperIndex1 ?? 0;
+            var mapperIndex2 = lastTask?.MapperIndex2 ?? 0;
+            var task = new TemporaryTask<IFreeDocument>();
+            if  (String.IsNullOrEmpty(name))
+                name = GlobalHelper.Get("key_706");
+            task.Name = name;
+            if (lastTask != null)
+                task.IsPause = true;
+            task.Seeds = seeds.Select(d => d.Clone()).ToList();
+            var task1 = task;
+            var generator1 = mapperFunc1(seeds).Skip(mapperIndex1).Select(doc =>
+            {
+                task1.MapperIndex1++;
+                task1.MapperIndex2 = 0;
+                return doc;
+            });
+            var generator2 = mapperFunc2(generator1).Skip(mapperIndex2).Select(doc =>
+            {
+                task1.MapperIndex2++;
+                return doc;
+            });
+            task = TemporaryTask<IFreeDocument>.AddTempTask(task, generator2, doc =>
+            {
+                var list = new List<IFreeDocument> {doc};
+                return customerFunc3(list);
+            },
+                null, realCount, false);
+            if (lastTask != null)
+            {
+                task.Name = lastTask.Name;
+                task.OutputIndex = lastTask.OutputIndex;
+                task.MapperIndex1 = lastTask.MapperIndex1;
+                task.MapperIndex2 = lastTask.MapperIndex2;
+                task.IsPause = true;
+            }
+            task.IsFormal = true;
+            task.Level = 1;
+            task.Publisher = this;
+            if (isAdd)
+            {
+                ControlExtended.UIInvoke(() => SysProcessManager.CurrentProcessTasks.Add(task));
+            }
+
+            task.Start();
+            return task;
+        }
+        
+        private int maxThreadCount
+        {
+            get { return GenerateMode == GenerateMode.SerialMode ? 1 : MaxThreadCount; }
+        }
+
+        public void ExecuteDatas(List<TemporaryTask<IFreeDocument>> lastRunningTasks = null)
+        {
+            var etls = CurrentETLTools.Where(d => d.Enabled).ToList();
+            SysProcessManager.CurrentProject.Build();
+
+            Analyzer.Start(Name);
+
+            var timer = new DispatcherTimer();
+            if (GenerateMode == GenerateMode.SerialMode && DelayTime > 0)
+                etls = etls.AddModule(d => d.GetType() == typeof(CrawlerTF),
+                    d => new DelayTF { DelayTime = DelayTime.ToString() }, true).ToList();
+            ToListTF motherListTF;
+
+            var taskBuff = new List<IFreeDocument>();
+            TemporaryTask<IFreeDocument> motherTask = null;
+            TemporaryTask<IFreeDocument> lastMotherTask = null;
+
+            var motherName = Name + GlobalHelper.Get(GenerateMode == GenerateMode.SerialMode ? "key_704" : "key_705");
+            if (lastRunningTasks != null)
+                lastMotherTask = lastRunningTasks.FirstOrDefault(d => d.Level == 0);
+
+
+            var mapperIndex1 = lastMotherTask?.MapperIndex1 + 1 ?? 0;
+            var splitPoint = etls.GetParallelPoint(false, out motherListTF);
+            var motherFunc = etls.Take(splitPoint).Aggregate(isexecute: true, analyzer: Analyzer);
+            if (motherListTF != null)
+                splitPoint++;
+            var subEtls = etls.Skip(splitPoint).ToList();
+            motherTask = new TemporaryTask<IFreeDocument>();
+            motherTask.Name = motherName;
+            if (lastMotherTask != null)
+                motherTask.IsPause = true;
+
+            ToListTF subTaskToListTf;
+            ToListTF subTaskToListTf2;
+
+            var splitPoint1 = subEtls.GetParallelPoint(false, out subTaskToListTf);
+            var mapperFunc1 = subEtls.Take(splitPoint1).Aggregate(isexecute: true, analyzer: Analyzer);
+            if (subTaskToListTf != null)
+                splitPoint1++;
+
+            var subEtls2 = subEtls.Skip(splitPoint1).ToList();
+            var splitPoint2 = subEtls2.GetParallelPoint(false, out subTaskToListTf2);
+
+
+            var mapperFunc2 = subEtls2.Take(splitPoint2).Aggregate(isexecute: true, analyzer: Analyzer);
+            if (subTaskToListTf != null)
+                splitPoint2++;
+            var customerFunc3 = subEtls2.Skip(splitPoint2).Aggregate(isexecute: true, analyzer: Analyzer);
+
+
+
+
+            TemporaryTask<IFreeDocument>.AddTempTaskSimple(motherTask
+                ,
+                motherFunc(new List<IFreeDocument>()).Skip(mapperIndex1).Select(d =>
+                {
+                    motherTask.MapperIndex1++;
+                    if (this.SysProcessManager.CurrentProcessTasks.Contains(motherTask) == false)
+                    {
+                        motherTask.Remove();
+
+                    }
+                    PauseCheck(motherTask);
+                    var delay = this.DelayTime;
+                    if (GenerateMode == GenerateMode.ParallelMode)
+                        delay = 0;
+                    Thread.Sleep(Math.Max(100, delay));
+                    return d;
+                }),
+                d =>
+                {
+                taskBuff.Add(d);
+                if (taskBuff.Count < motherListTF?.GroupMount)
+                {
+                    return;
+                }
+                    PauseCheck(motherTask);
+
+                    AddSubTask(taskBuff.ToList(), mapperFunc1,mapperFunc2,customerFunc3,  motherListTF);
+                    taskBuff.Clear();
+                });
+            if (lastRunningTasks != null)
+                foreach (var subTask in lastRunningTasks.Where(d => d.Level == 1))
+                    AddSubTask(null, mapperFunc1, mapperFunc2, customerFunc3, 
+                        motherListTF, subTask);
+            SysProcessManager.CurrentProcessTasks.Add(motherTask);
+            motherTask.IsFormal = true;
+
+            if (lastMotherTask != null)
+            {
+                motherTask.IsPause = true;
+
+                motherTask.MapperIndex1 = lastMotherTask.MapperIndex1;
+                motherTask.OutputIndex = lastMotherTask.OutputIndex;
+                AttachTask(motherTask);
+            }
+            motherTask.Level = 0;
+            motherTask.Publisher = this;
+            timer.Interval = TimeSpan.FromMilliseconds(100);
+        
+
+            timer.Tick += (s, e) =>
+            {
+                if (motherTask.IsCanceled)
+                {
+                    timer.Stop();
+                    return;
+                }
+
+                if (motherTask.IsStart == false)
+                {
+                    motherTask.Start();
+                    return;
+                }
+
+                PauseCheck(motherTask,false);
+            };
+
+            timer.Start();
+        }
+
+        private void PauseCheck(TaskBase motherTask, bool check = true)
+        {
+            if (motherTask.ShouldPause == false)
+
+                motherTask.IsPause = SysProcessManager.CurrentProcessTasks.OfType<TemporaryTask<IFreeDocument>>().Count(d2 => d2.Publisher == this&&d2.Level==1) >= maxThreadCount;
+            if(check)
+
+                motherTask.CheckWait();
+
+        }
         private bool NeedConfig(IDictionarySerializable item)
         {
             var config = item.DictSerialize();
@@ -615,11 +873,10 @@ namespace Hawk.ETL.Process
                     shouldUpdate = false;
                     InsertModule(item);
                     shouldUpdate = true;
+                    item.ObjectID = string.Format("{0}_{1}_{2}", item.TypeName, item.Column, CurrentETLTools.Count);
                     if (NeedConfig(item))
                     {
-                        var window = PropertyGridFactory.GetPropertyWindow(item);
-
-                        window.ShowDialog();
+                        PropertyGridFactory.GetPropertyWindow(item).ShowDialog();
                     }
                     ETLMount++;
                 }
@@ -628,27 +885,31 @@ namespace Hawk.ETL.Process
             {
                 var smart = attr as SmartGroup;
                 if (smart != null)
-                {
                     attr = smart.ColumnInfo;
-                }
                 var window = PropertyGridFactory.GetPropertyWindow(attr);
                 var oldProp = attr.UnsafeDictSerializePlus();
 
                 window.Closed += (s, e) =>
                 {
                     if (oldProp.IsEqual(attr.UnsafeDictSerializePlus()) == false && IsAutoRefresh)
-                        RefreshSamples();
+                    {
+                        (attr as PropertyChangeNotifier).OnPropertyChanged("");
+                    }
                 };
                 window.ShowDialog();
             }
             if (sender != "Delete") return true;
-            var a = attr as IColumnProcess;
-            if (MessageBox.Show("确实要删除" + a.TypeName + "吗?", "提示信息", MessageBoxButton.OKCancel) !=
+            var tools = GetSelectedTools().ToList();
+            if (tools.Count > 0 &&
+                MessageBox.Show(
+                    string.Format(GlobalHelper.Get("key_708"), string.Join(" ", tools.Select(d => d.TypeName))),
+                    GlobalHelper.Get("key_99"),
+                    MessageBoxButton.OKCancel) !=
                 MessageBoxResult.OK) return true;
 
-            CurrentETLTools.Remove(a);
-            if (IsAutoRefresh)
-                RefreshSamples();
+            CurrentETLTools.RemoveElementsNoReturn(d => tools.Contains(d));
+            ETLMount = CurrentETLTools.Count;
+
             return true;
         }
 
@@ -657,9 +918,7 @@ namespace Hawk.ETL.Process
         {
             var process = obj as XFrmWorkAttribute;
             if (process == null)
-            {
                 return false;
-            }
             var text = SearchText.ToLower();
             if (string.IsNullOrWhiteSpace(text))
                 return true;
@@ -676,10 +935,10 @@ namespace Hawk.ETL.Process
             return texts.FirstOrDefault(d => d.Contains(text)) != null;
         }
 
-
+        [Browsable(false)]
         [PropertyOrder(1)]
-        [LocalizedCategory("1.执行")]
-        [LocalizedDisplayName("工作模式")]
+        [LocalizedCategory("key_678")]
+        [LocalizedDisplayName("key_188")]
         public GenerateMode GenerateMode
         {
             get { return _generateMode; }
@@ -694,9 +953,9 @@ namespace Hawk.ETL.Process
 
 
         [PropertyOrder(2)]
-        [LocalizedCategory("1.执行")]
-        [LocalizedDescription("在并行模式工作时，线程池所承载的最大线程数")]
-        [LocalizedDisplayName("最大线程数")]
+        [LocalizedCategory("key_678")]
+        [LocalizedDescription("key_709")]
+        [LocalizedDisplayName("key_710")]
         [NumberRange(1, 20, 1)]
         public int MaxThreadCount
         {
@@ -705,10 +964,10 @@ namespace Hawk.ETL.Process
             {
                 if (_maxThreadCount != value)
                 {
-                    if (value > 30)
+                    if (value > 20)
                     {
-                        value = 30;
-                        XLogSys.Print.Warn("最大线程数的数值范围为0-30");
+                        value = 20;
+                        XLogSys.Print.Warn(GlobalHelper.Get("key_711"));
                     }
                     if (value <= 0)
                         value = 1;
@@ -717,7 +976,22 @@ namespace Hawk.ETL.Process
                 }
             }
         }
-
+        [Browsable(false)]
+        [LocalizedDescription("key_709")]
+        [LocalizedDisplayName("key_395")]
+        [NumberRange(1, 20, 1)]
+        public int DelayTime
+        {
+            get { return _delayTime; }
+            set
+            {
+                if (_delayTime != value)
+                {
+                    _delayTime = value;
+                    OnPropertyChanged("DelayTime");
+                }
+            }
+        }
 
         private int _etlMount;
 
@@ -725,11 +999,11 @@ namespace Hawk.ETL.Process
         private bool mudoleHasInit;
         private int _maxThreadCount;
         private GenerateMode _generateMode;
-        private ListViewDragDropManager<IColumnProcess> dragMgr;
         private bool isErrorRemind = true;
         private readonly List<string> all_columns = new List<string>();
         private bool _isAutoRefresh;
         private DateTime lastRefreshTime;
+        private int _delayTime;
 
         public void RefreshSamples(bool canGetDatas = true)
         {
@@ -741,27 +1015,26 @@ namespace Hawk.ETL.Process
             if (!mudoleHasInit)
                 return;
             OnPropertyChanged("AllETLMount");
-
-            var tasks = SysProcessManager.CurrentProcessTasks.Where(d => d.Publisher == this).ToList();
+            SysProcessManager.CurrentProject.Build();
+            var tasks =
+                SysProcessManager.CurrentProcessTasks.Where(d => d.Publisher == this && d.IsPause == false).ToList();
             if (tasks.Any())
             {
-                var str = $"{Name}已经有任务在执行，由于调整参数，是否要取消当前任务重新执行？\n 【取消】:【不再提醒】";
+                var str = string.Format(GlobalHelper.Get("task_run"), Name);
                 if (isErrorRemind == false)
                 {
-                    XLogSys.Print.Warn($"{Name}已经有任务在执行，请在任务管理器中取消该任务后再刷新");
+                    XLogSys.Print.Warn(string.Format(GlobalHelper.Get("key_712"), Name));
                     return;
                 }
                 if (!MainDescription.IsUIForm)
                     return;
                 var result =
-                    MessageBox.Show(str, "提示信息", MessageBoxButton.YesNoCancel);
+                    MessageBox.Show(str, GlobalHelper.Get("key_99"), MessageBoxButton.YesNoCancel);
                 if (result == MessageBoxResult.Yes)
                 {
                     foreach (var item in tasks)
-                    {
                         item.Remove();
-                    }
-                    XLogSys.Print.Warn(str + "  已经取消");
+                    XLogSys.Print.Warn(str + GlobalHelper.Get("key_713"));
                 }
                 else if (result == MessageBoxResult.Cancel)
                 {
@@ -793,27 +1066,22 @@ namespace Hawk.ETL.Process
                     currentToolList.MouseDoubleClick += (s, e) =>
                     {
                         if (e.ChangedButton != MouseButton.Left)
-                        {
                             return;
-                        }
-                        var process = currentToolList.SelectedItem as IColumnProcess;
+                        var process = currentToolList.SelectedValue as IColumnProcess;
                         if (process == null)
-                        {
                             return;
-                        }
                         var oldProp = process.UnsafeDictSerializePlus();
                         var window = PropertyGridFactory.GetPropertyWindow(process);
                         window.Closed += (s2, e2) =>
                         {
                             if (
                                 (oldProp.IsEqual(process.UnsafeDictSerializePlus()) == false && IsAutoRefresh).SafeCheck
-                                    ("检查模块参数是否修改", LogType.Debug))
+                                    (GlobalHelper.Get("key_714"), LogType.Debug))
                                 RefreshSamples();
+                            (process as PropertyChangeNotifier).OnPropertyChanged("");
                         };
                         window.ShowDialog();
                     };
-                    dragMgr = new ListViewDragDropManager<IColumnProcess>(currentToolList);
-                    dragMgr.ShowDragAdorner = true;
 
                     alltoolList.MouseMove += (s, e) =>
                     {
@@ -821,9 +1089,7 @@ namespace Hawk.ETL.Process
                         {
                             var attr = alltoolList.SelectedItem as XFrmWorkAttribute;
                             if (attr == null)
-                            {
                                 return;
-                            }
 
                             var data = new DataObject(typeof (XFrmWorkAttribute), attr);
                             try
@@ -847,12 +1113,7 @@ namespace Hawk.ETL.Process
                 return;
             SmartGroupCollection.Clear();
             Documents.Clear();
-            shouldUpdate = false;
-            var i = 0;
-            foreach (var currentEtlTool in CurrentETLTools)
-            {
-                (currentEtlTool).ETLIndex = i++;
-            }
+
             shouldUpdate = true;
             if (!MainDescription.IsUIForm)
                 return;
@@ -860,7 +1121,7 @@ namespace Hawk.ETL.Process
             dataView.Columns.Clear();
 
             AddColumn("", alltools);
-            var temptask = TemporaryTask.AddTempTask(Name + "_转换",
+            var temptask = TemporaryTask<FreeDocument>.AddTempTaskSimple(Name + "_" + GlobalHelper.Get("key_108"),
                 func(new List<IFreeDocument>()).Take(SampleMount),
                 data =>
                 {
@@ -873,7 +1134,7 @@ namespace Hawk.ETL.Process
                             all_columns.Add(key);
                         }
 
-                        Documents.Add((data));
+                        Documents.Add(data);
                         InitUI();
                     });
                 }, r =>
@@ -881,7 +1142,6 @@ namespace Hawk.ETL.Process
                     var tool = CurrentTool;
                     var outputCol = new List<string>();
                     var inputCol = new List<string>();
-
                     if (tool != null)
                     {
                         inputCol.Add(tool.Column);
@@ -897,7 +1157,7 @@ namespace Hawk.ETL.Process
                             else if (transformer is ETLBase)
                             {
                                 var etl = transformer as ETLBase;
-                                var target = etl.GetModule<SmartETLTool>(etl.ETLSelector.SelectItem);
+                                var target = etl.GetTask<SmartETLTool>(etl.ETLSelector.SelectItem);
                                 outputCol = target?.Documents.GetKeys().ToList();
                                 inputCol.AddRange(etl.MappingSet.Split(' ').Select(d => d.Split(':')[0]));
                             }
@@ -917,9 +1177,7 @@ namespace Hawk.ETL.Process
                     {
                         var index = all_columns.IndexOf(firstOutCol);
                         if (index != -1 && ETLMount < AllETLMount)
-                        {
                             scrollViewer.ScrollToHorizontalOffset(index*CellWidth);
-                        }
                     }
                     var nullgroup = SmartGroupCollection.FirstOrDefault(d => string.IsNullOrEmpty(d.Name));
                     nullgroup?.Value.AddRange(
@@ -931,8 +1189,67 @@ namespace Hawk.ETL.Process
                 }
                 , SampleMount);
             temptask.Publisher = this;
-            temptask.IsSelected = true;
+            AttachTask(temptask);
+
+            dynamic tempwindow = PluginProvider.GetObjectInstance<ICustomView>(GlobalHelper.Get("etl_temp_window"));
             SysProcessManager.CurrentProcessTasks.Add(temptask);
+            temptask.PropertyChanged += (s, e) =>
+            {
+                if (temptask.IsCanceled == true || temptask.IsPause)
+                {
+                    tempwindow.Close();
+                }
+             
+            };
+
+            tempwindow.DataContext = tempwindow;
+            tempwindow.BindingSource = temptask;
+           
+            tempwindow.ShowDialog();
+            
+            if (tempwindow.DialogResult == false)
+            {
+             
+                temptask.Remove();
+                if (tempwindow.Refresh)
+                {
+                        RefreshSamples(true);
+                }
+            }
+          
+          
+         
+        }
+
+        private void AttachTask(TemporaryTask<IFreeDocument> temptask)
+        {
+            temptask.PropertyChanged += (s, e) =>
+            {
+                ControlExtended.UIInvoke(() =>
+                {
+                    var dock = MainFrm as IDockableManager;
+                    switch (e.PropertyName)
+                    {
+                        case "Percent":
+
+                            dock.SetBusy(ProgressBarState.Normal, message: GlobalHelper.Get("long_etl_task"),
+                                percent: temptask.Percent);
+                            break;
+                        case "IsStart":
+
+                            if (temptask.IsStart == false)
+                                dock.SetBusy(ProgressBarState.NoProgress);
+                            else
+                            {
+                                if (temptask.Total < 0)
+                                    dock.SetBusy(ProgressBarState.Indeterminate);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                });
+            };
         }
 
         public static int CellWidth = 155;
@@ -957,7 +1274,7 @@ namespace Hawk.ETL.Process
             var fef = new FrameworkElementFactory(typeof (MultiLineTextEditor));
             var binding = new Binding();
 
-            binding.Path = new PropertyPath(($"[{key}]"));
+            binding.Path = new PropertyPath($"[{key}]");
             fef.SetBinding(ContentControl.ContentProperty, binding);
             fef.SetBinding(MultiLineTextEditor.TextProperty, binding);
             dt.VisualTree = fef;
@@ -974,13 +1291,13 @@ namespace Hawk.ETL.Process
                 if (e.PropertyName == "Name")
                 {
                     var last = alltools.LastOrDefault() as IColumnDataTransformer;
-                    if (last != null && last.TypeName == "列名修改器" && last.NewColumn == key)
+                    if (last != null && last.TypeName == GlobalHelper.Get("RenameTF") && last.NewColumn == key)
                     {
                         last.NewColumn = group.Name;
                     }
                     else
                     {
-                        last = PluginProvider.GetObjectInstance("列名修改器") as IColumnDataTransformer;
+                        last = PluginProvider.GetObjectInstance(GlobalHelper.Get("RenameTF")) as IColumnDataTransformer;
                         last.NewColumn = group.Name;
                         last.Column = key;
                         InsertModule(last);
@@ -1017,7 +1334,7 @@ namespace Hawk.ETL.Process
         {
             var x1 = x as XFrmWorkAttribute;
             var y1 = y as XFrmWorkAttribute;
-            var key = "常用";
+            var key = GlobalHelper.Get("key_110");
             if (x1.Description.Contains(key))
             {
                 if (y1.Description.Contains(key))
@@ -1025,9 +1342,7 @@ namespace Hawk.ETL.Process
                 return -1;
             }
             if (y1.Description.Contains(key))
-            {
                 return 1;
-            }
             return x1.Name.CompareTo(y1.Name);
         }
     }
@@ -1045,6 +1360,7 @@ namespace Hawk.ETL.Process
         public GroupType GroupType
         {
             get { return _groupType; }
+
             set
             {
                 if (_groupType != value)

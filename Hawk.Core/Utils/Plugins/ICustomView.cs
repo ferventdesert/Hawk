@@ -2,7 +2,7 @@
 
 namespace Hawk.Core.Utils.Plugins
 {
-    [Interface( "可实现自助替换界面的接口")]
+    [Interface( "ICustomView")]
     public interface ICustomView
     {
         FrmState FrmState { get; }
@@ -13,7 +13,7 @@ namespace Hawk.Core.Utils.Plugins
         Func<string,object,bool> RemoteFunc { get; set; }
     }
 
-     [Interface("一项弱类型的简化接口，用于不指定强功能的插件集合")]
+     [Interface("ICustomClass")]
     public interface  ICustomClass
     {
         

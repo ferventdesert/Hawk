@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
@@ -9,7 +10,7 @@ using Hawk.ETL.Interfaces;
 namespace Hawk.ETL.Plugins.Generators
 
 {
-    [XFrmWork("生成区间时间", "生成某范围内的日期和时间","timer_rewind")]
+    [XFrmWork("DateRangeGE", "DateRangeGE_desc","timer_rewind")]
     internal class DateRangeGE : GeneratorBase
     {
         private readonly string staticDateFormat = "yyyy-MM-dd HH:mm:ss:ffff";
@@ -22,37 +23,43 @@ namespace Hawk.ETL.Plugins.Generators
             MinValue = (DateTime.Now - TimeSpan.FromDays(3)).ToString(Format);
             Interval = TimeSpan.FromHours(1).ToString(staticSpanFormat);
         }
-        [LocalizedCategory("参数设置")]
-        [LocalizedDisplayName("最小值")]
-        [LocalizedDescription("按类似yyyy-MM-dd HH:mm:ss:ffff格式进行填写")]
+        [LocalizedCategory("key_21")]
+        [LocalizedDisplayName("key_375")]
+        [LocalizedDescription("key_398")]
         public string MinValue { get; set; }
-        [LocalizedCategory("参数设置")]
-        [LocalizedDisplayName("最大值")]
-        [LocalizedDescription("按类似yyyy-MM-dd HH:mm:ss:ffff格式进行填写")]
+        [LocalizedCategory("key_21")]
+        [LocalizedDisplayName("key_374")]
+        [LocalizedDescription("key_398")]
         public string MaxValue { get; set; }
-        [LocalizedCategory("参数设置")]
-        [LocalizedDisplayName("间隔")]
-        [LocalizedDescription("按类似1'h '3'm '5's'格式进行填写")]
+        [LocalizedCategory("key_21")]
+        [LocalizedDisplayName("key_399")]
+        [LocalizedDescription("key_400")]
         public string Interval { get; set; }
-        [LocalizedCategory("参数设置")]
-        [LocalizedDisplayName("生成时间格式")]
-        [LocalizedDescription("可参考C# DateTime Format相关方法， 例如yyyy-MM-dd等")]
+        [LocalizedCategory("key_21")]
+        [LocalizedDisplayName("key_401")]
+        [LocalizedDescription("key_402")]
         public string Format { get; set; }
 
+
+        [Browsable(false)]
+        public override string KeyConfig => String.Format("min:{0},max:{1}", MinValue, MaxValue);
         public override IEnumerable<IFreeDocument> Generate(IFreeDocument document = null)
         {
             //TODO
             DateTime min, max;
             TimeSpan span;
-            if (DateTime.TryParseExact(MinValue,
+            var minvalue = AppHelper.Query(MinValue, document);
+            var maxvalue = AppHelper.Query(MaxValue, document);
+            var interval = AppHelper.Query(Interval, document);
+            if (DateTime.TryParseExact(minvalue,
                 staticDateFormat,
                 CultureInfo.InvariantCulture,
                 DateTimeStyles.None,
-                out min) && DateTime.TryParseExact(MaxValue,
+                out min) && DateTime.TryParseExact(maxvalue,
                     staticDateFormat,
                     CultureInfo.InvariantCulture,
                     DateTimeStyles.None,
-                    out max) && TimeSpan.TryParseExact(Interval,
+                    out max) && TimeSpan.TryParseExact(interval,
                         staticSpanFormat,
                         CultureInfo.InvariantCulture,
                         TimeSpanStyles.None,

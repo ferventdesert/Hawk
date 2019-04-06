@@ -1,20 +1,28 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Interfaces;
 using Hawk.ETL.Plugins.Transformers;
 
 namespace Hawk.ETL.Plugins.Executor
 {
-    [XFrmWork("延时", "在工作流中插入延时，可休眠固定长度避免爬虫被封禁，单位为ms","timer_stop")]
+    [XFrmWork("DelayTF", "DelayTF_desc","timer_stop")]
     public class DelayTF : TransformerBase
     {
-        [LocalizedDisplayName("延时值")]
-        [LocalizedDescription("单位为毫秒，也可使用方括号语法，例如[a]表示从a列中读取延时长度")]
+        public DelayTF()
+        {
+            DelayTime = "1000";
+        }
+        [LocalizedDisplayName("key_353")]
+        [LocalizedDescription("key_354")]
         public string DelayTime { get; set; }
 
+        [Browsable(false)]
+        public override string KeyConfig => DelayTime; 
         public override bool Init(IEnumerable<IFreeDocument> docus)
         {
             IsMultiYield = true;

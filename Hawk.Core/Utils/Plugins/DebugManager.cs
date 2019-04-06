@@ -8,7 +8,7 @@ using log4net.Core;
 
 namespace Hawk.Core.Utils.Plugins
 {
-    [XFrmWork("调试信息窗口",  "输出调试信息", "")]
+    [XFrmWork("key_4",  "DebugManager_desc", "")]
     public class DebugManager : AbstractPlugIn, IView, IMainFrmMenu
     {
         #region Properties

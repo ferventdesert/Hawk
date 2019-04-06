@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,7 +91,7 @@ namespace Hawk.Core.Utils
             return instance;
         }
 
-
+       
 
         /// <summary>
         ///     添加一个新实例
@@ -129,6 +130,7 @@ namespace Hawk.Core.Utils
             }
             catch (Exception ex)
             {
+                XLogSys.Print.Warn(ex);
                 throw;
             }
 
@@ -149,7 +151,7 @@ namespace Hawk.Core.Utils
         public static T Get<T>(this ICollection<T> collection, string name, bool? isAddToList = true)
             where T : class, IProcess
         {
-            var process = collection.FirstOrDefault(d => name == d.TypeName);
+            var process = collection.FirstOrDefault(d => name == d.GetType().Name);
             if (process != null) return process;
             var newProcess =
                 PluginProvider.GetPluginCollection(typeof (T)).FirstOrDefault(d => d.Name == name);
@@ -163,7 +165,7 @@ namespace Hawk.Core.Utils
             {
                 collection.Add(newProcess.MyType);
 
-                var newone = collection.FirstOrDefault(d => name == d.TypeName);
+                var newone = collection.FirstOrDefault(d => name == d.GetType().Name);
 
                 return newone;
             }
@@ -178,15 +180,19 @@ namespace Hawk.Core.Utils
            {
                if (tableName == null)
                    tableName = collection.Name;
+               List<string> columns =new List<string>();
                if (connector.RefreshTableNames().FirstOrDefault(d => d.Name == tableName) == null)
                {
-                   connector.CreateTable(data, tableName);
+                   var sample = data.MergeToDocument();
+                   columns = data.GetKeys().ToList();
+                   connector.CreateTable(sample, tableName);
+                   connector.RefreshTableNames();
                }
-               return true;
+               return columns;
 
-           }, list =>
+           },(list, columns) =>
            {
-               connector.BatchInsert(list, collection.Name);
+               connector.BatchInsert(list,(List<string>)columns , collection.Name);
            });
          
           
@@ -221,11 +227,16 @@ namespace Hawk.Core.Utils
        
 
         public static IEnumerable<T> BatchDo<T>(this IEnumerable<T> documents,
-            Func<T,bool> initFunc, Action<List<T> > batchFunc, Action endFunc = null, int batchMount = 100) 
+            Func<List<T>,object> initFunc, Action<List<T>,object > batchFunc, Action endFunc = null, int batchMount = 100) 
         {
             
             var i = 0;
+            var initMount = batchMount/2;
+            if (initMount <= 0)
+                initMount = 1;
+            bool isInit = false;
             var list = new List<T>();
+            object result = null;
             foreach (var document in documents)
             {
                 if(document==null)
@@ -233,15 +244,28 @@ namespace Hawk.Core.Utils
 
 // list.Add(document.Clone());
                 list.Add(document);
+                if (!isInit )
+                {
+                    if (list.Count == initMount)
+                    {
+                        result = initFunc(list);
+                        isInit = true;
+                    }
+                    else
+                    {
+                        yield return document;
+                        continue;
+                    }
+                }
                 if (list.Count == batchMount)
                 {
                     try
                     {
-                        batchFunc(list);
+                        batchFunc(list, result);
                     }
                     catch (Exception ex)
                     {
-                        XLogSys.Print.Warn($"批量插入错误{ex.Message}");
+                        XLogSys.Print.Warn(GlobalHelper.Get("key_111")+ ex.Message);
                     }
 
                     list = new List<T>();
@@ -249,8 +273,12 @@ namespace Hawk.Core.Utils
                 yield return document;
                 i++;
             }
+            if (isInit == false)
+                result = initFunc(list);
             if (list.Count != 0)
-                batchFunc(list);
+            {
+                batchFunc(list, result);
+            }
             endFunc?.Invoke();
         }
     }

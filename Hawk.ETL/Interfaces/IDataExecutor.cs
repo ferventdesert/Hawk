@@ -22,7 +22,7 @@ namespace Hawk.ETL.Interfaces
      
         protected DataExecutorBase()
         {
-            processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
+            processManager = MainDescription.MainFrm.PluginDictionary["DataProcessManager"] as IProcessManager;
             Enabled = true;
         }
   

@@ -50,7 +50,7 @@
             
         </Border>
         <Avalondock:DockingManager  x:Name="dockManager" Margin="0,0,1,0" Grid.Row="1" Grid.Column="1" >
-
+    
             <Avalondock:DockingManager.Theme>
                 <Avalondock:ExpressionDarkTheme/>
             </Avalondock:DockingManager.Theme>
@@ -64,7 +64,16 @@
                         </Avalondock:LayoutAnchorablePane>
                     </Avalondock:LayoutPanel>
                     <Avalondock:LayoutPanel  Orientation="Vertical" DockWidth="1.5*" >
-                        <Avalondock:LayoutAnchorablePane  x:Name="dockablePane1">
+                      
+                        <Avalondock:LayoutAnchorablePane DockHeight="3*" x:Name="dockablePane1" >
+                            <Avalondock:LayoutAnchorable/>
+                        </Avalondock:LayoutAnchorablePane>
+
+                        <Avalondock:LayoutAnchorablePane DockHeight="1.5*" x:Name="dockablePane2" >
+                            <Avalondock:LayoutAnchorable/>
+                        </Avalondock:LayoutAnchorablePane>
+
+                        <Avalondock:LayoutAnchorablePane DockHeight="1*" x:Name="dockablePane3" >
                             <Avalondock:LayoutAnchorable/>
                         </Avalondock:LayoutAnchorablePane>
 
@@ -77,7 +86,7 @@
         <StatusBar  x:Name="DebugText"  Grid.Row="2" Margin="8,0" Background="#00F1EDED" MouseDown="DebugText_MouseDown" Grid.ColumnSpan="2">
             <StatusBarItem/>
             <StatusBarItem Width="100" HorizontalAlignment="Right" Margin="0,0,20,0">
-                <ProgressBar Width="100" Margin="0" x:Name="ProgressBar" VerticalAlignment="Center" Height="13"/>
+                <ProgressBar Width="100" Margin="0"  x:Name="ProgressBar" VerticalAlignment="Center" Height="13"/>
             </StatusBarItem>
         </StatusBar>
         <xctk:BusyIndicator x:Name="BusyIndicator"    Margin="293,170.36,342,170.36" Grid.Row="1" Width="300" Height="200" Foreground="Black" Background="{DynamicResource ControlBackgroundBrush}" Grid.Column="1">

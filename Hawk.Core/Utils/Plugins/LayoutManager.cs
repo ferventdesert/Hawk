@@ -1,4 +1,9 @@
-﻿using System.Windows;
+﻿using System;
+using System.ComponentModel;
+using System.Globalization;
+using System.Windows;
+using Hawk.Core.Connectors;
+using Hawk.Core.Utils;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 
@@ -15,8 +20,9 @@ namespace XFrmWork.UI.Controls
     using Microsoft.Win32;
 
 
-    [XFrmWork("布局管理器", "输出调试信息", "")]
+    [XFrmWork("LayoutManager", "LayoutManager_desc", "")]
     public class LayoutManager : AbstractPlugIn, IMainFrmMenu
+        
     {
         #region Constants and Fields
 
@@ -28,6 +34,7 @@ namespace XFrmWork.UI.Controls
         private IDockableManager manager;
 
         private BindingAction viewMenu;
+        private BindingAction languageMenu;
 
         #endregion
 
@@ -49,7 +56,7 @@ namespace XFrmWork.UI.Controls
             {
                 return this.commands ??
                        (this.commands =
-                        new BindingAction("布局")
+                        new BindingAction(GlobalHelper.Get("key_141"))
                         {
                             ChildActions =
                                     new ObservableCollection<ICommand>
@@ -57,8 +64,9 @@ namespace XFrmWork.UI.Controls
                                         //     new BindingAction("保存当前布局", obj => this.SaveCurrentLayout()) {Icon = "save"},
                                         //    new BindingAction("加载布局", obj => this.UpdateLayouts()) {Icon = "inbox_out"},
 
-                                            new BindingAction("刷新", obj => this.RefreshLayoutView()){Icon="refresh"},
+                                            new BindingAction(GlobalHelper.Get("key_142"), obj => this.RefreshLayoutView()){Icon="refresh"},
                                         this.viewMenu,
+                                        this.languageMenu,
             },Icon = "layout"
                         });
             }
@@ -75,18 +83,19 @@ namespace XFrmWork.UI.Controls
         {
             this.manager = this.MainFrmUI as IDockableManager;
 
-            this.viewMenu = new BindingAction("视图", obj => this.RefreshLayoutView()){Icon = "layout"};
+            this.viewMenu = new BindingAction(GlobalHelper.Get("key_143"), obj => this.RefreshLayoutView()){Icon = "layout"};
+         
 
             this.UpdateLayouts();
             RefreshLayoutView();
-
             return true;
         }
 
         public void RefreshLayoutView()
         {
             this.viewMenu.ChildActions.Clear();
-
+            if(manager.ViewDictionary==null)
+                return;
             foreach (var dict in manager.ViewDictionary)
             {
                 var ba = new BindingAction(dict.Name, obj => { this.manager.ActiveThisContent(dict.Name); }) {Icon = "layout"};
@@ -95,6 +104,8 @@ namespace XFrmWork.UI.Controls
             }
         }
 
+  
+       
         #endregion
 
         #region Methods
@@ -118,7 +129,7 @@ namespace XFrmWork.UI.Controls
                 return;
             }
             
-            MessageBox.Show("布局文件已经成功保存为" + fileName);
+            MessageBox.Show(GlobalHelper.Get("key_144") + fileName);
         }
 
         private void UpdateLayouts()

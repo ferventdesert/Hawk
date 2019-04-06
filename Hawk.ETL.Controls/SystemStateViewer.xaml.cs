@@ -8,7 +8,7 @@ namespace Hawk.ETL.Controls
     /// <summary>
     /// SystemStateViewer.xaml 的交互逻辑
     /// </summary>
-    [XFrmWork("系统状态视图" )]
+    [XFrmWork("key_794")]
     public partial class SystemStateViewer : UserControl, ICustomView
     {
         #region Constructors and Destructors
@@ -26,21 +26,7 @@ namespace Hawk.ETL.Controls
 
         #endregion
 
-        private void ListBox_MouseMove_1(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                var attr = this.dataListBox.SelectedItem;
-                
-                if (attr == null)
-                {
-                    return;
-                }
-
-                var data = new DataObject(typeof(IDictionarySerializable), attr);
-                DragDrop.DoDragDrop(this, data, DragDropEffects.Move);
-            }
-        }
+     
 
         private void processListBox_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {

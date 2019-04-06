@@ -1,4 +1,5 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -6,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Input;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
@@ -18,7 +18,7 @@ namespace Hawk.Core.Connectors
     /// <summary>
     ///     Mongo数据库服务
     /// </summary>
-    [XFrmWork("MongoDB", "提供MongoDB交互的数据库服务", "")]
+    [XFrmWork("MongoDBConnector", "提供MongoDBConnector交互的数据库服务", "")]
     public class MongoDBConnector : DBConnectorBase, IEnumerableProvider<FreeDocument>
     {
         #region Constants and Fields
@@ -50,17 +50,18 @@ namespace Hawk.Core.Connectors
         #endregion
 
         #region Public Methods
-        [LocalizedCategory("高级设置")]
-        [LocalizedDisplayName("自增主键名称")]
+        [LocalizedCategory("key_67")]
+        [LocalizedDisplayName("key_68")]
         public string AutoIndexName { get; set; }
 
-        [LocalizedCategory("高级设置")]
-        [LocalizedDisplayName("启用自增主键写入")]
+        [LocalizedCategory("key_67")]
+        [LocalizedDisplayName("key_69")]
+        [LocalizedDescription("auto_index_desc")]
         public bool AutoIndexEnabled { get; set; }
 
 
-        [LocalizedCategory("高级设置")]
-        [LocalizedDisplayName("安装使用说明")]
+        [LocalizedCategory("key_67")]
+        [LocalizedDisplayName("key_70")]
         [PropertyOrder(20)]
         public ReadOnlyCollection<ICommand> HelpCommands
         {
@@ -70,7 +71,7 @@ namespace Hawk.Core.Connectors
                     this,
                     new[]
                     {
-                        new Command("打开帮助链接", obj =>
+                        new Command(GlobalHelper.Get("key_71"), obj =>
                         {
                             var url =
                                 "https://github.com/ferventdesert/Hawk/wiki/5.-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F";
@@ -100,20 +101,15 @@ namespace Hawk.Core.Connectors
                    firstOrDefault.ColumnInfos.FirstOrDefault(d => d.Name == AutoIndexName) != null;
         }
 
-        public override void BatchInsert(IEnumerable<IFreeDocument> source, string dbTableName)
+        public override void BatchInsert(IEnumerable<IFreeDocument> source, List<string> keys,string dbTableName)
         {
-            if (TableNames.Collection.FirstOrDefault(d => d.Name == dbTableName) == null)
-            {
-                CreateIndexTable(dbTableName);
-                RefreshTableNames();
-            }
+       
             var collection = DB.GetCollection<Document>(dbTableName);
             if (collection == null) //需要重建
             {
             }
 
             var index = 0;
-            //  public bool InsertEntity(IDictionarySerializable user, string tableName, string key, out int index)
             foreach (var item in source)
             {
                 try
@@ -122,7 +118,7 @@ namespace Hawk.Core.Connectors
                 }
                 catch (Exception ex)
                 {
-                    XLogSys.Print.Error("插入失败" + ex.Message);
+                    XLogSys.Print.Error(GlobalHelper.Get("key_72") + ex.Message);
                 }
             }
         }
@@ -363,7 +359,7 @@ namespace Hawk.Core.Connectors
             }
             catch (Exception ex)
             {
-                XLogSys.Print.Error("插入数据失败" + ex.Message);
+                XLogSys.Print.Error(GlobalHelper.Get("key_73") + ex.Message);
             }
 
 
@@ -399,18 +395,18 @@ namespace Hawk.Core.Connectors
             var local = (ConnectionString.Contains("localhost") || ConnectionString.Contains("127.0.0.1"));
             if (local == false)
             {
-                throw new Exception("MongoDB数据库不在本地，无法启动自动数据库修复");
+                throw new Exception(GlobalHelper.Get("key_74"));
             }
 
             if (LocalDBLocation == null)
             {
-                throw new Exception("数据库连接失败，请检查数据库配置，或手动设定MongoDB数据库的安装路径以方便自动修复");
+                throw new Exception(GlobalHelper.Get("mongo_connect_error"));
             }
             var mydir = new DirectoryInfo(LocalDBLocation);
             var file = mydir.GetFiles().FirstOrDefault(d => d.Name == "mongod.lock");
             if (file == null)
             {
-                throw new Exception("修复失败，您是否没有安装MongoDB数据库");
+                throw new Exception(GlobalHelper.Get("key_76"));
             }
             try
             {

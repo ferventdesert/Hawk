@@ -1,8 +1,8 @@
 ﻿using System;
+using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
 using NPOI.XSSF.Streaming;
@@ -10,7 +10,7 @@ using NPOI.XSSF.UserModel;
 
 namespace Hawk.Core.Connectors
 {
-    [XFrmWork("EXCEL导入导出器", "输出标准EXCEL文件，效率较低", "")]
+    [XFrmWork("FileConnectorExcel", "FileConnectorExcel_desc", "")]
     public class FileConnectorExcel : FileConnector
     {
         #region Properties
@@ -41,7 +41,7 @@ namespace Hawk.Core.Connectors
             }
             catch (Exception ex)
             {
-                throw new Exception("请填写Excel的表头信息");
+                throw new Exception(GlobalHelper.Get("key_45"));
             }
 
             for (var i = 1; i <= sheet.LastRowNum; i++)
@@ -69,7 +69,7 @@ namespace Hawk.Core.Connectors
                 data.DictDeserialize(dict);
                 yield return data;
                 if (i%1000 == 0)
-                    XLogSys.Print.Info($"已经导入数量{i}，总共{sheet.LastRowNum}");
+                    XLogSys.Print.Info(GlobalHelper.Get("key_46")+ i+GlobalHelper.Get("key_47") + sheet.LastRowNum);
             }
         }
 

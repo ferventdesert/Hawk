@@ -8,6 +8,8 @@ using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Interfaces;
+using Hawk.ETL.Managements;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
@@ -16,7 +18,7 @@ namespace Hawk.ETL.Plugins.Transformers
         OneRepeat,
         ListRepeat,
     }
-    [XFrmWork("重复当前值", "对当前行进行重复性生成")]
+    [XFrmWork("RepeatTF", "RepeatTF_desc")]
     public class RepeatTF : TransformerBase
     {
         public RepeatTF()
@@ -24,10 +26,10 @@ namespace Hawk.ETL.Plugins.Transformers
             RepeatCount = "1";
         }
 
-        [LocalizedDisplayName("重复模式")]
+        [LocalizedDisplayName("repeat_mode")]
         public RepeatType RepeatType { get; set; }
 
-        [LocalizedDisplayName("重复次数")]
+        [LocalizedDisplayName("key_523")]
         public string RepeatCount { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> docus)
@@ -36,7 +38,7 @@ namespace Hawk.ETL.Plugins.Transformers
             return base.Init(docus);
         }
 
-        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas, AnalyzeItem analyzer)
         {
             switch (RepeatType)
             {

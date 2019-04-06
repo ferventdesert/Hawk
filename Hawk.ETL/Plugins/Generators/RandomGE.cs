@@ -9,7 +9,7 @@ using Hawk.ETL.Interfaces;
 
 namespace Hawk.ETL.Plugins.Generators
 {
-    [XFrmWork("生成随机数", "生成某范围内和指定数量的随机数","share")]
+    [XFrmWork("RandomGE", "RandomGE_desc","share")]
     public class RandomGE : GeneratorBase
     {
         Random random= new Random();
@@ -22,14 +22,16 @@ namespace Hawk.ETL.Plugins.Generators
             Column = "id";
         }
 
-        [LocalizedDisplayName("最小值")]
+        [LocalizedDisplayName("key_375")]
         public string MinValue { get; set; }
 
-        [LocalizedDisplayName("最大值")]
+        [LocalizedDisplayName("key_374")]
         public string MaxValue { get; set; }
 
+        [Browsable(false)]
+        public override string KeyConfig => String.Format("{0}:{1}", MinValue, MaxValue);
 
-        [LocalizedDisplayName("数量")]
+        [LocalizedDisplayName("key_454")]
         public string Count { get; set; }
 
         public override int? GenerateCount()

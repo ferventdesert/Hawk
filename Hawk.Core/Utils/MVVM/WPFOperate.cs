@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Hawk.Core.Connectors;
 using Microsoft.Win32;
 
 namespace Hawk.Core.Utils.MVVM
@@ -54,7 +56,7 @@ namespace Hawk.Core.Utils.MVVM
 
             return null;
         }
-
+     
         /// <summary>
         /// 搜索Visual Tree并尝试返回制定类型的DependencyObject
         /// </summary>

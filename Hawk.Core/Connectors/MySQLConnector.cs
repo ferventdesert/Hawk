@@ -16,7 +16,7 @@ namespace XFrmWork.DataBase
 
 
 
-    [XFrmWork("MySQL数据库", "IDataBaseConnector", "提供MySQL交互的数据库服务", "")]
+    [XFrmWork("MySQLConnector", "MySQLConnector_desc", "提供MySQL交互的数据库服务", "")]
     public class MySQLConnector : DBConnectorBase
     {
 
@@ -28,10 +28,10 @@ namespace XFrmWork.DataBase
         }
         
         
-        public override void BatchInsert(IEnumerable<IFreeDocument> source, string dbTableName)
+        public override void BatchInsert(IEnumerable<IFreeDocument> source, List<string>keys, string dbTableName)
         {
-
-            var sqlStringList = source.Select(d => this.Insert(d, dbTableName)).ToList();
+         
+            var sqlStringList = source.Select(d => this.Insert(d,keys, dbTableName)).ToList();
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = dbConn;
             MySqlTransaction tx = dbConn.BeginTransaction();
@@ -106,7 +106,7 @@ namespace XFrmWork.DataBase
             }
             catch (Exception ex)
             {
-
+                XLogSys.Print.Warn(ex);
                 IsUseable = false;
 
             }

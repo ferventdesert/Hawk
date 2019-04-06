@@ -5,11 +5,12 @@ using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Managements;
 using Hawk.ETL.Plugins.Transformers;
 
 namespace Hawk.ETL.Plugins.Filters
 {
-    [XFrmWork("重复项合并", "对重复的数据行，进行合并操作","repeat")]
+    [XFrmWork("MergeRepeatTF", "MergeRepeatTF_desc","repeat")]
     public class MergeRepeatTF : TransformerBase
     {
         private SortedDictionary<string, IFreeDocument> dictionary;
@@ -21,16 +22,16 @@ namespace Hawk.ETL.Plugins.Filters
             IsLazyLinq = false;
         }
 
-        [LocalizedDisplayName("延迟输出")]
-        [LocalizedDescription("不勾选此选项使用枚举式迭代，需保证在本模块之后没有其他操作，否则请勾选该选项")]
+        [LocalizedDisplayName("key_385")]
+        [LocalizedDescription("key_386")]
         public bool IsLazyLinq { get; set; }
 
-        [LocalizedDisplayName("合并到集合的属性")]
-        [LocalizedDescription("填入空格分割的列名，对本模块所在列的值相同的所有属性分别进行纵向合并数组")]
+        [LocalizedDisplayName("key_387")]
+        [LocalizedDescription("key_388")]
         public string CollectionColumns { get; set; }
 
-        [LocalizedDisplayName("求和属性")]
-        [LocalizedDescription("填入空格分割的列名，对本模块所在列的值相同的所有属性分别进行纵向求和")]
+        [LocalizedDisplayName("key_389")]
+        [LocalizedDescription("key_390")]
         public string SumColumns { get; set; }
 
         public override bool Init(IEnumerable<IFreeDocument> docus)
@@ -42,7 +43,7 @@ namespace Hawk.ETL.Plugins.Filters
 
         //TODO: 此处不能使用枚举式迭代，除非在本模块之后没有其他操作
 
-        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas, AnalyzeItem analyzer)
         {
             var collColum = CollectionColumns.Split(' ').Select(d => d.Trim()).ToList();
             var sumColum = SumColumns.Split(' ').Select(d => d.Trim()).ToList();
@@ -131,7 +132,7 @@ namespace Hawk.ETL.Plugins.Filters
         }
     }
 
-    [XFrmWork("删除重复项", "以拖入的列为唯一主键，自动去重，仅保留重复出现的第一项")]
+    [XFrmWork("RepeatFT", "RepeatFT_desc")]
     public class RepeatFT : NullFT
     {
         private ICollection<string> set;

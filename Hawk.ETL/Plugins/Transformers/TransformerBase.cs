@@ -9,18 +9,25 @@ using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
+using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
+using Hawk.ETL.Managements;
 using Hawk.ETL.Process;
+using NPOI.OpenXml4Net.Exceptions;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
     public abstract class ToolBase : PropertyChangeNotifier, IColumnProcess
     {
         private bool _enabled;
-        private int _etlIndex;
         protected bool IsExecute = true;
+
+        public bool GetExecute()
+        {
+            return IsExecute;
+        }
 
         protected ToolBase()
         {
@@ -28,11 +35,34 @@ namespace Hawk.ETL.Plugins.Transformers
             ColumnSelector.SelectChanged += (s, e) => Column = ColumnSelector.SelectItem;
         }
 
-        [LocalizedCategory("1.基本选项"), PropertyOrder(1), DisplayName("输入列")]
-        [LocalizedDescription("本模块要处理的列的名称")]
+        [LocalizedCategory("key_211"), PropertyOrder(1), LocalizedDisplayName("key_717")]
+        [LocalizedDescription("key_566")]
         public TextEditSelector ColumnSelector { get; set; }
 
-      
+        public bool Assert(bool result, string name="", bool isthrow = true)
+        {
+            if (result == false)
+            {
+                var str = GlobalHelper.FormatArgs("condition_check", this.ObjectID, name);
+                XLogSys.Print.Warn(str);
+                if(isthrow)
+                    throw  new  InvalidOperationException(str);
+
+            }
+            return result;
+
+        }
+        [Browsable(false)]
+        public virtual string KeyConfig
+        {
+            get { return Column; }
+        }
+
+        [LocalizedDisplayName("key_567")]
+        [PropertyOrder(100)]
+        [PropertyEditor("MarkdownEditor")]
+        public string Document => ETLHelper.GetMarkdownScript(GetType());
+
         public virtual void Finish()
         {
         }
@@ -40,6 +70,11 @@ namespace Hawk.ETL.Plugins.Transformers
         public virtual bool Init(IEnumerable<IFreeDocument> docus)
         {
             return true;
+        }
+
+        public virtual IEnumerable<IFreeDocument> CheckDatas(IEnumerable<IFreeDocument> docs)
+        {
+            return docs;
         }
 
         public virtual void DictDeserialize(IDictionary<string, object> docu, Scenario scenario = Scenario.Database)
@@ -70,9 +105,7 @@ namespace Hawk.ETL.Plugins.Transformers
             }
         }
 
-        [LocalizedDisplayName("介绍")]
-        [PropertyOrder(100)]
-        [PropertyEditor("CodeEditor")]
+        [Browsable(false)]
         public string Description
         {
             get
@@ -83,14 +116,31 @@ namespace Hawk.ETL.Plugins.Transformers
                 return item.Description;
             }
         }
-
+        [Browsable(false)]
+        public AnalyzeItem AnalyzeItem
+        {
+            get
+            {
+                AnalyzeItem analyzer = null;
+                if (Father == null)
+                    return null;
+                if (Father.Analyzer == null)
+                    return null;
+                foreach (var _analyzer in this.Father?.Analyzer?.Items)
+                {
+                    if (_analyzer.Process.ObjectID == this.ObjectID)
+                        analyzer = _analyzer;
+                }
+                return analyzer;
+            }
+        }
         public void SetExecute(bool value)
         {
             IsExecute = value;
         }
 
-        [LocalizedCategory("1.基本选项")]
-        [LocalizedDisplayName("启用")]
+        [LocalizedCategory("key_211")]
+        [LocalizedDisplayName("key_568")]
         [PropertyOrder(5)]
         public bool Enabled
         {
@@ -106,22 +156,8 @@ namespace Hawk.ETL.Plugins.Transformers
         [Browsable(false)]
         public SmartETLTool Father { get; set; }
 
-        [Browsable(false)]
-        public int ETLIndex
-        {
-            get { return _etlIndex; }
-            set
-            {
-                if (_etlIndex != value)
-                {
-                    _etlIndex = value;
-                    OnPropertyChanged("ETLIndex");
-                }
-            }
-        }
-
-        [LocalizedCategory("1.基本选项")]
-        [LocalizedDisplayName("类型")]
+        [LocalizedCategory("key_211")]
+        [LocalizedDisplayName("key_12")]
         [PropertyOrder(0)]
         public string TypeName
         {
@@ -132,8 +168,23 @@ namespace Hawk.ETL.Plugins.Transformers
             }
         }
 
+        [LocalizedCategory("key_211")]
+        public string ObjectID { get; set; }
+
         [Browsable(false)]
         public XFrmWorkAttribute Attribute => AttributeHelper.GetCustomAttribute(GetType());
+
+        [PropertyEditor("CodeEditor")]
+        [PropertyOrder(99)]
+        [LocalizedDisplayName("remark")]
+        [LocalizedDescription("remark_desc")]
+        public string Remark { get; set; }
+
+        public virtual IEnumerable<string> InputColumns()
+        {
+            if (!string.IsNullOrEmpty(Column))
+                yield return Column;
+        }
 
         public override string ToString()
         {
@@ -153,7 +204,6 @@ namespace Hawk.ETL.Plugins.Transformers
 
         #region Constructors and Destructors
 
-        protected bool IsExecute;
 
 
         [Browsable(false)] protected readonly IProcessManager processManager;
@@ -165,12 +215,21 @@ namespace Hawk.ETL.Plugins.Transformers
             NewColumn = "";
             Enabled = true;
             IsMultiYield = false;
-            processManager = MainDescription.MainFrm.PluginDictionary["模块管理"] as IProcessManager;
+            IXPlugin plugin;
+            if (MainDescription.MainFrm != null)
+            {
+                if (MainDescription.MainFrm.PluginDictionary.TryGetValue("DataProcessManager", out plugin))
+                {
+                    processManager = plugin as IProcessManager;
+                }
+            }
         }
 
 
         protected SmartCrawler GetCrawler(string name)
         {
+            if (processManager == null)
+                return null;
             var crawlers = processManager.CurrentProcessCollections.OfType<SmartCrawler>().ToList();
             if (string.IsNullOrEmpty(name))
             {
@@ -179,7 +238,7 @@ namespace Hawk.ETL.Plugins.Transformers
                     name = crawlers[0].Name;
                 }
             }
-            var crawler = this.GetModule<SmartCrawler>(name);
+            var crawler = this.GetTask<SmartCrawler>(name);
             if (crawler != null)
             {
                 IsMultiYield = crawler?.IsMultiData == ScriptWorkMode.List;
@@ -191,10 +250,10 @@ namespace Hawk.ETL.Plugins.Transformers
 
         #region Properties
 
-        [LocalizedCategory("1.基本选项")]
+        [LocalizedCategory("key_211")]
         [PropertyOrder(2)]
-        [LocalizedDisplayName("输出列")]
-        [LocalizedDescription("结果要输出到的列的名称")]
+        [LocalizedDisplayName("key_433")]
+        [LocalizedDescription("key_569")]
         public virtual string NewColumn
         {
             get { return _newColumn; }
@@ -202,8 +261,9 @@ namespace Hawk.ETL.Plugins.Transformers
             {
                 if (_newColumn != value)
                 {
-                    OnPropertyChanged("NewColumn");
                     _newColumn = value;
+                    OnPropertyChanged("NewColumn");
+              
                 }
             }
         }
@@ -241,14 +301,32 @@ namespace Hawk.ETL.Plugins.Transformers
         private bool isErrorRemind = true;
         private string _newColumn;
 
-        public virtual IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        public virtual IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas,
+            AnalyzeItem analyzer = null)
 
         {
             var olddatas = datas;
             var errorCounter = 0;
             foreach (var data in datas)
             {
-                var newdatas = InternalTransformManyData(data);
+                IEnumerable<IFreeDocument> newdatas = null;
+                try
+                {
+                    DateTime now= DateTime.Now;
+                    newdatas = InternalTransformManyData(data);
+                    if(analyzer!=null)
+                        analyzer.RunningTime +=DateTime.Now-now;
+                }
+                catch (Exception ex)
+                {
+                    if(analyzer!=null)
+                        analyzer.Analyzer.AddErrorLog(data, ex, this);
+                    else
+                    {
+                        XLogSys.Print.Error(string.Format(GlobalHelper.Get("key_208"), this.Column, this.TypeName, ex.Message));
+                    }
+                }
+
                 if (MainDescription.IsUIForm)
                 {
                     if (((olddatas is IList) == false || !olddatas.Any()) && newdatas is IList &&
@@ -262,8 +340,8 @@ namespace Hawk.ETL.Plugins.Transformers
                             {
                                 var result =
                                     MessageBox.Show(
-                                        $"作用在列名`{Column}`的 模块`{TypeName}` 已经连续 {5} 次没有成功获取数据，可能需要重新修改参数 \n 【是】：【进入调试模式】 \n 【否】：【取消当前任务】 \n 【取消】：【不再提示】",
-                                        "参数设置可能有误",
+                                        string.Format(GlobalHelper.Get("fail_remind"), Column, TypeName),
+                                        GlobalHelper.Get("key_570"),
                                         MessageBoxButton.YesNoCancel);
                                 if (result == MessageBoxResult.Yes)
                                 {
@@ -295,7 +373,7 @@ namespace Hawk.ETL.Plugins.Transformers
                     }
                 }
                 if (newdatas == null)
-                    yield break;
+                    continue;
                 foreach (var newdata in newdatas)
                 {
                     yield return newdata;

@@ -8,15 +8,17 @@ using System.Windows.Controls.WpfPropertyGrid.Controls;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Interfaces;
+using Hawk.ETL.Managements;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
-    [XFrmWork("正则分割", "使用正则表达式分割字符串")]
+    [XFrmWork("RegexSplitTF", "RegexSplitTF_desc")]
     public class RegexSplitTF : RegexTF
     {
         [PropertyOrder(3)]
-        [LocalizedDisplayName("倒序")]
-        [LocalizedDescription("勾选此项后，选择从后数的第n项")]
+        [LocalizedDisplayName("key_533")]
+        [LocalizedDescription("key_534")]
         public bool FromBack { get; set; }
 
         public override object TransformData(IFreeDocument dict)
@@ -40,10 +42,9 @@ namespace Hawk.ETL.Plugins.Transformers
             }
 
 
-            return null;
         }
 
-        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas)
+        public override IEnumerable<IFreeDocument> TransformManyData(IEnumerable<IFreeDocument> datas, AnalyzeItem analyzer)
         {
             foreach (var data in datas)
             {
@@ -70,7 +71,7 @@ namespace Hawk.ETL.Plugins.Transformers
        
     }
 
-    [XFrmWork("分页", "根据总页数和每页数量进行分页操作，拖入列为总页数，相比于使用Python转换器，可极大地简化操作")]
+    [XFrmWork("SplitPageTF", "SplitPageTF_desc")]
     public class SplitPageTF : TransformerBase
     {
 
@@ -84,14 +85,14 @@ namespace Hawk.ETL.Plugins.Transformers
 
 
         [PropertyOrder(3)]
-        [LocalizedDisplayName("最小值")]
-        [LocalizedDescription("除了直接填写数值，还可通过方括号表达式从其他列传入")]
+        [LocalizedDisplayName("key_375")]
+        [LocalizedDescription("key_537")]
         public string MinValue { get; set; }
 
 
         [PropertyOrder(3)]
-        [LocalizedDisplayName("每页数量")]
-        [LocalizedDescription("除了直接填写数值，还可通过方括号表达式从其他列传入")]
+        [LocalizedDisplayName("key_538")]
+        [LocalizedDescription("key_537")]
         public string ItemPerPage { get; set; }
 
         protected override IEnumerable<IFreeDocument> InternalTransformManyData(IFreeDocument document)
@@ -171,7 +172,7 @@ namespace Hawk.ETL.Plugins.Transformers
         //        return target.GetString(targetbytes);
         //    }
 
-        [XFrmWork("字符串分割", "通过字符分割字符串")]
+        [XFrmWork("SplitTF", "SplitTF_desc")]
         public class SplitTF : TransformerBase
         {
             private List<string> splitstrs;
@@ -183,25 +184,25 @@ namespace Hawk.ETL.Plugins.Transformers
                 OneOutput = false;
             }
 
-            [LocalizedCategory("高级选项")]
-            [LocalizedDisplayName("按字符直接分割")]
-            [LocalizedDescription("将原文本每个字符直接分割开")]
+            [LocalizedCategory("key_190")]
+            [LocalizedDisplayName("key_541")]
+            [LocalizedDescription("key_542")]
             public bool ShouldSplitChars { get; set; }
 
-            [LocalizedDisplayName("空格分割")]
+            [LocalizedDisplayName("key_543")]
             public bool SplitPause { get; set; }
 
-            [LocalizedDisplayName("匹配编号")]
-            [Description("若想获取分割后的第0个元素，则填入0，获取倒数第一个元素，则填入-1 \n可输入多个匹配编号，中间以空格分割，【输出列】也需要与之一对应\n ")]
+            [LocalizedDisplayName("key_517")]
+            [LocalizedDescription("key_544")]
             public string Index { get; set; }
 
             /// <summary>
             ///     此处如果分割空格怎么办？
             /// </summary>
-            [LocalizedDisplayName("分割字符")]
+            [LocalizedDisplayName("key_545")]
             [StringEditor("C#")]
-            [PropertyEditor("DynamicScriptEditor")]
-            [LocalizedDescription("多个分隔符用空格分割，换行符用\\t，制表符用\\t")]
+            [PropertyEditor("CodeEditor")]
+            [LocalizedDescription("key_546")]
             public string SplitChar { get; set; }
 
             public override bool Init(IEnumerable<IFreeDocument> docus)

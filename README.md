@@ -11,6 +11,8 @@ Hawk: Advanced Crawler& ETL tool written in C#/WPF
 
 下载地址: 
 
+[CSDN](https://download.csdn.net/psearch/0/10/0/1/1/Hawk%E7%88%AC%E8%99%AB)
+
 [Github](https://github.com/ferventdesert/Hawk/releases/download/Hawk3/Hawk3_Release.zip)
 
 [国内博客园](https://files.cnblogs.com/files/buptzym/Hawk3_Release.zip)

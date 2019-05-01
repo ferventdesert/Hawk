@@ -625,8 +625,8 @@ Hawk3 发布
 
 # 2019年3月28日
 
-1. 时间区间生成改进
-2. 区间数支持format
+1. 时间区间生成改进  ok
+2. 区间数支持format ok
 
 //*[@name="pagepicmap"]
 
@@ -638,6 +638,12 @@ http://www.qnsb.com/fzepaper/site1/qnsb/page/1/2012-01/01/A03/20120101A03_pdf.pd
 
 1. 无效的mongodb连接
 2. sqlite插入失败
-3. 英文界面
-4. 并发写入文件的问题
-5. 新建工程后，并没有自动连接
+3. 英文界面  
+4. 并发写入文件的问题   
+5. 新建工程后，并没有自动连接  ok
+6. xpath不会自动更新，需要手动刷新 ok
+7. 多行文本框不应过长 ok
+8. 提供将网页采集器结果保存为数据表功能 ok
+9. 百度AI
+
+CREATE TABLE DFDSF (diggit_diggnum text,digg_diggit_onclick text,digg_digg_tip_id text,titlelnk text,属性4 text,pfs_src text,a_href text,属性7 text,post_item_foot_lightblue text,属性9 text,article_comment_gray text,article_view_gray text)

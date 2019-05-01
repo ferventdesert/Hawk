@@ -1012,7 +1012,9 @@ namespace Hawk.ETL.Managements
             CleanAllItems();
             var filemanager = new FileManager {Name = GlobalHelper.Get("recent_file")};
             dataManager.CurrentConnectors.Add(filemanager);
-
+            filemanager.AutoConnect = true;
+            filemanager.ConnectDB();
+            filemanager.RefreshTableNames();
             NotifyCurrentProjectChanged();
         }
 
@@ -1096,7 +1098,7 @@ namespace Hawk.ETL.Managements
             var module = CurrentProcessCollections.OfType<T>().FirstOrDefault(d => d.Name == name);
             if (module != null)
                 return module;
-            return null;
+            // return null;
             var project = GetRemoteProjectContent().Result;
             if (project != null)
             {

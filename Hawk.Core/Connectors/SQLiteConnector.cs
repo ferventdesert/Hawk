@@ -117,7 +117,11 @@ namespace Hawk.Core.Connectors
             saveTifFileDialog.Filter = "*.db|*.db";
             saveTifFileDialog.DefaultExt = "db"; //缺省默认后缀名
             if (saveTifFileDialog.ShowDialog() == DialogResult.OK)
+            {
                 DBName = saveTifFileDialog.FileName;
+                SQLiteConnection.CreateFile(DBName);
+
+            }
             SafeConnectDB();
         }
 
@@ -126,7 +130,7 @@ namespace Hawk.Core.Connectors
             var dialog = new OpenFileDialog();
             dialog.Multiselect = false; //该值确定是否可以选择多个文件
             dialog.Title = GlobalHelper.Get("key_85");
-            dialog.Filter = "所有文件(*.*)|*.db";
+            dialog.Filter = "所有文件(*.db)|*.db";
             if (dialog.ShowDialog() == DialogResult.OK)
                 DBName = dialog.FileName;
             SafeConnectDB();

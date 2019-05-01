@@ -473,7 +473,13 @@ namespace Hawk.ETL.Managements
 
             if (DBConnections.FirstOrDefault(d => d.TypeName == GlobalHelper.Get("FileManager")) == null)
             {
-                var filemanager = new FileManager {Name = GlobalHelper.Get("recent_file")};
+                var filemanager = new FileManager
+                {
+                    Name = GlobalHelper.Get("recent_file"),
+                    AutoConnect = true
+                };
+                filemanager.ConnectDB();
+                filemanager.RefreshTableNames();
                 DBConnections.Add(filemanager);
             }
             if (DBConnections.FirstOrDefault(d => d.TypeName == "MongoDB") == null)
@@ -485,7 +491,7 @@ namespace Hawk.ETL.Managements
             if (DBConnections.FirstOrDefault(d => d.TypeName == GlobalHelper.Get("SQLiteDatabase")) == null)
             {
                 var sqlite = new SQLiteDatabase {Name = GlobalHelper.Get("SQLiteDatabase")};
-                sqlite.DBName = "hawk-sqlite";
+                sqlite.DBName = "hawk.db";
                 DBConnections.Add(sqlite);
             }
         }

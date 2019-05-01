@@ -588,11 +588,16 @@ namespace Hawk.Core.Connectors
                         new Command(GlobalHelper.Get("connect_db"), obj =>
                         {
 
-                            ControlExtended.SafeInvoke(() => ConnectDB(), LogType.Important, GlobalHelper.Get("connect_db"));
+                            ConnectDB();
                             if (IsUseable)
                             {
                                 RefreshTableNames();
                             }
+                            else
+                            {
+                                throw new Exception(GlobalHelper.Get("mongo_connect_error"));
+                            }
+
                         }, obj => IsUseable == false,"connect"),
                         new Command(GlobalHelper.Get("key_36"), obj => CloseDB(), obj => IsUseable,"close"),
                         new Command(GlobalHelper.Get("key_37"), obj => CreateDataBase(DBName), obj => string.IsNullOrEmpty(DBName) == false,"add")

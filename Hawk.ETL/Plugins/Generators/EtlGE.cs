@@ -396,7 +396,7 @@ namespace Hawk.ETL.Plugins.Generators
             if (document != null)
                 documents.Add(MappingDocument(document));
 
-            return process.Generate( IsExecute, documents);
+            return process.Generate( IsExecute, documents, this.Father.Analyzer);
         }
 
         public int? GenerateCount()
@@ -565,7 +565,7 @@ namespace Hawk.ETL.Plugins.Generators
                     while (string.IsNullOrEmpty(newdata[Column].ToString()) == false)
                     {
                         var result =
-                            process.Generate( IsExecute, new List<IFreeDocument> {newdata.Clone()}).FirstOrDefault();
+                            process.Generate( IsExecute, new List<IFreeDocument> {newdata.Clone()}, this.Father.Analyzer).FirstOrDefault();
                         if (result == null)
                             break;
                         yield return result.Clone();
@@ -574,7 +574,7 @@ namespace Hawk.ETL.Plugins.Generators
                 }
                 else
                 {
-                    var result = process.Generate( IsExecute, new List<IFreeDocument> {doc});
+                    var result = process.Generate( IsExecute, new List<IFreeDocument> {doc}, this.Father.Analyzer);
                     foreach (var item in result)
                     {
                         yield return item.MergeQuery(data, NewColumn);

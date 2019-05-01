@@ -119,6 +119,11 @@ namespace Hawk.ETL.Process
 
                         var rootPath =
                             XPath.GetMaxCompareXPath(CrawlItems.Select(d => d.XPath));
+                        if (datas.Count > 0&& MessageBox.Show(GlobalHelper.Get("is_save_to_tables"),GlobalHelper.Get("key_99"),MessageBoxButton.YesNo )==MessageBoxResult.OK)
+                        {
+                            SysDataManager.AddDataCollection(datas,
+                                GlobalHelper.Get("key_624")+"_" + DateTime.Now.ToShortTimeString());
+                        }
                         if (datas.Count > 1 && string.IsNullOrEmpty(RootXPath) && rootPath.Length > 0 &&
                             IsMultiData == ScriptWorkMode.List &&
                             MessageBox.Show(string.Format(GlobalHelper.Get("key_628"),rootPath), GlobalHelper.Get("key_99"),
@@ -129,6 +134,7 @@ namespace Hawk.ETL.Process
                             HtmlDoc.CompileCrawItems(CrawlItems);
                             OnPropertyChanged("RootXPath");
                         }
+
                     }, icon: "page_search")
                 });
         }

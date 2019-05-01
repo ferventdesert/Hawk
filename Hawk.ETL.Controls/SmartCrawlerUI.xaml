@@ -197,13 +197,13 @@
                                  wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True" d:LayoutOverrides="Height"
                                  Grid.Column="1" FontSize="16" />
                     </Grid>
-                    <GroupBox Header="{DynamicResource key_763}" MinHeight="115"  ToolTip="{DynamicResource SmartCrawler_manual_mode}" Margin="8,8,8,0" Height="180" d:LayoutOverrides="Height">
+                    <GroupBox Header="{DynamicResource key_763}" MinHeight="115" Margin="8,8,8,0" Height="180" d:LayoutOverrides="Height">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.3*" />
                                 <ColumnDefinition Width="0.7*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Margin="8,42.5,0,0" TextWrapping="Wrap" Text="{DynamicResource search_keyword}" VerticalAlignment="Top"
+                            <TextBlock Margin="8,42.5,0,0" TextWrapping="Wrap"  ToolTip="{DynamicResource SmartCrawler_manual_mode}"  Text="{DynamicResource search_keyword}" VerticalAlignment="Top"
                                        HorizontalAlignment="Left" />
                             <TextBox Grid.Column="1" Margin="8,42.5,80,0" TextWrapping="Wrap"
                                      Text="{Binding SelectText}" wpfPropertyGrid:TextBoxExtender.CommitOnEnter="True"

@@ -463,8 +463,12 @@ namespace Hawk.ETL.Managements
 
                             if (ControlExtended.DockableManager != null)
                             {
-                                ControlExtended.DockableManager.AddDockAbleContent(
-                                    FrmState.Float, r, data.Name + " " + d.Name);
+                                var window = new Window { Title = data.Name + " " + d.Name };
+                                window.WindowState = WindowState.Maximized;
+                                window.Content = r;
+                                window.Activate();
+                                window.ShowDialog();
+                              
                             }
                         });
                     };

@@ -221,7 +221,7 @@ namespace Hawk.ETL.Crawlers
             dict.Add("Encoding", Encoding);
             dict.Add("Method", Method);
             dict.Add("Parameters", Parameters);
-          
+            dict.Add("Timeout", Timeout);
             return dict;
         }
 
@@ -232,6 +232,7 @@ namespace Hawk.ETL.Crawlers
             Postdata = docu.Set("Postdata", Postdata);
             Encoding = docu.Set("Encoding", Encoding);
             Method = docu.Set("Method", Method);
+            Timeout = docu.Set("Timeout", Timeout);
             Parameters = docu.Set("Parameters", Parameters);
            
 

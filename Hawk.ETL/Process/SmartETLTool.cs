@@ -19,6 +19,7 @@ using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
+using Hawk.ETL.Crawlers;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
 using Hawk.ETL.Plugins.Executor;
@@ -551,7 +552,7 @@ namespace Hawk.ETL.Process
                         canFresh = true;
                     };
                 }
-                if (canFresh) RefreshSamples();
+                if (canFresh||shouldUpdate) RefreshSamples();
             };
             return true;
         }
@@ -870,7 +871,16 @@ namespace Hawk.ETL.Process
                     if (string.IsNullOrEmpty(p.Name) == false)
                         item.Column = p.Name;
                     item.Father = this;
-                    shouldUpdate = false;
+                    bool force_upgrade = item is XPathTF;
+                    if (force_upgrade)
+                    {
+                        shouldUpdate = true;
+                        ETLMount++;
+                    }
+                    else
+                    {
+                        shouldUpdate = false;
+                    }
                     InsertModule(item);
                     shouldUpdate = true;
                     item.ObjectID = string.Format("{0}_{1}_{2}", item.TypeName, item.Column, CurrentETLTools.Count);
@@ -878,7 +888,8 @@ namespace Hawk.ETL.Process
                     {
                         PropertyGridFactory.GetPropertyWindow(item).ShowDialog();
                     }
-                    ETLMount++;
+                    if(!force_upgrade)
+                        ETLMount++;
                 }
             }
             if (sender == "Click")
@@ -1267,8 +1278,10 @@ namespace Hawk.ETL.Process
             var col = new DataGridTemplateColumn
             {
                 Header = key,
-                Width = CellWidth
+                Width = CellWidth,
+                
             };
+           
             var dt = new DataTemplate();
             col.CellTemplate = dt;
             var fef = new FrameworkElementFactory(typeof (MultiLineTextEditor));
@@ -1277,6 +1290,7 @@ namespace Hawk.ETL.Process
             binding.Path = new PropertyPath($"[{key}]");
             fef.SetBinding(ContentControl.ContentProperty, binding);
             fef.SetBinding(MultiLineTextEditor.TextProperty, binding);
+            fef.SetValue(FrameworkElement.MaxHeightProperty, 60.0);
             dt.VisualTree = fef;
             col.CellTemplate = dt;
             dataView.Columns.Add(col);

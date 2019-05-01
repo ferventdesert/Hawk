@@ -16,6 +16,7 @@ namespace Hawk.ETL.Plugins.Generators
             Interval = 1.ToString();
             MaxValue = MinValue = Interval = "1";
             Column = "id";
+            Format = "";
         }
 
         [LocalizedDisplayName("key_375")]
@@ -28,6 +29,11 @@ namespace Hawk.ETL.Plugins.Generators
         [LocalizedDisplayName("key_399")]
         [LocalizedDescription("key_458")]
         public string Interval { get; set; }
+
+        [LocalizedDisplayName("key_504")]
+        [LocalizedDescription("RangeGEFormater")]
+        public string Format { get; set; }
+
 
         [Browsable(false)]
         public override string KeyConfig => string.Format("{0}:{1}:{2}", MinValue, MaxValue, Interval);
@@ -63,7 +69,17 @@ namespace Hawk.ETL.Plugins.Generators
                 {
                     var item = new FreeDocument();
 
-                    item.Add(Column, Math.Round(i, 5));
+                    double value= Math.Round(i, 5);
+                    object result;
+                    if (!string.IsNullOrEmpty(Format))
+                    {
+                        result = value.ToString(Format);
+                    }
+                    else
+                    {
+                        result = Math.Round(i, 5);
+                    }
+                       item.Add(Column, result);
                     yield return item;
                 }
             }

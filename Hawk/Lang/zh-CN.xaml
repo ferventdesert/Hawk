@@ -23,6 +23,10 @@
     <system:String x:Key="SysState">
         系统状态视图
     </system:String>
+    <system:String x:Key="etl_temp_window">
+        数据清洗临时窗口
+    </system:String>
+    
     <system:String x:Key="DebugView">
         调试信息窗口
     </system:String>
@@ -89,6 +93,22 @@
     </system:String>
     <system:String x:Key="key_505">
         参考格式
+    </system:String>
+     <system:String x:Key="RangeGEFormater"  xml:space="preserve">
+    格式化数值：有时，我们可能需要将数值以一定的格式来呈现，就需要对数值进行格式化。
+    我们使用格式字符串指定格式。格式字符串采用以下形式：Axx，
+    其中 A 为格式说明符，指定格式化类型，xx 为精度说明符，控制格式化输出的有效位数或小数位数。
+
+   **Hawk只要输入括双引号内部的值即可。 
+    格式说明符	说明	示例	输出
+C	货币	2.5.ToString("C")	￥2.50
+D	十进制数	25.ToString("D5")	00025
+E	科学型	25000.ToString("E")	2.500000E+005
+F	固定点	25.ToString("F2")	25.00
+G	常规	2.5.ToString("G")	2.5
+N	数字	2500000.ToString("N")	2,500,000.00
+X	十六进制	255.ToString("X")	FF
+
     </system:String>
     <system:String x:Key="auto_index_desc">
         会在数据表中新增一列，并按序号递增
@@ -1881,6 +1901,9 @@
     <system:String x:Key="key_624">
         提取测试
     </system:String>
+    <system:String x:Key="is_save_to_tables">
+        是否将结果保存到系统的数据表中？
+    </system:String>
     <system:String x:Key="DeleteTF">
         删除该列
     </system:String>
@@ -2315,8 +2338,13 @@
     <system:String x:Key="db_name">
         数据库名称
     </system:String>
-    <system:String x:Key="key_400">
-        按类似1'h '3'm '5's'格式进行填写
+    <system:String x:Key="key_400" xml:space="preserve">
+        按类似1'h '3'm '5's'格式进行填写。 
+        例如：
+        
+        - 半天：12'h '0'm '0's'
+        - 半小时:  0'h '30'm '0's'
+        - 一天: 由于最大只能支持23h,可填写半天，再拖入{{RepeatFT}}解决。
     </system:String>
     <system:String x:Key="gene_mode">
         生成模式
@@ -2381,7 +2409,7 @@
     </system:String>
     <system:String x:Key="ToListTF_desc" xml:space="preserve">
         可设置任务并行方式和参数
-        该模块在执行时，会切分本模块前后的数据流，以前侧的数据为种子，后侧的任务为mapper执行.
+        该模块在执行时，会切分本模块前后的数据流，以 前侧 的数据为种子，后侧的任务为mapper执行.
 
         子线程名称和子线程数量，都支持直接写值，或使用方括号表达式来获取别的列的内容。
         

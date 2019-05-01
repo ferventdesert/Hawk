@@ -77,7 +77,7 @@ namespace Hawk.ETL.Interfaces
             {
                 langRd =
                     Application.LoadComponent(
-                            new Uri(url, UriKind.Relative))
+                            new Uri(url, UriKind.RelativeOrAbsolute))
                         as ResourceDictionary;
                 foreach (var key in langRd.Keys)
                 {

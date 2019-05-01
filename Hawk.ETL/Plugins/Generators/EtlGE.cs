@@ -426,7 +426,7 @@ namespace Hawk.ETL.Plugins.Generators
         {
             base.Init(datas);
             var process = GetProcesses().ToList();
-            func = process.Aggregate(isexecute: true);
+            func = process.Aggregate(isexecute: true,analyzer: this.Father.Analyzer); //TODO: BUG
             return true;
         }
 

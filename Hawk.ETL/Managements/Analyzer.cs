@@ -11,6 +11,7 @@ using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Plugins.Transformers;
 using Hawk.Core.Utils.MVVM;
+using Hawk.ETL.Process;
 
 namespace Hawk.ETL.Managements
 {
@@ -116,8 +117,7 @@ namespace Hawk.ETL.Managements
             return item;
         }
         public List<AnalyzeItem>  Items { get; set; }
-
-
+        public SmartETLTool Container { get; set; }
     }
 
 }

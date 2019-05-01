@@ -716,7 +716,7 @@ namespace Hawk.ETL.Process
             SysProcessManager.CurrentProject.Build();
 
             Analyzer.Start(Name);
-
+            Analyzer.Container = this;
             var timer = new DispatcherTimer();
             if (GenerateMode == GenerateMode.SerialMode && DelayTime > 0)
                 etls = etls.AddModule(d => d.GetType() == typeof(CrawlerTF),

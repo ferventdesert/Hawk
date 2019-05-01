@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils;
-using Microsoft.HockeyApp;
 using Hawk.ETL.Interfaces;
+using Microsoft.HockeyApp;
 namespace Hawk
 {
     /// <summary>

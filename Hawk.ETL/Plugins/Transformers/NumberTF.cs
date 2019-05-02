@@ -8,7 +8,7 @@ namespace Hawk.ETL.Plugins.Transformers
         public NumberTF()
         {
             Script = @"(-?\d+)(\.\d+)?";
-            Index = 0;
+            Index = "0";
         }
 
                 

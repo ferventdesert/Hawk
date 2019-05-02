@@ -74,7 +74,7 @@ namespace Hawk.Core.Connectors
                         new Command(GlobalHelper.Get("key_71"), obj =>
                         {
                             var url =
-                                "https://github.com/ferventdesert/Hawk/wiki/5.-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F";
+                                "https://ferventdesert.github.io/Hawk/%E6%95%B0%E6%8D%AE%E8%A1%A8%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5/";
                              System.Diagnostics.Process.Start(url);
 
                         }),

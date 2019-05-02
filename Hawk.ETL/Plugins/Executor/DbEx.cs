@@ -138,7 +138,7 @@ namespace Hawk.ETL.Plugins.Executor
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
              columns = new List<string>();
-            return Assert(ConnectorSelector.SelectItem!=null, GlobalHelper.Get("key_345")) &&Assert(string.IsNullOrEmpty(TableNames.SelectItem)==false, GlobalHelper.Get("key_22"));
+            return Assert(ConnectorSelector.SelectItem!=null, GlobalHelper.Get("key_345"),reason:GlobalHelper.Get("null_check")) &&Assert(string.IsNullOrEmpty(TableNames.SelectItem)==false, GlobalHelper.Get("key_22"),reason:GlobalHelper.Get("null_check"));
         }
 
         public override FreeDocument DictSerialize(Scenario scenario = Scenario.Database)

@@ -660,10 +660,33 @@ http://www.qnsb.com/fzepaper/site1/qnsb/page/1/2012-01/01/A03/20120101A03_pdf.pd
 9. 百度AI
 
 CREATE TABLE DFDSF (diggit_diggnum text,digg_diggit_onclick text,digg_digg_tip_id text,titlelnk text,属性4 text,pfs_src text,a_href text,属性7 text,post_item_foot_lightblue text,属性9 text,article_comment_gray text,article_view_gray text)
+
+
+# 2019年04月02日
+1. 数据清洗单元格，可以默认不换行   ok
+2. xpath转换器的优化，不需刷新即可查找xpath ok
+
+
+
 # 2019年4月28日
 2. 加载市场的单个任务时，会提示找不到任务 ok
 2. 当加载单个任务时，发现与当前名称重复时应当提示 pass
 3. topic_supplier 不存在 ok
 4. 弹出的数据对话框窗口太小 ok
-5. 回补数据即使勾选执行器，也无法执行原有执行器
+5. 回补数据即使勾选执行器，也无法执行原有执行器 pass
 6. 提取测试时，无法将数据表写入 ok
+7. 英文界面
+8. 并发写入文件的问题
+9. 新建工程后，并没有自动连接 ok
+
+
+# 2019年5月2日
+1. 当数据表中已经存在同名数据集时，禁止写入 ok
+2. 数据表双击看不到 ok
+3. mongodb 查看帮助提示，更换链接 ok
+4. wiki更新 
+5. 修复图床
+6. sqlite写入表失败  ok
+7. 读取文件数据 应当提供图形化界面  ok
+
+

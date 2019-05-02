@@ -1,5 +1,4 @@
 ﻿using System;
-using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Windows.Controls.WpfPropertyGrid.Attributes;
 using System.Windows.Forms;
 using System.Windows.Input;
+using Hawk.Core.Utils;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
@@ -19,6 +19,7 @@ namespace Hawk.Core.Connectors
     public class SQLiteDatabase : DBConnectorBase
     {
         private string _dbName;
+        private SQLiteConnection cnn;
 
         #region Methods
 
@@ -33,10 +34,6 @@ namespace Hawk.Core.Connectors
 
             try
             {
-                var cnn = new SQLiteConnection(ConnectionString);
-
-                cnn.Open();
-
                 var mycommand = new SQLiteCommand(cnn);
 
                 mycommand.CommandText = sql;
@@ -46,8 +43,6 @@ namespace Hawk.Core.Connectors
                 dt.Load(reader);
 
                 reader.Close();
-
-                cnn.Close();
             }
 
             catch (Exception e)
@@ -120,7 +115,6 @@ namespace Hawk.Core.Connectors
             {
                 DBName = saveTifFileDialog.FileName;
                 SQLiteConnection.CreateFile(DBName);
-
             }
             SafeConnectDB();
         }
@@ -169,7 +163,8 @@ namespace Hawk.Core.Connectors
                     this,
                     new[]
                     {
-                        new Command(GlobalHelper.Get("connect_db"), obj => { SafeConnectDB(); }, obj => IsUseable == false, "connect"),
+                        new Command(GlobalHelper.Get("connect_db"), obj => { SafeConnectDB(); },
+                            obj => IsUseable == false, "connect"),
                         new Command(GlobalHelper.Get("key_36"), obj => CloseDB(), obj => IsUseable, "close")
                     });
             }
@@ -198,32 +193,29 @@ namespace Hawk.Core.Connectors
 
         #region Public Methods
 
-        public override void BatchInsert(IEnumerable<IFreeDocument> source,List<string>keys, string dbTableName)
+        public override void BatchInsert(IEnumerable<IFreeDocument> source, List<string> keys, string dbTableName)
         {
-            using (var cnn = new SQLiteConnection(ConnectionString))
+            if(this.IsUseable==false)
+                return;
+            using (var cmd = new SQLiteCommand(this.cnn))
             {
-                cnn.Open();
-
                 using (var mytrans = cnn.BeginTransaction())
                 {
                     foreach (var data in source)
                     {
                         try
                         {
-                            var sql = Insert(data,keys, dbTableName);
-                            var mycommand = new SQLiteCommand(sql, cnn, mytrans);
-                            mycommand.CommandTimeout = 180;
-                            mycommand.ExecuteNonQuery();
+                            var sql = Insert(data, keys, dbTableName);
+                            cmd.CommandText = sql;
+                            cmd.ExecuteNonQuery();
                         }
                         catch (Exception ex)
                         {
                             XLogSys.Print.Warn($"insert sqlite database error {ex.Message}");
                         }
 
-                        mytrans.Commit();
-
-                        cnn.Close();
                     }
+                    mytrans.Commit();
                 }
             }
         }
@@ -232,20 +224,19 @@ namespace Hawk.Core.Connectors
         public override bool CloseDB()
         {
             IsUseable = false;
-
+            cnn.Close();
             return true;
         }
 
         public override bool ConnectDB()
         {
             ConnectionString = GetConnectString();
-            var cnn = new SQLiteConnection(ConnectionString);
+            cnn = new SQLiteConnection(ConnectionString);
 
             try
             {
                 cnn.Open();
                 IsUseable = true;
-                cnn.Close();
                 return true;
             }
             catch (Exception ex)
@@ -260,11 +251,13 @@ namespace Hawk.Core.Connectors
         {
             if (string.IsNullOrEmpty(name))
                 throw new Exception(GlobalHelper.Get("key_29"));
-            var txt = example.DictSerialize(Scenario.Database);
+            var txt = example.DictSerialize();
             var sb = string.Join(",", txt.Select(d => $"{d.Key} {DataTypeConverter.ToType(d.Value)}"));
-            var sql = $"CREATE TABLE {GetTableName(name)} ({sb})";
+            var sql = $"CREATE TABLE {GetTableName(name)} ({sb});";
             ExecuteNonQuery(sql);
             RefreshTableNames();
+            if (TableNames.Collection.FirstOrDefault(d => d.Name == name) == null)
+                return false;
             return true;
         }
 
@@ -276,16 +269,11 @@ namespace Hawk.Core.Connectors
         /// <returns>An Integer containing the number of rows updated.</returns>
         protected override int ExecuteNonQuery(string sql)
         {
-            using (var cnn = new SQLiteConnection(ConnectionString))
-            {
-                cnn.Open();
-
-                using (var mytrans = cnn.BeginTransaction())
-                {
-                    return ExecuteNonQuery(sql, cnn );
-                }
-            }
-
+          //  using (cnn.BeginTransaction())
+           // {
+                var result = ExecuteNonQuery(sql, cnn);
+                return result;
+           // }
         }
 
 
@@ -295,20 +283,15 @@ namespace Hawk.Core.Connectors
 
 
             var mycommand = new SQLiteCommand(sql, cnn);
-
             try
             {
                 mycommand.CommandTimeout = 180;
-
                 col = mycommand.ExecuteNonQuery();
-
             }
-
             catch (Exception e)
             {
-                XLogSys.Print.Warn(GlobalHelper.Get("key_88")+ e.Message+ GlobalHelper.Get("key_89") + sql );
+                XLogSys.Print.Warn(GlobalHelper.Get("key_88") + e.Message + GlobalHelper.Get("key_89") + sql);
             }
-
             finally
             {
                 mycommand.Dispose();
@@ -328,8 +311,6 @@ namespace Hawk.Core.Connectors
         public bool ExecuteNonQuery(string sql, IList<SQLiteParameter> cmdparams)
         {
             var successState = false;
-            var cnn = new SQLiteConnection(ConnectionString);
-            cnn.Open();
 
             using (var mytrans = cnn.BeginTransaction())
             {
@@ -346,8 +327,6 @@ namespace Hawk.Core.Connectors
                     mytrans.Commit();
 
                     successState = true;
-
-                    cnn.Close();
                 }
 
                 catch (Exception e)
@@ -360,8 +339,6 @@ namespace Hawk.Core.Connectors
                 finally
                 {
                     mycommand.Dispose();
-
-                    cnn.Close();
                 }
             }
 
@@ -401,10 +378,6 @@ namespace Hawk.Core.Connectors
 
             try
             {
-                var cnn = new SQLiteConnection(ConnectionString);
-
-                cnn.Open();
-
                 var mycommand = new SQLiteCommand(cnn);
 
                 mycommand.CommandText = sql;
@@ -418,8 +391,6 @@ namespace Hawk.Core.Connectors
                 dt.Load(reader);
 
                 reader.Close();
-
-                cnn.Close();
             }
 
             catch (Exception e)
@@ -447,12 +418,14 @@ namespace Hawk.Core.Connectors
 
         public override List<TableInfo> RefreshTableNames()
         {
-            var items = GetDataTable("select name from sqlite_master where type='table' order by name");
+            if (!this.IsUseable)
+                return new List<TableInfo>();
+            var items = GetDataTable("select name from sqlite_master where type='table' order by name;");
             var res = new List<TableInfo>();
             foreach (DataRow dr in items.Rows)
             {
                 var name = dr.ItemArray[0].ToString();
-                var size = GetDataTable($"select count(*) from  {name}").Rows[0].ItemArray[0];
+                var size = GetDataTable($"select count(*) from  {name};").Rows[0].ItemArray[0];
                 res.Add(new TableInfo(name, this) {Size = int.Parse(size.ToString())});
             }
             TableNames.SetSource(res);

@@ -367,7 +367,7 @@ namespace Hawk.ETL.Managements
                     {
                         var file = (items.Connector as FileManager).LastFileName;
                         var name = Path.GetFileNameWithoutExtension(file);
-                        AddDataCollection(dataAll, name);
+                        AddDataCollection(dataAll, name,isCover:true);
                         return;
                     }
                     var excel = PluginProvider.GetObjectInstance<IDataViewer>(GlobalHelper.Get("key_230"));
@@ -544,8 +544,11 @@ namespace Hawk.ETL.Managements
             dataaction.ChildActions.Add(new Command(
                 GlobalHelper.Get("key_240"), obj =>
                 {
-                    var collection = GetSelectedCollection(obj);
-                    if (collection != null) PropertyGridFactory.GetPropertyWindow(collection).ShowDialog();
+                    var collection = GetSelectedCollection(obj).ToList();
+
+                    if (!collection.Any())
+                        return;
+                        PropertyGridFactory.GetPropertyWindow(collection.FirstOrDefault()).ShowDialog();
                 }, obj => true, "settings"));
             dataaction.ChildActions.Add(new Command(
                 GlobalHelper.Get("key_169"), obj =>
@@ -595,9 +598,9 @@ namespace Hawk.ETL.Managements
                     var data = obj as DataCollection;
                     processManager.CurrentProcessTasks.Add(
                         TemporaryTask<FreeDocument>.AddTempTaskSimple(data.Name + GlobalHelper.Get("key_245"),
-                            dataBaseConnector.InserDataCollection(data), result => dataBaseConnector.RefreshTableNames(),
+                            dataBaseConnector.InserDataCollection(data), null,continueAction: (a) => dataBaseConnector.RefreshTableNames(),
                             count: data.Count/1000));
-                }, icon: "database")).Cast<ICommand>().ToList();
+                },obj=>dataBaseConnector.IsUseable,  icon: "database")).Cast<ICommand>().ToList();
             });
 
 

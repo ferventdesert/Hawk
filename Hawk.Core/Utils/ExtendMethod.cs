@@ -181,12 +181,14 @@ namespace Hawk.Core.Utils
                if (tableName == null)
                    tableName = collection.Name;
                List<string> columns =new List<string>();
+               var sample = data.MergeToDocument();
+               columns = data.GetKeys().ToList();
                if (connector.RefreshTableNames().FirstOrDefault(d => d.Name == tableName) == null)
                {
-                   var sample = data.MergeToDocument();
-                   columns = data.GetKeys().ToList();
-                   connector.CreateTable(sample, tableName);
-                   connector.RefreshTableNames();
+                   var result=connector.CreateTable(sample, tableName);
+                   if(result==false)
+                       throw new Exception(String.Format(GlobalHelper.Get("key_349"), tableName));
+                   // connector.RefreshTableNames();
                }
                return columns;
 
@@ -248,7 +250,16 @@ namespace Hawk.Core.Utils
                 {
                     if (list.Count == initMount)
                     {
-                        result = initFunc(list);
+                        try
+                        {
+                            result = initFunc(list);
+                        }
+                        catch (Exception ex)
+                        {
+                            XLogSys.Print.Error("batch execute failed "+ ex.Message);
+                            yield break;                            
+                        }
+                      
                         isInit = true;
                     }
                     else
@@ -274,7 +285,18 @@ namespace Hawk.Core.Utils
                 i++;
             }
             if (isInit == false)
-                result = initFunc(list);
+            {
+                try
+                {
+                    result = initFunc(list);
+                }
+                catch (Exception ex)
+                {
+                    XLogSys.Print.Error("batch execute failed " + ex.Message);
+                    yield break;
+                }
+
+            }
             if (list.Count != 0)
             {
                 batchFunc(list, result);

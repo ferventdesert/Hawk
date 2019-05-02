@@ -661,7 +661,18 @@ namespace Hawk.Core.Utils
                 yield return f.Current;
             }
         }
-
+        public static IEnumerable<T> MergeAll<T>(this IEnumerable<T> dict1, Func<T, IEnumerable<T>> generator)
+        where T : IFreeDocument
+        {
+            var f = dict1.GetEnumerator();
+            while (f.MoveNext())
+            {
+                var dict2 = generator(f.Current).FirstOrDefault();
+                if(dict2!=null)
+                f.Current.AddRange(dict2);
+                yield return f.Current;
+            }
+        }
         public static IEnumerable<T> Mix<T>(this IEnumerable<T> dict1, IEnumerable<T> dict2)
             where T : IFreeDocument
         {

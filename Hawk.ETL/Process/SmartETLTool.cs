@@ -777,7 +777,7 @@ namespace Hawk.ETL.Process
                     var delay = this.DelayTime;
                     if (GenerateMode == GenerateMode.ParallelMode)
                         delay = 0;
-                    Thread.Sleep(Math.Max(100, delay));
+                    Thread.Sleep(Math.Max(10, delay));
                     return d;
                 }),
                 d =>

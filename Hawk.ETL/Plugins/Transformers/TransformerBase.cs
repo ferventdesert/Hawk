@@ -39,11 +39,11 @@ namespace Hawk.ETL.Plugins.Transformers
         [LocalizedDescription("key_566")]
         public TextEditSelector ColumnSelector { get; set; }
 
-        public bool Assert(bool result, string name="", bool isthrow = true)
+        public bool Assert(bool result, string name="", bool isthrow = true,string reason="")
         {
             if (result == false)
             {
-                var str = GlobalHelper.FormatArgs("condition_check", this.ObjectID, name);
+                var str = GlobalHelper.FormatArgs("condition_check", this.ObjectID, name, reason);
                 XLogSys.Print.Warn(str);
                 if(isthrow)
                     throw  new  InvalidOperationException(str);

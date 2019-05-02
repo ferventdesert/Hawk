@@ -28,6 +28,7 @@ namespace Hawk.ETL.Plugins.Executor
         [LocalizedDisplayName("key_22")]
         public string Table { get; set; }
 
+        
         public override IEnumerable<IFreeDocument> CheckDatas(IEnumerable<IFreeDocument> docs)
         {
             foreach (var doc in docs)
@@ -43,6 +44,11 @@ namespace Hawk.ETL.Plugins.Executor
                 yield return doc;
             }
            
+        }
+        public override bool Init(IEnumerable<IFreeDocument> datas)
+        {
+          return  Assert(Table.Contains(GlobalHelper.Get("error_message")) == false,reason:GlobalHelper.Get("not_insert_to_error_table"));
+          
         }
 
         public override IEnumerable<IFreeDocument> Execute(IEnumerable<IFreeDocument> documents)

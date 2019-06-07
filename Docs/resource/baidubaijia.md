@@ -14,13 +14,13 @@
 
 我们翻到第二页（为什么要翻到第二页的原理，可参考`3.1动态嗅探`。），找一个比较有代表性的关键字：
 
-![image_1aur5boeu1tqmo9d163rs07gu79.png-132.2kB][1]
+![image_1aur5boeu1tqmo9d163rs07gu79.png-132.2kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1aur5boeu1tqmo9d163rs07gu79.png-132.2kB.png)
 
 `滴滴一下，马上出发`
 
 将其拷贝到网页采集器的`搜索字符`里:
 
-![image_1aur5gl4urkcur7dd1oaq1rjg9.png-9.6kB][2]
+![image_1aur5gl4urkcur7dd1oaq1rjg9.png-9.6kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1aur5gl4urkcur7dd1oaq1rjg9.png-9.6kB.png)
 
 Hawk会弹出提示对话框:
 
@@ -34,7 +34,7 @@ Hawk会弹出提示对话框:
 
 点击`确认`后， 浏览器会弹出百度百家的页面，你可以将滚动条往下翻，直到出现那篇滴滴的文章。之后Hawk会弹出对话框：
 
-![image_1aur5lad8mhr1pts1fjape1jc613.png-20.2kB][4]
+![image_1aur5lad8mhr1pts1fjape1jc613.png-20.2kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1aur5lad8mhr1pts1fjape1jc613.png-20.2kB.png)
 
 此时，Hawk会自动关闭嗅探。之后，再点手气不错，即可看到完整的页面内容，也可以按照关键词搜索，和其他静态网页的使用完全一致。
 

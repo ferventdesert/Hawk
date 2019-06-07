@@ -2,7 +2,7 @@
 # 捐赠列表
 感谢大家对Hawk的支持！
 
-![Hawk打赏小](https://upload-images.jianshu.io/upload_images/9608527-c5cac76b8af81a45.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![Hawk打赏小](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/Hawk打赏小.jpg)
 
 
 ## 支付宝

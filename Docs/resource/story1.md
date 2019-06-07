@@ -10,7 +10,7 @@
 
 读研究生伊始，实验室开始做数据挖掘，但我发现大家做研究，都是一段段的代码，遇到新问题，就不得不再拷贝一份修改，很少想过复用。于是我便花了一年的时间，开发了一款现在看起来配色丧心病狂的“数据挖掘软件”：
 
-![image_1b4qil7jh3mbae2l1c0eutp9.png-371.2kB][1]
+![image_1b4qil7jh3mbae2l1c0eutp9.png-371.2kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1b4qil7jh3mbae2l1c0eutp9.png-371.2kB.png)
 
 它居然能在上面刷微博，能把任何一个学姐学妹在微博的蛛丝马迹全扒出来，渲染出配色更丧病的绚丽图表（这里有更详细的细节）。实验室老师最喜欢拿这套软件给参观的领导演示了。
 

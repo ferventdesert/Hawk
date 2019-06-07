@@ -571,7 +571,7 @@ XPath可以非常灵活，例如：
 
 一般情况下, 将从爬虫转换拖入到对应的URL列中，通过下拉菜单选择要调用的爬虫名称，即可完成所有的配置：
 
-![请求设置](http://static.zybuluo.com/buptzym/hgwpmxsjz0gun5epqt2087wh/image_1avc2t94d3l51sofkah8m1lrrm.png)
+![请求设置](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/请求设置.png)
 
 本模块是沟通网页采集器和数据清洗的桥梁。本质上说，网页采集器是针对获取网页而特别定制的`数据清洗模块`。
 

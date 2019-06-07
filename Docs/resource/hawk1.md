@@ -5,7 +5,7 @@
 遇到这样的问题，我会回答，我用专门的工具，不用编程也能快速抓取。之后肯定又会问，在哪里能下载这个工具呢？我淡淡的说，我自己写的。。。
 (这个B装的...我给95分！)
 
-![image_1aiunn8pctfe1hp01dkua8q1tr99.png-469.8kB][1]
+![image_1aiunn8pctfe1hp01dkua8q1tr99.png-469.8kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1aiunn8pctfe1hp01dkua8q1tr99.png-469.8kB.png)
 沙漠君最近比较忙乱，说好的一大堆写作任务都还没有完成。授人以鱼不如授人以渔，我做了一个决定，将这套软件全部开源到GitHub！
 从此以后，估计很多做爬虫的工程师要失业了。因为我的目标是让普通人也能使用，目标有点远大，不过貌似距离不远了。
 这篇文章介绍爬虫大概的原理，文章最后会有程序地址和使用说明。
@@ -17,12 +17,12 @@
 这套软件，可以基本不需编程，通过图形化的操作来快速设计爬虫，有点像Photoshop的意思。它能在20分钟内编写大众点评的爬虫（简化版只要3分钟），然后让它运行就好啦~
 软件长这个样子，（高端黑高端黑）
 
-![image_1aj0smtet1oi61idt1of317rn14tk10.png-415.2kB][2]
+![image_1aj0smtet1oi61idt1of317rn14tk10.png-415.2kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1aj0smtet1oi61idt1of317rn14tk10.png-415.2kB.png)
 
 ## 自动将网页导出为Excel
 那么，一个页面那么大，爬虫怎么知道我想要什么呢？
 
-![image_1aiunq3dirbu1mh31ccm1l74ia1m.png-183.3kB][3]
+![image_1aiunq3dirbu1mh31ccm1l74ia1m.png-183.3kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1aiunq3dirbu1mh31ccm1l74ia1m.png-183.3kB.png)
 
 人当然可以很容易地看出，上图的红框是二手房信息了，但机器不知道。网页是一种有结构的树，而重要信息所在的节点，往往枝繁叶茂。 举个不恰当的比方，一大家子人构成树状族谱，谁最厉害？当然是孩子多（能生），且孩子各个都很争气（孙子也很多），最好每个孩子都很像(N胞胎)的那个人，大家都会觉得他家太厉害了！
 
@@ -42,7 +42,7 @@
 
 就这么简单吗？网站怎么可能让自己宝贵的数据被这么轻松地抓走呢？所以它只能翻到第50页或第100页。链家就是这样:
 
-![image_1aiupdcdrt2pmsf14bjk87abk9.png-5.1kB][4]
+![image_1aiupdcdrt2pmsf14bjk87abk9.png-5.1kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1aiupdcdrt2pmsf14bjk87abk9.png-5.1kB.png)
 
 这也难不倒我们，每页有30个数据，所以100页最多能呈现3000个条数据。北京有16个区县，每个区县的小区数量肯定没有3000个，所以我们可以获取每个区县的所有小区的列表。每个小区的二手房再多也没有3000套（最多的小区可能有300多套在售二手房），这样就能获取链家的所有二手房了。
 
@@ -50,13 +50,13 @@
 
 然后你就会看到壮观的场面：一堆小机器人，同心协力地从网站上搬数据，超牛迅雷有没有？同时100个任务！上个厕所回来就抓完了。
 
-![此处输入图片的描述][5]
+![多任务执行](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/多任务执行.gif)
 
 ## 清洗：识别并转换内容
 
 获取的数据大概长这样：
 
-![image_1aiuq6o101sjl15as1nl9kh26ic1n.png-60.5kB][6]
+![image_1aiuq6o101sjl15as1nl9kh26ic1n.png-60.5kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1aiuq6o101sjl15as1nl9kh26ic1n.png-60.5kB.png)
 
 但你会看到，里面会有些奇怪的字符应该去去掉。xx平米应该都把数字提取出来。而售价，有的是373万元，有的是2130000元，这些都很难处理。
 
@@ -79,7 +79,7 @@
 
 你会不会担心Hawk保存你的用户名密码？不保存怎么自动登录呢？但是Hawk是开源的，所有代码都经过了审查，是安全的。你的私密信息，只会躺在你自己的硬盘里。
 
-![此处输入图片的描述][7]
+![简单的自动嗅探]](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/简单的自动嗅探.png)
 
 (我们就这样自动登录了大众点评)
 
@@ -96,7 +96,7 @@
 ## 在哪里获取软件和教程？
 
 软件的教程和下载链接，可参考沙漠君的技术博客，在百度(黑)上面搜索“沙漠之鹰 博客园”，即可：
-![image_1aj0t276v15m6pd6eme1un815ia1d.png-170.1kB][8]
+![image_1aj0t276v15m6pd6eme1un815ia1d.png-170.1kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1aj0t276v15m6pd6eme1un815ia1d.png-170.1kB.png)
 
 第二个就是。最新版本已经公布在百度网盘里了。
 

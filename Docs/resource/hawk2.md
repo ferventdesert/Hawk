@@ -1,7 +1,7 @@
 # Hawk2
 ---
 
-![image_1b57e17dr6sg1k6v110jdg5vb59.png-211.3kB][1]
+![image_1b57e17dr6sg1k6v110jdg5vb59.png-211.3kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1b57e17dr6sg1k6v110jdg5vb59.png-211.3kB.png)
 
 沙漠君在历时半年，修改无数bug，更新一票新功能后，在今天隆重推出最新改进的超级爬虫Hawk 2.0!
 
@@ -27,7 +27,7 @@
 
 怎么办？你只要把随便一条微博的一个关键词输入到“搜索关键字”那里，点“开始”自动嗅探。二鹰就会帮你抓到这个请求。不论再臭再长的裹脚布都不怕。
 
-![image_1b57e1s4h8edjo01bce1n4j14uqm.png-58kB][2]
+![image_1b57e1s4h8edjo01bce1n4j14uqm.png-58kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1b57e1s4h8edjo01bce1n4j14uqm.png-58kB.png)
 
 大家都很喜爱鹰1的“手气不错”功能，但之前只能处理html，而很难处理内嵌js和json， 现在只要你勾选“超级模式”，不论返回的是何种数据类型。直接点“手气不错”，数据表格就完整出来了！其他什么都不用干！
 
@@ -66,7 +66,7 @@
 
 程序员写文档一般都不是给地球人看的。但是沙漠君忍了。 恩，6个完整的手把手的例子，到每个模块的概要说明，想要的基本都能找到。如果有任何问题，直接在GitHub上留言提问，沙漠君实在受不了一个问题重复回答一百遍啊一百遍！
 
-![image_1b57e2langm7164uj5qv7dsgt13.png-224.3kB][3]
+![image_1b57e2langm7164uj5qv7dsgt13.png-224.3kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1b57e2langm7164uj5qv7dsgt13.png-224.3kB.png)
 
 文档也许现在不全，不过没关系，我会慢慢补充的，总得给我点时间啦。如果还有bug捏？我保证一口老血吐在你的屏幕上！ 当然，如果bug够高级，你心爱的沙漠君可能会给你发红包哦。
 

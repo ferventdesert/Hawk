@@ -1128,7 +1128,7 @@ X	十六进制	255.ToString("X")	FF
     </system:String>
     <system:String x:Key="SmartCrawler_desc_detail" xml:space="preserve">
 
-        ![网页采集器主界面](https://upload-images.jianshu.io/upload_images/9608527-bf04e74742058872.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![网页采集器主界面](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/网页采集器主界面.jpg)
        
          ## 快速使用说明
         
@@ -1180,7 +1180,7 @@ X	十六进制	255.ToString("X")	FF
         在{{feellucky}}不能工作或不符合预期时，需要手工给定几个关键字， 让Hawk搜索关键字， 并获取在网页中所在的位置(XPath)。
         填入{{search_keyword}}，能够成功获取XPath, 编写属性名称，点击{{key_302}}，即可添加一个属性。类似地，再填入30535，设置属性名称为“单价”，即可添加另外一个属性。
 
-        ![手动添加属性](https://upload-images.jianshu.io/upload_images/9608527-a5467c50b781f50b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![手动添加属性](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/手动添加属性.jpg)
 
         在`{{search_keyword}}`的文本框中，输入你要获取的关键字，由于关键字在网页中可能出现多次，可连续点击`继续搜索`，在多个结果间切换，左侧的html源码会对搜索的结果进行高亮。
         
@@ -1227,9 +1227,9 @@ X	十六进制	255.ToString("X")	FF
         ### {{script_mode_list}}下的{{feellucky}}
         一般来说，输入网址加载页面后，点击{{feellucky}}即可，Hawk会自动按照优先级将列表数据抓取出来
 
-      ![{{feellucky}}配置](https://upload-images.jianshu.io/upload_images/9608527-00a31b3a6f387c74.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![{{feellucky}}配置](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/feellucky配置.jpg)
 
-        ![手气不错示例](http://images2018.cnblogs.com/blog/287060/201805/287060-20180512203827617-1470633207.gif)
+![手气不错示例](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/手气不错示例.gif)
 
         左右切换选择你想要的数据集，之后在下面的属性栏对结果进行微调。
         添加一个属性，{{feellucky}}就能更准确地进行。添加两个属性，即可选定唯一区域。
@@ -1240,7 +1240,7 @@ X	十六进制	255.ToString("X")	FF
         为了解决这个问题，将关键字加入到`{{search_keyword}}`中，此时不要将其添加到属性列表中，直接点击{{feellucky}}即可。  
 
 
-        ![单文档模式下的手气不错](http://images2018.cnblogs.com/blog/287060/201805/287060-20180512221426878-671049210.gif)
+![单文档模式下的手气不错](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/单文档模式下的手气不错.gif)
 
  
     </system:String>
@@ -1250,7 +1250,7 @@ X	十六进制	255.ToString("X")	FF
 
     如果认识到html是一棵树，只要找到了承载数据的节点即可，之后用XPath来描述。
 
-    ![{{feellucky}}原理](http://static.zybuluo.com/buptzym/y0l0aorvdas5ydsg8xcz9jx2/image_1b0keius5171011j6l911tsg109fg.png)
+![{{feellucky}}原理](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/feellucky原理.png)
 
     手工编写XPath也很复杂，因此软件可以通过关键字，自动检索XPath，提供关键字，软件就会从树中递归搜索包含该数据的叶子节点。因此关键字最好是在页面中独一无二的。
 
@@ -1320,7 +1320,7 @@ X	十六进制	255.ToString("X")	FF
        
        按如下方式对采集器进行设置：
 
-       ![网页采集器请求设置](https://upload-images.jianshu.io/upload_images/9608527-b2e00d67d62193a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![网页采集器请求设置](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/网页采集器请求设置.jpg)
 
     </system:String>
     <system:String x:Key="css_desc" xml:space="preserve">
@@ -1343,7 +1343,7 @@ X	十六进制	255.ToString("X")	FF
         
         例如设置为`链家采集器`，那么本采集器的请求参数，都会在执行时，动态地从链家采集器中获得。这样就极大地简化了配置过程。
 
-        ![在按钮上自动弹出帮助](https://upload-images.jianshu.io/upload_images/9608527-b4180f98fec913e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![在按钮上自动弹出帮助](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/在按钮上自动弹出帮助.jpg)
 
     </system:String>
     <system:String x:Key="key_519">
@@ -1363,7 +1363,7 @@ X	十六进制	255.ToString("X")	FF
         - 点击'新建'，即可创建新的sqlite的db文件，指定路径后，点击连接即可
         - sqlite对表头只支持英文
 
-        ![SQLite连接](https://upload-images.jianshu.io/upload_images/9608527-409d476ea915729d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![SQLite连接](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/SQLite连接.jpg)
 
     </system:String>
     <system:String x:Key="key_149">
@@ -1571,7 +1571,7 @@ X	十六进制	255.ToString("X")	FF
 
     有时使用{{smartcrawler_name}}太重，但自行填写XPath又门槛太高，新的Hawk支持图形化搜索和设置XPath，极大地简化了填写XPath的负担。 在{{XPathTF}}模块的配置项中，点击 {{key_410}}，即可弹出其图形化配置界面：
 
-    ![XPath筛选器](https://upload-images.jianshu.io/upload_images/9608527-36ff6f7642332de8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![XPath筛选器](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/XPath筛选器.jpg)
 
     首先需让该工作流正常刷新，这样本模块才能获得页面的URL和对应的html。 你可以在最上方的地址栏里，切换不同的url地址，进而切换不同的web页面。
 
@@ -1746,7 +1746,7 @@ X	十六进制	255.ToString("X")	FF
 
         并在如下界面进行配置:
 
-        ![设置Github登陆页](https://upload-images.jianshu.io/upload_images/9608527-527f119b593fb4b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![设置Github登陆页](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/设置Github登陆页.jpg)
 
         
 
@@ -1948,7 +1948,7 @@ X	十六进制	255.ToString("X")	FF
 
     一般情况下, 将从爬虫转换拖入到对应的URL列中，通过下拉菜单选择要调用的爬虫名称，即可完成所有的配置：
 
-    ![{{request_config}}](http://static.zybuluo.com/buptzym/hgwpmxsjz0gun5epqt2087wh/image_1avc2t94d3l51sofkah8m1lrrm.png)
+![{{request_config}}](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/request_config.png)
 
     本模块是沟通{{smartcrawler_name}}和{{smartetl_name}}的桥梁。本质上说，{{smartcrawler_name}}是针对获取网页而特别定制的`{{smartetl_name}}模块`。
 
@@ -2020,7 +2020,7 @@ X	十六进制	255.ToString("X")	FF
     - {{merge_mix}} 
     - {{merge_merge}}
 
-    ![生成器的四种模式](https://upload-images.jianshu.io/upload_images/9608527-98d152405743cd6d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![生成器的四种模式](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/生成器的四种模式.jpg)
 
     </system:String>
     <system:String x:Key="subtask_desc" xml:space="preserve">
@@ -2047,7 +2047,7 @@ X	十六进制	255.ToString("X")	FF
     
     ## 参数设置
 
-    ![子任务配置](https://upload-images.jianshu.io/upload_images/9608527-6662e75160b569ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![子任务配置](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/子任务配置.jpg)
     
     
     子任务可以分为两部分：参数部分和执行部分。在本文最下面的例中，子任务中的第一个`从文本生成`，只是参数，目的是为了子任务设计器能构成输出数据的完整流程。但要想被别的模块调用，则只应该有执行部分。而参数部分，需要主任务传递给子任务。这就是`调用范围`的意义，它能将主任务的指定参数传递到子任务上，成为子任务的一部分。
@@ -2064,7 +2064,7 @@ X	十六进制	255.ToString("X")	FF
     
     Hawk3中还提供了图形化配置的界面，大大简化了配置难度，在任何子任务调用的模块里，都可以点击`配置`进入配置页面：
     
-    ![子任务的配置界面](https://upload-images.jianshu.io/upload_images/9608527-aa038bac6624eb0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![子任务的配置界面](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/子任务的配置界面.jpg)
     
     ## 注意事项
 
@@ -2147,7 +2147,7 @@ X	十六进制	255.ToString("X")	FF
         - 在连接器的数据表上，双击可查看样例
         - 点击右键，可以将数据加载到内存中。
         
-        ![连接器配置](http://static.zybuluo.com/buptzym/cympkkptyzq6r370ositd2dh/QQ%E6%88%AA%E5%9B%BE20160501105629.jpg)
+![连接器配置](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/连接器配置.jpg)
         
         目前支持的连接器包括：
 
@@ -2168,7 +2168,7 @@ X	十六进制	255.ToString("X")	FF
 
         通过如下方式打开新文件或历史文件：
         
-        ![打开新文件](https://upload-images.jianshu.io/upload_images/9608527-029016e05679e52e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![打开新文件](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/打开新文件.jpg)
 
         #### CSV文件 
        
@@ -2189,7 +2189,7 @@ X	十六进制	255.ToString("X")	FF
         2. 将数据集拖拽到下方的图标上，如拖到回收站，即可删除该模块。
         3. 双击数据集可查看模块的内容。 将数据集拖拽到{{smartetl_name}}图标上，可直接对本数据集做{{smartetl_name}}。
         
-       ![数据表和操作](https://upload-images.jianshu.io/upload_images/9608527-9782518c604cda25.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![数据表和操作](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/数据表和操作.jpg)
 
     
     </system:String>
@@ -2830,7 +2830,7 @@ X	十六进制	255.ToString("X")	FF
         #### 配置设置
 
         
-        ![MongoDB连接](https://upload-images.jianshu.io/upload_images/9608527-f7d1df1327b9bd47.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
+![MongoDB连接](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/MongoDB连接.jpg)
 
 
 
@@ -3063,27 +3063,27 @@ X	十六进制	255.ToString("X")	FF
         HAWK使用C# 编写，其前端界面使用WPF开发，因此只能运行于windows平台，但提供命令行入口供自动化部署。
         以下介绍全部基于最新的Hawk3，请使用老版本的同学尽快通过下面的地址升级最新版。
 
-        ![欢迎主页](https://upload-images.jianshu.io/upload_images/9608527-1674d5583cdfe1fb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![欢迎主页](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/欢迎主页.jpg)
 
 
-        ![2.gif-3330.9kB](http://static.zybuluo.com/buptzym/10kykg6qhqvsabbq8yj32pt0/2.gif)
+![2.gif](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/2.gif)
 
         以获取大众点评的所有北京美食为例，使用本软件可在10分钟内完成配置，在1小时之内**自动并行抓取**全部内容，并能监视任务工作情况。而手工编写代码，即使是使用python，一个熟练的程序员也可能需要一天以上：
 
-        ![1.gif-1001.8kB](http://static.zybuluo.com/buptzym/qkl0vavjn6cj007qfk2k3gqg/1.gif)
+![1.gif-1001.8kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/1.gif-1001.8kB.gif)
 
         ## 联系作者
 
         开发者： 沙漠之鹰(desert), 升哥
 
-        Hawk的支持QQ群：546750531 （可能存在QQ搜不到的情况，原因未知），可通过扫描二维码进入：
+        Hawk的支持QQ群：546750531，可通过扫描二维码进入： （若存在QQ搜不到的情况，请加沙漠君的QQ号：424194253，我把你拖入群聊，或关注微信公众号：沙漠之鹰），
 
-        ![QQ群二维码](https://upload-images.jianshu.io/upload_images/9608527-cea664ee2dd514e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![QQ群二维码](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/QQ群二维码.jpg)
 
 
         如果Hawk帮到了你，欢迎给Hawk的GitHub点个star。 关注“沙漠之鹰”公众号，或通过支付宝给Hawk作者打赏！
 
-         ![Hawk打赏小](https://upload-images.jianshu.io/upload_images/9608527-c5cac76b8af81a45.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![Hawk打赏小](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/Hawk打赏小.jpg)
 
         这里是贡献者的[捐赠列表](https://ferventdesert.github.io/Hawk/%E6%8D%90%E8%B5%A0%E5%88%97%E8%A1%A8/)。
          
@@ -3441,11 +3441,11 @@ X	十六进制	255.ToString("X")	FF
     <system:String x:Key="SmartETLTool_desc_detail" xml:space="preserve">
         {{smartetl_name}}是一种任务，包括几十个子模块， 这些子模块包含四类：生成， 转换， 过滤和执行。 
 
-     ![{{smartetl_name}}丰富的模块](https://upload-images.jianshu.io/upload_images/9608527-3bfde1fb0303b660.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![{{smartetl_name}}丰富的模块](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/smartetl_name丰富的模块.jpg)
 
         在输出的文档中，点击单元格，可以放大和显示该单元格的文本内容（相比于Hawk早期版本，这实在太实用了）：
 
-        ![{{smartetl_name}}结果](https://upload-images.jianshu.io/upload_images/9608527-0883c03ec2fe4b05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![{{smartetl_name}}结果](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/smartetl_name结果.jpg)
 
         ## 快速使用说明
         
@@ -3507,12 +3507,12 @@ X	十六进制	255.ToString("X")	FF
 
         在调试时，{{CrawlerTF}}模块可能会请求web数据，为了提升性能，该模块对请求做了缓存。保证数据只需获取一次，如果想强制刷新数据，将{{CrawlerTF}}模块禁用，再启用，原始缓存数据就会被擦除。
 
-        ![调试模式的菜单栏](https://upload-images.jianshu.io/upload_images/9608527-5fb8cbd95a94a683.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![调试模式的菜单栏](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/调试模式的菜单栏.jpg)
         
     </system:String>
     <system:String x:Key="running_mode_desc" xml:space="preserve">
        
-        ![串并行模式的配置](https://upload-images.jianshu.io/upload_images/9608527-cffb844f4c25c5f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![串并行模式的配置](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/串并行模式的配置.jpg)
 
        Hawk支持两种执行模式:
 
@@ -3545,17 +3545,17 @@ X	十六进制	255.ToString("X")	FF
 
 我们以抓取某个网站的100个页面为例，第一个模块`生成区间数`,可以生成1-100的页面，自然地，就可以创建100个任务，分别抓取了。
 
-![image_1auq4sikn7nb1gug1citurl149pm.png-20.6kB](http://static.zybuluo.com/buptzym/7r3yufza2cshsualz9iz2qd7/image_1auq4sikn7nb1gug1citurl149pm.png)
+![image_1auq4sikn7nb1gug1citurl149pm.png-20.6kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1auq4sikn7nb1gug1citurl149pm.png-20.6kB.png)
 
 但是，但如果队首的生成器只生成了很少的元素，每个元素在后期，又会转换为大量的元素，那么这种方法就非常低下了。极端情况下队首生成器只生成一个元素，则并行化就毫无意义：
 
-![image_1auq59r2f42r12u41cue1q6c9cj1t.png-28kB](http://static.zybuluo.com/buptzym/sojkdkg2ta9r2xrx6z7ivrgm/image_1auq59r2f42r12u41cue1q6c9cj1t.png)
+![image_1auq59r2f42r12u41cue1q6c9cj1t.png-28kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1auq59r2f42r12u41cue1q6c9cj1t.png-28kB.png)
 
 #### 改进的并行
 
 一种非常简单的思路，是将其切成两个任务，并行在任务中完成。
 
-![image_1auq4roi010n6lnomf41o56s919.png-63.9kB](http://static.zybuluo.com/buptzym/ulbme5gwk8ns3ykby6efeesx/image_1auq4roi010n6lnomf41o56s919.png)
+![image_1auq4roi010n6lnomf41o56s919.png-63.9kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1auq4roi010n6lnomf41o56s919.png-63.9kB.png)
 
 我们将其看成两个任务，第一个任务，负责产生出一堆种子任务出来，并加入到任务队列，之后再在这些种子的基础上，再分别调用第第二个任务。
 
@@ -3565,7 +3565,7 @@ X	十六进制	255.ToString("X")	FF
 
 反过来，如果每个任务的工作量太少，比如只访问一次网站内容，则这样的种子创建并行就显得成本高昂，因此可以填写分组并行数量，比如10，那么Hawk就会以10个元素为一组，创建任务。
 
-![image_1auq5ldh81i2n6ajqhe1ns23k72a.png-25kB](http://static.zybuluo.com/buptzym/by68ones5fqurqicpswhbdex/image_1auq5ldh81i2n6ajqhe1ns23k72a.png)
+![image_1auq5ldh81i2n6ajqhe1ns23k72a.png-25kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1auq5ldh81i2n6ajqhe1ns23k72a.png-25kB.png)
 
 #### Hawk自动分析并行点
 
@@ -3581,11 +3581,11 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
         不论是调试还是执行模式，系统都会在任务管理视图中增加一个或多个线程。
         你可以勾选，或取消勾选部分或全部线程，暂停或取消它们。当网站限制抓取时，可以暂停所有线程，等恢复后再次执行。
 
-        ![工作线程](https://upload-images.jianshu.io/upload_images/9608527-591ff27c38dd311e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![工作线程](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/工作线程.jpg)
 
         右下角分别是暂停，继续和删除任务。
 
-        ![task.gif](https://upload-images.jianshu.io/upload_images/9608527-335caab3c02d66e4.gif?imageMogr2/auto-orient/strip)
+![task.gif](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/task.gif.jpg)
 
         注意:
 
@@ -3597,7 +3597,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     <system:String x:Key="new_task" xml:space="preserve">
 目前系统仅仅提供了两个任务： 网页采集器和{{smartetl_name}}， 双击即可加载一个新的模块。
 
-![新建任务](https://upload-images.jianshu.io/upload_images/9608527-ba0f495ea797581d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![新建任务](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/新建任务.jpg)
 
    上次保存的任务，重新启动后其界面不会自动打开，可在任务管理器上双击，即可自动弹出配置界面。
 
@@ -3609,11 +3609,11 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
         
         左侧显示了当前所有的模块，顺序和它们的输入输出列，双击上面的模块可对其进行配置，右键可删除。单选列表上的任一模块t，系统就会只仿真前t步的效果。 本质上，单步调试只是提取了工作流的一部分进行操作。   你可以在单步调试中，拖入新的模块。模块会自动插入在工作流中间。
 
-        ![{{smartetl_name}}已加载模块列表](https://upload-images.jianshu.io/upload_images/9608527-f90a52002ca244bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![{{smartetl_name}}已加载模块列表](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/smartetl_name已加载模块列表.jpg)
 
         有时为了在单步调试过程中查看模块的属性，可勾选界面右下角的`调试详情`，此时可直接显示当前模块的属性。
 
-          ![调试模式的菜单栏](https://upload-images.jianshu.io/upload_images/9608527-5fb8cbd95a94a683.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![调试模式的菜单栏](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/调试模式的菜单栏.jpg)
 
         当模块有正常产出时， 模块的标志会变成蓝色，因此从上到下，第一个不是蓝色的模块，就有可能是有问题的模块。
 
@@ -3854,7 +3854,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
         - 所有正在执行的正式线程（Hawk可以记录任务执行的位置，在下次启动时断点续跑）
 
         
-        ![{{sysconfig}}](https://upload-images.jianshu.io/upload_images/9608527-e1a05280d2c23d52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![{{sysconfig}}](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/sysconfig.jpg)
 
         对工作线程的保存时：
 
@@ -3869,7 +3869,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
 
         Hawk的工程文件为xml或hproj， 在保存工程时，可以在文件保存对话框中，选取要保存的文件格式。下图是典型的xml工程文件内容：
 
-        ![工程配置文件](https://upload-images.jianshu.io/upload_images/9608527-347ec82e60820829.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![工程配置文件](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/工程配置文件.jpg)
         
         - xml: 可直接检查数据，并被其他语言所处理。但当其中包含较大的数据表时，xml文件由于其冗余性，体积会很大。
         - hproj是zip压缩后的xml, Hawk在加载hproj后，会自动将其解压，并按xml格式解析之，反之过程则过程相反。
@@ -3884,15 +3884,15 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
 
       在设计任务市场的整体架构时，花了不少时间，最终采用了最轻量却也可能是最合理的方案：Github。 Github提供了文件存取，合并和历史版本等功能，同时也符合Hawk的开源精神。 任务市场分为两期进行开发，第一期只支持访问，Hawk用户设计了工程后，通过merge request的方式提交到主分支。 第二期则支持软件内上传，同时增加积分奖励系统。
 
-     ![market.gif](https://upload-images.jianshu.io/upload_images/9608527-87b29be0b908a9b6.gif?imageMogr2/auto-orient/strip)
+![market.gif](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/market.gif.jpg)
 
       ## 市场的界面使用
 
-      ![任务市场主页](https://upload-images.jianshu.io/upload_images/9608527-112a974fdfe5f482.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![任务市场主页](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/任务市场主页.jpg)
 
       左侧包含了当前repo对应目录下的所有工程，点击每个工程，右侧即可展示其包含的数据表，任务集合，参数和介绍等：
 
-     ![详情设置](https://upload-images.jianshu.io/upload_images/9608527-004b6a173f41c568.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![详情设置](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/详情设置.jpg)
  
       为了避免误操作，无法双击工程，而需要通过鼠标右键加载的方式加载，之后即可像本地工程一样加载远端工程文件。当然也可以在右侧任务列表上加载单个任务，Hawk只会加载它和它依赖的任务列表.
 
@@ -3901,7 +3901,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
 
       可在任务市场界面中，点击配置图标，即可对GitHub账号做配置：
 
-      ![设置Github登陆页](https://upload-images.jianshu.io/upload_images/9608527-527f119b593fb4b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![设置Github登陆页](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/设置Github登陆页.jpg)
 
       如果你打算使用Hawk的基本功能，并不打算上传和分享任务，甘当伸手党的话，则可以使用Hawk提供的公共账号。但有如下功能与限制：
        
@@ -3981,10 +3981,10 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
       
       例如，针对链家开发爬虫时，不同的城市会有细微区别，如xpath，或名称... 因此可针对不同城市建立配置，切换配置即可在不同城市间切换，Hawk的模块在执行时会动态地获取这些数据。大大提升了重用性。
 
-      ![param.gif](https://upload-images.jianshu.io/upload_images/9608527-5bbd735f89deb817.gif?imageMogr2/auto-orient/strip)
+![param.gif](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/param.gif.jpg)
 
       
-      ![全局参数设置](https://upload-images.jianshu.io/upload_images/9608527-e15c3d72444a9b81.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![全局参数设置](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/全局参数设置.jpg)
 
 
 
@@ -4012,7 +4012,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
 
       点击edit按钮，可增加新的配置组。 选择对应的配置组后，即可全局生效。
 
-      ![全局可配置参数](https://upload-images.jianshu.io/upload_images/9608527-4da31d85f54d4c9d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![全局可配置参数](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/全局可配置参数.jpg)
 
     </system:String>
     <system:String x:Key="doc_system" xml:space="preserve">
@@ -4027,13 +4027,13 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
 
         下面的动图描述了Hawk文档的使用：
 
-       ![doc.gif](https://upload-images.jianshu.io/upload_images/9608527-f387d3e209c69d30.gif?imageMogr2/auto-orient/strip)
+![doc.gif](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/doc.gif.jpg)
 
-       ![在按钮上自动弹出帮助](https://upload-images.jianshu.io/upload_images/9608527-b4180f98fec913e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![在按钮上自动弹出帮助](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/在按钮上自动弹出帮助.jpg)
 
        为一个数据清洗任务自动生成其step by step的教程文档（点击调试工具栏中最右侧的哭脸按钮即可）
 
-       ![自动生成文档](https://upload-images.jianshu.io/upload_images/9608527-2c744653119ba88a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![自动生成文档](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/自动生成文档.jpg)
 
        亦可在 文件->{{generate_project_doc}}， 生成当前工程的全部文档。在初期其可读性可能不够好，之后会继续完善。
 
@@ -4045,7 +4045,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
 
         在各模块的图标上停留，即可弹出简单的使用介绍：
 
-       ![{{smartetl_name}}可用模块列表](https://upload-images.jianshu.io/upload_images/9608527-d0e75e07893f4d91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![{{smartetl_name}}可用模块列表](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/smartetl_name可用模块列表.jpg)
 
 
        ### 文档编写和自动生成
@@ -4109,11 +4109,11 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
 
        下图是典型的调试信息窗口，用不同颜色展示日志级别：
 
-       ![调试信息窗口](https://upload-images.jianshu.io/upload_images/9608527-d2532d945f081645.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![调试信息窗口](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/调试信息窗口.jpg)
        
        如何改变日志的级别？ 当发现现有日志太多或太少，可以在主菜单-> 调试-> 日志级别 设置，如下图：
 
-       ![调试级别设置](https://upload-images.jianshu.io/upload_images/9608527-fc88bb0f4a8a83c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![调试级别设置](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/调试级别设置.jpg)
 
     </system:String>
 
@@ -4124,7 +4124,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
 
        ### 调试与探查窗口
 
-       ![调试与探查](https://upload-images.jianshu.io/upload_images/9608527-fbfd9f307484ae1d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![调试与探查](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/调试与探查.jpg)
 
        调试探查窗口可以方便地展示每个模块的输入量，输出量,因空而跳过的数量，一目了然
 
@@ -4132,14 +4132,14 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
 
        如何了解总的http请求次数和错误数？在 {{sysconfig}}-> {{http_header}}里，详细地给出了请求数，被禁止数，因错误而跳过等数量。 点击 `清空数据`，即可将计数器置0.
 
-     ![{{sysconfig}}](https://upload-images.jianshu.io/upload_images/9608527-e1a05280d2c23d52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![{{sysconfig}}](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/sysconfig.jpg)
 
 
        ### 确定模块的输入和输出
 
        在单步调试模式时，该模块输入的列，会在{{smartetl_name}}的最上方用蓝色表示，输出列会用绿色表示。
 
-       ![输入输出设置](https://upload-images.jianshu.io/upload_images/9608527-8772e8727130d1dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![输入输出设置](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/输入输出设置.jpg)
 
     </system:String>
 
@@ -4256,7 +4256,6 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     之后，将嗅探到的地址拷贝到{{smartcrawler_name}}的URL输入框中，查看是否能正确获取内容。
     如果是POST请求，就更复杂一些。在{{smartetl_name}}模块中，{{smartcrawler_name}}拖入的列需要是对应的URL，你还需要构造出每次访问的post数据，单独作为一列。在{{smartcrawler_name}}中如下配置：
     
-    ![image_1ao1rk5bb1am4pl31j2l1a0l1otpm.png-18.7kB][3]
     注意列名需要用方括号括起来，否则每次POST数据都会是所填的数据。
 
 
@@ -4397,11 +4396,11 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     <system:String x:Key="crawler_manual_get_header" xml:space="preserve">
        即使嗅探失败也没有关系，如果你使用Chrome等浏览器，进入开发者工具（F12）：
 
-    ![Chorme的调试窗口设置](http://static.zybuluo.com/buptzym/lhxi16jt95iwhby6dlmpo9t8/image_1ao1q9le113a01mn4scu1q22g7mm.png)
+![Chorme的调试窗口设置](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/Chorme的调试窗口设置.png)
 
     选择最上角的network卷展栏，之后刷新网页，chrome会列出所有的请求，一般最上面的就是真实请求：
     
-    ![image_1ao1qf5fo1geqsf13be1mpi1lia9.png-68.5kB](http://static.zybuluo.com/buptzym/5vmgbywxwlw71rqxjpk1jczt/image_1ao1qf5fo1geqsf13be1mpi1lia9.png)
+![image_1ao1qf5fo1geqsf13be1mpi1lia9.png-68.5kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1ao1qf5fo1geqsf13be1mpi1lia9.png-68.5kB.png)
     
     点击view source，将所有文本，拷贝到{{smartcrawler_name}}，对应的**高级设置-请求参数**里即可。其实，Hawk做的也是类似的操作。
     </system:String>
@@ -4600,7 +4599,7 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
 ```
 示例图如下：
 
-![image_1arbesmq01oucs8so2b6mq2fm9.png-72.7kB](http://static.zybuluo.com/buptzym/rklt3fzzuesx8dv6cfxakrip/image_1arbesmq01oucs8so2b6mq2fm9.png)
+![image_1arbesmq01oucs8so2b6mq2fm9.png-72.7kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbesmq01oucs8so2b6mq2fm9.png-72.7kB.png)
 
 不论你点什么样的下拉菜单，url是不变的。我们可以断定这是一个ajax页面。
 现在的目标是，通过一个分类号，如`D01B1/00`，来获取它的中文含义和英文含义，也就是右边的内容：
@@ -4611,15 +4610,15 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
 
 你可以用嗅探，我们将`天然或人造的线或纤维`作为关键字，填写到{{smartcrawler_name}}的`内容筛选`里:
 
-![image_1arbf4lfdqpp135k1s2uptkk4m9.png-13.9kB](http://static.zybuluo.com/buptzym/zp3w7vfutnzbzanvje1e1uvq/image_1arbf4lfdqpp135k1s2uptkk4m9.png)
+![image_1arbf4lfdqpp135k1s2uptkk4m9.png-13.9kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbf4lfdqpp135k1s2uptkk4m9.png-13.9kB.png)
 
 之后点击`开始`。然后在你的浏览器上点击下拉菜单，展开分类号。发现Hawk已经成功嗅探到了字段：
 
-![image_1arbf64jq15u811nfuei1bsknqcm.png-66.1kB](http://static.zybuluo.com/buptzym/1ltq5res3ct0gs0ucpwog2ru/image_1arbf64jq15u811nfuei1bsknqcm.png)
+![image_1arbf64jq15u811nfuei1bsknqcm.png-66.1kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbf64jq15u811nfuei1bsknqcm.png-66.1kB.png)
 
 此时，打开`请求属性`，就能看到真正请求的相关信息:
 
-![image_1arbf808c15gjq231kl61c5n1i1j13.png-95.9kB](http://static.zybuluo.com/buptzym/8zvakurfy2k1xp2nkr2g1yn1/image_1arbf808c15gjq231kl61c5n1i1j13.png)
+![image_1arbf808c15gjq231kl61c5n1i1j13.png-95.9kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbf808c15gjq231kl61c5n1i1j13.png-95.9kB.png)
 
 这是一次Post请求， (真实地址)url为:
 
@@ -4631,38 +4630,38 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
 
 此处我简单描述一下，你可以新建一个`{{smartetl_name}}`,生成所有要查询的专利号的ID。这个相对容易。比如拖入`从文本生成`：
 
-![image_1arbfidlrfs95nanvr1d9df511g.png-16.8kB](http://static.zybuluo.com/buptzym/ewb47tdmo3ku50prz6s7v812/image_1arbfidlrfs95nanvr1d9df511g.png)
+![image_1arbfidlrfs95nanvr1d9df511g.png-16.8kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbfidlrfs95nanvr1d9df511g.png-16.8kB.png)
 
 再拖入`合并多列`，把这一串ID转换为要post的一列数据:
 
-![image_1arbfl2ska0f1tts1tns1q4t19e81t.png-29.5kB](http://static.zybuluo.com/buptzym/jyhis4psyps6y5a06jxks6f9/image_1arbfl2ska0f1tts1tns1q4t19e81t.png)
+![image_1arbfl2ska0f1tts1tns1q4t19e81t.png-29.5kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbfl2ska0f1tts1tns1q4t19e81t.png-29.5kB.png)
 
 再拖入`添加新列`，因为要让{{smartcrawler_name}}访问那个真实数据的url,所以把上面提到的真实地址填进去：
 
-![image_1arbfo6b59qb5km1ore73rjrt2a.png-29.4kB](http://static.zybuluo.com/buptzym/f7xkx6azv5z0nhu8zdggj3ue/image_1arbfo6b59qb5km1ore73rjrt2a.png)
+![image_1arbfo6b59qb5km1ore73rjrt2a.png-29.4kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbfo6b59qb5km1ore73rjrt2a.png-29.4kB.png)
 
 见证奇迹的时刻到了，拖入`从爬虫转换`到刚才的url列，之后如下配置：
 
-![image_1arbfqoa217ggkmf1jhmiaa1ui12n.png-45.5kB](http://static.zybuluo.com/buptzym/m0m013nyrr2zlyuckfv0obwu/image_1arbfqoa217ggkmf1jhmiaa1ui12n.png)
+![image_1arbfqoa217ggkmf1jhmiaa1ui12n.png-45.5kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbfqoa217ggkmf1jhmiaa1ui12n.png-45.5kB.png)
 
 由于post数据要从post列读入，所以用方括号括起来，像这样`[post]`.
 
 出现了这样的结果：
 
-![image_1arbfsnt1p6oh18vmt8l91dmt34.png-20.8kB](http://static.zybuluo.com/buptzym/cew1tojr4n8kipkrgy2nwltg/image_1arbfsnt1p6oh18vmt8l91dmt34.png)
+![image_1arbfsnt1p6oh18vmt8l91dmt34.png-20.8kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbfsnt1p6oh18vmt8l91dmt34.png-20.8kB.png)
 
 这是个Json,因此我们拖入`转换为json`到content列：并将生成模式改为`单文档`，因为这只是一个字典，而不是字典数组:
 
-![image_1arbg0o161t0a1nml10ho1jmu1j9l3h.png-9.5kB](http://static.zybuluo.com/buptzym/98revkg9c8o6r93xa6hz23jc/image_1arbg0o161t0a1nml10ho1jmu1j9l3h.png)
+![image_1arbg0o161t0a1nml10ho1jmu1j9l3h.png-9.5kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbg0o161t0a1nml10ho1jmu1j9l3h.png-9.5kB.png)
 
 你会发现只有一列有值:
 
-![image_1arbg20op1dvqvtqfeon531ct93u.png-5kB](http://static.zybuluo.com/buptzym/k067q3ipf1n2lmjonqvz5vy0/image_1arbg20op1dvqvtqfeon531ct93u.png)
+![image_1arbg20op1dvqvtqfeon531ct93u.png-5kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbg20op1dvqvtqfeon531ct93u.png-5kB.png)
 
 是个数组。那么，再拖入`python转换器`，生成模式配置为`文档列表`:
 你要的数据就都有了：
 
-![image_1arbg3qee1if195k1pnl1an71uaj4b.png-29.4kB](http://static.zybuluo.com/buptzym/qd1245knqvcg4e55910ovgbl/image_1arbg3qee1if195k1pnl1an71uaj4b.png)
+![image_1arbg3qee1if195k1pnl1an71uaj4b.png-29.4kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbg3qee1if195k1pnl1an71uaj4b.png-29.4kB.png)
 
 点评：这种请求，虽然可以用Hawk来配置，不过还是建议使用python，能获取更大的灵活性
 
@@ -4674,7 +4673,7 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
     ### 主工作区
      启动后，在欢迎页面有三个tab页： 新建任务，任务市场和参数设置。欢迎页面非常重要，能够新建任务，或者浏览相关文档和帮助。
 
-    ![front.gif](https://upload-images.jianshu.io/upload_images/9608527-845b571fd3b4c7e0.gif?imageMogr2/auto-orient/strip)
+![front.gif](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/front.gif.jpg)
      
     
     1. 新建任务：双击图标即可新建和加载已有任务
@@ -4714,7 +4713,7 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
 
     在{{script_mode_list}}模式下，通常直接点击右上角的{{feellucky}}，在弹出的结果下选择所需数据，可配置其名称和XPath。点击确定即可配置完毕。即可自动获取绝大多数网页的目标内容。
       
-    ![手气不错](http://images2018.cnblogs.com/blog/287060/201805/287060-20180512203827617-1470633207.gif)
+![手气不错](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/手气不错.gif)
 
     可手工填入`{{search_keyword}}`，即可在网页上快速定位元素和XPath，可在多个结果间快速切换，找到所需数据后，输入属性名称后手工添加属性。
 
@@ -4728,7 +4727,7 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
     5. 详情页({{script_mode_one}}模式)也可以{{feellucky}}(Hawk3新功能)，搜索所需字段，不需要添加到属性列表，点击{{feellucky}}试试！
     6. 网页地址也可以是本地文件路径，如D:\target.html, 用其他方法保存网页后，再通过Hawk分析网页内容
 
-    ![单文档模式下的手气不错](http://images2018.cnblogs.com/blog/287060/201805/287060-20180512221426878-671049210.gif)
+![单文档模式下的手气不错](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/单文档模式下的手气不错.gif)
 
 
     </system:String>
@@ -4737,9 +4736,9 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
 
      {{smartetl_name}}可以通过组合多个不同的子模块，生成多样的功能，通过拖拽构造出一个工作流，它能够产生一个有限或无限的文档序列。比如下面：
         
-        ![image_1auq4oooc1m8m9tc02sjv1j4o9.png-71.6kB](http://static.zybuluo.com/buptzym/gzr3u0z80478s31u9v1zdfw5/image_1auq4oooc1m8m9tc02sjv1j4o9.png)
+![image_1auq4oooc1m8m9tc02sjv1j4o9.png-71.6kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1auq4oooc1m8m9tc02sjv1j4o9.png-71.6kB.png)
 
-    ![etl.gif](https://upload-images.jianshu.io/upload_images/9608527-1d80b51babfb5233.gif?imageMogr2/auto-orient/strip)
+![etl.gif](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/etl.gif.jpg)
 
 
     ### 基本操作
@@ -4897,7 +4896,7 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
        - 可以直接粘贴到任何文本编辑器中，这在手动编辑xml工程文件时很有用。
        - 拷贝到本任务或其他任务的任一模块的上侧或下侧
 
-    ![{{smartetl_name}}已加载模块列表](https://upload-images.jianshu.io/upload_images/9608527-f90a52002ca244bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![{{smartetl_name}}已加载模块列表](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/smartetl_name已加载模块列表.jpg)
         
        这带来了显著的好处，任务间能够更方便地共享配置和参数，方便重用。你亦可将配置拷贝到GitHub或其他社群中，方便他人定位问题。
     </system:String>
@@ -4909,7 +4908,7 @@ json选择器选择“文档列表”模式即可，不需要python转换器。
       - 连接器： 访问各种数据库的配置
       - 全局配置
 
-      ![已加载任务](https://upload-images.jianshu.io/upload_images/9608527-cbf6256f84099040.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![已加载任务](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/已加载任务.jpg)
 
 
        打开Hawk后，即可在`文件`栏中，新建，加载，保存，另存为工程。这些概念和Windows中的标准实现接近，因此不多做介绍。还可以打开{{recent_file}}， 直接加载工程。

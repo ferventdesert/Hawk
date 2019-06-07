@@ -237,11 +237,11 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="../设计Hawk背后的故事(2016)/">设计Hawk背后的故事(2016)</a>
+    <a class="" href="../story1/">设计Hawk背后的故事(2016)</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../花一年时间,给爬虫Hawk再讲个故事(2018)/">花一年时间,给爬虫Hawk再讲个故事(2018)</a>
+    <a class="" href="../story2/">花一年时间,给爬虫Hawk再讲个故事(2018)</a>
                 </li>
     </ul>
 	    </li>
@@ -283,7 +283,7 @@
             <div class="section">
               
                 <h1 id="_1">网页采集器</h1>
-<p><img alt="网页采集器主界面" src="https://upload-images.jianshu.io/upload_images/9608527-bf04e74742058872.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="网页采集器主界面" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/网页采集器主界面.jpg" /></p>
 <h2 id="1">1.快速使用说明</h2>
 <p>网页采集器 模拟了浏览器的设计，填入网址，点击刷新，即可获取对应地址的html源码。</p>
 <p>认识到网页是一棵树(DOM)后，每个XPath对应一个属性，即可从网页上获取单个或多个文档。网页采集器的目的就是更快地通过手工或自动配置找到最优XPath。</p>
@@ -306,7 +306,7 @@
 <li>点击【提取测试】，可预览检查配置结果。</li>
 </ul>
 <p>在多文档模式下，通常直接点击右上角的手气不错，在弹出的结果下选择所需数据，可配置其名称和XPath。点击确定即可配置完毕。即可自动获取绝大多数网页的目标内容。</p>
-<p><img alt="手气不错" src="http://images2018.cnblogs.com/blog/287060/201805/287060-20180512203827617-1470633207.gif" /></p>
+<p><img alt="手气不错" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/手气不错.gif" /></p>
 <p>可手工填入<code>搜索字符</code>，即可在网页上快速定位元素和XPath，可在多个结果间快速切换，找到所需数据后，输入属性名称后手工添加属性。</p>
 <h3 id="13">1.3.高级功能</h3>
 <ol>
@@ -317,7 +317,7 @@
 <li>详情页(单文档模式)也可以手气不错(Hawk3新功能)，搜索所需字段，不需要添加到属性列表，点击手气不错试试！</li>
 <li>网页地址也可以是本地文件路径，如D:\target.html, 用其他方法保存网页后，再通过Hawk分析网页内容</li>
 </ol>
-<p><img alt="单文档模式下的手气不错" src="http://images2018.cnblogs.com/blog/287060/201805/287060-20180512221426878-671049210.gif" /></p>
+<p><img alt="单文档模式下的手气不错" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/单文档模式下的手气不错.gif" /></p>
 <p>网页采集器 不能单独工作，而是沟通 网页采集器 和数据清洗的桥梁。本质上说， 网页采集器 是针对获取网页而特别定制的<code>数据清洗模块</code>。</p>
 <h2 id="2">2.高级配置介绍</h2>
 <h3 id="21">2.1.列表根路径</h3>
@@ -345,7 +345,7 @@
 <p>网页采集器需配合数据清洗使用，才能 使用 网页采集器 获取网页数据，拖入的列需要为超链接</p>
 <h3 id="31get">3.1.一般的get请求</h3>
 <p>一般情况下, 将从爬虫转换拖入到对应的URL列中，通过下拉菜单选择要调用的爬虫名称，即可完成所有的配置：</p>
-<p><img alt="请求配置" src="http://static.zybuluo.com/buptzym/hgwpmxsjz0gun5epqt2087wh/image_1avc2t94d3l51sofkah8m1lrrm.png" /></p>
+<p><img alt="请求配置" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/request_config.png" /></p>
 <p>本模块是沟通网页采集器和数据清洗的桥梁。本质上说，网页采集器是针对获取网页而特别定制的<code>数据清洗模块</code>。</p>
 <p>你需要填写<code>爬虫选择</code>，告诉它要调用哪个采集器。注意：</p>
 <ul>
@@ -364,18 +364,18 @@
 <p>这是Hawk最被人称赞的功能！在新的Hawk3中，该功能被极大地增强。</p>
 <h3 id="41">4.1.多文档下的手气不错</h3>
 <p>一般来说，输入网址加载页面后，点击手气不错即可，Hawk会自动按照优先级将列表数据抓取出来</p>
-<p><img alt="手气不错配置" src="https://upload-images.jianshu.io/upload_images/9608527-00a31b3a6f387c74.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
-<p><img alt="" src="http://images2018.cnblogs.com/blog/287060/201805/287060-20180512203827617-1470633207.gif" /></p>
+<p><img alt="手气不错配置" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/feellucky配置.jpg" /></p>
+<p><img alt="手气不错示例" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/手气不错示例.gif" /></p>
 <p>左右切换选择你想要的数据集，之后在下面的属性栏对结果进行微调。
 添加一个属性，手气不错就能更准确地进行。添加两个属性，即可选定唯一区域。</p>
 <h3 id="42">4.2.单文档模式的手气不错</h3>
 <p>Hawk3新增功能，当网页中包含多达几十种属性时，挨个添加会变得特别烦琐，这在某种商品属性页特别常见。
 为了解决这个问题，将关键字加入到<code>搜索字符</code>中，此时不要将其添加到属性列表中，直接点击手气不错即可。</p>
-<p><img alt="单文档模式下的手气不错" src="http://images2018.cnblogs.com/blog/287060/201805/287060-20180512221426878-671049210.gif" /></p>
+<p><img alt="单文档模式下的手气不错" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/单文档模式下的手气不错.gif" /></p>
 <h3 id="43">4.3.手动模式</h3>
 <p>在手气不错不能工作或不符合预期时，需要手工给定几个关键字， 让Hawk搜索关键字， 并获取在网页中所在的位置(XPath)。
 填入搜索字符，能够成功获取XPath, 编写属性名称，点击添加，即可添加一个属性。类似地，再填入30535，设置属性名称为“单价”，即可添加另外一个属性。</p>
-<p><img alt="手动添加属性" src="https://upload-images.jianshu.io/upload_images/9608527-a5467c50b781f50b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="手动添加属性" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/手动添加属性.jpg" /></p>
 <p>在<code>搜索字符</code>的文本框中，输入你要获取的关键字，由于关键字在网页中可能出现多次，可连续点击<code>继续搜索</code>，在多个结果间切换，左侧的html源码会对搜索的结果进行高亮。</p>
 <ol>
 <li>请注意观察搜索的关键字在网页中的位置，是否符合预期，否则抓取数据可能会有问题。尤其在 多文档模式。</li>
@@ -398,7 +398,7 @@ Hawk简化了流程，采用自动嗅探的方式来进行。Hawk成为后端代
 <p>https://www.cnblogs.com/joshua317/p/8670923.html</p>
 </blockquote>
 <p>按如下方式对采集器进行设置：</p>
-<p><img alt="网页采集器请求设置" src="https://upload-images.jianshu.io/upload_images/9608527-b2e00d67d62193a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="网页采集器请求设置" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/网页采集器请求设置.jpg" /></p>
 <h3 id="54">5.4.注意事项</h3>
 <ol>
 <li>有时直接将url拷贝到Hawk，并使用手气不错时，也能获取到数据。这是因为很多网站对第一页和其他页分别作了不同的处理。第一页内容会跟着整体frame返回回来。但之后页面内容就通过ajax单独返回了。
@@ -422,7 +422,7 @@ Hawk简化了流程，采用自动嗅探的方式来进行。Hawk成为后端代
 <p>为了抓取一个网站的不同数据，我们需要多个 网页采集器 。但是访问网站需要登录和cookie，难不成每个采集器都要设置对应的请求参数吗？</p>
 <p>采集器的属性对话框中，可以设置<code>共享源</code>,也就是要共享的 网页采集器 的名称。</p>
 <p>例如设置为<code>链家采集器</code>，那么本采集器的请求参数，都会在执行时，动态地从链家采集器中获得。这样就极大地简化了配置过程。</p>
-<p><img alt="在按钮上自动弹出帮助" src="https://upload-images.jianshu.io/upload_images/9608527-b4180f98fec913e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="在按钮上自动弹出帮助" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/在按钮上自动弹出帮助.jpg" /></p>
 <h2 id="9xpathcss">9.附录：XPath和CSS写法</h2>
 <h3 id="91xpath">9.1.XPath</h3>
 <p>关于XPath语法，可参考<a href="http://www.w3school.com.cn/xpath/xpath_syntax.asp">教程</a></p>
@@ -450,7 +450,7 @@ Hawk简化了流程，采用自动嗅探的方式来进行。Hawk成为后端代
 <h2 id="10">10.手气不错的原理</h2>
 <p>网页采集器的功能是获取网页中的数据（废话）。通常来说，目标可能是列表（如购物车列表），或是一个页面中的固定字段（如JD某商品的价格和介绍，在页面中只有一个）。因此需要设置其读取模式。传统的采集器需要编写正则表达式，但方法过分复杂。</p>
 <p>如果认识到html是一棵树，只要找到了承载数据的节点即可，之后用XPath来描述。</p>
-<p><img alt="手气不错原理" src="http://static.zybuluo.com/buptzym/y0l0aorvdas5ydsg8xcz9jx2/image_1b0keius5171011j6l911tsg109fg.png" /></p>
+<p><img alt="手气不错原理" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/feellucky原理.png" /></p>
 <p>手工编写XPath也很复杂，因此软件可以通过关键字，自动检索XPath，提供关键字，软件就会从树中递归搜索包含该数据的叶子节点。因此关键字最好是在页面中独一无二的。</p>
 <p>如上图所示，只要提供“北京”和“42”这两个关键字，就能找到parent节点， 进而获取div[0]和div[1]这两个列表元素。通过div[0]和div[1]两个节点的比较，我们就能自动发现相同的子节点（name,mount）和不同的节点（北京:上海,37:42）。相同的节点会保存为属性名，不同的节点为属性值。但是，不能提供<code>北京</code>和<code>37</code>，此时，公共节点是<code>div[0]</code>， 这不是列表。</p>
 <p>软件在不提供关键字的情况下，也能通过html文档的特征，去计算最可能是列表父节点（如图中的parent）的节点，但当网页特别复杂时，猜测可能会出错。</p>

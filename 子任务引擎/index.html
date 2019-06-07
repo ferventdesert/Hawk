@@ -225,11 +225,11 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="../设计Hawk背后的故事(2016)/">设计Hawk背后的故事(2016)</a>
+    <a class="" href="../story1/">设计Hawk背后的故事(2016)</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../花一年时间,给爬虫Hawk再讲个故事(2018)/">花一年时间,给爬虫Hawk再讲个故事(2018)</a>
+    <a class="" href="../story2/">花一年时间,给爬虫Hawk再讲个故事(2018)</a>
                 </li>
     </ul>
 	    </li>
@@ -284,7 +284,7 @@
 </ul>
 <p>为什么不包括子任务-过滤？因为过滤操作通常比较简单，不需要子任务实现。</p>
 <h2 id="2">2.参数设置</h2>
-<p><img alt="子任务配置" src="https://upload-images.jianshu.io/upload_images/9608527-6662e75160b569ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="子任务配置" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/子任务配置.jpg" /></p>
 <p>子任务可以分为两部分：参数部分和执行部分。在本文最下面的例中，子任务中的第一个<code>从文本生成</code>，只是参数，目的是为了子任务设计器能构成输出数据的完整流程。但要想被别的模块调用，则只应该有执行部分。而参数部分，需要主任务传递给子任务。这就是<code>调用范围</code>的意义，它能将主任务的指定参数传递到子任务上，成为子任务的一部分。</p>
 <p>举例子，如果一个长度为20个模块的子任务，前两个模块为参数部分，后18个是执行部分，因此调用范围可以写2:18（从0开始）。 当然为了方便，你可以给冒号后第二个数比较大的值，如100。范围的第二个数也可以写成负数，如<code>2:-2</code>表示<code>从第二个模块到倒数第2个模块</code></p>
 <p>那么，如果主任务传递的列名，和子任务需要的列名不同时，该怎么处理？ 这就需要属性映射机制。配置子任务的<code>属性映射</code>时，可以用<code>a:b c:d</code>表示主任务的a列映射到子任务的b列，多个映射用空格分割，以此类推。</p>
@@ -300,7 +300,7 @@
 <li>配置子任务的字段映射时，可以用<code>a:b c:d</code>表示a列映射到b列，以此类推。</li>
 </ul>
 <p>Hawk3中还提供了图形化配置的界面，大大简化了配置难度，在任何子任务调用的模块里，都可以点击<code>配置</code>进入配置页面：</p>
-<p><img alt="子任务的配置界面" src="https://upload-images.jianshu.io/upload_images/9608527-aa038bac6624eb0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="子任务的配置界面" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/子任务的配置界面.jpg" /></p>
 <h2 id="3">3.注意事项</h2>
 <p>下面是一些注意事项：</p>
 <ul>

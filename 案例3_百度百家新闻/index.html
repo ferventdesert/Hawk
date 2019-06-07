@@ -213,11 +213,11 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="../设计Hawk背后的故事(2016)/">设计Hawk背后的故事(2016)</a>
+    <a class="" href="../story1/">设计Hawk背后的故事(2016)</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../花一年时间,给爬虫Hawk再讲个故事(2018)/">花一年时间,给爬虫Hawk再讲个故事(2018)</a>
+    <a class="" href="../story2/">花一年时间,给爬虫Hawk再讲个故事(2018)</a>
                 </li>
     </ul>
 	    </li>
@@ -259,16 +259,20 @@
             <div class="section">
               
                 <h1 id="3_">案例3_百度百家新闻</h1>
+<blockquote>
+<p>百度百家已死，百家号这样的害人产品横空而来，本教程已无效</p>
+</blockquote>
+<p>本例子你将学会：动态页面的抓取。</p>
 <p>目标地址:</p>
 <blockquote>
 <p>http://baijia.baidu.com/</p>
 </blockquote>
 <p>这是典型的瀑布流例子，不论向下翻多少页，浏览器的地址是不会发生变化的。我们可以断定它使用了ajax。</p>
 <p>我们翻到第二页（为什么要翻到第二页的原理，可参考<code>3.1动态嗅探</code>。），找一个比较有代表性的关键字：</p>
-<p><img alt="image_1aur5boeu1tqmo9d163rs07gu79.png-132.2kB" src="http://static.zybuluo.com/buptzym/jr3bqu5qt4aw0wuibmt3dqih/image_1aur5gl4urkcur7dd1oaq1rjg9.png" /></p>
+<p><img alt="image_1aur5boeu1tqmo9d163rs07gu79.png-132.2kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1aur5boeu1tqmo9d163rs07gu79.png-132.2kB.png" /></p>
 <p><code>滴滴一下，马上出发</code></p>
 <p>将其拷贝到网页采集器的<code>搜索字符</code>里:</p>
-<p><img alt="image_1aur5gl4urkcur7dd1oaq1rjg9.png-9.6kB" src="http://static.zybuluo.com/buptzym/jr3bqu5qt4aw0wuibmt3dqih/image_1aur5gl4urkcur7dd1oaq1rjg9.png" /></p>
+<p><img alt="image_1aur5gl4urkcur7dd1oaq1rjg9.png-9.6kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1aur5gl4urkcur7dd1oaq1rjg9.png-9.6kB.png" /></p>
 <p>Hawk会弹出提示对话框:</p>
 <p>//补充图片</p>
 <p>已经提醒如下内容：</p>
@@ -276,7 +280,7 @@
 </code></pre>
 
 <p>点击<code>确认</code>后， 浏览器会弹出百度百家的页面，你可以将滚动条往下翻，直到出现那篇滴滴的文章。之后Hawk会弹出对话框：</p>
-<p><img alt="image_1aur5lad8mhr1pts1fjape1jc613.png-20.2kB" src="http://static.zybuluo.com/buptzym/wx3qxb4r1z22od3atranvba1/image_1aur5lad8mhr1pts1fjape1jc613.png" /></p>
+<p><img alt="image_1aur5lad8mhr1pts1fjape1jc613.png-20.2kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1aur5lad8mhr1pts1fjape1jc613.png-20.2kB.png" /></p>
 <p>此时，Hawk会自动关闭嗅探。之后，再点手气不错，即可看到完整的页面内容，也可以按照关键词搜索，和其他静态网页的使用完全一致。</p>
 <p>再打开<code>请求详情</code>，发现Hawk已经将页面的cookie获取到了。注意到真实的地址：</p>
 <pre><code>http://baijia.baidu.com/ajax/labellatestarticle?page=3&amp;pagesize=20&amp;prevarticalid=650790&amp;flagtogether=1&amp;labelid=3

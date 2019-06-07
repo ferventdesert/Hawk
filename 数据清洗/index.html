@@ -227,11 +227,11 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="../设计Hawk背后的故事(2016)/">设计Hawk背后的故事(2016)</a>
+    <a class="" href="../story1/">设计Hawk背后的故事(2016)</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../花一年时间,给爬虫Hawk再讲个故事(2018)/">花一年时间,给爬虫Hawk再讲个故事(2018)</a>
+    <a class="" href="../story2/">花一年时间,给爬虫Hawk再讲个故事(2018)</a>
                 </li>
     </ul>
 	    </li>
@@ -274,13 +274,13 @@
               
                 <h1 id="_1">数据清洗</h1>
 <p>数据清洗是一种任务，包括几十个子模块， 这些子模块包含四类：生成， 转换， 过滤和执行。</p>
-<p><img alt="数据清洗丰富的模块" src="https://upload-images.jianshu.io/upload_images/9608527-3bfde1fb0303b660.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="数据清洗丰富的模块" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/smartetl_name丰富的模块.jpg" /></p>
 <p>在输出的文档中，点击单元格，可以放大和显示该单元格的文本内容（相比于Hawk早期版本，这实在太实用了）：</p>
-<p><img alt="数据清洗结果" src="https://upload-images.jianshu.io/upload_images/9608527-0883c03ec2fe4b05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="数据清洗结果" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/smartetl_name结果.jpg" /></p>
 <h2 id="1">1.快速使用说明</h2>
 <p>数据清洗可以通过组合多个不同的子模块，生成多样的功能，通过拖拽构造出一个工作流，它能够产生一个有限或无限的文档序列。比如下面：</p>
-<p><img alt="image_1auq4oooc1m8m9tc02sjv1j4o9.png-71.6kB" src="http://static.zybuluo.com/buptzym/gzr3u0z80478s31u9v1zdfw5/image_1auq4oooc1m8m9tc02sjv1j4o9.png" /></p>
-<p><img alt="etl.gif" src="https://upload-images.jianshu.io/upload_images/9608527-1d80b51babfb5233.gif?imageMogr2/auto-orient/strip" /></p>
+<p><img alt="image_1auq4oooc1m8m9tc02sjv1j4o9.png-71.6kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1auq4oooc1m8m9tc02sjv1j4o9.png-71.6kB.png" /></p>
+<p><img alt="etl.gif" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/etl.gif.jpg" /></p>
 <h3 id="11">1.1.基本操作</h3>
 <ul>
 <li>左侧是所有模块列表，分为生成，转换，过滤和执行四种类型，可通过名称和拼音首字母快速检索。顺序组合可构成复杂任务。</li>
@@ -359,7 +359,7 @@
 <li>交错交叉</li>
 <li>按列横向合并</li>
 </ul>
-<p><img alt="生成器的四种模式" src="https://upload-images.jianshu.io/upload_images/9608527-98d152405743cd6d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="生成器的四种模式" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/生成器的四种模式.jpg" /></p>
 <p>拖入的模块顺序是非常重要的，一个常见问题是顺序不对，导致生成的数据不符合预期。数据清洗可通过 从爬虫转换 来调用 网页采集器 ，也可以通过<code>子任务</code>来调用其他数据清洗，是组合各种模块和任务的工厂。</p>
 <p>Hawk的各类模块中包含大量配置，其写法统一总结如下:</p>
 <ul>
@@ -379,14 +379,14 @@
 <li>可以直接粘贴到任何文本编辑器中，这在手动编辑xml工程文件时很有用。</li>
 <li>拷贝到本任务或其他任务的任一模块的上侧或下侧</li>
 </ul>
-<p><img alt="数据清洗已加载模块列表" src="https://upload-images.jianshu.io/upload_images/9608527-f90a52002ca244bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="数据清洗已加载模块列表" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/smartetl_name已加载模块列表.jpg" /></p>
 <p>这带来了显著的好处，任务间能够更方便地共享配置和参数，方便重用。你亦可将配置拷贝到GitHub或其他社群中，方便他人定位问题。</p>
 <h2 id="4">4.线程管理</h2>
 <p>不论是调试还是执行模式，系统都会在任务管理视图中增加一个或多个线程。
 你可以勾选，或取消勾选部分或全部线程，暂停或取消它们。当网站限制抓取时，可以暂停所有线程，等恢复后再次执行。</p>
-<p><img alt="工作线程" src="https://upload-images.jianshu.io/upload_images/9608527-591ff27c38dd311e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="工作线程" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/工作线程.jpg" /></p>
 <p>右下角分别是暂停，继续和删除任务。</p>
-<p><img alt="task.gif" src="https://upload-images.jianshu.io/upload_images/9608527-335caab3c02d66e4.gif?imageMogr2/auto-orient/strip" /></p>
+<p><img alt="task.gif" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/task.gif.jpg" /></p>
 <p>注意:</p>
 <ol>
 <li>当工作流有误时（比如该列所有数据都空，却在该列添加了 空对象过滤器，那么所有数据都会被过滤）可能不会产生任何数据输出。此时进度条并不会向前推进，产生卡死的假象。此时可强行将其删除</li>
@@ -395,9 +395,9 @@
 <h3 id="41">4.1.单步调试</h3>
 <p>Hawk模仿了播放器和调试器，在调试模式下有<code>步</code>的概念，例如所在位置是6/20， 则说明总共有20个模块，只生效前面6个模块。 可以通过左右单击，或直接回退到开头、末尾来进行调试。</p>
 <p>左侧显示了当前所有的模块，顺序和它们的输入输出列，双击上面的模块可对其进行配置，右键可删除。单选列表上的任一模块t，系统就会只仿真前t步的效果。 本质上，单步调试只是提取了工作流的一部分进行操作。   你可以在单步调试中，拖入新的模块。模块会自动插入在工作流中间。</p>
-<p><img alt="数据清洗已加载模块列表" src="https://upload-images.jianshu.io/upload_images/9608527-f90a52002ca244bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="数据清洗已加载模块列表" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/smartetl_name已加载模块列表.jpg" /></p>
 <p>有时为了在单步调试过程中查看模块的属性，可勾选界面右下角的<code>调试详情</code>，此时可直接显示当前模块的属性。</p>
-<p><img alt="调试模式的菜单栏" src="https://upload-images.jianshu.io/upload_images/9608527-5fb8cbd95a94a683.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="调试模式的菜单栏" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/调试模式的菜单栏.jpg" /></p>
 <p>当模块有正常产出时， 模块的标志会变成蓝色，因此从上到下，第一个不是蓝色的模块，就有可能是有问题的模块。</p>
 <h2 id="5">5.运行模式</h2>
 <h3 id="51">5.1.调试模式</h3>
@@ -412,8 +412,8 @@
 <li>输入列和输出列会用不同的颜色进行表示</li>
 </ul>
 <p>在调试时，从爬虫转换模块可能会请求web数据，为了提升性能，该模块对请求做了缓存。保证数据只需获取一次，如果想强制刷新数据，将从爬虫转换模块禁用，再启用，原始缓存数据就会被擦除。</p>
-<p><img alt="调试模式的菜单栏" src="https://upload-images.jianshu.io/upload_images/9608527-5fb8cbd95a94a683.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
-<p><img alt="串并行模式的配置" src="https://upload-images.jianshu.io/upload_images/9608527-cffb844f4c25c5f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="调试模式的菜单栏" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/调试模式的菜单栏.jpg" /></p>
+<p><img alt="串并行模式的配置" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/串并行模式的配置.jpg" /></p>
 <p>Hawk支持两种执行模式:</p>
 <h3 id="52">5.2.串行模式</h3>
 <p>只有点击<strong>执行</strong>时，才会切换到执行模式。执行时，可工作在串行模式/并行模式
@@ -430,17 +430,17 @@
 <p>在调试模式下，所有获取都是串行的。而执行模式下，执行器才会执行。为了更好地理解并行化，强烈建议阅读下面的内容。</p>
 <h4 id="_2">最简单的并行化</h4>
 <p>我们以抓取某个网站的100个页面为例，第一个模块<code>生成区间数</code>,可以生成1-100的页面，自然地，就可以创建100个任务，分别抓取了。</p>
-<p><img alt="image_1auq4sikn7nb1gug1citurl149pm.png-20.6kB" src="http://static.zybuluo.com/buptzym/7r3yufza2cshsualz9iz2qd7/image_1auq4sikn7nb1gug1citurl149pm.png" /></p>
+<p><img alt="image_1auq4sikn7nb1gug1citurl149pm.png-20.6kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1auq4sikn7nb1gug1citurl149pm.png-20.6kB.png" /></p>
 <p>但是，但如果队首的生成器只生成了很少的元素，每个元素在后期，又会转换为大量的元素，那么这种方法就非常低下了。极端情况下队首生成器只生成一个元素，则并行化就毫无意义：</p>
-<p><img alt="image_1auq59r2f42r12u41cue1q6c9cj1t.png-28kB" src="http://static.zybuluo.com/buptzym/sojkdkg2ta9r2xrx6z7ivrgm/image_1auq59r2f42r12u41cue1q6c9cj1t.png" /></p>
+<p><img alt="image_1auq59r2f42r12u41cue1q6c9cj1t.png-28kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1auq59r2f42r12u41cue1q6c9cj1t.png-28kB.png" /></p>
 <h4 id="_3">改进的并行</h4>
 <p>一种非常简单的思路，是将其切成两个任务，并行在任务中完成。</p>
-<p><img alt="image_1auq4roi010n6lnomf41o56s919.png-63.9kB" src="http://static.zybuluo.com/buptzym/ulbme5gwk8ns3ykby6efeesx/image_1auq4roi010n6lnomf41o56s919.png" /></p>
+<p><img alt="image_1auq4roi010n6lnomf41o56s919.png-63.9kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1auq4roi010n6lnomf41o56s919.png-63.9kB.png" /></p>
 <p>我们将其看成两个任务，第一个任务，负责产生出一堆种子任务出来，并加入到任务队列，之后再在这些种子的基础上，再分别调用第第二个任务。</p>
 <p>如何切分任务？取决于你在任务中插入的<code>启动并行</code>的位置。这个位置就是切分为两个任务的“切割点”。</p>
 <p>以大众点评为例， 北京有14个区县，有30种美食类型，如果直接在区县后插入并行，则只有14个子任务，任务数量太少：那么先通过任务1,获取420个元素，再以420个元素的基础上，插入并行，这样速度就快很多了。你也可以在14个区县之后插入并行化，那么就有14个子任务。</p>
 <p>反过来，如果每个任务的工作量太少，比如只访问一次网站内容，则这样的种子创建并行就显得成本高昂，因此可以填写分组并行数量，比如10，那么Hawk就会以10个元素为一组，创建任务。</p>
-<p><img alt="image_1auq5ldh81i2n6ajqhe1ns23k72a.png-25kB" src="http://static.zybuluo.com/buptzym/by68ones5fqurqicpswhbdex/image_1auq5ldh81i2n6ajqhe1ns23k72a.png" /></p>
+<p><img alt="image_1auq5ldh81i2n6ajqhe1ns23k72a.png-25kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1auq5ldh81i2n6ajqhe1ns23k72a.png-25kB.png" /></p>
 <h4 id="hawk">Hawk自动分析并行点</h4>
 <p>Hawk除了手工设置并行点，还能自动分析并行点，那么并行点是不是越靠后越好呢？不是的，这样分的太细，每个任务要处理的数据特别少：依赖于批量执行的模块会有性能损失: 例如写入数据库,批量插入100条数据速度很快，但按条插入就不快了。</p>
 <p>但若尽量靠前，则任务分得特别粗，在断点续跑时，任务需要更多的时间达到相同的位置（这点不够直观，可以理解为层级越多，则进行查找所需的步数越少）</p>

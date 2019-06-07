@@ -223,11 +223,11 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="../设计Hawk背后的故事(2016)/">设计Hawk背后的故事(2016)</a>
+    <a class="" href="../story1/">设计Hawk背后的故事(2016)</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../花一年时间,给爬虫Hawk再讲个故事(2018)/">花一年时间,给爬虫Hawk再讲个故事(2018)</a>
+    <a class="" href="../story2/">花一年时间,给爬虫Hawk再讲个故事(2018)</a>
                 </li>
     </ul>
 	    </li>
@@ -276,7 +276,7 @@
 <li>连接器： 访问各种数据库的配置</li>
 <li>全局配置</li>
 </ul>
-<p><img alt="已加载任务" src="https://upload-images.jianshu.io/upload_images/9608527-cbf6256f84099040.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="已加载任务" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/已加载任务.jpg" /></p>
 <p>打开Hawk后，即可在<code>文件</code>栏中，新建，加载，保存，另存为工程。这些概念和Windows中的标准实现接近，因此不多做介绍。还可以打开最近打开的文件， 直接加载工程。</p>
 <p>注意：</p>
 <ul>
@@ -285,7 +285,7 @@
 </ul>
 <h2 id="1hawk">1.Hawk工程介绍</h2>
 <p>Hawk的工程文件为xml或hproj， 在保存工程时，可以在文件保存对话框中，选取要保存的文件格式。下图是典型的xml工程文件内容：</p>
-<p><img alt="工程配置文件" src="https://upload-images.jianshu.io/upload_images/9608527-347ec82e60820829.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="工程配置文件" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/工程配置文件.jpg" /></p>
 <ul>
 <li>xml: 可直接检查数据，并被其他语言所处理。但当其中包含较大的数据表时，xml文件由于其冗余性，体积会很大。</li>
 <li>hproj是zip压缩后的xml, Hawk在加载hproj后，会自动将其解压，并按xml格式解析之，反之过程则过程相反。</li>
@@ -300,7 +300,7 @@
 <li>所有任务（包括数据清洗和网页采集器）</li>
 <li>所有正在执行的正式线程（Hawk可以记录任务执行的位置，在下次启动时断点续跑）</li>
 </ul>
-<p><img alt="系统设置" src="https://upload-images.jianshu.io/upload_images/9608527-e1a05280d2c23d52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="系统设置" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/sysconfig.jpg" /></p>
 <p>对工作线程的保存时：</p>
 <ol>
 <li>正式线程是正式处理数据的任务，而非调试模式时自动刷新启动的临时任务。在下次启动时，上次未执行完的任务都会暂停，只有手动重启后才能执行。但并不精确</li>
@@ -310,8 +310,8 @@
 <h2 id="3">3.全局配置系统</h2>
 <p>Hawk5新增了全局配置系统，方便在不同的任务间共享参数，并通过一次切换，更改所有任务的行为。</p>
 <p>例如，针对链家开发爬虫时，不同的城市会有细微区别，如xpath，或名称... 因此可针对不同城市建立配置，切换配置即可在不同城市间切换，Hawk的模块在执行时会动态地获取这些数据。大大提升了重用性。</p>
-<p><img alt="param.gif" src="https://upload-images.jianshu.io/upload_images/9608527-5bbd735f89deb817.gif?imageMogr2/auto-orient/strip" /></p>
-<p><img alt="全局参数设置" src="https://upload-images.jianshu.io/upload_images/9608527-e15c3d72444a9b81.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="param.gif" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/param.gif.jpg" /></p>
+<p><img alt="全局参数设置" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/全局参数设置.jpg" /></p>
 <h3 id="31">3.1.配置文件语法</h3>
 <p>Hawk采用了非常简单的配置写法，即yaml。为了方便编辑，可在外部的编辑器编辑完成后，拷贝到本编辑器中。</p>
 <p>每行一个配置，键值之间用英文冒号，即:表示。 用#号来代表注释，所有以#号开头的行都会被当成注释而忽略。例如：</p>
@@ -330,7 +330,7 @@ xpath: your_xpath
 </ul>
 <h3 id="32">3.2.新建和切换配置组</h3>
 <p>点击edit按钮，可增加新的配置组。 选择对应的配置组后，即可全局生效。</p>
-<p><img alt="全局可配置参数" src="https://upload-images.jianshu.io/upload_images/9608527-4da31d85f54d4c9d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="全局可配置参数" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/全局可配置参数.jpg" /></p>
               
             </div>
           </div>

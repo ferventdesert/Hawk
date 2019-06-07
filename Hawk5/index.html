@@ -199,23 +199,13 @@
     <a class="current" href="./">Hawk5:革命性的任务市场：开源图形化爬虫Hawk5发布</a>
     <ul class="subnav">
             
-    <li class="toctree-l3"><a href="#hawk5-hawk5">Hawk5 革命性的任务市场：开源图形化爬虫Hawk5发布</a></li>
+    <li class="toctree-l3"><a href="#hawk5">Hawk5</a></li>
     
         <ul>
         
             <li><a class="toctree-l4" href="#1">1.断点续跑和自动保存</a></li>
         
-            <li><a class="toctree-l4" href="#2">2.自动回补数据</a></li>
-        
-            <li><a class="toctree-l4" href="#3">3.超级文档，自动更新和多国语言</a></li>
-        
-            <li><a class="toctree-l4" href="#4">4.全局参数</a></li>
-        
-            <li><a class="toctree-l4" href="#5ui">5.调试系统和UI交互改进</a></li>
-        
-            <li><a class="toctree-l4" href="#6">6.社会化协作：任务市场</a></li>
-        
-            <li><a class="toctree-l4" href="#7">7.无限想象：自动抢票，翻译，图片识别...</a></li>
+            <li><a class="toctree-l4" href="#2">2.超级文档，自动更新和多国语言</a></li>
         
         </ul>
     
@@ -231,11 +221,11 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="../设计Hawk背后的故事(2016)/">设计Hawk背后的故事(2016)</a>
+    <a class="" href="../story1/">设计Hawk背后的故事(2016)</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../花一年时间,给爬虫Hawk再讲个故事(2018)/">花一年时间,给爬虫Hawk再讲个故事(2018)</a>
+    <a class="" href="../story2/">花一年时间,给爬虫Hawk再讲个故事(2018)</a>
                 </li>
     </ul>
 	    </li>
@@ -276,55 +266,56 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="hawk5-hawk5">Hawk5 革命性的任务市场：开源图形化爬虫Hawk5发布</h1>
-<p>（Hawk尚未正式发布，本文只做功能性预览和内测使用）</p>
-<p>Hawk是一款开源图形化的爬虫和数据清洗工具，GitHub Star超过2k+，如果没有听过Hawk，可以查看以下文章介绍：</p>
+                <h1 id="hawk5">Hawk5</h1>
+<p>Hawk是一款开源图形化的爬虫和数据清洗工具，GitHub Star超过2k+，前几代版本介绍如下：</p>
 <p>Hawk3: <a href="https://mp.weixin.qq.com/s?__biz=MzIzMTAxNDQyNA==&amp;mid=2650935040&amp;idx=1&amp;sn=bd48f16320527c1298419cc1c368a04a&amp;chksm=f35c0677c42b8f6109258e657ebbea276364dc6993f747c534ef4e466fd886b4546dd05de36b&amp;mpshare=1&amp;scene=1&amp;srcid=1118GsA6EhQhuKPVnUfluIzP#rd">终于等到你: 图形化开源爬虫Hawk 3发布!</a></p>
 <p>Hawk2: <a href="http://mp.weixin.qq.com/s?__biz=MzIzMTAxNDQyNA==&amp;mid=2650934907&amp;idx=1&amp;sn=e6b4f68504ca1f7f7570a5196641292c&amp;chksm=f35c070cc42b8e1acc4d252be7ed0a042931a24ecfd3d2567b1da6f87b2c0a269a6a53d2cb10&amp;scene=21#wechat_redirect">120项优化: 超级爬虫Hawk 2.0重磅发布！</a></p>
 <p>Hawk1: <a href="http://mp.weixin.qq.com/s?__biz=MzIzMTAxNDQyNA==&amp;mid=2650934808&amp;idx=1&amp;sn=e9a10d8ee8fb2251c70349757cae033a&amp;scene=21#wechat_redirect">如何从互联网采集海量数据？租房,二手房,薪酬...</a></p>
-<p>Hawk从2015年开发至今，已经经历三个版本，但是Hawk5则带来了其历史上最大的一次更新，解决了之前困扰的问题，并提供了社区化的任务市场，多国语言和更强大的调试系统。 因此作者决定直接跳过Hawk4,发布Hawk5。</p>
-<p><img alt="Hawk5欢迎界面" src="https://upload-images.jianshu.io/upload_images/9608527-f4f89a740c3d42d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p>Hawk从2015年开源，但Hawk5则带来了其历史上最大的更新，解决诸多bug，提供开放的任务市场，手机app嗅探和更强大的调试系统。 因此我们直接跳过Hawk4,发布Hawk5。</p>
+<p><img alt="Hawk5欢迎界面" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/Hawk5欢迎界面.jpg" /></p>
 <p>那么Hawk5带来哪些让人兴奋的更新呢？ 大招在最后！</p>
+<p>Hawk5对界面做了进一步的完善和微调，使用更人性化：</p>
+<p><img alt="front.gif" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/front.gif.jpg" /></p>
 <h2 id="1">1.断点续跑和自动保存</h2>
-<p>早期Hawk会有诸多的不稳定，导致用户正在编辑任务或处理数据时，Hawk扑街了！</p>
-<p>Hawk5除了自动保存任务的功能，还能保存当前的数据表，甚至执行的位置！一旦关闭软件或遇到崩溃， 不仅历史抓取的数据还在，甚至重启后，任务还能继续从上次断掉的位置继续跑！颤抖吧筒子们！</p>
-<h2 id="2">2.自动回补数据</h2>
-<p>这是另一革命性功能，在访问网站或其他操作时经常会遇到超时，不可访问等异常，想一次性不重不漏地获取全部数据是非常困难的。</p>
-<p>Hawk5支持了批量补数据功能，当发生异常时，Hawk会记录异常所处的任务位置和上下文，并写入一张数据表。之后Hawk即可智能地重新执行出现错误的位置，将数据不重不漏地回补回来，如下图所示：</p>
-<h2 id="3">3.超级文档，自动更新和多国语言</h2>
-<p>Hawk5中，帮助文档获得了极大的增强（这个“极大”用的一点都不夸张），除了丰富和细致到令人发指的在线文档：</p>
+<p>Hawk早期版本不稳定，用户正在编辑任务或处理数据时，Hawk扑街了！</p>
+<p>Hawk5能自动保存任务，数据表，甚至当前执行的位置！一旦关闭或崩溃，不要怕!数据一条没丢，重启后，还能从上次中断继续运行！就像断点续传一样，颤抖吧筒子们！</p>
+<h3 id="11">1.1.自动回补数据</h3>
+<p>这是另一革命性功能，由于访问网站经常会超时或不可访问，想一次性抓取且不重不漏是非常困难的。</p>
+<p>Hawk5支持批量补数据。当发生异常时，Hawk会将异常和上下文写入数据表，之后即可智能重新执行，将数据不重不漏地回补回来，如下图所示：</p>
+<h2 id="2">2.超级文档，自动更新和多国语言</h2>
+<p>Hawk5中，帮助文档获得了极大的增强，除了丰富和细致的在线文档之外：</p>
 <blockquote>
 <p>https://ferventdesert.github.io/Hawk/</p>
 </blockquote>
-<p><img alt="在线文档系统" src="https://upload-images.jianshu.io/upload_images/9608527-23efd5d5e662b9f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
-<p>还提供了内置的文档，各个模块下方都有图文并茂的说明，当你不知道该按钮的作用时，鼠标放在该按钮上保持3秒，就有详细的说明。</p>
-<p>更令人开心的是，当你设计完一个任务后，一键即可生成该任务的手把手帮助文档，新手用户按部就班即可重现你的奇思妙想！</p>
-<p>Hawk5进一步地提供了多国语言功能，能方便地在中文，English或其他任何语言切换，只要在执行目录增加对应的语言文件即可！</p>
+<p><img alt="在线文档系统" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/在线文档系统.jpg" /></p>
+<p>还在各个模块下方提供图文并茂的说明，当你不知道该按钮的作用时，鼠标放在该按钮上保持3秒就有贴心提示出现！</p>
+<p>更贴心的是，设计完任务后，一键即可生成手把手帮助文档。新手按部就班即可重重现该功能！</p>
+<p>Hawk5进一步地提供了多国语言，能方便地在中文，English或其他任何语言切换，只要在执行目录增加对应的语言文件即可！</p>
 <p>同时，Hawk的自动更新机制，能够让迭代更加敏捷，有新版本的Hawk即可一键更新，妈妈再也不用担心Hawk出现bug了！</p>
-<h2 id="4">4.全局参数</h2>
-<p>早期的Hawk,涉及到多个任务间协同时会非常复杂，即使有子任务系统的加持也不能好转。</p>
-<p>Hawk5中设计了全局参数系统，你能在任何任务的任何模块中，使用大括号引用你已经配置的参数，并能在多个参数组间切换。</p>
-<p><img alt="全局可配置参数" src="https://upload-images.jianshu.io/upload_images/9608527-4da31d85f54d4c9d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
-<p>这有什么用呢？举个栗子，当二手房抓取时，每个城市们页面格式和地址都不相同， 那么就需要改很多参数，使用全局参数后，切换当前配置组并刷新，即可在多个城市间任意切换！</p>
-<h2 id="5ui">5.调试系统和UI交互改进</h2>
-<p>早期的Hawk遇到配置错误时，一条数据都出不来，卡住的不仅是Hawk，还有用户的心。</p>
-<p>Hawk5为此增加更加高效和方便的调试系统，每个模块是否正常工作，会以绿色方格提醒，一目了然。当任务中间有某个模块有异常时，还能触发提示。</p>
-<p>超级拷贝功能，使得可以通过shift键，选择多个算子模块，并在多个任务间来回拷贝。你甚至还能将Hawk自动嗅探出的XPath信息一键拷贝为python代码，极大地简化爬虫工程师的工作！</p>
-<p><img alt="方便的调试系统" src="https://upload-images.jianshu.io/upload_images/9608527-f90a52002ca244bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<h3 id="21">2.1.全局参数</h3>
+<p>早期的Hawk，多任务间协同比较复杂，子任务也不能彻底解决该问题。</p>
+<p>Hawk5中提供了全局参数系统，可以在任何模块中，使用大括号引用你已经配置的参数，并能在多个参数组间切换。</p>
+<p><img alt="全局可配置参数" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/全局可配置参数.jpg" /></p>
+<p>这有什么用呢？举个栗子，当二手房抓取时，每个城市们页面格式和地址都不相同， 需要手工切换多个参数。使用全局参数后，切换配置组即可一键在不同城市间切换！</p>
+<h3 id="22ui">2.2.调试系统和UI交互改进</h3>
+<p>早期Hawk在配置错误时，一条数据都出不来，卡住的不仅是Hawk，还有用户的心。</p>
+<p>Hawk5提供了更加方便的调试系统，每个模块是否正常工作，会以绿色方格提醒，一目了然。当任务的某个模块出现异常时会及时提示。</p>
+<p>超级拷贝，可以通过shift键，选择多个模块，在多个任务间拷贝。你甚至还能将Hawk自动嗅探出的网页XPath结构一键拷贝为python代码，极大地简化爬虫工程师的工作！</p>
+<p><img alt="方便的调试系统" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/方便的调试系统.jpg" /></p>
 <p>是否已经被网站封锁？总共进行了多少次请求？全局统计系统能够方便的显示当前总的web请求数，异常数，超时数，当错误数达到阈值时，更能自动暂停所有的任务！</p>
-<p><img alt="系统设置" src="https://upload-images.jianshu.io/upload_images/9608527-e1a05280d2c23d52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
-<p>Hawk内置了埋点系统，当系统出现问题时，会自动上传错误堆栈到远程日志服务中，方便开发者定位问题。</p>
+<p><img alt="系统设置" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/系统设置.jpg" /></p>
 <p>除此之外，新版的Hawk更是改进了UI设计，例如XPath转换器，能够通过关键字快速定位，几次点选即可获取真实XPath。</p>
-<h2 id="6">6.社会化协作：任务市场</h2>
-<p>以前所有的Hawk用户只能各自为政，无法共享，学习和沟通。</p>
-<p>在新的Hawk中，你可以浏览和搜索线上任务市场，在软件中直接加载远程任务，直接浏览数据，并在高层方便地组合和调用其他人写的任务。像BT站一样，作者发布爬虫和数据清洗任务后，所有的Hawk用户就会立即受益！</p>
-<p><img alt="任务市场主页" src="https://upload-images.jianshu.io/upload_images/9608527-112a974fdfe5f482.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
-<p>以前想抓取全国二手房数据异常复杂，且网站改版后就不能使用。而Hawk市场只要轻轻点击加载市场任务，即可在全国所有二手房数据中切换，并随时增加自己的修改，所见即所得，一键拉回本地。</p>
-<p>这是Hawk本次更新最重要的功能，它极大地改善了Hawk社会化协作属性，它依赖于GitHub,并可配置任务源。由于账号系统的限制，目前还不能在软件中直接上传任务，如果你希望向主仓库贡献任务，可提交git的pull request。本功能将会在未来的版本中提供。</p>
+<h3 id="23">2.3.社会化协作：任务市场</h3>
+<p>以前所有的Hawk用户只能各自为政，无法共享和沟通。</p>
+<p>在新的Hawk中，你可以浏览任务市场，直接加载远程任务和浏览数据，并方便地组合其他人的任务。像BT站一样，作者发布数据清洗工程后，所有的Hawk用户就会立即受益！</p>
+<p><img alt="任务市场主页" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/任务市场主页.jpg" /></p>
+<p>以前想抓取全国二手房很复杂，且不能应对网站改版。在Hawk市场只要轻轻点击加载任务即可，所见即所得，一键将数据导出到Excel。</p>
+<p>这是Hawk本次更新的最重要的功能，它极大地改善了Hawk社会化协作，基于GitHub。由于账号系统的限制，目前还不能在软件中直接上传任务（未来会提供），如果你希望向主仓库贡献任务，可提交git的pull request。</p>
 <p>在AI时代，通过大量用户使用Hawk的行为和任务市场的积累，我们能够通过强化学习等技术，自动让AI学出自动的数据清洗和转换服务，让Hawk变得更加智能。</p>
-<h2 id="7">7.无限想象：自动抢票，翻译，图片识别...</h2>
-<p>如果你只以为Hawk就是个爬虫，那就错了，Hawk是个通用的流式计算客户端。未来Hawk市场，不仅会有共享的任务，更会引入第三方插件机制，极大地扩展Hawk流式计算的版图。</p>
+<h3 id="24">2.4.无限想象：自动抢票，翻译，图片识别...</h3>
+<p>如果你以为Hawk只是个爬虫，那就错了，Hawk是个通用的流式计算客户端。未来Hawk市场，不仅会有共享的任务，更会引入第三方插件机制，极大地扩展Hawk流式计算的版图。</p>
 <p>目前正在开发中的浏览器驱动插件，能够让Hawk自动控制浏览器，模拟点击，翻页等一系列操作，你要做的只是做一遍后导入到Hawk。通过配置数据清洗流，能够实现自动抢票，键盘输入等一系列功能。</p>
+<p>Hawk5的手机远程嗅探功能，能方便的抓取手机app的数据。</p>
 <p>未来的插件能够更方便地调用百度识图，翻译转换以及各类服务存储API，让更多用户能够通过Hawk拖拽就能实现丰富的数据处理，并导出成任何格式。</p>
 <p>我们对Hawk的理念，是开源，去中心化和社会化协作。它没有公司去运营，没有中心服务器，只依赖了免费的GitHub仓库，使用文档和教程都是机器自动生成的。但它也在各种艰难中一路走来，但我们对Hawk的愿景是让数据流变得更加智能，让数据工作者变得更加地敏捷方便。</p>
 <p>感谢阅读，如果Hawk给你提供了帮助，欢迎转发本文给更多的朋友，并欢迎给本项目的GitHub点个star!</p>
@@ -335,7 +326,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../设计Hawk背后的故事(2016)/" class="btn btn-neutral float-right" title="设计Hawk背后的故事(2016)">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../story1/" class="btn btn-neutral float-right" title="设计Hawk背后的故事(2016)">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
         <a href="../Hawk3/" class="btn btn-neutral" title="Hawk3:终于等到你: 图形化开源爬虫Hawk 3发布!"><span class="icon icon-circle-arrow-left"></span> Previous</a>
@@ -367,7 +358,7 @@
         <span><a href="../Hawk3/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../设计Hawk背后的故事(2016)/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../story1/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

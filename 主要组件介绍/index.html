@@ -229,11 +229,11 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="../设计Hawk背后的故事(2016)/">设计Hawk背后的故事(2016)</a>
+    <a class="" href="../story1/">设计Hawk背后的故事(2016)</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../花一年时间,给爬虫Hawk再讲个故事(2018)/">花一年时间,给爬虫Hawk再讲个故事(2018)</a>
+    <a class="" href="../story2/">花一年时间,给爬虫Hawk再讲个故事(2018)</a>
                 </li>
     </ul>
 	    </li>
@@ -285,14 +285,14 @@
 <li>线程： 任务在启动时，会有一个(串行)或多个(并行)线程，可以在工作线程中对其进行暂停和删除。</li>
 </ul>
 <p>目前系统仅仅提供了两个任务： 网页采集器和数据清洗， 双击即可加载一个新的模块。</p>
-<p><img alt="新建任务" src="https://upload-images.jianshu.io/upload_images/9608527-ba0f495ea797581d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="新建任务" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/新建任务.jpg" /></p>
 <p>上次保存的任务，重新启动后其界面不会自动打开，可在任务管理器上双击，即可自动弹出配置界面。</p>
 <h2 id="2">2.线程管理</h2>
 <p>不论是调试还是执行模式，系统都会在任务管理视图中增加一个或多个线程。
 你可以勾选，或取消勾选部分或全部线程，暂停或取消它们。当网站限制抓取时，可以暂停所有线程，等恢复后再次执行。</p>
-<p><img alt="工作线程" src="https://upload-images.jianshu.io/upload_images/9608527-591ff27c38dd311e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="工作线程" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/工作线程.jpg" /></p>
 <p>右下角分别是暂停，继续和删除任务。</p>
-<p><img alt="task.gif" src="https://upload-images.jianshu.io/upload_images/9608527-335caab3c02d66e4.gif?imageMogr2/auto-orient/strip" /></p>
+<p><img alt="task.gif" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/task.gif.jpg" /></p>
 <p>注意:</p>
 <ol>
 <li>当工作流有误时（比如该列所有数据都空，却在该列添加了 空对象过滤器，那么所有数据都会被过滤）可能不会产生任何数据输出。此时进度条并不会向前推进，产生卡死的假象。此时可强行将其删除</li>
@@ -301,14 +301,14 @@
 <h2 id="3">3.调试系统</h2>
 <p>除了在调试模式下进行操作之外，Hawk还提供了丰富的工具来确定错误的位置。</p>
 <h3 id="31">3.1.调试与探查窗口</h3>
-<p><img alt="调试与探查" src="https://upload-images.jianshu.io/upload_images/9608527-fbfd9f307484ae1d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="调试与探查" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/调试与探查.jpg" /></p>
 <p>调试探查窗口可以方便地展示每个模块的输入量，输出量,因空而跳过的数量，一目了然</p>
 <h3 id="32">3.2.系统级窗口</h3>
 <p>如何了解总的http请求次数和错误数？在 系统设置-&gt; Http请求详情里，详细地给出了请求数，被禁止数，因错误而跳过等数量。 点击 <code>清空数据</code>，即可将计数器置0.</p>
-<p><img alt="系统设置" src="https://upload-images.jianshu.io/upload_images/9608527-e1a05280d2c23d52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="系统设置" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/sysconfig.jpg" /></p>
 <h3 id="33">3.3.确定模块的输入和输出</h3>
 <p>在单步调试模式时，该模块输入的列，会在数据清洗的最上方用蓝色表示，输出列会用绿色表示。</p>
-<p><img alt="输入输出设置" src="https://upload-images.jianshu.io/upload_images/9608527-8772e8727130d1dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="输入输出设置" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/输入输出设置.jpg" /></p>
 <h2 id="4">4.日志功能</h2>
 <p>Hawk包含了几类日志功能， 使用log4net作为日志系统，分为INFO, DEBUG, ERROR, FATAL ,WARNING五种等级。</p>
 <ul>
@@ -317,9 +317,9 @@
 <li>弹出对话框： 右上角会有弹出式浮窗。可通过 系统设置 中进行设置</li>
 </ul>
 <p>下图是典型的调试信息窗口，用不同颜色展示日志级别：</p>
-<p><img alt="调试信息窗口" src="https://upload-images.jianshu.io/upload_images/9608527-d2532d945f081645.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="调试信息窗口" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/调试信息窗口.jpg" /></p>
 <p>如何改变日志的级别？ 当发现现有日志太多或太少，可以在主菜单-&gt; 调试-&gt; 日志级别 设置，如下图：</p>
-<p><img alt="调试级别设置" src="https://upload-images.jianshu.io/upload_images/9608527-fc88bb0f4a8a83c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="调试级别设置" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/调试级别设置.jpg" /></p>
 <h2 id="5">5.多国语言</h2>
 <p>Hawk5支持了多国语言引擎，会根据操作系统语言自动切换显示的语言。 目前支持的语言包括；</p>
 <ul>
@@ -342,10 +342,10 @@
 <li>每个任务或工程，都可以生成其对应的教程文档，极大地减少了做教程写文档的负担</li>
 </ul>
 <p>下面的动图描述了Hawk文档的使用：</p>
-<p><img alt="doc.gif" src="https://upload-images.jianshu.io/upload_images/9608527-f387d3e209c69d30.gif?imageMogr2/auto-orient/strip" /></p>
-<p><img alt="在按钮上自动弹出帮助" src="https://upload-images.jianshu.io/upload_images/9608527-b4180f98fec913e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="doc.gif" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/doc.gif.jpg" /></p>
+<p><img alt="在按钮上自动弹出帮助" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/在按钮上自动弹出帮助.jpg" /></p>
 <p>为一个数据清洗任务自动生成其step by step的教程文档（点击调试工具栏中最右侧的哭脸按钮即可）</p>
-<p><img alt="自动生成文档" src="https://upload-images.jianshu.io/upload_images/9608527-2c744653119ba88a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="自动生成文档" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/自动生成文档.jpg" /></p>
 <p>亦可在 文件-&gt;生成工程教学文档， 生成当前工程的全部文档。在初期其可读性可能不够好，之后会继续完善。</p>
 <p>Hawk的文档系统分为<code>新手模式</code>和<code>高手模式</code>：</p>
 <ul>
@@ -354,7 +354,7 @@
 <li>老手模式：文档极简，仅提供新手模式第一段的内容。</li>
 </ul>
 <p>在各模块的图标上停留，即可弹出简单的使用介绍：</p>
-<p><img alt="数据清洗可用模块列表" src="https://upload-images.jianshu.io/upload_images/9608527-d0e75e07893f4d91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="数据清洗可用模块列表" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/smartetl_name可用模块列表.jpg" /></p>
 <h3 id="61">6.1.文档编写和自动生成</h3>
 <p>由于软件在不停地优化升级，会出现模块和文档不一致的问题。为了降低作者编写文档的负担，Hawk采用了自动文档生成的方式：</p>
 <ul>

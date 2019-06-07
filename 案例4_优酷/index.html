@@ -221,11 +221,11 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="../设计Hawk背后的故事(2016)/">设计Hawk背后的故事(2016)</a>
+    <a class="" href="../story1/">设计Hawk背后的故事(2016)</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../花一年时间,给爬虫Hawk再讲个故事(2018)/">花一年时间,给爬虫Hawk再讲个故事(2018)</a>
+    <a class="" href="../story2/">花一年时间,给爬虫Hawk再讲个故事(2018)</a>
                 </li>
     </ul>
 	    </li>
@@ -274,19 +274,19 @@
 <blockquote>
 <p>http://game.youku.com/index/lol</p>
 </blockquote>
-<p><img alt="image_1aur6hib4gqf1v5vvaeohg1sud9.png-714.2kB" src="http://static.zybuluo.com/buptzym/g9pdhcwdqwi860i9h1ldbpio/image_1aur6hib4gqf1v5vvaeohg1sud9.png" /></p>
+<p><img alt="image_1aur6hib4gqf1v5vvaeohg1sud9.png-714.2kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1aur6hib4gqf1v5vvaeohg1sud9.png-714.2kB.png" /></p>
 <p>不论如何，手气不错只能显示一列7个元素，而不能获取全部的28个元素，这可如何是好？</p>
 <p>仔细一看，原来整个网页的结构是这样的：</p>
-<p><img alt="image_1aur6ki2s10ll1rdc1vd0100cumc9.png-210.6kB" src="http://static.zybuluo.com/buptzym/yk445n16ogn3zfb0knvz8fo6/image_1aur6ki2s10ll1rdc1vd0100cumc9.png" /></p>
+<p><img alt="image_1aur6ki2s10ll1rdc1vd0100cumc9.png-210.6kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1aur6ki2s10ll1rdc1vd0100cumc9.png-210.6kB.png" /></p>
 <p>原来，它每一列为一个div，每个div里有7个元素。这样，手气不错只会检测到这个父div，而无法获取全部4*7=28个元素。</p>
 <p>怎么办呢？手工填写<code>列表根路径</code>就可以。（您可以先尝试本教程，然后阅读<code>3.2采集器高级用法</code>）</p>
 <p>我们观察到，每个包含视频元素的div，都是这样的</p>
-<p><img alt="image_1av4euinivvf1vlv8i31bb6p559.png-12.3kB" src="http://static.zybuluo.com/buptzym/kyvhv1n0dsyc44pqilx4ie0d/image_1av4euinivvf1vlv8i31bb6p559.png" /></p>
+<p><img alt="image_1av4euinivvf1vlv8i31bb6p559.png-12.3kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1av4euinivvf1vlv8i31bb6p559.png-12.3kB.png" /></p>
 <p>因此，它们的xpath应当是 <code>//*[@class="v"]</code> ，什么？不懂？复习XPath语法去。</p>
 <p>这样，我们将上面的表达式拷贝到Hawk的<code>列表根路径</code>上，使用手气不错:</p>
-<p><img alt="image_1aur6vc0v13o4rghciug11o213.png-12.2kB" src="http://static.zybuluo.com/buptzym/vz5q3xgr2xsomz34iyz800mc/image_1aur6vc0v13o4rghciug11o213.png" /></p>
+<p><img alt="image_1aur6vc0v13o4rghciug11o213.png-12.2kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1aur6vc0v13o4rghciug11o213.png-12.2kB.png" /></p>
 <p>哈哈，是不是所有的元素都获得啦？</p>
-<p><img alt="image_1aur6vvu3s2d1c0d1ppi1dfkqqe1g.png-65.8kB" src="http://static.zybuluo.com/buptzym/112f4b0a8u2iuw17lc3g23xe/image_1aur6vvu3s2d1c0d1ppi1dfkqqe1g.png" /></p>
+<p><img alt="image_1aur6vvu3s2d1c0d1ppi1dfkqqe1g.png-65.8kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1aur6vvu3s2d1c0d1ppi1dfkqqe1g.png-65.8kB.png" /></p>
 <h2 id="2">2.总结一下</h2>
 <p>当你提供列表根路径时，手气不错就会省略执行寻找列表节点的过程。</p>
 <ul>

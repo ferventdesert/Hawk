@@ -227,11 +227,11 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="../设计Hawk背后的故事(2016)/">设计Hawk背后的故事(2016)</a>
+    <a class="" href="../story1/">设计Hawk背后的故事(2016)</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../花一年时间,给爬虫Hawk再讲个故事(2018)/">花一年时间,给爬虫Hawk再讲个故事(2018)</a>
+    <a class="" href="../story2/">花一年时间,给爬虫Hawk再讲个故事(2018)</a>
                 </li>
     </ul>
 	    </li>
@@ -289,7 +289,7 @@ Hawk简化了流程，采用自动嗅探的方式来进行。Hawk成为后端代
 <p>https://www.cnblogs.com/joshua317/p/8670923.html</p>
 </blockquote>
 <p>按如下方式对采集器进行设置：</p>
-<p><img alt="网页采集器请求设置" src="https://upload-images.jianshu.io/upload_images/9608527-b2e00d67d62193a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img alt="网页采集器请求设置" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/网页采集器请求设置.jpg" /></p>
 <h3 id="23">2.3.注意事项</h3>
 <ol>
 <li>有时直接将url拷贝到Hawk，并使用手气不错时，也能获取到数据。这是因为很多网站对第一页和其他页分别作了不同的处理。第一页内容会跟着整体frame返回回来。但之后页面内容就通过ajax单独返回了。
@@ -297,9 +297,9 @@ Hawk简化了流程，采用自动嗅探的方式来进行。Hawk成为后端代
 </ol>
 <h3 id="24">2.4.手动获取真实请求</h3>
 <p>即使嗅探失败也没有关系，如果你使用Chrome等浏览器，进入开发者工具（F12）：</p>
-<p><img alt="Chorme的调试窗口设置" src="http://static.zybuluo.com/buptzym/lhxi16jt95iwhby6dlmpo9t8/image_1ao1q9le113a01mn4scu1q22g7mm.png" /></p>
+<p><img alt="Chorme的调试窗口设置" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/Chorme的调试窗口设置.png" /></p>
 <p>选择最上角的network卷展栏，之后刷新网页，chrome会列出所有的请求，一般最上面的就是真实请求：</p>
-<p><img alt="image_1ao1qf5fo1geqsf13be1mpi1lia9.png-68.5kB" src="http://static.zybuluo.com/buptzym/5vmgbywxwlw71rqxjpk1jczt/image_1ao1qf5fo1geqsf13be1mpi1lia9.png" /></p>
+<p><img alt="image_1ao1qf5fo1geqsf13be1mpi1lia9.png-68.5kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1ao1qf5fo1geqsf13be1mpi1lia9.png-68.5kB.png" /></p>
 <p>点击view source，将所有文本，拷贝到网页采集器，对应的<strong>高级设置-请求参数</strong>里即可。其实，Hawk做的也是类似的操作。</p>
 <h2 id="3">3.请求构造</h2>
 <h2 id="4">4.数据后处理</h2>
@@ -356,45 +356,45 @@ Hawk简化了流程，采用自动嗅探的方式来进行。Hawk成为后端代
 <h3 id="51">5.1.嗅探</h3>
 <p>我们以某政府网站的专利检索为例来说明如何使用: <code>http://www.pss-system.gov.cn/sipopublicsearch/patentsearch/showNavigationClassifyNum-showBasicClassifyNumPageByIPC.shtml?params=D7B3D1618C9AC685055FF6612F62529676324C8B6E7F92197ECA1C4E4212C394</code>
 示例图如下：</p>
-<p><img alt="image_1arbesmq01oucs8so2b6mq2fm9.png-72.7kB" src="http://static.zybuluo.com/buptzym/rklt3fzzuesx8dv6cfxakrip/image_1arbesmq01oucs8so2b6mq2fm9.png" /></p>
+<p><img alt="image_1arbesmq01oucs8so2b6mq2fm9.png-72.7kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbesmq01oucs8so2b6mq2fm9.png-72.7kB.png" /></p>
 <p>不论你点什么样的下拉菜单，url是不变的。我们可以断定这是一个ajax页面。
 现在的目标是，通过一个分类号，如<code>D01B1/00</code>，来获取它的中文含义和英文含义，也就是右边的内容：</p>
 <p>我们启动Hawk，新建一个网页采集器，把刚才的那串url拷贝到网页采集器的地址栏里，发现获取的数据根本不包含这些中文含义。</p>
 <p>怎么办呢？</p>
 <p>你可以用嗅探，我们将<code>天然或人造的线或纤维</code>作为关键字，填写到网页采集器的<code>内容筛选</code>里:</p>
-<p><img alt="image_1arbf4lfdqpp135k1s2uptkk4m9.png-13.9kB" src="http://static.zybuluo.com/buptzym/zp3w7vfutnzbzanvje1e1uvq/image_1arbf4lfdqpp135k1s2uptkk4m9.png" /></p>
+<p><img alt="image_1arbf4lfdqpp135k1s2uptkk4m9.png-13.9kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbf4lfdqpp135k1s2uptkk4m9.png-13.9kB.png" /></p>
 <p>之后点击<code>开始</code>。然后在你的浏览器上点击下拉菜单，展开分类号。发现Hawk已经成功嗅探到了字段：</p>
-<p><img alt="image_1arbf64jq15u811nfuei1bsknqcm.png-66.1kB" src="http://static.zybuluo.com/buptzym/1ltq5res3ct0gs0ucpwog2ru/image_1arbf64jq15u811nfuei1bsknqcm.png" /></p>
+<p><img alt="image_1arbf64jq15u811nfuei1bsknqcm.png-66.1kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbf64jq15u811nfuei1bsknqcm.png-66.1kB.png" /></p>
 <p>此时，打开<code>请求属性</code>，就能看到真正请求的相关信息:</p>
-<p><img alt="image_1arbf808c15gjq231kl61c5n1i1j13.png-95.9kB" src="http://static.zybuluo.com/buptzym/8zvakurfy2k1xp2nkr2g1yn1/image_1arbf808c15gjq231kl61c5n1i1j13.png" /></p>
+<p><img alt="image_1arbf808c15gjq231kl61c5n1i1j13.png-95.9kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbf808c15gjq231kl61c5n1i1j13.png-95.9kB.png" /></p>
 <p>这是一次Post请求， (真实地址)url为:</p>
 <blockquote>
 <p>http://www.pss-system.gov.cn/sipopublicsearch/patentsearch/showNavigationClassifyNumAC!searchChildrenOfClassifyNum.do<code>post的内容是</code>classifyNum=D01<code>。有了这些，我们把这个采集器命名为</code>专利查询`，下一步就好办了。</p>
 </blockquote>
 <p>即使嗅探失败也没有关系，如果你使用Chrome等浏览器，进入开发者工具（F12）：</p>
-<p><img alt="Chorme的调试窗口设置" src="http://static.zybuluo.com/buptzym/lhxi16jt95iwhby6dlmpo9t8/image_1ao1q9le113a01mn4scu1q22g7mm.png" /></p>
+<p><img alt="Chorme的调试窗口设置" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/Chorme的调试窗口设置.png" /></p>
 <p>选择最上角的network卷展栏，之后刷新网页，chrome会列出所有的请求，一般最上面的就是真实请求：</p>
-<p><img alt="image_1ao1qf5fo1geqsf13be1mpi1lia9.png-68.5kB" src="http://static.zybuluo.com/buptzym/5vmgbywxwlw71rqxjpk1jczt/image_1ao1qf5fo1geqsf13be1mpi1lia9.png" /></p>
+<p><img alt="image_1ao1qf5fo1geqsf13be1mpi1lia9.png-68.5kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1ao1qf5fo1geqsf13be1mpi1lia9.png-68.5kB.png" /></p>
 <p>点击view source，将所有文本，拷贝到网页采集器，对应的<strong>高级设置-请求参数</strong>里即可。其实，Hawk做的也是类似的操作。</p>
 <h3 id="522">5.2.步骤2：</h3>
 <p>此处我简单描述一下，你可以新建一个<code>数据清洗</code>,生成所有要查询的专利号的ID。这个相对容易。比如拖入<code>从文本生成</code>：</p>
-<p><img alt="image_1arbfidlrfs95nanvr1d9df511g.png-16.8kB" src="http://static.zybuluo.com/buptzym/ewb47tdmo3ku50prz6s7v812/image_1arbfidlrfs95nanvr1d9df511g.png" /></p>
+<p><img alt="image_1arbfidlrfs95nanvr1d9df511g.png-16.8kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbfidlrfs95nanvr1d9df511g.png-16.8kB.png" /></p>
 <p>再拖入<code>合并多列</code>，把这一串ID转换为要post的一列数据:</p>
-<p><img alt="image_1arbfl2ska0f1tts1tns1q4t19e81t.png-29.5kB" src="http://static.zybuluo.com/buptzym/jyhis4psyps6y5a06jxks6f9/image_1arbfl2ska0f1tts1tns1q4t19e81t.png" /></p>
+<p><img alt="image_1arbfl2ska0f1tts1tns1q4t19e81t.png-29.5kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbfl2ska0f1tts1tns1q4t19e81t.png-29.5kB.png" /></p>
 <p>再拖入<code>添加新列</code>，因为要让网页采集器访问那个真实数据的url,所以把上面提到的真实地址填进去：</p>
-<p><img alt="image_1arbfo6b59qb5km1ore73rjrt2a.png-29.4kB" src="http://static.zybuluo.com/buptzym/f7xkx6azv5z0nhu8zdggj3ue/image_1arbfo6b59qb5km1ore73rjrt2a.png" /></p>
+<p><img alt="image_1arbfo6b59qb5km1ore73rjrt2a.png-29.4kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbfo6b59qb5km1ore73rjrt2a.png-29.4kB.png" /></p>
 <p>见证奇迹的时刻到了，拖入<code>从爬虫转换</code>到刚才的url列，之后如下配置：</p>
-<p><img alt="image_1arbfqoa217ggkmf1jhmiaa1ui12n.png-45.5kB" src="http://static.zybuluo.com/buptzym/m0m013nyrr2zlyuckfv0obwu/image_1arbfqoa217ggkmf1jhmiaa1ui12n.png" /></p>
+<p><img alt="image_1arbfqoa217ggkmf1jhmiaa1ui12n.png-45.5kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbfqoa217ggkmf1jhmiaa1ui12n.png-45.5kB.png" /></p>
 <p>由于post数据要从post列读入，所以用方括号括起来，像这样<code>[post]</code>.</p>
 <p>出现了这样的结果：</p>
-<p><img alt="image_1arbfsnt1p6oh18vmt8l91dmt34.png-20.8kB" src="http://static.zybuluo.com/buptzym/cew1tojr4n8kipkrgy2nwltg/image_1arbfsnt1p6oh18vmt8l91dmt34.png" /></p>
+<p><img alt="image_1arbfsnt1p6oh18vmt8l91dmt34.png-20.8kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbfsnt1p6oh18vmt8l91dmt34.png-20.8kB.png" /></p>
 <p>这是个Json,因此我们拖入<code>转换为json</code>到content列：并将生成模式改为<code>单文档</code>，因为这只是一个字典，而不是字典数组:</p>
-<p><img alt="image_1arbg0o161t0a1nml10ho1jmu1j9l3h.png-9.5kB" src="http://static.zybuluo.com/buptzym/98revkg9c8o6r93xa6hz23jc/image_1arbg0o161t0a1nml10ho1jmu1j9l3h.png" /></p>
+<p><img alt="image_1arbg0o161t0a1nml10ho1jmu1j9l3h.png-9.5kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbg0o161t0a1nml10ho1jmu1j9l3h.png-9.5kB.png" /></p>
 <p>你会发现只有一列有值:</p>
-<p><img alt="image_1arbg20op1dvqvtqfeon531ct93u.png-5kB" src="http://static.zybuluo.com/buptzym/k067q3ipf1n2lmjonqvz5vy0/image_1arbg20op1dvqvtqfeon531ct93u.png" /></p>
+<p><img alt="image_1arbg20op1dvqvtqfeon531ct93u.png-5kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbg20op1dvqvtqfeon531ct93u.png-5kB.png" /></p>
 <p>是个数组。那么，再拖入<code>python转换器</code>，生成模式配置为<code>文档列表</code>:
 你要的数据就都有了：</p>
-<p><img alt="image_1arbg3qee1if195k1pnl1an71uaj4b.png-29.4kB" src="http://static.zybuluo.com/buptzym/qd1245knqvcg4e55910ovgbl/image_1arbg3qee1if195k1pnl1an71uaj4b.png" /></p>
+<p><img alt="image_1arbg3qee1if195k1pnl1an71uaj4b.png-29.4kB" src="https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1arbg3qee1if195k1pnl1an71uaj4b.png-29.4kB.png" /></p>
 <p>点评：这种请求，虽然可以用Hawk来配置，不过还是建议使用python，能获取更大的灵活性</p>
               
             </div>

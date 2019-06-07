@@ -18,7 +18,7 @@
   <script>
     // Current page data
     var mkdocs_page_name = "\u82b1\u4e00\u5e74\u65f6\u95f4,\u7ed9\u722c\u866bHawk\u518d\u8bb2\u4e2a\u6545\u4e8b(2018)";
-    var mkdocs_page_input_path = "\u82b1\u4e00\u5e74\u65f6\u95f4,\u7ed9\u722c\u866bHawk\u518d\u8bb2\u4e2a\u6545\u4e8b(2018).md";
+    var mkdocs_page_input_path = "story2.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -207,14 +207,14 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="../设计Hawk背后的故事(2016)/">设计Hawk背后的故事(2016)</a>
+    <a class="" href="../story1/">设计Hawk背后的故事(2016)</a>
                 </li>
                 <li class=" current">
                     
     <a class="current" href="./">花一年时间,给爬虫Hawk再讲个故事(2018)</a>
     <ul class="subnav">
             
-    <li class="toctree-l3"><a href="#hawk2018">花一年时间,给爬虫Hawk再讲个故事(2018)</a></li>
+    <li class="toctree-l3"><a href="#story2">story2</a></li>
     
         <ul>
         
@@ -278,7 +278,7 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="hawk2018">花一年时间,给爬虫Hawk再讲个故事(2018)</h1>
+                <h1 id="story2">story2</h1>
 <p>原本不再打算更新Hawk，直到去年10月的某个晚上，刚上完B站发呆的我收到了<code>升哥</code>的吐槽，远程他的电脑改bug。开始觉得手气不错用着太差，数据清洗的交互匪夷所思，再后来界面太丑，一种无形的力量推动我，一发不可收拾。整整十几个周末，再加上晚上10点匆匆下班进家门，改到11点钟赶紧睡觉，就这么持续了小半年。</p>
 <p>记得Hawk3发布那天是在杭州，我解决完最后几个问题，上传压缩包，发完公众号之后，如同大病一场，在西湖边上跑了一圈，吃了顿饱饭，修了个脚，心中的石头才慢慢落了地。</p>
 <p>这篇文章权当是发布两个月后的总结，闲扯背后的经历和思考。它是这篇《设计爬虫Hawk背后的故事》的延伸，两年之后的复盘。</p>
@@ -292,11 +292,9 @@
 <p>但这还不是本质，网上不需编程的爬虫工具也有很多，Hawk还需要进一步的升级和提炼，在交互和功能上依然需要做减法。哎，做减法需要勇气。这让我想起老板的一个问题：如何用一页PPT，和尽可能少的文字，给别人讲清楚几年来做的工作？曾经认为不可能，但经过多次优化后，一页PPT竟绰绰有余。越是高端上档次的广告，惜字如金；越是乡村风的宣传，一张大红纸密密麻麻全是字。</p>
 <h2 id="2">2.软件的思维模型</h2>
 <p>Hawk是款好用也是难用的软件，但它的问题在于非常陡峭的学习曲线，刚开始你会对着界面完全不知所措，但理解其思维模型，突破临界点后，心中会浮现出“原来如此”，于是一马平川。</p>
-<p>任何一个正经的软件，都有其主轴和思维模型：</p>
-<ul>
-<li>Photoshop的主轴是图层，每个图层都有自己的透明度，特效，蒙版...最终效果是多个图层的混合。</li>
-<li>Excel的主轴是表格，思维模型是表格cell的计算，改变输入后，输出随之改变。</li>
-</ul>
+<p>任何一个正经的软件，都有其主轴和思维模型：
+- Photoshop的主轴是图层，每个图层都有自己的透明度，特效，蒙版...最终效果是多个图层的混合。
+- Excel的主轴是表格，思维模型是表格cell的计算，改变输入后，输出随之改变。</p>
 <p>Hawk的主轴是流（迭代器，或一行行的数据），一切功能都是围绕它而服务的。其思维模型是不同模块的拼接，进而组合成更复杂的模块和任务。真正理解这个概念后，Hawk的使用顿时豁然开朗。然而，这种模型让程序员理解起来很容易，但对普通用户来说有相当大的挑战，因此Hawk还需要一次思维模型和交互的优化革命。</p>
 <p>如何在不破坏模型，同时在易用性上达到平衡呢？VSCode作为一款非常火爆的编辑器，给了我们大量有价值的参考：一方面它极易入门，维持简单的内核，按需扩展插件，避免了不必要的复杂。另一方面它的“交互演练场”很有意思：它给了用户一组简单任务，从而快速学习操作。而这块，Hawk要优化的实在太多。</p>
 <p>Hawk当然做不到Photoshop和Excel那样的强大稳定，但也不是美图秀秀或那些奇葩的页游的傻瓜化UI：一个大大的按钮：“开始只有一条狗，一刀9999级！”那样的突兀破坏了应有的美感，如同树上长了一个大蘑菇。</p>
@@ -368,7 +366,7 @@
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="../设计Hawk背后的故事(2016)/" class="btn btn-neutral" title="设计Hawk背后的故事(2016)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../story1/" class="btn btn-neutral" title="设计Hawk背后的故事(2016)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -394,7 +392,7 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../设计Hawk背后的故事(2016)/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../story1/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
     </span>

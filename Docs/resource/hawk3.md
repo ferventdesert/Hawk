@@ -1,4 +1,4 @@
-# 终于等到你: 图形化开源爬虫Hawk 3发布!
+# Hawk3
 ---
 
 ![hawk3启动页面](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/hawk3启动页面.png)

@@ -1229,7 +1229,7 @@ X	十六进制	255.ToString("X")	FF
 
       ![{{feellucky}}配置](https://upload-images.jianshu.io/upload_images/9608527-00a31b3a6f387c74.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-        ![](http://images2018.cnblogs.com/blog/287060/201805/287060-20180512203827617-1470633207.gif)
+        ![手气不错示例](http://images2018.cnblogs.com/blog/287060/201805/287060-20180512203827617-1470633207.gif)
 
         左右切换选择你想要的数据集，之后在下面的属性栏对结果进行微调。
         添加一个属性，{{feellucky}}就能更准确地进行。添加两个属性，即可选定唯一区域。

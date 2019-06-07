@@ -10,7 +10,7 @@ Hawk的支持QQ群：546750531
 
 如果Hawk帮到了你，欢迎给Hawk的GitHub点个star。 关注“沙漠之鹰”公众号，或通过支付宝给Hawk作者打赏！
 
-![Hawk打赏](https://upload-images.jianshu.io/upload_images/9608527-480b130ff401df52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![Hawk打赏](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/Hawk打赏.jpg)
 
 ## 更新日志
 
@@ -72,7 +72,7 @@ Hawk的支持QQ群：546750531
 
 支付宝转账二维码：
 
-![image_1b07ojl9l1ied2b31f011qui1hrv9.png-34.8kB][1]
+![image_1b07ojl9l1ied2b31f011qui1hrv9.png-34.8kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/image_1b07ojl9l1ied2b31f011qui1hrv9.png-34.8kB.jpg)
 
 
   [1]: http://static.zybuluo.com/buptzym/sje1pw3n9t8lsok1307p3srm/image_1b07ojl9l1ied2b31f011qui1hrv9.png

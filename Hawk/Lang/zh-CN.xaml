@@ -3104,13 +3104,13 @@ X	十六进制	255.ToString("X")	FF
         6. [数据清洗(1)](https://www.bilibili.com/video/av46847092/)  入门：  模块的分类，基本操作
         7. [数据清洗(2)](https://www.bilibili.com/video/av47810205/)  抓取新闻网页： 列表+详情页， 子任务的简单使用
         8. [数据清洗(3)](https://www.bilibili.com/video/av47810355/)  如何下载文件  下载报纸PDF和图片，
-        9. [数据清洗(4)]()  如何读写数据表/数据库/文件 
-        10. [数据清洗(5)]()  失败后如何回补数据
+        9. [数据清洗(4)](https://www.bilibili.com/video/av51227354/)  如何读写数据表/数据库/文件 
+        10. [数据清洗(5)](https://www.bilibili.com/video/av51078374/)  失败后如何回补数据
         11. 子任务专辑
-        12. [抓取手机app]() 万众期待的功能
-        13. [多文档模式和行列转换]()  如何用正则提取多个内容等
+        12. [抓取手机app](https://www.bilibili.com/video/av51078896/) 万众期待的功能
+        13. [多文档模式和行列转换](https://www.bilibili.com/video/av51227260/)  如何用正则提取多个内容等
         14. 增加代理和反反爬虫
-        15. [编译和二次开发]()
+        15. [编译和二次开发](https://www.bilibili.com/video/av51079191/)
         16. 答疑和高级操作
 
          

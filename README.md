@@ -29,11 +29,11 @@ The key features are as follows:
 
 Fast & Smart webpage crawling :
 
-![2.gif-3330.9kB] (http://static.zybuluo.com/buptzym/10kykg6qhqvsabbq8yj32pt0/2.gif)
+![1.gif-1001.8kB](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/1.gif-1001.8kB.gif)
 
 WYSIWYG ETL:
 
-![1.gif-1001.8kB] (http://static.zybuluo.com/buptzym/qkl0vavjn6cj007qfk2k3gqg/1.gif) 
+![2.gif](https://raw.githubusercontent.com/ferventdesert/Hawk/master/Docs/imgs/2.gif)
 
 
 ****

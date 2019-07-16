@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
-
+using System.Diagnostics;
 namespace Hawk.ETL.Managements
 {
     public class CommandLineContainer : IMainFrm, IDockableManager
@@ -18,8 +18,9 @@ namespace Hawk.ETL.Managements
             MainDescription.IsUIForm = false;
             MainDescription.MainFrm = this;
             PluginManager.MainFrmUI = this;
-            var MainStartUpLocation = @"D:\TopCoder\Hawk\Bin";
-            ;
+            var MainStartUpLocation =Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+            //var MainStartUpLocation = @"D:\TopCoder\Hawk\Bin";
+            MainPluginLocation = MainStartUpLocation;
             PluginManager.Init(new[] { MainStartUpLocation });
             PluginManager.LoadPlugins();
         }

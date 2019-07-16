@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Windows.Threading;
 using CommandLine;
 using CommandLine.Text;
 using Hawk.Core.Utils;
-using Hawk.Core.Utils.MVVM;
-using Hawk.Core.Utils.Plugins;
+using Hawk.Core.Utils.Logs;
 using Hawk.ETL.Crawlers;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
@@ -54,8 +53,6 @@ namespace HawkScheduler
         }
     }
 
-  
-
 
     internal class Program
     {
@@ -64,19 +61,19 @@ namespace HawkScheduler
         private static void unitTest()
         {
             var doc = XPathAnalyzer.GetHtmlDocument(url);
-          
+
             var datas = XPathAnalyzer.GetDataFromURL(url);
-           
+
             var properties = doc.DocumentNode.SearchPropertiesSmartList();
 
-       
+
             var firstOrDefault = properties.FirstOrDefault();
             datas = doc.DocumentNode.GetDataFromXPath(firstOrDefault.CrawItems).ToList();
-         
         }
+
         private static void Main(string[] args)
         {
-            unitTest();
+            //unitTest();
             var options = new Options();
             var parser = new Parser(with => with.HelpWriter = Console.Error);
 
@@ -89,71 +86,97 @@ namespace HawkScheduler
         private static void Run(Options options)
         {
             Console.WriteLine();
-            Console.WriteLine("project file: {0} ...", options.ProjectFile);
-            var container = new CommandLineContainer();
-           
-            var processManager = container.PluginDictionary["DataProcessManager"] as DataProcessManager;
-            var project = Project.Load(options.ProjectFile);
-            if (project == null)
-            {
-                Console.WriteLine($"project {options.ProjectFile} is not exists or format error, exit..." );
-                return;
-            }
-            var dataManager = container.PluginDictionary["DataManager"] as DataManager;
-
-         
-
-            project.DataCollections.Execute(d=>dataManager.AddDataCollection(d));
             XmlConfigurator.Configure(new FileInfo("log4net_cmd.config"));
-            processManager.CurrentProject = project;
-            var task = project.Tasks.FirstOrDefault(d => d.Name == options.TaskName);
 
-          
-            if (task == null)
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval=TimeSpan.FromSeconds(1);
+            timer.Tick += (s, e) => { Console.WriteLine("fuck");};
+            timer.Start();
+
+            try
             {
-                
-                Console.WriteLine("task not in project, project task lists:");
-                foreach (var _task in project.Tasks)
+                XLogSys.Print.Info($"Project file: {options.ProjectFile} ...");
+                var container = new CommandLineContainer();
+
+                var processManager = container.PluginDictionary["DataProcessManager"] as DataProcessManager;
+                if (processManager == null)
                 {
-                    Console.WriteLine(_task.Name);
+                    throw new Exception("Plugin System ERROR, DataProcessManager not Found, Reinstall Hawk");
                 }
-                Console.ReadKey();
-            }
-            task.Load(false);
-            Console.WriteLine("project load successful");
-            var realTask =
-                processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == options.TaskName) as SmartETLTool;
-            var queuelists = processManager.CurrentProcessTasks as ObservableCollection<TaskBase>;
-            queuelists.CollectionChanged += (s, e) =>
-            {
-                if (e.Action == NotifyCollectionChangedAction.Add)
+            
+                var dataManager = container.PluginDictionary["DataManager"] as DataManager;
+
+                if (dataManager == null)
                 {
-                    foreach (var item in e.NewItems.OfType<TaskBase>())
+                    throw new Exception("Plugin System ERROR, dataManager not Found, Reinstall Hawk");
+                }
+
+                AppHelper.LoadLanguage();
+
+                var project = Project.Load(options.ProjectFile);
+                if (project == null)
+                {
+                    throw new Exception($"Project {options.ProjectFile} is not exists or format error");
+                }
+
+                project.DataCollections?.Execute(d => dataManager.AddDataCollection(d));
+                processManager.CurrentProject = project;
+                var task = project.Tasks.FirstOrDefault(d => d.Name == options.TaskName);
+
+                if (task == null)
+                {
+                    foreach (var _task in project.Tasks)
                     {
-                        Console.WriteLine("task add: {0}", item.Name);
-                        item.PropertyChanged += (s2, e2) =>
+                        Console.WriteLine(_task.Name);
+                    }
+                    throw  new Exception($"task {options.TaskName} not in project");
+                  
+                }
+                task.Load(false);
+                XLogSys.Print.Info("project load successful");
+                var realTask =
+                    processManager.CurrentProcessCollections.FirstOrDefault(d => d.Name == options.TaskName) as
+                        SmartETLTool;
+                var queueList = processManager.CurrentProcessTasks as ObservableCollection<TaskBase>;
+                queueList.CollectionChanged += (s, e) =>
+                {
+                    if (e.Action == NotifyCollectionChangedAction.Add)
+                    {
+                        foreach (var item in e.NewItems.OfType<TaskBase>())
                         {
-                            if (e2.PropertyName == "Percent")
+                            XLogSys.Print.Info($"task add: {item.Name}");
+                            item.PropertyChanged += (s2, e2) =>
                             {
-                                Console.WriteLine($"task {item.Name}, percent {item.Percent}");
-                            }
-                        };
+                                if (e2.PropertyName == "Percent")
+                                {
+                                    XLogSys.Print.Info($"task {item.Name}, percent {item.Percent}");
+                                }
+                            };
+                        }
                     }
-                }
-                else
-                {
-                    foreach (var item in e.OldItems.OfType<TaskBase>())
+                    else
                     {
-                        Console.WriteLine("task finished: {0}", item.Name);
+                        foreach (var item in e.OldItems.OfType<TaskBase>())
+                        {
+                            XLogSys.Print.Info($"task finished: {item.Name}");
+                        }
                     }
-                }
-                if (queuelists.Count == 0)
-                {
-                    Console.WriteLine("task all finished: quit");
-                    Environment.Exit(0); //0代表正常退出，非0代表某种错误的退出
-                }
-            };
-            realTask.ExecuteDatas();
+                    if (queueList.Count == 0)
+                    {
+                        Console.WriteLine("task all finished: quit");
+                        // Environment.Exit(0); //0代表正常退出，非0代表某种错误的退出
+                    }
+                };
+
+
+                realTask.ExecuteDatas();
+            }
+            catch (Exception e)
+            {
+                XLogSys.Print.Error(e.Message, e);
+                Console.ReadKey();
+                Environment.Exit(1);
+            }
             while (true)
             {
                 var key = Console.ReadLine();

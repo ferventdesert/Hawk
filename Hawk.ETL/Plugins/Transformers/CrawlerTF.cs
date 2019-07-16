@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -14,6 +15,7 @@ using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
 using Hawk.ETL.Plugins.Generators;
 using Hawk.ETL.Process;
+using HtmlAgilityPack;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
@@ -33,10 +35,7 @@ namespace Hawk.ETL.Plugins.Transformers
         [Browsable(false)]
         public override string HeaderFilter { get; set; }
 
-        [PropertyOrder(1)]
-        [LocalizedDisplayName("key_482")]
-        public string PostData { get; set; }
-
+      
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
             base.Init(datas);
@@ -48,9 +47,9 @@ namespace Hawk.ETL.Plugins.Transformers
             }
             return true;
         }
-        [PropertyOrder(2)]
-        [LocalizedDisplayName("key_118")]
-        public string Proxy { get; set; }
+
+        public bool ProcessHtmlOnly { get; set; }
+
         [Browsable(false)]
         public override string KeyConfig => CrawlerSelector.SelectItem;
         private IEnumerable<FreeDocument> GetDatas(IFreeDocument data)
@@ -58,8 +57,8 @@ namespace Hawk.ETL.Plugins.Transformers
             var p = data[Column];
             if (p == null || Crawler == null)
                 return new List<FreeDocument>();
-            var url = p.ToString();
-            var bufkey = url;
+            var urlOrHtml = p.ToString();
+            var bufkey = urlOrHtml;
             var post = data.Query(PostData);
             var crawler = Crawler;
             if (crawler == null)
@@ -74,24 +73,35 @@ namespace Hawk.ETL.Plugins.Transformers
 
             if (htmldoc == null)
             {
+                IEnumerable<FreeDocument> docs = null;
                 HttpStatusCode code;
-                
-                var docs = crawler.CrawlData(url, out htmldoc, out code, post);
-                var any = docs.Any();
-                if (HttpHelper.IsSuccess(code))
+                if (!ProcessHtmlOnly)
                 {
-                    if (!any)
+                    docs = crawler.CrawlData(urlOrHtml, out htmldoc, out code, post);
+                    var any = docs.Any();
+                    if (HttpHelper.IsSuccess(code))
                     {
-                        ConfigFile.GetConfig<DataMiningConfig>().ParseErrorCount++;
-                        throw new Exception(string.Format(GlobalHelper.Get("key_669"), url));
+                        if (!any)
+                        {
+                            ConfigFile.GetConfig<DataMiningConfig>().ParseErrorCount++;
+                            throw new Exception(string.Format(GlobalHelper.Get("key_669"), urlOrHtml));
+                        }
+                        if (this.IsExecute == false)
+                            buffHelper.Set(bufkey, htmldoc);
+                        return docs;
                     }
-                    if(this.IsExecute==false)
-                        buffHelper.Set(bufkey, htmldoc);
+                    throw new Exception("Web Request Error:" + code);
+                }
+                else
+                {
+                    docs = crawler.CrawlHtmlData(urlOrHtml, out htmldoc);
                     return docs;
                 }
-                throw new Exception("Web Request Error:" + code);
+
+
             }
-            return crawler.CrawlData(htmldoc.DocumentNode);
+                return crawler.CrawlData(htmldoc.DocumentNode);
+          
         }
 
         protected override IEnumerable<IFreeDocument> InternalTransformManyData(IFreeDocument data)

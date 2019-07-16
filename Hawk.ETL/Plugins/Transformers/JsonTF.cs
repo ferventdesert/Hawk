@@ -16,6 +16,7 @@ using Hawk.ETL.Interfaces;
 using Hawk.ETL.Managements;
 using Hawk.ETL.Process;
 using HtmlAgilityPack;
+using Jayrock.Json.Conversion;
 
 namespace Hawk.ETL.Plugins.Transformers
 {
@@ -30,12 +31,15 @@ namespace Hawk.ETL.Plugins.Transformers
             serialier = new JavaScriptSerializer();
             ScriptWorkMode = ScriptWorkMode.NoTransform;
             OneOutput = false;
+            UseJSEngine = true;
         }
 
         [LocalizedDisplayName("key_188")]
         [LocalizedDescription("etl_script_mode")]
         public ScriptWorkMode ScriptWorkMode { get; set; }
 
+
+        public bool UseJSEngine { get; set; }
 
         [Browsable(false)]
         public override string KeyConfig => ScriptWorkMode.ToString();
@@ -55,10 +59,18 @@ namespace Hawk.ETL.Plugins.Transformers
             if (item == null || string.IsNullOrWhiteSpace(item.ToString()))
                 return null;
             
+            
             dynamic d = null;
             try
             {
-                d = serialier.DeserializeObject(item.ToString());
+                if (UseJSEngine)
+                {
+                    d = serialier.DeserializeObject(item.ToString());
+                }
+                else
+                {
+                    d = JsonConvert.Import(item.ToString());
+                }
             }
             catch (Exception ex)
             {

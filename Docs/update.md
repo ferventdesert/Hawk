@@ -684,9 +684,20 @@ CREATE TABLE DFDSF (diggit_diggnum text,digg_diggit_onclick text,digg_digg_tip_i
 1. 当数据表中已经存在同名数据集时，禁止写入 ok
 2. 数据表双击看不到 ok
 3. mongodb 查看帮助提示，更换链接 ok
-4. wiki更新 
-5. 修复图床
+4. wiki更新  
+5. 修复图床 ok
 6. sqlite写入表失败  ok
 7. 读取文件数据 应当提供图形化界面  ok
 
 
+# 2019年6月8日
+
+1. 连续N次没有获得数据，应该进行诊断，包括子任务
+2. 自动化命令脚本出错
+
+# 2019年7月12日
+
+1. github无法连接n次后直接拒绝
+2. 获取远程响应  bug
+3. 共享源序列化无效
+4. 数据清洗左侧任务列表，限制文本框最大高度

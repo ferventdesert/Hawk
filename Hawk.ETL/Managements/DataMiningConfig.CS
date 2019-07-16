@@ -172,7 +172,16 @@ namespace Hawk.ETL.Managements
               
             }
         }
+        [LocalizedCategory("user_login")]
+        public bool AutoConnectGithub
+        {
+            get { return this.Get<bool>("AutoConnectGithub"); ; }
+            set
+            {
+                this.Set<bool>("AutoConnectGithub", value);
 
+            }
+        }
 
         [LocalizedDisplayName("keep_pass")]
         [LocalizedCategory("user_login")]

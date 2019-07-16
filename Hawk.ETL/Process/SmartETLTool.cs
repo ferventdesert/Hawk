@@ -717,10 +717,10 @@ namespace Hawk.ETL.Process
 
             Analyzer.Start(Name);
             Analyzer.Container = this;
-            var timer = new DispatcherTimer();
+
             if (GenerateMode == GenerateMode.SerialMode && DelayTime > 0)
-                etls = etls.AddModule(d => d.GetType() == typeof(CrawlerTF),
-                    d => new DelayTF { DelayTime = DelayTime.ToString() }, true).ToList();
+                etls = etls.AddModule(d => d.GetType() == typeof (CrawlerTF),
+                    d => new DelayTF {DelayTime = DelayTime.ToString()}, true).ToList();
             ToListTF motherListTF;
 
             var taskBuff = new List<IFreeDocument>();
@@ -782,19 +782,19 @@ namespace Hawk.ETL.Process
                 }),
                 d =>
                 {
-                taskBuff.Add(d);
-                if (taskBuff.Count < motherListTF?.GroupMount)
-                {
-                    return;
-                }
+                    taskBuff.Add(d);
+                    if (taskBuff.Count < motherListTF?.GroupMount)
+                    {
+                        return;
+                    }
                     PauseCheck(motherTask);
 
-                    AddSubTask(taskBuff.ToList(), mapperFunc1,mapperFunc2,customerFunc3,  motherListTF);
+                    AddSubTask(taskBuff.ToList(), mapperFunc1, mapperFunc2, customerFunc3, motherListTF);
                     taskBuff.Clear();
                 });
             if (lastRunningTasks != null)
                 foreach (var subTask in lastRunningTasks.Where(d => d.Level == 1))
-                    AddSubTask(null, mapperFunc1, mapperFunc2, customerFunc3, 
+                    AddSubTask(null, mapperFunc1, mapperFunc2, customerFunc3,
                         motherListTF, subTask);
             SysProcessManager.CurrentProcessTasks.Add(motherTask);
             motherTask.IsFormal = true;
@@ -809,27 +809,63 @@ namespace Hawk.ETL.Process
             }
             motherTask.Level = 0;
             motherTask.Publisher = this;
-            timer.Interval = TimeSpan.FromMilliseconds(100);
+
+            if (MainDescription.IsUIForm)
+            {
+                var timer_ui = new DispatcherTimer();
+                timer_ui.Interval = TimeSpan.FromMilliseconds(100);
+
+                timer_ui.Tick += (s, e) =>
+                {
+                    if (motherTask.IsCanceled)
+                    {
+                        timer_ui.Stop();
+                        return;
+                    }
+
+                    if (motherTask.IsStart == false)
+                    {
+                        motherTask.Start();
+                        return;
+                    }
+
+                    PauseCheck(motherTask, false);
+                };
+
+                timer_ui.Start();
+            }
         
 
-            timer.Tick += (s, e) =>
+            else
             {
-                if (motherTask.IsCanceled)
-                {
-                    timer.Stop();
-                    return;
-                }
 
-                if (motherTask.IsStart == false)
-                {
-                    motherTask.Start();
-                    return;
-                }
+                Timer timer_thread = null;
+               timer_thread = new Timer(obj =>
+              {
+                  if (motherTask.IsCanceled)
+                  {
+                      timer_thread.Dispose();
+                      return;
+                  }
 
-                PauseCheck(motherTask,false);
-            };
+                  if (motherTask.IsStart == false)
+                  {
+                      motherTask.Start();
+                      return;
+                  }
 
-            timer.Start();
+                  PauseCheck(motherTask, false);
+              },null,(int)100,(int)100);
+               
+            }
+
+
+           
+        }
+
+        private void TimerCheck()
+        {
+            
         }
 
         private void PauseCheck(TaskBase motherTask, bool check = true)

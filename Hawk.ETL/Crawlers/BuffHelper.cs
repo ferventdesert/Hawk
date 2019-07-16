@@ -67,7 +67,7 @@ namespace Hawk.ETL.Crawlers
         }
         public T Get(string item)
         {
-            if (EnableBuffer == false || bufferDictionary.Count >= maxBufferCount)
+            if (EnableBuffer == false )
                 return default(T);
             if (bufferDictionary.ContainsKey(item))
             {

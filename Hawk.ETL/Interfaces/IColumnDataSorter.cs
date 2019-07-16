@@ -578,7 +578,8 @@ namespace Hawk.ETL.Interfaces
                 }
                 else
                 {
-                    dict.SetValue(ge.Column, res);
+                    if (res != null)
+                        dict.SetValue(ge.Column, res);
                 }
 
 

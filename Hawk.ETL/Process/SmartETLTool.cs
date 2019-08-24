@@ -26,6 +26,7 @@ using Hawk.ETL.Plugins.Executor;
 using Hawk.ETL.Plugins.Generators;
 using Hawk.ETL.Plugins.Transformers;
 using Markdown.Xaml;
+using Microsoft.AppCenter.Analytics;
 using Xceed.Wpf.Toolkit;
 using MessageBox = System.Windows.MessageBox;
 
@@ -229,6 +230,15 @@ namespace Hawk.ETL.Process
 
         private void InsertModule(IColumnProcess tool)
         {
+            Analytics.TrackEvent(GlobalHelper.Get("key_692"), new Dictionary<string, string> {
+                    { "Parameter", tool.TypeName },
+                    { "ETLMount", ETLMount.ToString() }
+                  
+                }
+
+
+            );
+
             if (ETLMount < 0 || ETLMount >= CurrentETLTools.Count)
                 CurrentETLTools.Add(tool);
             else

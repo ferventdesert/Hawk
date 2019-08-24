@@ -28,6 +28,7 @@ using Hawk.ETL.Process;
 using log4net;
 using log4net.Core;
 using log4net.Repository.Hierarchy;
+using Microsoft.AppCenter.Analytics;
 
 namespace Hawk.ETL.Managements
 {
@@ -920,6 +921,10 @@ namespace Hawk.ETL.Managements
         {
             if (project != null)
             {
+                Analytics.TrackEvent(GlobalHelper.Get("key_307"), new Dictionary<string, string> {
+                    { "Parameter", project.Name },
+
+                });
                 var config = ConfigFile.GetConfig<DataMiningConfig>();
                 config.Projects.RemoveElementsNoReturn(d => string.IsNullOrWhiteSpace(d.SavePath));
                 var first = config.Projects.FirstOrDefault(d => d.SavePath == project.SavePath);
@@ -1076,6 +1081,14 @@ namespace Hawk.ETL.Managements
             if (newOne)
             {
                 var process = PluginProvider.GetObjectByType<IDataProcess>(name);
+                Analytics.TrackEvent(GlobalHelper.Get("key_736"), new Dictionary<string, string> {
+                    { "Parameter", name },
+                    { "isAddToList", isAddToList.ToString() },
+                    { "newOne", newOne.ToString() }
+                    }
+                    
+
+                );
                 if (process != null)
                 {
                     if (isAddToList)

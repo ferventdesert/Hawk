@@ -3,6 +3,7 @@ using System.Collections;
 using Hawk.Core.Utils;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -75,6 +76,10 @@ namespace Hawk.ETL.Interfaces
 
             try
             {
+                if (!File.Exists(url))
+                {
+                    throw  new FileNotFoundException(url,url);
+                }
                 langRd =
                     Application.LoadComponent(
                             new Uri(url, UriKind.RelativeOrAbsolute))

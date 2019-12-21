@@ -172,7 +172,16 @@ namespace Hawk.ETL.Managements
               
             }
         }
+        [LocalizedCategory("user_login")]
+        public bool AutoConnectGithub
+        {
+            get { return this.Get<bool>("AutoConnectGithub"); ; }
+            set
+            {
+                this.Set<bool>("AutoConnectGithub", value);
 
+            }
+        }
 
         [LocalizedDisplayName("keep_pass")]
         [LocalizedCategory("user_login")]
@@ -281,22 +290,7 @@ namespace Hawk.ETL.Managements
         }
 
 
-        [PropertyOrder(4)]
-        [LocalizedCategory("http_header")]
-        [LocalizedDisplayName("key_176")]
-        [LocalizedDescription("proxy_setting_desc")]
-        [PropertyEditor("CodeEditor")]
-        public string ProxySetting
-        {
-            get { return this.Get<string>("ProxySetting"); }
-            set
-            {
-                this.Set<string>("ProxySetting", value);
-
-
-            }
-        }
-
+     
         [PropertyOrder(8)]
         [LocalizedCategory("http_header")]
         [LocalizedDisplayName("DisplayPopupMenu")]

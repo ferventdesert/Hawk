@@ -32,11 +32,23 @@ namespace Hawk.ETL.Crawlers
 
         [LocalizedCategory("key_117")]
         [LocalizedDisplayName("key_118")]
+        [LocalizedDescription("proxy_setting")]
         [PropertyOrder(1)]
         public string ProxyIP { get; set; }
 
 
+        [LocalizedCategory("key_117")]
+        [PropertyOrder(2)]
+        public int ProxyPort { get; set; }
 
+
+        [LocalizedCategory("key_117")]
+        [PropertyOrder(3)]
+        public string UserName { get; set; }
+
+        [LocalizedCategory("key_117")]
+        [PropertyOrder(4)]
+        public string Password { get; set; }
         public static bool GetProxyInfo(string proxy,out string url, out string username,out string password)
         {
             username = null;
@@ -222,6 +234,10 @@ namespace Hawk.ETL.Crawlers
             dict.Add("Method", Method);
             dict.Add("Parameters", Parameters);
             dict.Add("Timeout", Timeout);
+            dict.Add("UserName", UserName);
+            dict.Add("Password", Password);
+            dict.Add("ProxyIP", ProxyIP );
+            dict.Add("ProxyPort", ProxyPort );
             return dict;
         }
 
@@ -233,7 +249,11 @@ namespace Hawk.ETL.Crawlers
             Encoding = docu.Set("Encoding", Encoding);
             Method = docu.Set("Method", Method);
             Timeout = docu.Set("Timeout", Timeout);
+            UserName = docu.Set("UserName", UserName);
+            Password = docu.Set("Password", Password);
+            ProxyIP = docu.Set("ProxyIP", ProxyIP);
             Parameters = docu.Set("Parameters", Parameters);
+            ProxyPort = docu.Set("ProxyPort", ProxyPort);
            
 
 

@@ -347,14 +347,15 @@ namespace Hawk.ETL.Crawlers
             {
                 //设置代理服务器
                 string username, password,url;
-                if (HttpItem.GetProxyInfo(item.ProxyIP, out username, out password, out url))
+                if(!string.IsNullOrWhiteSpace(item.ProxyIP))
                 {
 
 
-                    var myProxy = new WebProxy(url);
+                    var myProxy = new WebProxy(item.ProxyIP,item.ProxyPort);
 
                     //建议连接
-                    myProxy.Credentials = new NetworkCredential(username,password);
+                    if (!string.IsNullOrWhiteSpace(item.UserName))
+                        myProxy.Credentials = new NetworkCredential(item.UserName,item.Password);
                     //给当前请求对象
                     request.Proxy = myProxy;
                     //设置安全凭证

@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using Hawk.Core.Connectors;
 using Hawk.Core.Utils.Logs;
 using Hawk.Core.Utils.Plugins;
-using Microsoft.HockeyApp;
+
 using Microsoft.Win32;
 
 namespace Hawk.Core.Utils

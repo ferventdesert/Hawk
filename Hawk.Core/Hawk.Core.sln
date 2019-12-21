@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Blend for Visual Studio 14
+# Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hawk.Core", "Hawk.Core.csproj", "{B5CCA117-8D77-418B-8B18-D3E64682DD83}"
@@ -21,6 +21,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HawkUnitTest", "..\HawkUnitTest\HawkUnitTest.csproj", "{515A4931-4B70-472F-831F-B8BB0C838D2D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Windows.Controls.WPFPropertyGrid", "..\..\WPFPropertyGrid\System.Windows.Controls.WPFPropertyGrid\System.Windows.Controls.WPFPropertyGrid.csproj", "{384BD3E5-BCC4-4582-9CDC-C927E5E8297B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HawkTest", "..\HawkTest\HawkTest.csproj", "{9A1333B3-61A9-49F1-96C7-AFADAAFC06D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,10 @@ Global
 		{384BD3E5-BCC4-4582-9CDC-C927E5E8297B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{384BD3E5-BCC4-4582-9CDC-C927E5E8297B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{384BD3E5-BCC4-4582-9CDC-C927E5E8297B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A1333B3-61A9-49F1-96C7-AFADAAFC06D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A1333B3-61A9-49F1-96C7-AFADAAFC06D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A1333B3-61A9-49F1-96C7-AFADAAFC06D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A1333B3-61A9-49F1-96C7-AFADAAFC06D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

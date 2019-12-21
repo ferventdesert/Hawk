@@ -864,6 +864,26 @@ namespace Hawk.ETL.Process
             return doc.GetDataFromXPath(CrawlItems, IsMultiData, RootXPath, RootFormat);
         }
 
+        public void SetCookie(HttpItem Http)
+        {
+            var crawler = this.SysProcessManager.GetTask<SmartCrawler>(ShareCookie.SelectItem);
+            if (crawler != null)
+            {
+                Http.ProxyIP = crawler.Http.ProxyIP;
+                Http.ProxyPort = crawler.Http.ProxyPort;
+                Http.UserName = crawler.Http.UserName;
+                Http.Password = crawler.Http.Password;
+
+                if (Http.Parameters != crawler.Http.Parameters)
+                {
+                    var cookie = crawler.Http.GetHeaderParameter().Get<string>("Cookie");
+                    if (string.IsNullOrWhiteSpace(cookie) == false)
+                    {
+                        Http.SetValue("Cookie", cookie);
+                    }
+                }
+            }
+        }
         public string GetHtml(string url, out HttpStatusCode code,
             string post = null)
         {
@@ -890,30 +910,18 @@ namespace Hawk.ETL.Process
                     code = HttpStatusCode.NoContent;
                     return "";
                 }
-                var crawler = this.SysProcessManager.GetTask<SmartCrawler>( ShareCookie.SelectItem);
-                if (crawler != null)
-                {
-                    Http.ProxyIP = crawler.Http.ProxyIP;
-                    if (Http.Parameters != crawler.Http.Parameters)
-                    {
-                        var cookie = crawler.Http.GetHeaderParameter().Get<string>("Cookie");
-                        if (string.IsNullOrWhiteSpace(cookie) == false)
-                        {
-                            Http.SetValue("Cookie", cookie);
-                        }
-                    }
-                }
-                Dictionary<string, string> paradict = null;
+                SetCookie(Http); 
+                Dictionary<string, string> paramDict = null;
                 foreach (Match m in mc)
                 {
-                    if (paradict == null)
-                        paradict = XPathAnalyzer.ParseUrl(URL);
-                    if (paradict == null)
+                    if (paramDict == null)
+                        paramDict = XPathAnalyzer.ParseUrl(URL);
+                    if (paramDict == null)
                         break;
                     var str = m.Groups[1].Value;
-                    if (paradict.ContainsKey(str))
+                    if (paramDict.ContainsKey(str))
                     {
-                        url = url.Replace(m.Groups[0].Value, paradict[str]);
+                        url = url.Replace(m.Groups[0].Value, paramDict[str]);
                     }
                 }
                  response = helper.GetHtml(Http,  url, post).Result;

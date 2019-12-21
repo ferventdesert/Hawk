@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Hawk.Core.Utils.Logs;
-using Microsoft.HockeyApp;
+using Microsoft.AppCenter.Analytics;
+
 
 namespace Hawk.Core.Utils.MVVM
 {
@@ -88,7 +89,11 @@ namespace Hawk.Core.Utils.MVVM
 
         void ICommand.Execute(object parameter)
         {
-           
+            Analytics.TrackEvent(this.Text, new Dictionary<string, string> {
+                { "Parameter", parameter==null?"null":parameter.ToString() },
+                { "Description", Description}
+            });
+
             ControlExtended.SafeInvoke(() => Execute?.Invoke(parameter),LogType.Info,GlobalHelper.Get("key_133")+this.Text);
             //HockeyClient.Current.TrackEvent(this.Text);
         }

@@ -18,6 +18,7 @@ using Hawk.Core.Utils.MVVM;
 using Hawk.Core.Utils.Plugins;
 using Hawk.ETL.Interfaces;
 using Hawk.ETL.Process;
+using Microsoft.AppCenter.Analytics;
 using Microsoft.Win32;
 
 namespace Hawk.ETL.Managements
@@ -715,7 +716,10 @@ namespace Hawk.ETL.Managements
                 return collection;
             }
             var data = new DataCollection(source.ToList()) {Name = collectionName};
-
+            Analytics.TrackEvent( GlobalHelper.Get("key_231"), new Dictionary<string, string> {
+                { "Parameter", collectionName },
+                
+            });
             DataCollections.Add(data);
             return data;
         }

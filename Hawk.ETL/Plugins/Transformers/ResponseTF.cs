@@ -25,8 +25,16 @@ namespace Hawk.ETL.Plugins.Transformers
         {
             CrawlerSelector = new TextEditSelector();
             CrawlerSelector.GetItems = this.GetAllCrawlerNames();
+            IsMultiYield = false;
         }
 
+        [PropertyOrder(1)]
+        [LocalizedDisplayName("key_482")]
+        public string PostData { get; set; }
+
+        [PropertyOrder(2)]
+        [LocalizedDisplayName("key_118")]
+        public string Proxy { get; set; }
         [LocalizedDisplayName("key_359")]
         [LocalizedDescription("key_360")]
         public TextEditSelector CrawlerSelector { get; set; }
@@ -59,22 +67,28 @@ namespace Hawk.ETL.Plugins.Transformers
         public override bool Init(IEnumerable<IFreeDocument> datas)
         {
             OneOutput = false;
+     
             var name = CrawlerSelector.SelectItem;
             name = AppHelper.Query(name, null);
             Crawler = GetCrawler(name);
             if (string.IsNullOrEmpty(CrawlerSelector.SelectItem) && Crawler != null)
                 CrawlerSelector.SelectItem = Crawler.Name;
+            IsMultiYield = false;
             return  base.Init(datas);
         }
 
         public override
             object TransformData(IFreeDocument datas)
         {
+
+         
             var p = datas[Column];
+            var post = datas.Query(PostData);
             if (p == null)
                 return new List<FreeDocument>();
             var url = p.ToString();
-            var response=  helper.GetHtml(Crawler.Http, url).Result;
+            Crawler.SetCookie(Crawler.Http);
+            var response=  helper.GetHtml(Crawler.Http, url,post).Result;
 
             var content = response.Html;
             var code = response.Code;

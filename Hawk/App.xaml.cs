@@ -1,44 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using System.Windows;
-using Hawk.Core.Connectors;
-using Hawk.Core.Utils;
-using Hawk.ETL.Interfaces;
-using Microsoft.HockeyApp;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+
+
 namespace Hawk
 {
     /// <summary>
-    /// App.xaml 的交互逻辑
+    ///     App.xaml 的交互逻辑
     /// </summary>
     public partial class App : Application
     {
-
-        protected async override void OnStartup(StartupEventArgs e)
+        private static void SetCountryCode()
         {
-            base.OnStartup(e);
-            Microsoft.HockeyApp.HockeyClient.Current.Configure("2b23e2e4a420438dbfb308d5ddc7d448")
-            .SetContactInfo("Desert", "buptzym@qq.com");
-
-
-            //send crashes to the HockeyApp server
-            await HockeyClient.Current.SendCrashesAsync();
-            await HockeyClient.Current.CheckForUpdatesAsync(true, () =>
-            {
-                if (Application.Current.MainWindow != null) { Application.Current.MainWindow.Close(); }
-                return true;
-            });
-
-
-            AppHelper.LoadLanguage();
+            // This fallback country code does not reflect the physical device location, but rather the
+            // country that corresponds to the culture it uses.
+            var countryCode = RegionInfo.CurrentRegion.TwoLetterISORegionName;
+            AppCenter.SetCountryCode(countryCode);
         }
 
+        protected override async void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            SetCountryCode();
+            AppCenter.Start("1a85d57d-ef2e-4267-83c7-cdcb19a1392d",
+                typeof(Analytics), typeof(Crashes));
+            bool didAppCrash = await Crashes.HasCrashedInLastSessionAsync();
+            if (didAppCrash)
+            {
+                ErrorReport crashReport = await Crashes.GetLastSessionCrashReportAsync();
+            }
 
+            Crashes.ShouldProcessErrorReport = (ErrorReport report) => {
+                return true; // return true if the crash report should be processed, otherwise false.
+            };
 
-
+            //AppHelper.LoadLanguage();
+            //TODO: instance is null
+        }
     }
 }

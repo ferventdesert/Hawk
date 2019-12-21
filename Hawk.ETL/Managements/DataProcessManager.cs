@@ -293,7 +293,7 @@ namespace Hawk.ETL.Managements
             var update = new BindingAction(GlobalHelper.Get("checkupgrade"),
                 d =>
                 {
-                    AutoUpdater.Start("https://raw.githubusercontent.com/ferventdesert/Hawk/global/Hawk/autoupdate.xml");
+                    AutoUpdater.Start("https://raw.githubusercontent.com/ferventdesert/Hawk/master/Hawk/autoupdate.xml");
                 })
             {Description = GlobalHelper.Get("checkupgrade"), Icon = "arrow_up"};
             var helpCommands = new BindingAction(GlobalHelper.Get("key_275")) {Icon = "magnify"};

@@ -628,15 +628,11 @@ namespace Hawk.ETL.Managements
             {
                 GitHubApi.Connect(ConfigFile.GetConfig().Get<string>("Login"), ConfigFile.GetConfig().Get<string>("Password"));
                 MarketProjects.Clear();
-                if (DataMiningConfig.GetConfig<DataMiningConfig>().AutoConnectGithub)
-                {
-                    
             
                 ControlExtended.SetBusy(ProgressBarState.Indeterminate,message:GlobalHelper.Get("get_remote_projects"));
-                
                 MarketProjects.AddRange(await GitHubApi.GetProjects(ConfigFile.GetConfig().Get<string>("MarketUrl")));
+                OnPropertyChanged("MarketProjects");
                 ControlExtended.SetBusy(ProgressBarState.NoProgress);
-}
 
             }, icon: "refresh"));
           
@@ -866,26 +862,27 @@ namespace Hawk.ETL.Managements
         public ListCollectionView ProcessCollectionView { get; set; }
         private ListCollectionView marketCollectionView;
         public ListCollectionView MarketProjectList {
-            get
+             get
             {
                 if (marketCollectionView == null)
                 {
-                    if (!DataMiningConfig.GetConfig<DataMiningConfig>().AutoConnectGithub)
-                    {
-                        return null;
-                    }
-                    GitHubApi.Connect(ConfigFile.GetConfig().Get<string>("Login"), ConfigFile.GetConfig().Get<string>("Password"));
-                    var result = GitHubApi.GetProjects(ConfigFile.GetConfig().Get<string>("MarketUrl")).Result;
+                  
+
                     ControlExtended.SafeInvoke(
                         () =>
                         {
-                            MarketProjects.Clear();
-                            MarketProjects.AddRange(result);
                             marketCollectionView = new ListCollectionView(MarketProjects);
                         }
                     ,LogType.Info, GlobalHelper.Get("market_login"),true);
-                 
-                 
+                    if (DataMiningConfig.GetConfig<DataMiningConfig>().AutoConnectGithub)
+                    {
+                        GitHubApi.Connect(ConfigFile.GetConfig().Get<string>("Login"),
+                            ConfigFile.GetConfig().Get<string>("Password"));
+                        var result =GitHubApi.GetProjects(ConfigFile.GetConfig().Get<string>("MarketUrl")).Result;
+                        MarketProjects.AddRange(result);
+                    }
+
+
                 }
                 return marketCollectionView;
             }

@@ -258,6 +258,17 @@ namespace Hawk.ETL.Managements
             })
             {Description = GlobalHelper.Get("key_268"), Icon = "question"};
 
+
+            var videolink = new BindingAction(GlobalHelper.Get("video_link"), d =>
+                {
+                    var url = "https://space.bilibili.com/312273788";
+                    System.Diagnostics.Process.Start(url);
+                })
+                { Description = GlobalHelper.Get("video_link"), Icon = "question" };
+
+
+
+
             var feedback = new BindingAction(GlobalHelper.Get("key_269"), d =>
             {
                 var url = "https://github.com/ferventdesert/Hawk/issues";
@@ -288,6 +299,7 @@ namespace Hawk.ETL.Managements
             var helpCommands = new BindingAction(GlobalHelper.Get("key_275")) {Icon = "magnify"};
             helpCommands.ChildActions.Add(mainlink);
             helpCommands.ChildActions.Add(helplink);
+            helpCommands.ChildActions.Add(videolink);
 
             helpCommands.ChildActions.Add(feedback);
             helpCommands.ChildActions.Add(giveme);

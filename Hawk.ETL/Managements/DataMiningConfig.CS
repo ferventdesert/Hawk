@@ -290,22 +290,7 @@ namespace Hawk.ETL.Managements
         }
 
 
-        [PropertyOrder(4)]
-        [LocalizedCategory("http_header")]
-        [LocalizedDisplayName("key_176")]
-        [LocalizedDescription("proxy_setting_desc")]
-        [PropertyEditor("CodeEditor")]
-        public string ProxySetting
-        {
-            get { return this.Get<string>("ProxySetting"); }
-            set
-            {
-                this.Set<string>("ProxySetting", value);
-
-
-            }
-        }
-
+     
         [PropertyOrder(8)]
         [LocalizedCategory("http_header")]
         [LocalizedDisplayName("DisplayPopupMenu")]

@@ -870,6 +870,10 @@ namespace Hawk.ETL.Process
             if (crawler != null)
             {
                 Http.ProxyIP = crawler.Http.ProxyIP;
+                Http.ProxyPort = crawler.Http.ProxyPort;
+                Http.UserName = crawler.Http.UserName;
+                Http.Password = crawler.Http.Password;
+
                 if (Http.Parameters != crawler.Http.Parameters)
                 {
                     var cookie = crawler.Http.GetHeaderParameter().Get<string>("Cookie");

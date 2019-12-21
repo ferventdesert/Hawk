@@ -1384,7 +1384,7 @@ X	十六进制	255.ToString("X")	FF
         关于
     </system:String>
     <system:String x:Key="key_805">
-        版本： 5.0
+        版本： 5.2
     </system:String>
     <system:String x:Key="key_529">
         响应头
@@ -1940,6 +1940,8 @@ X	十六进制	255.ToString("X")	FF
         {{CrawlerTF_method_get}}
         
         {{CrawlerTF_method_post}}
+
+        {{proxy_setting}}
     </system:String>
 
     <system:String x:Key="CrawlerTF_method_get" xml:space="preserve">
@@ -2679,7 +2681,21 @@ X	十六进制	255.ToString("X")	FF
         - 【输出列】也需要与之一对应
     </system:String>
     <system:String x:Key="key_118">
-        代理配置
+        代理IP配置
+    </system:String>
+     <system:String x:Key="proxy_setting" xml:space="preserve">
+        ## Hawk代理配置
+        
+        推荐使用快代理设置，可在搜索引擎中搜索“快代理”，找到“隧道代理”即可。 购买链接：
+
+        （Hawk作者仅做友情推荐，与快代理公司无任何利益相关）
+        
+        > https://www.kuaidaili.com/cart?t=tps
+
+    
+        使用隧道代理，可以完全避免代理的重新设置问题，极大地简化了代理使用，而且快代理的可用性和速度，在作者多次比较后，一直处于较优水平。
+        付费后，将用户名，密码，IP和端口填入即可。 
+        
     </system:String>
     <system:String x:Key="key_182">
         当前代理索引
@@ -2876,6 +2892,9 @@ X	十六进制	255.ToString("X")	FF
     </system:String>
     <system:String x:Key="key_267">
         使用文档
+    </system:String>
+     <system:String x:Key="video_link">
+        视频教程
     </system:String>
     <system:String x:Key="key_127">
         禁止数
@@ -3746,11 +3765,7 @@ Hawk除了手工设置并行点，还能自动分析并行点，那么并行点�
     <system:String x:Key="merge_outputonly">
         直接输出
     </system:String>
-    <system:String x:Key="proxy_setting_desc" xml:space="preserve">
-        一行一条，参考python proxy代理的设置方法,例如:
-        包含用户名密码：http://username:password@121.193.143.249:80/ 
-        不包含:http://121.193.143.249:80/
-    </system:String>
+ 
 
     <system:String x:Key="proxyge">
         添加代理

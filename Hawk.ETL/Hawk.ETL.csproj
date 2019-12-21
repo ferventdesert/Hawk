@@ -220,7 +220,6 @@
     <Compile Include="Managements\CommandLineContainer.cs" />
     <Compile Include="Managements\DataMiningConfig.cs" />
     <Compile Include="Market\GitHubAPI.cs" />
-    <Compile Include="Plugins\Generators\ProxyGE.cs" />
     <Compile Include="Crawlers\XPath.cs" />
     <Compile Include="Crawlers\XPathAnalyzer.cs" />
     <Compile Include="Crawlers\XPathTF.cs" />
